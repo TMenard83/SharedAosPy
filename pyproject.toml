@@ -1,0 +1,26 @@
+[project]
+name = "aospy"
+version = "0.1.0"
+description = "Calcul de la force de combat d'armées Age of Sigmar (AoS)."
+requires-python = ">=3.11"
+dependencies = [
+    "duckdb>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+]
+
+[project.scripts]
+aospy = "aospy.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+aospy = ["*.sql"]

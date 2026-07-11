@@ -1,0 +1,447 @@
+
+=========== Benchmark : Morbheg Knights [Flesh-eater Courts] ===========
+  A : no charge    B : no charge
+  440 défenseurs testés
+
+  Défenseur                    Armée                   Pts   HP  E[A→B]   %B  E[B→A]   %A  Pts net    ROI
+  ---------------------------- ---------------------- ---- ---- ------- ---- ------- ---- -------- ------
+  Luminark of Hysh             Cities of Sigmar        230   10    5.33  53%    0.37   3%   +117.1   +65%
+  Freeguild Command Corps Adju Cities of Sigmar        200    9    5.33  59%    0.83   7%   +106.0   +59%
+  The Gnarlspirit Pack         Slaves to Darkness      110    8    8.00 100%    0.56   5%   +101.7   +56%
+  Beast-skewer Killbow         Kruleboyz               140    5    5.00 100%    2.93  24%    +96.0   +53%
+  Cockatrice                   Beasts of Chaos         150    8    6.67  83%    2.31  19%    +90.3   +50%
+  Kamandora's Blades           Blades of Khorne         90    8    8.00 100%    0.28   2%    +85.8   +48%
+  Celestial Hurricanum         Cities of Sigmar        170   10    5.33  53%    0.37   3%    +85.1   +47%
+  Thanatek's Tithe             Ossiarch Bonereapers     90    2    2.00 100%    0.37   3%    +84.4   +47%
+  Exalted Flamer of Tzeentch   Disciples of Tzeentch   110    5    5.00 100%    1.81  15%    +82.9   +46%
+  Chaos Furies                 Slaves to Darkness      120    6    6.00 100%    2.50  21%    +82.5   +46%
+  Cyreni's Razors              Idoneth Deepkin         120    8    6.67  83%    1.20  10%    +81.9   +46%
+  Gorechosen of Dromm          Blades of Khorne        190    9    5.33  59%    2.10  17%    +81.1   +45%
+  Vanari Starshard Ballista    Lumineth Realm-lords    120    5    5.00 100%    2.75  23%    +78.8   +44%
+  Zikkit's Tunnelpack          Skaven                  110    8    8.00 100%    2.15  18%    +77.7   +43%
+  Knives of the Crone          Daughters of Khaine     220   12    5.56  46%    1.63  14%    +77.4   +43%
+  Warp Lightning Cannon        Skaven                  120    8    5.33  67%    0.28   2%    +75.8   +42%
+  Centigors                    Beasts of Chaos         170   10    6.67  67%    2.78  23%    +71.7   +40%
+  Brethren of the Bolt         Cities of Sigmar        100   10    8.00  80%    0.62   5%    +70.6   +39%
+  Aetherwings                  Stormcast Eternals       80    6    6.00 100%    0.62   5%    +70.6   +39%
+  Ironweld Great Cannon        Cities of Sigmar        140    6    5.33  89%    3.68  31%    +69.2   +38%
+  Mindstealer Sphiranx         Slaves to Darkness      140   10    6.67  67%    1.67  14%    +68.3   +38%
+  Infernal Razers with Blunder Helsmiths of Hashut     110    5    5.00 100%    2.84  24%    +67.5   +37%
+  Prosecutors                  Stormcast Eternals      150    6    4.00  67%    2.22  19%    +66.7   +37%
+  Ylthari's Guardians          Sylvaneth               140   12    6.67  56%    0.83   7%    +65.3   +36%
+  Khorgorath                   Blades of Khorne        120    8    6.67  83%    2.31  19%    +65.3   +36%
+  Kurnoth's Heralds            Sylvaneth               110    9    6.67  74%    1.11   9%    +64.8   +36%
+  Vanguard-Raptors with Longst Stormcast Eternals      200    6    4.00  67%    4.58  38%    +64.6   +36%
+  Untamed Beasts               Slaves to Darkness      110    9    8.00  89%    2.22  19%    +64.4   +36%
+  Plaguepack                   Skaven                  130   10    8.00  80%    2.65  22%    +64.2   +36%
+  Chainghasts                  Nighthaunt               90    6    5.33  89%    1.08   9%    +63.8   +35%
+  Rippa's Snarlfangs           Gloomspite Gitz         100    9    6.67  74%    0.76   6%    +62.6   +35%
+  The Exiled Dead              Soulblight Gravelords   140   14    6.67  48%    0.28   2%    +62.5   +35%
+  Godsworn Hunt                Slaves to Darkness      110   12    8.00  67%    0.74   6%    +62.2   +35%
+  Dreadblade Harrows           Nighthaunt              140    6    5.33  89%    4.15  35%    +62.2   +35%
+  Freeguild Grenadiers         Cities of Sigmar        140   10    5.33  53%    0.84   7%    +62.0   +34%
+  Tuskgor Chariots             Beasts of Chaos         110    7    5.33  76%    1.48  12%    +61.6   +34%
+  Ratling Guns                 Skaven                  170    9    8.00  89%    5.97  50%    +61.5   +34%
+  Ephilim's Pandaemonium       Disciples of Tzeentch   100   10    6.67  67%    0.35   3%    +61.5   +34%
+  Eyes of the Nine             Disciples of Tzeentch   100   10    6.67  67%    0.39   3%    +60.8   +34%
+  Grashrak's Despoilers        Beasts of Chaos         100   12    8.00  67%    0.42   3%    +60.4   +34%
+  Morgwaeth's Blade-coven      Daughters of Khaine     120   10    6.67  67%    1.32  11%    +60.2   +33%
+  Domitan's Stormcoven         Stormcast Eternals      210    9    4.00  44%    2.22  19%    +60.0   +33%
+  Gobbapalooza                 Gloomspite Gitz         150   15    8.00  53%    1.39  12%    +59.2   +33%
+  Beasts of Chaos Chaos Spawn  Beasts of Chaos          70    5    5.00 100%    0.73   6%    +59.1   +33%
+  Spire Tyrants                Slaves to Darkness      110    8    6.67  83%    2.22  19%    +58.3   +32%
+  The Thricefold Discord       Hedonites of Slaanesh   130    9    5.56  62%    1.48  12%    +58.0   +32%
+  Skabbik's Plaguepack         Skaven                  100   10    8.00  80%    1.47  12%    +58.0   +32%
+  Wolfgit Retinue              Gloomspite Gitz          70    4    4.00 100%    0.83   7%    +57.5   +32%
+  Warpvolt Scourgers           Skaven                  170    9    8.00  89%    6.25  52%    +57.4   +32%
+  Terrawings                   Seraphon                 70    6    6.00 100%    0.94   8%    +55.9   +31%
+  Gyrocopter                   Cities of Sigmar        120    5    4.00  80%    2.69  22%    +55.7   +31%
+  Savage Big Stabbas           Bonesplitterz           130    8    6.67  83%    3.52  29%    +55.6   +31%
+  Corpse Cart (Scourge of Ghyr Soulblight Gravelords    80    7    6.67  95%    1.39  12%    +55.4   +31%
+  Daggok's Stab-ladz           Kruleboyz               120   12    6.67  56%    0.79   7%    +54.9   +30%
+  Auric Hearthguard            Fyreslayers             110   10    6.67  67%    1.23  10%    +54.8   +30%
+  Flamers of Tzeentch          Disciples of Tzeentch   130    6    5.56  93%    4.38  36%    +54.7   +30%
+  Cypher Lords                 Slaves to Darkness      100    8    8.00 100%    3.06  25%    +54.2   +30%
+  Scions of the Flame          Slaves to Darkness      120    8    6.67  83%    3.06  25%    +54.2   +30%
+  Zarbag's Gitz                Gloomspite Gitz         130   18    8.00  44%    0.25   2%    +54.0   +30%
+  Frost Sabres                 Ogor Mawtribes           70    6    6.00 100%    1.11   9%    +53.3   +30%
+  Zondara's Gravebreakers      Soulblight Gravelords   120   10    6.67  67%    1.79  15%    +53.1   +29%
+  The Unmade                   Slaves to Darkness      110    9    8.00  89%    2.99  25%    +53.0   +29%
+  Hunters of Huanchi with Star Seraphon                 90    5    5.00 100%    2.50  21%    +52.5   +29%
+  Garrek's Reavers             Blades of Khorne         70   10    8.00  80%    0.28   2%    +51.8   +29%
+  Warplock Jezzails            Skaven                  120    6    5.33  89%    3.66  30%    +51.8   +29%
+  Myari's Purifiers            Lumineth Realm-lords    130   12    6.67  56%    1.39  12%    +51.4   +29%
+  Drakespawn Chariot           Cities of Sigmar        110    8    5.33  67%    1.48  12%    +51.1   +28%
+  Corpse Cart                  Soulblight Gravelords    70    7    6.67  95%    1.04   9%    +51.0   +28%
+  Gyrobomber                   Cities of Sigmar        120    6    4.00  67%    1.94  16%    +50.8   +28%
+  Hedkrakka's Madmob           Bonesplitterz           100   12    6.67  56%    0.42   3%    +49.3   +27%
+  Chaos Spawn of Tzeentch      Disciples of Tzeentch    60    5    5.00 100%    0.73   6%    +49.1   +27%
+  Chaos Spawn                  Slaves to Darkness       60    5    5.00 100%    0.73   6%    +49.1   +27%
+  Skaeth's Wild Hunt           Sylvaneth                90   10    6.67  67%    0.74   6%    +48.9   +27%
+  Hurakan Spirit of the Wind   Lumineth Realm-lords    270    8    3.56  44%    4.75  40%    +48.7   +27%
+  The Shadeborn                Daughters of Khaine      80    8    5.56  69%    0.52   4%    +47.7   +26%
+  Scourgerunner Chariot        Cities of Sigmar        110    8    5.33  67%    1.73  14%    +47.4   +26%
+  Slaangor Fiendbloods (Scourg Hedonites of Slaanesh   150    9    6.67  74%    4.44  37%    +44.4   +25%
+  The Dread Pageant            Hedonites of Slaanesh   110   12    6.67  56%    1.11   9%    +44.4   +25%
+  Khagra's Ravagers            Slaves to Darkness      170   12    4.00  33%    0.83   7%    +44.2   +25%
+  Razorgor                     Beasts of Chaos          70    4    4.00 100%    1.74  14%    +44.0   +24%
+  Blissbarb Archers            Hedonites of Slaanesh   150   10    8.00  80%    5.09  42%    +43.6   +24%
+  Hunters of Huanchi with Dart Seraphon                 80    5    5.00 100%    2.43  20%    +43.5   +24%
+  Vargskyr                     Soulblight Gravelords   140    8    5.56  69%    3.59  30%    +43.4   +24%
+  Stormsire's Cursebreakers    Stormcast Eternals      130    9    4.00  44%    0.97   8%    +43.2   +24%
+  Infernal Razers with Flamehu Helsmiths of Hashut      90    5    5.00 100%    3.13  26%    +43.1   +24%
+  Skittershank's Clawpack      Skaven                  100   10    8.00  80%    2.50  21%    +42.5   +24%
+  Elathain's Soulraid          Idoneth Deepkin          80   10    6.67  67%    0.74   6%    +42.2   +23%
+  Kharibdyss                   Cities of Sigmar        150   12    6.67  56%    2.78  23%    +41.7   +23%
+  Da Kunnin' Krew              Kruleboyz               120   15    6.67  44%    0.79   7%    +41.5   +23%
+  The Emberwatch               Stormcast Eternals      140    9    4.00  44%    1.39  12%    +41.4   +23%
+  Glaivewraith Stalkers        Nighthaunt              100    8    5.33  67%    1.73  14%    +40.7   +23%
+  Seeker Chariot               Hedonites of Slaanesh    80    6    4.44  74%    1.30  11%    +39.8   +22%
+  Ripperdactyl Riders          Seraphon                100    9    6.67  74%    2.29  19%    +39.7   +22%
+  The Sepulchral Guard         Soulblight Gravelords   110   14    5.56  40%    0.28   2%    +39.5   +22%
+  Gryselle's Arenai            Daughters of Khaine      70   10    6.67  67%    0.52   4%    +38.9   +22%
+  Raptoryx                     Slaves to Darkness      100   12    8.00  67%    1.88  16%    +38.5   +21%
+  Gnoblar Scraplauncher        Ogor Mawtribes          120    9    5.33  59%    2.18  18%    +38.5   +21%
+  The Blood of the Bull        Helsmiths of Hashut     120   10    5.33  53%    1.74  14%    +38.0   +21%
+  Ratling Warpblaster          Skaven                  110    7    5.33  76%    3.09  26%    +37.5   +21%
+  Darkshards                   Cities of Sigmar        150   10    6.67  67%    4.17  35%    +37.5   +21%
+  Burning Chariot of Tzeentch  Disciples of Tzeentch   120    8    5.56  69%    3.06  25%    +37.5   +21%
+  Corvus Cabal                 Slaves to Darkness      100    9    8.00  89%    3.44  29%    +37.3   +21%
+  Ungor Raiders                Beasts of Chaos          90   10    8.00  80%    2.31  19%    +37.3   +21%
+  Kavalos War Chariot          Ossiarch Bonereapers    170   10    3.33  33%    1.30  11%    +37.2   +21%
+  Screamers of Tzeentch        Disciples of Tzeentch    90    9    5.56  62%    1.25  10%    +36.8   +20%
+  Skull Cannon                 Blades of Khorne        150    8    4.44  56%    3.15  26%    +36.1   +20%
+  The Crimson Court            Soulblight Gravelords   210   12    3.33  28%    1.48  12%    +36.1   +20%
+  Splintered Fang              Slaves to Darkness      110    8    6.67  83%    3.70  31%    +36.1   +20%
+  Grandfather's Gardeners      Maggotkin of Nurgle     110   15    5.33  36%    0.23   2%    +35.6   +20%
+  The Starblood Stalkers       Seraphon                110   12    8.00  67%    2.54  21%    +35.3   +20%
+  Gossamid Archers             Sylvaneth               120   10    6.67  67%    3.01  25%    +34.9   +19%
+  Sporesplatta Fanatics        Gloomspite Gitz          90    5    5.00 100%    3.70  31%    +34.4   +19%
+  Steelheart's Champions       Stormcast Eternals      110    9    4.00  44%    0.97   8%    +34.3   +19%
+  Exalted Chariot              Hedonites of Slaanesh   120    9    4.44  49%    1.67  14%    +34.3   +19%
+  Beast of Nurgle              Maggotkin of Nurgle     110    8    4.44  56%    1.85  15%    +33.3   +19%
+  The Farstriders              Stormcast Eternals      100    9    4.00  44%    0.77   6%    +32.9   +18%
+  Flagellants                  Cities of Sigmar         80   10    8.00  80%    2.08  17%    +32.8   +18%
+  The Wurmspat                 Maggotkin of Nurgle     160   12    3.56  30%    0.99   8%    +32.6   +18%
+  Borgit's Beastgrabbaz        Gloomspite Gitz          90   10    8.00  80%    2.64  22%    +32.4   +18%
+  Ungors                       Beasts of Chaos          90   10    6.67  67%    1.85  15%    +32.2   +18%
+  Morgok's Krushas             Ironjawz                110    9    4.00  44%    1.11   9%    +32.2   +18%
+  Tzaangor Enlightened on Foot Disciples of Tzeentch   110    9    5.33  59%    2.22  19%    +31.9   +18%
+  Kairic Acolytes (Scourge of  Disciples of Tzeentch   110   10    6.67  67%    2.78  23%    +31.7   +18%
+  Tree-Revenants               Sylvaneth               110   10    6.67  67%    2.78  23%    +31.7   +18%
+  The Sons of Velmorn          Soulblight Gravelords   130   10    3.33  33%    0.79   7%    +31.5   +18%
+  Fell Bats                    Soulblight Gravelords    80    9    6.67  74%    1.88  16%    +31.1   +17%
+  Ironskull's Boyz             Ironjawz                110   12    4.00  33%    0.37   3%    +31.1   +17%
+  Tormentor Bombard            Helsmiths of Hashut     130    8    4.00  50%    2.29  19%    +30.7   +17%
+  Fomoroid Crusher             Slaves to Darkness      120    8    6.67  83%    4.63  39%    +30.6   +17%
+  Vulkyn Flameseekers          Fyreslayers             160   18    5.56  31%    1.30  11%    +29.9   +17%
+  Spiteclaw's Swarm            Skaven                  100   10    6.67  67%    2.45  20%    +29.9   +17%
+  Acolyte Globadiers           Skaven                   90   10    8.00  80%    2.82  23%    +29.8   +17%
+  Vyrkos Blood-born            Soulblight Gravelords   150    9    6.67  74%    5.56  46%    +27.8   +15%
+  Khinerai Heartrenders        Daughters of Khaine     100   10    5.56  56%    1.85  15%    +27.8   +15%
+  Khinerai Lifetakers          Daughters of Khaine     100   10    5.56  56%    1.85  15%    +27.8   +15%
+  War Hydra                    Cities of Sigmar        170   12    6.67  56%    4.44  37%    +27.8   +15%
+  Spirit Hosts                 Nighthaunt              110    9    5.33  59%    2.50  21%    +27.7   +15%
+  Iron Golem                   Slaves to Darkness      100    8    5.33  67%    2.67  22%    +26.6   +15%
+  Chaos Chariot                Slaves to Darkness       90    7    5.33  76%    2.80  23%    +26.6   +15%
+  Celestar Ballista            Stormcast Eternals      120    6    4.00  67%    3.58  30%    +26.3   +15%
+  Terradon Riders              Seraphon                 90    9    6.67  74%    2.71  23%    +26.0   +14%
+  Thundrik's Profiteers        Kharadron Overlords     150   10    5.33  53%    3.61  30%    +25.8   +14%
+  Hobgrot Vandalz              Helsmiths of Hashut      70   10    6.67  67%    1.39  12%    +25.8   +14%
+  Plagueclaw                   Skaven                  100    8    5.33  67%    2.75  23%    +25.5   +14%
+  Vanguard-Raptors with Hurric Stormcast Eternals      110    6    4.00  67%    3.19  27%    +25.4   +14%
+  Flesh Hounds                 Blades of Khorne        100   10    6.67  67%    2.78  23%    +25.0   +14%
+  Doomwheel                    Skaven                  100    8    5.33  67%    2.81  23%    +24.5   +14%
+  Executioners                 Cities of Sigmar        150   10    5.33  53%    3.70  31%    +24.4   +14%
+  Sporesplatta Fanatics (Scour Gloomspite Gitz          80    5    5.00 100%    3.70  31%    +24.4   +14%
+  Kosargi Nightguard           Soulblight Gravelords   110    8    5.56  69%    3.47  29%    +24.3   +14%
+  Freeguild Gallants           Cities of Sigmar        130   10    4.00  40%    1.85  15%    +24.2   +13%
+  Hexbane's Hunters            Cities of Sigmar        120   12    4.44  37%    1.37  11%    +24.0   +13%
+  Warp-Grinder                 Skaven                  120    8    5.33  67%    3.75  31%    +23.8   +13%
+  Aleguzzler Gargant           Gloomspite Gitz         150   12    6.67  56%    3.97  33%    +23.7   +13%
+  Nurglings                    Maggotkin of Nurgle     100   12    5.33  44%    1.39  12%    +23.6   +13%
+  Marshcrawla Sloggoth         Kruleboyz               130   10    5.33  53%    3.06  25%    +23.5   +13%
+  Castigators                  Stormcast Eternals      110    6    4.00  67%    3.33  28%    +23.3   +13%
+  Magore's Fiends              Blades of Khorne        120   12    4.00  33%    1.11   9%    +23.3   +13%
+  Hellflayer                   Hedonites of Slaanesh   130    7    4.44  63%    3.98  33%    +22.8   +13%
+  Deadwalker Zombies           Soulblight Gravelords   130   20    6.67  33%    1.39  12%    +22.5   +13%
+  Gryph-hounds                 Stormcast Eternals       90   12    8.00  67%    2.50  21%    +22.5   +12%
+  Bloodreavers                 Blades of Khorne         80   10    8.00  80%    2.78  23%    +22.3   +12%
+  Skinks                       Seraphon                 80   10    8.00  80%    2.78  23%    +22.3   +12%
+  Jabberslythe                 Beasts of Chaos         190   12    5.33  44%    4.17  35%    +21.9   +12%
+  Spider Riders                Gloomspite Gitz         110   10    6.67  67%    3.47  29%    +21.3   +12%
+  Akhelian Allopex             Idoneth Deepkin         170    8    5.33  67%    6.18  52%    +20.6   +11%
+  Grinkrak's Looncourt         Gloomspite Gitz         100   14    8.00  57%    2.44  20%    +20.6   +11%
+  Man-skewer Boltboyz          Kruleboyz               100    6    6.00 100%    5.37  45%    +19.4   +11%
+  The Jaws of Itzl             Seraphon                120    9    5.33  59%    3.46  29%    +19.3   +11%
+  Deathrattle Skeletons        Soulblight Gravelords    90   10    5.56  56%    2.08  17%    +18.7   +10%
+  Chainrasps                   Nighthaunt              100   10    5.33  53%    2.31  19%    +18.6   +10%
+  Dryads                       Sylvaneth                90   10    6.67  67%    2.78  23%    +18.3   +10%
+  Chaos Gargant                Beasts of Chaos         140   12    6.67  56%    3.97  33%    +18.2   +10%
+  Warpfire Throwers            Skaven                  130    9    8.00  89%    6.49  54%    +18.2   +10%
+  Teratic Cohort               Ossiarch Bonereapers     90    8    5.56  69%    2.96  25%    +18.1   +10%
+  Gorebeast Chariot            Slaves to Darkness      100    8    5.33  67%    3.26  27%    +17.7   +10%
+  Witch Aelves                 Daughters of Khaine     120   10    6.67  67%    4.17  35%    +17.5   +10%
+  Vanari Bladelords            Lumineth Realm-lords    150   10    5.33  53%    4.17  35%    +17.5   +10%
+  Gnoblars                     Ogor Mawtribes          130   20    8.00  40%    2.31  19%    +17.3   +10%
+  Dreadspears                  Cities of Sigmar        110   10    5.33  53%    2.78  23%    +17.0    +9%
+  Freeguild Steelhelms         Cities of Sigmar         90   10    5.33  53%    2.08  17%    +16.8    +9%
+  Ironblaster (Scourge of Ghyr Ogor Mawtribes          160    9    5.33  59%    5.21  43%    +16.7    +9%
+  Claws of Karanak             Blades of Khorne        100    8    6.67  83%    4.44  37%    +16.7    +9%
+  Snarlpack Cavalry            Gloomspite Gitz         110    9    5.33  59%    3.33  28%    +15.2    +8%
+  Doom-flayers                 Skaven                  100    8    5.33  67%    3.46  29%    +14.8    +8%
+  Slaangor Fiendbloods         Hedonites of Slaanesh   110    9    6.67  74%    4.44  37%    +14.8    +8%
+  Myrmourn Banshees            Nighthaunt              100    8    5.33  67%    3.46  29%    +14.8    +8%
+  Hellstriders                 Hedonites of Slaanesh   150   15    6.67  44%    3.47  29%    +14.6    +8%
+  Xandire's Truthseekers       Stormcast Eternals      130    9    4.00  44%    2.92  24%    +14.0    +8%
+  Black Guard                  Cities of Sigmar        130   10    5.33  53%    3.70  31%    +13.8    +8%
+  Symbaresh Twinsouls          Hedonites of Slaanesh   130   10    5.33  53%    3.70  31%    +13.8    +8%
+  Wildercorps Hunters          Cities of Sigmar        120   11    6.67  61%    3.96  33%    +13.4    +7%
+  Deathshrieker Rocket Battery Helsmiths of Hashut     140    8    4.00  50%    3.78  32%    +13.2    +7%
+  Cygor                        Beasts of Chaos         170   15    6.67  44%    4.22  35%    +12.2    +7%
+  Chimera                      Beasts of Chaos         200   12    6.67  56%    6.60  55%    +12.2    +7%
+  Darkoath Marauders           Slaves to Darkness       80   10    6.67  67%    2.78  23%    +11.7    +6%
+  Brute Ragerz                 Ironjawz                100    9    6.67  74%    4.17  35%    +11.6    +6%
+  Gors                         Beasts of Chaos         100   10    6.67  67%    3.70  31%    +11.1    +6%
+  Daemonettes                  Hedonites of Slaanesh   100   10    6.67  67%    3.70  31%    +11.1    +6%
+  Sisters of Slaughter         Daughters of Khaine     110   10    6.67  67%    4.17  35%    +10.8    +6%
+  Snarlfang Riders             Gloomspite Gitz         110   10    6.67  67%    4.17  35%    +10.8    +6%
+  Gothizzar Harvester          Ossiarch Bonereapers    200   10    4.44  44%    5.21  43%    +10.8    +6%
+  Craventhrone Guard           Nighthaunt              100   10    5.33  53%    2.85  24%    +10.5    +6%
+  Chaos Warhounds              Beasts of Chaos         130   20    8.00  40%    2.78  23%    +10.3    +6%
+  Maw-grunta Gougers           Ironjawz                200   12    5.33  44%    5.30  44%     +9.4    +5%
+  Jade Obelisk                 Disciples of Tzeentch   100    9    5.33  59%    3.33  28%     +9.3    +5%
+  Mortek Crawler               Ossiarch Bonereapers    250   12    4.44  37%    5.56  46%     +9.1    +5%
+  Chaos Legionnaires           Slaves to Darkness       80    8    5.33  67%    2.96  25%     +8.9    +5%
+  Stormreach Portal            Stormcast Eternals       20   12    5.33  44%    0.00   0%     +8.9    +5%
+  Kainan's Reapers             Ossiarch Bonereapers    140   12    4.44  37%    2.89  24%     +8.6    +5%
+  Horns of Hashut              Slaves to Darkness      120   10    5.33  53%    3.70  31%     +8.4    +5%
+  Vanari Dawnriders            Lumineth Realm-lords    180   15    5.33  36%    3.70  31%     +8.4    +5%
+  Mortis Reapers               Ossiarch Bonereapers     90   10    5.56  56%    2.78  23%     +8.3    +5%
+  Hexwraiths                   Nighthaunt              150   15    5.33  36%    3.01  25%     +8.2    +5%
+  Mutalith Vortex Beast        Slaves to Darkness      160   14    5.33  38%    3.52  29%     +8.2    +5%
+  Zontari Endrin Dock          Kharadron Overlords      20   10    4.00  40%    0.00   0%     +8.0    +4%
+  Doom Diver Catapult          Gloomspite Gitz         160   12    5.33  44%    4.21  35%     +7.9    +4%
+  Shrine of Dark Tribute       Daughters of Khaine      20   12    4.44  37%    0.00   0%     +7.4    +4%
+  Hobgrot Slittaz              Kruleboyz                70   10    8.00  80%    3.24  27%     +7.4    +4%
+  Mortek Guard                 Ossiarch Bonereapers    110   10    4.44  44%    2.78  23%     +7.2    +4%
+  Black Ark Corsairs           Cities of Sigmar        120   10    6.67  67%    4.86  41%     +7.1    +4%
+  Blue Horrors and Brimstone H Disciples of Tzeentch   120   10    6.67  67%    4.86  41%     +7.1    +4%
+  Boingrot Bounderz            Gloomspite Gitz         120   10    6.67  67%    4.86  41%     +7.1    +4%
+  Mancrusher Gargant           Sons of Behemat         120   12    6.67  56%    3.97  33%     +7.1    +4%
+  Vanguard-Palladors with Star Stormcast Eternals      250   15    4.00  27%    3.98  33%     +6.9    +4%
+  Darkoath Fellriders          Slaves to Darkness      140   15    6.67  44%    3.70  31%     +6.7    +4%
+  Moonclan Shootas             Gloomspite Gitz         120   20    8.00  40%    2.78  23%     +6.3    +4%
+  Engine of the Gods           Seraphon                150   14    5.33  38%    3.40  28%     +6.1    +3%
+  Barrow Knights               Soulblight Gravelords   200   15    4.44  30%    3.55  30%     +6.0    +3%
+  Loonsmasha Fanatics (Scourge Gloomspite Gitz         110    5    5.00 100%    6.94  58%     +5.8    +3%
+  Tzaangor Enlightened         Disciples of Tzeentch   200   12    5.33  44%    5.56  46%     +5.6    +3%
+  Icefall Yhetees              Ogor Mawtribes          100   12    6.67  56%    3.33  28%     +5.6    +3%
+  Savage Orruks                Bonesplitterz           140   20    6.67  33%    2.78  23%     +5.0    +3%
+  Freeguild Fusiliers          Cities of Sigmar        120   10    5.33  53%    3.94  33%     +5.0    +3%
+  Kairic Acolytes              Disciples of Tzeentch    90   10    6.67  67%    3.70  31%     +4.4    +2%
+  Akhelian Morrsarr Guard      Idoneth Deepkin         160   12    5.33  44%    4.44  37%     +4.4    +2%
+  Namarti Thralls              Idoneth Deepkin          90   10    6.67  67%    3.70  31%     +4.4    +2%
+  Tarantulos Brood             Slaves to Darkness      150   13    8.00  62%    5.88  49%     +4.1    +2%
+  Darkoath Wilderfiend         Slaves to Darkness      130    9    4.44  49%    4.07  34%     +3.1    +2%
+  Vanari Auralan Sentinels     Lumineth Realm-lords    140   10    6.67  67%    6.02  50%     +3.1    +2%
+  Thorns of the Briar Queen    Nighthaunt              140   14    4.44  32%    2.78  23%     +2.8    +2%
+  Fiends                       Hedonites of Slaanesh   150   12    5.56  46%    4.44  37%     +2.8    +2%
+  Grundstok Gunhauler          Kharadron Overlords     150   10    2.67  27%    2.50  21%     +2.5    +1%
+  Infernal Cohort with Hashuti Helsmiths of Hashut     110   10    4.00  40%    2.78  23%     +2.3    +1%
+  Kurnoth Hunters with Kurnoth Sylvaneth               200   15    5.33  36%    4.63  39%     +1.7    +1%
+  Mortek Triaxes               Ossiarch Bonereapers    140   10    5.56  56%    5.09  42%     +1.4    +1%
+  Bleakswords                  Cities of Sigmar        100   10    5.33  53%    3.47  29%     +1.3    +1%
+  Dominator Engine with Bane M Helsmiths of Hashut     160   10    2.67  27%    2.78  23%     +1.0    +1%
+  Pusgoyle Blightlords         Maggotkin of Nurgle     200   16    4.44  28%    3.64  30%     +0.9    +1%
+  Akhelian Ishlaen Guard       Idoneth Deepkin         170   12    5.33  44%    5.00  42%     +0.6    +0%
+  Dire Wolves                  Soulblight Gravelords   150   20    5.56  28%    2.78  23%     +0.0    +0%
+  Sloven Knights               Maggotkin of Nurgle     180   12    3.33  28%    3.33  28%     -0.0    -0%
+  Plaguebearers                Maggotkin of Nurgle     130   20    5.33  27%    2.31  19%     -0.1    -0%
+  Slaughterbrute               Slaves to Darkness      200   14    5.33  38%    5.09  42%     -0.2    -0%
+  Weirdbrute Wrekkaz           Ironjawz                100    9    4.44  49%    3.33  28%     -0.6    -0%
+  Hearthguard Berzerkers with  Fyreslayers             110   10    6.67  67%    4.94  41%     -0.7    -0%
+  Vongrim Harpoon Crew         Kharadron Overlords     120   10    5.33  53%    4.32  36%     -0.8    -0%
+  Vanquishers                  Stormcast Eternals       90   10    4.00  40%    2.47  21%     -1.0    -1%
+  Vindictors                   Stormcast Eternals       90   10    4.00  40%    2.47  21%     -1.0    -1%
+  Spite-Revenants              Sylvaneth                80   10    6.67  67%    3.65  30%     -1.4    -1%
+  Plague Censer Bearers        Skaven                  160   10    8.00  80%    8.64  72%     -1.6    -1%
+  Freeguild Cavaliers (Scourge Cities of Sigmar        150   15    4.00  27%    2.78  23%     -1.7    -1%
+  Infernal Cohort with Hashuti Helsmiths of Hashut     100   10    4.00  40%    2.78  23%     -1.7    -1%
+  Tzaangor Skyfires            Disciples of Tzeentch   160   12    5.33  44%    4.86  41%     -1.8    -1%
+  Irondrakes                   Cities of Sigmar        140   10    4.00  40%    3.86  32%     -1.9    -1%
+  Dark Riders                  Cities of Sigmar        170   15    5.33  36%    4.17  35%     -2.1    -1%
+  Namarti Thralls (Scourge of  Idoneth Deepkin          80   10    6.67  67%    3.70  31%     -2.2    -1%
+  Stormstrike Chariot          Stormcast Eternals      110   10    4.00  40%    3.09  26%     -2.3    -1%
+  Grundstok Gunhauler (Scourge Kharadron Overlords     170   10    2.67  27%    3.19  27%     -2.6    -1%
+  Spiterider Lancers           Sylvaneth               220   15    5.33  36%    5.42  45%     -3.0    -2%
+  Spawn of Chotec              Seraphon                100    8    6.67  83%    5.77  48%     -3.2    -2%
+  Longbeards                   Cities of Sigmar        130   10    4.00  40%    3.70  31%     -3.6    -2%
+  Savage Boarboy Maniaks       Bonesplitterz           140   15    5.56  37%    3.70  31%     -3.7    -2%
+  Savage Boarboys              Bonesplitterz           140   15    5.56  37%    3.70  31%     -3.7    -2%
+  Necropolis Stalkers          Ossiarch Bonereapers    140   12    4.44  37%    3.70  31%     -3.7    -2%
+  Ydrilan Riverblades          Lumineth Realm-lords    140   10    6.67  67%    6.48  54%     -3.9    -2%
+  Alarith Stoneguard           Lumineth Realm-lords    130   10    5.33  53%    4.94  41%     -4.7    -3%
+  Moonclan Stabbas             Gloomspite Gitz         110   20    6.67  33%    2.78  23%     -5.0    -3%
+  Weirdbrute Wrekkaz (Scourge  Ironjawz                 90    9    4.44  49%    3.33  28%     -5.6    -3%
+  The Chosen Axes              Fyreslayers             120   12    5.56  46%    4.07  34%     -5.6    -3%
+  Pestigors                    Maggotkin of Nurgle     130   20    5.56  28%    2.78  23%     -5.6    -3%
+  Black Coach                  Nighthaunt              220   12    4.44  37%    5.80  48%     -5.6    -3%
+  Bullgors                     Beasts of Chaos         170   12    6.67  56%    6.67  56%     -5.6    -3%
+  Infernal Cohort with Hashuti Helsmiths of Hashut      90   10    4.00  40%    2.78  23%     -5.7    -3%
+  Dominator Engine with Immola Helsmiths of Hashut     170   10    2.67  27%    3.43  29%     -6.1    -3%
+  Hammerers                    Cities of Sigmar        170   10    4.00  40%    4.94  41%     -6.1    -3%
+  Rotmire Creed                Maggotkin of Nurgle     110   10    6.67  67%    5.32  44%     -6.5    -4%
+  Stormcoven                   Stormcast Eternals      210    9    4.00  44%    6.67  56%     -6.7    -4%
+  Sneaky Snufflers             Gloomspite Gitz          90   12    5.33  44%    3.12  26%     -6.9    -4%
+  Doomfire Warlocks            Daughters of Khaine     150   15    5.56  37%    4.17  35%     -6.9    -4%
+  Vongrim Salvagers            Kharadron Overlords     120   10    5.33  53%    4.75  40%     -7.2    -4%
+  Arkanaut Frigate             Kharadron Overlords     300   14    2.67  19%    4.31  36%     -7.4    -4%
+  Ironbreakers                 Cities of Sigmar        120   10    4.00  40%    3.70  31%     -7.6    -4%
+  Mortek Guard (Scourge of Ghy Ossiarch Bonereapers    100   10    4.44  44%    3.47  29%     -7.6    -4%
+  Soul Grinder                 Slaves to Darkness      330   16    4.44  28%    6.70  56%     -8.8    -5%
+  Sunsteala Wheelas            Gloomspite Gitz         130   12    5.33  44%    4.44  37%     -8.9    -5%
+  Anointed Sentinels           Helsmiths of Hashut     130   12    5.33  44%    4.44  37%     -8.9    -5%
+  Vanari Auralan Wardens       Lumineth Realm-lords    120   10    5.33  53%    4.86  41%     -8.9    -5%
+  Savage Orruk Morboys         Bonesplitterz           160   20    6.67  33%    4.17  35%     -9.2    -5%
+  Darkoath Savagers            Slaves to Darkness       90   10    6.67  67%    4.63  39%     -9.4    -5%
+  Black Coach (Scourge of Ghyr Nighthaunt              290   12    4.44  37%    7.79  65%     -9.5    -5%
+  Vanguard-Hunters             Stormcast Eternals      120   10    4.00  40%    3.86  32%     -9.9    -5%
+  Namarti Reavers              Idoneth Deepkin         120   10    6.67  67%    6.02  50%    -10.3    -6%
+  Mangler Squigs               Gloomspite Gitz         130   14    6.67  48%    4.81  40%    -10.3    -6%
+  Stormstrike Palladors        Stormcast Eternals      180   15    4.00  27%    3.89  32%    -10.3    -6%
+  Ironblaster                  Ogor Mawtribes          160    9    5.33  59%    7.01  58%    -10.4    -6%
+  Night Runners                Skaven                  130   10    6.67  67%    6.48  54%    -10.6    -6%
+  Maw-grunta with Hakkin' Krew Ironjawz                240   12    4.00  33%    6.04  50%    -10.6    -6%
+  Seekers                      Hedonites of Slaanesh   140   15    5.56  37%    4.17  35%    -10.6    -6%
+  Raptadon Chargers            Seraphon                140   15    6.67  44%    4.86  41%    -10.7    -6%
+  Pox-Wretches                 Maggotkin of Nurgle     100   14    6.67  48%    3.89  32%    -10.7    -6%
+  Gore-gruntas (Scourge of Ghy Ironjawz                170   15    4.00  27%    3.75  31%    -10.9    -6%
+  Kavalos Deathriders          Ossiarch Bonereapers    150   15    4.44  30%    3.70  31%    -11.1    -6%
+  Vargheists                   Soulblight Gravelords   120   12    5.56  46%    4.44  37%    -11.1    -6%
+  Brood Terror                 Skaven                  230   12    6.67  56%    9.27  77%    -11.2    -6%
+  Grimghast Reapers            Nighthaunt              200   20    5.33  27%    4.32  36%    -11.5    -6%
+  Saurus Guard                 Seraphon                110   10    4.00  40%    3.70  31%    -11.6    -6%
+  The Headsmen's Curse         Nighthaunt              150   12    4.44  37%    4.48  37%    -11.6    -6%
+  Dankhold Troggoth            Gloomspite Gitz         140   10    5.33  53%    5.79  48%    -12.1    -7%
+  Gnoblar Scraplauncher (Scour Ogor Mawtribes          120    9    5.33  59%    5.56  46%    -12.2    -7%
+  Alarith Spirit of the Mounta Lumineth Realm-lords    340   14    4.00  29%    7.33  61%    -12.8    -7%
+  Judicators with Boltstorm Cr Stormcast Eternals      160   10    4.00  40%    5.12  43%    -12.9    -7%
+  Slickblade Seekers           Hedonites of Slaanesh   180   20    6.67  33%    4.86  41%    -12.9    -7%
+  Praetors                     Stormcast Eternals      120    9    4.00  44%    4.44  37%    -13.3    -7%
+  Plague Monks                 Skaven                  140   20    8.00  40%    4.63  39%    -13.4    -7%
+  Plague Drones                Maggotkin of Nurgle     150   15    4.44  30%    3.89  32%    -13.9    -8%
+  Leadbelchers                 Ogor Mawtribes          120   16    6.67  42%    4.26  35%    -13.9    -8%
+  Revenant Seekers (Scourge of Sylvaneth               240   15    5.33  36%    6.67  56%    -14.7    -8%
+  Vanguard-Palladors with Shoc Stormcast Eternals      250   15    4.00  27%    5.46  46%    -15.3    -8%
+  Vulkite Berzerkers with Fyre Fyreslayers             120   20    6.67  33%    3.70  31%    -15.6    -9%
+  Freeguild Cavaliers          Cities of Sigmar        150   15    4.00  27%    3.70  31%    -15.6    -9%
+  Myrmidesh Painbringers       Hedonites of Slaanesh   100   10    4.00  40%    3.70  31%    -15.6    -9%
+  Gutrippaz                    Kruleboyz               160   20    6.67  33%    4.63  39%    -16.1    -9%
+  Wrathmongers                 Blades of Khorne        130   15    6.67  44%    4.94  41%    -16.3    -9%
+  Skitterstrand Arachnarok     Gloomspite Gitz         190   13    5.33  41%    6.30  52%    -16.5    -9%
+  Vulkite Berzerkers with Blad Fyreslayers             140   20    5.56  28%    3.70  31%    -16.7    -9%
+  Maneaters                    Ogor Mawtribes          160   12    6.67  56%    7.04  59%    -16.7    -9%
+  Hurakan Windchargers         Lumineth Realm-lords    160   15    5.33  36%    4.92  41%    -16.9    -9%
+  Blood Stalkers               Daughters of Khaine     150   15    5.56  37%    4.86  41%    -17.4   -10%
+  Hell Pit Abomination         Skaven                  200   14    6.67  48%    7.52  63%    -17.6   -10%
+  Bloodcrushers (Scourge of Gh Blades of Khorne        150   15    4.44  30%    4.17  35%    -18.1   -10%
+  Vigilors                     Stormcast Eternals      140   10    4.00  40%    4.94  41%    -18.1   -10%
+  Treelord                     Sylvaneth               260   14    4.00  29%    6.16  51%    -18.1   -10%
+  Drakespawn Knights           Cities of Sigmar        190   15    4.00  27%    4.63  39%    -18.8   -10%
+  Gore-gruntas                 Ironjawz                170   15    4.00  27%    4.31  36%    -19.3   -11%
+  Clanrats                     Skaven                  150   20    6.67  33%    4.63  39%    -19.4   -11%
+  Chaos Knights                Slaves to Darkness      250   20    4.00  20%    4.63  39%    -19.4   -11%
+  The Twistweald               Sylvaneth               120   16    6.67  42%    4.63  39%    -19.4   -11%
+  Immortis Guard               Ossiarch Bonereapers    170   12    3.33  28%    4.44  37%    -19.4   -11%
+  Squig Herd                   Gloomspite Gitz         100   12    8.00  67%    5.74  48%    -19.4   -11%
+  Khainite Shadowstalkers      Daughters of Khaine     130    9    5.56  62%    6.67  56%    -19.8   -11%
+  Ghorgon                      Beasts of Chaos         180   15    6.67  44%    6.71  56%    -20.7   -11%
+  Judicators with Skybolt Bows Stormcast Eternals      140   10    4.00  40%    5.25  44%    -22.7   -13%
+  Revenant Seekers             Sylvaneth               180   15    5.33  36%    5.83  49%    -23.5   -13%
+  Ardboyz                      Ironjawz                160   20    4.00  20%    3.70  31%    -23.6   -13%
+  Hearthguard Berzerkers with  Fyreslayers             110   10    6.67  67%    6.48  54%    -23.9   -13%
+  Steam Tank                   Cities of Sigmar        240   12    2.67  22%    5.15  43%    -23.9   -13%
+  Grundstok Thunderers         Kharadron Overlords     130   10    4.00  40%    5.07  42%    -24.0   -13%
+  Askurgan Trueblades          Soulblight Gravelords   140   16    5.56  35%    4.86  41%    -24.3   -14%
+  Stormvermin                  Skaven                  110   10    5.33  53%    5.56  46%    -24.7   -14%
+  Aggradon Lancers             Seraphon                200   15    5.33  36%    6.39  53%    -24.7   -14%
+  Evocators                    Stormcast Eternals      180   15    4.00  27%    4.86  41%    -24.9   -14%
+  Reclusians                   Stormcast Eternals      140    9    4.00  44%    5.83  49%    -25.3   -14%
+  Kruleboyz Monsta-killaz      Kruleboyz               120   14    6.67  48%    5.51  46%    -25.5   -14%
+  Pink Horrors                 Disciples of Tzeentch   170   20    5.56  28%    4.86  41%    -25.7   -14%
+  Putrid Blightkings           Maggotkin of Nurgle     130   15    5.56  37%    4.94  41%    -25.9   -14%
+  Ogroid Theridons             Slaves to Darkness      160   15    5.33  36%    5.56  46%    -26.4   -15%
+  Bladegheist Revenants        Nighthaunt              210   20    5.33  27%    5.56  46%    -27.3   -15%
+  Blood Knights                Soulblight Gravelords   220   15    3.33  22%    5.09  42%    -27.5   -15%
+  Annihilators                 Stormcast Eternals      130    9    2.67  30%    4.44  37%    -28.1   -16%
+  Gutter Runners               Skaven                  160   10    6.67  67%    9.03  75%    -28.8   -16%
+  Loonsmasha Fanatics          Gloomspite Gitz         110    5    5.00 100%    9.26  77%    -28.9   -16%
+  Blissbarb Seekers            Hedonites of Slaanesh   160   20    6.67  33%    5.56  46%    -30.0   -17%
+  Dreadscythe Harridans        Nighthaunt              200   20    5.33  27%    5.56  46%    -30.0   -17%
+  Raptadon Hunters             Seraphon                120   15    6.67  44%    5.56  46%    -30.0   -17%
+  Fellwater Troggoths          Gloomspite Gitz         160   15    6.67  44%    6.76  56%    -30.3   -17%
+  Thundertusk Beastriders      Ogor Mawtribes          180   14    5.33  38%    6.60  55%    -30.4   -17%
+  Mighty Skullcrushers         Blades of Khorne        200   15    2.67  18%    4.44  37%    -31.1   -17%
+  Blood Sisters                Daughters of Khaine     140   15    5.56  37%    5.56  46%    -31.5   -17%
+  Liberators                   Stormcast Eternals       90   10    4.00  40%    4.54  38%    -32.1   -18%
+  Bull Centaurs                Helsmiths of Hashut     190   12    5.33  44%    7.78  65%    -32.2   -18%
+  Kurnoth Hunters with Kurnoth Sylvaneth               190   15    5.33  36%    6.67  56%    -32.4   -18%
+  Arachnarok Spider with Fling Gloomspite Gitz         230   14    5.33  38%    8.06  67%    -33.2   -18%
+  Blood Hags                   Daughters of Khaine     140   10    5.56  56%    7.41  62%    -33.3   -19%
+  Sequitors                    Stormcast Eternals      120   10    4.00  40%    5.56  46%    -35.3   -20%
+  Rat Ogors                    Skaven                  140   12    6.67  56%    7.58  63%    -35.9   -20%
+  Bastiladon with Ark of Sotek Seraphon                230   12    2.67  22%    5.81  48%    -36.0   -20%
+  Saurus Warriors              Seraphon                140   20    5.33  27%    4.94  41%    -36.7   -20%
+  Morghast Harbingers          Ossiarch Bonereapers    250   12    4.44  37%    8.68  72%    -37.6   -21%
+  Bloodcrushers                Blades of Khorne        130   15    4.44  30%    5.14  43%    -38.6   -21%
+  Bastiladon with Solar Engine Seraphon                200   12    2.67  22%    5.58  46%    -39.2   -22%
+  Barrow Guard                 Soulblight Gravelords   130   10    4.44  44%    6.48  54%    -39.4   -22%
+  Dracothian Guard Fulminators Stormcast Eternals      200   10    4.00  40%    7.98  66%    -39.7   -22%
+  Stonehorn Beastriders        Ogor Mawtribes          260   14    5.33  38%    9.26  77%    -39.8   -22%
+  Pyregheists                  Nighthaunt              180   16    5.33  33%    6.67  56%    -40.0   -22%
+  Squig Hoppers                Gloomspite Gitz         160   20    8.00  40%    6.94  58%    -40.2   -22%
+  Stegadon                     Seraphon                150   14    5.33  38%    6.50  54%    -40.4   -22%
+  Terrorgheist                 Soulblight Gravelords   220   14    4.44  32%    7.41  62%    -41.3   -23%
+  Mournfang Pack               Ogor Mawtribes          150   12    5.33  44%    7.22  60%    -41.7   -23%
+  Arachnarok Spider with Spide Gloomspite Gitz         220   16    5.33  33%    7.69  64%    -41.9   -23%
+  Varanguard                   Slaves to Darkness      310   15    4.00  27%    8.33  69%    -42.3   -24%
+  Dragon Ogors                 Beasts of Chaos         200   15    5.33  36%    7.59  63%    -42.8   -24%
+  Kurnoth Hunters with Kurnoth Sylvaneth               200   15    5.33  36%    7.78  65%    -45.6   -25%
+  Evocators on Celestial Draco Stormcast Eternals      240   15    4.00  27%    7.36  61%    -46.4   -26%
+  Savage Orruk Arrowboys       Bonesplitterz           140   20    6.67  33%    6.25  52%    -47.1   -26%
+  Chaos Warriors               Slaves to Darkness      180   20    4.00  20%    5.56  46%    -47.3   -26%
+  Protectors                   Stormcast Eternals      220   15    4.00  27%    7.16  60%    -48.7   -27%
+  Dracothian Guard Tempestors  Stormcast Eternals      170   10    4.00  40%    7.85  65%    -49.8   -28%
+  Dracothian Guard Desolators  Stormcast Eternals      170   10    4.00  40%    7.98  66%    -51.7   -29%
+  Bestigors                    Beasts of Chaos         220   20    5.33  27%    7.41  62%    -52.4   -29%
+  Rockgut Troggoths            Gloomspite Gitz         180   15    3.56  24%    6.37  53%    -52.8   -29%
+  Tzaangors                    Disciples of Tzeentch   170   20    6.67  33%    7.41  62%    -54.4   -30%
+  Skywardens                   Kharadron Overlords     130    6    4.00  67%    9.42  79%    -54.7   -30%
+  Bloodletters                 Blades of Khorne        150   20    5.56  28%    6.48  54%    -55.6   -31%
+  Arkanaut Company             Kharadron Overlords      80   10    5.33  53%    6.64  55%    -56.9   -32%
+  Arkanaut Ironclad            Kharadron Overlords     450   18    2.67  15%    8.26  69%    -57.3   -32%
+  Dracothian Guard Concussors  Stormcast Eternals      210   10    4.00  40%    9.46  79%    -57.9   -32%
+  Morghast Archai              Ossiarch Bonereapers    260   12    3.33  28%    8.68  72%    -58.0   -32%
+  Brood Terror (Scourge of Ghy Skaven                  240   12    4.44  37%    9.82  82%    -58.4   -32%
+  Revenant Draconith           Soulblight Gravelords   190   16    5.56  35%    8.31  69%    -58.7   -33%
+  Rotswords                    Maggotkin of Nurgle     200   20    3.33  17%    6.17  51%    -59.3   -33%
+  Blood Warriors               Blades of Khorne        180   20    4.00  20%    6.48  54%    -61.2   -34%
+  Decimators                   Stormcast Eternals      240   15    4.00  27%    8.40  70%    -61.9   -34%
+  Endrinriggers                Kharadron Overlords     110    6    4.00  67%    9.24  77%    -65.2   -36%
+  Ironguts                     Ogor Mawtribes          210   16    6.67  42%   10.42  87%    -68.8   -38%
+  Brutes                       Ironjawz                160   15    4.00  27%    7.64  64%    -71.9   -40%
+  Chaos Chosen                 Slaves to Darkness      270   15    4.00  27%    9.72  81%    -73.8   -41%
+  Annihilators with Meteoric G Stormcast Eternals      180    9    4.00  44%   10.42  87%    -76.3   -42%
+  Kroxigor                     Seraphon                200   18    5.33  30%    9.26  77%    -79.6   -44%
+  Kroxigor Warspawned          Seraphon                200   18    5.33  30%    9.26  77%    -79.6   -44%
+  Retributors                  Stormcast Eternals      170   15    4.00  27%    8.70  73%    -85.2   -47%
+  Questor Soulsworn            Stormcast Eternals      210   18    4.00  22%    8.89  74%    -86.7   -48%
+  Skullreapers                 Blades of Khorne        170   15    5.33  36%    9.88  82%    -87.7   -49%
+  Akhelian Leviadon            Idoneth Deepkin         450   16    2.67  17%   11.41  95%    -96.2   -53%
+  Gorger Mawpack               Ogor Mawtribes          240   25    8.00  32%   11.57  96%    -96.8   -54%
+  Ogor Gluttons                Ogor Mawtribes          220   24    6.67  28%   11.11  93%   -105.6   -59%
+  Stormfiends                  Skaven                  240   18    5.33  30%   12.00 100%   -108.9   -60%
+  Stormdrake Guard             Stormcast Eternals      310   18    4.00  22%   12.00 100%   -111.1   -62%
+  Mancrusher Mob               Sons of Behemat         350   36    6.67  19%   11.92  99%   -114.0   -63%
+  Gate Gargants                Cities of Sigmar        320   20    3.33  17%   12.00 100%   -126.7   -70%

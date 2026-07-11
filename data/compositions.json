@@ -1,0 +1,42 @@
+[
+  {
+    "army": "Stormcast Eternals",
+    "name": "Stormcast - GT Top 2025-Q1 (fictif)",
+    "kind": "tournament",
+    "format_points": 2000,
+    "source": "Composition fictive de démonstration",
+    "notes": "Liste équilibrée mêlée lourde avec ward via Annihilators et artefact.",
+    "entries": [
+      {
+        "unit": "Lord-Imperatant",
+        "is_general": true,
+        "heroic_trait": "Heroic Stature",
+        "artefact": "Amulet of Destiny"
+      },
+      {"unit": "Liberators", "reinforced": true},
+      {"unit": "Liberators", "reinforced": false},
+      {"unit": "Annihilators", "reinforced": false},
+      {"unit": "Annihilators", "reinforced": false}
+    ]
+  },
+  {
+    "army": "Skaven",
+    "name": "Skaven - Open 2025 Hordes (fictif)",
+    "kind": "tournament",
+    "format_points": 2000,
+    "source": "Composition fictive de démonstration",
+    "notes": "Vague de Clanrats + élite Stormvermin + Grey Seer général.",
+    "entries": [
+      {
+        "unit": "Grey Seer",
+        "is_general": true,
+        "heroic_trait": "Master of Magic",
+        "artefact": "Warpstone Charm"
+      },
+      {"unit": "Clanrats", "reinforced": true},
+      {"unit": "Clanrats", "reinforced": true},
+      {"unit": "Clanrats", "reinforced": false},
+      {"unit": "Stormvermin", "reinforced": true}
+    ]
+  }
+]

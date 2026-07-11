@@ -1,0 +1,85 @@
+[
+  {
+    "name": "Stormcast Eternals",
+    "grand_alliance": "Order",
+    "heroic_traits": [
+      {"name": "Heroic Stature", "description": "Le général gagne +1 en Health."},
+      {"name": "Lightning Reflexes", "description": "Le général frappe en premier au tour 1."}
+    ],
+    "artefacts": [
+      {"name": "Amulet of Destiny", "description": "Ward 5+ au porteur."},
+      {"name": "Arcane Tome", "description": "Le porteur peut canaliser un sort par tour."}
+    ],
+    "units": [
+      {
+        "name": "Liberators",
+        "move": 5, "save": 3, "health": 2, "control": 1,
+        "models": 5, "points": 110, "is_hero": false, "ward": null,
+        "weapons": [
+          {"name": "Warhammer", "kind": "melee", "range_in": 1,
+           "attacks": 2, "hit": 3, "wound": 3, "rend": 1, "damage": 1}
+        ]
+      },
+      {
+        "name": "Annihilators",
+        "move": 4, "save": 3, "health": 3, "control": 1,
+        "models": 3, "points": 180, "is_hero": false, "ward": 5,
+        "weapons": [
+          {"name": "Meteoric Hammer", "kind": "melee", "range_in": 1,
+           "attacks": 3, "hit": 3, "wound": 3, "rend": 2, "damage": 2,
+           "abilities": "Crit (2 Hits)"}
+        ]
+      },
+      {
+        "name": "Lord-Imperatant",
+        "move": 5, "save": 3, "health": 6, "control": 2,
+        "models": 1, "points": 130, "is_hero": true, "ward": null,
+        "weapons": [
+          {"name": "Sigmarite Warhammer", "kind": "melee", "range_in": 1,
+           "attacks": 4, "hit": 3, "wound": 3, "rend": 1, "damage": 2}
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Skaven",
+    "grand_alliance": "Chaos",
+    "heroic_traits": [
+      {"name": "Cornered Fury", "description": "+1 en touche quand le général est blessé."},
+      {"name": "Master of Magic", "description": "+1 pour caster les sorts."}
+    ],
+    "artefacts": [
+      {"name": "Warpstone Charm", "description": "Ward 6+ et bonus magique."},
+      {"name": "Vial of the Fulminator", "description": "Inflige des Mortal Wounds une fois par bataille."}
+    ],
+    "units": [
+      {
+        "name": "Clanrats",
+        "move": 6, "save": 6, "health": 1, "control": 1,
+        "models": 20, "points": 120, "is_hero": false, "ward": null,
+        "weapons": [
+          {"name": "Rusty Blade", "kind": "melee", "range_in": 1,
+           "attacks": 2, "hit": 4, "wound": 5, "rend": 0, "damage": 1}
+        ]
+      },
+      {
+        "name": "Stormvermin",
+        "move": 6, "save": 5, "health": 1, "control": 1,
+        "models": 10, "points": 130, "is_hero": false, "ward": null,
+        "weapons": [
+          {"name": "Halberd", "kind": "melee", "range_in": 2,
+           "attacks": 2, "hit": 4, "wound": 4, "rend": 1, "damage": 1}
+        ]
+      },
+      {
+        "name": "Grey Seer",
+        "move": 6, "save": 6, "health": 5, "control": 2,
+        "models": 1, "points": 140, "is_hero": true, "ward": 5,
+        "weapons": [
+          {"name": "Warpstone Staff", "kind": "melee", "range_in": 1,
+           "attacks": 3, "hit": 4, "wound": 3, "rend": 1, "damage": 1}
+        ]
+      }
+    ]
+  }
+]

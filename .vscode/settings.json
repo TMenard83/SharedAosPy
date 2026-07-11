@@ -1,0 +1,18 @@
+{
+    "workbench.editorAssociations": {
+        "*.copilotmd": "vscode.markdown.preview.editor",
+        "*.parquet": "duckdb.dataFileViewer",
+        "*.csv": "duckdb.dataFileViewer",
+        "*.tsv": "duckdb.dataFileViewer",
+        "*.xlsx": "duckdb.dataFileViewer"
+    },
+    "duckdb.databases": [
+        {
+            "alias": "demo",
+            "type": "file",
+            "path": "c:\\Users\\olivi\\repos\\AoSPy\\demo.duckdb",
+            "attached": false
+        }
+    ],
+    "duckdb.defaultDatabase": "demo"
+}
