@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 import argparse
+from datetime import datetime
 
 from . import benchmark as bench
-from . import bsdata, db, repository, seed
-from .models import Composition, CompositionUnit
-from .report import format_benchmark, format_duel_detail, format_report
+from . import bsdata, db, repository, seed, wahapedia
+from .combat import CombatModifiers, damage_floor80, unit_damage_moments
+from .models import Composition, CompositionUnit, Unit
+from .report import format_benchmark, format_duel_detail, format_report, format_unit_stats
 from .simulation import SideOptions, simulate_battle
 
 
@@ -253,6 +255,7 @@ def cmd_unit_benchmark_all(args: argparse.Namespace) -> int:
         options_a=opts_a, options_b=opts_b,
         include_heroes=args.include_heroes,
         progress=_progress if args.verbose else None,
+        use_floor80=args.floor80,
     )
     print(
         f"\nTerminé : {summary.attackers} attaquants × défenseurs "
@@ -310,9 +313,10 @@ def cmd_battle_simulate(args: argparse.Namespace) -> int:
 
 def cmd_import_bsdata(args: argparse.Namespace) -> int:
     con = _connect(args)
+    cutoff = datetime.now()
     if getattr(args, "all_armies", False):
         names = list(bsdata.KNOWN_ARMIES)
-        totals = {"inserted": 0, "updated": 0, "skipped": 0, "failed": 0}
+        totals = {"inserted": 0, "updated": 0, "skipped": 0, "legends": 0, "failed": 0}
         for name in names:
             print(f"→ {name}…", flush=True)
             try:
@@ -322,19 +326,29 @@ def cmd_import_bsdata(args: argparse.Namespace) -> int:
                 totals["failed"] += 1
                 continue
             print(f"  insérées={s.inserted}  mises à jour={s.updated}  "
-                  f"ignorées={s.skipped_no_profile}")
+                  f"ignorées={s.skipped_no_profile}  legends={s.skipped_legends}")
             totals["inserted"] += s.inserted
             totals["updated"] += s.updated
             totals["skipped"] += s.skipped_no_profile
+            totals["legends"] += s.skipped_legends
         print(f"\nTotal : insérées={totals['inserted']}  "
               f"mises à jour={totals['updated']}  "
-              f"ignorées={totals['skipped']}  échecs={totals['failed']}")
+              f"ignorées={totals['skipped']}  legends={totals['legends']}  "
+              f"échecs={totals['failed']}")
+        if args.clean_stale:
+            removed = repository.delete_units_imported_before(con, cutoff)
+            print(f"Nettoyage : {removed} unités non retouchées supprimées.")
     else:
         print(f"Import en cours depuis BSData : {args.army}…")
         summary = bsdata.import_army(con, args.army)
         print(f"  insérées : {summary.inserted}")
         print(f"  mises à jour : {summary.updated}")
         print(f"  ignorées (profil absent) : {summary.skipped_no_profile}")
+        print(f"  ignorées (Legends) : {summary.skipped_legends}")
+        if args.clean_stale:
+            army = repository.get_army_by_name(con, args.army)
+            removed = repository.delete_units_imported_before(con, cutoff, army_id=army.id if army else None)
+            print(f"Nettoyage : {removed} unités non retouchées supprimées.")
     con.close()
     return 0
 
@@ -343,4 +357,120 @@ def cmd_import_bsdata_list(args: argparse.Namespace) -> int:
     _ = args
     for name, (_main, _lib, alliance) in bsdata.KNOWN_ARMIES.items():
         print(f"  {name:<25} [{alliance}]")
+    return 0
+
+
+def cmd_import_wahapedia(args: argparse.Namespace) -> int:
+    con = _connect(args)
+    cutoff = datetime.now()
+    if getattr(args, "all_factions", False):
+        names = list(wahapedia.FACTION_GRAND_ALLIANCE)
+        totals = {"inserted": 0, "updated": 0, "skipped": 0, "legends": 0, "failed": 0}
+        for name in names:
+            print(f"→ {name}…", flush=True)
+            try:
+                s = wahapedia.import_faction(con, name)
+            except Exception as exc:  # pylint: disable=broad-except
+                print(f"  échec : {exc}")
+                totals["failed"] += 1
+                continue
+            print(f"  insérées={s.inserted}  mises à jour={s.updated}  "
+                  f"ignorées={s.skipped_no_points}  legends={s.skipped_legends}")
+            totals["inserted"] += s.inserted
+            totals["updated"] += s.updated
+            totals["skipped"] += s.skipped_no_points
+            totals["legends"] += s.skipped_legends
+        print(f"\nTotal : insérées={totals['inserted']}  "
+              f"mises à jour={totals['updated']}  "
+              f"ignorées={totals['skipped']}  legends={totals['legends']}  "
+              f"échecs={totals['failed']}")
+        if args.clean_stale:
+            removed = repository.delete_units_imported_before(con, cutoff)
+            print(f"Nettoyage : {removed} unités non retouchées supprimées.")
+    else:
+        print(f"Import en cours depuis Wahapedia : {args.faction}…")
+        summary = wahapedia.import_faction(con, args.faction)
+        print(f"  insérées : {summary.inserted}")
+        print(f"  mises à jour : {summary.updated}")
+        print(f"  ignorées (sans coût) : {summary.skipped_no_points}")
+        print(f"  ignorées (Legends) : {summary.skipped_legends}")
+        if args.clean_stale:
+            army = repository.get_army_by_name(con, args.faction)
+            removed = repository.delete_units_imported_before(con, cutoff, army_id=army.id if army else None)
+            print(f"Nettoyage : {removed} unités non retouchées supprimées.")
+    con.close()
+    return 0
+
+
+def cmd_import_wahapedia_list(args: argparse.Namespace) -> int:
+    _ = args
+    for name, alliance in wahapedia.FACTION_GRAND_ALLIANCE.items():
+        print(f"  {name:<25} [{alliance}]")
+    return 0
+
+
+#: Cibles standard pour `unit stats` : save 2+, save 4+, aucune save (7 = impossible).
+_STATS_TARGETS: list[tuple[str, Unit]] = [
+    (label, Unit(name="_probe", army_id=0, move=0, save=save, health=1, control=0, models=1, points=0))
+    for label, save in (("Save 2+", 2), ("Save 4+", 4), ("Sans save", 7))
+]
+
+
+def cmd_unit_stats(args: argparse.Namespace) -> int:
+    con = _connect(args)
+    unit, army_name = bench.find_unit(con, args.attacker, args.attacker_army)
+    mods = CombatModifiers(attacker_charged=args.charge)
+    rows = []
+    for label, target in _STATS_TARGETS:
+        mean, _var, std = unit_damage_moments(unit, unit.models, target, mods)
+        rows.append((label, mean, std, damage_floor80(mean, std)))
+    print(format_unit_stats(unit, army_name, rows, charged=args.charge))
+    con.close()
+    return 0
+
+
+def cmd_cost_fit(args: argparse.Namespace) -> int:
+    con = _connect(args)
+    from . import cost_model
+
+    try:
+        if args.segmented:
+            results = cost_model.fit_segmented(con)
+            for name, result in results.items():
+                print(f"\n=== Segment : {name} ({result.n_obs} unités, R²={result.r_squared:.3f}) ===")
+                print(f"  const                 : {result.intercept.coef:8.3f}  (p={result.intercept.p_value:.3f})")
+                for c in result.coefficients:
+                    print(f"  {c.name:<22}: {c.coef:8.3f}  (p={c.p_value:.3f})")
+        else:
+            result = cost_model.fit_cost_model(con)
+            print(f"R²={result.r_squared:.3f}  R²ajusté={result.adj_r_squared:.3f}  n={result.n_obs}")
+            print(f"  const                 : {result.intercept.coef:8.3f}  (p={result.intercept.p_value:.3f})")
+            for c in result.coefficients:
+                print(f"  {c.name:<22}: {c.coef:8.3f}  (p={c.p_value:.3f})")
+    except ImportError:
+        print("Le modèle de coût nécessite l'extra [analysis] : pip install -e '.[analysis]'")
+        con.close()
+        return 1
+    con.close()
+    return 0
+
+
+def cmd_cost_residuals(args: argparse.Namespace) -> int:
+    con = _connect(args)
+    from . import cost_model
+
+    try:
+        result = cost_model.fit_cost_model(con)
+    except ImportError:
+        print("Le modèle de coût nécessite l'extra [analysis] : pip install -e '.[analysis]'")
+        con.close()
+        return 1
+    armies = {a.id: a.name for a in repository.list_armies(con)}
+    pool = result.undercosted(n=args.top) if args.direction == "under" else result.overcosted(n=args.top)
+    label = "sous-cotées" if args.direction == "under" else "sur-cotées"
+    print(f"Top {len(pool)} unités {label} :")
+    for r in pool:
+        print(f"  {r.name:<28} [{armies.get(r.army_id, '?'):<20}]  pts={r.points:<5} "
+              f"prédit={r.predicted:7.1f}  résidu={r.residual:+7.1f} ({r.residual_pct:+.0f}%)")
+    con.close()
     return 0

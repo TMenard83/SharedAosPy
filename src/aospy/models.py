@@ -46,6 +46,8 @@ class Unit:
     points: int
     is_hero: bool = False
     ward: Optional[int] = None  # X+
+    keywords: frozenset[str] = frozenset()  # mots-clés (MAJUSCULES), déclenchent Anti-<MOT-CLÉ>
+    description: Optional[str] = None  # texte libre de restriction d'armement (cf. loadout.py)
     weapons: list[Weapon] = field(default_factory=list)
     id: Optional[int] = None
 

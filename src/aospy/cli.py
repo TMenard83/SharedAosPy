@@ -85,9 +85,19 @@ def _build_parser() -> argparse.ArgumentParser:
     p.add_argument("--aod", choices=["a", "b", "both", "none"], default="none")
     p.add_argument("--reset", action="store_true",
                    help="Vide la table unit_benchmark avant de relancer.")
+    p.add_argument("--floor80", action="store_true",
+                   help="Utilise le plancher de dégâts à 80%% de confiance au lieu de l'espérance.")
     p.add_argument("-v", "--verbose", action="store_true",
                    help="Affiche la progression attaquant par attaquant.")
     p.set_defaults(func=cmd.cmd_unit_benchmark_all)
+
+    p = su.add_parser(
+        "stats", help="Moyenne / écart-type / plancher de dégâts 80% contre 3 cibles standard.",
+    )
+    p.add_argument("--attacker", required=True, help="Nom de l'unité.")
+    p.add_argument("--attacker-army", help="Armée de l'unité (si ambigu).")
+    p.add_argument("--charge", action="store_true", help="Applique le bonus de charge.")
+    p.set_defaults(func=cmd.cmd_unit_stats)
 
     # comp
     p_comp = sub.add_parser("comp", help="Commandes sur les compositions.")
@@ -156,10 +166,36 @@ def _build_parser() -> argparse.ArgumentParser:
     g.add_argument("--army", help="Nom de l'armée (ex: 'Stormcast Eternals').")
     g.add_argument("--all", dest="all_armies", action="store_true",
                    help="Importe toutes les armées connues.")
+    p.add_argument("--clean-stale", action="store_true",
+                   help="Purge après import les unités non retouchées (plus dans la source).")
     p.set_defaults(func=cmd.cmd_import_bsdata)
     si.add_parser("bsdata-list",
                   help="Liste les armées disponibles à l'import.").set_defaults(
         func=cmd.cmd_import_bsdata_list)
+    p = si.add_parser("wahapedia", help="Importe une faction depuis les CSV Wahapedia.")
+    g = p.add_mutually_exclusive_group(required=True)
+    g.add_argument("--faction", help="Nom de la faction (ex: 'Stormcast Eternals').")
+    g.add_argument("--all", dest="all_factions", action="store_true",
+                   help="Importe toutes les factions connues.")
+    p.add_argument("--clean-stale", action="store_true",
+                   help="Purge après import les unités non retouchées (plus dans la source).")
+    p.set_defaults(func=cmd.cmd_import_wahapedia)
+    si.add_parser("wahapedia-list",
+                  help="Liste les factions disponibles à l'import Wahapedia.").set_defaults(
+        func=cmd.cmd_import_wahapedia_list)
+
+    # cost (modèle de coût — nécessite l'extra [analysis])
+    p_cost = sub.add_parser("cost", help="Modèle de coût (points ~ caractéristiques).")
+    scst = p_cost.add_subparsers(dest="action", required=True)
+    p = scst.add_parser("fit", help="Ajuste le modèle et affiche les coefficients.")
+    p.add_argument("--segmented", action="store_true",
+                   help="Ajuste un modèle séparé par segment (hero/troupe).")
+    p.set_defaults(func=cmd.cmd_cost_fit)
+    p = scst.add_parser("residuals", help="Unités les plus sous/sur-cotées (résidu).")
+    p.add_argument("--top", type=int, default=20, help="Nombre d'unités à afficher.")
+    p.add_argument("--direction", choices=["under", "over"], default="under",
+                   help="Sous-cotées (under, défaut) ou sur-cotées (over).")
+    p.set_defaults(func=cmd.cmd_cost_residuals)
 
     return parser
 

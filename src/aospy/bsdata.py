@@ -2,11 +2,13 @@
 
 from __future__ import annotations
 
+import csv
 import re
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Optional
 
 import duckdb
@@ -16,6 +18,11 @@ from .models import Army, Unit, Weapon
 
 NS = "http://www.battlescribe.net/schema/catalogueSchema"
 BASE_URL = "https://raw.githubusercontent.com/BSData/age-of-sigmar-4th/main/"
+
+#: Répertoire des CSV Wahapedia, utilisé uniquement pour recouper le statut
+#: Legends (cf. `_wahapedia_legends_names`) — aucune dépendance vers `wahapedia.py`
+#: pour ne pas inverser le sens de dépendance documenté dans CLAUDE.md.
+WAHAPEDIA_DATA_DIR = Path("data") / "wahapedia"
 
 # Arméees disponibles : nom -> (fichier_principal, fichier_library, grand_alliance)
 KNOWN_ARMIES: dict[str, tuple[str, str, str]] = {
@@ -78,6 +85,7 @@ class ParsedUnit:
     models: int
     is_hero: bool
     ward: Optional[int]
+    keywords: frozenset[str] = frozenset()
     weapons: list[ParsedWeapon] = field(default_factory=list)
 
 
@@ -262,6 +270,20 @@ def _is_hero(unit_entry: ET.Element) -> bool:
     return False
 
 
+def _keywords(unit_entry: ET.Element) -> frozenset[str]:
+    """Mots-clés de l'unité (mêmes noms que les catégories BattleScribe, en MAJUSCULES).
+
+    Exclut la pseudo-catégorie ``WARD (N+)`` (une note de stat, gérée séparément par
+    `_ward_from_categories`, pas un mot-clé de jeu comme HERO/MONSTER/INFANTRY…).
+    """
+    out: set[str] = set()
+    for link in unit_entry.findall(_ns("categoryLinks") + "/" + _ns("categoryLink")):
+        name = (link.get("name") or "").strip().upper()
+        if name and not re.match(r"^WARD \(\d+\+\)$", name):
+            out.add(name)
+    return frozenset(out)
+
+
 def _base_models(unit_entry: ET.Element) -> int:
     """Nombre de modèles de base : somme des min des selectionEntry type=model."""
     total = 0
@@ -306,9 +328,70 @@ def parse_library_units(xml_text: str) -> dict[str, ParsedUnit]:
             models=_base_models(entry),
             is_hero=_is_hero(entry),
             ward=_ward_from_categories(entry),
+            keywords=_keywords(entry),
             weapons=_extract_weapons(entry),
         )
     return units
+
+
+# ----- Filtrage Legends / packs narratifs périmés ------------------------------
+
+#: Fragments de nom (minuscules) signalant une variante de pack narratif expiré.
+#: "Scourge of Aqshy" et "Scourge of Ghyran" sont des packs narratifs saisonniers
+#: dépassés ; absents des CSV Wahapedia (Aqshy) ou explicitement écartés (Ghyran),
+#: mais BSData continue de les exposer sous ces deux formes de nommage
+#: (suffixe « (Scourge of Ghyran) » côté BSData, préfixe « Scourge of Ghyran »
+#: côté Wahapedia — cf. `wahapedia.py::import_faction`).
+_EXPIRED_VARIANT_MARKERS: frozenset[str] = frozenset({
+    "scourge of aqshy", "scourge of ghyran",
+})
+
+
+def _is_expired_variant(name: str) -> bool:
+    lname = name.strip().lower()
+    return any(marker in lname for marker in _EXPIRED_VARIANT_MARKERS)
+
+
+def _is_legends_catalogue(xml_text: str) -> bool:
+    """Détecte un catalogue BSData entièrement retiré (nom suffixé « [LEGENDS] »).
+
+    Pendant BSData du contrôle par `Source.csv`/notes côté Wahapedia — ici le
+    signal porte sur le catalogue entier (ex. Beasts of Chaos, Bonesplitterz),
+    pas sur des warscrolls individuels.
+    """
+    root = ET.fromstring(xml_text)
+    return "[legends]" in (root.get("name") or "").lower()
+
+
+def _wahapedia_legends_names(data_dir: Path = WAHAPEDIA_DATA_DIR) -> set[str]:
+    """Noms (minuscules) des unités Legends selon les CSV Wahapedia.
+
+    Recoupement par nom (les deux sources n'ont pas d'ID commun) pour appliquer
+    à l'import BSData le même filtre Legends qu'à l'import Wahapedia
+    (`wahapedia.py::_legends_warscroll_ids`, qui exclut par `Source.csv` de type
+    Legends ou note de retrait annoncé) — cible les unités individuellement
+    retirées d'une armée par ailleurs toujours jouable (ex. Terrorgheist côté
+    Soulblight Gravelords), en plus du cas « catalogue entier » traité par
+    `_is_legends_catalogue`.
+    """
+    if not data_dir.exists():
+        return set()
+
+    def _read(path: Path) -> list[dict[str, str]]:
+        with path.open(encoding="utf-8-sig", newline="") as fh:
+            return list(csv.DictReader(fh, delimiter="|"))
+
+    sources = _read(data_dir / "Source.csv")
+    legend_sources = {s["id"] for s in sources if "legends" in (s.get("name") or "").lower()}
+    names: set[str] = set()
+    for w in _read(data_dir / "Warscrolls.csv"):
+        is_legend = (
+            w.get("source_id") in legend_sources
+            or "legend" in (w.get("notes") or "").lower()
+        )
+        if is_legend:
+            names.add((w.get("name") or "").strip().lower())
+    return names
 
 
 # ----- Import dans la base ----------------------------------------------------
@@ -320,6 +403,7 @@ class ImportSummary:
     updated: int = 0
     skipped_no_points: int = 0
     skipped_no_profile: int = 0
+    skipped_legends: int = 0
 
 
 def import_army(
@@ -331,8 +415,14 @@ def import_army(
             f"armée inconnue '{army_name}'. Connues : {', '.join(KNOWN_ARMIES)}"
         )
     main_file, lib_file, alliance = KNOWN_ARMIES[army_name]
-    costs = parse_main_costs(download(main_file))
+    main_xml = download(main_file)
+    summary = ImportSummary(army=army_name)
+    if _is_legends_catalogue(main_xml):
+        return summary
+
+    costs = parse_main_costs(main_xml)
     units = parse_library_units(download(lib_file))
+    legends_names = _wahapedia_legends_names()
 
     existing = repository.get_army_by_name(con, army_name)
     if existing is None or existing.id is None:
@@ -340,17 +430,19 @@ def import_army(
     else:
         army_id = existing.id
 
-    summary = ImportSummary(army=army_name)
     for target_id, points in costs.items():
         parsed = units.get(target_id)
         if parsed is None:
             summary.skipped_no_profile += 1
             continue
+        if parsed.name.strip().lower() in legends_names or _is_expired_variant(parsed.name):
+            summary.skipped_legends += 1
+            continue
         unit = Unit(
             name=parsed.name, army_id=army_id,
             move=parsed.move, save=parsed.save, health=parsed.health,
             control=parsed.control, models=parsed.models, points=points,
-            is_hero=parsed.is_hero, ward=parsed.ward,
+            is_hero=parsed.is_hero, ward=parsed.ward, keywords=parsed.keywords,
             weapons=[Weapon(
                 name=w.name, kind=w.kind, range_in=w.range_in,  # type: ignore[arg-type]
                 attacks=w.attacks, hit=w.hit, wound=w.wound,

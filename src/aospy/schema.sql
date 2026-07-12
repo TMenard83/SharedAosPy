@@ -28,8 +28,20 @@ CREATE TABLE IF NOT EXISTS unit (
     points          INTEGER NOT NULL,
     is_hero         BOOLEAN NOT NULL DEFAULT FALSE,
     ward            INTEGER,                    -- ex: 5 pour 5+, NULL si aucun
+    keywords        VARCHAR NOT NULL DEFAULT '', -- mots-clés joints par virgule (MAJUSCULES)
+    description     VARCHAR,                    -- texte libre de restriction d'armement (cf. loadout.py)
+    imported_at     TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, -- rafraîchi à chaque import (cf. replace_unit) ; permet de purger les lignes qu'un import n'a plus touchées
     UNIQUE(army_id, name)
 );
+-- NB : imported_at est dans le CREATE TABLE (pas un ALTER ADD COLUMN IF NOT
+-- EXISTS comme keywords/description ci-dessous) — un ALTER ADD COLUMN IF NOT
+-- EXISTS ré-exécuté sur une colonne déjà existante réinitialise silencieusement
+-- sa valeur à sa DEFAULT à chaque connect() (bug DuckDB constaté), ce qui
+-- viderait `imported_at` de son sens à chaque commande.
+
+-- Migration : ajoute keywords/description si la table existait sans elles
+ALTER TABLE unit ADD COLUMN IF NOT EXISTS keywords VARCHAR DEFAULT '';
+ALTER TABLE unit ADD COLUMN IF NOT EXISTS description VARCHAR;
 
 CREATE TABLE IF NOT EXISTS weapon (
     id              INTEGER PRIMARY KEY DEFAULT nextval('seq_weapon_id'),
@@ -93,7 +105,11 @@ CREATE TABLE IF NOT EXISTS composition_unit (
     artefact_id     INTEGER REFERENCES artefact(id)
 );
 
--- Résultats persistés des duels unité vs unité (1 round, dégât espéré)
+-- Résultats persistés des duels unité vs unité (1 round). `floor80=FALSE` : les
+-- colonnes raw_*/expected_* portent le dégât espéré (moyenne). `floor80=TRUE` :
+-- elles portent le plancher de dégât à 80% de confiance (combat.py::damage_floor80,
+-- moyenne − 0,84·σ) — les deux variantes coexistent (clé incluant `floor80`),
+-- calculées par `benchmark.py::unit_duel(..., use_floor80=...)`.
 CREATE TABLE IF NOT EXISTS unit_benchmark (
     attacker_id         INTEGER NOT NULL REFERENCES unit(id),
     defender_id         INTEGER NOT NULL REFERENCES unit(id),
@@ -101,6 +117,7 @@ CREATE TABLE IF NOT EXISTS unit_benchmark (
     defender_reinforced BOOLEAN NOT NULL DEFAULT FALSE,
     attacker_charged    BOOLEAN NOT NULL DEFAULT FALSE,
     defender_charged    BOOLEAN NOT NULL DEFAULT FALSE,
+    floor80              BOOLEAN NOT NULL DEFAULT FALSE,
     raw_a_to_b          DOUBLE NOT NULL,
     expected_a_to_b     DOUBLE NOT NULL,
     raw_b_to_a          DOUBLE NOT NULL,
@@ -112,5 +129,11 @@ CREATE TABLE IF NOT EXISTS unit_benchmark (
     computed_at         TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (attacker_id, defender_id,
                  attacker_reinforced, defender_reinforced,
-                 attacker_charged, defender_charged)
+                 attacker_charged, defender_charged, floor80)
 );
+-- Pas d'ALTER TABLE ADD COLUMN IF NOT EXISTS ici (contrairement à wielders/keywords
+-- ci-dessus) : `floor80` fait déjà partie du CREATE TABLE. Un ALTER ADD COLUMN
+-- IF NOT EXISTS réexécuté à chaque connect() sur une colonne déjà présente
+-- réinitialise silencieusement toutes les valeurs à sa DEFAULT (bug DuckDB
+-- constaté) — inutile de toute façon puisqu'aucune base existante ne préexistait
+-- sans cette colonne.

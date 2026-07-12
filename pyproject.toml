@@ -11,6 +11,10 @@ dependencies = [
 dev = [
     "pytest>=8.0.0",
 ]
+analysis = [
+    "pandas>=2.0.0",
+    "statsmodels>=0.14.0",
+]
 
 [project.scripts]
 aospy = "aospy.cli:main"

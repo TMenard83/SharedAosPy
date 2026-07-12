@@ -1,0 +1,733 @@
+﻿faction_id|id|name|type_id|description|legend|
+BoC|000001930|Almighty Beastherd|000000479|||
+BoC|000001925|Alphabeast Instincts|000000476|<span class="tooltip00292" data-tooltip-content="#tooltip_content00292" data-tooltip-anchor="#tooltip_content00292"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+BoC|000001926|Anarchic Relics|000000477|<span class="tooltip00292" data-tooltip-content="#tooltip_content00292" data-tooltip-anchor="#tooltip_content00292"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+BoC|000001924|Battle Traits|000000475|<div class="Columns2"></div>||
+BoC|000001927|Bestial Manifestations|000000519|<div class="Columns2"></div>||
+BoC|000001929|Hungering Warherd|000000479|||
+BoC|000001928|Lore of the Twisted Wilds|000000478|<div class="Columns2"></div>||
+BoC|000001931|Marauding Brayherd|000000479|||
+BoC|000001932|Thunderscorn Stormherd|000000479|||
+BoK|000002887|Artefacts of Power|000000848|<span class="tooltip00293" data-tooltip-content="#tooltip_content00293" data-tooltip-anchor="#tooltip_content00293"><span class="kwb">HERO</span></span> only||
+BoK|000002879|Artefacts of Power|000000847|<span class="tooltip00295" data-tooltip-content="#tooltip_content00295" data-tooltip-anchor="#tooltip_content00295"><span class="kwb">HERO</span></span> only||
+BoK|000004136|Battle Traits|000001014|<div class="Columns2"></div>||
+BoK|000002890|Battle Traits|000000851|||
+BoK|000002885|Battle Traits|000000848|<div class="Columns2"></div>||
+BoK|000004142|Battle Traits|000001015|<div class="Columns2"></div>||
+BoK|000002878|Battle Traits|000000847|<div class="Columns2"></div>||
+BoK|000002897|Battle Traits1|000000851|<div class="Columns2"></div>$000001712<br><b>Designer's Note:</b> <i>Unlocking a <span class="kwb">BLOOD</span> <span class="kwb">TITHE</span> ability does not lock you out of the other abilities on the same ‘tier’. For an ability to become available to unlock, an ability above it to which it is connected by an arrow needs to already be unlocked.</i>||
+BoK|000002891|Blood Blesssings of Khorne|000000845|<div class="Columns2"></div>||
+BoK|000002898|Blood Tithe Abilities|000000851|<div class="Columns2"></div>||
+BoK|000002895|Bloodbound Warhorde|000000846|||
+BoK|000002894|Brass Stampede|000000846|||
+BoK|000004137|Enhancements|000001014|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+BoK|000004143|Enhancements|000001015|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+BoK|000002700|Gifts of the Blood God|000000845|<div class="Columns2"></div>||
+BoK|000002886|Heroic Traits|000000848|<span class="tooltip00293" data-tooltip-content="#tooltip_content00293" data-tooltip-anchor="#tooltip_content00293"><span class="kwb">HERO</span></span> only||
+BoK|000002880|Heroic Traits|000000847|<span class="tooltip00295" data-tooltip-content="#tooltip_content00295" data-tooltip-anchor="#tooltip_content00295"><span class="kwb">HERO</span></span> only||
+BoK|000002892|Judgements of Khorne|000000646|<div class="Columns2"></div>||
+BoK|000002893|Khornate Legion|000000846|||
+BoK|000002881|Manifestation Lore|000000847|||
+BoK|000002896|Murderhost|000000846|||
+BoK|000002889|Murderous Artefacts|000000850|<span class="tooltip00296" data-tooltip-content="#tooltip_content00296" data-tooltip-anchor="#tooltip_content00296"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+BoK|000002882|Prayer Lore|000000847|||
+BoK|000004135|Regiment Abilities|000001014|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+BoK|000004141|Regiment Abilities|000001015|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+BoK|000002888|Slaughterers of Thousands|000000849|<span class="tooltip00296" data-tooltip-content="#tooltip_content00296" data-tooltip-anchor="#tooltip_content00296"><span class="kwb">HERO</span></span> only.<br><br><div class="Columns2"></div>||
+BoK|000002702|The Goretide|000000846|||
+BoK|000002701|Tournament of Skulls|000000846|||
+BS|000002419|Battle Traits|000000732|<div class="Columns2"></div>||
+BS|000002418|Boss Bones and Other Gubbinz|000000731|<span class="tooltip00297" data-tooltip-content="#tooltip_content00297" data-tooltip-anchor="#tooltip_content00297"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+BS|000002423|Brutal Rukk|000000735|||
+BS|000002420|Da Beast Wivin|000000733|<span class="tooltip00297" data-tooltip-content="#tooltip_content00297" data-tooltip-anchor="#tooltip_content00297"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+BS|000002426|Kop Rukk|000000735|||
+BS|000002424|Kunnin’ Rukk|000000735|||
+BS|000002421|Lore of the Savage Beast|000000736|<div class="Columns2"></div>||
+BS|000002422|Prayers of the Living Wilds|000000734|<div class="Columns2"></div>||
+BS|000002425|Snaga Rukk|000000735|||
+CoS|000003402|Artefacts of Power|000000900|<span class="tooltip00298" data-tooltip-content="#tooltip_content00298" data-tooltip-anchor="#tooltip_content00298"><span class="kwb">HERO</span></span> only||
+CoS|000004339|Battle Traits|000001064|<div class="Columns2"></div>||
+CoS|000004161|Battle Traits|000001020|||
+CoS|000004370|Battle Traits|000001069|<div class="Columns2"><div class="h_custom">SHADOWY SPYMASTER</div><p class="ShowFluff legend2">Whisperblades ensure that their masters are omniscient and their enemies oblivious.</p>Your <b>Whisperblade</b> is not set up during the deployment phase. Instead, from the second battle round onwards, it can use the following ability:<br><br></div>||
+CoS|000003400|Battle Traits|000000900|<div class="Columns2"></div>||
+CoS|000002058|Battle Traits|000000529|<div class="Columns2"></div>||
+CoS|000004119|Battle Traits|000001008|<div class="Columns2"></div>||
+CoS|000002694|Castelite Veterans|000000530|<span class="tooltip00299" data-tooltip-content="#tooltip_content00299" data-tooltip-anchor="#tooltip_content00299"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+CoS|000002066|Collegiate Arcane Expedition|000000533|||
+CoS|000002063|Dawnbringer Crusade|000000533|||
+CoS|000004159|Enhancements|000001020|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+CoS|000004372|Enhancements|000001069|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+CoS|000004340|Enhancements|000001064|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+CoS|000004118|Enhancements|000001008|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+CoS|000002696|Fearless Exemplars|000000533|||
+CoS|000002064|Fortress-city Defenders|000000533|||
+CoS|000003401|Heroic Traits|000000900|<span class="tooltip00298" data-tooltip-content="#tooltip_content00298" data-tooltip-anchor="#tooltip_content00298"><span class="kwb">HERO</span></span> only||
+CoS|000002065|Ironweld Guild Army|000000533|||
+CoS|000003403|Prayer Lore|000000900|<div class="Columns2"></div>||
+CoS|000004371|Regiment Abilities|000001069|Pick 1 of the following regiment abilities:<br><br><div class="Columns2"></div>||
+CoS|000004160|Regiment Abilities|000001020|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+CoS|000004117|Regiment Abilities|000001008|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+CoS|000004341|Regiment Abilities|000001064|Pick 1 of the following regiment abilities:<br><br><div class="Columns2"></div>||
+CoS|000002061|Scriptures of Sigmar|000000534|<div class="Columns2"></div>||
+CoS|000002059|Sentinels of Order|000000530|<span class="tooltip00299" data-tooltip-content="#tooltip_content00299" data-tooltip-anchor="#tooltip_content00299"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+CoS|000002062|Spells of the Collegiate Arcane|000000532|<div class="Columns2"></div>||
+CoS|000002060|Treasures of the Cities|000000531|<span class="tooltip00299" data-tooltip-content="#tooltip_content00299" data-tooltip-anchor="#tooltip_content00299"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+CoS|000002695|Veteran Cannoneers|000000533|||
+DoK|000002699|Arena Veterans|000000987|||
+DoK|000002132|Artefacts of Power|000000569|<span class="tooltip00300" data-tooltip-content="#tooltip_content00300" data-tooltip-anchor="#tooltip_content00300"><span class="kwb">HERO</span></span> only||
+DoK|000003985|Artefacts of Power|000000989|(<span class="tooltip00301" data-tooltip-content="#tooltip_content00301" data-tooltip-anchor="#tooltip_content00301"><span class="kwb">HERO</span></span> only)||
+DoK|000003992|Artefacts of Power|000000990|(<span class="tooltip00302" data-tooltip-content="#tooltip_content00302" data-tooltip-anchor="#tooltip_content00302"><span class="kwb">HERO</span></span> ony)||
+DoK|000003983|Battle Traits|000000989|<div class="Columns2"></div>||
+DoK|000002133|Battle Traits|000000569|<div class="Columns2"></div>||
+DoK|000003995|Battle Traits|000000992|<div class="Columns2"></div>||
+DoK|000004292|Battle Traits|000001054|<div class="Columns2"></div>||
+DoK|000003990|Battle Traits|000000990|<div class="Columns2"></div>||
+DoK|000002697|Bloodshadow Rites|000000570|<div class="Columns2"></div>||
+DoK|000004003|Cold-Hearted Murderers|000000987|||
+DoK|000004001|Coven of Blood|000000987|||
+DoK|000002698|Coven Zealots|000000987|||
+DoK|000004197|Enhancements|000001030|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+DoK|000004291|Enhancements|000001054|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+DoK|000004004|Fervent Ritualists|000000987|||
+DoK|000004002|Frenzied Devotees|000000987|||
+DoK|000003997|Gifts of Morathi|000000994|<span class="tooltip00303" data-tooltip-content="#tooltip_content00303" data-tooltip-anchor="#tooltip_content00303"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+DoK|000003991|Heroic Traits|000000990|(<span class="tooltip00302" data-tooltip-content="#tooltip_content00302" data-tooltip-anchor="#tooltip_content00302"><span class="kwb">HERO</span></span> only)||
+DoK|000003984|Heroic Traits|000000989|(<span class="tooltip00301" data-tooltip-content="#tooltip_content00301" data-tooltip-anchor="#tooltip_content00301"><span class="kwb">HERO</span></span> only)||
+DoK|000002131|Heroic Traits|000000569|<span class="tooltip00300" data-tooltip-content="#tooltip_content00300" data-tooltip-anchor="#tooltip_content00300"><span class="kwb">HERO</span></span> only||
+DoK|000003998|Lore of Shadows|000000986|<div class="Columns2"></div>||
+DoK|000003993|Manifestation Lore|000000990|||
+DoK|000003986|Manifestation Lore|000000989|||
+DoK|000003999|Manifestations of Khaine|000000571|<div class="Columns2"></div>||
+DoK|000003996|Paragons of Murder|000000993|<span class="tooltip00303" data-tooltip-content="#tooltip_content00303" data-tooltip-anchor="#tooltip_content00303"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+DoK|000003994|Prayer Lore|000000990|||
+DoK|000002134|Prayer Lore|000000569|<span class="tooltip00304" data-tooltip-content="#tooltip_content00304" data-tooltip-anchor="#tooltip_content00304"><span class="kwb">CRONESEER’S</span> <span class="kwb">PARIAHS</span> <span class="kwb">PRIEST</span></span>||
+DoK|000004000|Prayers of the Khainite Cult|000000570|<div class="Columns2"></div>||
+DoK|000004195|Regiment Abilities|000001030|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+DoK|000004293|Regiment Abilities|000001054|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+DoK|000003987|Spell Lore|000000989|||
+DoT|000003423|Artefacts of Power|000000904|||
+DoT|000003691|Artefacts of Power|000000956|<span class="tooltip00305" data-tooltip-content="#tooltip_content00305" data-tooltip-anchor="#tooltip_content00305"><span class="kwb">HERO</span></span> only||
+DoT|000003684|Artefacts of Power|000000955|<span class="tooltip00306" data-tooltip-content="#tooltip_content00306" data-tooltip-anchor="#tooltip_content00306"><span class="kwb">HERO</span></span> only||
+DoT|000003693|Battle Traits|000000956|<div class="Columns2"></div>||
+DoT|000003685|Battle Traits|000000955|<div class="Columns2"></div>||
+DoT|000004215|Battle Traits|000001035|<div class="Columns3">Your <b>Tzaangor Enlightened</b> unit is not <a href="/aos4/the-rules/the-core-rules/#Setting-Up-Units">set up</a> during <a href="/aos4/the-rules/the-core-rules/#The-Deployment-Phase">the deployment phase</a>. Instead, from the second battle round onwards, it can use the Fated Arrival ability.<br><br></div>||
+DoT|000003421|Battle Traits|000000904|<div class="Columns2"></div>||
+DoT|000003674|Battle Traits|000000952|<div class="Columns2"></div>||
+DoT|000004311|Battle Traits|000001059|<div class="Columns2"></div>||
+DoT|000003672|Champions of Destiny|000000950|<span class="tooltip00307" data-tooltip-content="#tooltip_content00307" data-tooltip-anchor="#tooltip_content00307"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+DoT|000003680|Denizens of the Silver Towers|000000954|||
+DoT|000004309|Enhancements|000001059|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+DoT|000004214|Enhancements|000001035|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+DoT|000002703|Esoteric Treasures|000000951|<span class="tooltip00307" data-tooltip-content="#tooltip_content00307" data-tooltip-anchor="#tooltip_content00307"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+DoT|000003673|Fated Artefacts|000000951|<span class="tooltip00307" data-tooltip-content="#tooltip_content00307" data-tooltip-anchor="#tooltip_content00307"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+DoT|000003678|Fated Blades|000000954|||
+DoT|000003692|Heroic Traits|000000956|<span class="tooltip00305" data-tooltip-content="#tooltip_content00305" data-tooltip-anchor="#tooltip_content00305"><span class="kwb">HERO</span></span> only||
+DoT|000003422|Heroic Traits|000000904|||
+DoT|000003686|Heroic Traits|000000955|<span class="tooltip00306" data-tooltip-content="#tooltip_content00306" data-tooltip-anchor="#tooltip_content00306"><span class="kwb">HERO</span></span> only||
+DoT|000003676|Lore of Change|000000953|<div class="Columns2"></div>||
+DoT|000003677|Lore of Fate|000000953|<div class="Columns2"></div>||
+DoT|000003679|Malevolent Schemers|000000954|||
+DoT|000003425|Manifestation Lore|000000904|||
+DoT|000003695|Manifestation Lore|000000956|||
+DoT|000003688|Manifestation Lore|000000955|||
+DoT|000003675|Manifestations of Tzeentch|000000628|<div class="Columns2"></div>||
+DoT|000002704|Masters of Fate|000000954|||
+DoT|000003681|Mutants and Mad Things|000000954|||
+DoT|000004310|Regiment Abilities|000001059|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+DoT|000004213|Regiment Abilities|000001035|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+DoT|000003694|Spell Lore|000000956|||
+DoT|000003687|Spell Lore|000000955|||
+DoT|000003424|Spell Lore|000000904|<div class="Columns2"></div>||
+DoT|000002705|Spellweaver Coven|000000954|||
+EnS|000002584|Aetherwrought Machineries|000000797|<div class="Columns2"></div>||
+EnS|000002582|Forbidden Power|000000797|<div class="Columns2"></div>||
+EnS|000002581|Krondspine Incarnate|000000797|<div class="Columns2"></div>||
+EnS|000002585|Morbid Conjuration|000000797|<div class="Columns2"></div>||
+EnS|000002580|Primal Energy|000000797|<div class="Columns2"></div>||
+EnS|000002583|Twilit Sorceries|000000797|<div class="Columns2"></div>||
+FE|000002959|Artefacts of Power|000000875|<span class="tooltip00308" data-tooltip-content="#tooltip_content00308" data-tooltip-anchor="#tooltip_content00308"><span class="kwb">HERO</span></span> only||
+FE|000002966|Artefacts of Power|000000876|<span class="tooltip00309" data-tooltip-content="#tooltip_content00309" data-tooltip-anchor="#tooltip_content00309"><span class="kwb">HERO</span></span> only||
+FE|000002957|Battle Traits|000000875|<div class="Columns2"></div>||
+FE|000002945|Battle Traits|000000870|<div class="Columns2"></div>||
+FE|000004286|Battle Traits|000001053|<div class="Columns3"></div>||
+FE|000004173|Battle Traits|000001024|<div class="Columns3"></div>||
+FE|000002965|Battle Traits|000000876|<div class="Columns2"></div>||
+FE|000004287|Enhancements|000001053|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+FE|000004172|Enhancements|000001024|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+FE|000002967|Heroic Traits|000000876|<span class="tooltip00309" data-tooltip-content="#tooltip_content00309" data-tooltip-anchor="#tooltip_content00309"><span class="kwb">HERO</span></span> only||
+FE|000002958|Heroic Traits|000000875|<span class="tooltip00308" data-tooltip-content="#tooltip_content00308" data-tooltip-anchor="#tooltip_content00308"><span class="kwb">HERO</span></span> only||
+FE|000002692|Impassioned Serfs|000000874|||
+FE|000002953|Knightly Echelon|000000874|||
+FE|000002951|Lords of the Manor|000000874|||
+FE|000002948|Lore of Madness|000000873|<div class="Columns2"></div>||
+FE|000002970|Manifestation Lore|000000876|||
+FE|000002962|Manifestation Lore|000000875|||
+FE|000002950|Manifested Insanity|000000664|<div class="Columns2"></div>||
+FE|000002691|Monstrous Traits|000000822|Monstrous Traits are <a href="/aos4/the-rules/the-core-rules/#Enhancements">enhancements</a> that can only be given to <span class="tooltip00310" data-tooltip-content="#tooltip_content00310" data-tooltip-anchor="#tooltip_content00310"><span class="kwb">MONSTERS</span></span>.<br><br><div class="Columns2"></div>||
+FE|000002969|Prayer Lore|000000876|||
+FE|000002960|Prayer Lore|000000875|||
+FE|000002693|Questing Courtiers|000000874|||
+FE|000002946|Regal Dispositions|000000871|<span class="tooltip00309" data-tooltip-content="#tooltip_content00309" data-tooltip-anchor="#tooltip_content00309"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+FE|000004285|Regiment Abilities|000001053|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+FE|000004171|Regiment Abilities|000001024|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+FE|000002949|Rites of Delusion|000000663|<div class="Columns2"></div>||
+FE|000002952|Royal Menagerie|000000874|||
+FE|000002961|Spell Lore|000000875|||
+FE|000002968|Spell Lore|000000876|||
+FE|000002954|The Royal Hunt|000000874|||
+FE|000002947|The Royal Treasury|000000872|<span class="tooltip00309" data-tooltip-content="#tooltip_content00309" data-tooltip-anchor="#tooltip_content00309"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+FY|000002370|Artefacts of Power|000000698|<span class="tooltip00311" data-tooltip-content="#tooltip_content00311" data-tooltip-anchor="#tooltip_content00311"><span class="kwb">HERO</span></span> only||
+FY|000003390|Artefacts of Power|000000899|<span class="tooltip00298" data-tooltip-content="#tooltip_content00298" data-tooltip-anchor="#tooltip_content00298"><span class="kwb">HERO</span></span> only||
+FY|000004297|Battle Traits|000001056|<div class="Columns2"><div class="BreakInsideAvoid"></div>$000002966</div>||
+FY|000003388|Battle Traits|000000899|<div class="Columns2"></div>||
+FY|000002357|Battle Traits|000000693|<div class="Columns2"></div>||
+FY|000002368|Battle Traits|000000698|<div class="Columns2"></div>||
+FY|000004299|Enhancements|000001056|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+FY|000002364|Forge Brethren|000000697|||
+FY|000002359|Heirlooms of the Lodge|000000695|<span class="tooltip00312" data-tooltip-content="#tooltip_content00312" data-tooltip-anchor="#tooltip_content00312"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+FY|000002369|Heroic Traits|000000698|<span class="tooltip00311" data-tooltip-content="#tooltip_content00311" data-tooltip-anchor="#tooltip_content00311"><span class="kwb">HERO</span></span> only||
+FY|000003389|Heroic Traits|000000899|<span class="tooltip00298" data-tooltip-content="#tooltip_content00298" data-tooltip-anchor="#tooltip_content00298"><span class="kwb">HERO</span></span> only||
+FY|000002358|Inheritance of Grimnir|000000694|<span class="tooltip00312" data-tooltip-content="#tooltip_content00312" data-tooltip-anchor="#tooltip_content00312"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+FY|000002365|Lords of the Lodge|000000697|||
+FY|000002360|Magmic Invocations|000000699|<div class="Columns2"></div>||
+FY|000002371|Manifestation Lore|000000698|||
+FY|000002706|Marks of Vulcatrix|000000824|Marks of Vulcatrix are <a href="/aos4/the-rules/the-core-rules/#Enhancements">enhancements</a> that can only be given to <span class="tooltip00313" data-tooltip-content="#tooltip_content00313" data-tooltip-anchor="#tooltip_content00313"><span class="kwb">MAGMADROTHS</span></span>.<br><br><div class="Columns2"></div>||
+FY|000002372|Prayer Lore|000000698|||
+FY|000003391|Prayer Lore|000000899|<div class="Columns2"></div>||
+FY|000004298|Regiment Abilities|000001056|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+FY|000002362|Scales of Vulcatrix|000000697|||
+FY|000002707|Vulkyn Gifts|000000696|<div class="Columns2"></div>||
+FY|000002363|Warrior Kinband|000000697|||
+FY|000002361|Zharrgrim Blessings|000000696|<div class="Columns2"></div>||
+GG|000002619|Artefacts of Power|000000808|(<span class="tooltip00314" data-tooltip-content="#tooltip_content00314" data-tooltip-anchor="#tooltip_content00314"><span class="kwb">HERO</span></span> only)||
+GG|000002599|Artefacts of Power|000000805|<span class="tooltip00315" data-tooltip-content="#tooltip_content00315" data-tooltip-anchor="#tooltip_content00315"><span class="kwb">HERO</span></span> only||
+GG|000002604|Artefacts of Power|000000806|<span class="tooltip00316" data-tooltip-content="#tooltip_content00316" data-tooltip-anchor="#tooltip_content00316"><span class="kwb">HERO</span></span> only<br><br><div class="Columns3"></div>||
+GG|000002588|Battle Traits|000000801|<div class="Columns2"></div><br>$000001425||
+GG|000002618|Battle Traits|000000808|<div class="Columns2"></div>||
+GG|000004154|Battle Traits|000001019|<div class="Columns2"></div>||
+GG|000004183|Battle Traits|000001026|<div class="Columns2">One of your units of <b>Squig Hoppers</b> is not <a href="/aos4/the-rules/the-core-rules/#Setting-Up-Units">set up</a> during <a href="/aos4/the-rules/the-core-rules/#The-Deployment-Phase">the deployment phase</a>. Instead, from the third battle round onwards, they can use the Squigalanche ability.<br><br></div>||
+GG|000002603|Battle Traits|000000806|<div class="Columns3"></div>||
+GG|000002598|Battle Traits|000000805|<div class="Columns2"></div>||
+GG|000002589|Blessings of the Bad Moon|000000802|<span class="tooltip00317" data-tooltip-content="#tooltip_content00317" data-tooltip-anchor="#tooltip_content00317"><span class="kwb">HERO</span></span> only<br><br><div class="Columns3"></div>||
+GG|000002591|Dank Manifestations|000000803|<div class="Columns2"></div>||
+GG|000004155|Enhancements|000001019|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+GG|000004184|Enhancements|000001026|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+GG|000002595|Gitmob Pack|000000804|||
+GG|000002710|Gittish Tide|000000804|||
+GG|000002592|Gloomspite Horde|000000804|||
+GG|000002617|Heroic Traits|000000808|<div class="Columns2"></div>||
+GG|000002605|Heroic Traits|000000806|<span class="tooltip00316" data-tooltip-content="#tooltip_content00316" data-tooltip-anchor="#tooltip_content00316"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+GG|000002600|Heroic Traits|000000805|<span class="tooltip00315" data-tooltip-content="#tooltip_content00315" data-tooltip-anchor="#tooltip_content00315"><span class="kwb">HERO</span></span> only||
+GG|000002708|Lore of Frazzlegit|000000803|<div class="Columns2"></div>||
+GG|000002590|Lore of the Clammy Dank|000000803|<div class="Columns2"></div>||
+GG|000002620|Manifestation Lore|000000808|||
+GG|000002607|Manifestation Lore|000000806|||
+GG|000004153|Regiment Abilities|000001019|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+GG|000004185|Regiment Abilities|000001026|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+GG|000002621|Spell Lore|000000808|||
+GG|000002606|Spell Lore|000000806|||
+GG|000002594|Squigalanche|000000804|||
+GG|000002709|Sunbiter Pack|000000804|||
+GG|000002593|Troggherd|000000804|||
+GG|000002587|Troglodytic Treasures|000000800|<span class="tooltip00317" data-tooltip-content="#tooltip_content00317" data-tooltip-anchor="#tooltip_content00317"><span class="kwb">HERO</span></span> only<br><br><div class="Columns3"></div>||
+HoH|000003165|Accursed Devices|000000891|<div class="Columns2"></div>||
+HoH|000002990|Artefacts of Power|000000884|<span class="tooltip00318" data-tooltip-content="#tooltip_content00318" data-tooltip-anchor="#tooltip_content00318"><span class="kwb">HERO</span></span> only||
+HoH|000002984|Artefacts of Power|000000883|(<span class="tooltip00319" data-tooltip-content="#tooltip_content00319" data-tooltip-anchor="#tooltip_content00319"><span class="kwb">HERO</span></span>) only||
+HoH|000004245|Battle Traits|000001044|||
+HoH|000002971|Battle Traits|000000878|<div class="Columns2"></div>||
+HoH|000002982|Battle Traits|000000883|<div class="Columns2"></div>||
+HoH|000002989|Battle Traits|000000884|<div class="Columns2"></div>||
+HoH|000002978|Castigation Battery|000000882|||
+HoH|000002979|Daemonsmith Cabal|000000882|||
+HoH|000002973|Dark Gifts of Hashut|000000880|<span class="tooltip00320" data-tooltip-content="#tooltip_content00320" data-tooltip-anchor="#tooltip_content00320"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+HoH|000003163|Domination Force|000000882|||
+HoH|000004244|Enhancements|000001044|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+HoH|000002976|Hashutite Host|000000882|||
+HoH|000002983|Heroic Traits|000000883|(<span class="tooltip00319" data-tooltip-content="#tooltip_content00319" data-tooltip-anchor="#tooltip_content00319"><span class="kwb">HERO</span></span>) only||
+HoH|000002991|Heroic Traits|000000884|<span class="tooltip00318" data-tooltip-content="#tooltip_content00318" data-tooltip-anchor="#tooltip_content00318"><span class="kwb">HERO</span></span> only||
+HoH|000003164|Industrial Polluters|000000882|||
+HoH|000002974|Lore of Infernal Power|000000881|<div class="Columns2"></div>||
+HoH|000002986|Prayer Lore|000000883|||
+HoH|000002975|Prayers of the Scorched Sect|000000885|<div class="Columns2"></div>||
+HoH|000004243|Regiment Abilities|000001044|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+HoH|000002985|Spell Lore|000000883|||
+HoH|000002992|Spell Lore|000000884|||
+HoH|000002977|The Bullfather’s Horns|000000882|||
+HoH|000002972|Tyrants and Overseers|000000879|<span class="tooltip00320" data-tooltip-content="#tooltip_content00320" data-tooltip-anchor="#tooltip_content00320"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+HS|000002269|Battle Traits|000000637|<div class="Columns2"></div>||
+HS|000002268|Coveted Treasures|000000636|<span class="tooltip00321" data-tooltip-content="#tooltip_content00321" data-tooltip-anchor="#tooltip_content00321"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+HS|000002273|Depraved Carnival|000000640|||
+HS|000004113|Enhancements|000001006|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+HS|000002274|Epicurean Revellers|000000640|||
+HS|000002270|Figureheads of the Dark Prince|000000638|<span class="tooltip00321" data-tooltip-content="#tooltip_content00321" data-tooltip-anchor="#tooltip_content00321"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+HS|000002711|Hedonistic Obsessions|000000638|<span class="tooltip00321" data-tooltip-content="#tooltip_content00321" data-tooltip-anchor="#tooltip_content00321"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+HS|000002713|Invaders|000000640|||
+HS|000002271|Lore of Extravagance|000000639|<div class="Columns2"></div>||
+HS|000002272|Manifestations of Depravity|000000641|<div class="Columns2"></div>||
+HS|000002712|Pretenders|000000640|||
+HS|000004111|Regiment Abilities|000001006|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+HS|000002276|Seeker Cavalcade|000000640|||
+HS|000002275|Supreme Sybarites|000000640|||
+ID|000003301|_1|000000895|<div class="hi_custom">Battle Mount <div class="dp-badge dp-red">-5DP</div></div><div class="Columns2"><div class="BreakInsideAvoid"><b>SEA-STEED</b>: <i>From the Fangmora Eels to the resplendent Deepmares, many are the sea creatures that the Idoneth have trained to be effective mounts.</i><br><br>Add the following weapon to your hero’s warscroll:<br><br><div class="block_long2">$000001996</div><div class="block_very_short">$000001997</div></div>In addition, make the fo llowing changes to your hero’s warscroll:<br><ul><li>Change the Move characteristic to 12".</li><li>Change the Health characteristic to 7.</li><li>Change the Save characteristic to 4+.</li><li>Replace the <span class="kwb">INFANTRY</span> keyword with the following keywords: <span class="kwb">CAVALRY</span>, <a href=""><span class="kwb">FLY</span></a>.</li></ul></div><br><div class="hi_custom">Battle Mount <div class="dp-badge dp-red">-8DP</div></div><div class="Columns2"><div class="BreakInsideAvoid"><b>ALLOPEX</b>: <i||
+ID|000002906|Akhelian Beastmasters|000000857|||
+ID|000002917|Artefacts of Power|000000859|<span class="tooltip00322" data-tooltip-content="#tooltip_content00322" data-tooltip-anchor="#tooltip_content00322"><span class="kwb">HERO</span></span> only||
+ID|000002912|Artefacts of Power|000000858|HERO only||
+ID|000002915|Battle Traits|000000859|<div class="Columns2"></div>||
+ID|000004220|Battle Traits|000001037|<div class="Columns2"></div>||
+ID|000002910|Battle Traits|000000858|<div class="Columns2"></div>||
+ID|000002899|Battle Traits|000000853|<div class="tide-title sea" style="margin-bottom: 11px;">TIDES OF THE SEA</div><br>||
+ID|000002920|Battle Traits1|000000853|<div class="tide-title storm" style="margin-bottom: 11px;">TIDES OF THE STORM</div><br>||
+ID|000002921|Bond-beast Traits|000000858|A Bond-beast Trait is a unique enhancement that can be given to <span class="tooltip00323" data-tooltip-content="#tooltip_content00323" data-tooltip-anchor="#tooltip_content00323"><span class="kwb">FIRST</span> <span class="kwb">PHALANX</span> <span class="kwb">CAVALRY</span></span> units. A unit can only have 1 Bond-beast Trait.<br><br><div class="Columns2"></div>||
+ID|000002900|Champions of the Tides|000000854|<span class="tooltip00322" data-tooltip-content="#tooltip_content00322" data-tooltip-anchor="#tooltip_content00322"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+ID|000002715|Deep-sea Stalkers|000000857|||
+ID|000004221|Enhancements|000001037|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+ID|000004257|Enhancements|000001046|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+ID|000002716|Ethersea Predators|000000857|||
+ID|000002916|Heroic Traits|000000859|<span class="tooltip00322" data-tooltip-content="#tooltip_content00322" data-tooltip-anchor="#tooltip_content00322"><span class="kwb">HERO</span></span> only||
+ID|000002911|Heroic Traits|000000858|<span class="tooltip00322" data-tooltip-content="#tooltip_content00322" data-tooltip-anchor="#tooltip_content00322"><span class="kwb">HERO</span></span> only||
+ID|000002905|Isharann Council|000000857|||
+ID|000002714|Leaders of the Raid|000000854|<span class="tooltip00322" data-tooltip-content="#tooltip_content00322" data-tooltip-anchor="#tooltip_content00322"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+ID|000002903|Lore of the Abyss|000000860|<div class="Columns2"></div>||
+ID|000002902|Lore of the Deeps|000000856|<div class="Columns2"></div>||
+ID|000002919|Manifestation Lore|000000859|||
+ID|000002904|Namarti Corps|000000857|||
+ID|000004256|Regiment Abilities|000001046|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+ID|000004219|Regiment Abilities|000001037|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+ID|000002901|Relics of the Abyss|000000855|<span class="tooltip00322" data-tooltip-content="#tooltip_content00322" data-tooltip-anchor="#tooltip_content00322"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+ID|000002907|Soul-raid Ambushers|000000857|||
+ID|000002918|Spell Lore|000000859|||
+IJ|000003414|Artefacts of Power|000000903|Non-<span class="tooltip00324" data-tooltip-content="#tooltip_content00324" data-tooltip-anchor="#tooltip_content00324"><span class="kwb">OGOR</span> <span class="kwb">IRONSUNZ</span> <span class="kwb">HERO</span></span> only||
+IJ|000002548|Artefacts of Power|000000792|<span class="tooltip00325" data-tooltip-content="#tooltip_content00325" data-tooltip-anchor="#tooltip_content00325"><span class="kwb">HERO</span></span> only||
+IJ|000002576|Artefacts of Power|000000793|<span class="tooltip00325" data-tooltip-content="#tooltip_content00325" data-tooltip-anchor="#tooltip_content00325"><span class="kwb">HERO</span></span> only||
+IJ|000002561|Artefacts of Power|000000794|<span class="tooltip00325" data-tooltip-content="#tooltip_content00325" data-tooltip-anchor="#tooltip_content00325"><span class="kwb">HERO</span></span> only||
+IJ|000004305|Battle Traits|000001058|<div class="Columns2">Your <b>Brutes</b> are not set up during the deployment phase. Instead, from the third battle round onwards, they can use the following ability:<br><br></div>||
+IJ|000003413|Battle Traits|000000903|<div class="Columns2"></div>||
+IJ|000002546|Battle Traits|000000792|<div class="Columns2"></div>||
+IJ|000002497|Battle Traits|000000776|<div class="Columns2"></div>||
+IJ|000002575|Battle Traits|000000793|<div class="Columns2"></div>||
+IJ|000002559|Battle Traits|000000794|<div class="Columns2"></div>||
+IJ|000002685|Bigsnikkaz|000000780|||
+IJ|000002498|Brutal Warlords|000000777|<span class="tooltip00325" data-tooltip-content="#tooltip_content00325" data-tooltip-anchor="#tooltip_content00325"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+IJ|000002684|Brutefist|000000780|||
+IJ|000002499|Da Boss’s Hoard|000000778|<span class="tooltip00325" data-tooltip-content="#tooltip_content00325" data-tooltip-anchor="#tooltip_content00325"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+IJ|000004304|Enhancements|000001058|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+IJ|000002506|Grunta Stampede|000000780|||
+IJ|000002547|Heroic Traits|000000792|<span class="tooltip00325" data-tooltip-content="#tooltip_content00325" data-tooltip-anchor="#tooltip_content00325"><span class="kwb">HERO</span></span> only||
+IJ|000002560|Heroic Traits|000000794|<span class="tooltip00325" data-tooltip-content="#tooltip_content00325" data-tooltip-anchor="#tooltip_content00325"><span class="kwb">HERO</span></span> only||
+IJ|000003415|Heroic Traits|000000903|Non-<span class="tooltip00324" data-tooltip-content="#tooltip_content00324" data-tooltip-anchor="#tooltip_content00324"><span class="kwb">OGOR</span> <span class="kwb">IRONSUNZ</span> <span class="kwb">HERO</span></span> only||
+IJ|000002574|Heroic Traits|000000793|<span class="tooltip00325" data-tooltip-content="#tooltip_content00325" data-tooltip-anchor="#tooltip_content00325"><span class="kwb">HERO</span></span> only||
+IJ|000002505|Ironfist|000000780|||
+IJ|000002503|Ironjawz Brawl|000000780|||
+IJ|000002500|Lore of the Weird|000000779|<div class="Columns2"></div>||
+IJ|000002564|Manifestation Lore|000000794|||
+IJ|000003417|Manifestation Lore|000000903|||
+IJ|000002577|Manifestation Lore|000000793|||
+IJ|000002502|Manifestations of Gorkamorka|000000786|<div class="Columns2"></div>||
+IJ|000002683|Monstrous Traits|000000820|Monstrous Traits are <a href="/aos4/the-rules/the-core-rules/#Enhancements">enhancements</a> that can only be given to <span class="tooltip00326" data-tooltip-content="#tooltip_content00326" data-tooltip-anchor="#tooltip_content00326"><span class="kwb">MONSTERS</span></span>.<br><br><div class="Columns2"></div>||
+IJ|000002563|Prayer Lore|000000794|||
+IJ|000003418|Prayer Lore|000000903|||
+IJ|000002578|Prayer Lore|000000793|||
+IJ|000004303|Regiment Abilities|000001058|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+IJ|000002579|Spell Lore|000000793|||
+IJ|000003416|Spell Lore|000000903|||
+IJ|000002562|Spell Lore|000000794|||
+IJ|000002501|Warbeats|000000785|<div class="Columns2"></div>||
+IJ|000002504|Weirdfist|000000780|||
+KB|000002541|Artefacts of Power|000000791|<span class="tooltip00327" data-tooltip-content="#tooltip_content00327" data-tooltip-anchor="#tooltip_content00327"><span class="kwb">HERO</span></span> only||
+KB|000002525|Artefacts of Power|000000789|<span class="tooltip00327" data-tooltip-content="#tooltip_content00327" data-tooltip-anchor="#tooltip_content00327"><span class="kwb">HERO</span></span> only||
+KB|000002688|Badmouthing Baiterz|000000772|||
+KB|000002507|Battle Traits|000000782|<div class="Columns2"></div>||
+KB|000002539|Battle Traits|000000791|<div class="Columns2"></div>||
+KB|000004201|Battle Traits|000001032|<div class="Columns2"></div>||
+KB|000002524|Battle Traits|000000789|<div class="Columns2"></div>||
+KB|000004203|Enhancements|000001032|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+KB|000002523|Heroic Traits|000000789|<span class="tooltip00327" data-tooltip-content="#tooltip_content00327" data-tooltip-anchor="#tooltip_content00327"><span class="kwb">HERO</span></span> only||
+KB|000002540|Heroic Traits|000000791|<span class="tooltip00327" data-tooltip-content="#tooltip_content00327" data-tooltip-anchor="#tooltip_content00327"><span class="kwb">HERO</span></span> only||
+KB|000002509|Krule Artefacts|000000784|<span class="tooltip00327" data-tooltip-content="#tooltip_content00327" data-tooltip-anchor="#tooltip_content00327"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+KB|000002512|Kruleboyz Klaw|000000772|||
+KB|000002508|Kunnin’ Warlords|000000783|<span class="tooltip00327" data-tooltip-content="#tooltip_content00327" data-tooltip-anchor="#tooltip_content00327"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+KB|000002513|Light Finga|000000772|||
+KB|000002510|Lore of the Swamp|000000771|<div class="Columns2"></div>||
+KB|000002543|Manifestation Lore|000000791|||
+KB|000002526|Manifestation Lore|000000789|||
+KB|000002511|Manifestations of Gorkamorka|000000787|<div class="Columns2"></div>||
+KB|000002514|Middul Finga|000000772|||
+KB|000002686|Monstrous Traits|000000821|Monstrous Traits are <a href="/aos4/the-rules/the-core-rules/#Enhancements">enhancements</a> that can only be given to <span class="tooltip00328" data-tooltip-content="#tooltip_content00328" data-tooltip-anchor="#tooltip_content00328"><span class="kwb">MONSTERS</span></span>.<br><br><div class="Columns2"></div>||
+KB|000002527|Prayer Lore|000000789|||
+KB|000004202|Regiment Abilities|000001032|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+KB|000002542|Spell Lore|000000791|||
+KB|000002528|Spell Lore|000000789|||
+KB|000002687|Swamphorde Bullies|000000772|||
+KB|000002515|Trophy Finga|000000772|||
+KO|000002865|Artefacts of Power|000000841|<span class="tooltip00329" data-tooltip-content="#tooltip_content00329" data-tooltip-anchor="#tooltip_content00329"><span class="kwb">HERO</span></span> only||
+KO|000002870|Artefacts of Power|000000842|<span class="tooltip00329" data-tooltip-content="#tooltip_content00329" data-tooltip-anchor="#tooltip_content00329"><span class="kwb">HERO</span></span> only||
+KO|000002875|Artefacts of Power|000000843|<span class="tooltip00329" data-tooltip-content="#tooltip_content00329" data-tooltip-anchor="#tooltip_content00329"><span class="kwb">HERO</span></span> only||
+KO|000003396|Artefacts of Power|000000901|<span class="tooltip00298" data-tooltip-content="#tooltip_content00298" data-tooltip-anchor="#tooltip_content00298"><span class="kwb">HERO</span></span> only||
+KO|000002868|Battle Traits|000000842|<div class="Columns2"></div>||
+KO|000003394|Battle Traits|000000901|<div class="Columns2"></div>||
+KO|000004099|Battle Traits|000001002|<div class="Columns2"></div>||
+KO|000002873|Battle Traits|000000843|<div class="Columns2"></div>||
+KO|000004357|Battle Traits|000001067|<div class="Columns2"></div>||
+KO|000002853|Battle Traits|000000835|<div class="Columns2"></div>||
+KO|000002863|Battle Traits|000000841|<div class="Columns2"></div>||
+KO|000002857|Endrineers Guild Expeditionary Force|000000840|||
+KO|000004358|Enhancements|000001067|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+KO|000004100|Enhancements|000001002|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+KO|000002855|Great Endrinworks|000000837|Great Endrinworks are a special type of enhancement for <span class="tooltip00155" data-tooltip-content="#tooltip_content00155" data-tooltip-anchor="#tooltip_content00155"><span class="kwb">SKYVESSELS</span></span>. During <a href="/aos4/the-rules/the-core-rules/#Army-Composition-2025-26">army composition</a>, when you add enhancements, you can pick 1 Great Endrinwork and give it to a <span class="kwb">SKYVESSEL</span> on your army roster.<br><br><div class="Columns2"></div>||
+KO|000002718|Great Endrinworks|000000826|Great Endrinworks are a special type of enhancement for <span class="tooltip00155" data-tooltip-content="#tooltip_content00155" data-tooltip-anchor="#tooltip_content00155"><span class="kwb">SKYVESSELS</span></span>. During <a href="/aos4/the-rules/the-core-rules/#Army-Composition-2025-26">army composition</a>, when you add <a href="/aos4/the-rules/the-core-rules/#Enhancements">enhancements</a>, you can pick 1 Great Endrinwork and give it to a <span class="kwb">SKYVESSELS</span> on your <a href="/aos4/the-rules/the-core-rules/#Army-Roster">army roster</a>.<br><br><div class="Columns2"></div>||
+KO|000002869|Heroic Traits|000000842|<span class="tooltip00329" data-tooltip-content="#tooltip_content00329" data-tooltip-anchor="#tooltip_content00329"><span class="kwb">HERO</span></span> only||
+KO|000002864|Heroic Traits|000000841|<span class="tooltip00329" data-tooltip-content="#tooltip_content00329" data-tooltip-anchor="#tooltip_content00329"><span class="kwb">HERO</span></span> only||
+KO|000003395|Heroic Traits|000000901|<span class="tooltip00298" data-tooltip-content="#tooltip_content00298" data-tooltip-anchor="#tooltip_content00298"><span class="kwb">HERO</span></span> only||
+KO|000002874|Heroic Traits|000000843|<span class="tooltip00329" data-tooltip-content="#tooltip_content00329" data-tooltip-anchor="#tooltip_content00329"><span class="kwb">HERO</span></span> only||
+KO|000002717|Ingenious Innovations|000000836|<span class="tooltip00329" data-tooltip-content="#tooltip_content00329" data-tooltip-anchor="#tooltip_content00329"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+KO|000002854|Inventions of the Sky-Ports|000000836|<span class="tooltip00329" data-tooltip-content="#tooltip_content00329" data-tooltip-anchor="#tooltip_content00329"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+KO|000002856|Lords of the Sky-fleets|000000838|<span class="tooltip00329" data-tooltip-content="#tooltip_content00329" data-tooltip-anchor="#tooltip_content00329"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+KO|000002858|Pioneers and Scavengers|000000840|||
+KO|000003397|Prayer Lore|000000901|<div class="Columns2"></div>||
+KO|000002860|Rapid Redeployment Squadron|000000840|||
+KO|000004359|Regiment Abilities|000001067|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+KO|000004101|Regiment Abilities|000001002|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+KO|000002859|Veteran Ground Troops|000000840|||
+LRL|000003704|Aelementor Guardians|000000962|||
+LRL|000003710|Artefacts of Power|000000963|<span class="tooltip00330" data-tooltip-content="#tooltip_content00330" data-tooltip-anchor="#tooltip_content00330"><span class="kwb">HERO</span></span> only||
+LRL|000003717|Artefacts of Power|000000964|<span class="tooltip00331" data-tooltip-content="#tooltip_content00331" data-tooltip-anchor="#tooltip_content00331"><span class="kwb">HERO</span></span> only||
+LRL|000002689|Aspects of Enlightenment|000000959|<span class="tooltip00332" data-tooltip-content="#tooltip_content00332" data-tooltip-anchor="#tooltip_content00332"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+LRL|000003709|Battle Traits|000000963|<div class="Columns2"></div>||
+LRL|000003696|Battle Traits|000000958|||
+LRL|000004352|Battle Traits|000001066|<div class="Columns2"></div>||
+LRL|000004166|Battle Traits|000001022|<div class="Columns3"></div>||
+LRL|000003715|Battle Traits|000000964|<div class="Columns2"></div>||
+LRL|000004353|Enhancements|000001066|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+LRL|000004167|Enhancements|000001022|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+LRL|000003697|Facets of Brilliance|000000959|<span class="tooltip00332" data-tooltip-content="#tooltip_content00332" data-tooltip-anchor="#tooltip_content00332"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+LRL|000003698|Heirlooms of Hysh|000000960|<span class="tooltip00332" data-tooltip-content="#tooltip_content00332" data-tooltip-anchor="#tooltip_content00332"><span class="kwb">HERO</span></span> only<br><br><div class="Columns3"></div>||
+LRL|000003708|Heroic Traits|000000963|<span class="tooltip00330" data-tooltip-content="#tooltip_content00330" data-tooltip-anchor="#tooltip_content00330"><span class="kwb">HERO</span></span> only||
+LRL|000003716|Heroic Traits|000000964|<span class="tooltip00331" data-tooltip-content="#tooltip_content00331" data-tooltip-anchor="#tooltip_content00331"><span class="kwb">HERO</span></span> only||
+LRL|000003700|Lore of Hysh|000000961|<div class="Columns2"></div>||
+LRL|000002690|Lore of Prismatic Resonance|000000961|<div class="Columns2"></div>||
+LRL|000003701|Lore of the Awakened Realms|000000961|<div class="Columns2"></div>||
+LRL|000003711|Manifestation Lore|000000963|||
+LRL|000003699|Manifestations of Hysh|000000591|<div class="Columns2"></div>||
+LRL|000003705|Pilgrims of Haixiah|000000962|||
+LRL|000004165|Regiment Abilities|000001022|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+LRL|000004351|Regiment Abilities|000001066|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+LRL|000003702|Scinari Council|000000962|||
+LRL|000003712|Spell Lore|000000963|||
+LRL|000003703|Warhost of Duality|000000962|||
+MoN|000003509|Affliction Cyst|000000944|||
+MoN|000003522|Artefacts of Power|000000946|(<span class="tooltip00333" data-tooltip-content="#tooltip_content00333" data-tooltip-anchor="#tooltip_content00333"><span class="kwb">HERO</span></span> only)||
+MoN|000003515|Artefacts of Power|000000945|(<span class="tooltip00334" data-tooltip-content="#tooltip_content00334" data-tooltip-anchor="#tooltip_content00334"><span class="kwb">HERO</span></span> only)||
+MoN|000003502|Avatars of Corruption|000000940|<span class="tooltip00335" data-tooltip-content="#tooltip_content00335" data-tooltip-anchor="#tooltip_content00335"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+MoN|000004363|Battle Traits|000001068|<div class="h_custom">CYCLE OF CORRUPTION</div>If it is the first battle round, roll a dice to determine which <span class="kwb">CYCLE</span> ability can be used this battle round. If you roll a 5 or 6, roll again.<br><br>If it is not the first battle round, the next <span class="kwb">CYCLE</span> ability in the sequence is used this battle round instead of any previous <span class="kwb">CYCLE</span> abilities.<br><br>$000002965<br><br><div class="Columns2"></div>||
+MoN|000003513|Battle Traits|000000945|<div class="Columns2"></div>||
+MoN|000003504|Battle Traits|000000942|<div class="Columns2"></div>||
+MoN|000003520|Battle Traits|000000946|<div class="Columns2"></div>||
+MoN|000004269|Battle Traits|000001050|<div class="Columns2"><div class="h_custom">THE INFECTIOUS HOSTS</div><p class="ShowFluff legend2">The Maggotkin’s advance across the realms is akin to the creeping spread of a disease across the body of its host.</p>One of your <b>Pusgoyle Blightlords</b> and one of your <b>Plaguebearers</b> units are not set up during the deployment phase. Instead, from the third battle round onwards, they can use the Daemonic Summoning ability.<br><br></div>||
+MoN|000002720|Bendictions of Sickness|000000947|<div class="Columns2"></div>||
+MoN|000003503|Boons of Nurgle|000000941|<span class="tooltip00335" data-tooltip-content="#tooltip_content00335" data-tooltip-anchor="#tooltip_content00335"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+MoN|000004365|Enhancements|000001068|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+MoN|000004268|Enhancements|000001050|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+MoN|000002719|Grandfather’s Gifts|000000940|<span class="tooltip00335" data-tooltip-content="#tooltip_content00335" data-tooltip-anchor="#tooltip_content00335"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+MoN|000003514|Heroic Traits|000000945|(<span class="tooltip00334" data-tooltip-content="#tooltip_content00334" data-tooltip-anchor="#tooltip_content00334"><span class="kwb">HERO</span></span> only)||
+MoN|000003521|Heroic Traits|000000946|(<span class="tooltip00333" data-tooltip-content="#tooltip_content00333" data-tooltip-anchor="#tooltip_content00333"><span class="kwb">HERO</span></span> only)||
+MoN|000003505|Lore of Malignance|000000943|<div class="Columns2"></div>||
+MoN|000003506|Lore of Virulence|000000947|<div class="Columns2"></div>||
+MoN|000003507|Nurgle’s Menagerie|000000944|||
+MoN|000003510|Plague Cyst|000000944|||
+MoN|000003517|Prayer Lore|000000945|||
+MoN|000004364|Regiment Abilities|000001068|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+MoN|000004267|Regiment Abilities|000001050|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+MoN|000003523|Spell Lore|000000946|||
+MoN|000003516|Spell Lore|000000945|||
+MoN|000003508|Tallyband of Nurgle|000000944|||
+NT|000002933|Artefacts of Power|000000864|<span class="tooltip00336" data-tooltip-content="#tooltip_content00336" data-tooltip-anchor="#tooltip_content00336"><span class="kwb">HERO</span></span> only||
+NT|000002926|Artefacts of Power|000000863|<span class="tooltip00337" data-tooltip-content="#tooltip_content00337" data-tooltip-anchor="#tooltip_content00337"><span class="kwb">HERO</span></span> only||
+NT|000004334|Battle Traits|000001063|<div class="Columns2"></div>||
+NT|000004233|Battle Traits|000001041|<div class="Columns2"><div class="h_custom">SPECTRAL PROCESSION</div>1 of your <b>Bladegheist Revenants</b> units and 1 of your <b>Dreadscythe Harridans</b> units start the battle in reserve.<br>From the second battle round onwards, you can use the following ability:<br><br></div>||
+NT|000002931|Battle Traits|000000864|<div class="Columns2"></div>||
+NT|000002924|Battle Traits|000000863|<div class="Columns2"></div>||
+NT|000002936|Battle Traits|000000866|<div class="Columns2"></div>||
+NT|000002941|Death Stalkers|000000862|||
+NT|000002723|Deathrust Gheists|000000862|||
+NT|000004335|Enhancements|000001063|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+NT|000004232|Enhancements|000001041|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+NT|000002925|Heroic Traits|000000863|<span class="tooltip00337" data-tooltip-content="#tooltip_content00337" data-tooltip-anchor="#tooltip_content00337"><span class="kwb">HERO</span></span> only||
+NT|000002932|Heroic Traits|000000864|<span class="tooltip00336" data-tooltip-content="#tooltip_content00336" data-tooltip-anchor="#tooltip_content00336"><span class="kwb">HERO</span></span> only||
+NT|000002722|Hungry Nexus|000000862|||
+NT|000002940|Infernal Sorceries|000000578|<div class="Columns2"></div>||
+NT|000002939|Lore of the Underworlds|000000861|<div class="Columns2"></div>||
+NT|000002928|Manifestation Lore|000000863|||
+NT|000002935|Manifestation Lore|000000864|||
+NT|000002944|Quicksilver Gheists|000000862|||
+NT|000004231|Regiment Abilities|000001041|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+NT|000004333|Regiment Abilities|000001063|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+NT|000002721|Relics of Dolorum|000000868|<span class="tooltip00336" data-tooltip-content="#tooltip_content00336" data-tooltip-anchor="#tooltip_content00336"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+NT|000002938|Relics of the Underworlds|000000868|<span class="tooltip00336" data-tooltip-content="#tooltip_content00336" data-tooltip-anchor="#tooltip_content00336"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+NT|000002943|Royal Procession|000000862|||
+NT|000002937|Shades of Death|000000867|<span class="tooltip00336" data-tooltip-content="#tooltip_content00336" data-tooltip-anchor="#tooltip_content00336"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+NT|000002942|Shrieker Host|000000862|||
+NT|000002927|Spell Lore|000000863|||
+NT|000002934|Spell Lore|000000864|||
+OB|000003408|Artefacts of Power|000000902|(<span class="tooltip00338" data-tooltip-content="#tooltip_content00338" data-tooltip-anchor="#tooltip_content00338"><span class="kwb">HERO</span></span> only)||
+OB|000003783|Artefacts of Power|000000972|(<span class="tooltip00339" data-tooltip-content="#tooltip_content00339" data-tooltip-anchor="#tooltip_content00339"><span class="kwb">HERO</span></span> only)||
+OB|000003776|Artefacts of Power|000000971|(<span class="tooltip00340" data-tooltip-content="#tooltip_content00340" data-tooltip-anchor="#tooltip_content00340"><span class="kwb">HERO</span></span> only)||
+OB|000003781|Battle Traits|000000972|<div class="Columns2"></div>||
+OB|000003767|Battle Traits|000000968|<div class="Columns2"></div>||
+OB|000004250|Battle Traits|000001045|<div class="Columns2"><div class="h_custom">HERALDS OF NAGASH</div><p class="ShowFluff legend2">The Morghasts descend to battle in terrifying silence, bleak heralds that bear but one message: death.</p>Your unit of <b>Morghast Archai</b> is not <a href="/aos4/the-rules/the-core-rules/#Setting-Up-Units">set up</a> during <a href="/aos4/the-rules/the-core-rules/#The-Deployment-Phase">the deployment phase</a>. Instead, from the second battle round onwards, it can use the Dread Descent ability:<br><br></div>||
+OB|000003406|Battle Traits|000000902|<div class="Columns2"></div>||
+OB|000003778|Battle Traits|000000971|<div class="Columns2"></div>||
+OB|000004178|Battle Traits|000001025|<div class="Columns2"><div class="BreakInsideAvoid"><div class="h_custom">RESERVE CONTINGENT</div><p class="ShowFluff legend2">The Ossiarch commanders will bolster their forces wherever battle is met.</p>One of your <b>Mortek Guard</b> units is not <a href="/aos4/the-rules/the-core-rules/#Setting-Up-Units">set up</a> during <a href="/aos4/the-rules/the-core-rules/#The-Deployment-Phase">the deployment phase</a>. Instead, from the third battle round onwards, it can use the following ability:<br><br><br></div><div class="h_custom">OSSIARCH COMMANDS</div><p class="ShowFluff legend2">The Bonereapers display a formidable mastery of war, and in battle they act with a relentless precision.</p><span class="kwb">OSSIARCH</span> <span class="kwb">COMMANDS</span> are abilities that can only be used by spending Ossiarch command points.<br><br><span class="kwb">OSSIARCH</span> <span class="kwb">COMMANDS</span> are abilities that can only be used by spending <b>Ossiarch command points</b>.<br>||
+OB|000004093|Battle Traits|000001000|<div class="Columns2"></div>||
+OB|000003770|Border Guards|000000970|||
+OB|000004095|Enhancements|000001000|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+OB|000004177|Enhancements|000001025|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+OB|000004249|Enhancements|000001045|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+OB|000002729|Hekatos Drillmasters|000000970|||
+OB|000003782|Heroic Traits|000000972|(<span class="tooltip00339" data-tooltip-content="#tooltip_content00339" data-tooltip-anchor="#tooltip_content00339"><span class="kwb">HERO</span></span> only)||
+OB|000003777|Heroic Traits|000000971|(<span class="tooltip00340" data-tooltip-content="#tooltip_content00340" data-tooltip-anchor="#tooltip_content00340"><span class="kwb">HERO</span></span> only)||
+OB|000003407|Heroic Traits|000000902|(<span class="tooltip00338" data-tooltip-content="#tooltip_content00338" data-tooltip-anchor="#tooltip_content00338"><span class="kwb">HERO</span></span> only)||
+OB|000003769|Horrors of the Necropolis|000000562|<div class="Columns2"></div>||
+OB|000003765|Imbuements of the Tithe-Reapers|000000966|<span class="tooltip00341" data-tooltip-content="#tooltip_content00341" data-tooltip-anchor="#tooltip_content00341"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+OB|000002727|Lore of Necrotheurgy|000000969|<div class="Columns2"></div>||
+OB|000003768|Lore of Ossian Sorcery|000000969|<div class="Columns2"></div>||
+OB|000003410|Manifestation Lore|000000902|||
+OB|000003785|Manifestation Lore|000000972|||
+OB|000004251|Regiment Abilities|000001045|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+OB|000004179|Regiment Abilities|000001025|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+OB|000004094|Regiment Abilities|000001000|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+OB|000003766|Relics of the Empire|000000967|<span class="tooltip00341" data-tooltip-content="#tooltip_content00341" data-tooltip-anchor="#tooltip_content00341"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+OB|000003773|Remorseless Conquerors|000000970|||
+OB|000003772|Ruthless Legion|000000970|||
+OB|000003409|Spell Lore|000000902|<div class="Columns2"></div>||
+OB|000003784|Spell Lore|000000972|||
+OB|000003771|The Inevitable Empire|000000970|||
+OB|000002728|Tithe Guards|000000970|||
+OM|000002454|Artefacts of Power|000000751|<span class="tooltip00342" data-tooltip-content="#tooltip_content00342" data-tooltip-anchor="#tooltip_content00342"><span class="kwb">HERO</span></span> only||
+OM|000004226|Battle Traits|000001039|<div class="Columns2"><div class="h_custom">BETTER LATE THAN NEVER</div><p class="ShowFluff legend2">The Ironguts are a bit slower to battle, enjoying the opportunity to work up an appetite on the way there</p>A unit of <b>Ironguts</b> with 4 models is not <a href="/aos4/the-rules/the-core-rules/#Setting-Up-Units">set up</a> during <a href="/aos4/the-rules/the-core-rules/#The-Deployment-Phase">the deployment phase</a>. Instead, in the third battle round, that unit can use the following ability:<br><br></div>||
+OM|000004274|Battle Traits|000001051|<div class="Columns2"><div class="h_custom">ON THE MAWPATH</div><p class="ShowFluff legend2">The ogor tribes are always roaming the wilds beyond their gluttholds leaving great trails of destruction.</p>Your <b>Ironblaster</b>, <b>Mournfang Pack</b> and 1 unit of <b>Ogor Gluttons</b> are not <a href="/aos4/the-rules/the-core-rules/#Setting-Up-Units">set up</a> during <a href="/aos4/the-rules/the-core-rules/#The-Deployment-Phase">the deployment phase</a>. Instead, from the third battle round onwards, they can use the following ability:<br><br></div>||
+OM|000002443|Battle Traits|000000748|<div class="Columns2"></div>||
+OM|000002452|Battle Traits|000000751|<div class="Columns2"></div>||
+OM|000002449|Beast Handlers|000000750|||
+OM|000002724|Big Names|000000828|Big Names are <a href="/aos4/the-rules/the-core-rules/#Enhancements">enhancements</a> that can only be given to <span class="tooltip00343" data-tooltip-content="#tooltip_content00343" data-tooltip-anchor="#tooltip_content00343"><span class="kwb">OGOR</span> <span class="kwb">MAWTRIBES</span> <span class="kwb">HEROES</span></span>.<br><br><div class="Columns2"></div>||
+OM|000002446|Blackpowder Fanatics|000000750|||
+OM|000004225|Enhancements|000001039|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+OM|000004275|Enhancements|000001051|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+OM|000002444|Everwinter Prayers|000000752|<div class="Columns2"></div>||
+OM|000002726|Greedy Eaters|000000750|||
+OM|000002447|Heralds of the Everwinter|000000750|||
+OM|000002453|Heroic Traits|000000751|<span class="tooltip00342" data-tooltip-content="#tooltip_content00342" data-tooltip-anchor="#tooltip_content00342"><span class="kwb">HERO</span></span> only||
+OM|000002445|Lore of Maw-magic|000000749|<div class="Columns2"></div>||
+OM|000002725|Mawpath Menaces|000000750|||
+OM|000002442|Plunder of the Mawtribes|000000747|<span class="tooltip00344" data-tooltip-content="#tooltip_content00344" data-tooltip-anchor="#tooltip_content00344"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+OM|000002448|Prophets of the Gulping God|000000750|||
+OM|000004273|Regiment Abilities|000001051|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+OM|000004227|Regiment Abilities|000001039|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+OM|000002455|Spell Lore|000000751|||
+OM|000002441|Traits of Endless Hunger|000000746|<span class="tooltip00344" data-tooltip-content="#tooltip_content00344" data-tooltip-anchor="#tooltip_content00344"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+SE|000002229|Artefacts of Power|000000609|<span class="tooltip00345" data-tooltip-content="#tooltip_content00345" data-tooltip-anchor="#tooltip_content00345"><span class="kwb">HERO</span></span> only||
+SE|000002211|Artefacts of Power|000000607|<span class="tooltip00346" data-tooltip-content="#tooltip_content00346" data-tooltip-anchor="#tooltip_content00346"><span class="kwb">HERO</span></span> only||
+SE|000003382|Artefacts of Power|000000898|<span class="tooltip00346" data-tooltip-content="#tooltip_content00346" data-tooltip-anchor="#tooltip_content00346"><span class="kwb">HERO</span></span> only||
+SE|000002221|Artefacts of Power|000000608|<span class="tooltip00347" data-tooltip-content="#tooltip_content00347" data-tooltip-anchor="#tooltip_content00347"><span class="kwb">HERO</span></span> only||
+SE|000002233|Artefacts of the Tempest|000000612|<span class="tooltip00348" data-tooltip-content="#tooltip_content00348" data-tooltip-anchor="#tooltip_content00348"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+SE|000002232|Aspects of Azyr|000000611|<span class="tooltip00348" data-tooltip-content="#tooltip_content00348" data-tooltip-anchor="#tooltip_content00348"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+SE|000002848|BATTLE MOUNTS|000000833|<div class="hi_custom">Battle Mount <div class="dp-badge dp-red">-5DP</div></div><div class="Columns2"><b>NOBLE BEAST:</b> <i>There are many warbeasts employed by the Stormcast Eternals in battle, from Gryph-chargers to Dracoths - or even the rarely seen Dracolines.</i><br><br>Add the following weapon to your hero’s warscroll:<br><div class="block_long2">$000001677</div><div class="block_very_short">$000001678</div><div class="BreakInsideAvoid"><br>In addition, make the following changes to your hero’s warscroll:<br><ul><li>Change the Move characteristic to 10".</li><li>Change the Health characteristic to 8.</li><li>Replace the <span class="kwb">INFANTRY</span> keyword with the <span class="kwb">CAVALRY</span> keyword.</li></ul></div></div><br><div class="hi_custom">Battle Mount <div class="dp-badge dp-red">-10DP</div></div><div class="Columns2"><b>FLYING NOBLE BEAST:</b> <i>Some champions of the Stormcast Eternals take to battle upon a great winged beast such as a Draconith or Tauralo||
+SE|000002219|Battle Traits|000000608|<div class="Columns2"></div>||
+SE|000004149|Battle Traits|000001017|<div class="h_custom">HOLY ORDERS</div><p class="ShowFluff legend2">In the years before the Age of Sigmar began, the Stormcast Eternals honed their martial skills and tactical prowess in High Azyr, readying themselves to retake the Mortal Realms. They have fought ever since.</p>During the battle, you can use the following abilities:<br><br><div class="Columns2"></div>||
+SE|000002212|Battle Traits|000000607|<div class="Columns2"></div>||
+SE|000004321|Battle Traits|000001061|<div class="Columns2"><div class="h_custom">SCIONS OF THE STORM</div><p class="ShowFluff legend2">Upon blessed bolts of lightning do the Stormcast Eternals ride to war, the furious rumble of thunder heralding their arrival.</p><b>Yndrasta</b> and your <b>Annihilators</b> unit are not <a href="/aos4/the-rules/the-core-rules/#Setting-Up-Units">set up</a> during <a href="/aos4/the-rules/the-core-rules/#The-Deployment-Phase">the deployment phase</a>. Instead, from the third battle round onwards, they can use the following ability:<br><br></div>||
+SE|000002227|Battle Traits|000000609|<div class="Columns2"></div>||
+SE|000003380|Battle Traits|000000898|<div class="Columns2"></div>||
+SE|000002231|Battle Traits|000000610|<div class="Columns2"></div>||
+SE|000004323|Enhancements|000001061|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+SE|000004148|Enhancements|000001017|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+SE|000002213|Heroic Traits|000000607|<span class="tooltip00346" data-tooltip-content="#tooltip_content00346" data-tooltip-anchor="#tooltip_content00346"><span class="kwb">HERO</span></span> only||
+SE|000002228|Heroic Traits|000000609|<span class="tooltip00345" data-tooltip-content="#tooltip_content00345" data-tooltip-anchor="#tooltip_content00345"><span class="kwb">HERO</span></span> only||
+SE|000003381|Heroic Traits|000000898|<span class="tooltip00346" data-tooltip-content="#tooltip_content00346" data-tooltip-anchor="#tooltip_content00346"><span class="kwb">HERO</span></span> only||
+SE|000002220|Heroic Traits|000000608|<span class="tooltip00347" data-tooltip-content="#tooltip_content00347" data-tooltip-anchor="#tooltip_content00347"><span class="kwb">HERO</span></span> only||
+SE|000002238|Lightning Echelon|000000606|||
+SE|000002236|Lore of the Storm|000000605|<div class="Columns2"></div>||
+SE|000003385|Manifestation Lore|000000898|||
+SE|000002224|Manifestation Lore|000000608|||
+SE|000002214|Manifestation Lore|000000607|||
+SE|000002235|Manifestations of the Storm|000000613|<div class="Columns2"></div>||
+SE|000003384|Prayer Lore|000000898|||
+SE|000002223|Prayer Lore|000000608|||
+SE|000002216|Prayer Lore|000000607|||
+SE|000002230|Prayer Lore|000000609|||
+SE|000002234|Prayers of the Stormhosts|000000614|<div class="Columns2"></div>||
+SE|000004147|Regiment Abilities|000001017|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+SE|000004322|Regiment Abilities|000001061|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+SE|000002741|Relics of Sigmaron|000000612|<span class="tooltip00348" data-tooltip-content="#tooltip_content00348" data-tooltip-anchor="#tooltip_content00348"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+SE|000002208|Sacrosanct Convocation|000000606|||
+SE|000002239|Sentinels of the Bleak Citadels|000000606|||
+SE|000002215|Spell Lore|000000607|||
+SE|000002222|Spell Lore|000000608|||
+SE|000003383|Spell Lore|000000898|<div class="Columns2"></div>||
+SE|000002740|Stormforged Qualities|000000611|<span class="tooltip00348" data-tooltip-content="#tooltip_content00348" data-tooltip-anchor="#tooltip_content00348"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+SE|000002237|Thunderhead Host|000000606|||
+SE|000002240|Vanguard Wing|000000606|||
+SG|000003137|_1|000000890|<div class="hi_custom">Battle Mount <div class="dp-badge dp-red">-5DP</div></div><div class="Columns2"><div class="BreakInsideAvoid"><b>UNDEAD STEED</b>: <i>Many heroes of the grave are borne into battle upon steeds compelled to ride to war eternally in undeath.</i><br><br>Add the following weapon to your hero’s warscroll:<br><br><div class="block_long2">$000001856</div><div class="block_very_short">$000001857</div></div>In addition, make the following changes to your hero’s warscroll:<br><ul><li>Change the Move characteristic to 10".</li><li>Change the Health characteristic to 8.</li><li>Change the Save characteristic to 5+.</li><li>Replace the <span class="kwb">INFANTRY</span> keyword with the <span class="kwb">CAVALRY</span> keyword.</li></ul></div><br><div class="hi_custom">Battle Mount <div class="dp-badge dp-red">-10DP</div></div><div class="Columns2"><div class="BreakInsideAvoid"><b>SPECTRAL PALANQUIN</b>: <i>Some of the more aloof champions of the Soulblight Gravelords are carr||
+SG|000002670|Artefacts of Power|000000817|||
+SG|000002664|Artefacts of Power|000000816|<span class="tooltip00349" data-tooltip-content="#tooltip_content00349" data-tooltip-anchor="#tooltip_content00349"><span class="kwb">HERO</span></span> only||
+SG|000002678|Artefacts of Power|000000818|||
+SG|000002659|Bacchanal of Blood|000000815|||
+SG|000002669|Battle Traits|000000817|<div class="Columns2"></div>||
+SG|000002652|Battle Traits|000000811|<div class="Columns2"></div>||
+SG|000002663|Battle Traits|000000816|<div class="Columns2"></div>||
+SG|000002676|Battle Traits|000000818|<div class="Columns2"></div>||
+SG|000004237|Battle Traits|000001042|<div class="Columns2"><div class="h_custom">THE UNQUIET DEAD</div><p class="ShowFluff legend2">Animated by necromancy, the undead rise from their graves, balefire eyes blazing with dark purpose</p>One of your <b>Deathrattle Skeletons</b> units is not set up during the deployment phase. Instead, from the third battle round onwards, it can use The Rising Dead ability.<br><br></div>||
+SG|000004190|Battle Traits|000001028|<div class="Columns2"><div class="h_custom">DEATH'S DESCENT</div><p class="ShowFluff legend2">Vargheists swoop on their victims from on high, suddenly overwhelming them in a flurry of claws and fangs.</p>Your Vargheists unit is not set up during the deployment phase. Instead, from the third battle round onwards, it can use the Swoop Down ability.<br><br></div>||
+SG|000002680|Cryptmasters|000000815|||
+SG|000002654|Deathly Heirlooms|000000813|<span class="tooltip00350" data-tooltip-content="#tooltip_content00350" data-tooltip-anchor="#tooltip_content00350"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+SG|000002660|Deathmarch|000000815|||
+SG|000002658|Deathstench Drove|000000815|||
+SG|000004238|Enhancements|000001042|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+SG|000004189|Enhancements|000001028|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+SG|000002665|Heroic Traits|000000816|<span class="tooltip00349" data-tooltip-content="#tooltip_content00349" data-tooltip-anchor="#tooltip_content00349"><span class="kwb">HERO</span></span> only||
+SG|000002671|Heroic Traits|000000817|||
+SG|000002677|Heroic Traits|000000818|||
+SG|000002657|Legion of Shyish|000000815|||
+SG|000002679|Legions of Ulfenkarn|000000815|Currently, the rules in battletome supplement are still legal for use in competitive play. However, on 1 June 2026, these rules will move over to Warhammer Legends. This means that they will no longer be legal for competitive play.||
+SG|000002655|Lore of Undeath|000000814|<div class="Columns2"></div>||
+SG|000002673|Manifestation Lore|000000817|||
+SG|000002656|Manifestations of the Grave|000000819|<div class="Columns2"></div>||
+SG|000004191|Regiment Abilities|000001028|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+SG|000004239|Regiment Abilities|000001042|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+SG|000002681|Skinshifters|000000815|||
+SG|000002666|Spell Lore|000000816|||
+SG|000002672|Spell Lore|000000817|||
+SG|000002653|The Cursed Bloodlines|000000812|<span class="tooltip00350" data-tooltip-content="#tooltip_content00350" data-tooltip-anchor="#tooltip_content00350"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+SG|000002682|Undying Tyrants|000000812|<span class="tooltip00350" data-tooltip-content="#tooltip_content00350" data-tooltip-anchor="#tooltip_content00350"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+SN|000004281|Battle Traits|000001052|<div class="Columns2"></div>||
+SN|000002400|Battle Traits|000000719|<div class="Columns2"></div>||
+SN|000004124|Battle Traits|000001010|<div class="Columns2"><div class="h_custom">HIDDEN HUNTERS</div><p class="ShowFluff legend2">The Hunters of Huanchi can blend in with their surroundings and vanish from sight.</p>Your 2 <b>Hunters of Huanchi</b> units and the <b>Spawn of Chotec</b> are not <a href="/aos4/the-rules/the-core-rules/#Setting-Up-Units">set up</a> during <a href="/aos4/the-rules/the-core-rules/#The-Deployment-Phase">the deployment phase</a>. Instead, from the third battle round onwards, they can use the Chameleon Ambush Ability:<br><br></div>||
+SN|000002402|Celestial Disciplines|000000721|<span class="tooltip00351" data-tooltip-content="#tooltip_content00351" data-tooltip-anchor="#tooltip_content00351"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+SN|000004280|Enhancements|000001052|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+SN|000004125|Enhancements|000001010|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+SN|000002407|Eternal Starhost|000000723|||
+SN|000002404|Lore of Celestial Manipulation|000000722|<div class="Columns2"></div>||
+SN|000002403|Lore of Primal Jungles|000000722|<div class="Columns2"></div>||
+SN|000002731|Monstrous Traits|000000829|Monstrous Traits are <a href="/aos4/the-rules/the-core-rules/#Enhancements">enhancements</a> that can only be given to <span class="tooltip00352" data-tooltip-content="#tooltip_content00352" data-tooltip-anchor="#tooltip_content00352"><span class="kwb">MONSTERS</span></span>.<br><br><div class="Columns2"></div>||
+SN|000004279|Regiment Abilities|000001052|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+SN|000004123|Regiment Abilities|000001010|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+SN|000002730|Servants of the Cosmic Order|000000721|<span class="tooltip00351" data-tooltip-content="#tooltip_content00351" data-tooltip-anchor="#tooltip_content00351"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+SN|000002406|Shadowstrike Starhost|000000723|||
+SN|000002408|Sunclaw Starhost|000000723|||
+SN|000002405|Thunderquake Starhost|000000723|||
+SN|000002401|Treasures of the Old Ones|000000720|<span class="tooltip00351" data-tooltip-content="#tooltip_content00351" data-tooltip-anchor="#tooltip_content00351"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+SoB|000002334|Artefacts of Power|000000678|<span class="tooltip00353" data-tooltip-content="#tooltip_content00353" data-tooltip-anchor="#tooltip_content00353"><span class="kwb">HERO</span></span> only||
+SoB|000004105|Battle Traits|000001004|<div class="Columns2"><div class="h_custom">BULLSTOMPER</div><p class="ShowFluff legend2">Mancrusher Mobs are led by fearsome gargants known as Bullstompers.</p>Your general has the <span class="kwb">HERO</span> keyword (in addition to the <span class="kwb">MONSTER</span> keyword) but does not have the <a href="/aos4/the-rules/fire-and-jade/#Reinforcements"><span class="kwb">REINFORCEMENTS</span></a> keyword or icon.<br><br></div>||
+SoB|000002333|Battle Traits|000000678|<div class="Columns2"></div>||
+SoB|000002324|Battle Traits|000000673|<div class="Columns2"></div>||
+SoB|000002325|Big Personalities|000000674|<span class="tooltip00354" data-tooltip-content="#tooltip_content00354" data-tooltip-anchor="#tooltip_content00354"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+SoB|000003125|Big Personalities|000000674|<span class="tooltip00354" data-tooltip-content="#tooltip_content00354" data-tooltip-anchor="#tooltip_content00354"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+SoB|000002739|Big Toes|000000677|||
+SoB|000002327|Boss Tribe|000000677|||
+SoB|000002329|Breaker Tribe|000000677|||
+SoB|000004106|Enhancements|000001004|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+SoB|000002335|Heroic Traits|000000678|<span class="tooltip00353" data-tooltip-content="#tooltip_content00353" data-tooltip-anchor="#tooltip_content00353"><span class="kwb">HERO</span></span> only||
+SoB|000002738|Manskittle Mob|000000677|||
+SoB|000002336|Prayer Lore|000000678|||
+SoB|000004107|Regiment Abilities|000001004|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+SoB|000002328|Stomper Tribe|000000677|||
+SoB|000002330|Taker Tribe|000000677|||
+SoB|000002326|Titanic Trophies|000000675|<span class="tooltip00354" data-tooltip-content="#tooltip_content00354" data-tooltip-anchor="#tooltip_content00354"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+ST|000001971|Artefacts of Power|000000498|<span class="tooltip00355" data-tooltip-content="#tooltip_content00355" data-tooltip-anchor="#tooltip_content00355"><span class="kwb">HERO</span></span> only||
+ST|000001980|Artefacts of Power|000000499|<span class="tooltip00356" data-tooltip-content="#tooltip_content00356" data-tooltip-anchor="#tooltip_content00356"><span class="kwb">HERO</span></span> only||
+ST|000001985|Battle Traits|000000502|<div class="Columns2"></div>||
+ST|000004327|Battle Traits|000001062|<div class="Columns2"></div>||
+ST|000004317|Battle Traits|000001060|<div class="Columns2"></div>||
+ST|000001978|Battle Traits|000000499|<div class="Columns2"></div>||
+ST|000001972|Battle Traits|000000498|<div class="Columns2"></div>||
+ST|000004129|Battle Traits|000001012|<div class="Columns2"></div>||
+ST|000001990|Claw-horde|000000504|||
+ST|000001983|Devious Machinations|000000500|Hero only<br><br><div class="Columns2"></div>||
+ST|000004328|Enhancements|000001062|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+ST|000004316|Enhancements|000001060|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+ST|000004130|Enhancements|000001012|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+ST|000002733|Envoys of the Deepengnaw|000000504|||
+ST|000001992|Fleshmeld Menagerie|000000504|||
+ST|000002734|Gathering of the Clans|000000504|||
+ST|000001979|Heroic Traits|000000499|<span class="tooltip00356" data-tooltip-content="#tooltip_content00356" data-tooltip-anchor="#tooltip_content00356"><span class="kwb">HERO</span></span> only||
+ST|000001970|Heroic Traits|000000498|<span class="tooltip00355" data-tooltip-content="#tooltip_content00355" data-tooltip-anchor="#tooltip_content00355"><span class="kwb">HERO</span></span> only||
+ST|000004071|Kill‑Pack|000000504|||
+ST|000001986|Lore of Ruin|000000503|<div class="Columns3"></div>||
+ST|000001982|Manifestation Lore|000000499|||
+ST|000001975|Manifestation Lore|000000498|||
+ST|000001988|Manifestations of Doom|000000518|<div class="Columns3"></div>||
+ST|000002815|Moulder-Beasts|000000809|<div class="hi_custom">Moulder-beast <div class="dp-badge dp-red">-5DP</div></div><div class="Columns2"><b>GNAW-BEAST:</b> <i>These gangly-limbed and whipcord-fast horrors are bred by the Clans Moulder to suffer from a constant, maddening hunger.</i><br><br>Add the following weapon to your hero’s warscroll:<br><br><div class="block_long2">$000001652</div><div class="block_very_short">$000001653</div><div class="BreakInsideAvoid"><br>In addition, make the following changes to your hero’s warscroll:<ul><li>Change the Move characteristic to 9".</li><li>Change the Health characteristic to 7.</li><li>Change the Save characteristic to 4+.</li><li>Replace the <span class="kwb">INFANTRY</span> keyword with the <span class="kwb">CAVALRY</span> keyword.</li></ul></div></div><br><div class="hi_custom">Moulder-beast <div class="dp-badge dp-red">-20DP</div></div><div class="Columns2"><b>MONSTROUS HORROR:</b> Crawling from the depths of a Hell Pit, this verminous monstrosity represents the apex of a||
+ST|000001987|Noxious Prayers|000000517|<div class="Columns3"></div>||
+ST|000001974|Prayer Lore|000000498|||
+ST|000004315|Regiment Abilities|000001060|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+ST|000004131|Regiment Abilities|000001012|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+ST|000004329|Regiment Abilities|000001062|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+ST|000001984|Relics of Ruin|000000501|<span class="tooltip00357" data-tooltip-content="#tooltip_content00357" data-tooltip-anchor="#tooltip_content00357"><span class="kwb">HERO</span></span> only<br><br><div class="Columns3"></div>||
+ST|000002732|Ruinous Realm-Gnawers|000000500|<span class="tooltip00357" data-tooltip-content="#tooltip_content00357" data-tooltip-anchor="#tooltip_content00357"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+ST|000001981|Spell Lore|000000499|||
+ST|000001973|Spell Lore|000000498|||
+ST|000001989|Virulent Procession|000000504|||
+ST|000001991|Warpcog Convocation|000000504|||
+StD|000003027|_1|000000886|<div class="hi_custom">Battle Mount <div class="dp-badge dp-red">-5DP</div></div><div class="Columns2"><div class="BreakInsideAvoid"><b>DAEMONIC STEED</b>: <i>These fierce mounts are often granted to Chaos Lords by their patron. In battle, enemies that are not felled by the rider’s weapons are trampled into the dirt by the wild thrashing of this beast’s mighty hooves.</i><br><br>Add the following weapon to your hero’s warscroll:<br><br><div class="block_long2">$000001721</div><div class="block_very_short">$000001722</div></div>In addition, make the following changes to your hero’s warscroll:<br><ul><li>Change the Move characteristic to 10".</li><li>Change the Health characteristic to 8.</li><li>Replace the <span class="kwb">INFANTRY</span> keyword with the <span class="kwb">CAVALRY</span> keyword.</li></ul></div><br><div class="hi_custom">Battle Mount <div class="dp-badge dp-red">-10DP</div></div><div class="Columns2"><div class="BreakInsideAvoid"><b>CHAOS CHARIOT</b>: <i>Tribal war le||
+StD|000002491|Artefacts of Power|000000768|<span class="tooltip00358" data-tooltip-content="#tooltip_content00358" data-tooltip-anchor="#tooltip_content00358"><span class="kwb">HERO</span></span> only||
+StD|000002487|Artefacts of Power|000000767|<span class="tooltip00358" data-tooltip-content="#tooltip_content00358" data-tooltip-anchor="#tooltip_content00358"><span class="kwb">HERO</span></span> only||
+StD|000002490|Battle Traits|000000768|<div class="Columns2"></div>||
+StD|000004347|Battle Traits|000001065|<div class="Columns2">Your Chaos Knights unit is not set up during the deployment phase. Instead, from the second battle round onwards, they can use the Dreaded Arrival ability<br><br></div>||
+StD|000004263|Battle Traits|000001048|||
+StD|000002485|Battle Traits|000000767|<div class="Columns2"></div>||
+StD|000002482|Battle Traits|000000766|<div class="Columns2"></div>||
+StD|000002471|Battle Traits|000000761|<div class="Columns2"></div>||
+StD|000002737|Champions of Chaos|000000765|||
+StD|000002736|Chaos Horde|000000765|||
+StD|000002477|Darkoath Horde|000000765|||
+StD|000002478|Despoilers|000000765|||
+StD|000004262|Enhancements|000001048|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+StD|000004346|Enhancements|000001065|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+StD|000002495|Ensorcelled Banners|000000770|<div class="Columns2"></div>||
+StD|000002735|Fell Artefacts|000000763|<span class="tooltip00358" data-tooltip-content="#tooltip_content00358" data-tooltip-anchor="#tooltip_content00358"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+StD|000002496|First Circle Titles|000000766|You can include up to 3 First Circle Title enhancements in your army. First Circle Titles can only be given to <a href="/aos4/factions/slaves-to-darkness/Varanguard"><b>Varanguard</b></a> units. The same unit cannot have more than 1 First Circle Title.<br><div class="Columns2"></div>||
+StD|000002479|Godswrath Warband|000000765|||
+StD|000002486|Heroic Traits|000000767|<span class="tooltip00358" data-tooltip-content="#tooltip_content00358" data-tooltip-anchor="#tooltip_content00358"><span class="kwb">HERO</span></span> only||
+StD|000002492|Heroic Traits|000000768|<span class="tooltip00358" data-tooltip-content="#tooltip_content00358" data-tooltip-anchor="#tooltip_content00358"><span class="kwb">HERO</span></span> only||
+StD|000002473|Infernal Treasures|000000763|<span class="tooltip00358" data-tooltip-content="#tooltip_content00358" data-tooltip-anchor="#tooltip_content00358"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+StD|000002476|Legion of Chaos|000000765|||
+StD|000002474|Lore of the Damned|000000764|<div class="Columns2"></div>||
+StD|000002494|Manifestation Lore|000000768|||
+StD|000002475|Manifestations of Malevolence|000000769|<div class="Columns2"></div>||
+StD|000004261|Regiment Abilities|000001048|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+StD|000004345|Regiment Abilities|000001065|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+StD|000002472|Ruinous Overlords|000000762|<span class="tooltip00358" data-tooltip-content="#tooltip_content00358" data-tooltip-anchor="#tooltip_content00358"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+StD|000002493|Spell Lore|000000768|||
+SY|000003971|Artefacts of Power|000000984|(<span class="tooltip00359" data-tooltip-content="#tooltip_content00359" data-tooltip-anchor="#tooltip_content00359"><span class="kwb">HERO</span></span> only)||
+SY|000003963|Artefacts of Power|000000983|(<span class="tooltip00360" data-tooltip-content="#tooltip_content00360" data-tooltip-anchor="#tooltip_content00360"><span class="kwb">HERO</span></span> only)||
+SY|000002299|Artefacts of Power|000000655|<span class="kwb">HERO</span> only||
+SY|000003945|Aspects of Renewal|000000978|<span class="tooltip00361" data-tooltip-content="#tooltip_content00361" data-tooltip-anchor="#tooltip_content00361"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+SY|000003961|Battle Traits|000000983|<div class="Columns2"></div>||
+SY|000002298|Battle Traits|000000655|<div class="Columns2"></div>||
+SY|000003969|Battle Traits|000000984|<div class="Columns2"></div>||
+SY|000003944|Battle Traits|000000977|<div class="Columns2"></div>||
+SY|000004207|Battle Traits|000001033|<div class="Columns2"></div>||
+SY|000004088|Battle Traits|000000998|<div class="Columns2"></div>||
+SY|000004209|Enhancements|000001033|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+SY|000004089|Enhancements|000000998|Give your general 1 of the following enhancements.<br><br><div class="Columns2"></div>||
+SY|000003952|Followers of Kurnoth|000000981|||
+SY|000003953|Glade Defenders|000000981|||
+SY|000003970|Heroic Traits|000000984|(<span class="tooltip00359" data-tooltip-content="#tooltip_content00359" data-tooltip-anchor="#tooltip_content00359"><span class="kwb">HERO</span></span> only)||
+SY|000003962|Heroic Traits|000000983|(<span class="tooltip00360" data-tooltip-content="#tooltip_content00360" data-tooltip-anchor="#tooltip_content00360"><span class="kwb">HERO</span></span> only)||
+SY|000002297|Heroic Traits|000000655|<span class="kwb">HERO</span> only||
+SY|000003951|Lords of the Clan|000000981|||
+SY|000003947|Lore of the Deepwood|000000980|<div class="Columns2"></div>||
+SY|000003949|Lore of the Spirit-Song|000000985|<div class="Columns2"></div>||
+SY|000003974|Manifestation Lore|000000984|||
+SY|000003966|Manifestation Lore|000000983|||
+SY|000003948|Manifestations of the Deepwood|000000656|<div class="Columns2"></div>||
+SY|000003950|Outcasts|000000981|||
+SY|000003973|Prayer Lore|000000984|||
+SY|000003965|Prayer Lore|000000983|||
+SY|000004087|Regiment Abilities|000000998|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+SY|000004208|Regiment Abilities|000001033|Pick 1 of the following regiment abilities.<br><br><div class="Columns2"></div>||
+SY|000003946|Relics of Nature|000000979|<span class="tooltip00361" data-tooltip-content="#tooltip_content00361" data-tooltip-anchor="#tooltip_content00361"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+SY|000003964|Spell Lore|000000983|||
+SY|000003972|Spell Lore|000000984|||
+SY|000002742|Treasures of the Warglade|000000979|<span class="tooltip00361" data-tooltip-content="#tooltip_content00361" data-tooltip-anchor="#tooltip_content00361"><span class="kwb">HERO</span></span> only<br><br><div class="Columns2"></div>||
+SY|000002744|Wargrove of Everdusk|000000981|||
+SY|000002743|Wargrove of the Burgeoning|000000981|||

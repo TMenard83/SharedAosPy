@@ -153,6 +153,7 @@ def test_parse_library_units_extracts_profiles_and_weapons() -> None:
     assert lib.models == 5
     assert lib.ward == 6
     assert lib.is_hero is False
+    assert lib.keywords == frozenset()  # WARD (6+) exclu : ce n'est pas un mot-clé de jeu
     assert len(lib.weapons) == 1
     w = lib.weapons[0]
     assert w.kind == "melee"
@@ -163,5 +164,6 @@ def test_parse_library_units_extracts_profiles_and_weapons() -> None:
     lord = units["u-lord"]
     assert lord.is_hero is True
     assert lord.ward is None
+    assert lord.keywords == frozenset({"HERO"})
     assert lord.models == 1
     assert lord.weapons == []

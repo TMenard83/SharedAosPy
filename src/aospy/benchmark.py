@@ -8,7 +8,7 @@ from typing import Callable, Optional
 import duckdb
 
 from . import repository
-from .combat import CombatModifiers, expected_unit_damage
+from .combat import CombatModifiers, damage_floor80, expected_unit_damage, unit_damage_moments
 from .models import Unit
 from .simulation import SideOptions
 
@@ -83,6 +83,22 @@ def _mods(attacker_opts: SideOptions, defender_opts: SideOptions) -> CombatModif
     )
 
 
+def _attack_damage(
+    attacker: Unit, attacker_models: int, defender: Unit, modifiers: CombatModifiers,
+    *, use_floor80: bool,
+) -> float:
+    """Dégât total d'une unité en 1 round : espérance, ou plancher 80% de confiance.
+
+    `use_floor80=True` substitue `damage_floor80(moyenne, écart-type)` (via
+    `unit_damage_moments`) à la moyenne brute `expected_unit_damage` — même
+    modèle probabiliste, juste une lecture pessimiste (80%) au lieu de l'espérance.
+    """
+    if not use_floor80:
+        return expected_unit_damage(attacker, attacker_models, defender, modifiers)
+    mean, _var, std = unit_damage_moments(attacker, attacker_models, defender, modifiers)
+    return damage_floor80(mean, std)
+
+
 def unit_duel(
     attacker: Unit,
     defender: Unit,
@@ -92,8 +108,14 @@ def unit_duel(
     defender_reinforced: bool = False,
     options_a: Optional[SideOptions] = None,
     options_b: Optional[SideOptions] = None,
+    use_floor80: bool = False,
 ) -> DuelResult:
-    """Calcule le duel attaquant vs défenseur dans les deux sens."""
+    """Calcule le duel attaquant vs défenseur dans les deux sens.
+
+    `use_floor80=True` : les dégâts (et donc pts_destroyed/pts_lost/pts_net/roi,
+    dérivés de `expected_a_to_b`/`expected_b_to_a`) sont le plancher à 80% de
+    confiance plutôt que l'espérance — cf. `_attack_damage`.
+    """
     opts_a = options_a or SideOptions(charged=False)
     opts_b = options_b or SideOptions(charged=False)
 
@@ -102,8 +124,8 @@ def unit_duel(
     a_hp_total = a_models * attacker.health
     b_hp_total = b_models * defender.health
 
-    raw_ab = expected_unit_damage(attacker, a_models, defender, _mods(opts_a, opts_b))
-    raw_ba = expected_unit_damage(defender, b_models, attacker, _mods(opts_b, opts_a))
+    raw_ab = _attack_damage(attacker, a_models, defender, _mods(opts_a, opts_b), use_floor80=use_floor80)
+    raw_ba = _attack_damage(defender, b_models, attacker, _mods(opts_b, opts_a), use_floor80=use_floor80)
 
     exp_ab = min(raw_ab, float(b_hp_total))
     exp_ba = min(raw_ba, float(a_hp_total))
@@ -162,6 +184,7 @@ def benchmark_attacker(
     options_b: Optional[SideOptions] = None,
     defenders_by_army: Optional[dict[int, list[Unit]]] = None,
     army_names: Optional[dict[int, str]] = None,
+    use_floor80: bool = False,
 ) -> list[DuelResult]:
     """Lance le duel de `attacker` contre chaque unité défenseur sélectionnée.
 
@@ -192,13 +215,14 @@ def benchmark_attacker(
                 attacker_reinforced=attacker_reinforced,
                 defender_reinforced=defender_reinforced,
                 options_a=options_a, options_b=options_b,
+                use_floor80=use_floor80,
             ))
     return results
 
 
 
 def save_results(
-    con: duckdb.DuckDBPyConnection, results: list[DuelResult],
+    con: duckdb.DuckDBPyConnection, results: list[DuelResult], *, floor80: bool = False,
 ) -> int:
     """Persiste une liste de DuelResult dans la table `unit_benchmark` (batch executemany)."""
     from datetime import datetime
@@ -210,7 +234,7 @@ def save_results(
         rows.append((
             r.attacker.id, r.defender.id,
             r.attacker_reinforced, r.defender_reinforced,
-            r.options_a.charged, r.options_b.charged,
+            r.options_a.charged, r.options_b.charged, floor80,
             r.raw_a_to_b, r.expected_a_to_b,
             r.raw_b_to_a, r.expected_b_to_a,
             r.pts_destroyed, r.pts_lost, r.pts_net, r.roi, now,
@@ -233,11 +257,13 @@ def run_all_benchmarks(
     options_b: Optional[SideOptions] = None,
     include_heroes: bool = False,
     progress: Optional[Callable[[str, str, int, int], None]] = None,
+    use_floor80: bool = False,
 ) -> FullBenchmarkSummary:
     """Benchmarke chaque unité (non héros par défaut) contre toutes les autres armées.
 
     Les résultats sont persistés (upsert) dans `unit_benchmark`.
     `progress(attacker_name, army_name, idx, total)` est appelé avant chaque attaquant.
+    `use_floor80` : cf. `unit_duel` — plancher 80% de confiance au lieu de l'espérance.
     """
     summary = FullBenchmarkSummary()
     armies = [a for a in repository.list_armies(con) if a.id is not None]
@@ -261,7 +287,8 @@ def run_all_benchmarks(
             options_a=options_a, options_b=options_b,
             defenders_by_army=defenders_by_army,
             army_names=army_names,
+            use_floor80=use_floor80,
         )
-        summary.duels += save_results(con, results)
+        summary.duels += save_results(con, results, floor80=use_floor80)
         summary.attackers += 1
     return summary

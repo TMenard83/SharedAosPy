@@ -187,6 +187,23 @@ def format_duel_detail(r: DuelResult) -> str:
     return buf.getvalue()
 
 
+def format_unit_stats(
+    unit, army_name: str, rows: list[tuple[str, float, float, float]], *, charged: bool,
+) -> str:
+    """Moyenne / écart-type / plancher 80 % d'une unité contre des cibles standard."""
+    buf = StringIO()
+    buf.write(
+        f"\n--- {unit.name} [{army_name}] (x{unit.models}, M{unit.move} "
+        f"Sv{unit.save}+ HP{unit.health} pts{unit.points})"
+        f"{'  (charge)' if charged else ''} ---\n"
+    )
+    buf.write(f"  {'Cible':<12} {'E[dmg]':>8} {'σ':>7} {'Plancher 80%':>13}\n")
+    buf.write(f"  {'-'*12} {'-'*8} {'-'*7} {'-'*13}\n")
+    for label, mean, std, floor80 in rows:
+        buf.write(f"  {label:<12} {mean:8.2f} {std:7.2f} {floor80:13.2f}\n")
+    return buf.getvalue()
+
+
 def format_benchmark(
     attacker_label: str,
     results: list[DuelResult],

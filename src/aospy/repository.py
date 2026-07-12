@@ -18,6 +18,14 @@ from .models import (
 )
 
 
+def _keywords_to_db(keywords: frozenset[str]) -> str:
+    return ",".join(sorted(keywords))
+
+
+def _keywords_from_db(raw: Optional[str]) -> frozenset[str]:
+    return frozenset(raw.split(",")) if raw else frozenset()
+
+
 # ----- Army -----------------------------------------------------------------
 
 def add_army(con: duckdb.DuckDBPyConnection, army: Army) -> int:
@@ -51,13 +59,14 @@ def add_unit(con: duckdb.DuckDBPyConnection, unit: Unit) -> int:
     row = con.execute(
         """
         INSERT INTO unit(army_id, name, move, save, health, control,
-                         models, points, is_hero, ward)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                         models, points, is_hero, ward, keywords, description)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         RETURNING id
         """,
         [
             unit.army_id, unit.name, unit.move, unit.save, unit.health,
             unit.control, unit.models, unit.points, unit.is_hero, unit.ward,
+            _keywords_to_db(unit.keywords), unit.description,
         ],
     ).fetchone()
     unit_id = int(row[0])
@@ -87,7 +96,7 @@ def get_unit(con: duckdb.DuckDBPyConnection, unit_id: int) -> Optional[Unit]:
     row = con.execute(
         """
         SELECT id, army_id, name, move, save, health, control,
-               models, points, is_hero, ward
+               models, points, is_hero, ward, keywords, description
         FROM unit WHERE id = ?
         """,
         [unit_id],
@@ -98,7 +107,8 @@ def get_unit(con: duckdb.DuckDBPyConnection, unit_id: int) -> Optional[Unit]:
     return Unit(
         id=row[0], army_id=row[1], name=row[2], move=row[3], save=row[4],
         health=row[5], control=row[6], models=row[7], points=row[8],
-        is_hero=bool(row[9]), ward=row[10], weapons=weapons,
+        is_hero=bool(row[9]), ward=row[10], keywords=_keywords_from_db(row[11]),
+        description=row[12], weapons=weapons,
     )
 
 
@@ -106,7 +116,7 @@ def list_units_for_army(con: duckdb.DuckDBPyConnection, army_id: int) -> list[Un
     rows = con.execute(
         """
         SELECT id, army_id, name, move, save, health, control,
-               models, points, is_hero, ward
+               models, points, is_hero, ward, keywords, description
         FROM unit WHERE army_id = ? ORDER BY name
         """,
         [army_id],
@@ -116,7 +126,8 @@ def list_units_for_army(con: duckdb.DuckDBPyConnection, army_id: int) -> list[Un
         units.append(Unit(
             id=r[0], army_id=r[1], name=r[2], move=r[3], save=r[4],
             health=r[5], control=r[6], models=r[7], points=r[8],
-            is_hero=bool(r[9]), ward=r[10], weapons=_list_weapons(con, r[0]),
+            is_hero=bool(r[9]), ward=r[10], keywords=_keywords_from_db(r[11]),
+            description=r[12], weapons=_list_weapons(con, r[0]),
         ))
     return units
 
@@ -157,7 +168,7 @@ def load_all_units_with_weapons(
     unit_rows = con.execute(
         """
         SELECT id, army_id, name, move, save, health, control,
-               models, points, is_hero, ward
+               models, points, is_hero, ward, keywords, description
         FROM unit ORDER BY army_id, name
         """,
     ).fetchall()
@@ -180,7 +191,8 @@ def load_all_units_with_weapons(
         unit = Unit(
             id=r[0], army_id=r[1], name=r[2], move=r[3], save=r[4],
             health=r[5], control=r[6], models=r[7], points=r[8],
-            is_hero=bool(r[9]), ward=r[10],
+            is_hero=bool(r[9]), ward=r[10], keywords=_keywords_from_db(r[11]),
+            description=r[12],
             weapons=weapons_by_unit.get(int(r[0]), []),
         )
         by_army.setdefault(int(r[1]), []).append(unit)
@@ -211,12 +223,14 @@ def replace_unit(con: duckdb.DuckDBPyConnection, unit: Unit) -> bool:
     con.execute(
         """
         UPDATE unit SET move = ?, save = ?, health = ?, control = ?,
-                        models = ?, points = ?, is_hero = ?, ward = ?
+                        models = ?, points = ?, is_hero = ?, ward = ?,
+                        keywords = ?, description = ?, imported_at = CURRENT_TIMESTAMP
         WHERE id = ?
         """,
         [
             unit.move, unit.save, unit.health, unit.control,
-            unit.models, unit.points, unit.is_hero, unit.ward, unit_id,
+            unit.models, unit.points, unit.is_hero, unit.ward,
+            _keywords_to_db(unit.keywords), unit.description, unit_id,
         ],
     )
     con.execute("DELETE FROM weapon WHERE unit_id = ?", [unit_id])
@@ -229,6 +243,34 @@ def replace_unit(con: duckdb.DuckDBPyConnection, unit: Unit) -> bool:
     for (cid,) in rows:
         _refresh_total_points(con, int(cid))
     return True
+
+
+def delete_units_imported_before(
+    con: duckdb.DuckDBPyConnection, cutoff: datetime, *, army_id: Optional[int] = None,
+) -> int:
+    """Purge les unités dont `imported_at` précède `cutoff` (plus touchées par le dernier import).
+
+    Nettoie aussi leurs armes, leurs entrées de composition et leurs résultats de
+    benchmark avant de supprimer la ligne `unit` elle-même (pas de ON DELETE
+    CASCADE dans le schéma). Restreint à `army_id` si fourni, sinon global.
+    `cutoff` s'obtient typiquement en notant `datetime.now()` juste avant de
+    relancer un import complet : tout ce qui n'a pas été rafraîchi depuis a
+    disparu de la source (ou a été filtré, ex. Legends/Scourge of Aqshy-Ghyran).
+    """
+    where = "imported_at < ?" + (" AND army_id = ?" if army_id is not None else "")
+    params: list[object] = [cutoff] + ([army_id] if army_id is not None else [])
+    stale_ids = [int(r[0]) for r in con.execute(f"SELECT id FROM unit WHERE {where}", params).fetchall()]
+    if not stale_ids:
+        return 0
+    placeholders = ",".join("?" for _ in stale_ids)
+    con.execute(f"DELETE FROM weapon WHERE unit_id IN ({placeholders})", stale_ids)
+    con.execute(f"DELETE FROM composition_unit WHERE unit_id IN ({placeholders})", stale_ids)
+    con.execute(
+        f"DELETE FROM unit_benchmark WHERE attacker_id IN ({placeholders}) OR defender_id IN ({placeholders})",
+        stale_ids + stale_ids,
+    )
+    con.execute(f"DELETE FROM unit WHERE id IN ({placeholders})", stale_ids)
+    return len(stale_ids)
 
 
 # ----- Heroic traits / Artefacts --------------------------------------------
@@ -494,6 +536,7 @@ def save_benchmark_result(
     defender_reinforced: bool,
     attacker_charged: bool,
     defender_charged: bool,
+    floor80: bool,
     raw_a_to_b: float,
     expected_a_to_b: float,
     raw_b_to_a: float,
@@ -503,21 +546,21 @@ def save_benchmark_result(
     pts_net: float,
     roi: float,
 ) -> None:
-    """Upsert d'un résultat de duel (clé : attacker × defender × options)."""
+    """Upsert d'un résultat de duel (clé : attacker × defender × options × floor80)."""
     now = datetime.now()
     con.execute(
         """
         INSERT INTO unit_benchmark (
             attacker_id, defender_id,
             attacker_reinforced, defender_reinforced,
-            attacker_charged, defender_charged,
+            attacker_charged, defender_charged, floor80,
             raw_a_to_b, expected_a_to_b, raw_b_to_a, expected_b_to_a,
             pts_destroyed, pts_lost, pts_net, roi, computed_at
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ON CONFLICT (attacker_id, defender_id,
                      attacker_reinforced, defender_reinforced,
-                     attacker_charged, defender_charged)
+                     attacker_charged, defender_charged, floor80)
         DO UPDATE SET
             raw_a_to_b      = EXCLUDED.raw_a_to_b,
             expected_a_to_b = EXCLUDED.expected_a_to_b,
@@ -532,7 +575,7 @@ def save_benchmark_result(
         [
             attacker_id, defender_id,
             attacker_reinforced, defender_reinforced,
-            attacker_charged, defender_charged,
+            attacker_charged, defender_charged, floor80,
             raw_a_to_b, expected_a_to_b, raw_b_to_a, expected_b_to_a,
             pts_destroyed, pts_lost, pts_net, roi, now,
         ],
@@ -541,7 +584,7 @@ def save_benchmark_result(
 
 _BENCH_COLS = (
     "attacker_id, defender_id, attacker_reinforced, defender_reinforced, "
-    "attacker_charged, defender_charged, raw_a_to_b, expected_a_to_b, "
+    "attacker_charged, defender_charged, floor80, raw_a_to_b, expected_a_to_b, "
     "raw_b_to_a, expected_b_to_a, pts_destroyed, pts_lost, pts_net, roi, "
     "computed_at"
 )
@@ -589,7 +632,7 @@ def save_benchmark_results_many(
         SELECT {_BENCH_COLS} FROM _unit_benchmark_stg
         ON CONFLICT (attacker_id, defender_id,
                      attacker_reinforced, defender_reinforced,
-                     attacker_charged, defender_charged)
+                     attacker_charged, defender_charged, floor80)
         DO UPDATE SET
             raw_a_to_b      = EXCLUDED.raw_a_to_b,
             expected_a_to_b = EXCLUDED.expected_a_to_b,

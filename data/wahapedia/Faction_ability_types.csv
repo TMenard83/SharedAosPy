@@ -1,0 +1,733 @@
+﻿faction_id|id|name|description|
+BoC|000000477|Artefacts of Power||
+BoC|000000479|Battle Formations|You can pick 1 of the following battle formations for a Beasts of Chaos army. Each battle formation grants a different ability you can use in the battle.|
+BoC|000000479|Battle Formations|You can pick 1 of the following battle formations for a Beasts of Chaos army. Each battle formation grants a different ability you can use in the battle.|
+BoC|000000479|Battle Formations|You can pick 1 of the following battle formations for a Beasts of Chaos army. Each battle formation grants a different ability you can use in the battle.|
+BoC|000000479|Battle Formations|You can pick 1 of the following battle formations for a Beasts of Chaos army. Each battle formation grants a different ability you can use in the battle.|
+BoC|000000475|Battle Traits|Beasts of Chaos armies can use the following abilities:|
+BoC|000000476|Heroic Traits||
+BoC|000000519|Manifestation Lore||
+BoC|000000478|Spell Lore||
+BoK|000000850|Artefacts of Power||
+BoK|000000846|Battle Formations|You can pick 1 of the following battle formations for a Blades of Khorne army. Each battle formation grants a different ability you can use in the battle.|
+BoK|000000846|Battle Formations|You can pick 1 of the following battle formations for a Blades of Khorne army. Each battle formation grants a different ability you can use in the battle.|
+BoK|000000846|Battle Formations|You can pick 1 of the following battle formations for a Blades of Khorne army. Each battle formation grants a different ability you can use in the battle.|
+BoK|000000846|Battle Formations|You can pick 1 of the following battle formations for a Blades of Khorne army. Each battle formation grants a different ability you can use in the battle.|
+BoK|000000846|Battle Formations|You can pick 1 of the following battle formations for a Blades of Khorne army. Each battle formation grants a different ability you can use in the battle.|
+BoK|000000846|Battle Formations|You can pick 1 of the following battle formations for a Blades of Khorne army. Each battle formation grants a different ability you can use in the battle.|
+BoK|000000851|Battle Traits|Blades of Khorne armies can use the following abilities:|
+BoK|000000851|Battle Traits|Blades of Khorne armies can use the following abilities:|
+BoK|000000851|Battle Traits|Blades of Khorne armies can use the following abilities:|
+BoK|000001015|Bloodbound Gore Pilgrims||
+BoK|000001015|Bloodbound Gore Pilgrims||
+BoK|000001015|Bloodbound Gore Pilgrims||
+BoK|000001014|Fangs of the Blood God||
+BoK|000001014|Fangs of the Blood God||
+BoK|000001014|Fangs of the Blood God||
+BoK|000000847|Gorechosen Champions||
+BoK|000000847|Gorechosen Champions||
+BoK|000000847|Gorechosen Champions||
+BoK|000000847|Gorechosen Champions||
+BoK|000000847|Gorechosen Champions||
+BoK|000000849|Heroic Traits||
+BoK|000000646|Manifestation Lore||
+BoK|000000845|Prayer Lore||
+BoK|000000845|Prayer Lore||
+BoK|000000848|The Baleful Lords||
+BoK|000000848|The Baleful Lords||
+BoK|000000848|The Baleful Lords||
+BS|000000731|Artefacts of Power||
+BS|000000735|Battle Formations|You can pick 1 of the following battle formations for a Bonesplitterz army. Each battle formation grants a different ability you can use in the battle.|
+BS|000000735|Battle Formations|You can pick 1 of the following battle formations for a Bonesplitterz army. Each battle formation grants a different ability you can use in the battle.|
+BS|000000735|Battle Formations|You can pick 1 of the following battle formations for a Bonesplitterz army. Each battle formation grants a different ability you can use in the battle.|
+BS|000000735|Battle Formations|You can pick 1 of the following battle formations for a Bonesplitterz army. Each battle formation grants a different ability you can use in the battle.|
+BS|000000732|Battle Traits|Bonesplitterz armies can use the following abilities:|
+BS|000000733|Heroic Traits||
+BS|000000734|Prayer Lore||
+BS|000000736|Spell Lore||
+CoS|000000531|Artefacts of Power||
+CoS|000000533|Battle Formations|You can pick 1 of the following battle formations for a Cities of Sigmar army. Each battle formation grants a different ability you can use in the battle.|
+CoS|000000533|Battle Formations|You can pick 1 of the following battle formations for a Cities of Sigmar army. Each battle formation grants a different ability you can use in the battle.|
+CoS|000000533|Battle Formations|You can pick 1 of the following battle formations for a Cities of Sigmar army. Each battle formation grants a different ability you can use in the battle.|
+CoS|000000533|Battle Formations|You can pick 1 of the following battle formations for a Cities of Sigmar army. Each battle formation grants a different ability you can use in the battle.|
+CoS|000000533|Battle Formations|You can pick 1 of the following battle formations for a Cities of Sigmar army. Each battle formation grants a different ability you can use in the battle.|
+CoS|000000533|Battle Formations|You can pick 1 of the following battle formations for a Cities of Sigmar army. Each battle formation grants a different ability you can use in the battle.|
+CoS|000000529|Battle Traits|Cities of Sigmar armies can use the following abilities:|
+CoS|000001020|Castelite Company||
+CoS|000001020|Castelite Company||
+CoS|000001020|Castelite Company||
+CoS|000001008|Fusil-Platoon||
+CoS|000001008|Fusil-Platoon||
+CoS|000001008|Fusil-Platoon||
+CoS|000000530|Heroic Traits||
+CoS|000000530|Heroic Traits||
+CoS|000000534|Prayer Lore||
+CoS|000001064|Sentinels of Embergard||
+CoS|000001064|Sentinels of Embergard||
+CoS|000001064|Sentinels of Embergard||
+CoS|000000532|Spell Lore||
+CoS|000000900|The Duardin Ascendant||
+CoS|000000900|The Duardin Ascendant||
+CoS|000000900|The Duardin Ascendant||
+CoS|000000900|The Duardin Ascendant||
+CoS|000001069|Zenestra’s Zealots||
+CoS|000001069|Zenestra’s Zealots||
+CoS|000001069|Zenestra’s Zealots||
+DoK|000000994|Artefacts of Power||
+DoK|000000987|Battle Formations|You can pick 1 of the following battle formations for a Daughters of Khaine army. Each battle formation grants a different ability you can use in the battle.|
+DoK|000000987|Battle Formations|You can pick 1 of the following battle formations for a Daughters of Khaine army. Each battle formation grants a different ability you can use in the battle.|
+DoK|000000987|Battle Formations|You can pick 1 of the following battle formations for a Daughters of Khaine army. Each battle formation grants a different ability you can use in the battle.|
+DoK|000000987|Battle Formations|You can pick 1 of the following battle formations for a Daughters of Khaine army. Each battle formation grants a different ability you can use in the battle.|
+DoK|000000987|Battle Formations|You can pick 1 of the following battle formations for a Daughters of Khaine army. Each battle formation grants a different ability you can use in the battle.|
+DoK|000000987|Battle Formations|You can pick 1 of the following battle formations for a Daughters of Khaine army. Each battle formation grants a different ability you can use in the battle.|
+DoK|000000992|Battle Traits|Daughters of Khaine armies can use the following abilities:|
+DoK|000000990|Champions of the Arena||
+DoK|000000990|Champions of the Arena||
+DoK|000000990|Champions of the Arena||
+DoK|000000990|Champions of the Arena||
+DoK|000000990|Champions of the Arena||
+DoK|000001030|Heartflayer Troupe||
+DoK|000001030|Heartflayer Troupe||
+DoK|000000993|Heroic Traits||
+DoK|000001054|Khainite Shadow Coven||
+DoK|000001054|Khainite Shadow Coven||
+DoK|000001054|Khainite Shadow Coven||
+DoK|000000571|Manifestation Lore||
+DoK|000000570|Prayer Lore||
+DoK|000000570|Prayer Lore||
+DoK|000000986|Spell Lore||
+DoK|000000569|The Croneseer’s Pariahs||
+DoK|000000569|The Croneseer’s Pariahs||
+DoK|000000569|The Croneseer’s Pariahs||
+DoK|000000569|The Croneseer’s Pariahs||
+DoK|000000989|Zainthar Kai||
+DoK|000000989|Zainthar Kai||
+DoK|000000989|Zainthar Kai||
+DoK|000000989|Zainthar Kai||
+DoK|000000989|Zainthar Kai||
+DoT|000000951|Artefacts of Power||
+DoT|000000951|Artefacts of Power||
+DoT|000000954|Battle Formations|You can pick 1 of the following battle formations for a Disciples of Tzeentch army. Each battle formation grants a different ability you can use in the battle.|
+DoT|000000954|Battle Formations|You can pick 1 of the following battle formations for a Disciples of Tzeentch army. Each battle formation grants a different ability you can use in the battle.|
+DoT|000000954|Battle Formations|You can pick 1 of the following battle formations for a Disciples of Tzeentch army. Each battle formation grants a different ability you can use in the battle.|
+DoT|000000954|Battle Formations|You can pick 1 of the following battle formations for a Disciples of Tzeentch army. Each battle formation grants a different ability you can use in the battle.|
+DoT|000000954|Battle Formations|You can pick 1 of the following battle formations for a Disciples of Tzeentch army. Each battle formation grants a different ability you can use in the battle.|
+DoT|000000954|Battle Formations|You can pick 1 of the following battle formations for a Disciples of Tzeentch army. Each battle formation grants a different ability you can use in the battle.|
+DoT|000000952|Battle Traits|Disciples of Tzeentch armies can use the following abilities:|
+DoT|000000956|Change-Cult Uprising||
+DoT|000000956|Change-Cult Uprising||
+DoT|000000956|Change-Cult Uprising||
+DoT|000000956|Change-Cult Uprising||
+DoT|000000956|Change-Cult Uprising||
+DoT|000001059|Fluxblade Coven||
+DoT|000001059|Fluxblade Coven||
+DoT|000001059|Fluxblade Coven||
+DoT|000000950|Heroic Traits||
+DoT|000000628|Manifestation Lore||
+DoT|000000904|Pyrofane Cult||
+DoT|000000904|Pyrofane Cult||
+DoT|000000904|Pyrofane Cult||
+DoT|000000904|Pyrofane Cult||
+DoT|000000904|Pyrofane Cult||
+DoT|000000953|Spell Lore||
+DoT|000000953|Spell Lore||
+DoT|000000955|The Oracles of Fate||
+DoT|000000955|The Oracles of Fate||
+DoT|000000955|The Oracles of Fate||
+DoT|000000955|The Oracles of Fate||
+DoT|000000955|The Oracles of Fate||
+DoT|000001035|Tzaangor Warflock||
+DoT|000001035|Tzaangor Warflock||
+DoT|000001035|Tzaangor Warflock||
+EnS|000000797|Manifestation Lore||
+EnS|000000797|Manifestation Lore||
+EnS|000000797|Manifestation Lore||
+EnS|000000797|Manifestation Lore||
+EnS|000000797|Manifestation Lore||
+EnS|000000797|Manifestation Lore||
+FE|000000872|Artefacts of Power||
+FE|000000874|Battle Formations|You can pick 1 of the following battle formations for a Flesh-eater Courts army. Each battle formation grants a different ability you can use in the battle.|
+FE|000000874|Battle Formations|You can pick 1 of the following battle formations for a Flesh-eater Courts army. Each battle formation grants a different ability you can use in the battle.|
+FE|000000874|Battle Formations|You can pick 1 of the following battle formations for a Flesh-eater Courts army. Each battle formation grants a different ability you can use in the battle.|
+FE|000000874|Battle Formations|You can pick 1 of the following battle formations for a Flesh-eater Courts army. Each battle formation grants a different ability you can use in the battle.|
+FE|000000874|Battle Formations|You can pick 1 of the following battle formations for a Flesh-eater Courts army. Each battle formation grants a different ability you can use in the battle.|
+FE|000000874|Battle Formations|You can pick 1 of the following battle formations for a Flesh-eater Courts army. Each battle formation grants a different ability you can use in the battle.|
+FE|000000870|Battle Traits|Flesh-eater Courts armies can use the following abilities:|
+FE|000001024|Carrion Retainers||
+FE|000001024|Carrion Retainers||
+FE|000001024|Carrion Retainers||
+FE|000001053|Charnel Watch||
+FE|000001053|Charnel Watch||
+FE|000001053|Charnel Watch||
+FE|000000871|Heroic Traits||
+FE|000000664|Manifestation Lore||
+FE|000000822|Monstrous Traits||
+FE|000000663|Prayer Lore||
+FE|000000873|Spell Lore||
+FE|000000875|The Equinox Feast||
+FE|000000875|The Equinox Feast||
+FE|000000875|The Equinox Feast||
+FE|000000875|The Equinox Feast||
+FE|000000875|The Equinox Feast||
+FE|000000875|The Equinox Feast||
+FE|000000876|The Knights of New Summercourt||
+FE|000000876|The Knights of New Summercourt||
+FE|000000876|The Knights of New Summercourt||
+FE|000000876|The Knights of New Summercourt||
+FE|000000876|The Knights of New Summercourt||
+FE|000000876|The Knights of New Summercourt||
+FY|000000695|Artefacts of Power||
+FY|000000697|Battle Formations|You can pick 1 of the following battle formations for a Fyreslayers army. Each battle formation grants a different ability you can use in the battle.|
+FY|000000697|Battle Formations|You can pick 1 of the following battle formations for a Fyreslayers army. Each battle formation grants a different ability you can use in the battle.|
+FY|000000697|Battle Formations|You can pick 1 of the following battle formations for a Fyreslayers army. Each battle formation grants a different ability you can use in the battle.|
+FY|000000697|Battle Formations|You can pick 1 of the following battle formations for a Fyreslayers army. Each battle formation grants a different ability you can use in the battle.|
+FY|000000693|Battle Traits|Fyreslayers armies can use the following abilities:|
+FY|000000694|Heroic Traits||
+FY|000000698|Lofnir Drothkeepers||
+FY|000000698|Lofnir Drothkeepers||
+FY|000000698|Lofnir Drothkeepers||
+FY|000000698|Lofnir Drothkeepers||
+FY|000000698|Lofnir Drothkeepers||
+FY|000000699|Manifestation Lore||
+FY|000000824|Marks of Vulcatrix||
+FY|000000696|Prayer Lore||
+FY|000000696|Prayer Lore||
+FY|000001056|Saga Axeband||
+FY|000001056|Saga Axeband||
+FY|000001056|Saga Axeband||
+FY|000000899|The Duardin Ascendant||
+FY|000000899|The Duardin Ascendant||
+FY|000000899|The Duardin Ascendant||
+FY|000000899|The Duardin Ascendant||
+GG|000000800|Artefacts of Power||
+GG|000001026|Bad Moon Madmob||
+GG|000001026|Bad Moon Madmob||
+GG|000001026|Bad Moon Madmob||
+GG|000000804|Battle Formations|You can pick 1 of the following battle formations for a Gloomspite Gitz army. Each battle formation grants a different ability you can use in the battle.|
+GG|000000804|Battle Formations|You can pick 1 of the following battle formations for a Gloomspite Gitz army. Each battle formation grants a different ability you can use in the battle.|
+GG|000000804|Battle Formations|You can pick 1 of the following battle formations for a Gloomspite Gitz army. Each battle formation grants a different ability you can use in the battle.|
+GG|000000804|Battle Formations|You can pick 1 of the following battle formations for a Gloomspite Gitz army. Each battle formation grants a different ability you can use in the battle.|
+GG|000000804|Battle Formations|You can pick 1 of the following battle formations for a Gloomspite Gitz army. Each battle formation grants a different ability you can use in the battle.|
+GG|000000804|Battle Formations|You can pick 1 of the following battle formations for a Gloomspite Gitz army. Each battle formation grants a different ability you can use in the battle.|
+GG|000000801|Battle Traits|Gloomspite Gitz armies can use the following abilities:|
+GG|000000806|Da King’s Gitz||
+GG|000000806|Da King’s Gitz||
+GG|000000806|Da King’s Gitz||
+GG|000000806|Da King’s Gitz||
+GG|000000806|Da King’s Gitz||
+GG|000000808|Droggz’s Gitmob||
+GG|000000808|Droggz’s Gitmob||
+GG|000000808|Droggz’s Gitmob||
+GG|000000808|Droggz’s Gitmob||
+GG|000000808|Droggz’s Gitmob||
+GG|000000802|Heroic Traits||
+GG|000001019|Snarlpack Huntaz||
+GG|000001019|Snarlpack Huntaz||
+GG|000001019|Snarlpack Huntaz||
+GG|000000803|Spell Lore||
+GG|000000803|Spell Lore||
+GG|000000803|Spell Lore||
+GG|000000805|Trugg’s Troggherd||
+GG|000000805|Trugg’s Troggherd||
+GG|000000805|Trugg’s Troggherd||
+HoH|000000891|Accursed Devices|Accursed Devices are a special type of enhancement for War Machines. During army composition, when you add enhancements, you can pick 1 Accursed Device and give it to a <span class="kwb">WAR</span> <span class="kwb">MACHINE</span> on your army roster.|
+HoH|000000880|Artefacts of Power||
+HoH|000000882|Battle Formations|You can pick 1 of the following battle formations for a Helsmiths of Hashut army. Each battle formation grants a different ability you can use in the battle.|
+HoH|000000882|Battle Formations|You can pick 1 of the following battle formations for a Helsmiths of Hashut army. Each battle formation grants a different ability you can use in the battle.|
+HoH|000000882|Battle Formations|You can pick 1 of the following battle formations for a Helsmiths of Hashut army. Each battle formation grants a different ability you can use in the battle.|
+HoH|000000882|Battle Formations|You can pick 1 of the following battle formations for a Helsmiths of Hashut army. Each battle formation grants a different ability you can use in the battle.|
+HoH|000000882|Battle Formations|You can pick 1 of the following battle formations for a Helsmiths of Hashut army. Each battle formation grants a different ability you can use in the battle.|
+HoH|000000882|Battle Formations|You can pick 1 of the following battle formations for a Helsmiths of Hashut army. Each battle formation grants a different ability you can use in the battle.|
+HoH|000000878|Battle Traits|Helsmiths of Hashut armies can use the following abilities:|
+HoH|000001044|Helforge Host||
+HoH|000001044|Helforge Host||
+HoH|000001044|Helforge Host||
+HoH|000000879|Heroic Traits||
+HoH|000000885|Prayer Lore||
+HoH|000000881|Spell Lore||
+HoH|000000883|Taar’s Grand Forgehost||
+HoH|000000883|Taar’s Grand Forgehost||
+HoH|000000883|Taar’s Grand Forgehost||
+HoH|000000883|Taar’s Grand Forgehost||
+HoH|000000883|Taar’s Grand Forgehost||
+HoH|000000884|Ziggurat Stampede||
+HoH|000000884|Ziggurat Stampede||
+HoH|000000884|Ziggurat Stampede||
+HoH|000000884|Ziggurat Stampede||
+HS|000000636|Artefacts of Power||
+HS|000000640|Battle Formations|You can pick 1 of the following battle formations for a Hedonites of Slaanesh army. Each battle formation grants a different ability you can use in the battle.|
+HS|000000640|Battle Formations|You can pick 1 of the following battle formations for a Hedonites of Slaanesh army. Each battle formation grants a different ability you can use in the battle.|
+HS|000000640|Battle Formations|You can pick 1 of the following battle formations for a Hedonites of Slaanesh army. Each battle formation grants a different ability you can use in the battle.|
+HS|000000640|Battle Formations|You can pick 1 of the following battle formations for a Hedonites of Slaanesh army. Each battle formation grants a different ability you can use in the battle.|
+HS|000000640|Battle Formations|You can pick 1 of the following battle formations for a Hedonites of Slaanesh army. Each battle formation grants a different ability you can use in the battle.|
+HS|000000640|Battle Formations|You can pick 1 of the following battle formations for a Hedonites of Slaanesh army. Each battle formation grants a different ability you can use in the battle.|
+HS|000000637|Battle Traits|Hedonites of Slaanesh armies can use the following abilities:|
+HS|000001006|Blades of the Lurid Dream||
+HS|000001006|Blades of the Lurid Dream||
+HS|000000638|Heroic Traits||
+HS|000000638|Heroic Traits||
+HS|000000641|Manifestation Lore||
+HS|000000639|Spell Lore||
+ID|000001037|Akhelian Tide Guard||
+ID|000001037|Akhelian Tide Guard||
+ID|000001037|Akhelian Tide Guard||
+ID|000000855|Artefacts of Power||
+ID|000000857|Battle Formations|You can pick 1 of the following battle formations for a Idoneth Deepkin army. Each battle formation grants a different ability you can use in the battle.|
+ID|000000857|Battle Formations|You can pick 1 of the following battle formations for a Idoneth Deepkin army. Each battle formation grants a different ability you can use in the battle.|
+ID|000000857|Battle Formations|You can pick 1 of the following battle formations for a Idoneth Deepkin army. Each battle formation grants a different ability you can use in the battle.|
+ID|000000857|Battle Formations|You can pick 1 of the following battle formations for a Idoneth Deepkin army. Each battle formation grants a different ability you can use in the battle.|
+ID|000000857|Battle Formations|You can pick 1 of the following battle formations for a Idoneth Deepkin army. Each battle formation grants a different ability you can use in the battle.|
+ID|000000857|Battle Formations|You can pick 1 of the following battle formations for a Idoneth Deepkin army. Each battle formation grants a different ability you can use in the battle.|
+ID|000000853|Battle Traits|Idoneth Deepkin armies can use the following abilities:<br><br><b>Designer’s Note:</b> <i>Once per battle round, you can use a <span class="kwb">TIDAL</span> ability from either the Tides of the Sea or the Tides of the Storm. If you do so, you unlock the next ability ln the same column m the next battle round. You can switch columns at anytime, though this resets your progress. For example, if you use the ’Concealing Tide’ ability in the first battle round, in the second, you can either use ’Swift Tide’ or switch columns and use ’Unpredictable Tide’.</i>|
+ID|000000853|Battle Traits|Idoneth Deepkin armies can use the following abilities:<br><br><b>Designer’s Note:</b> <i>Once per battle round, you can use a <span class="kwb">TIDAL</span> ability from either the Tides of the Sea or the Tides of the Storm. If you do so, you unlock the next ability ln the same column m the next battle round. You can switch columns at anytime, though this resets your progress. For example, if you use the ’Concealing Tide’ ability in the first battle round, in the second, you can either use ’Swift Tide’ or switch columns and use ’Unpredictable Tide’.</i>|
+ID|000000854|Heroic Traits||
+ID|000000854|Heroic Traits||
+ID|000000860|Manifestation Lore||
+ID|000000895|PATH TO GLORY|Here, you will find additional rules to use with an Idoneth Deepkin army while playing through a Path to Glory campaign. The Path to Glory content in this book is divided into two parts: the Anvil of Apotheosis and Paths for Idoneth Deepkin units.|
+ID|000001046|Soulraid Hunt||
+ID|000001046|Soulraid Hunt||
+ID|000000856|Spell Lore||
+ID|000000858|The First Phalanx of Ionrach||
+ID|000000858|The First Phalanx of Ionrach||
+ID|000000858|The First Phalanx of Ionrach||
+ID|000000858|The First Phalanx of Ionrach||
+ID|000000859|Wardens of the Chorrileum||
+ID|000000859|Wardens of the Chorrileum||
+ID|000000859|Wardens of the Chorrileum||
+ID|000000859|Wardens of the Chorrileum||
+ID|000000859|Wardens of the Chorrileum||
+IJ|000000778|Artefacts of Power||
+IJ|000000780|Battle Formations|You can pick 1 of the following battle formations for a Ironjawz army. Each battle formation grants a different ability you can use in the battle.|
+IJ|000000780|Battle Formations|You can pick 1 of the following battle formations for a Ironjawz army. Each battle formation grants a different ability you can use in the battle.|
+IJ|000000780|Battle Formations|You can pick 1 of the following battle formations for a Ironjawz army. Each battle formation grants a different ability you can use in the battle.|
+IJ|000000780|Battle Formations|You can pick 1 of the following battle formations for a Ironjawz army. Each battle formation grants a different ability you can use in the battle.|
+IJ|000000780|Battle Formations|You can pick 1 of the following battle formations for a Ironjawz army. Each battle formation grants a different ability you can use in the battle.|
+IJ|000000780|Battle Formations|You can pick 1 of the following battle formations for a Ironjawz army. Each battle formation grants a different ability you can use in the battle.|
+IJ|000000776|Battle Traits|Ironjawz armies can use the following abilities:|
+IJ|000000793|Big Waaagh!||
+IJ|000000793|Big Waaagh!||
+IJ|000000793|Big Waaagh!||
+IJ|000000793|Big Waaagh!||
+IJ|000000793|Big Waaagh!||
+IJ|000000793|Big Waaagh!||
+IJ|000000777|Heroic Traits||
+IJ|000001058|Ironjawz Bigmob||
+IJ|000001058|Ironjawz Bigmob||
+IJ|000001058|Ironjawz Bigmob||
+IJ|000000903|Ironsunz||
+IJ|000000903|Ironsunz||
+IJ|000000903|Ironsunz||
+IJ|000000903|Ironsunz||
+IJ|000000903|Ironsunz||
+IJ|000000903|Ironsunz||
+IJ|000000792|Krazogg’s Grunta Stampede||
+IJ|000000792|Krazogg’s Grunta Stampede||
+IJ|000000792|Krazogg’s Grunta Stampede||
+IJ|000000786|Manifestation Lore||
+IJ|000000820|Monstrous Traits||
+IJ|000000785|Prayer Lore||
+IJ|000000779|Spell Lore||
+IJ|000000794|Zoggrok’s Ironmongerz||
+IJ|000000794|Zoggrok’s Ironmongerz||
+IJ|000000794|Zoggrok’s Ironmongerz||
+IJ|000000794|Zoggrok’s Ironmongerz||
+IJ|000000794|Zoggrok’s Ironmongerz||
+IJ|000000794|Zoggrok’s Ironmongerz||
+KB|000000784|Artefacts of Power||
+KB|000000772|Battle Formations|You can pick 1 of the following battle formations for a Kruleboyz army. Each battle formation grants a different ability you can use in the battle.|
+KB|000000772|Battle Formations|You can pick 1 of the following battle formations for a Kruleboyz army. Each battle formation grants a different ability you can use in the battle.|
+KB|000000772|Battle Formations|You can pick 1 of the following battle formations for a Kruleboyz army. Each battle formation grants a different ability you can use in the battle.|
+KB|000000772|Battle Formations|You can pick 1 of the following battle formations for a Kruleboyz army. Each battle formation grants a different ability you can use in the battle.|
+KB|000000772|Battle Formations|You can pick 1 of the following battle formations for a Kruleboyz army. Each battle formation grants a different ability you can use in the battle.|
+KB|000000772|Battle Formations|You can pick 1 of the following battle formations for a Kruleboyz army. Each battle formation grants a different ability you can use in the battle.|
+KB|000000782|Battle Traits|Kruleboyz armies can use the following abilities:|
+KB|000000789|Big Waaagh!||
+KB|000000789|Big Waaagh!||
+KB|000000789|Big Waaagh!||
+KB|000000789|Big Waaagh!||
+KB|000000789|Big Waaagh!||
+KB|000000789|Big Waaagh!||
+KB|000000783|Heroic Traits||
+KB|000000787|Manifestation Lore||
+KB|000000821|Monstrous Traits||
+KB|000000791|Murkvast Menagerie||
+KB|000000791|Murkvast Menagerie||
+KB|000000791|Murkvast Menagerie||
+KB|000000791|Murkvast Menagerie||
+KB|000000791|Murkvast Menagerie||
+KB|000000771|Spell Lore||
+KB|000001032|Swampskulka Gang||
+KB|000001032|Swampskulka Gang||
+KB|000001032|Swampskulka Gang||
+KO|000000836|Artefacts of Power||
+KO|000000836|Artefacts of Power||
+KO|000000840|Battle Formations|You can pick 1 of the following battle formations for a Kharadron Overlords army. Each battle formation grants a different ability you can use in the battle.|
+KO|000000840|Battle Formations|You can pick 1 of the following battle formations for a Kharadron Overlords army. Each battle formation grants a different ability you can use in the battle.|
+KO|000000840|Battle Formations|You can pick 1 of the following battle formations for a Kharadron Overlords army. Each battle formation grants a different ability you can use in the battle.|
+KO|000000840|Battle Formations|You can pick 1 of the following battle formations for a Kharadron Overlords army. Each battle formation grants a different ability you can use in the battle.|
+KO|000000835|Battle Traits|Kharadron Overlords armies can use the following abilities:|
+KO|000000837|Great Endrinworks||
+KO|000000826|Great Endrinworks||
+KO|000000841|Grundstok Expeditionary Force||
+KO|000000841|Grundstok Expeditionary Force||
+KO|000000841|Grundstok Expeditionary Force||
+KO|000001002|Grundstok Trailblazers||
+KO|000001002|Grundstok Trailblazers||
+KO|000001002|Grundstok Trailblazers||
+KO|000000838|Heroic Traits||
+KO|000000842|Pioneer Outpost||
+KO|000000842|Pioneer Outpost||
+KO|000000842|Pioneer Outpost||
+KO|000001067|Skyhammer Task Force||
+KO|000001067|Skyhammer Task Force||
+KO|000001067|Skyhammer Task Force||
+KO|000000901|The Duardin Ascendant||
+KO|000000901|The Duardin Ascendant||
+KO|000000901|The Duardin Ascendant||
+KO|000000901|The Duardin Ascendant||
+KO|000000843|The Magnate’s Crew||
+KO|000000843|The Magnate’s Crew||
+KO|000000843|The Magnate’s Crew||
+LRL|000000963|Aelementiri Conclave||
+LRL|000000963|Aelementiri Conclave||
+LRL|000000963|Aelementiri Conclave||
+LRL|000000963|Aelementiri Conclave||
+LRL|000000963|Aelementiri Conclave||
+LRL|000000960|Artefacts of Power||
+LRL|000000962|Battle Formations|You can pick 1 of the following battle formations for a Lumineth Realm-lords army. Each battle formation grants a different ability you can use in the battle.|
+LRL|000000962|Battle Formations|You can pick 1 of the following battle formations for a Lumineth Realm-lords army. Each battle formation grants a different ability you can use in the battle.|
+LRL|000000962|Battle Formations|You can pick 1 of the following battle formations for a Lumineth Realm-lords army. Each battle formation grants a different ability you can use in the battle.|
+LRL|000000962|Battle Formations|You can pick 1 of the following battle formations for a Lumineth Realm-lords army. Each battle formation grants a different ability you can use in the battle.|
+LRL|000000958|Battle Traits|Lumineth Realm‑lords armies can use the following abilities:|
+LRL|000001066|Glittering Phalanx||
+LRL|000001066|Glittering Phalanx||
+LRL|000001066|Glittering Phalanx||
+LRL|000000959|Heroic Traits||
+LRL|000000959|Heroic Traits||
+LRL|000001022|Hurakan Vanguard||
+LRL|000001022|Hurakan Vanguard||
+LRL|000001022|Hurakan Vanguard||
+LRL|000000591|Manifestation Lore||
+LRL|000000961|Spell Lore||
+LRL|000000961|Spell Lore||
+LRL|000000961|Spell Lore||
+LRL|000000964|Vanari Paragons||
+LRL|000000964|Vanari Paragons||
+LRL|000000964|Vanari Paragons||
+MoN|000000941|Artefacts of Power||
+MoN|000000944|Battle Formations|You can pick 1 of the following battle formations for a Maggotkin of Nurgle army. Each battle formation grants a different ability you can use in the battle.|
+MoN|000000944|Battle Formations|You can pick 1 of the following battle formations for a Maggotkin of Nurgle army. Each battle formation grants a different ability you can use in the battle.|
+MoN|000000944|Battle Formations|You can pick 1 of the following battle formations for a Maggotkin of Nurgle army. Each battle formation grants a different ability you can use in the battle.|
+MoN|000000944|Battle Formations|You can pick 1 of the following battle formations for a Maggotkin of Nurgle army. Each battle formation grants a different ability you can use in the battle.|
+MoN|000000942|Battle Traits|Maggotkin of Nurgle armies can use the following abilities:|
+MoN|000001050|Bleak Host||
+MoN|000001050|Bleak Host||
+MoN|000001050|Bleak Host||
+MoN|000001068|Bubonic Cell||
+MoN|000001068|Bubonic Cell||
+MoN|000001068|Bubonic Cell||
+MoN|000000945|Cycle of Corruption||
+MoN|000000945|Cycle of Corruption||
+MoN|000000945|Cycle of Corruption||
+MoN|000000945|Cycle of Corruption||
+MoN|000000945|Cycle of Corruption||
+MoN|000000940|Heroic Traits||
+MoN|000000940|Heroic Traits||
+MoN|000000947|Prayer Lore||
+MoN|000000947|Prayer Lore||
+MoN|000000943|Spell Lore||
+MoN|000000946|The Gardeners of Nurgle||
+MoN|000000946|The Gardeners of Nurgle||
+MoN|000000946|The Gardeners of Nurgle||
+MoN|000000946|The Gardeners of Nurgle||
+NT|000000868|Artefacts of Power||
+NT|000000868|Artefacts of Power||
+NT|000000862|Battle Formations|You can pick 1 of the following battle formations for a Nighthaunt army. Each battle formation grants a different ability you can use in the battle.|
+NT|000000862|Battle Formations|You can pick 1 of the following battle formations for a Nighthaunt army. Each battle formation grants a different ability you can use in the battle.|
+NT|000000862|Battle Formations|You can pick 1 of the following battle formations for a Nighthaunt army. Each battle formation grants a different ability you can use in the battle.|
+NT|000000862|Battle Formations|You can pick 1 of the following battle formations for a Nighthaunt army. Each battle formation grants a different ability you can use in the battle.|
+NT|000000862|Battle Formations|You can pick 1 of the following battle formations for a Nighthaunt army. Each battle formation grants a different ability you can use in the battle.|
+NT|000000862|Battle Formations|You can pick 1 of the following battle formations for a Nighthaunt army. Each battle formation grants a different ability you can use in the battle.|
+NT|000000866|Battle Traits|Nighthaunt armies can use the following abilities:|
+NT|000001041|Cursed Shacklehorde||
+NT|000001041|Cursed Shacklehorde||
+NT|000001041|Cursed Shacklehorde||
+NT|000000867|Heroic Traits||
+NT|000000578|Manifestation Lore||
+NT|000001063|Slasher Host||
+NT|000001063|Slasher Host||
+NT|000001063|Slasher Host||
+NT|000000861|Spell Lore||
+NT|000000863|The Clattering Procession||
+NT|000000863|The Clattering Procession||
+NT|000000863|The Clattering Procession||
+NT|000000863|The Clattering Procession||
+NT|000000863|The Clattering Procession||
+NT|000000864|The Eternal Nightmare||
+NT|000000864|The Eternal Nightmare||
+NT|000000864|The Eternal Nightmare||
+NT|000000864|The Eternal Nightmare||
+NT|000000864|The Eternal Nightmare||
+OB|000000967|Artefacts of Power||
+OB|000000970|Battle Formations|You can pick 1 of the following battle formations for a Ossiarch Bonereapers army. Each battle formation grants a different ability you can use in the battle.|
+OB|000000970|Battle Formations|You can pick 1 of the following battle formations for a Ossiarch Bonereapers army. Each battle formation grants a different ability you can use in the battle.|
+OB|000000970|Battle Formations|You can pick 1 of the following battle formations for a Ossiarch Bonereapers army. Each battle formation grants a different ability you can use in the battle.|
+OB|000000970|Battle Formations|You can pick 1 of the following battle formations for a Ossiarch Bonereapers army. Each battle formation grants a different ability you can use in the battle.|
+OB|000000970|Battle Formations|You can pick 1 of the following battle formations for a Ossiarch Bonereapers army. Each battle formation grants a different ability you can use in the battle.|
+OB|000000970|Battle Formations|You can pick 1 of the following battle formations for a Ossiarch Bonereapers army. Each battle formation grants a different ability you can use in the battle.|
+OB|000000968|Battle Traits|Ossiarch Bonereapers armies can use the following abilities:|
+OB|000000966|Heroic Traits||
+OB|000001000|Kavalos Vanguard||
+OB|000001000|Kavalos Vanguard||
+OB|000001000|Kavalos Vanguard||
+OB|000000562|Manifestation Lore||
+OB|000001045|Mortisan Elite||
+OB|000001045|Mortisan Elite||
+OB|000001045|Mortisan Elite||
+OB|000000902|Petrifex Elite||
+OB|000000902|Petrifex Elite||
+OB|000000902|Petrifex Elite||
+OB|000000902|Petrifex Elite||
+OB|000000902|Petrifex Elite||
+OB|000000969|Spell Lore||
+OB|000000969|Spell Lore||
+OB|000000971|The Lance of Ossia||
+OB|000000971|The Lance of Ossia||
+OB|000000971|The Lance of Ossia||
+OB|000000972|The Null Myriad||
+OB|000000972|The Null Myriad||
+OB|000000972|The Null Myriad||
+OB|000000972|The Null Myriad||
+OB|000000972|The Null Myriad||
+OB|000001025|Tithe-reaper Echelon||
+OB|000001025|Tithe-reaper Echelon||
+OB|000001025|Tithe-reaper Echelon||
+OM|000000747|Artefacts of Power||
+OM|000000750|Battle Formations|You can pick 1 of the following battle formations for a Ogor Mawtribes army. Each battle formation grants a different ability you can use in the battle.|
+OM|000000750|Battle Formations|You can pick 1 of the following battle formations for a Ogor Mawtribes army. Each battle formation grants a different ability you can use in the battle.|
+OM|000000750|Battle Formations|You can pick 1 of the following battle formations for a Ogor Mawtribes army. Each battle formation grants a different ability you can use in the battle.|
+OM|000000750|Battle Formations|You can pick 1 of the following battle formations for a Ogor Mawtribes army. Each battle formation grants a different ability you can use in the battle.|
+OM|000000750|Battle Formations|You can pick 1 of the following battle formations for a Ogor Mawtribes army. Each battle formation grants a different ability you can use in the battle.|
+OM|000000750|Battle Formations|You can pick 1 of the following battle formations for a Ogor Mawtribes army. Each battle formation grants a different ability you can use in the battle.|
+OM|000000748|Battle Traits|Ogor Mawtribes armies can use the following abilities:|
+OM|000000828|Big Names||
+OM|000000746|Heroic Traits||
+OM|000000752|Prayer Lore||
+OM|000001039|Scrapglutt||
+OM|000001039|Scrapglutt||
+OM|000001039|Scrapglutt||
+OM|000000749|Spell Lore||
+OM|000000751|The Roving Maw||
+OM|000000751|The Roving Maw||
+OM|000000751|The Roving Maw||
+OM|000000751|The Roving Maw||
+OM|000001051|Tyrant's Bellow||
+OM|000001051|Tyrant's Bellow||
+OM|000001051|Tyrant's Bellow||
+SE|000000612|Artefacts of Power||
+SE|000000612|Artefacts of Power||
+SE|000000898|Astral Templars||
+SE|000000898|Astral Templars||
+SE|000000898|Astral Templars||
+SE|000000898|Astral Templars||
+SE|000000898|Astral Templars||
+SE|000000898|Astral Templars||
+SE|000000606|Battle Formations|You can pick 1 of the following battle formations for a Stormcast Eternals army. Each battle formation grants a different ability you can use in the battle.|
+SE|000000606|Battle Formations|You can pick 1 of the following battle formations for a Stormcast Eternals army. Each battle formation grants a different ability you can use in the battle.|
+SE|000000606|Battle Formations|You can pick 1 of the following battle formations for a Stormcast Eternals army. Each battle formation grants a different ability you can use in the battle.|
+SE|000000606|Battle Formations|You can pick 1 of the following battle formations for a Stormcast Eternals army. Each battle formation grants a different ability you can use in the battle.|
+SE|000000606|Battle Formations|You can pick 1 of the following battle formations for a Stormcast Eternals army. Each battle formation grants a different ability you can use in the battle.|
+SE|000000610|Battle Traits|Stormcast Eternals armies can use the following abilities:|
+SE|000000607|Draconith Skywing||
+SE|000000607|Draconith Skywing||
+SE|000000607|Draconith Skywing||
+SE|000000607|Draconith Skywing||
+SE|000000607|Draconith Skywing||
+SE|000000607|Draconith Skywing||
+SE|000000608|Heroes of the First-Forged||
+SE|000000608|Heroes of the First-Forged||
+SE|000000608|Heroes of the First-Forged||
+SE|000000608|Heroes of the First-Forged||
+SE|000000608|Heroes of the First-Forged||
+SE|000000608|Heroes of the First-Forged||
+SE|000000611|Heroic Traits||
+SE|000000611|Heroic Traits||
+SE|000000613|Manifestation Lore||
+SE|000000833|PATH TO GLORY|Here, you will find additional rules to use with a Stormcast Eternals army while playing through a Path to Glory campaign. The Path to Glory content in this book is divided into two parts; the Anvil of Apotheosis and Paths for Stormcast Eternals units.|
+SE|000000614|Prayer Lore||
+SE|000000609|Ruination Brotherhood||
+SE|000000609|Ruination Brotherhood||
+SE|000000609|Ruination Brotherhood||
+SE|000000609|Ruination Brotherhood||
+SE|000000605|Spell Lore||
+SE|000001017|Vigilant Brotherhood||
+SE|000001017|Vigilant Brotherhood||
+SE|000001017|Vigilant Brotherhood||
+SE|000001061|Yndrasta's Spearhead||
+SE|000001061|Yndrasta's Spearhead||
+SE|000001061|Yndrasta's Spearhead||
+SG|000000813|Artefacts of Power||
+SG|000000818|Barrow Legion||
+SG|000000818|Barrow Legion||
+SG|000000818|Barrow Legion||
+SG|000000815|Battle Formations|You can pick 1 of the following battle formations for a Soulblight Gravelords army. Each battle formation grants a different ability you can use in the battle.|
+SG|000000815|Battle Formations|You can pick 1 of the following battle formations for a Soulblight Gravelords army. Each battle formation grants a different ability you can use in the battle.|
+SG|000000815|Battle Formations|You can pick 1 of the following battle formations for a Soulblight Gravelords army. Each battle formation grants a different ability you can use in the battle.|
+SG|000000815|Battle Formations|You can pick 1 of the following battle formations for a Soulblight Gravelords army. Each battle formation grants a different ability you can use in the battle.|
+SG|000000815|Battle Formations|You can pick 1 of the following battle formations for a Soulblight Gravelords army. Each battle formation grants a different ability you can use in the battle.|
+SG|000000815|Battle Formations|You can pick 1 of the following battle formations for a Soulblight Gravelords army. Each battle formation grants a different ability you can use in the battle.|
+SG|000000815|Battle Formations|You can pick 1 of the following battle formations for a Soulblight Gravelords army. Each battle formation grants a different ability you can use in the battle.|
+SG|000000811|Battle Traits|Soulblight Gravelords armies can use the following abilities:|
+SG|000001028|Bloodcrave Hunt||
+SG|000001028|Bloodcrave Hunt||
+SG|000001028|Bloodcrave Hunt||
+SG|000001042|Deathrattle Tomb Host||
+SG|000001042|Deathrattle Tomb Host||
+SG|000001042|Deathrattle Tomb Host||
+SG|000000812|Heroic Traits||
+SG|000000812|Heroic Traits||
+SG|000000817|Knights of the Crimson Keep||
+SG|000000817|Knights of the Crimson Keep||
+SG|000000817|Knights of the Crimson Keep||
+SG|000000817|Knights of the Crimson Keep||
+SG|000000817|Knights of the Crimson Keep||
+SG|000000819|Manifestation Lore||
+SG|000000890|PATH TO GLORY|Here, you will find additional rules to use with a Soulblight Gravelords army while playing through a Path to Glory campaign. The Path to Glory content in this book is divided into two parts: the Anvil of Apotheosis and Paths for Soulblight Gravelords units.|
+SG|000000816|Scions of Nulahmia||
+SG|000000816|Scions of Nulahmia||
+SG|000000816|Scions of Nulahmia||
+SG|000000816|Scions of Nulahmia||
+SG|000000814|Spell Lore||
+SN|000000720|Artefacts of Power||
+SN|000000723|Battle Formations|You can pick 1 of the following battle formations for a Seraphon army. Each battle formation grants a different ability you can use in the battle.|
+SN|000000723|Battle Formations|You can pick 1 of the following battle formations for a Seraphon army. Each battle formation grants a different ability you can use in the battle.|
+SN|000000723|Battle Formations|You can pick 1 of the following battle formations for a Seraphon army. Each battle formation grants a different ability you can use in the battle.|
+SN|000000723|Battle Formations|You can pick 1 of the following battle formations for a Seraphon army. Each battle formation grants a different ability you can use in the battle.|
+SN|000000719|Battle Traits|Seraphon armies can use the following abilities:|
+SN|000000721|Heroic Traits||
+SN|000000721|Heroic Traits||
+SN|000000829|Monstrous Traits||
+SN|000000722|Spell Lore||
+SN|000000722|Spell Lore||
+SN|000001052|Starscale Warhost||
+SN|000001052|Starscale Warhost||
+SN|000001052|Starscale Warhost||
+SN|000001010|Sunblooded Prowlers||
+SN|000001010|Sunblooded Prowlers||
+SN|000001010|Sunblooded Prowlers||
+SoB|000000675|Artefacts of Power||
+SoB|000000677|Battle Formations|You can pick 1 of the following battle formations for a Sons of Behemat army. Each battle formation grants a different ability you can use in the battle.|
+SoB|000000677|Battle Formations|You can pick 1 of the following battle formations for a Sons of Behemat army. Each battle formation grants a different ability you can use in the battle.|
+SoB|000000677|Battle Formations|You can pick 1 of the following battle formations for a Sons of Behemat army. Each battle formation grants a different ability you can use in the battle.|
+SoB|000000677|Battle Formations|You can pick 1 of the following battle formations for a Sons of Behemat army. Each battle formation grants a different ability you can use in the battle.|
+SoB|000000677|Battle Formations|You can pick 1 of the following battle formations for a Sons of Behemat army. Each battle formation grants a different ability you can use in the battle.|
+SoB|000000677|Battle Formations|You can pick 1 of the following battle formations for a Sons of Behemat army. Each battle formation grants a different ability you can use in the battle.|
+SoB|000000673|Battle Traits|Sons of Behemat armies can use the following abilities:|
+SoB|000000674|Heroic Traits||
+SoB|000000674|Heroic Traits||
+SoB|000000678|King Brodd’s Stomp||
+SoB|000000678|King Brodd’s Stomp||
+SoB|000000678|King Brodd’s Stomp||
+SoB|000000678|King Brodd’s Stomp||
+SoB|000001004|Wallsmasher Stomp||
+SoB|000001004|Wallsmasher Stomp||
+SoB|000001004|Wallsmasher Stomp||
+ST|000000501|Artefacts of Power||
+ST|000000504|Battle Formations|You can pick 1 of the following battle formations for a Skaven army. Each battle formation grants a different ability you can use in the battle.|
+ST|000000504|Battle Formations|You can pick 1 of the following battle formations for a Skaven army. Each battle formation grants a different ability you can use in the battle.|
+ST|000000504|Battle Formations|You can pick 1 of the following battle formations for a Skaven army. Each battle formation grants a different ability you can use in the battle.|
+ST|000000504|Battle Formations|You can pick 1 of the following battle formations for a Skaven army. Each battle formation grants a different ability you can use in the battle.|
+ST|000000504|Battle Formations|You can pick 1 of the following battle formations for a Skaven army. Each battle formation grants a different ability you can use in the battle.|
+ST|000000504|Battle Formations|You can pick 1 of the following battle formations for a Skaven army. Each battle formation grants a different ability you can use in the battle.|
+ST|000000504|Battle Formations|You can pick 1 of the following battle formations for a Skaven army. Each battle formation grants a different ability you can use in the battle.|
+ST|000000502|Battle Traits|Skaven armies can use the following abilities:|
+ST|000001060|Crixxit's Kill-Pack||
+ST|000001060|Crixxit's Kill-Pack||
+ST|000001060|Crixxit's Kill-Pack||
+ST|000001012|Gnawfeast Clawpack||
+ST|000001012|Gnawfeast Clawpack||
+ST|000001012|Gnawfeast Clawpack||
+ST|000000500|Heroic Traits||
+ST|000000500|Heroic Traits||
+ST|000000518|Manifestation Lore||
+ST|000000809|PATH TO GLORY|Here, you will find additional rules to use with a Skaven army while playing through a Path to Glory campaign. The Path to Glory content in this book is divided into two parts: the Anvil of Apotheosis and Paths for Skaven units.|
+ST|000000517|Prayer Lore||
+ST|000000503|Spell Lore||
+ST|000000499|Thanquol’s Mutated Menagerie||
+ST|000000499|Thanquol’s Mutated Menagerie||
+ST|000000499|Thanquol’s Mutated Menagerie||
+ST|000000499|Thanquol’s Mutated Menagerie||
+ST|000000499|Thanquol’s Mutated Menagerie||
+ST|000000498|The Great-Grand Gnawhorde||
+ST|000000498|The Great-Grand Gnawhorde||
+ST|000000498|The Great-Grand Gnawhorde||
+ST|000000498|The Great-Grand Gnawhorde||
+ST|000000498|The Great-Grand Gnawhorde||
+ST|000000498|The Great-Grand Gnawhorde||
+ST|000001062|Warpspark Clawpack||
+ST|000001062|Warpspark Clawpack||
+ST|000001062|Warpspark Clawpack||
+StD|000000763|Artefacts of Power||
+StD|000000763|Artefacts of Power||
+StD|000000765|Battle Formations|You can pick 1 of the following battle formations for a Slaves to Darkness army. Each battle formation grants a different ability you can use in the battle.|
+StD|000000765|Battle Formations|You can pick 1 of the following battle formations for a Slaves to Darkness army. Each battle formation grants a different ability you can use in the battle.|
+StD|000000765|Battle Formations|You can pick 1 of the following battle formations for a Slaves to Darkness army. Each battle formation grants a different ability you can use in the battle.|
+StD|000000765|Battle Formations|You can pick 1 of the following battle formations for a Slaves to Darkness army. Each battle formation grants a different ability you can use in the battle.|
+StD|000000765|Battle Formations|You can pick 1 of the following battle formations for a Slaves to Darkness army. Each battle formation grants a different ability you can use in the battle.|
+StD|000000765|Battle Formations|You can pick 1 of the following battle formations for a Slaves to Darkness army. Each battle formation grants a different ability you can use in the battle.|
+StD|000000761|Battle Traits||
+StD|000001065|Bloodwind Legion||
+StD|000001065|Bloodwind Legion||
+StD|000001065|Bloodwind Legion||
+StD|000001048|Darkoath Raiders||
+StD|000001048|Darkoath Raiders||
+StD|000001048|Darkoath Raiders||
+StD|000000770|Ensorcelled Banners|An Ensorcelled Banner is a unique enhancement that can be given to SLAVES TO DARKNESS INFANTRy and CAVALRy units with the <span class="kwb">STANDARD</span> <span class="kwb">BEARER</span> keyword. A unit can only have 1 Ensorcelled Banner.|
+StD|000000762|Heroic Traits||
+StD|000000768|Legion of the First Prince||
+StD|000000768|Legion of the First Prince||
+StD|000000768|Legion of the First Prince||
+StD|000000768|Legion of the First Prince||
+StD|000000768|Legion of the First Prince||
+StD|000000769|Manifestation Lore||
+StD|000000886|PATH TO GLORY|Here, you will find additional rules to use with a Slaves to Darkness army while playing through a Path to Glory campaign. The Path to Glory content in this book is divided into two parts: the Anvil of Apotheosis and Paths for Slaves to Darkness units.|
+StD|000000764|Spell Lore||
+StD|000000766|The Swords of Chaos||
+StD|000000766|The Swords of Chaos||
+StD|000000767|Tribes of the Snow Peaks||
+StD|000000767|Tribes of the Snow Peaks||
+StD|000000767|Tribes of the Snow Peaks||
+SY|000000979|Artefacts of Power||
+SY|000000979|Artefacts of Power||
+SY|000000981|Battle Formations|You can pick 1 of the following battle formations for a Sylvaneth army. Each battle formation grants a different ability you can use in the battle.|
+SY|000000981|Battle Formations|You can pick 1 of the following battle formations for a Sylvaneth army. Each battle formation grants a different ability you can use in the battle.|
+SY|000000981|Battle Formations|You can pick 1 of the following battle formations for a Sylvaneth army. Each battle formation grants a different ability you can use in the battle.|
+SY|000000981|Battle Formations|You can pick 1 of the following battle formations for a Sylvaneth army. Each battle formation grants a different ability you can use in the battle.|
+SY|000000981|Battle Formations|You can pick 1 of the following battle formations for a Sylvaneth army. Each battle formation grants a different ability you can use in the battle.|
+SY|000000981|Battle Formations|You can pick 1 of the following battle formations for a Sylvaneth army. Each battle formation grants a different ability you can use in the battle.|
+SY|000000977|Battle Traits|Sylvaneth armies can use the following abilities:|
+SY|000001033|Bitterbark Copse||
+SY|000001033|Bitterbark Copse||
+SY|000001033|Bitterbark Copse||
+SY|000000978|Heroic Traits||
+SY|000000984|Lords of the Clan||
+SY|000000984|Lords of the Clan||
+SY|000000984|Lords of the Clan||
+SY|000000984|Lords of the Clan||
+SY|000000984|Lords of the Clan||
+SY|000000984|Lords of the Clan||
+SY|000000656|Manifestation Lore||
+SY|000000985|Prayer Lore||
+SY|000000983|Soulpod Guardians||
+SY|000000983|Soulpod Guardians||
+SY|000000983|Soulpod Guardians||
+SY|000000983|Soulpod Guardians||
+SY|000000983|Soulpod Guardians||
+SY|000000983|Soulpod Guardians||
+SY|000000980|Spell Lore||
+SY|000000998|Spitewing Flight||
+SY|000000998|Spitewing Flight||
+SY|000000998|Spitewing Flight||
+SY|000000655|The Evergreen Hunt||
+SY|000000655|The Evergreen Hunt||
+SY|000000655|The Evergreen Hunt||

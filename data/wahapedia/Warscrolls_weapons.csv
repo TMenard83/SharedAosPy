@@ -1,0 +1,2148 @@
+﻿warscroll_id|line|name|Rng|Atk|Hit|Wnd|Rnd|Dmg|type|abilities|has_battle_damage|
+000000009|1|Moonclan Bow|18"|2|4+|5+|-|1|RANGED||false|
+000000009|2|Moonclan Bow||1|4+|5+|-|1|MELEE||false|
+000000010|1|Stabba||2|4+|5+|-|1|MELEE||false|
+000000011|1|Boulder Club||5|4+|2+|2|D6|MELEE||false|
+000000012|1|Moon-sickle||3|4+|4+|1|2|MELEE||false|
+000000012|2|Spore Squig’s Vicious Teeth||2|4+|3+|1|1|MELEE|Companion|false|
+000000013|1|Moon-cutta||5|4+|4+|1|2|MELEE||false|
+000000013|2|Huge Fang-filled Gobs||4|4+|2+|1|D6|MELEE|Companion|true|
+000000013|3|Balls and Chains||4|4+|4+|-|D3|MELEE|Companion|false|
+000000014|1|Moon-cutta or Loonboss Stabba||5|4+|4+|1|2|MELEE|Charge (+1 Damage)|false|
+000000014|2|Massive Fang-filled Gob||4|4+|3+|2|D3|MELEE|Companion|false|
+000000015|1|Massive Fang-filled Gob||4|4+|3+|2|D3|MELEE|Companion|false|
+000000015|2|Moon-prodder||5|4+|4+|1|2|MELEE||false|
+000000016|1|Moon Staff||3|4+|4+|1|D3|MELEE||false|
+000000017|1|Jabbertoad|8"|1|4+|4+|-|D3|RANGED|Shoot in Combat|false|
+000000017|2|Puff-fungus Club||4|4+|2+|2|3|MELEE||false|
+000000018|1|Envenomed Spear||5|4+|4+|1|2|MELEE||false|
+000000018|2|Gigantic Fangs||4|4+|3+|1|2|MELEE|Crit (Mortal), Companion|false|
+000000019|1|Da Moon Onna Stikk||4|3+|4+|1|D3|MELEE||false|
+000000020|1|Spider God Staff||3|4+|5+|-|D3|MELEE|Crit (Mortal)|false|
+000000022|1|Moonclan Bow|18"|2|4+|5+|-|1|RANGED||false|
+000000022|2|Git Weapons||2|4+|5+|1|1|MELEE||false|
+000000022|3|Moonclan Bow||1|4+|5+|-|1|MELEE||false|
+000000023|1|Moon-slicer||5|4+|4+|1|D3|MELEE||false|
+000000024|1|Spider-bows|18"|10|4+|5+|-|1|RANGED||false|
+000000024|2|Spider God Staff||3|4+|5+|-|D3|MELEE|Crit (Mortal)|false|
+000000024|3|Crooked Spears||8|4+|5+|-|1|MELEE||false|
+000000024|4|Monstrous Spider Fangs||4|3+|2+|1|3|MELEE|Crit (Mortal), Companion|false|
+000000024|5|Chitinous Legs||8|4+|2+|1|1|MELEE|Companion|true|
+000000025|1|Throwin’ Rocks|12"|1|5+|2+|2|D3|RANGED||false|
+000000025|2|Massive Club||4|4+|2+|1|2|MELEE||false|
+000000025|3|’Eadbutt||1|4+|2+|2|4|MELEE||false|
+000000025|4|Mighty Kick||1|4+|2+|2|D3|MELEE||false|
+000000026|1|Flinger|24"|D3|4+|3+|-|1|RANGED|Crit (2 Hits)|false|
+000000026|2|Spider-bows|18"|10|4+|5+|-|1|RANGED||false|
+000000026|3|Crooked Spears||10|5+|4+|-|1|MELEE||false|
+000000026|4|Monstrous Spider Fangs||4|3+|2+|1|3|MELEE|Crit (Mortal), Companion|false|
+000000026|5|Chitinous Legs||8|4+|2+|1|1|MELEE|Companion|true|
+000000027|1|Spider-bows|18"|10|4+|5+|-|1|RANGED||false|
+000000027|2|Crooked Spears||10|5+|4+|-|1|MELEE||false|
+000000027|3|Monstrous Spider Fangs||4|3+|2+|1|3|MELEE|Crit (Mortal), Companion|false|
+000000027|4|Chitinous Legs||8|4+|2+|1|1|MELEE|Companion|true|
+000000028|1|Bashin’ Stikks||4|4+|5+|-|1|MELEE||false|
+000000028|2|Huge Fang-filled Gobs||4|4+|2+|1|D6|MELEE|Companion|true|
+000000028|3|Balls and Chains||4|4+|4+|-|D3|MELEE|Companion|false|
+000000029|1|Monstrous Spider Fangs||4|3+|2+|1|3|MELEE|Crit (Mortal), Companion|false|
+000000029|2|Chitinous Legs||8|4+|2+|1|1|MELEE|Companion|false|
+000000035|1|Pokin’ Lance||3|4+|4+|1|1|MELEE|Charge (+1 Damage)|false|
+000000035|2|Fang-filled Gob||3|4+|3+|1|1|MELEE|Companion|false|
+000000037|1|Noxious Vomit|6"|D3|2+|3+|2|1|RANGED|Shoot in Combat|false|
+000000037|2|Spiked Club||4|4+|3+|1|2|MELEE||false|
+000000038|1|Ball and Chain||D6|4+|3+|2|D3|MELEE||false|
+000000039|1|Throwin’ Boulders|10"|1|5+|2+|2|D3|RANGED||false|
+000000039|2|Stone Maul or Craggy Hands||2|4+|2+|2|3|MELEE||false|
+000000040|1|Loonfungus Sickle||3|4+|4+|-|1|MELEE||false|
+000000040|2|Snufflesquig’s Gnashers||2|4+|4+|-|1|MELEE|Companion|false|
+000000041|1|Spider-bow|18"|2|4+|5+|-|1|RANGED||false|
+000000041|2|Crooked Spear||2|4+|5+|-|1|MELEE||false|
+000000041|3|Spider Fangs||2|4+|4+|-|1|MELEE|Crit (Mortal), Companion|false|
+000000042|1|Spore-ball and Chain||D3|3+|4+|1|D3|MELEE||false|
+000000043|1|Fang-filled Gob||3|4+|3+|1|1|MELEE|Companion|false|
+000000043|2|Squig Prodder||2|5+|5+|-|1|MELEE||false|
+000000044|1|Slitta||2|4+|5+|-|1|MELEE||false|
+000000044|2|Fang-filled Gob||3|4+|3+|1|1|MELEE|Companion|false|
+000000046|1|Staff, Stikka or Jaggedy Blade||1|4+|4+|1|D3|MELEE||false|
+000000055|1|Lunarock Slam||1|4+|3+|-|D3|MELEE||false|
+000000057|1|Spider Legs||2|4+|3+|-|2|MELEE||false|
+000000058|1|Spider Bites||8|4+|4+|-|1|MELEE|Crit (Mortal)|false|
+000000060|1|Celestar Stormbolts|18"|D6+6|4+|2+|1|1|RANGED|Crit (2 Hits), Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000000060|2|Sacristan Engineers’ Blades||2|3+|3+|1|1|MELEE||false|
+000000061|1|Warhammer||2|3+|3+|1|1|MELEE|Crit (Mortal)|false|
+000000061|2|Grandhammer||2|3+|3+|1|2|MELEE|Crit (Mortal)|false|
+000000062|1|Kazra’s Monstrous Claws||3|3+|3+|1|2|MELEE|Companion|false|
+000000062|2|Astreia’s Aetherstave||4|3+|3+|1|2|MELEE|Crit (Mortal)|false|
+000000063|1|Staff of Hammerhal||4|3+|3+|2|2|MELEE||false|
+000000063|2|Loithar’s Stamping Hooves||3|4+|3+|1|D3|MELEE|Companion|false|
+000000064|1|Cometstrike Sceptre|18"|1|2+|*|*|*|RANGED||false|
+000000064|2|Ghal Maraz||6|3+|2+|2|4|MELEE|Crit (Mortal)|false|
+000000065|1|Starbound Blade||5|3+|3+|1|2|MELEE|Crit (Mortal)|false|
+000000066|1|Star-blessed Weapons||5|3+|3+|1|2|MELEE||false|
+000000067|1|Sigmarite Broadsword||3|3+|3+|1|2|MELEE||false|
+000000068|1|Incantor’s Staff||3|3+|3+|1|2|MELEE||false|
+000000069|1|Questor Warblade||5|3+|3+|1|2|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend), Crit (Mortal)|false|
+000000070|1|Realmhunter’s Bow|24"|6|3+|3+|1|1|RANGED|Crit (2 Hits), Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000000070|2|Star-eagle’s Celestial Talons||2|4+|3+|-|1|MELEE|Companion|false|
+000000070|3|Bowstave||3|3+|3+|-|1|MELEE||false|
+000000071|1|Sigmarite Warblade||4|3+|3+|1|2|MELEE||false|
+000000072|1|Stormshot Pistol|12"|3|3+|3+|-|1|RANGED|Anti-<span class="kwb">HERO</span> (+1 Rend)|false|
+000000072|2|Tempest Axes||6|3+|3+|1|1|MELEE|Crit (2 Hits), Anti-<span class="kwb">HERO</span> (+1 Rend)|false|
+000000073|1|Heavy Boltstorm Pistol|12"|4|3+|3+|1|1|RANGED|Shoot in Combat|false|
+000000073|2|Starbound Blade and Shock Handaxe||5|3+|3+|1|2|MELEE||false|
+000000073|3|Gryph-charger’s Razor Beak||3|4+|3+|1|1|MELEE|Companion|false|
+000000074|1|Aetherstave||4|3+|3+|1|2|MELEE||false|
+000000075|1|Aetherstave||4|3+|3+|1|2|MELEE||false|
+000000075|2|Tauralon’s Hooves||3|4+|3+|1|D3|MELEE|Companion|false|
+000000076|1|Aetherstave||4|3+|3+|1|2|MELEE||false|
+000000076|2|Celestial Dracoline’s Claws||3|3+|3+|1|2|MELEE|Companion|false|
+000000077|1|Gryph-charger’s Razor Beak||3|4+|3+|1|1|MELEE|Companion|false|
+000000077|2|Aetherstave||4|3+|3+|1|2|MELEE||false|
+000000078|1|Gryph-hound’s Beak||4|4+|4+|-|1|MELEE|Companion|false|
+000000078|2|Castellant’s Halberd||3|3+|3+|1|2|MELEE|Crit (Auto-wound)|false|
+000000079|1|Weapons of Legend||5|3+|3+|1|2|MELEE|Crit (Auto-wound)|false|
+000000080|1|Stormblast|10"|1|3+|3+|2|D3|RANGED|Crit (2 Hits), Companion|false|
+000000080|2|Weapons of Legend||5|3+|3+|1|2|MELEE|Crit (Auto-wound)|false|
+000000080|3|Dracoth’s Claws and Fangs||3|4+|2+|2|2|MELEE|Companion|false|
+000000081|1|Redemption Stave||3|3+|3+|1|2|MELEE||false|
+000000082|1|Astral Weapons||3|3+|3+|1|2|MELEE|Crit (Auto-wound)|false|
+000000083|1|Relic Hammer||4|3+|3+|1|2|MELEE|Crit (Auto-wound)|false|
+000000084|1|Staff of Abjuration||1|3+|3+|1|3|MELEE||false|
+000000084|2|Judgement Blade||3|3+|3+|1|D3|MELEE|Anti-<span class="kwb">PRIEST</span> (+1 Rend), Anti-<span class="kwb">WIZARD</span> (+1 Rend)|false|
+000000085|1|Relic Boltstorm Pistol|10"|3|3+|3+|1|1|RANGED|Shoot in Combat|false|
+000000085|2|Whirlwind Axes||7|2+|3+|2|2|MELEE|Crit (2 Hits)|false|
+000000086|1|Stormblast|10"|1|3+|3+|2|D3|RANGED|Crit (2 Hits), Companion|false|
+000000086|2|Heldensen||6|3+|2+|1|2|MELEE|Crit (Auto-wound)|false|
+000000086|3|Calanax’s Claws and Fangs||4|4+|2+|2|2|MELEE|Companion|false|
+000000087|1|Rain of Stars|24"|4|3+|2+|2|2|RANGED|Companion|false|
+000000087|2|Skybolt Bow|18"|2|3+|3+|1|1|RANGED|Crit (Auto-wound)|false|
+000000087|3|Stardrake’s Cavernous Jaws||7|4+|2+|2|3|MELEE|Companion|true|
+000000087|4|Templar Weapons||5|3+|3+|1|2|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend), Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000000088|1|Rain of Stars|24"|4|3+|2+|2|2|RANGED|Companion|false|
+000000088|2|Weapons of Legend||5|3+|3+|1|2|MELEE|Crit (Auto-wound)|false|
+000000088|3|Stardrake’s Cavernous Jaws||7|4+|2+|2|3|MELEE|Companion|true|
+000000111|1|Storm of Vengeance||12|4+|4+|1|1|MELEE|Crit (Auto-wound)|false|
+000000114|1|Beak and Claws||2|4+|4+|-|1|MELEE|Companion|false|
+000000115|1|Thunderhead Greatbow|15"|3|3+|3+|1|1|RANGED|Crit (2 Hits), Anti-Cavalry (+1 Rend)|false|
+000000115|2|Greatbow Stock||1|3+|3+|-|1|MELEE||false|
+000000117|1|Decimator Thunderaxe||4|3+|3+|1|1|MELEE|Crit (2 Hits)|false|
+000000117|2|Starsoul Mace||1|3+|3+|2|3|MELEE|Crit (Mortal)|false|
+000000119|1|Evocator Weapons||3|3+|3+|1|1|MELEE|Crit (Mortal)|false|
+000000120|1|Celestial Dracoline’s Claws||3|3+|3+|1|2|MELEE|Companion|false|
+000000120|2|Evocator Weapons||3|3+|3+|1|1|MELEE|Crit (Mortal)|false|
+000000121|1|Boltstorm Pistol|10"|2|4+|4+|1|1|RANGED|Shoot in Combat|false|
+000000121|2|Stormwrought Weapon||2|3+|3+|1|1|MELEE||false|
+000000123|1|Vicious Beak and Claws||4|4+|4+|-|1|MELEE|Companion|false|
+000000124|1|Shockbolt Bow|18"|D3+3|3+|3+|1|1|RANGED|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000000124|2|Skybolt Bow|18"|2|3+|3+|1|1|RANGED|Crit (Auto-wound)|false|
+000000124|3|Storm Gladius||1|3+|3+|1|1|MELEE||false|
+000000126|1|Starsoul Mace||1|3+|3+|2|3|MELEE|Crit (Mortal)|false|
+000000126|2|Protector Stormstrike Glaive||4|3+|3+|1|1|MELEE||false|
+000000127|1|Retributor Lightning Hammer||2|3+|3+|1|2|MELEE|Crit (Mortal)|false|
+000000127|2|Starsoul Mace||1|3+|3+|2|3|MELEE|Crit (Mortal)|false|
+000000128|1|Sacrosanct Weapons||2|3+|3+|1|1|MELEE|Crit (2 Hits)|false|
+000000128|2|Stormsmite Greatmace||2|3+|3+|1|2|MELEE|Crit (2 Hits)|false|
+000000129|1|Heavens-wrought Weapon||3|3+|3+|1|1|MELEE|Crit (Mortal)|false|
+000000131|1|Boltstorm Pistol|10"|2|4+|4+|1|1|RANGED|Shoot in Combat|false|
+000000131|2|Stormwrought Weapon||2|3+|3+|1|1|MELEE||false|
+000000133|1|Hurricane Crossbow|12"|4|3+|3+|-|1|RANGED|Crit (2 Hits), Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000000133|2|Heavy Stock||1|4+|3+|-|1|MELEE||false|
+000000134|1|Longstrike Crossbow|18"|2|3+|3+|2|2|RANGED|Anti-<span class="kwb">HERO</span> (+1 Rend), Crit (Auto-wound)|false|
+000000134|2|Heavy Stock||1|4+|3+|-|1|MELEE||false|
+000000135|1|Burning Skulls|15"|4|4+|3+|1|2|RANGED|Shoot in Combat|false|
+000000135|2|Gnashing Maw||1|4+|3+|1|D3|MELEE|Blood-hungry, Companion|false|
+000000135|3|Hellblades||4|3+|3+|1|1|MELEE|Blood-hungry, Crit (Mortal)|false|
+000000136|1|Hellblade||2|3+|3+|1|1|MELEE|Blood-hungry, Crit (Mortal)|false|
+000000137|1|Reaver Blades and Axes||2|4+|3+|-|1|MELEE|Blood-hungry|false|
+000000138|1|Goreweapons||3|4+|3+|1|1|MELEE|Blood-hungry, Crit (Auto-wound)|false|
+000000140|1|Blade of Blood||5|3+|3+|2|2|MELEE|Blood-hungry, Crit (2 Hits)|false|
+000000141|1|Ensorcelled Axe||4|3+|3+|1|2|MELEE|Blood-hungry|false|
+000000142|1|Torture Blade and Blood Whip||4|3+|4+|1|2|MELEE|Blood-hungry|false|
+000000144|1|Blade of Blood and Hellblades||7|3+|3+|1|2|MELEE|Blood-hungry, Crit (Mortal)|false|
+000000146|1|Wrathforged Axe||6|3+|3+|1|2|MELEE|Blood-hungry|false|
+000000146|2|Juggernaut’s Brazen Hooves||2|4+|3+|1|D3|MELEE|Companion|false|
+000000147|1|Flesh Hound’s Blood‑dark Claws||4|4+|3+|-|1|MELEE|Companion|false|
+000000147|2|Axe of Khorne||5|3+|3+|2|2|MELEE|Blood-hungry|false|
+000000148|1|Brutal Fists||8|4+|2+|-|2|MELEE|Blood-hungry, Crit (2 Hits)|false|
+000000149|1|The Bloodstorm Blades||6|3+|3+|1|2|MELEE|Blood-hungry, Crit (2 Hits)|false|
+000000150|1|Brazen Anvil||4|4+|2+|1|3|MELEE|Anti-<span class="kwb">MONSTER</span> (+1 Rend), Blood-hungry|false|
+000000151|1|Blade of Blood||5|3+|3+|2|2|MELEE|Blood-hungry, Crit (Mortal)|false|
+000000151|2|Juggernaut’s Brazen Hooves||2|4+|3+|1|D3|MELEE|Anti-<span class="kwb">CAVALRY</span> (+1 Rend), Companion|false|
+000000152|1|The Slayer Sword||6|2+|3+|2|2|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend), Blood-hungry|false|
+000000153|1|Bloodbathed Weapon||4|3+|3+|1|2|MELEE|Blood-hungry|false|
+000000154|1|Slaupnir||5|3+|3+|2|2|MELEE|Blood-hungry, Charge (+1 Damage)|false|
+000000155|1|Great Axe of Khorne||5|3+|2+|2|5|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Blood-hungry|true|
+000000156|1|Lash of Khorne|8"|4|3+|3+|1|D3|RANGED|Shoot in Combat|false|
+000000156|2|Mighty Axe of Khorne||6|3+|2+|2|4|MELEE|Anti-<span class="kwb">MONSTER</span> (+1 Rend), Blood-hungry|true|
+000000157|1|Slaughter||4|3+|2+|2|4|MELEE|Blood-hungry|false|
+000000157|2|Carnage||2|3+|2+|2|8|MELEE|Crit (Mortal)|false|
+000000158|1|Hellfire Breath|8"|2D6|2+|3+|1|1|RANGED|Shoot in Combat|false|
+000000158|2|Mighty Axe of Khorne and Bloodflail||6|3+|2+|2|4|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend), Blood-hungry|true|
+000000179|1|Stream of Molten Blood||2|4+|3+|-|D3|MELEE||false|
+000000180|1|Wrath-axe||4|4+|2+|2|D3|MELEE||false|
+000000182|1|Savage Maws and Goreslick Claws||6|4+|3+|1|2|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend), Blood-hungry|false|
+000000183|1|Juggernaut’s Brazen Hooves||2|4+|3+|1|D3|MELEE|Anti-<span class="kwb">CAVALRY</span> (+1 Rend), Companion|false|
+000000183|2|Bloodcrusher Hellblade||3|3+|3+|1|1|MELEE|Blood-hungry, Crit (Mortal)|false|
+000000184|1|Blood-dark Claws||4|4+|3+|-|1|MELEE|Blood-hungry, Companion|false|
+000000185|1|Claws and Fangs||5|4+|2+|1|2|MELEE|Companion|false|
+000000186|1|Gorebathed Glaive or Axe||3|3+|3+|1|1|MELEE|Blood-hungry, Charge (+1 Damage)|false|
+000000186|2|Juggernaut’s Brazen Hooves||2|4+|3+|1|D3|MELEE|Companion|false|
+000000187|1|Daemonforged Weapons||4|4+|3+|1|2|MELEE|Blood-hungry, Crit (2 Hits)|false|
+000000188|1|Wrath-flails||4|4+|3+|1|1|MELEE|Blood-hungry, Crit (2 Hits)|false|
+000000189|1|Reaver Blades and Axes||2|4+|3+|-|1|MELEE|Blood-hungry|false|
+000000191|1|Goreaxe||3|4+|3+|1|1|MELEE|Blood-hungry|false|
+000000191|2|Blood-dark Claws||4|4+|3+|-|1|MELEE|Blood-hungry, Anti-<span class="kwb">WIZARD</span> (+1 Rend), Companion|false|
+000000192|1|Malignant Weapon||2|4+|5+|-|1|MELEE|Crit (Auto-wound)|false|
+000000193|1|Cairnoch Scythe||5|4+|3+|2|2|MELEE|Crit (Auto-wound)|false|
+000000196|1|Sword of Stolen Hours||5|4+|3+|1|2|MELEE|Crit (Auto-wound)|false|
+000000197|1|Sword of Stolen Hours||5|4+|3+|1|2|MELEE|Crit (Auto-wound)|false|
+000000197|2|Ethereal Steed’s Ghostly Hooves and Teeth||3|5+|3+|-|1|MELEE|Companion, Crit (Auto-wound)|false|
+000000198|1|Sepulchral Sceptre||5|3+|3+|2|3|MELEE|Crit (Auto-wound)|false|
+000000199|1|Horrifying Visage|12"|1|2+|2+|3|D6|RANGED|Crit (Auto-wound), Shoot in Combat|false|
+000000199|2|Staff of Midnight||6|4+|3+|1|D3|MELEE|Crit (Auto-wound)|false|
+000000200|1|Decapitating Greataxe||5|3+|3+|2|2|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend), Crit (Auto-wound)|false|
+000000201|1|Fellreaper||5|3+|3+|2|2|MELEE|Charge (+1 Damage), Crit (Auto-wound)|false|
+000000201|2|Kyllaron’s Ghostly Hooves and Teeth||3|5+|3+|-|1|MELEE|Companion, Crit (Auto-wound)|false|
+000000202|1|Shacklegheist Chains||5|4+|3+|1|2|MELEE|Crit (Auto-wound)|false|
+000000203|1|Piercing Scream|10"|2|4+|3+|2|D3|RANGED|Shoot in Combat|false|
+000000203|2|Ancient Chill Dagger||3|4+|3+|2|D3|MELEE|Crit (Auto-wound)|false|
+000000204|1|Soulreach Grasp|10"|2|4+|3+|2|2|RANGED|Crit (Auto-wound), Shoot in Combat|false|
+000000204|2|Relic Bearers’ Claws and Ethereal Steeds’ Hooves||14|4+|4+|-|1|MELEE|Crit (Auto-wound), Companion|false|
+000000204|3|Wraith’s Spectral Weapons||5|3+|3+|1|2|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Crit (Auto-wound)|false|
+000000205|1|Tomb Greatblade||2|3+|3+|1|1|MELEE|Crit (Auto-wound)|false|
+000000206|1|Ghastflails|12"|2|4+|3+|2|1|RANGED|Crit (Auto-wound)|false|
+000000206|2|Ghastflails||2|4+|3+|2|1|MELEE|Crit (Auto-wound)|false|
+000000207|1|Scythed Limbs||3|4+|4+|1|1|MELEE|Crit (Auto-wound)|false|
+000000208|1|Hunter’s Glaive||2|4+|3+|2|1|MELEE|Charge (+1 Damage), Crit (Auto-wound)|false|
+000000209|1|Slasher Scythe||2|4+|3+|1|1|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Crit (Auto-wound)|false|
+000000210|1|Ethereal Steed’s Ghostly Hooves and Teeth||2|5+|3+|-|1|MELEE|Crit (Auto-wound), Companion|false|
+000000210|2|Spectral Scythe||2|4+|4+|1|1|MELEE|Charge (+1 Damage), Crit (Auto-wound)|false|
+000000211|1|Chill Dagger||2|4+|3+|1|D3|MELEE|Anti-<span class="kwb">WIZARD</span> (+1 Rend), Crit (Auto-wound)|false|
+000000212|1|Spectral Claws and Daggers||6|4+|4+|-|1|MELEE|Crit (Auto-wound)|false|
+000000222|1|Almighty Reap||1|3+|2+|2|4|MELEE|Crit (Auto-wound)|false|
+000000226|1|Latchkey Grandaxe||4|3+|3+|2|3|MELEE||false|
+000000227|1|Brazier Staff||3|3+|3+|1|2|MELEE||false|
+000000228|1|Latch-axe||4|3+|3+|1|2|MELEE||false|
+000000229|1|Ancestral Weapons||5|3+|3+|1|2|MELEE|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000000230|1|Ancestral Battle-axe||5|3+|3+|1|2|MELEE||false|
+000000232|1|Fyresteel Weapons||2|4+|3+|1|1|MELEE||false|
+000000232|2|Latchkey Grandaxe||4|3+|3+|2|3|MELEE||false|
+000000233|1|Roaring Fyrestream|10"|4|3+|3+|1|D3|RANGED|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Companion|false|
+000000233|2|Latchkey Grandaxe||4|3+|3+|2|3|MELEE||false|
+000000233|3|Magmadroth’s Claws and Horns||6|4+|2+|1|2|MELEE|Companion|true|
+000000233|4|Magmadroth’s Blazing Maw||2|4+|2+|2|3|MELEE|Companion|false|
+000000234|1|Roaring Fyrestream|10"|4|3+|3+|1|D3|RANGED|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Companion|false|
+000000234|2|Latch-axe||4|3+|3+|1|2|MELEE||false|
+000000234|3|Magmadroth’s Blazing Maw||2|4+|2+|2|3|MELEE|Companion|false|
+000000234|4|Magmadroth’s Claws and Horns||6|4+|2+|1|2|MELEE|Companion|true|
+000000235|1|Roaring Fyrestream|10"|4|3+|3+|1|D3|RANGED|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Companion|false|
+000000235|2|Magmadroth’s Blazing Maw||2|4+|2+|2|3|MELEE|Companion|false|
+000000235|3|Magmadroth’s Claws and Horns||6|4+|2+|1|2|MELEE|Companion|true|
+000000235|4|Ancestral Weapons||5|3+|3+|1|2|MELEE|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000000236|1|Magmapike|12"|2|4+|3+|1|D3|RANGED|Shoot in Combat|false|
+000000236|2|Magmapike||1|3+|3+|1|1|MELEE||false|
+000000237|1|Doomseeker Weapons||5|3+|3+|1|2|MELEE||false|
+000000238|1|Fyrestorm Greataxe||5|3+|3+|2|2|MELEE||false|
+000000244|1|Magma Blast|18"|8|4+|3+|1|1|RANGED|Crit (2 Hits)|false|
+000000246|1|Raging Torrents of Lava|8"|2|4+|3+|2|D3|RANGED|Shoot in Combat|false|
+000000246|2|Molten Claws||6|4+|2+|1|D3|MELEE|Crit (Mortal)|false|
+000000248|1|Plagueclaw Catapult|24"|2|3+|2+|1|D6|RANGED|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000000248|2|Crew’s Teeth and Knives||D6|4+|5+|-|1|MELEE||false|
+000000249|1|Warp Lightning Blast|20"|2D6|4+|#3|||RANGED||false|
+000000249|2|Crew’s Teeth and Knives||D6|4+|5+|-|1|MELEE||false|
+000000250|1|Warplock Jezzail|18"|2|4+|3+|2|2|RANGED|Crit (Auto-wound)|false|
+000000250|2|Rusty Knives||2|4+|5+|-|1|MELEE||false|
+000000251|1|Rusty Weapon||2|4+|5+|-|1|MELEE|Crit (Auto-wound)|false|
+000000252|1|Warp Bolts|13"|D6|3+|3+|1|D3|RANGED|Shoot in Combat|false|
+000000252|2|Grinding Wheels||6|4+|3+|-|1|MELEE|Charge (+1 Damage)|false|
+000000253|1|Gnashing Teeth and Flailing Fists||13|4+|2+|2|2|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Companion|true|
+000000254|1|Warpfire Gauntlet|10"|3|4+|2+|2|1|RANGED|Shoot in Combat|false|
+000000254|2|Stormcage Halberd||3|3+|4+|1|2|MELEE||false|
+000000254|3|Crushing Piston-claw||2|4+|2+|2|2|MELEE||false|
+000000255|1|Warpforged Blade||6|3+|4+|1|2|MELEE||false|
+000000256|1|Eshin Throwing Stars|10"|5|3+|4+|-|D3|RANGED|Crit (Auto-wound), Shoot in Combat|false|
+000000256|2|Weeping Blade||5|3+|4+|1|D3|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend), Crit (Mortal)|false|
+000000257|1|Warpstone Staff||3|4+|4+|1|D3|MELEE||false|
+000000258|1|Warpsyringe Pistol|10"|D6|4+|2+|2|1|RANGED|Shoot in Combat|false|
+000000258|2|Arsenal of Mutation||4|3+|4+|1|1|MELEE|Crit (2 Hits)|false|
+000000259|1|Warpstone-tipped Staff||3|4+|4+|1|D3|MELEE|Crit (Auto-wound)|false|
+000000261|1|Wicked Halberd||6|3+|4+|1|2|MELEE||false|
+000000261|2|Rusty Weapon||2|4+|5+|-|1|MELEE|Crit (Auto-wound)|false|
+000000262|1|Firing Pole||3|4+|4+|-|1|MELEE||false|
+000000262|2|Doomrocket|18"|2|4+|3+|1|D6|RANGED|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000000263|1|Warplock Musket|24"|2|3+|3+|2|D3|RANGED|Crit (Auto-wound)|false|
+000000263|2|Warpforged Dagger||3|4+|4+|-|2|MELEE||false|
+000000264|1|Warpstone Staff||3|4+|4+|1|D3|MELEE||false|
+000000264|2|Rat Ogor’s Tearing Claws||5|4+|3+|1|2|MELEE|Companion|false|
+000000264|3|Crushing Bulk||6|4+|2+|1|2|MELEE|Companion|true|
+000000265|1|Glaive of the Rat King||7|3+|2+|2|3|MELEE|Crit (2 Hits)|false|
+000000266|1|Great Plague Censer||4|4+|2+|1|3|MELEE|Crit (Auto-wound)|true|
+000000266|2|Warpstone-tipped Staff||3|4+|4+|1|D3|MELEE|Crit (Auto-wound)|false|
+000000266|3|Foetid Blades||6|4+|5+|-|1|MELEE|Crit (Auto-wound)|false|
+000000266|4|Crushing Bulk||6|4+|2+|1|2|MELEE|Companion|false|
+000000267|1|Staff of the Horned Rat||4|4+|4+|1|D3|MELEE||false|
+000000267|2|Warpfire Braziers||6|4+|2+|2|3|MELEE|Companion|true|
+000000267|3|Custom Warpfire Projectors|10"|6|2+|3+|2|1|RANGED|Companion|false|
+000000268|1|Plaguereapers||8|3+|2+|2|2|MELEE|Crit (Auto-wound)|false|
+000000269|1|Doomstar|13"|6|3+|3+|1|2|RANGED|Crit (Auto-wound)|false|
+000000269|2|Warpstiletto||8|3+|2+|3|2|MELEE|Crit (Mortal)|false|
+000000270|1|Doom Glaive and Spike-fist||7|3+|2+|2|3|MELEE|Crit (Mortal)|false|
+000000271|1|Doom Glaive||6|4+|2+|2|3|MELEE||false|
+000000274|1|Poisoned Stars|10"|3|4+|4+|-|1|RANGED|Crit (Auto-wound)|false|
+000000274|2|Punch Dagger and Blade||3|3+|5+|1|1|MELEE|Crit (Mortal)|false|
+000000275|1|Slings and Poisoned Stars|10"|2|4+|4+|-|1|RANGED|Crit (Auto-wound), Shoot in Combat|false|
+000000275|2|Poisoned Blades||2|4+|5+|-|1|MELEE|Crit (Mortal)|false|
+000000278|1|Foetid Weapons||2|4+|5+|-|1|MELEE|Crit (Auto-wound)|false|
+000000279|1|Warpfire Gun|10"|2D6|2+|4+|2|1|RANGED|Shoot in Combat|false|
+000000279|2|Claws, Blades and Fangs||5|4+|3+|1|2|MELEE||false|
+000000281|1|Rusty Knives||2|4+|5+|-|1|MELEE||false|
+000000281|2|Ratling Gun|15"|3D6|4+|4+|1|1|RANGED|Crit (2 Hits)|false|
+000000283|1|Ratling Cannons|15"|3D6|4+|3+|1|1|RANGED||false|
+000000283|2|Windlaunchers|15"|3|4+|3+|2|D3|RANGED||false|
+000000283|3|Warpfire Projectors|10"|2D6|2+|4+|2|1|RANGED|Shoot in Combat|false|
+000000283|4|Doomflayer Gauntlets||5|4+|2+|2|D3|MELEE|Charge (+1 Damage)|false|
+000000283|5|Grinderfists||4|4+|2+|2|2|MELEE||false|
+000000283|6|Shock Gauntlets||4|4+|2+|1|2|MELEE||false|
+000000283|7|Clubbing Blows||3|4+|2+|-|2|MELEE||false|
+000000284|1|Stormvermin Weapons||3|3+|4+|1|1|MELEE|Anti-charge (+1 Rend)|false|
+000000285|1|Warpfire Thrower|10"|2D6|2+|4+|2|1|RANGED|Shoot in Combat|false|
+000000285|2|Rusty Knives||2|4+|5+|-|1|MELEE||false|
+000000286|1|Warpstone Drill-fang||D3|4+|2+|3|5|MELEE||false|
+000000286|2|Crew’s Teeth and Knives||D6|4+|5+|-|1|MELEE||false|
+000000300|1|Volatile Warp Energy||2D6|4+|4+|1|1|MELEE||false|
+000000301|1|Chittering Bites||13|5+|5+|-|1|MELEE|Crit (Auto-wound)|false|
+000000304|1|Wracking Talons||2|3+|4+|-|1|MELEE||false|
+000000305|1|Strangleroots|10"|3|3+|2+|1|2|RANGED|Shoot in Combat|false|
+000000305|2|Sweeping Blows||5|4+|2+|1|2|MELEE|Anti-charge (+1 Rend)|true|
+000000305|3|Massive Impaling Talons||2|4+|2+|2|3|MELEE|Crit (Mortal)|false|
+000000306|1|Arch-Revenant’s Glaive||5|3+|4+|1|2|MELEE||false|
+000000308|1|Greenwood Scythe and Bittergrub||3|3+|4+|1|D3|MELEE||false|
+000000310|1|Revenant Bow|18"|2|3+|4+|1|1|RANGED|Crit (Auto-wound)|false|
+000000310|2|Enchanted Glade Weapons||3|3+|4+|1|1|MELEE|Crit (Auto-wound)|false|
+000000310|3|Revenant Bow||1|3+|4+|-|1|MELEE||false|
+000000311|1|Spear of Kurnoth|12"|1|2+|3+|2|4|RANGED||false|
+000000311|2|Spear of Kurnoth||5|3+|3+|2|2|MELEE|Charge (+1 Damage)|false|
+000000311|3|Wardroth Beetle’s Antlers||6|4+|2+|2|4|MELEE|Companion|true|
+000000312|1|Slashing Talons||5|3+|2+|2|2|MELEE|Crit (2 Hits)|false|
+000000312|2|Swarm of Spites||20|4+|4+|-|1|MELEE|Crit (Mortal), Companion|false|
+000000313|1|Verdant Blast|12"|5|4+|3+|1|2|RANGED||false|
+000000313|2|Guardian Sword||5|3+|2+|2|4|MELEE|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|true|
+000000313|3|Massive Impaling Talons||2|4+|2+|2|3|MELEE|Crit (Mortal)|false|
+000000314|1|Doom Tendril Staff|18"|4|4+|2+|1|D3|RANGED||false|
+000000314|2|Sweeping Blows||5|4+|2+|1|2|MELEE|Anti-charge (+1 Rend)|true|
+000000314|3|Massive Impaling Talons||2|4+|2+|2|3|MELEE|Crit (Mortal)|false|
+000000318|1|Cruel Talons and Fangs||3|3+|4+|-|1|MELEE|Crit (Mortal)|false|
+000000319|1|Revenant Blade||3|3+|4+|1|1|MELEE||false|
+000000326|1|Fearsome Mandibles and Bladed Carapace||6|4+|2+|1|D3|MELEE|Anti-<span class="kwb">PRIEST</span> (+1 Rend), Anti-<span class="kwb">WIZARD</span> (+1 Rend)|false|
+000000327|1|Spiteswarm|18"|5|4+|3+|1|1|RANGED|Crit (2 Hits)|false|
+000000327|2|Spiteswarm||10|4+|3+|1|1|MELEE|Crit (2 Hits)|false|
+000000328|1|Writhing Roots||3|4+|2+|1|D3|MELEE||false|
+000000330|1|Piercing Claws||2|3+|4+|1|1|MELEE||false|
+000000331|1|Steeds’ Poisoned Tongues||8|3+|4+|-|1|MELEE|Companion|false|
+000000331|2|Flensing Whips and Piercing Claws||12|3+|4+|1|1|MELEE||false|
+000000332|1|Steeds’ Poisoned Tongues||4|3+|4+|-|1|MELEE|Companion|false|
+000000332|2|Axle Blades||4|4+|2+|2|D3|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Companion|false|
+000000332|3|Flensing Whips and Piercing Claws||8|3+|4+|1|1|MELEE||false|
+000000333|1|Flensing Whips and Piercing Claws||6|3+|4+|1|1|MELEE||false|
+000000333|2|Steeds’ Poisoned Tongues||4|3+|4+|-|1|MELEE|Companion|false|
+000000335|1|Heartstring Lyre|12"|2|2+|3+|2|D3|RANGED||false|
+000000335|2|Piercing Claw||3|3+|4+|1|1|MELEE||false|
+000000336|1|Scourging Whip||6|2+|4+|1|2|MELEE||false|
+000000336|2|Axe of Dominion||4|3+|3+|2|3|MELEE||false|
+000000337|1|Razor-edged Claws||6|3+|4+|1|2|MELEE||false|
+000000338|1|Ravaging Claws||6|3+|4+|1|2|MELEE||false|
+000000339|1|Elegant Greatblade||6|2+|3+|2|2|MELEE||true|
+000000339|2|Impaling Claws||2|3+|3+|2|4|MELEE||false|
+000000340|1|Soulpiercer||6|2+|3+|2|3|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend)|true|
+000000340|2|Impaling Claws||2|3+|3+|2|4|MELEE||false|
+000000341|1|Steeds’ Poisoned Tongues||8|3+|4+|-|1|MELEE|Companion|false|
+000000341|2|Flensing Whips and Piercing Claws||6|3+|4+|1|1|MELEE||false|
+000000342|1|Deadly Pincers and Barbed Stinger||4|4+|3+|1|D3|MELEE|Anti-<span class="kwb">MONSTER</span> (+1 Rend), Companion|false|
+000000343|1|Flensing Whips and Piercing Claws||6|3+|4+|1|1|MELEE||false|
+000000343|2|Steeds’ Poisoned Tongues||4|3+|4+|-|1|MELEE|Companion|false|
+000000343|3|Axle Blades||4|4+|2+|2|D3|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Companion|false|
+000000346|1|Flensing Whips and Piercing Claws||4|3+|4+|1|1|MELEE||false|
+000000346|2|Steeds’ Poisoned Tongues||4|3+|4+|-|1|MELEE|Companion|false|
+000000347|1|Agonising Claws||3|3+|4+|1|1|MELEE|Anti-Cavalry (+1 Rend)|false|
+000000347|2|Steed’s Poisoned Tongue||2|3+|4+|-|1|MELEE|Companion|false|
+000000353|1|Hooked Tongues||8|3+|4+|1|1|MELEE||false|
+000000356|1|Sharpened Teeth and Filthy Claws||2|4+|4+|-|1|MELEE|Crit (Auto-wound)|false|
+000000357|1|Death Shriek|10"|1|4+|2+|2|D6|RANGED|Shoot in Combat, Companion|false|
+000000357|2|Fanged Maw||3|4+|2+|2|D3+3|MELEE|Crit (Mortal), Companion|false|
+000000357|3|Skeletal Talons||6|4+|2+|1|2|MELEE|Crit (Mortal), Companion|true|
+000000358|1|Baneful Breath|10"|D6|2+|4+|1|3|RANGED|Shoot in Combat, Companion|false|
+000000358|2|Draconic Jaws||4|4+|2+|2|4|MELEE|Crit (Auto-wound), Companion|false|
+000000358|3|Draconic Claws||7|4+|2+|1|2|MELEE|Crit (Auto-wound), Companion|true|
+000000359|1|Gory Talons and Fangs||5|3+|3+|1|2|MELEE||false|
+000000360|1|Bloodstained Talons and Fangs||5|3+|3+|1|2|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend)|false|
+000000361|1|Bone Club and Filthy Claws||5|4+|4+|-|2|MELEE||false|
+000000362|1|Massive Bone Club and Rancid Talons||5|4+|3+|2|3|MELEE||false|
+000000363|1|Piercing Death Screech|10"|4|4+|3+|2|D3|RANGED|Shoot in Combat|false|
+000000363|2|Skewering Claws||5|4+|3+|1|2|MELEE||false|
+000000364|1|Immense Claws||7|4+|3+|1|2|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000000364|2|Dagger-like Fangs||1|3+|2+|2|3|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000000365|1|Death Shriek|10"|1|4+|2+|2|D6|RANGED|Shoot in Combat, Companion|false|
+000000365|2|Gory Talons and Fangs||5|3+|3+|1|2|MELEE||false|
+000000365|3|Terrorgheist’s Fanged Maw||3|4+|2+|2|D3+3|MELEE|Crit (Mortal), Companion|false|
+000000365|4|Terrorgheist’s Skeletal Talons||6|4+|2+|1|2|MELEE|Crit (Mortal), Companion|true|
+000000366|1|Baneful Breath|10"|D6|2+|4+|1|3|RANGED|Shoot in Combat, Companion|false|
+000000366|2|Gory Talons and Fangs||5|3+|3+|1|2|MELEE||false|
+000000366|3|Draconic Jaws||4|4+|2+|2|4|MELEE|Crit (Auto-wound), Companion|false|
+000000366|4|Draconic Claws||7|4+|2+|1|2|MELEE|Crit (Auto-wound), Companion|true|
+000000367|1|Death Scream|10"|4|4+|3+|2|1|RANGED|Shoot in Combat|false|
+000000367|2|Piercing Talons||4|4+|3+|1|1|MELEE||false|
+000000368|1|Club and Septic Talons||4|4+|3+|1|2|MELEE|Anti-<span class="kwb">CAVALRY</span> (+1 Rend), Crit (Auto-wound)|false|
+000000380|1|Corpsemare Trample||6|5+|3+|1|1|MELEE|Crit (2 Hits)|false|
+000000391|1|Bigteef’s Roar|8"|6|2+|3+|-|1|RANGED|Shoot in Combat, Companion|false|
+000000391|2|Bigteef’s Fists and Tail||8|4+|2+|1|3|MELEE|Anti-<span class="kwb">MONSTER</span> (+1 Rend), Companion|true|
+000000391|3|Smasha and Kunnin’||8|3+|2+|1|2|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend)|false|
+000000392|1|Maw-krusha’s Roar|8"|6|2+|3+|-|1|RANGED|Shoot in Combat, Companion|false|
+000000392|2|Boss-choppa or Boss-hacka||8|4+|2+|1|2|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000000392|3|Maw-krusha’s Fists and Tail||8|4+|2+|1|3|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Companion|true|
+000000416|1|Darkling Sword||2|3+|4+|-|1|MELEE|Crit (2 Hits)|false|
+000000417|1|Master-crafted Repeater Crossbow|15"|2|3+|4+|-|1|RANGED|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000000417|2|Cruel Dagger||1|3+|4+|-|1|MELEE||false|
+000000418|1|Darkling Spear||2|3+|4+|-|1|MELEE|Anti-charge (+1 Rend)|false|
+000000423|1|Drakefire Pistols|10"|1|3+|3+|1|1|RANGED|Shoot in Combat|false|
+000000423|2|Ironbreaker Weapon||2|3+|4+|-|1|MELEE||false|
+000000424|1|Hallowed Weapons||2|3+|4+|1|1|MELEE||false|
+000000425|1|Warhorses’ Steel‑shod Hooves||4|5+|3+|-|1|MELEE|Companion|false|
+000000428|1|Fanged Tentacles and Spiked Tail||6|4+|2+|1|D3|MELEE|Companion|false|
+000000428|2|Crew’s Goads and Whips||2|3+|4+|-|1|MELEE||false|
+000000429|1|Searing Beam of Light|24"|1|2+|#3|||RANGED||false|
+000000429|2|Warhorses’ Steel‑shod Hooves||4|5+|3+|-|1|MELEE|Companion|false|
+000000431|1|Fiery Breath|10"|6|4+|3+|-|D3|RANGED|Shoot in Combat, Companion|false|
+000000431|2|Razor-sharp Fangs||6|4+|2+|1|2|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Companion|false|
+000000431|3|Crew’s Goads and Whips||2|3+|4+|-|1|MELEE||false|
+000000433|1|Poison-coated Blades||6|3+|4+|1|2|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend), Crit (Mortal)|false|
+000000434|1|Wizard’s Staff||3|4+|4+|1|D3|MELEE||false|
+000000435|1|Wicked Cutlass and Murder Hook||5|3+|4+|1|2|MELEE|Crit (Mortal)|false|
+000000436|1|Cogsmith’s Firearms|15"|4|3+|3+|1|1|RANGED||false|
+000000436|2|Gun Butt and Cog Axe||3|4+|4+|1|2|MELEE||false|
+000000439|1|Rune Staff and Forgehammer||3|4+|3+|1|D3|MELEE||false|
+000000440|1|Witchstaff||1|3+|4+|1|D3|MELEE||false|
+000000441|1|Runic Hammer||5|3+|3+|2|2|MELEE||false|
+000000444|1|Amber Spear|12"|3|4+|3+|1|D3|RANGED|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000000444|2|Beaststaff||3|4+|3+|1|D3|MELEE||false|
+000000444|3|Griffon’s Razor Claws and Twin Beaks||6|4+|2+|2|3|MELEE|Companion|true|
+000000446|1|Repeater Crossbow|12"|2|4+|4+|-|1|RANGED|Crit (2 Hits)|false|
+000000446|2|Black Dragon’s Noxious Breath|10"|D3+3|2+|4+|1|1|RANGED|Shoot in Combat, Companion|false|
+000000446|3|Dreadlord’s Weapons||5|3+|4+|1|2|MELEE|Charge (+1 Damage)|false|
+000000446|4|Black Dragon’s Fearsome Jaws and Claws||6|4+|2+|2|2|MELEE|Companion|true|
+000000449|1|Black Dragon’s Noxious Breath|10"|D3+3|2+|4+|1|1|RANGED|Shoot in Combat, Companion|false|
+000000449|2|Cruel Weapons||3|3+|4+|1|D3|MELEE||false|
+000000449|3|Black Dragon’s Fearsome Jaws and Claws||6|4+|2+|2|2|MELEE|Companion|true|
+000000450|1|Steam Cannon|18"|1|4+|2+|2|D3+2|RANGED||false|
+000000450|2|Steam Gun|12"|2D6|2+|4+|-|1|RANGED||false|
+000000450|3|Commander’s Rifle|18"|3|3+|3+|1|2|RANGED||false|
+000000450|4|Commander’s Sword||3|3+|4+|1|2|MELEE||false|
+000000450|5|Crushing Wheels||6|4+|2+|1|2|MELEE|Companion|false|
+000000451|1|Repeater Handbow|10"|2|4+|4+|-|1|RANGED|Shoot in Combat|false|
+000000451|2|Vicious Blades||2|3+|4+|-|1|MELEE||false|
+000000452|1|Ebon Halberd||2|3+|4+|1|1|MELEE||false|
+000000453|1|Repeater Crossbow|12"|2|4+|4+|-|1|RANGED|Crit (2 Hits)|false|
+000000453|2|Barbed Spear||2|3+|4+|1|1|MELEE|Charge (+1 Damage)|false|
+000000453|3|Dark Steed’s Vicious Bite||2|5+|3+|-|1|MELEE|Companion|false|
+000000456|1|Barbed Lance||2|3+|4+|1|1|MELEE|Charge (+1 Damage)|false|
+000000456|2|Drakespawn’s Ferocious Jaws||3|4+|3+|1|1|MELEE|Companion|false|
+000000457|1|Executioner’s Draich||2|3+|4+|1|1|MELEE|Crit (Mortal)|false|
+000000458|1|Castigating Flails and Clubs||2|4+|4+|-|1|MELEE||false|
+000000462|1|Clattergun|12"|3|4+|3+|1|D3|RANGED||false|
+000000462|2|Rotor Blades||3|4+|4+|1|D3|MELEE||false|
+000000464|1|Gromril Great Hammer||2|4+|3+|1|2|MELEE||false|
+000000465|1|Drakegun|15"|1|3+|3+|1|1|RANGED|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000000465|2|Grudgehammer Torpedo|15"|1|3+|3+|1|D3|RANGED|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000000465|3|Plated Fists||1|4+|4+|-|1|MELEE||false|
+000000482|1|Steam Cannon|18"|1|4+|2+|2|D3+2|RANGED||false|
+000000482|2|Steam Gun|12"|2D6|2+|4+|-|1|RANGED||false|
+000000482|3|Crushing Wheels||6|4+|2+|1|2|MELEE|Companion|false|
+000000486|1|Cursebreaker Weapons||3|3+|3+|1|1|MELEE|Crit (Mortal)|false|
+000000487|1|Ironblaster Cannon: Hail Shot|12"|8|4+|3+|1|2|RANGED||false|
+000000487|2|Ironblaster Cannon: Big Shot|18"|2|4+|2+|2|D3+3|RANGED||false|
+000000487|3|Rhinox’s Sharp Horns||2|4+|2+|1|D3|MELEE|Companion|false|
+000000487|4|Clubber||2|4+|2+|-|2|MELEE||false|
+000000488|1|Piles of Old Scrap|24"|3D6|4+|4+|-|1|RANGED|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Crit (Auto-wound)|false|
+000000488|2|Rhinox’s Sharp Horns||2|4+|2+|1|D3|MELEE|Companion|false|
+000000488|3|Scrappers’ Stabbers||7|5+|5+|-|1|MELEE||false|
+000000489|1|Glutton Weapons||4|4+|2+|1|2|MELEE||false|
+000000490|1|Chaintrap|12"|1|4+|3+|1|3|RANGED|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000000490|2|Harpoon Launcher|18"|1|4+|3+|1|D3|RANGED||false|
+000000490|3|Blood Vulture|24"|1|2+|3+|-|1|RANGED||false|
+000000490|4|Stonehorn’s Rock-hard Horns||6|4+|2+|2|3|MELEE|Charge (+1 Damage), Companion|true|
+000000490|5|Punches and Kicks||6|4+|2+|-|1|MELEE||false|
+000000490|6|Stonehorn’s Hooves||D6|4+|2+|1|D3|MELEE|Companion|false|
+000000491|1|Harpoon Launcher|18"|1|4+|3+|1|D3|RANGED||false|
+000000491|2|Blood Vulture|24"|1|2+|3+|-|1|RANGED||false|
+000000491|3|Chaintrap|12"|1|4+|3+|1|3|RANGED|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000000491|4|Ice Blast|12"|1|4+|2+|1|D3+2|RANGED|Companion|false|
+000000491|5|Thundertusk’s Colossal Tusks||3|4+|2+|1|5|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Companion|true|
+000000491|6|Punches and Kicks||6|4+|2+|-|1|MELEE||false|
+000000492|1|Butcher’s Tools||3|4+|2+|1|3|MELEE||false|
+000000493|1|Fire Breath|8"|6|2+|3+|-|1|RANGED|Shoot in Combat|false|
+000000493|2|Basalt Hammer||3|4+|2+|1|D3|MELEE||false|
+000000494|1|Hunter’s Crossbow|12"|1|4+|3+|-|D3|RANGED|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000000494|2|Great Throwing Spear|10"|1|4+|3+|1|D3|RANGED|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000000494|3|Culling Club||4|4+|2+|-|2|MELEE|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000000495|1|Stump Blades||2D6|4+|2+|1|1|MELEE||false|
+000000495|2|Gnoblar’s Implements||3|5+|5+|-|1|MELEE|Companion|false|
+000000496|1|Ogor Pistols|10"|2|4+|3+|1|D3|RANGED|Shoot in Combat|false|
+000000496|2|Thundermace||3|4+|2+|2|3|MELEE|Crit (Mortal)|false|
+000000496|3|Beastskewer Glaive||2|4+|2+|1|2|MELEE|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000000497|1|Stonehorn’s Rock-hard Horns||6|4+|2+|2|3|MELEE|Charge (+1 Damage), Companion|true|
+000000497|2|Frost Spear||4|4+|2+|2|2|MELEE|Charge (+1 Damage)|false|
+000000497|3|Stonehorn’s Hooves||D6|4+|2+|1|D3|MELEE|Companion|false|
+000000498|1|Ice Blast|12"|1|4+|2+|1|D3+2|RANGED|Companion|false|
+000000498|2|Frost Spear||4|4+|2+|2|2|MELEE|Charge (+1 Damage)|false|
+000000498|3|Thundertusk’s Colossal Tusks||3|4+|2+|1|5|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Companion|true|
+000000499|1|Blood Vulture|24"|1|2+|3+|-|1|RANGED||false|
+000000499|2|Harpoon Launcher|18"|1|4+|3+|1|D3|RANGED||false|
+000000499|3|Chaintrap|12"|1|4+|3+|1|3|RANGED|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000000499|4|Stonehorn’s Rock-hard horns||6|4+|2+|2|3|MELEE|Charge (+1 Damage), Companion|true|
+000000499|5|Stonehorn’s Hooves||D6|4+|2+|1|D3|MELEE|Companion|false|
+000000499|6|Punches and Kicks||3|4+|2+|-|1|MELEE||false|
+000000500|1|Blood Vulture|24"|1|2+|3+|-|1|RANGED||false|
+000000500|2|Harpoon Launcher|18"|1|4+|3+|1|D3|RANGED||false|
+000000500|3|Ice Blast|12"|1|4+|2+|1|D3+2|RANGED|Companion|false|
+000000500|4|Chaintrap|12"|1|4+|3+|1|3|RANGED|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000000500|5|Punches and Kicks||3|4+|2+|-|1|MELEE||false|
+000000500|6|Thundertusk’s Colossal Tusks||3|4+|2+|1|5|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Companion|true|
+000000501|1|Tusks and Claws||3|4+|3+|1|1|MELEE||false|
+000000503|1|Sharp Stuff|8"|1|4+|5+|-|1|RANGED||false|
+000000503|2|Motley Assortment of Weapons||1|5+|5+|-|1|MELEE||false|
+000000504|1|Claws and Ice‑encrusted Weapons||3|4+|3+|1|2|MELEE||false|
+000000505|1|Irongut Weapon||3|4+|2+|2|3|MELEE||false|
+000000506|1|Leadbelcher Gun|15"|D3|4+|3+|1|1|RANGED||false|
+000000506|2|Bludgeoning Blows||2|4+|2+|-|2|MELEE||false|
+000000507|1|Pistols or Throwing Weapons|10"|1|3+|3+|1|D3|RANGED|Shoot in Combat|false|
+000000507|2|Maneater Weapons||4|4+|2+|1|2|MELEE||false|
+000000508|1|Ironlock Pistol|10"|1|4+|3+|1|D3|RANGED|Shoot in Combat|false|
+000000508|2|Mournfang’s Tusks||4|4+|2+|1|2|MELEE|Companion|false|
+000000508|3|Mournfang Rider Weapon||3|4+|2+|1|2|MELEE|Anti-Cavalry (+1 Rend)|false|
+000000520|1|Kavalos Blades||3|3+|4+|1|1|MELEE||false|
+000000520|2|Kavalos Steed’s Hooves and Teeth||2|5+|3+|-|1|MELEE|Companion|false|
+000000521|1|Nadirite Weapons||2|3+|4+|-|1|MELEE|Anti-<span class="kwb">CAVALRY</span> (+1 Rend)|false|
+000000522|1|Dread Catapult|24"|4|4+|2+|1|D3+2|RANGED|Crit (2 Hits)|false|
+000000522|2|Attendants’ Crawler Tools||6|4+|4+|-|1|MELEE||false|
+000000523|1|Soulcrusher Weapons||6|4+|2+|2|3|MELEE||false|
+000000524|1|The Dark Lance||5|3+|3+|2|2|MELEE|Charge (+1 Damage)|false|
+000000524|2|Kavalos Steed’s Hooves, Teeth and Barbed Tails||4|5+|3+|-|1|MELEE|Companion|false|
+000000525|1|Inda-Khaat||3|3+|3+|2|3|MELEE|Crit (2 Hits)|false|
+000000525|2|The Shield Immortis||3|3+|3+|2|2|MELEE||false|
+000000525|3|Retinue Blades||10|3+|4+|1|1|MELEE||false|
+000000526|1|Commander’s Blade||5|3+|4+|1|2|MELEE|Charge (+1 Damage)|false|
+000000526|2|Kavalos Steed’s Hooves, Teeth and Barbed Tails||4|5+|3+|-|1|MELEE|Companion|false|
+000000527|1|Ossified Talons||3|4+|4+|-|D3|MELEE||false|
+000000528|1|Soulmason’s Staff||3|4+|4+|-|D3|MELEE||false|
+000000529|1|Soulreaper Scythe||4|3+|4+|2|D3|MELEE|Crit (2 Hits)|false|
+000000530|1|Gaze of Death|12"|1|3+|2+|1|D6|RANGED||false|
+000000530|2|Staff of Retribution||3|4+|3+|1|D3|MELEE||false|
+000000531|1|Zefet-kar and Khenash-an||4|3+|4+|1|D3|MELEE||false|
+000000531|2|Razarak’s Ebon Claws||5|4+|2+|3|3|MELEE|Companion|true|
+000000533|1|Dread Halberd||3|3+|3+|1|2|MELEE||false|
+000000534|1|Spirit Weapons||3|3+|2+|2|3|MELEE|Crit (2 Hits), Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000000535|1|Spirit Weapons||3|3+|2+|2|3|MELEE|Crit (2 Hits), Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000000536|1|Stalker Blades||4|3+|3+|2|1|MELEE||false|
+000000544|1|Spectral Claws and Beak||6|4+|2+|1|D3|MELEE||false|
+000000545|1|Soul-rending Shriek|12"|4|3+|4+|1|D3|RANGED|Shoot in Combat|false|
+000000545|2|Soul-rending Shriek||4|3+|4+|1|D3|MELEE||false|
+000000546|1|Lacerating Claws||6|4+|2+|2|2|MELEE||false|
+000000547|1|Almighty Obsidian Blade||2|4+|2+|2|3|MELEE||false|
+000000553|1|Rune-etched Weapons||2|3+|3+|1|1|MELEE|Crit (Auto-wound)|false|
+000000554|1|Flailing Fists||6|4+|3+|-|2|MELEE|Companion|true|
+000000554|2|Sacrificial Blade||4|3+|3+|1|2|MELEE||false|
+000000555|1|Betentacled Maw||12|4+|4+|-|1|MELEE|Companion, Crit (Auto-wound)|true|
+000000555|2|Crushing Claws||4|4+|2+|1|D3|MELEE|Companion|false|
+000000556|1|Razor-tipped Claws||8|4+|2+|1|2|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Companion|true|
+000000556|2|Mighty Jaws||2|4+|2+|1|3|MELEE|Companion|false|
+000000558|1|Dorghar’s Heads||3|3+|2+|1|5|MELEE|Companion|false|
+000000558|2|Dorghar’s Claws and Tails||6|4+|2+|2|3|MELEE|Companion|true|
+000000558|3|The Slayer of Kings||4|2+|3+|2|3|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend)|false|
+000000559|1|Manticore’s Claws and Fangs||6|4+|2+|1|2|MELEE|Anti-<span class="kwb">MONSTER</span> (+1 Rend), Companion|false|
+000000559|2|Sorcerous Reaping Staff||3|3+|3+|1|D3|MELEE||false|
+000000560|1|Daemonbound Weapons||5|3+|3+|1|2|MELEE|Crit (Mortal)|false|
+000000560|2|Manticore’s Claws and Fangs||6|4+|2+|1|2|MELEE|Anti-<span class="kwb">MONSTER</span> (+1 Rend), Companion|false|
+000000561|1|Fell Claw and Spearing Tail||2|2+|2+|2|2|MELEE|Charge (+1 Damage)|false|
+000000561|2|Blade of Shadows||8|3+|3+|2|2|MELEE|Crit (Auto-wound)|true|
+000000562|1|Reaperblade||5|3+|3+|1|2|MELEE|Crit (Mortal)|false|
+000000563|1|Daemonic Mount’s Mighty Hooves||3|5+|3+|-|1|MELEE|Companion|false|
+000000563|2|Cursed Weapons||5|3+|3+|2|2|MELEE|Charge (+1 Damage)|false|
+000000564|1|Hexed Weapons||5|3+|3+|1|2|MELEE|Crit (Mortal), Charge (+1 Damage)|false|
+000000564|2|Karkadrak’s Claws and Horn||4|4+|3+|1|2|MELEE|Companion|false|
+000000565|1|Sorcerer Staff and Runeblade||3|4+|3+|1|D3|MELEE||false|
+000000566|1|Hellforged Weapons||6|3+|3+|1|3|MELEE|Crit (Mortal)|false|
+000000567|1|Cursed Broadsword||5|4+|3+|1|2|MELEE|Crit (Mortal)|false|
+000000568|1|Rune-etched Axe||5|4+|3+|1|2|MELEE|Crit (Mortal)|false|
+000000569|1|Blades of the Dark Champion||5|3+|3+|1|2|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend), Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000000570|1|Changestaff|12"|3|4+|3+|1|D3|RANGED|Crit (Mortal)|false|
+000000570|2|Disc’s Teeth and Horns||2|4+|3+|1|D3|MELEE|Companion|false|
+000000570|3|Warptongue Blade||3|3+|3+|1|2|MELEE||false|
+000000571|1|Gladiator Spear|10"|1|3+|3+|1|D3|RANGED||false|
+000000571|2|Gladiator Spear||6|3+|2+|1|3|MELEE|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000000573|1|Hunting Bow|20"|2|4+|4+|-|1|RANGED|Crit (Auto-wound)|false|
+000000573|2|Godsworn Weapons||2|4+|3+|-|1|MELEE|Crit (Mortal)|false|
+000000584|1|Darkfire Torrent|8"|D6|2+|3+|1|1|RANGED|Shoot in Combat|false|
+000000584|2|Daemonrift Maw||3|4+|2+|-|D3|MELEE||false|
+000000585|1|Surging Spikes||2D3|4+|3+|1|1|MELEE|Crit (2 Hits)|false|
+000000586|1|Lashing Whip||2|4+|4+|-|1|MELEE||false|
+000000586|2|Chaos Greatblade||3|4+|3+|1|2|MELEE||false|
+000000586|3|Chaos Steeds’ Trampling Hooves||4|5+|3+|-|1|MELEE|Companion|false|
+000000586|4|Chaos War-flail||6|3+|3+|-|1|MELEE||false|
+000000587|1|Soul Splitter||3|3+|3+|1|2|MELEE|Crit (Mortal)|false|
+000000588|1|Cursed Lance||3|3+|3+|1|1|MELEE|Charge (+1 Damage)|false|
+000000588|2|Warsteed’s Hooves||2|5+|3+|-|1|MELEE|Companion|false|
+000000590|1|Raven Darts|10"|1|4+|4+|-|1|RANGED|Shoot in Combat|false|
+000000590|2|Hooked Weapons||2|4+|4+|-|1|MELEE|Crit (2 Hits)|false|
+000000591|1|Throwing Stars and Chakrams|10"|1|4+|4+|-|1|RANGED|Shoot in Combat|false|
+000000591|2|Exotic Blades||2|3+|4+|-|1|MELEE||false|
+000000592|1|Freakish Mutations||2D6|5+|4+|-|1|MELEE|Crit (2 Hits), Companion|false|
+000000593|1|Hurled Terrain|12"|D3|4+|2+|1|2|RANGED||false|
+000000593|2|Crushing Fists and Swinging Masonry||6|4+|2+|1|D3|MELEE|Crit (2 Hits)|false|
+000000595|1|Lashing Whip||2|4+|4+|-|1|MELEE||false|
+000000595|2|Chaos War-flail||6|3+|3+|-|1|MELEE||false|
+000000595|3|Chaos Greatblade||3|4+|3+|1|2|MELEE||false|
+000000595|4|Gorebeast’s Crushing Fists||4|4+|4+|-|2|MELEE|Companion|false|
+000000596|1|Bolas|8"|1|4+|4+|-|1|RANGED|Shoot in Combat|false|
+000000596|2|Legion Weapons||2|4+|4+|-|1|MELEE||false|
+000000597|1|Shredding Claws||6|4+|4+|1|2|MELEE||false|
+000000598|1|Razor-sharp Beak and Talons||3|4+|4+|-|1|MELEE|Companion|false|
+000000599|1|Gladiator Weapons||2|4+|4+|-|1|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend)|false|
+000000600|1|Poisoned Weapons||2|4+|4+|-|1|MELEE|Crit (Mortal)|false|
+000000601|1|Maiming Weapons||2|4+|4+|-|1|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000000601|2|Nightmare Sickles||6|4+|3+|1|1|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000000602|1|Ghurish Hunting Weapons||2|4+|4+|-|1|MELEE|Crit (2 Hits)|false|
+000000603|1|Daemonforged Blades||3|3+|3+|2|2|MELEE|Crit (Mortal), Charge (+1 Damage)|false|
+000000603|2|Steed’s Tearing Fangs||3|4+|3+|1|1|MELEE|Companion|false|
+000000604|1|Hacking Blades||2|4+|3+|-|1|MELEE|Crit (2 Hits)|false|
+000000605|1|Gnarled Weapon||2|4+|5+|-|1|MELEE|Crit (2 Hits)|false|
+000000606|1|Throwin’ Rocks|12"|1|5+|2+|2|D3|RANGED||false|
+000000606|2|Massive Club||4|4+|2+|1|2|MELEE||false|
+000000606|3|’Eadbutt||1|4+|2+|2|4|MELEE||false|
+000000606|4|Mighty Kick||1|4+|2+|2|D3|MELEE||false|
+000000607|1|Brimstone Breath|12"|6|2+|4+|-|1|RANGED|Shoot in Combat, Companion|false|
+000000607|2|Chimeric Heads||6|4+|2+|1|D3|MELEE|Companion|false|
+000000607|3|Mauling Claws||6|4+|2+|-|2|MELEE|Crit (2 Hits), Companion|false|
+000000608|1|Desecrated Boulder|15"|1|4+|2+|2|D3+3|RANGED|Shoot in Combat|false|
+000000608|2|Massive Horns||6|4+|2+|1|2|MELEE|Anti-<span class="kwb">MANIFESTATION</span> (+1 Rend)|true|
+000000609|1|Butchering Blades||7|4+|2+|1|3|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|true|
+000000609|2|Huge Slavering Maw||2|4+|2+|1|D6|MELEE||false|
+000000610|1|Slythey Tongue|8"|3|4+|2+|1|D3|RANGED|Shoot in Combat, Companion|false|
+000000610|2|Vorpal Claws and Tail||6|4+|2+|1|2|MELEE|Companion|false|
+000000611|1|Paired Man-ripper Axes||5|3+|3+|1|2|MELEE|Crit (2 Hits), Anti-<span class="kwb">HERO</span> (+1 Rend)|false|
+000000612|1|Slaughterer’s Axe||4|4+|2+|1|3|MELEE||false|
+000000612|2|Alphabeast Horns||2|4+|2+|-|2|MELEE|Charge (+1 Damage)|false|
+000000613|1|Crackling Bolts|12"|2D6|4+|3+|1|1|RANGED|Crit (2 Hits), Shoot in Combat|false|
+000000613|2|Storm-forged Axe||6|3+|2+|1|3|MELEE|Crit (Mortal)|false|
+000000614|1|Fetish Staff||3|4+|3+|-|D3|MELEE||false|
+000000616|1|Despoiler Axe||3|4+|3+|1|1|MELEE|Crit (2 Hits)|false|
+000000617|1|Man-splitter Axes||4|4+|2+|1|2|MELEE||false|
+000000617|2|Iron-capped Horns||2|5+|3+|-|2|MELEE|Charge (+1 Damage)|false|
+000000618|1|Gutpiercer Spear|8"|1|4+|3+|1|D3|RANGED||false|
+000000618|2|Gutpiercer Spear||3|4+|3+|1|1|MELEE|Anti-<span class="kwb">CAVALRY</span> (+1 Rend), Charge (+1 Damage)|false|
+000000618|3|Clawed Forelimbs||2|5+|3+|-|1|MELEE||false|
+000000619|1|Freakish Mutations||2D6|5+|4+|-|1|MELEE|Crit (2 Hits), Companion|false|
+000000620|1|Canine Jaws||2|4+|3+|-|1|MELEE|Companion|false|
+000000621|1|Stabbing Beak and Talons||5|4+|2+|1|2|MELEE|Companion|false|
+000000622|1|Storm-forged Weapons||4|4+|2+|1|2|MELEE|Crit (Mortal)|false|
+000000622|2|Raking Foreclaws||2|5+|3+|-|1|MELEE||false|
+000000624|1|Despoiler Weapons||4|4+|3+|1|1|MELEE|Crit (2 Hits)|false|
+000000624|2|Tuskgors’ Iron-hard Tusks||4|5+|3+|1|1|MELEE|Companion|false|
+000000629|1|Raider Bow|18"|2|4+|5+|-|1|RANGED||false|
+000000629|2|Jagged Shank||1|4+|5+|-|1|MELEE|Crit (2 Hits)|false|
+000000639|1|Murderous Beaks||6|4+|5+|1|1|MELEE||false|
+000000640|1|Taurine Horns||6|4+|2+|2|D3|MELEE|Charge (+1 Damage)|false|
+000000643|1|Kairic Blades||2|4+|3+|1|1|MELEE||false|
+000000644|1|Savage Blades and Vicious Beak||3|4+|3+|1|1|MELEE|Crit (2 Hits)|false|
+000000645|1|Sharpened Quills||2|5+|5+|-|1|MELEE||false|
+000000645|2|Disc’s Teeth and Horns||2|4+|3+|1|D3|MELEE|Companion|false|
+000000646|1|Staff of Change and Ritual Dagger||3|4+|3+|1|D3|MELEE||false|
+000000647|1|The Trickster’s Staff||3|3+|3+|1|D3|MELEE||false|
+000000648|1|Hurled Arcane Energy|18"|D6|3+|3+|1|1|RANGED||false|
+000000648|2|Staff of Tzeentch and Blazing Sword||5|3+|4+|1|2|MELEE||false|
+000000649|1|Cursewrought Glaive||4|3+|4+|2|2|MELEE||false|
+000000650|1|Staff of Change and Ritual Dagger||3|4+|3+|1|D3|MELEE||false|
+000000650|2|Screamers’ Lamprey Bites||6|4+|4+|1|1|MELEE|Charge (+1 Damage), Companion|false|
+000000651|1|Iridescent Flames|12"|3|4+|4+|1|D3|RANGED||false|
+000000651|2|Staff of Change and Ritual Dagger||3|4+|3+|1|D3|MELEE||false|
+000000651|3|Disc’s Teeth and Horns||2|4+|3+|1|D3|MELEE|Companion|false|
+000000652|1|Changestaff|12"|3|4+|3+|1|D3|RANGED|Crit (Mortal)|false|
+000000652|2|Warptongue Blade||3|3+|3+|1|2|MELEE||false|
+000000653|1|Tzeentchian Runestaff|18"|1|3+|4+|-|D3|RANGED||false|
+000000653|2|Warpsteel Sword||3|3+|4+|-|2|MELEE||false|
+000000654|1|Tzeentchian Runestaff|18"|1|3+|4+|-|D3|RANGED||false|
+000000654|2|Warpsteel Sword||3|3+|4+|-|2|MELEE||false|
+000000654|3|Disc’s Teeth and Horns||2|4+|3+|1|D3|MELEE|Companion|false|
+000000655|1|Thaumaturge Staff|12"|3|3+|4+|-|D3|RANGED|Shoot in Combat|false|
+000000655|2|Great Horns and Cloven Hooves||6|4+|2+|1|2|MELEE|Charge (+1 Damage)|false|
+000000656|1|Staff of Change and Ritual Dagger||3|4+|3+|1|D3|MELEE||false|
+000000656|2|Disc’s Teeth and Horns||2|4+|3+|1|D3|MELEE|Companion|false|
+000000659|1|Staff of Tomorrow||4|3+|2+|1|D3|MELEE||false|
+000000659|2|Curved Beaks||5|4+|3+|1|2|MELEE||false|
+000000660|1|Storm of Wyrdfire|18"|5|3+|3+|-|D3|RANGED|Crit (Auto-wound)|false|
+000000660|2|Eldritch Weapons||6|4+|3+|1|3|MELEE||false|
+000000663|1|Warping Flames|12"|3|2+|4+|-|D3|RANGED|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Shoot in Combat|false|
+000000663|2|Flaming Maws||3|3+|4+|-|1|MELEE||false|
+000000664|1|Lamprey Bite||3|4+|4+|1|1|MELEE|Charge (+1 Damage), Companion|false|
+000000665|1|Tzeentchian Spear and Vicious Beak||3|4+|3+|1|2|MELEE|Charge (+1 Damage)|false|
+000000665|2|Disc’s Teeth and Horns||2|4+|3+|1|D3|MELEE|Companion|false|
+000000667|1|Arrow of Fate|18"|2|4+|3+|1|2|RANGED||false|
+000000667|2|Bow Stave and Vicious Beak||1|4+|3+|-|1|MELEE||false|
+000000667|3|Disc’s Teeth and Horns||2|4+|3+|1|D3|MELEE|Companion|false|
+000000683|1|Incinerating Gaze||2D6|4+|4+|-|1|MELEE||false|
+000000684|1|Snapping Jaws||2D6|4+|3+|1|1|MELEE|Anti-<span class="kwb">WIZARD</span> (+1 Rend), Crit (Mortal)|false|
+000000685|1|Privateer Pistol|10"|2|4+|4+|-|1|RANGED|Shoot in Combat|false|
+000000685|2|Privateer Heavy Weapon|15"|2|4+|3+|1|2|RANGED||false|
+000000685|3|Arkanaut Hand Weapon||2|4+|4+|-|1|MELEE||false|
+000000685|4|Skypike||2|3+|3+|1|2|MELEE|Charge (+1 Damage)|false|
+000000686|1|Heavy Sky Ordnance|24"|4|4+|2+|2|3|RANGED||true|
+000000686|2|Boarding Weapons||8|4+|4+|-|1|MELEE||false|
+000000687|1|Aethershock Torpedoes|18"|6|4+|3+|1|2|RANGED||false|
+000000687|2|Great Sky Ordnance|24"|6|4+|2+|2|3|RANGED||true|
+000000687|3|Boarding Weapons||8|4+|4+|-|1|MELEE||false|
+000000688|1|Atmospheric Anatomiser|8"|3D6|4+|4+|2|1|RANGED|Shoot in Combat|false|
+000000688|2|Heavy Instruments||3|4+|4+|-|D3|MELEE||false|
+000000689|1|Ranging Pistol|10"|2|3+|3+|1|1|RANGED|Shoot in Combat|false|
+000000689|2|Zephyrscope||3|3+|4+|1|D3|MELEE||false|
+000000690|1|Masterwork Volley Pistol|10"|3|3+|3+|1|2|RANGED|Shoot in Combat|false|
+000000690|2|Skalfhammer||4|3+|3+|1|3|MELEE||false|
+000000691|1|The Magnate’s Charter|12"|6|3+|3+|1|2|RANGED|Shoot in Combat|false|
+000000691|2|Grungsson’s Boast|18"|1|3+|2+|2|D3+3|RANGED||false|
+000000691|3|Brokk’s Aethermatic Saw||5|3+|3+|2|2|MELEE|Crit (2 Hits)|false|
+000000692|1|Aethercannon|18"|1|3+|3+|2|3|RANGED||false|
+000000692|2|Dirigible Suit Weapon Battery|12"|6|3+|3+|1|1|RANGED|Shoot in Combat|false|
+000000692|3|Upgraded Aethermatic Saw||4|3+|3+|2|2|MELEE||false|
+000000693|1|Aethermight Hammer||3|4+|2+|2|3|MELEE||false|
+000000695|1|Aethermatic Anatomiser|8"|3D6|4+|4+|2|1|RANGED|Shoot in Combat|false|
+000000695|2|Aethermatic Firearms|12"|2|3+|4+|1|1|RANGED||false|
+000000695|3|Skypike||2|3+|3+|1|2|MELEE|Crit (Mortal)|false|
+000000695|4|Arkanaut Cutter||2|4+|4+|-|1|MELEE||false|
+000000696|1|Rapid-fire Rivet Gun|10"|3|3+|4+|1|1|RANGED|Shoot in Combat|false|
+000000696|2|Aethermatic Volley Gun|15"|2D6|4+|4+|-|1|RANGED|Crit (2 Hits)|false|
+000000696|3|Skyrigger Heavy Weapon|15"|1|4+|3+|1|D3|RANGED|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000000696|4|Aethermatic Saw||3|4+|3+|1|2|MELEE|Anti-charge (+1 Rend)|false|
+000000696|5|Gun Butt||1|4+|5+|-|1|MELEE||false|
+000000698|1|Aethershot Rifle|18"|2|3+|4+|1|1|RANGED||false|
+000000698|2|Aetheric Fumigator or Decksweeper|10"|5|3+|4+|-|1|RANGED|Shoot in Combat|false|
+000000698|3|Grundstok Mortar or Aethercannon|18"|2|4+|3+|1|2|RANGED||false|
+000000698|4|Gun Butt||1|4+|5+|-|1|MELEE||false|
+000000699|1|Vulcaniser Pistol|10"|3|3+|3+|1|1|RANGED|Shoot in Combat|false|
+000000699|2|Aethermatic Volley Gun|15"|2D6|4+|4+|-|1|RANGED|Crit (2 Hits)|false|
+000000699|3|Skyrigger Heavy Weapon|15"|1|4+|3+|1|D3|RANGED|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000000699|4|Skywarden’s Skypike||2|3+|3+|1|2|MELEE|Charge (+1 Damage)|false|
+000000699|5|Gun Butt||1|4+|5+|-|1|MELEE||false|
+000000704|1|Handlers’ Meteoric Javelins|12"|6|4+|4+|-|1|RANGED|Shoot in Combat|false|
+000000704|2|Stegadon’s Horns and Jaws||6|4+|2+|1|2|MELEE|Charge (+1 Damage), Companion|true|
+000000705|1|Celestite Weapon||2|3+|3+|1|1|MELEE||false|
+000000707|1|Skystreak Bow|18"|3|3+|3+|1|2|RANGED|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000000707|2|Sunfire Throwers|10"|2D6|3+|3+|-|1|RANGED|Crit (2 Hits), Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000000707|3|Handlers’ Meteoric Javelins|12"|6|4+|4+|-|1|RANGED|Shoot in Combat|false|
+000000707|4|Stegadon’s Horns and Jaws||6|4+|2+|1|2|MELEE|Charge (+1 Damage), Companion|true|
+000000708|1|Gaze of Kroak|12"|1|2+|3+|2|D6|RANGED|Shoot in Combat|false|
+000000708|2|Azyrite Force Barrier||2D6|3+|3+|1|1|MELEE|Crit (Mortal)|false|
+000000709|1|Ripperdactyl’s Tearing Jaws||3|4+|3+|1|1|MELEE|Charge (+1 Damage), Companion|false|
+000000709|2|Skyblade||5|4+|4+|1|2|MELEE|Crit (Auto-wound)|false|
+000000710|1|Celestite Warclub||4|3+|3+|1|2|MELEE||false|
+000000712|1|Relic Celestite Weapon||5|3+|3+|1|2|MELEE||false|
+000000716|1|Serpent Staff||3|4+|4+|1|D3|MELEE||false|
+000000717|1|Astromancer’s Staff||2|4+|3+|1|D3|MELEE||false|
+000000718|1|Azure Lightning||6|3+|3+|1|1|MELEE|Crit (Mortal)|false|
+000000719|1|Terradon’s Razor-sharp Jaws||3|4+|3+|1|1|MELEE|Companion|false|
+000000719|2|Skyblade||5|4+|4+|1|2|MELEE|Crit (Auto-wound)|false|
+000000720|1|Sunbolt Gauntlet|12"|D6|3+|3+|1|1|RANGED|Shoot in Combat|false|
+000000720|2|Carnosaur’s Massive Jaws||3|4+|2+|2|3|MELEE|Companion|true|
+000000720|3|Sunstone Spear||5|3+|3+|1|2|MELEE|Charge (+1 Damage)|false|
+000000720|4|Carnosaur’s Clawed Forelimbs||4|4+|2+|1|3|MELEE|Companion|false|
+000000721|1|Carnosaur’s Massive Jaws||3|4+|2+|2|3|MELEE|Companion|true|
+000000721|2|Relic Celestite Weapon||5|3+|3+|1|2|MELEE||false|
+000000721|3|Carnosaur’s Clawed Forelimbs||4|4+|2+|1|3|MELEE|Companion|false|
+000000722|1|Troglodon’s Noxious Spittle|15"|D6|3+|3+|1|2|RANGED|Shoot in Combat, Companion|false|
+000000722|2|Divining Rod||2|4+|4+|1|D3|MELEE||false|
+000000722|3|Troglodon’s Talons||2|4+|3+|1|2|MELEE|Companion|false|
+000000722|4|Troglodon’s Jaws||3|4+|3+|1|3|MELEE|Crit (Mortal), Companion|true|
+000000725|1|Drakebite Maul||4|4+|2+|1|2|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000000725|2|Moonstone Hammer||4|3+|2+|1|3|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000000727|1|Ripperdactyl’s Tearing Jaws||3|4+|3+|1|1|MELEE|Charge (+1 Damage), Companion|false|
+000000727|2|Moonstone Warspear||2|4+|4+|-|1|MELEE|Anti-<span class="kwb">CAVALRY</span> (+1 Rend)|false|
+000000729|1|Celestite Polearm||3|3+|3+|1|1|MELEE||false|
+000000731|1|Javelins and Boltspitters|12"|2|4+|4+|-|1|RANGED|Shoot in Combat|false|
+000000731|2|Celestite Daggers and Moonstone Clubs||1|4+|5+|-|1|MELEE||false|
+000000732|1|Javelins and Bolas|10"|3|4+|5+|-|1|RANGED|Crit (Auto-wound)|false|
+000000732|2|Terradon’s Razor-sharp Jaws||3|4+|3+|1|1|MELEE|Companion|false|
+000000758|1|Skystreak Bow|18"|3|3+|3+|1|2|RANGED|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000000758|2|Sunfire Throwers|10"|2D6|3+|3+|-|1|RANGED|Crit (2 Hits), Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000000758|3|Handlers’ Meteoric Javelins|12"|6|4+|4+|-|1|RANGED|Shoot in Combat|false|
+000000758|4|Stegadon’s Horns and Jaws||6|4+|2+|1|2|MELEE|Charge (+1 Damage), Companion|true|
+000000758|5|Meteoric Warspear||3|3+|3+|1|1|MELEE||false|
+000000835|1|Warden Pike and Blade||2|3+|4+|-|1|MELEE|Anti-charge (+1 Rend), Crit (Mortal)|false|
+000000836|1|Geomantic Blast|12"|1|3+|2+|2|D6|RANGED|Shoot in Combat|false|
+000000836|2|Stoneheart Worldhammer||4|4+|2+|2|5|MELEE||true|
+000000837|1|Staff of the High Peaks||3|3+|4+|1|D3|MELEE||false|
+000000838|1|Despairing Touch||3|3+|4+|-|D3|MELEE||false|
+000000839|1|Searing Darts of Light|12"|3|2+|3+|2|D3|RANGED|Shoot in Combat|false|
+000000839|2|Fangsword of Eltharion||5|2+|3+|3|3|MELEE|Crit (2 Hits)|false|
+000000839|3|Celennari Blade||2|2+|3+|1|3|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend), Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000000840|1|Lunar Staff|12"|1|2+|2+|2|D3+3|RANGED||false|
+000000840|2|Sword of Teclis||2|3+|3+|2|D3|MELEE|Crit (Mortal)|false|
+000000840|3|Celennar’s Moonbright Talons||5|3+|3+|2|3|MELEE|Companion|true|
+000000841|1|Geomantic Blast|12"|1|3+|2+|2|D6|RANGED|Shoot in Combat|false|
+000000841|2|Firestealer Hammers||6|4+|2+|2|4|MELEE||true|
+000000842|1|Stoneguard Hammers||2|3+|3+|1|2|MELEE||false|
+000000843|1|Auralan Bow|18"|2|3+|4+|1|1|RANGED|Crit (Auto-wound)|false|
+000000843|2|Sentinel Blade||1|3+|4+|-|1|MELEE||false|
+000000844|1|Dawnrider Lance and Blade||2|3+|4+|1|1|MELEE|Charge (+1 Damage), Crit (Mortal)|false|
+000000844|2|Stallions’ Dashing Hooves||2|5+|3+|-|1|MELEE|Companion|false|
+000000849|1|Crackling Energy||2D6|4+|4+|-|1|MELEE||false|
+000000853|1|Despoiler Shortbow|15"|2|4+|4+|-|1|RANGED||false|
+000000853|2|Despoiler Weapons||2|4+|4+|-|1|MELEE||false|
+000000856|1|Knightly Weapons||3|4+|4+|-|1|MELEE|Anti-<span class="kwb">MONSTER</span> (+1 Rend), Crit (Auto-wound)|false|
+000000856|2|Great Halberd||4|3+|4+|1|2|MELEE|Anti-<span class="kwb">MONSTER</span> (+1 Rend), Crit (Auto-wound)|false|
+000000858|1|Piercing Scream|12"|D3|4+|3+|2|D3|RANGED|Shoot in Combat|false|
+000000858|2|Ancient Chill Dagger||3|4+|3+|2|D3|MELEE|Crit (Auto-wound)|false|
+000000858|3|Malignant Weapon||2|4+|5+|-|1|MELEE|Crit (Auto-wound)|false|
+000000859|1|Wolfgit Weapons||3|4+|5+|-|1|MELEE|Charge (+1 Damage)|false|
+000000859|2|Snarlfang’s Slavering Jaws||2|4+|3+|-|2|MELEE|Companion|false|
+000000860|1|Trap Launcher|12"|2|4+|3+|1|D3|RANGED|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000000860|2|Hunting Knife||5|4+|2+|-|2|MELEE||false|
+000000863|1|Wild Hunt Ranged Weapons|12"|2|3+|4+|1|1|RANGED||false|
+000000863|2|Tracker Weapons||2|3+|4+|1|1|MELEE||false|
+000000866|1|Throwin’ Rocks|12"|1|5+|2+|2|D3|RANGED||false|
+000000866|2|Massive Club||4|4+|2+|1|2|MELEE||false|
+000000866|3|Mighty Kick||1|4+|2+|2|D3|MELEE||false|
+000000866|4|’Eadbutt||1|4+|2+|2|4|MELEE||false|
+000000867|1|Hurled Boulder|18"|1|3+|2+|3|4|RANGED||false|
+000000867|2|Almighty Stomp||4|4+|2+|2|D3|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000000867|3|Death Grip||1|4+|2+|2|D6|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend)|false|
+000000867|4|Fortcrusha Flail||6|4+|2+|2|4|MELEE|Anti-<span class="kwb">FACTION</span> <span class="kwb">TERRAIN</span> (+1 Rend)|true|
+000000868|1|Hurled Debris|24"|3|4+|3+|1|D3|RANGED||false|
+000000868|2|Death Grip||1|4+|2+|2|D6|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend)|false|
+000000868|3|Almighty Stomp||4|4+|2+|2|D3|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000000868|4|Shipwrecka Warclub||4|4+|2+|2|4|MELEE||true|
+000000869|1|Almightier Stomp||6|4+|2+|2|D3|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000000869|2|Death Grip||1|4+|2+|2|D6|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend)|false|
+000000869|3|Titanic Boulderclub||4|4+|2+|2|2|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|true|
+000000870|1|Kruiplash||3|3+|4+|-|1|MELEE||false|
+000000871|1|Sciansá||3|3+|4+|-|1|MELEE||false|
+000000872|1|Blade of the Bloody‑Handed God||3|3+|3+|2|3|MELEE||false|
+000000873|1|Bloodwrack Spear and Whisperclaw||5|3+|4+|1|2|MELEE|Crit (Mortal)|false|
+000000874|1|Blade of Khaine||5|3+|4+|1|2|MELEE||false|
+000000875|1|Heartrender and Bladed Wings||5|3+|4+|2|2|MELEE||false|
+000000878|1|Deathsword and Blade of Khaine||6|3+|4+|1|2|MELEE||false|
+000000879|1|Bloodwrack Stare|15"|4|3+|3+|2|3|RANGED|Crit (2 Hits), Shoot in Combat|false|
+000000879|2|Shrine Guardians’ Blades||9|3+|4+|1|2|MELEE||false|
+000000880|1|Shrine Guardians’ Blades||9|3+|4+|1|2|MELEE||false|
+000000880|2|Avatar’s Sword||5|3+|3+|2|3|MELEE|Companion|false|
+000000881|1|Shrine Guardians’ Blades||9|3+|4+|1|2|MELEE||false|
+000000881|2|Avatar’s Sword||5|3+|3+|2|3|MELEE|Companion|false|
+000000882|1|Doomfire Crossbow|10"|2|3+|4+|-|1|RANGED||false|
+000000882|2|Cursed Scimitar||2|3+|4+|1|1|MELEE||false|
+000000882|3|Dark Steed’s Vicious Bite||2|5+|3+|-|1|MELEE|Companion|false|
+000000883|1|Heartshard Glaive||2|3+|4+|1|2|MELEE|Crit (Mortal)|false|
+000000884|1|Heartseeker Bow|18"|3|3+|4+|1|1|RANGED|Crit (Auto-wound)|false|
+000000884|2|Scianlar||2|3+|4+|-|1|MELEE||false|
+000000885|1|Barbed Javelin|12"|2|3+|4+|1|1|RANGED||false|
+000000885|2|Barbed Javelin||1|3+|4+|-|1|MELEE||false|
+000000886|1|Barbed Sickle||2|3+|4+|1|1|MELEE||false|
+000000893|1|Heartrender||8|3+|3+|2|3|MELEE|Crit (Mortal)|true|
+000000893|2|Envenomed Tail||1|3+|3+|2|6|MELEE|Crit (Mortal)|false|
+000000897|1|Lanmari||2|3+|4+|1|1|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000000898|1|Razorshell Harpoon Launchers|18"|4|3+|2+|1|3|RANGED|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000000898|2|Leviadon’s Scythed Fins and Crushing Jaws||7|4+|2+|2|3|MELEE|Crit (Mortal), Companion|true|
+000000898|3|Crew’s Spears and Harpoons||4|3+|4+|1|1|MELEE||false|
+000000899|1|Akhelian Royal Weapons||5|3+|4+|1|2|MELEE|Charge (+1 Damage)|false|
+000000899|2|Deepmare’s Fangs, Talons and Lashing Tails||4|4+|3+|1|2|MELEE|Companion|false|
+000000900|1|Blasts of Abyssal Energy|12"|3|3+|3+|2|D3|RANGED||false|
+000000900|2|Psi-trident and Deep‑sea Sceptre||7|3+|3+|1|D3|MELEE||false|
+000000901|1|Spear of Repressed Fury and Crulhook||7|3+|2+|2|2|MELEE|Charge (+1 Damage)|false|
+000000902|1|Talúnhook||4|3+|4+|1|2|MELEE||false|
+000000902|2|Rakerdart’s Serrated Bill||3|4+|4+|1|1|MELEE|Companion|false|
+000000903|1|Abyssal Touch||4|3+|4+|-|D3|MELEE||false|
+000000904|1|Pelagic Staff||4|3+|4+|1|D3|MELEE||false|
+000000905|1|Meloch’s Tentacles and Weapons||8|4+|4+|1|1|MELEE|Companion|false|
+000000906|1|Uasall’s Fangs, Talons and Lashing Tails||4|4+|3+|1|2|MELEE|Companion|false|
+000000906|2|The Astra Solus||6|2+|3+|1|2|MELEE|Charge (+1 Damage)|false|
+000000908|1|Helsabre||3|3+|4+|1|1|MELEE||false|
+000000908|2|Fangmora’s Fangs and Lashing Tail||3|4+|3+|1|D3|MELEE|Companion|false|
+000000909|1|Voltspear||2|3+|4+|1|1|MELEE|Anti-<span class="kwb">CAVALRY</span> (+1 Rend), Charge (+1 Damage)|false|
+000000909|2|Fangmora’s Fangs and Lashing Tail||3|4+|3+|1|D3|MELEE|Companion|false|
+000000910|1|Whisperbow|12"|2|3+|4+|1|1|RANGED|Crit (Auto-wound)|false|
+000000910|2|Keening Blade||1|3+|4+|-|1|MELEE||false|
+000000923|1|Keldrisaíth||6|3+|4+|1|2|MELEE|Crit (Mortal)|false|
+000000927|1|Plaguesword||1|4+|3+|-|1|MELEE|Crit (Mortal)|false|
+000000928|1|Mound of Nurglings||10|5+|5+|-|1|MELEE|Companion|false|
+000000928|2|Epidemius’s Balesword||3|4+|3+|1|D3|MELEE||false|
+000000930|1|Blighted Weapons||4|3+|3+|1|1|MELEE||false|
+000000931|1|Gnarled Plague Staff||3|3+|3+|1|D3|MELEE|Crit (Auto-wound)|false|
+000000931|2|Gathoblyt’s Fanged Maw||4|4+|2+|2|3|MELEE|Crit (Mortal), Companion|true|
+000000932|1|Rot-pocked Axe||5|3+|2+|1|2|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend), Crit (Mortal)|false|
+000000933|1|Grim Rotsword or Plague Scythe||3|3+|3+|1|3|MELEE|Crit (Mortal)|false|
+000000933|2|Daemonic Mount’s Flyblown Bite||2|5+|3+|-|1|MELEE|Companion|false|
+000000934|1|Lopping Shears||3|3+|3+|1|2|MELEE||false|
+000000934|2|Mulch’s Slime-encrusted Jaws||4|4+|3+|1|D3|MELEE|Companion|false|
+000000935|1|Festerspike||4|3+|3+|1|2|MELEE|Charge (+1 Damage)|false|
+000000935|2|Rot Fly’s Mouthparts and Sting||6|4+|3+|-|1|MELEE|Companion|false|
+000000936|1|Bubotic Hammer||4|3+|3+|1|3|MELEE|Anti-charge (+1 Rend)|false|
+000000937|1|Plague-ridden Great Blade||5|3+|3+|1|2|MELEE|Crit (Mortal)|false|
+000000938|1|Corrupted Balesword||3|4+|3+|1|2|MELEE|Crit (Mortal)|false|
+000000939|1|Marotter||3|4+|3+|1|2|MELEE||false|
+000000941|1|Disgusting Sneezes|7"|D6|2+|4+|-|1|RANGED|Shoot in Combat|false|
+000000941|2|Distended Maw||3|4+|3+|1|2|MELEE||false|
+000000942|1|Bilespurter’s Vile Bile|7"|7|2+|4+|1|D3|RANGED|Shoot in Combat, Companion|false|
+000000942|2|Harvestman’s Scythe||3|3+|3+|1|2|MELEE|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000000942|3|Bilespurter’s Claws||5|4+|2+|2|3|MELEE|Companion|true|
+000000943|1|Ghurk’s Tentacle||4|3+|2+|2|5|MELEE||true|
+000000943|2|Ghurk’s Lamprey Maw||3|3+|2+|2|3|MELEE||false|
+000000943|3|Otto’s Scythe||4|3+|3+|1|3|MELEE||false|
+000000944|1|Noxious Bile|7"|D3+3|3+|2+|2|2|RANGED|Shoot in Combat|false|
+000000944|2|Colossal Blight Weapons||4|3+|2+|2|4|MELEE||true|
+000000945|1|Tripletongue’s Slabrous Tongues|7"|3|3+|3+|1|1|RANGED|Shoot in Combat, Companion|false|
+000000945|2|Fleshreaper Scythe||5|3+|3+|1|2|MELEE||false|
+000000945|3|Tripletongue’s Claws||5|4+|2+|2|3|MELEE|Companion|true|
+000000946|1|Whippermaw’s Grasping Tongue|7"|1|3+|3+|-|D6|RANGED|Shoot in Combat, Companion|false|
+000000946|2|The Rotaxes||7|3+|3+|1|2|MELEE||false|
+000000946|3|Whippermaw’s Claws||5|4+|2+|2|3|MELEE|Companion|true|
+000000947|1|Fanged Maws||4|3+|2+|2|2|MELEE||false|
+000000947|2|Gnarlrod||5|3+|2+|1|3|MELEE||true|
+000000949|1|Tiny Razor-sharp Teeth||5|5+|5+|-|1|MELEE|Crit (Auto-wound)|false|
+000000950|1|Noxious Plaguesword||2|4+|3+|-|1|MELEE|Crit (Mortal)|false|
+000000950|2|Rot Fly’s Mouthparts and Sting||6|4+|3+|-|1|MELEE|Companion|false|
+000000951|1|Flyrider’s Arsenal||4|3+|3+|1|1|MELEE|Charge (+1 Damage)|false|
+000000951|2|Rot Fly’s Mouthparts and Sting||6|4+|3+|-|1|MELEE|Companion|false|
+000000952|1|Pox-blighted Weapons||4|3+|3+|1|1|MELEE|Anti-<span class="kwb">PRIEST</span> (+1 Rend), Anti-<span class="kwb">WIZARD</span> (+1 Rend)|false|
+000000959|1|Maggot-infested Mouth||4|4+|3+|1|D3|MELEE||false|
+000000981|1|Rotting Fangs and Claws||2|4+|3+|-|1|MELEE|Companion|false|
+000000984|1|Corpsemaster’s Staff||3|4+|3+|1|D3|MELEE||false|
+000000984|2|Spectral Host’s Blades||10|4+|4+|-|1|MELEE|Companion|false|
+000000985|1|Death Shriek|10"|1|4+|2+|2|D6|RANGED|Shoot in Combat, Companion|false|
+000000985|2|Fanged Maw||3|4+|2+|2|D6|MELEE|Companion|false|
+000000985|3|Skeletal Talons||6|4+|2+|1|2|MELEE|Companion|true|
+000000988|1|Mortis Staff||3|4+|4+|1|2|MELEE||false|
+000000990|1|Dynastic War-relic||5|3+|3+|1|2|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend), Crit (2 Hits)|false|
+000000994|1|Sanguinarch’s Stiletto||5|3+|3+|1|2|MELEE|Crit (2 Hits)|false|
+000000994|2|Spectral Host’s Blades||10|4+|4+|-|1|MELEE|Companion|false|
+000000995|1|Matriarch’s Stiletto||5|3+|3+|1|2|MELEE|Crit (2 Hits)|false|
+000000995|2|Acolytes’ Poniards||6|3+|3+|1|1|MELEE||false|
+000000995|3|Spectral Host’s Blades||10|4+|4+|-|1|MELEE|Companion|false|
+000000997|1|Zefet-nebtar, the Mortis Blade||4|3+|3+|2|3|MELEE||false|
+000000997|2|Alakanash, the Staff of Power||4|3+|3+|2|D6|MELEE||false|
+000000998|1|Akmet-har, the Dagger of Jet||5|3+|3+|2|1|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend)|false|
+000000998|2|Aken-seth, the Staff of Pain||3|2+|3+|2|2|MELEE||false|
+000000998|3|Nagadron’s Claws||5|4+|2+|3|3|MELEE|Companion|true|
+000000999|1|Shordemaire’s Miasma|10"|D6|3+|3+|2|2|RANGED|Shoot in Combat, Companion|false|
+000000999|2|The Bloodlance||6|3+|3+|2|2|MELEE|Charge (+1 Damage)|false|
+000000999|3|Shordemaire’s Claws||7|4+|2+|1|2|MELEE|Companion|true|
+000000999|4|Shordemaire’s Maw||3|4+|2+|2|3|MELEE|Companion|false|
+000001000|1|Pestilential Breath|10"|D6|2+|4+|1|2|RANGED|Shoot in Combat, Companion|false|
+000001000|2|Dynastic Weapon||4|3+|3+|2|2|MELEE|Charge (+1 Damage)|false|
+000001000|3|Draconic Maw||3|4+|2+|2|3|MELEE|Companion|false|
+000001000|4|Draconic Claws||7|4+|2+|1|2|MELEE|Companion|true|
+000001003|1|Nightmare’s Hooves and Teeth||3|5+|3+|-|1|MELEE|Companion|false|
+000001003|2|Templar Weapon||3|3+|3+|1|1|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Charge (+1 Damage)|false|
+000001006|1|Chiropteran Fangs||3|4+|4+|-|2|MELEE|Companion|false|
+000001012|1|Ancient Weapon||2|4+|4+|-|1|MELEE|Crit (2 Hits)|false|
+000001014|1|Murderous Fangs and Talons||3|4+|3+|1|2|MELEE|Crit (2 Hits)|false|
+000001022|1|Hellforged Weapons||3|3+|3+|1|1|MELEE|Crit (Auto-wound)|false|
+000001023|1|Bladed Vortex||9|3+|3+|1|1|MELEE||false|
+000001024|1|Fanged Strikes||4|4+|2+|1|3|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend), Crit (Mortal)|false|
+000001026|1|Cursed Bolts and Missiles|10"|2|3+|4+|1|1|RANGED||false|
+000001026|2|Blades of Murder||2|3+|4+|1|1|MELEE||false|
+000001027|1|Leerstave of Loth’shar|12"|1|2+|2+|-|6|RANGED|Shoot in Combat|false|
+000001027|2|Greatblade and Claws||8|3+|3+|1|3|MELEE|Companion|true|
+000001027|3|Scourge and Dagger||4|3+|4+|-|1|MELEE|Companion|false|
+000001028|1|Soulpiercer Mace||5|3+|3+|1|2|MELEE||false|
+000001029|1|Shadow-cloaked Claws||4|4+|3+|1|D3|MELEE|Companion|false|
+000001029|2|Haze Staff||3|3+|4+|1|D3|MELEE||false|
+000001030|1|Shardslash||5|2+|3+|2|2|MELEE||false|
+000001031|1|Blissbarb Bow|18"|2|3+|4+|1|1|RANGED||false|
+000001031|2|Sybarite Blade||1|3+|4+|-|1|MELEE||false|
+000001032|1|Seeker Bow|12"|3|3+|4+|1|1|RANGED||false|
+000001032|2|Exalted Steed’s Poisoned Tongue||3|3+|4+|-|1|MELEE|Companion|false|
+000001032|3|Sybarite Blade||1|3+|4+|-|1|MELEE||false|
+000001033|1|Weapons of Excess||3|3+|4+|1|2|MELEE||false|
+000001034|1|Wicked Scimitar||3|3+|3+|1|1|MELEE||false|
+000001035|1|Razor-sharp Claws and Gilded Weapons||4|4+|3+|1|2|MELEE||false|
+000001036|1|Slickblade Glaive||3|3+|4+|1|1|MELEE|Charge (+1 Damage)|false|
+000001036|2|Exalted Steed’s Poisoned Tongue||3|3+|4+|-|1|MELEE|Companion|false|
+000001037|1|Merciless Weapons||4|3+|4+|1|1|MELEE||false|
+000001047|1|Starblood Weapons||1|4+|5+|-|1|MELEE||false|
+000001047|2|Relic Celestite Weapon||5|3+|3+|1|2|MELEE||false|
+000001049|1|Blazing Sunbolt|12"|3|3+|3+|1|D3|RANGED|Crit (Auto-wound)|false|
+000001049|2|Altairi||5|2+|3+|1|2|MELEE||false|
+000001049|3|Dianaer||2|3+|4+|1|D3|MELEE||false|
+000001050|1|Windblast Vortex|12"|1|2+|3+|2|D3|RANGED|Shoot in Combat|false|
+000001050|2|Aspiragillum||3|3+|4+|1|D3|MELEE||false|
+000001051|1|Daemonbane||2|2+|3+|1|2|MELEE|Anti-<span class="kwb">DAEMON</span> (+1 Rend), Charge (+1 Damage)|false|
+000001051|2|Lyrior’s Sword||5|2+|3+|1|2|MELEE|Charge (+1 Damage), Crit (Mortal)|false|
+000001051|3|Farael’s Horns and Claws||4|4+|3+|1|1|MELEE|Companion|false|
+000001053|1|Auralan Bow|18"|2|3+|4+|1|1|RANGED|Crit (Auto-wound)|false|
+000001053|2|Purifier Weapons||2|2+|4+|1|2|MELEE||false|
+000001054|1|Calligrave Blade||3|3+|4+|1|2|MELEE||false|
+000001055|1|Eclipsian Staff|12"|3|3+|3+|1|D3|RANGED|Shoot in Combat|false|
+000001055|2|Loreseeker Blade||5|3+|4+|1|2|MELEE|Crit (Mortal)|false|
+000001056|1|Enathrai, the Howling Death|15"|4|2+|3+|3|3|RANGED|Shoot in Combat|false|
+000001056|2|Swirling Shards||6|2+|4+|-|1|MELEE|Crit (Mortal)|false|
+000001057|1|Bannerblade’s Sword||5|3+|4+|1|2|MELEE|Crit (Mortal)|false|
+000001058|1|Regent’s Sword||5|3+|4+|1|2|MELEE|Crit (Mortal)|false|
+000001059|1|Bow of the Wind’s Vengeance|15"|4|2+|3+|2|2|RANGED|Anti-<span class="kwb">MONSTER</span> (+1 Rend), Shoot in Combat|false|
+000001059|2|Swirling Shards||6|2+|4+|-|1|MELEE|Crit (Mortal)|false|
+000001060|1|Windcharger Bow|12"|3|3+|4+|1|1|RANGED|Anti-<span class="kwb">CAVALRY</span> (+1 Rend), Crit (Auto-wound)|false|
+000001060|2|Windcharger Blade||1|4+|4+|-|1|MELEE||false|
+000001060|3|Treerunner’s Claws||2|5+|3+|-|1|MELEE|Companion|false|
+000001061|1|Sunmetal Blade||3|3+|4+|1|1|MELEE|Crit (Mortal)|false|
+000001072|1|Phantasmal Torture|12"|4|3+|3+|2|1|RANGED|Crit (Auto-wound), Shoot in Combat|false|
+000001072|2|Talons and Flensing Knives||4|4+|3+|1|2|MELEE|Crit (Auto-wound)|false|
+000001081|1|Sigmarite Runeblade and Warhammer||5|3+|3+|1|2|MELEE|Crit (Auto-wound)|false|
+000001090|1|Gravekeeper’s Spade||5|4+|3+|1|2|MELEE||false|
+000001091|1|Vyrkos Barrow-blade||5|3+|3+|1|2|MELEE|Crit (Mortal)|false|
+000001092|1|Necrotising Bolts|18"|6|4+|4+|1|D3|RANGED|Shoot in Combat|false|
+000001092|2|Familiars’ Fangs and Claws||4|4+|4+|-|1|MELEE|Companion|false|
+000001093|1|Cursed Halberd and Sabre||4|4+|3+|2|2|MELEE|Crit (Mortal)|false|
+000001094|1|Kosargi Bardiche||2|4+|2+|2|3|MELEE||false|
+000001095|1|Piercing Blade||3|3+|3+|1|2|MELEE|Crit (2 Hits)|false|
+000001096|1|Lacerating Fangs||2|4+|2+|2|3|MELEE|Companion|false|
+000001096|2|Raking Talons||4|4+|2+|1|2|MELEE|Companion|false|
+000001097|1|Ancient Weapon||2|4+|4+|-|1|MELEE||false|
+000001099|1|Courtly Weapon||3|3+|3+|1|2|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend)|false|
+000001100|1|Timeworn Scimitar||4|3+|3+|1|2|MELEE||false|
+000001100|2|Lupine Fangs and Claws||6|4+|4+|-|1|MELEE|Companion|false|
+000001101|1|Gnawblade||5|3+|3+|1|2|MELEE|Crit (2 Hits)|false|
+000001102|1|The Blade Proboscian||7|3+|4+|1|2|MELEE||false|
+000001103|1|Gore-drenched Talons||3|3+|2+|3|3|MELEE||false|
+000001103|2|Askurga Rapier||5|3+|3+|2|2|MELEE||false|
+000001104|1|Blood-slick Claws||6|3+|3+|2|3|MELEE|Crit (Mortal)|false|
+000001104|2|Vyrkos Blood-born’s Piercing Blades||6|3+|3+|1|2|MELEE||false|
+000001106|1|Nightmare Sabre||4|3+|3+|1|2|MELEE||false|
+000001106|2|Gore-drenched Talons||3|3+|2+|3|3|MELEE||false|
+000001107|1|Baleful Tomb Blade||5|4+|3+|1|2|MELEE|Crit (Mortal)|false|
+000001109|1|Gheistvor, the Sword of Unholy Power||6|3+|3+|1|2|MELEE||false|
+000001109|2|Ashigaroth’s Claws||5|4+|2+|3|3|MELEE|Companion|true|
+000001110|1|Crude Weapon or Infectious Bite||1|5+|4+|-|1|MELEE||false|
+000001116|1|Soulreaper Axe||4|3+|3+|2|2|MELEE|Anti-charge (+1 Rend)|false|
+000001116|2|Nadirite Weapon||3|3+|4+|-|1|MELEE|Anti-charge (+1 Rend)|false|
+000001117|1|The Dread Mace||6|3+|2+|3|4|MELEE||true|
+000001117|2|Hooves of Wrack and Ruin||6|3+|2+|1|2|MELEE||false|
+000001117|3|Tuskbreaker||3|4+|2+|2|D3|MELEE|Crit (2 Hits)|false|
+000001121|1|Spirit Falchion and Spearing Vines||5|3+|3+|1|D3|MELEE||false|
+000001123|1|Impaling Talons||7|3+|3+|2|2|MELEE||false|
+000001124|1|Staff of Slaanesh|18"|3|3+|3+|1|D3|RANGED|Shoot in Combat|false|
+000001124|2|Unraveller’s Talons||5|3+|3+|2|2|MELEE||false|
+000001126|1|Anti‑thaumic Crossbow|18"|2|3+|3+|1|2|RANGED|Anti-<span class="kwb">WIZARD</span> (+1 Rend)|false|
+000001126|2|Consecrated Blade||3|3+|4+|1|2|MELEE||false|
+000001127|1|Spell-banishing Pistol|10"|3|3+|3+|1|1|RANGED|Shoot in Combat|false|
+000001127|2|Runic Broadsword||4|3+|4+|1|2|MELEE|Anti-<span class="kwb">WIZARD</span> (+1 Rend)|false|
+000001132|1|Riptide Harpoon|8"|1|3+|4+|1|D3|RANGED|Shoot in Combat|false|
+000001132|2|Soulraid Weapons||2|3+|4+|1|1|MELEE||false|
+000001134|1|Stormspear||2|3+|3+|1|1|MELEE|Anti-charge (+1 Rend)|false|
+000001135|1|Valedictor’s Stave||3|3+|3+|1|D3|MELEE|Anti-<span class="kwb">MANIFESTATION</span> (+1 Rend)|false|
+000001137|1|Blessed Warhammer||4|3+|3+|1|2|MELEE|Crit (Auto-wound)|false|
+000001138|1|Thengavar|12"|1|3+|2+|2|4|RANGED|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000001138|2|Thengavar||2|2+|2+|2|3|MELEE|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000001138|3|Blade of the High Heavens||5|3+|3+|2|3|MELEE||false|
+000001139|1|Meteoric Hammer||3|3+|3+|1|2|MELEE||false|
+000001140|1|Soulguard’s Halberd||3|3+|3+|1|2|MELEE||false|
+000001141|1|Flameburst Pots and Infernal Fires|10"|1|4+|4+|-|1|RANGED|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000001141|2|Scion Weapons||2|4+|4+|-|1|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000001142|1|Stikka or Hacka||2|4+|3+|-|1|MELEE|Crit (Mortal)|false|
+000001145|1|Great Gnashtoof’s Jaws||5|4+|3+|1|2|MELEE|Companion|false|
+000001145|2|Boss-stikka||5|4+|3+|1|2|MELEE|Crit (Mortal)|false|
+000001146|1|Stab-grot’s Shiv||2|4+|5+|-|1|MELEE|Crit (Mortal), Companion|false|
+000001146|2|Boss-hacka||5|4+|3+|1|2|MELEE|Crit (Mortal)|false|
+000001147|1|Murknob Cleaver||4|4+|3+|1|2|MELEE|Crit (Mortal)|false|
+000001149|1|Scrap-grenades|8"|1|4+|3+|1|1|RANGED|Shoot in Combat|false|
+000001149|2|Slitta-knives||2|4+|5+|-|1|MELEE||false|
+000001150|1|Man-skewer Crossbow: Aimed Shot|18"|1|3+|3+|2|2|RANGED|Crit (Auto-wound)|false|
+000001150|2|Man-skewer Crossbow: Hasty Shot|12"|2|4+|3+|1|2|RANGED|Crit (Auto-wound)|false|
+000001150|3|Jaggedy Blades||1|4+|3+|-|1|MELEE|Crit (Mortal)|false|
+000001152|1|Burning Breath|10"|D6|4+|3+|2|1|RANGED|Shoot in Combat, Anti-<span class="kwb">WAR</span> <span class="kwb">MACHINE</span> (+1 Rend)|false|
+000001152|2|Flaming Maw||2D6|4+|3+|2|1|MELEE|Anti-<span class="kwb">WAR</span> <span class="kwb">MACHINE</span> (+1 Rend)|false|
+000001154|1|Swarming Bites||2D6|4+|4+|-|1|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000001155|1|Tendrils of Light and Shadow||4|4+|3+|1|D3|MELEE||false|
+000001156|1|Scream of Terror|10"|6|4+|3+|2|1|RANGED|Shoot in Combat, Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000001156|2|Deathly Touch||4|4+|4+|-|1|MELEE||false|
+000001157|1|Scything Oar||3|4+|3+|1|D3|MELEE|Crit (2 Hits)|false|
+000001158|1|Lashing Tendrils of Energy||2D6|4+|3+|-|1|MELEE|Crit (2 Hits)|false|
+000001160|1|Transmuting Rays||2D6|4+|3+|1|1|MELEE|Crit (Mortal)|false|
+000001161|1|Quicksilver Blades||12|4+|3+|1|1|MELEE|Crit (Mortal)|false|
+000001162|1|Gnashing Jaws||10|4+|2+|1|1|MELEE|Charge (+1 Damage)|false|
+000001166|1|Spectral Riptide||8|4+|3+|1|1|MELEE|Charge (+1 Damage)|false|
+000001196|1|Doom Diver|24"|4|4+|3+|3|3|RANGED||false|
+000001196|2|Catapult Crew Tools||2|5+|6+|-|1|MELEE||false|
+000001196|3|Slicers and Krag‑smasha’s Paws||6|4+|3+|-|1|MELEE|Companion|false|
+000001207|1|Great Cannon: Cannonball|24"|2|4+|2+|2|D3+2|RANGED||false|
+000001207|2|Great Cannon: Grapeshot|12"|5|3+|3+|1|2|RANGED||false|
+000001207|3|Crew’s Tools and Sidearms||2|4+|4+|-|1|MELEE||false|
+000001329|1|Beast-skewer Bolts|24"|2|4+|2+|2|D6|RANGED|Anti-<span class="kwb">MONSTER</span> (+1 Rend), Crit (Auto-wound)|false|
+000001329|2|Jaggedy Blades||3|4+|3+|-|1|MELEE|Crit (Mortal)|false|
+000001330|1|Bident-goad||5|4+|3+|1|2|MELEE|Crit (Mortal)|false|
+000001330|2|Mirebrute’s Clubs||4|4+|2+|2|3|MELEE|Companion|false|
+000001331|1|Killabeak’s Stinger||1|3+|2+|1|D6|MELEE|Crit (Mortal), Companion|false|
+000001331|2|Bogbark Staff||3|4+|3+|-|D3|MELEE|Anti-<span class="kwb">WIZARD</span> (+1 Rend), Crit (Mortal)|false|
+000001331|3|Killabeak’s Talons and Beak||7|4+|2+|1|2|MELEE|Anti-<span class="kwb">WIZARD</span> (+1 Rend), Companion|true|
+000001332|1|Boss-stikka or Boss-hacka||5|4+|3+|1|2|MELEE|Crit (Mortal)|false|
+000001332|2|Vulcha’s Stinger||1|3+|2+|1|D6|MELEE|Crit (Mortal), Companion|false|
+000001332|3|Vulcha’s Talons and Beak||7|4+|2+|1|2|MELEE|Companion|true|
+000001333|1|Sludgeraker’s Bite||1|3+|2+|1|D3+3|MELEE|Companion|false|
+000001333|2|Grappling Hook||3|3+|3+|1|3|MELEE|Crit (Mortal)|false|
+000001333|3|Sludgeraker’s Talons||6|4+|2+|1|2|MELEE|Companion|true|
+000001334|1|Sloppklaw’s Talons||6|4+|2+|1|2|MELEE|Companion|true|
+000001334|2|Snatcha-stikk||5|4+|3+|1|2|MELEE|Crit (Mortal)|false|
+000001334|3|Sloppklaw’s Bite||1|4+|2+|1|D3+3|MELEE|Companion|false|
+000001335|1|Sloggoth’s Claws||6|4+|2+|1|2|MELEE|Companion|false|
+000001335|2|Nets and Snatcha‑stikks||4|4+|5+|-|1|MELEE||false|
+000001346|1|Darkoath Weapons||2|4+|3+|-|1|MELEE|Crit (Mortal)|false|
+000001347|1|Envenomed Projectiles|10"|1|4+|4+|1|1|RANGED|Crit (Auto-wound)|false|
+000001347|2|Brood Weapons||2|4+|4+|-|1|MELEE||false|
+000001347|3|Venomous Bites||4|5+|5+|-|1|MELEE|Crit (Mortal), Companion|false|
+000001349|1|Celestial Greatsword||2|3+|3+|1|1|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000001351|1|Draconic Flamestream|10"|4|2+|3+|2|1|RANGED|Shoot in Combat, Companion|false|
+000001351|2|Aeonfire Blade||5|3+|2+|2|2|MELEE||false|
+000001351|3|Draconith’s Fangs and Talons||4|4+|2+|2|2|MELEE|Companion|false|
+000001353|1|Relic Maul||3|3+|3+|1|2|MELEE||false|
+000001354|1|Thunderbolts of Azyr|18"|2|2+|2+|2|D3|RANGED||false|
+000001354|2|Uskavar, the Sunderer||4|3+|2+|2|4|MELEE|Crit (Auto-wound)|false|
+000001355|1|Blazing Tempest|12"|1|2+|3+|2|D3+3|RANGED|Shoot in Combat|false|
+000001355|2|Drake-lord’s Talons||6|3+|2+|2|2|MELEE||false|
+000001355|3|Annihilating Jaws||4|3+|2+|2|4|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000001356|1|Blazing Tempest|12"|1|2+|3+|2|D3+3|RANGED|Shoot in Combat|false|
+000001356|2|Drake-lord’s Talons||6|3+|2+|2|2|MELEE||false|
+000001356|3|Apex Maw||4|3+|2+|2|4|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|true|
+000001357|1|Meteoric Grandhammer||3|3+|2+|2|3|MELEE||false|
+000001358|1|Stormblast|10"|1|3+|3+|2|D3|RANGED|Crit (2 Hits), Companion|false|
+000001358|2|Dracoth’s Claws and Fangs||3|4+|2+|2|2|MELEE|Companion|false|
+000001358|3|Lightning Hammer||3|3+|2+|1|2|MELEE|Crit (Mortal)|false|
+000001359|1|Stormblast|10"|1|3+|3+|2|D3|RANGED|Crit (2 Hits), Companion|false|
+000001359|2|Thunderaxe||3|3+|3+|1|2|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000001359|3|Dracoth’s Claws and Fangs||3|4+|2+|2|2|MELEE|Companion|false|
+000001360|1|Stormblast|10"|1|3+|3+|2|D3|RANGED|Crit (2 Hits), Companion|false|
+000001360|2|Stormstrike Glaive||3|3+|3+|1|2|MELEE|Charge (+1 Damage)|false|
+000001360|3|Dracoth’s Claws and Fangs||3|4+|2+|2|2|MELEE|Companion|false|
+000001361|1|Stormblast|10"|1|3+|3+|2|D3|RANGED|Crit (2 Hits), Companion|false|
+000001361|2|Volleystorm Crossbow|12"|3|3+|3+|1|1|RANGED|Crit (2 Hits)|false|
+000001361|3|Warblade||2|3+|3+|1|1|MELEE||false|
+000001361|4|Dracoth’s Claws and Fangs||3|4+|2+|2|2|MELEE|Companion|false|
+000001365|1|Great Stormbow|18"|2|3+|3+|1|1|RANGED|Crit (2 Hits), Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000001365|2|Stormstrike Axe||3|3+|3+|1|1|MELEE|Charge (+1 Damage)|false|
+000001365|3|Gryph-chargers’ Razor Beaks||6|4+|3+|1|1|MELEE|Companion|false|
+000001365|4|Tempestuous Spear||2|3+|3+|2|1|MELEE||false|
+000001366|1|Stormcaller Bow|18"|2|3+|3+|1|1|RANGED||false|
+000001366|2|Stormblade||2|3+|3+|1|1|MELEE||false|
+000001382|1|Draconic Flamestream|10"|4|2+|3+|2|1|RANGED|Shoot in Combat, Companion|false|
+000001382|2|Drakerider’s Lance||3|3+|3+|1|1|MELEE|Charge (+1 Damage), Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000001382|3|Draconith’s Fangs and Talons||4|4+|2+|2|2|MELEE|Companion|false|
+000001382|4|Drakerider’s Warblade||6|3+|3+|1|1|MELEE||false|
+000001384|1|Stormcaller Bow|18"|2|3+|3+|1|1|RANGED||false|
+000001384|2|Great Hammer||2|3+|3+|1|2|MELEE|Crit (Mortal), Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000001384|3|Truthseeker Weapons||3|3+|3+|1|1|MELEE|Crit (Mortal)|false|
+000001386|1|Krew Weapons||3|4+|3+|1|1|MELEE|Crit (Mortal)|false|
+000001394|1|Rotwood Staff||3|4+|3+|1|D3|MELEE||false|
+000001403|1|Esoteric Weapons||6|3+|4+|1|2|MELEE||false|
+000001405|1|Deathwood Oar||4|4+|3+|-|D3|MELEE|Crit (Auto-wound)|false|
+000001406|1|Chill Blade||3|4+|3+|1|2|MELEE|Crit (Auto-wound)|false|
+000001407|1|Malicious Quill||3|4+|4+|-|1|MELEE|Crit (Auto-wound)|false|
+000001408|1|Soulhunter’s Crossbow|16"|2|4+|3+|1|1|RANGED|Crit (Auto-wound)|false|
+000001408|2|Wicked Sidearm||1|4+|4+|-|1|MELEE|Crit (Auto-wound)|false|
+000001410|1|Fyresteel Weapons||2|4+|3+|1|1|MELEE||false|
+000001411|1|Brazier Axe||5|3+|3+|1|2|MELEE||false|
+000001412|1|Barbed Whip and Gladiatrix’s Blade||6|3+|4+|1|2|MELEE||false|
+000001415|1|Cursed Missiles|10"|1|3+|3+|1|1|RANGED||false|
+000001415|2|Shadowstalker Blades||2|3+|4+|-|1|MELEE||false|
+000001418|1|Arco-electric Weapons||3|4+|5+|-|1|MELEE|Crit (2 Hits)|false|
+000001420|1|Poisoned Stars|10"|2|4+|4+|-|1|RANGED|Shoot in Combat, Crit (Auto-wound)|false|
+000001420|2|Weeping Blade||5|3+|4+|1|D3|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend)|false|
+000001420|3|Poisoned Blades||2|4+|5+|-|1|MELEE|Crit (Mortal)|false|
+000001421|1|Kurnotheal’s Wrath|12"|1|2+|2+|2|D6|RANGED||false|
+000001421|2|Kurnotheal’s Wrath and Lashing Vines||6|3+|3+|2|2|MELEE|Crit (Mortal)|false|
+000001422|1|Gossamid Bow|12"|2|3+|4+|1|1|RANGED|Crit (Auto-wound), Shoot in Combat|false|
+000001422|2|Cruel Talons||1|3+|4+|-|1|MELEE||false|
+000001423|1|Seeker’s Sickle||3|3+|4+|1|1|MELEE|Crit (Mortal)|false|
+000001423|2|Dragonspite’s Mandibles||3|4+|3+|1|2|MELEE|Companion|false|
+000001424|1|Spiterider Lance||3|3+|4+|1|1|MELEE|Charge (+1 Damage), Crit (2 Hits)|false|
+000001424|2|Dragonspite’s Mandibles||3|4+|3+|1|2|MELEE|Companion|false|
+000001526|1|Ezechiarian Greatsword||5|3+|3+|2|2|MELEE|Crit (Auto-wound)|false|
+000001527|1|The Aethermatic Equaliser Mk. III|10"|2D6|3+|3+|1|2|RANGED|Shoot in Combat|false|
+000001527|2|Grunnsson’s Axe||4|3+|3+|1|3|MELEE|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000001528|1|Contagion Blowpipes|12"|2|4+|3+|-|1|RANGED|Crit (Auto-wound)|false|
+000001528|2|Bilewood Weapons||2|4+|4+|-|1|MELEE||false|
+000001529|1|Centaurion Weapons||6|3+|3+|1|2|MELEE|Charge (+1 Damage)|false|
+000001530|1|Darkiron Weapons||2|3+|4+|1|1|MELEE||false|
+000001531|1|Flamehurler|8"|D6|2+|3+|-|1|RANGED|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Shoot in Combat|false|
+000001531|2|Forge Weapons||2|4+|4+|1|1|MELEE||false|
+000001533|1|Weapons of Wrath||4|4+|3+|1|2|MELEE|Blood-hungry, Crit (Mortal)|false|
+000001535|1|Crescent Staff|12"|3|3+|3+|1|D3|RANGED|Shoot in Combat|false|
+000001535|2|Enlightener Blade||3|3+|4+|1|2|MELEE||false|
+000001541|1|Death Grip||1|4+|2+|2|D6|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend)|false|
+000001541|2|Menhir Club||5|4+|2+|2|5|MELEE|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|true|
+000001541|3|Almighty Stomp||4|4+|2+|2|D3|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000001542|1|Obelisk of Tor Crania||6|4+|2+|2|5|MELEE||true|
+000001542|2|Death Grip||1|4+|2+|2|D6|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend)|false|
+000001542|3|Almighty Stomp||4|4+|2+|2|D3|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000001543|1|Throwin’ Rocks|12"|1|5+|2+|2|D3|RANGED||false|
+000001543|2|’Eadbutt||1|4+|2+|2|4|MELEE||false|
+000001543|3|Mighty Kick||1|4+|2+|2|D3|MELEE||false|
+000001543|4|Massive Club||4|4+|2+|1|2|MELEE||false|
+000001544|1|Changestaff|12"|3|4+|3+|1|D3|RANGED|Crit (Mortal)|false|
+000001544|2|Warptongue Blade||3|3+|3+|1|2|MELEE||false|
+000001544|3|Disc’s Teeth and Horns||2|4+|3+|1|D3|MELEE|Companion|false|
+000001546|1|Impaling Spear|12"|1|4+|2+|1|D6|RANGED|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000001546|2|Skullshatter Crossbow|18"|2|4+|3+|1|D3|RANGED||false|
+000001546|3|Hacker-axe and Meatblade||5|4+|2+|1|2|MELEE|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000001547|1|Harvester Cannon|12"|6|4+|3+|1|1|RANGED|Companion|false|
+000001547|2|Phlegm Bombardment|12"|1|4+|3+|1|3|RANGED|Companion|false|
+000001547|3|Piston-driven Legs and Daemonic Blade or Claw||8|4+|2+|1|D3|MELEE|Companion|true|
+000001547|4|Hellforged Claw||1|4+|2+|2|D6|MELEE|Crit (Mortal), Companion|false|
+000001548|1|Drakocephalus’s Fangs||3|4+|3+|-|1|MELEE|Companion|false|
+000001548|2|Death Glaive and Skull Flail||6|3+|3+|1|2|MELEE|Charge (+1 Damage)|false|
+000001549|1|Changestaff|12"|3|4+|3+|1|D3|RANGED|Crit (Mortal)|false|
+000001549|2|Warptongue Blade||3|3+|3+|1|2|MELEE||false|
+000001551|1|Goroan Weapons||4|4+|2+|1|2|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000001553|1|Squigapult|15"|1|4+|3+|1|D3+2|RANGED|Crit (Auto-wound)|false|
+000001553|2|Moon-slicer||5|4+|4+|1|D3|MELEE||false|
+000001553|3|Looncourt Weapons||2|4+|5+|1|1|MELEE||false|
+000001555|1|Gnarlspirit Weapons||3|4+|3+|1|1|MELEE|Crit (Mortal)|false|
+000001557|1|Royal Weapons||3|4+|3+|1|1|MELEE|Crit (Mortal)|false|
+000001558|1|Dartpipe|10"|2|3+|3+|-|1|RANGED|Crit (Auto-wound)|false|
+000001558|2|Feeble Claws||1|4+|5+|-|1|MELEE||false|
+000001559|1|Hunter Javelin|10"|1|3+|3+|1|2|RANGED||false|
+000001559|2|Starstone Bolas|10"|1|3+|4+|-|1|RANGED||false|
+000001559|3|Hunter Javelin||3|3+|4+|1|2|MELEE||false|
+000001559|4|Moonstone Club||2|4+|5+|-|1|MELEE||false|
+000001560|1|Snapping Beaks||3|4+|4+|-|1|MELEE|Companion|false|
+000001561|1|Mason’s Tools||2|4+|3+|1|1|MELEE|Anti-<span class="kwb">FACTION</span> <span class="kwb">TERRAIN</span> (+1 Rend)|false|
+000001562|1|Squig-krook||5|4+|4+|-|2|MELEE||false|
+000001562|2|Fang-filled Gob||2|4+|3+|1|1|MELEE|Companion|false|
+000001563|1|Grot Bow|15"|2|4+|5+|-|1|RANGED||false|
+000001563|2|Stabbin’ Stikka||2|4+|5+|-|1|MELEE||false|
+000001563|3|Snarlfang’s Slavering Jaws||2|4+|3+|-|2|MELEE|Companion|false|
+000001566|1|Weapons of the Hunt||3|4+|3+|-|1|MELEE|Blood-hungry, Crit (2 Hits)|false|
+000001567|1|Askurgan Weapons||2|3+|3+|1|1|MELEE|Anti-<span class="kwb">MONSTER</span> (+1 Rend), Crit (2 Hits)|false|
+000001567|2|Elongated Claws and Slavering Maw||5|4+|3+|2|1|MELEE||false|
+000001570|1|Gladiatorial Weapons||3|3+|4+|-|1|MELEE|Crit (Auto-wound)|false|
+000001616|1|Aethershot Pistol|10"|2|3+|3+|1|1|RANGED|Shoot in Combat|false|
+000001616|2|Battletome||3|4+|4+|-|D3|MELEE||false|
+000001617|1|Ritual Dagger||2|3+|3+|2|D3|MELEE|Blood-hungry|false|
+000001620|1|Bat Swarm’s Needling Fangs|12"|2D6|4+|4+|-|1|RANGED|Shoot in Combat, Companion|false|
+000001620|2|Heirloom Axe||5|3+|3+|1|2|MELEE|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000001621|1|Corpsemaster’s Weapon||3|4+|4+|-|1|MELEE||false|
+000001621|2|Zombies’ Rusty Blades||2D6|4+|4+|-|1|MELEE|Companion|false|
+000001622|1|Ossified Talons||3|4+|4+|-|D3|MELEE||false|
+000001624|1|Azyrite Bolts|18"|2|3+|4+|1|D3|RANGED||false|
+000001624|2|Valedictor Weapons||3|3+|3+|1|D3|MELEE||false|
+000001626|1|Warping Wyrdfire|12"|2|4+|4+|-|1|RANGED|Anti-<span class="kwb">UNIQUE</span> (+1 Rend)|false|
+000001626|2|Daemonic Talons||2|4+|5+|-|1|MELEE||false|
+000001627|1|Piercing Claws and Coiled Tentacles||7|3+|4+|1|2|MELEE||false|
+000001628|1|Exquisite Scimitar||5|3+|4+|1|2|MELEE||false|
+000001629|1|Glob of Flame Acid|16"|1|4+|2+|2|D3+3|RANGED|Companion|false|
+000001629|2|Stream of Fire|10"|5|2+|3+|1|1|RANGED|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Companion|false|
+000001629|3|Fiery Maw||3|3+|3+|2|3|MELEE|Companion|false|
+000001630|1|Celestite Spear or Club||4|3+|3+|2|2|MELEE|Charge (+1 Damage)|false|
+000001630|2|Aggradon’s Rending Bites and Striking Talons||3|4+|3+|2|2|MELEE|Companion|false|
+000001632|1|Celestite Spear and Club||3|3+|3+|1|1|MELEE|Charge (+1 Damage), Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000001632|2|Aggradon’s Rending Bites and Striking Talons||3|4+|3+|2|2|MELEE|Companion|false|
+000001633|1|Starfang Warpick||4|3+|2+|1|3|MELEE|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000001633|2|Drakefang Warpick||4|4+|2+|1|2|MELEE|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000001634|1|Tepok Lance||3|4+|4+|1|1|MELEE|Charge (+1 Damage)|false|
+000001634|2|Raptadon’s Serrated Fangs||3|4+|3+|1|1|MELEE|Companion|false|
+000001635|1|Starstone Atlatl|12"|2|4+|4+|2|1|RANGED||false|
+000001635|2|Weighted Moonstone Club||3|4+|5+|-|1|MELEE||false|
+000001635|3|Raptadon’s Serrated Fangs||3|4+|3+|1|1|MELEE|Companion|false|
+000001638|1|Questor Weapons||3|3+|3+|1|2|MELEE||false|
+000001639|1|Beastflayer Weapons||3|4+|4+|-|1|MELEE|Anti-<span class="kwb">BEAST</span> (+1 Rend), Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000001643|1|Terminus||3|3+|3+|2|D6|MELEE|Crit (Auto-wound)|false|
+000001643|2|Tool of Judgement||3|4+|4+|-|1|MELEE||false|
+000001645|1|Blackpowder Pistols|8"|3|3+|4+|-|1|RANGED|Anti-<span class="kwb">WIZARD</span> (+1 Rend), Shoot in Combat|false|
+000001645|2|Crossbow Launcher|15"|2|4+|3+|1|D3|RANGED|Anti-<span class="kwb">WIZARD</span> (+1 Rend)|false|
+000001645|3|Witch Hunter Weapons||2|4+|4+|-|1|MELEE|Anti-<span class="kwb">WIZARD</span> (+1 Rend)|false|
+000001647|1|Plaguepack Weapons||2|4+|5+|-|1|MELEE|Crit (Auto-wound)|false|
+000001647|2|Plague Censer||4|4+|3+|1|2|MELEE|Crit (Auto-wound)|false|
+000001648|1|Bone Scythe||5|4+|3+|1|2|MELEE||false|
+000001649|1|Fyre-rune Hammers||5|3+|3+|2|2|MELEE||false|
+000001650|1|Bat Squigs|12"|3|4+|4+|-|D3|RANGED|Crit (Auto-wound)|false|
+000001650|2|Moon-sickle and Basha||5|4+|4+|1|D3|MELEE||false|
+000001676|1|Freeguild Weapons||2|4+|4+|-|1|MELEE||false|
+000001677|1|Tongstaff||3|4+|4+|1|D3|MELEE||false|
+000001678|1|Duelling Pistols|10"|4|3+|3+|1|1|RANGED|Shoot in Combat|false|
+000001678|2|Heirloom Warhammer||3|4+|2+|2|3|MELEE||false|
+000001678|3|Master-forged Longsword||4|3+|3+|1|2|MELEE||false|
+000001678|4|Silvered Shortsword||4|3+|3+|1|1|MELEE||false|
+000001679|1|Dragoon Pistol|10"|2|3+|4+|1|1|RANGED|Shoot in Combat|false|
+000001679|2|Master-forged Cavalier Sword||5|3+|4+|1|2|MELEE||false|
+000001679|3|Warhorse’s Steel‑shod Hooves||2|5+|3+|-|1|MELEE|Companion|false|
+000001680|1|Long Fusil|24"|3|3+|3+|1|2|RANGED|Anti-<span class="kwb">HERO</span> (+1 Rend), Crit (Auto-wound)|false|
+000001680|2|Warhulk’s Mace||4|4+|2+|2|2|MELEE||false|
+000001681|1|Sceptre of the Wheel||3|4+|4+|-|D3|MELEE||false|
+000001681|2|Acolytes’ Club and Axe||4|4+|4+|-|1|MELEE||false|
+000001682|1|Wizard’s Staff||3|4+|4+|1|D3|MELEE||false|
+000001682|2|Warhorses’ Steel‑shod Hooves||4|5+|3+|-|1|MELEE|Companion|false|
+000001683|1|Searing Beam of Light|24"|1|2+|#3|||RANGED||false|
+000001683|2|Wizard’s Staff||3|4+|4+|1|D3|MELEE||false|
+000001683|3|Warhorses’ Steel‑shod Hooves||4|5+|3+|-|1|MELEE|Companion|false|
+000001684|1|Marshal’s Armaments||5|3+|4+|1|2|MELEE|Charge (+1 Damage)|false|
+000001684|2|Griffon’s Razor Claws and Deadly Beak||6|4+|2+|2|3|MELEE|Companion|true|
+000001685|1|Weapon of Office||6|3+|4+|1|2|MELEE||false|
+000001685|2|Infernadine’s Leonine Jaws||3|3+|2+|2|3|MELEE|Anti-<span class="kwb">MONSTER</span> (+1 Rend), Companion|true|
+000001685|3|Infernadine’s Scorpid Stinger||2|4+|2+|3|D3+3|MELEE|Companion|false|
+000001686|1|Sigmarite Great Weapon||4|3+|3+|1|D3|MELEE||false|
+000001686|2|Enchanted Rapier||1|2+|4+|2|D6|MELEE|Crit (Mortal)|false|
+000001686|3|Assortment of Weapons||2|3+|4+|-|1|MELEE||false|
+000001686|4|Gargoylian’s Bite||3|4+|3+|1|D3|MELEE|Companion|false|
+000001687|1|Fusil-cannon: Fortified Position|18"|2|4+|4+|1|1|RANGED||false|
+000001687|2|Fusil-cannon: Mobile|12"|1|4+|4+|1|1|RANGED|Shoot in Combat|false|
+000001687|3|Bayonet||1|4+|4+|-|1|MELEE||false|
+000001688|1|Cavalier Weapon||3|4+|4+|1|1|MELEE|Charge (+1 Damage)|false|
+000001688|2|Warhorse’s Steel‑shod Hooves||2|5+|3+|-|1|MELEE|Companion|false|
+000001690|1|Hunting Crossbow|15"|2|4+|4+|1|1|RANGED||false|
+000001690|2|Hunting Arbalest|15"|2|4+|3+|2|D3|RANGED||false|
+000001690|3|Hunting Weapons||2|4+|4+|-|1|MELEE||false|
+000001690|4|Trailhound’s Ferocious Bite||2|4+|3+|-|1|MELEE|Companion|false|
+000001697|1|Maw-grunta’s Trotters||4|5+|2+|-|D3|MELEE|Companion|false|
+000001697|2|Maw-grunta’s Tusks||5|4+|2+|2|2|MELEE|Companion|false|
+000001697|3|Choppas||4|4+|3+|1|2|MELEE||false|
+000001698|1|Maw-grunta’s Tusks||5|4+|2+|2|2|MELEE|Companion|false|
+000001698|2|Kill-choppas||4|4+|3+|1|1|MELEE||false|
+000001698|3|Choppas||4|4+|3+|1|2|MELEE||false|
+000001698|4|Maw-grunta’s Trotters||4|5+|2+|-|D3|MELEE|Companion|false|
+000001699|1|Boss-hacka and Choppa||7|4+|3+|1|2|MELEE||false|
+000001700|1|Grunta-tongs||4|4+|3+|-|1|MELEE||false|
+000001700|2|Ward-smashing Choppa||2|4+|2+|2|3|MELEE||false|
+000001700|3|Skull-crushing Basha||5|4+|2+|1|2|MELEE||false|
+000001701|1|Maw-grunta’s Trotters||4|5+|2+|-|D3|MELEE|Companion|false|
+000001701|2|Kill-choppas||4|4+|3+|1|1|MELEE||false|
+000001701|3|Pig-hacka||7|4+|3+|1|2|MELEE||false|
+000001701|4|Maw-grunta’s Tusks||5|4+|2+|2|2|MELEE|Companion|true|
+000001702|1|Rager Weapons||3|4+|2+|1|2|MELEE|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000001703|1|Chain-smasha||6|4+|3+|1|1|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000001704|1|Vulkyn Weapons||3|3+|3+|1|1|MELEE|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000001704|2|Emberteeth||1|3+|3+|-|2|MELEE|Crit (Mortal), Companion|false|
+000001705|1|Clubs, Claws and Jaws||5|4+|2+|1|2|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000001707|1|Typhoon Crossbow|18"|3|3+|3+|1|2|RANGED|Anti-<span class="kwb">HERO</span> (+1 Rend)|false|
+000001707|2|Cyclone Sword and Axe||6|3+|3+|1|1|MELEE||false|
+000001707|3|Stormcharged Warhammer||4|3+|2+|2|2|MELEE||false|
+000001707|4|Anda’s Celestial Talons||2|4+|3+|-|1|MELEE|Companion|false|
+000001708|1|Abyssal Touch||3|3+|4+|-|D3|MELEE||false|
+000001718|1|Spirit-scouring Flames|10"|9|2+|4+|2|1|RANGED|Shoot in Combat, Companion|false|
+000001718|2|Soulbreaker||4|3+|3+|1|2|MELEE||false|
+000001718|3|Cthorak’s Ancient Claws||6|4+|2+|2|3|MELEE|Companion|true|
+000001719|1|Kurnoth Glaive||5|3+|3+|2|2|MELEE|Charge (+1 Damage)|false|
+000001719|2|Carnelian Greatspite’s Mandibles||4|4+|2+|2|3|MELEE|Companion|true|
+000001720|1|Sceptre of the Carrion King||4|3+|2+|2|D3+3|MELEE||false|
+000001720|2|Monstrous Talons||8|3+|3+|1|2|MELEE||true|
+000001721|1|Cursed Crosier||3|4+|3+|-|D3|MELEE||false|
+000001722|1|Gory Talons and Fangs||5|3+|3+|1|2|MELEE||false|
+000001723|1|Gore-streaked Gavel||4|4+|3+|-|D3|MELEE||false|
+000001724|1|Headsman’s Axe||3|4+|3+|2|3|MELEE||false|
+000001725|1|Cursed Weapon||3|4+|4+|1|1|MELEE|Anti-charge (+1 Rend), Crit (Auto-wound)|false|
+000001726|1|Nightshrieker’s Claws and Teeth||3|4+|3+|1|2|MELEE|Companion|false|
+000001726|2|Grisly Lance||2|3+|4+|1|1|MELEE|Charge (+1 Damage)|false|
+000001727|1|Wicked Weapons||3|4+|3+|1|1|MELEE|Crit (Mortal)|false|
+000001729|1|Cephanyr’s Tentacles||6|4+|3+|-|1|MELEE|Companion|false|
+000001729|2|Lanmari Weapons||2|3+|4+|1|1|MELEE||false|
+000001730|1|Carnal Blades and Wicked Claws||3|3+|3+|1|2|MELEE||false|
+000001731|1|Monsta-killa Weapons||3|4+|3+|1|1|MELEE|Crit (Mortal), Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000001732|1|Nulahmian Warglaive||5|3+|3+|1|2|MELEE|Crit (2 Hits)|false|
+000001732|2|Ouboroth’s Godhusk Fangs||3|4+|3+|2|D3|MELEE|Companion|false|
+000001734|1|Staff of Morai-Heg||4|3+|4+|1|D3|MELEE||false|
+000001735|1|Flintlock Pistols|10"|3|3+|3+|1|1|RANGED|Anti-<span class="kwb">WIZARD</span> (+1 Rend), Shoot in Combat|false|
+000001735|2|Azyrite Blades||4|3+|4+|1|2|MELEE|Anti-<span class="kwb">WIZARD</span> (+1 Rend)|false|
+000001736|1|Exotic Assortment of Weapons||4|3+|4+|1|1|MELEE|Anti-<span class="kwb">WIZARD</span> (+1 Rend)|false|
+000001738|1|Rending Claws||4|4+|3+|1|2|MELEE||false|
+000001738|2|Graverobber’s Tools||3|4+|4+|-|1|MELEE||false|
+000001740|1|Brethren Weapons||3|4+|4+|-|1|MELEE|Crit (Mortal)|false|
+000001741|1|Butchering Weapons||2|4+|4+|-|1|MELEE|Crit (Auto-wound)|false|
+000001742|1|Darkoath Cursed Weapon||5|4+|3+|1|2|MELEE|Crit (Mortal)|false|
+000001742|2|Warsteed’s Hooves||2|5+|3+|-|1|MELEE|Companion|false|
+000001743|1|Razor-sharp Claws||6|4+|3+|1|2|MELEE|Companion|false|
+000001743|2|Flesh-tearing Maw||3|3+|3+|2|D3|MELEE|Companion|false|
+000001744|1|Raider Weapons||2|4+|3+|-|1|MELEE||false|
+000001745|1|Marauder Javelin|10"|1|4+|3+|-|D3|RANGED||false|
+000001745|2|Fellrider Blades||2|4+|3+|-|1|MELEE|Charge (+1 Damage)|false|
+000001745|3|Marauder Javelin||2|4+|4+|1|1|MELEE||false|
+000001745|4|Warsteed’s Hooves||2|5+|3+|-|1|MELEE|Companion|false|
+000001746|1|Gout of Balefire|10"|2|2+|4+|1|1|RANGED|Crit (Auto-wound), Shoot in Combat|false|
+000001746|2|Flaming Weapons||2|4+|4+|-|1|MELEE|Crit (Auto-wound)|false|
+000001747|1|Ythara Darts|10"|2|3+|4+|-|1|RANGED|Shoot in Combat|false|
+000001747|2|Ydrilan Blades||2|3+|4+|1|1|MELEE||false|
+000001748|1|The Thanatorg’s Claws and Fangs||6|4+|3+|1|2|MELEE|Companion|false|
+000001748|2|Gorbolga||5|3+|3+|2|2|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend), Charge (+1 Damage)|true|
+000001749|1|Dual Axes||10|4+|3+|1|1|MELEE|Crit (Mortal)|false|
+000001750|1|Gnarled Staff||3|4+|4+|-|D3|MELEE||false|
+000001750|2|Heavy Darkoath Weapon||4|4+|3+|-|2|MELEE|Crit (Mortal)|false|
+000001751|1|Singri’s Warbow|18"|2|3+|3+|1|D3|RANGED|Crit (Auto-wound)|false|
+000001751|2|Warsteed’s Hooves||2|5+|3+|-|1|MELEE|Companion|false|
+000001751|3|Brand Ancestral Knife||3|4+|3+|1|1|MELEE||false|
+000001761|1|Large Tusks and Hooves||5|4+|2+|-|2|MELEE|Charge (+1 Damage)|false|
+000001763|1|Ravager Harpoon|16"|2|3+|3+|1|D3|RANGED|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000001763|2|Hook Spear||2|3+|4+|1|1|MELEE|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000001763|3|Dark Steeds’ Vicious Bites||4|5+|3+|-|1|MELEE|Companion|false|
+000001764|1|Gyrocopter Guns|12"|5|4+|3+|1|D3|RANGED||false|
+000001764|2|Rotor Blades||3|4+|4+|1|D3|MELEE||false|
+000001765|1|Barbed Spear||2|3+|4+|1|1|MELEE|Charge (+1 Damage)|false|
+000001765|2|Drakespawn’s Ferocious Jaws||6|4+|3+|1|1|MELEE|Companion|false|
+000001768|1|Grunderbuss|12"|2|3+|3+|1|D3|RANGED|Crit (Auto-wound)|false|
+000001768|2|Great Cutlass||5|4+|2+|1|2|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000001771|1|Razor-sharp Dagger and Claws||3|4+|4+|1|1|MELEE||false|
+000001811|1|Hail of Warpstone Bullets|20"|3D6+3|4+|3+|1|1|RANGED|Crit (Auto-wound)|false|
+000001811|2|Thrall-rats’ Claws||4|4+|5+|-|1|MELEE||false|
+000001812|1|Poisoned Wind Globes|10"|1|3+|3+|1|D3|RANGED|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Shoot in Combat|false|
+000001812|2|Rusty Knife||1|4+|5+|-|1|MELEE||false|
+000001813|1|Warpvolt Obliterator|18"|2|3+|3+|2|D3|RANGED|Anti-Cavalry (+1 Rend), Crit (2 Hits)|false|
+000001813|2|Rusted Blade||3|4+|5+|-|1|MELEE||false|
+000001814|1|Warpvolt Scourger|15"|2D6|2+|4+|1|1|RANGED|Anti-<span class="kwb">CAVALRY</span> (+1 Rend), Crit (2 Hits)|false|
+000001814|2|Rusty Knives||2|4+|5+|-|1|MELEE||false|
+000001815|1|Warplock Pistol|10"|2|3+|3+|2|D3|RANGED|Crit (Auto-wound)|false|
+000001815|2|Doomfang||5|3+|3+|2|2|MELEE|Crit (Mortal)|false|
+000001816|1|Weapons of Corruption||2|4+|5+|-|1|MELEE|Crit (Auto-wound)|false|
+000001816|2|Plague Censer||4|4+|3+|1|2|MELEE|Crit (Auto-wound)|false|
+000001817|1|Warpflame Scourger|15"|2D6|4+|2+|1|D3|RANGED|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Crit (Auto-wound)|false|
+000001817|2|Chain-flail||5|4+|2+|2|3|MELEE|Crit (Mortal)|false|
+000001817|3|Bladed Limbs||3|4+|4+|1|2|MELEE||false|
+000001818|1|Whirling Blades||2D6|3+|3+|1|1|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Charge (+1 Damage)|false|
+000001819|1|Unholy Gnawstaff||6|4+|2+|1|D6|MELEE|Crit (Mortal)|false|
+000001819|2|Host of Vermin||10|5+|5+|-|1|MELEE|Crit (Auto-wound), Companion|false|
+000001820|1|Ratling Pistol|10"|D6|3+|3+|1|1|RANGED|Shoot in Combat, Crit (Auto-wound)|false|
+000001820|2|Warpforged Halberd||5|3+|4+|1|2|MELEE||false|
+000001820|3|Gnaw-beast’s Chisel Fangs||4|4+|3+|1|D3|MELEE|Companion|false|
+000001821|1|Plague Censer||4|4+|3+|1|2|MELEE|Crit (Auto-wound)|false|
+000001824|1|Stormblast|10"|1|3+|3+|2|D3|RANGED|Crit (2 Hits), Companion|false|
+000001824|2|Dracoth’s Claws and Fangs||3|4+|2+|2|2|MELEE|Companion|false|
+000001824|3|Stormstrike Glaive||3|3+|3+|1|2|MELEE|Charge (+1 Damage)|false|
+000001825|1|Stormblast|10"|1|3+|3+|2|D3|RANGED|Crit (2 Hits), Companion|false|
+000001825|2|Dracoth’s Claws and Fangs||3|4+|2+|2|2|MELEE|Companion|false|
+000001825|3|Thunderaxe||3|3+|3+|1|2|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000001826|1|Terminus Greatbow|18"|3|3+|3+|2|3|RANGED||false|
+000001826|2|Judicator’s Warblade||3|3+|3+|1|1|MELEE||false|
+000001827|1|Stormcall Javelin|10"|1|3+|3+|1|D3|RANGED||false|
+000001827|2|Stormcall Javelin||3|3+|3+|1|1|MELEE|Charge (+1 Damage)|false|
+000001828|1|Boltstorm Pistol|10"|2|4+|4+|1|1|RANGED|Shoot in Combat|false|
+000001828|2|Gryph-charger’s Razor Beak||3|4+|3+|1|1|MELEE|Companion|false|
+000001828|3|Shock Handaxe||2|3+|3+|1|2|MELEE|Charge (+1 Damage)|false|
+000001829|1|Boltstorm Pistol|10"|2|4+|4+|1|1|RANGED|Shoot in Combat|false|
+000001829|2|Starstrike Javelin|12"|1|3+|3+|1|2|RANGED||false|
+000001829|3|Starstrike Javelin||1|3+|3+|1|2|MELEE||false|
+000001829|4|Gryph-charger’s Razor Beak||3|4+|3+|1|1|MELEE|Companion|false|
+000001830|1|Stormblast|10"|1|3+|3+|2|D3|RANGED|Crit (2 Hits), Companion|false|
+000001830|2|Dracoth’s Claws and Fangs||3|4+|2+|2|2|MELEE|Companion|false|
+000001830|3|Lightning Hammer||3|3+|2+|1|2|MELEE|Crit (Mortal)|false|
+000001831|1|Volleystorm Crossbow|12"|3|3+|3+|1|1|RANGED|Crit (2 Hits)|false|
+000001831|2|Stormblast|10"|1|3+|3+|2|D3|RANGED|Crit (2 Hits), Companion|false|
+000001831|3|Warblade||2|3+|3+|1|1|MELEE||false|
+000001831|4|Dracoth’s Claws and Fangs||3|4+|2+|2|2|MELEE|Companion|false|
+000001832|1|The Blade Terminos||4|3+|2+|2|3|MELEE|Crit (Mortal)|false|
+000001833|1|Hallowed Greataxe||5|3+|3+|2|2|MELEE||false|
+000001833|2|Gryph-stalker’s Beak and Talons||3|4+|3+|1|2|MELEE|Companion|false|
+000001834|1|Rune-blessed Weapons||3|3+|3+|1|2|MELEE|Crit (Mortal)|false|
+000001835|1|Draconic Flamestream|10"|4|2+|3+|2|1|RANGED|Shoot in Combat, Companion|false|
+000001835|2|Draconith’s Fangs and Talons||4|4+|2+|2|2|MELEE|Companion|false|
+000001835|3|Drakerider’s Warblade||6|3+|3+|1|1|MELEE||false|
+000001835|4|Drakerider’s Lance||3|3+|3+|1|1|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Charge (+1 Damage)|false|
+000001847|1|Tuskbreaker||3|4+|2+|2|D3|MELEE|Crit (2 Hits)|false|
+000001847|2|Hooves of Wrack and Ruin||6|3+|2+|1|2|MELEE||false|
+000001847|3|The Dread Mace||6|3+|2+|3|4|MELEE||true|
+000001848|1|Brute Weapons||3|4+|3+|1|2|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000001848|2|Gore-choppa||3|4+|3+|2|3|MELEE||false|
+000001849|1|Choppa or Stikka||2|4+|3+|1|1|MELEE|Anti-charge (+1 Rend)|false|
+000001850|1|Green Puke|10"|4|2+|4+|-|D3|RANGED|Shoot in Combat|false|
+000001850|2|Waaagh! Staff||3|4+|3+|1|D3|MELEE||false|
+000001851|1|Choppa or Hacka||4|4+|3+|1|1|MELEE|Anti-<span class="kwb">CAVALRY</span> (+1 Rend)|false|
+000001851|2|Grunta’s Tusks||4|4+|2+|-|1|MELEE|Charge (+1 Damage), Companion|false|
+000001852|1|Bogbark Staff||3|4+|3+|-|D3|MELEE|Crit (Mortal)|false|
+000001853|1|Boss-choppa||8|4+|2+|1|2|MELEE||false|
+000001854|1|Gorkstikk and Morkstikk||6|4+|3+|-|D3|MELEE||false|
+000001858|1|Cohort Weapons||2|3+|4+|1|1|MELEE||false|
+000001867|1|Alakanash, the Staff of Power||4|3+|3+|2|D6|MELEE||false|
+000001867|2|Zefet-nebtar, the Mortis Blade||4|3+|3+|2|3|MELEE||false|
+000001872|1|Heartseeker Bow|18"|3|3+|4+|1|1|RANGED|Crit (Auto-wound)|false|
+000001872|2|Sacrificial Weapons||3|3+|4+|-|1|MELEE|Crit (Auto-wound)|false|
+000001873|1|Dreadblade||4|4+|3+|1|2|MELEE|Crit (Auto-wound)|false|
+000001873|2|Ethereal Steed’s Ghostly Hooves and Teeth||3|5+|3+|-|1|MELEE|Companion, Crit (Auto-wound)|false|
+000001874|1|Zefet-nebtar, the Mortis Blade||4|3+|3+|2|3|MELEE||false|
+000001874|2|Alakanash, the Staff of Power||4|3+|3+|2|D6|MELEE||false|
+000001878|1|Starshard Bolts|24"|4|3+|3+|1|2|RANGED|Anti-<span class="kwb">MONSTER</span> (+1 Rend), Crit (2 Hits)|false|
+000001878|2|Crew’s Arming Swords||2|3+|4+|-|1|MELEE||false|
+000001879|1|Boltstorm Crossbow|15"|3|3+|3+|-|1|RANGED|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000001879|2|Thunderbolt Crossbow|15"|3|3+|3+|-|2|RANGED|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000001879|3|Storm Gladius||1|3+|3+|1|1|MELEE||false|
+000001881|1|Hallowed Glaive||5|3+|3+|1|2|MELEE|Charge (+1 Damage)|false|
+000001881|2|Morrgryph’s Talons||6|4+|2+|2|2|MELEE|Companion|false|
+000001882|1|Stormstrike Lance or Blade||3|3+|3+|1|1|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Charge (+1 Damage)|false|
+000001882|2|Gryph-charger’s Talons||3|4+|3+|1|1|MELEE|Companion|false|
+000001883|1|Azyrite Bolts|18"|2|3+|4+|1|D3|RANGED||false|
+000001883|2|Valedictor Weapons||3|3+|3+|1|D3|MELEE||false|
+000001884|1|Axe of the Final Threshold||4|3+|3+|2|D3|MELEE|Crit (Mortal)|false|
+000001884|2|Ariax’s Talons||6|4+|2+|2|2|MELEE|Crit (2 Hits), Companion|false|
+000001885|1|Hallowed Greatspear|12"|1|3+|3+|2|D3|RANGED|Crit (2 Hits)|false|
+000001885|2|Hallowed Greatspear||5|3+|3+|2|2|MELEE|Crit (2 Hits)|false|
+000001904|1|Rot Fly’s Mouthparts and Sting||6|4+|3+|-|1|MELEE|Companion|false|
+000001904|2|Flyrider’s Arsenal||4|3+|3+|1|1|MELEE|Charge (+1 Damage)|false|
+000001906|1|Freakish Mutations||2D6|5+|4+|-|1|MELEE|Crit (2 Hits), Companion|false|
+000001907|1|Wyrdflame Blast|16"|4|2+|4+|-|D3|RANGED|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Shoot in Combat|false|
+000001907|2|Flaming Maws||3|3+|4+|-|1|MELEE||false|
+000001908|1|Wyrdflame Blast|16"|4|2+|4+|-|D3|RANGED|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Shoot in Combat|false|
+000001908|2|Flaming Maws and Blue Horrors’ Jabs||6|4+|3+|-|1|MELEE||false|
+000001908|3|Screamers’ Lamprey Bites||6|4+|4+|1|1|MELEE|Charge (+1 Damage), Companion|false|
+000001909|1|Arcane Flames|12"|2|4+|4+|-|1|RANGED|Crit (Auto-wound)|false|
+000001909|2|Taloned Hands||2|4+|4+|-|1|MELEE||false|
+000001910|1|Arcane Flames|12"|2|4+|4+|-|1|RANGED|Crit (Auto-wound)|false|
+000001910|2|Spiteful Talons||2|4+|4+|-|1|MELEE||false|
+000001911|1|Mighty Sorcerous Bolt|18"|1|4+|3+|1|1|RANGED||false|
+000001911|2|Arcanite Weapons||2|4+|4+|-|1|MELEE||false|
+000001913|1|Rending Wheels||2D6|4+|4+|-|1|MELEE||false|
+000001914|1|Steed’s Poisoned Tongue||2|3+|4+|-|1|MELEE|Companion|false|
+000001914|2|Claw-spear or Hellscourge||3|3+|4+|-|1|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Charge (+1 Damage)|false|
+000001915|1|Voracious Swarm|10"|6|3+|4+|1|1|RANGED|Shoot in Combat|false|
+000001915|2|Warden’s Bow|18"|2|3+|4+|1|1|RANGED||false|
+000001915|3|Twistroot Weapons||3|3+|4+|1|1|MELEE||false|
+000001916|1|Death Scream|10"|4|4+|3+|2|1|RANGED|Shoot in Combat|false|
+000001916|2|Piercing Talons||4|4+|3+|1|1|MELEE||false|
+000001917|1|Club and Septic Talons||4|4+|3+|1|2|MELEE|Anti-<span class="kwb">CAVALRY</span> (+1 Rend), Crit (Auto-wound)|false|
+000001918|1|Alakanash, the Staff of Power||4|3+|3+|2|D6|MELEE||false|
+000001918|2|Zefet-nebtar, the Mortis Blade||4|3+|3+|2|3|MELEE||false|
+000001924|1|King’s Relic Weapon||5|4+|3+|1|2|MELEE|Charge (+1 Damage), Crit (Mortal)|false|
+000001924|2|Skeletal Steed’s Hooves and Teeth||2|5+|3+|-|1|MELEE|Companion|false|
+000001934|1|Hooves of Wrack and Ruin||6|3+|2+|1|2|MELEE||false|
+000001934|2|The Dread Mace||6|3+|2+|3|4|MELEE||true|
+000001934|3|Tuskbreaker||3|4+|2+|2|D3|MELEE|Crit (2 Hits)|false|
+000001979|1|Razorshell Harpoon|18"|2|3+|2+|1|3|RANGED|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000001979|2|Retarius Net Launcher|18"|2|3+|2+|1|3|RANGED|Anti-<span class="kwb">CAVALRY</span> (+1 Rend)|false|
+000001979|3|Allopex’s Ferocious Bite||3|4+|2+|2|2|MELEE|Anti-<span class="kwb">MONSTER</span> (+1 Rend), Companion|false|
+000001979|4|Barbed Hooks and Blades||4|3+|4+|1|1|MELEE||false|
+000001981|1|Berzerker Broadaxe||2|3+|3+|1|2|MELEE||false|
+000001982|1|Fyresteel Weapons||2|4+|3+|1|1|MELEE||false|
+000001983|1|Flamestrike Poleaxe||2|3+|3+|1|2|MELEE|Crit (Mortal)|false|
+000001985|1|Moonstone Warspear||2|4+|4+|-|1|MELEE|Anti-<span class="kwb">CAVALRY</span> (+1 Rend)|false|
+000001985|2|Ripperdactyl’s Tearing Jaws||3|4+|3+|1|1|MELEE|Charge (+1 Damage), Companion|false|
+000001986|1|Javelins and Bolas|10"|3|4+|5+|-|1|RANGED|Crit (Auto-wound)|false|
+000001986|2|Terradon’s Razor-sharp Jaws||3|4+|3+|1|1|MELEE|Companion|false|
+000001987|1|Handlers’ Meteoric Javelins|12"|6|4+|4+|-|1|RANGED|Shoot in Combat|false|
+000001987|2|Ark of Sotek||20|4+|5+|-|1|MELEE|Crit (Mortal), Companion|false|
+000001987|3|Bludgeoning Tail||3|3+|3+|1|D3|MELEE|Companion|false|
+000001988|1|Solar Engine|18"|3|3+|3+|2|3|RANGED|Crit (2 Hits)|false|
+000001988|2|Handlers’ Meteoric Javelins|12"|6|4+|4+|-|1|RANGED|Shoot in Combat|false|
+000001988|3|Bludgeoning Tail||3|3+|3+|1|D3|MELEE|Companion|false|
+000001989|1|Bonebeast Staff||3|4+|3+|-|D3|MELEE||false|
+000001989|2|War Boar’s Tusks and Hooves||2|5+|3+|-|1|MELEE|Charge (+1 Damage), Companion|false|
+000001990|1|Deadly Green Bolts|10"|D6|4+|2+|1|D3|RANGED|Shoot in Combat|false|
+000001990|2|Wurrgog Staff||4|4+|3+|-|D3|MELEE||false|
+000001991|1|Bonebeast Stikk||3|4+|3+|-|D3|MELEE||false|
+000001992|1|Boarboy Weapons||3|4+|3+|1|1|MELEE||false|
+000001992|2|War Boar’s Tusks and Hooves||2|5+|3+|-|1|MELEE|Charge (+1 Damage), Companion|false|
+000001993|1|Paired Savage Weapons||3|4+|3+|-|1|MELEE||false|
+000001994|1|Chompas||4|4+|3+|-|1|MELEE||false|
+000001994|2|War Boar’s Tusks and Hooves||2|5+|3+|-|1|MELEE|Charge (+1 Damage), Companion|false|
+000001995|1|Stinga Bow|15"|2|5+|4+|-|1|RANGED|Crit (Auto-wound)|false|
+000001995|2|Chompa||1|4+|3+|-|1|MELEE||false|
+000001996|1|Savage Weapons||2|4+|3+|-|1|MELEE||false|
+000001997|1|Gorktoof||3|4+|2+|1|2|MELEE|Crit (Mortal), Charge (+1 Damage)|false|
+000001998|1|Boss Chompa||6|4+|3+|1|3|MELEE|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000001999|1|The Dread Mace||6|3+|2+|3|4|MELEE||true|
+000001999|2|Hooves of Wrack and Ruin||6|3+|2+|1|2|MELEE||false|
+000001999|3|Tuskbreaker||3|4+|2+|2|D3|MELEE|Crit (2 Hits)|false|
+000002000|1|Madmob Weapons||3|4+|3+|-|1|MELEE||false|
+000002001|1|The Dread Mace||6|3+|2+|3|4|MELEE||true|
+000002001|2|Tuskbreaker||3|4+|2+|2|D3|MELEE|Crit (2 Hits)|false|
+000002001|3|Hooves of Wrack and Ruin||6|3+|2+|1|2|MELEE||false|
+000002002|1|Ironshell Club||4|3+|2+|3|4|MELEE||false|
+000002002|2|Mighty Antlers||2|4+|2+|2|D3+3|MELEE||false|
+000002003|1|Colossal Boulder Club||4|4+|2+|2|D3+3|MELEE||false|
+000002215|1|Zangrom-az||8|2+|2+|2|3|MELEE|Crit (Mortal)|false|
+000002228|1|Toxin-smeared Slitta-sword||4|4+|4+|1|D3|MELEE|Crit (Mortal)|false|
+000002232|1|Toxic Gas||5|2+|4+|1|D3|MELEE||false|
+000002233|1|Tuskbreaker||3|4+|2+|2|D3|MELEE|Crit (2 Hits)|false|
+000002233|2|Hooves of Wrack and Ruin||6|3+|2+|1|2|MELEE||false|
+000002233|3|The Dread Mace||6|3+|2+|3|4|MELEE||true|
+000002237|1|Toxic Gas||5|2+|4+|1|D3|MELEE||false|
+000002238|1|Ardboy Weapons||2|4+|3+|1|1|MELEE|Charge (+1 Damage)|false|
+000002239|1|Krusha Weapons||3|4+|3+|1|2|MELEE|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000002253|1|Amberbone Claws and Fangs||6|4+|2+|2|3|MELEE|Anti-<span class="kwb">MANIFESTATION</span> (+1 Rend)|false|
+000002284|1|Da Metal Toof||5|3+|4+|1|2|MELEE|Crit (Mortal)|false|
+000002284|2|Jaggedsnarl’s Jaws||4|3+|3+|1|2|MELEE|Companion|false|
+000002285|1|Wheela Slicers||3|4+|4+|-|1|MELEE||false|
+000002285|2|Snarlfang’s Frothing Jaws||6|4+|3+|-|2|MELEE|Companion|false|
+000002286|1|Grot Bow|15"|2|4+|5+|-|1|RANGED||false|
+000002286|2|Stabbin’ Stikka||2|4+|5+|-|1|MELEE||false|
+000002286|3|Snarlfang’s Slavering Jaws||2|4+|3+|-|2|MELEE|Companion|false|
+000002287|1|Grot Bow|15"|2|4+|5+|-|1|RANGED||false|
+000002287|2|Wheela Slicers and Stabbin’ Stikka||4|4+|4+|-|1|MELEE||false|
+000002287|3|Snarlfangs’ Frothing Jaws||6|4+|3+|-|2|MELEE|Companion|false|
+000002288|1|Pointy Skewas||4|4+|5+|-|1|MELEE|Charge (+1 Damage)|false|
+000002288|2|Giant Snarlfang’s Jaws||3|4+|3+|-|2|MELEE|Companion|false|
+000002289|1|Chain Basha||5|4+|3+|1|2|MELEE|Crit (Auto-wound)|false|
+000002289|2|Wheela Slicers||3|4+|4+|-|1|MELEE||false|
+000002289|3|Snarlfangs’ Frothing Jaws||6|4+|3+|-|2|MELEE|Companion|false|
+000002290|1|Boss Loppa||5|4+|4+|1|2|MELEE||false|
+000002290|2|Snarlfang’s Slavering Jaws||2|4+|3+|-|2|MELEE|Companion|false|
+000002329|1|Poisoned Throwing Knives|10"|3|2+|4+|1|D3|RANGED|Crit (Auto-wound), Shoot in Combat|false|
+000002329|2|Deadly Blades||6|2+|4+|1|2|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend)|false|
+000002339|1|Borgit’s Stabba||5|4|4|1|D3|MELEE|Anti-<span class="kwb">BEAST</span> (+1 Rend), Anti-<span class="kwb">MONSTER</span>(+1 Rend)|false|
+000002339|2|Troggoth Fists||4|4+|3||2|MELEE|Anti-<span class="kwb">BEAST</span> (+1 Rend), Anti-<span class="kwb">MONSTER</span>(+1 Rend)|false|
+000002339|3|Beastgrabba Weapons||2|4+|5||1|MELEE|Anti-<span class="kwb">BEAST</span> (+1 Rend), Anti-<span class="kwb">MONSTER</span>(+1 Rend)|false|
+000002340|1|Pestilential Miasma|10"|5|3+|3+|1|2|RANGED|Shoot in Combat, Companion|false|
+000002340|2|Draconic Maw||3|4+|2+|2|3|MELEE|Companion|false|
+000002340|3|Draconic Claws||7|4+|2+|1|2|MELEE|Companion|true|
+000002341|1|Leeching Bites||10|5+|5+|-|1|MELEE|Crit (Mortal)|false|
+000002343|1|Barrow Lance||2|4+|3+|1|1|MELEE|Crit (Mortal), Charge (+1 Damage)|false|
+000002343|2|Skeletal Steed’s Hooves and Teeth||2|5+|3+|-|1|MELEE|Companion|false|
+000002344|1|Grasping Talon||5|4+|2+|1|2|MELEE|Crit (Mortal)|false|
+000002345|1|Wight Blade||2|3+|3+|1|1|MELEE|Crit (Mortal)|false|
+000002346|1|Dynastic Cavalier Weapon||5|3+|3+|2|2|MELEE|Charge (+1 Damage)|false|
+000002346|2|Nightmare’s Hooves and Teeth||3|5+|3+|-|1|MELEE|Companion|false|
+000002347|1|Lord’s Tomb Blade||4|4+|3+|1|2|MELEE|Charge (+1 Damage), Crit (Mortal)|false|
+000002347|2|Skeletal Steed’s Hooves and Teeth||2|5+|3+|-|1|MELEE|Companion|false|
+000002349|1|Ezechiarian Greatsword||5|3+|3+|2|2|MELEE|Crit (Auto-wound)|false|
+000002349|2|Sissendra’s Twin Blades||8|3+|3+|1|1|MELEE|Crit (Mortal)|false|
+000002349|3|Kennistrix’s Fangs||2|4+|2+|3|D3|MELEE|Companion|false|
+000002357|1|Ezechiarian Greatsword||5|3+|3+|2|2|MELEE|Crit (Auto-wound)|false|
+000002357|2|Sissendra’s Twin Blades||8|3+|3+|1|1|MELEE|Crit (Mortal)|false|
+000002357|3|Kennistrix’s Fangs||2|4+|2+|3|D3|MELEE|Companion|false|
+000002364|1|Corpsemaster’s Tools and Zombies’ Bites||D6+6|4+|4+|-|1|MELEE|Crit (Auto-wound)|false|
+000002365|1|Ouboroth’s Godhusk Fangs||3|4+|3+|2|D3|MELEE|Companion|false|
+000002365|2|Nulahmian Warglaive||5|3+|3+|1|2|MELEE|Crit (2 Hits)|false|
+000002366|1|Choppa or Hacka||3|4+|3+|1|1|MELEE|Charge (+1 Damage)|false|
+000002366|2|Grunta’s Tusks||3|4+|2+|1|1|MELEE|Charge (+1 Damage), Companion|false|
+000002367|1|Chain-smasha||6|4+|3+|1|1|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000002368|1|Snatcha-stikk||5|4+|3+|1|2|MELEE|Crit (Mortal)|false|
+000002368|2|Sloppklaw’s Bite and Talons||6|4+|2+|1|3|MELEE|Crit (Mortal), Companion|true|
+000002369|1|Boss-skewa||5|4+|3+|1|2|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend), Crit (Mortal)|false|
+000002369|2|Great Gnashtoof’s Jaws||5|4+|3+|1|2|MELEE|Companion|false|
+000002370|1|Searing Darts of Light|12"|3|2+|3+|2|D3|RANGED||false|
+000002370|2|Fangsword of Eltharion||5|2+|3+|3|3|MELEE|Crit (2 Hits)|false|
+000002370|3|Celennari Blade||2|2+|3+|1|3|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend), Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000002371|1|Bannerblade’s Sword||5|3+|4+|1|2|MELEE|Crit (Mortal)|false|
+000002372|1|Blood-stained Talons and Fangs||5|3+|3+|1|2|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend)|false|
+000002373|1|Gory Talons and Fangs||5|3+|3+|1|2|MELEE||false|
+000002374|1|Cavalier Weapon||2|3+|4+|1|1|MELEE|Charge (+1 Damage)|false|
+000002374|2|Warhorse’s Steel‑shod Hooves||2|5+|3+|-|1|MELEE|Companion|false|
+000002375|1|Sceptre of the Wheel and Acolytes’ Weapons||5|4+|4+|-|D3|MELEE||false|
+000002378|1|Bloodcrusher Hellblade||2|3+|3+|1|1|MELEE|Charge (+1 Damage), Crit (Mortal)|false|
+000002378|2|Juggernaut’s Brazen Hooves||2|4+|3+|1|D3|MELEE|Anti-<span class="kwb">CAVALRY</span> (+1 Rend), Companion|false|
+000002379|1|Axe of Khorne||4|3+|3+|2|3|MELEE|Blood-hungry|false|
+000002379|2|Flesh Hound’s Blood‑dark Claws||3|4+|3+|-|1|MELEE|Companion|false|
+000002380|1|Thaumaturge Staff|12"|3|3+|4+|-|D3|RANGED||false|
+000002380|2|Great Horns and Cloven Hooves||6|4+|2+|1|2|MELEE|Charge (+1 Damage)|false|
+000002381|1|Cursed Blades and Glaives||2|4+|3+|-|1|MELEE||false|
+000002382|1|Roaring Fyrestream|10"|4|3+|3+|1|D3|RANGED|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Companion|false|
+000002382|2|Ancestral Weapons||5|3+|3+|1|2|MELEE|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000002382|3|Magmadroth’s Claws and Horns||6|4+|2+|1|2|MELEE|Companion|true|
+000002382|4|Magmadroth’s Blazing Maw||2|4+|2+|2|3|MELEE|Companion|false|
+000002383|1|Spore-ball and Chain||2|3+|4+|1|D3|MELEE||false|
+000002384|1|Ball and Chain||3|4+|3+|2|D3|MELEE||false|
+000002385|1|Axe of Dominion||4|3+|3+|2|3|MELEE||false|
+000002385|2|Scourging Whip||6|2+|4+|1|2|MELEE||false|
+000002386|1|Razor-sharp Claws and Gilded Weapons||4|4+|3+|1|2|MELEE|Charge (+1 Damage)|false|
+000002387|1|Lanmari||2|3+|4+|1|1|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000002388|1|Esoteric Weapons||6|3+|4+|1|2|MELEE||false|
+000002389|1|Sky Ordnance|15"|3|4+|3+|2|3|RANGED||false|
+000002389|2|Bombs and Boarding Weapons||4|4+|4+|1|D3|MELEE||false|
+000002390|1|Aethershot Pistol|10"|2|3+|3+|1|1|RANGED|Shoot in Combat|false|
+000002390|2|Battletome||3|4+|4+|-|D3|MELEE||false|
+000002391|1|Gnarlrod||5|3+|2+|1|3|MELEE||true|
+000002391|2|Fanged Maw||2|3+|2+|2|2|MELEE||false|
+000002391|3|Host of Nurglings||10|5+|5+|-|1|MELEE|Crit (Auto-wound), Companion|false|
+000002392|1|Sepulchral Sceptre||5|3+|3+|2|3|MELEE|Crit (Auto-wound)|false|
+000002393|1|Wraith’s Spectral Weapons||5|3+|3+|2|2|MELEE|Charge (+1 Damage), Crit (Auto-wound)|false|
+000002393|2|Black Coach’s Iron-shod Wheels||8|4+|3+|2|2|MELEE|Crit (Auto-wound), Companion|false|
+000002394|1|Scrap Lobber|18"|12|4+|2+|1|1|RANGED|Crit (2 Hits)|false|
+000002394|2|Rhinox’s Sharp Horns and Crew’s Weapons||4|4+|2+|1|D3|MELEE|Anti-charge (+1 Rend), Companion|false|
+000002395|1|Ironblaster Cannon|18"|2|4+|2+|2|5|RANGED||false|
+000002395|2|Clubber||2|4+|2+|1|2|MELEE||false|
+000002395|3|Rhinox’s Sharp Horns||3|4+|2+|1|D3|MELEE|Anti-charge (+1 Rend), Companion|false|
+000002396|1|Ossified Talons||3|4+|4+|-|2|MELEE|Crit (2 Hits)|false|
+000002397|1|Nadirite Blade or Spear||2|3+|4+|-|1|MELEE|Anti-<span class="kwb">CAVALRY</span> (+1 Rend), Crit (2 Hits)|false|
+000002398|1|Sunstone Spear and Sunbolt Gauntlet||6|3+|3+|1|2|MELEE|Charge (+1 Damage)|false|
+000002398|2|Carnosaur’s Massive Jaws||3|4+|2+|2|4|MELEE|Companion|true|
+000002398|3|Carnosaur’s Clawed Forelimbs||5|4+|2+|1|3|MELEE|Companion|false|
+000002399|1|Warpstone Staff||3|4+|4+|1|D3|MELEE||false|
+000002399|2|Rat Ogor’s Tearing Claws||5|4+|3+|1|2|MELEE||false|
+000002399|3|Crushing Bulk||6|4+|2+|1|2|MELEE|Companion, Charge (+1 Damage)|true|
+000002400|1|Warpflame Scourger|15"|2D6|4+|2+|1|D3|RANGED|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Crit (Auto-wound)|false|
+000002400|2|Chain-flail||5|4+|2+|2|3|MELEE|Crit (Mortal)|false|
+000002400|3|Loosely Attached Bladed Limbs||5|4+|4+|1|2|MELEE||false|
+000002401|1|Gorbolga the Accurs’d||5|3+|3+|2|3|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend), Charge (+1 Damage)|false|
+000002401|2|The Thanatorg’s Claws and Fangs||6|4+|2+|2|2|MELEE|Companion|true|
+000002402|1|Hurled Debris|24"|3|4+|3+|1|D3|RANGED||false|
+000002402|2|Shipwrecka Warclub||4|4+|2+|2|5|MELEE||true|
+000002402|3|Spine-shattering Stomp||4|4+|2+|2|D3|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000002402|4|Death Grip||1|4+|2+|2|D6|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend)|false|
+000002403|1|Axe of the Final Threshold||4|3+|3+|2|3|MELEE|Crit (Mortal)|false|
+000002403|2|Ariax’s Plunging Talons||6|4+|2+|2|2|MELEE|Charge (+1 Damage), Companion|false|
+000002404|1|Scourge Sickle||3|3+|4+|1|2|MELEE|Crit (Mortal)|false|
+000002404|2|Sharpened Mandibles||3|4+|3+|1|1|MELEE|Charge (+1 Damage), Companion|false|
+000002405|1|Slashing Talons||10|3+|2+|2|2|MELEE|Crit (2 Hits)|false|
+000002407|1|Warpforged Blade||4|4+|4+|1|2|MELEE||false|
+000002408|1|Warblade||4|3+|3+|1|2|MELEE||false|
+000002424|1|Skydrake Harpoon or Firearm|12"|2|3+|3+|1|1|RANGED|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000002424|2|Pioneer Weapons||2|4+|3+|1|1|MELEE||false|
+000002425|1|Sky Ordnance|15"|3|4+|3+|2|3|RANGED||false|
+000002425|2|Boarding Weapons||4|4+|4+|-|1|MELEE||false|
+000002428|1|Null-gas Extinguisher|8"|3D6|2+|4+|1|1|RANGED|Shoot in Combat|false|
+000002428|2|Prospecting Clamp||4|3+|4+|1|2|MELEE||false|
+000002429|1|Privateer Pistol|10"|2|4+|4+|-|1|RANGED|Shoot in Combat|false|
+000002429|2|Vongrim Cutlass||3|4+|3+|1|1|MELEE|Crit (2 Hits)|false|
+000002453|1|Kingslayer Axe||4|3+|3+|1|3|MELEE|Blood-hungry, Crit (2 Hits)|false|
+000002468|1|Tidal Glaive||5|3+|3+|1|2|MELEE|Charge (+1 Damage)|false|
+000002469|1|Crushing Maw and Scything Waves||6|4+|2+|1|3|MELEE|Anti-<span class="kwb">FACTION</span> <span class="kwb">TERRAIN</span> (+1 Rend)|false|
+000002470|1|Maelstrom Blades||7|3+|4+|1|2|MELEE||false|
+000002471|1|Freezing Grasp||4|4+|2+|1|D3|MELEE||false|
+000002472|1|Riptide Blast|18"|3|2+|4+|1|D3|RANGED|Shoot in Combat|false|
+000002472|2|Staff of the Abyss||3|3+|4+|1|D3|MELEE||false|
+000002472|3|Dark Shoal’s Ferocious Bites||5|4+|3+|1|1|MELEE|Companion|false|
+000002492|1|Celestite Weapons||3|3+|3+|1|2|MELEE||false|
+000002540|1|Mantrap Launcher|15|4|3+|3+|1|D3|RANGED|Crit (Auto-wound)|false|
+000002540|2|Mantrapper’s Hunting Knife||4|4+|2+|1|2|MELEE||false|
+000002544|1|Hurled Vial|10"|1|3+|3+|2|D6|RANGED|Crit (Auto-wound)|false|
+000002544|2|Culler’s Sickle||3|4+|3+|1|D3|MELEE|Crit (Auto-wound)|false|
+000002564|1|Carrion Flock|12"|1|4+|4+|-|D6|RANGED|Shoot in Combat, Companion|false|
+000002564|2|Filthy Talons and Fangs||5|3+|3+|1|2|MELEE||false|
+000002606|1|Celestite Weapon||2|3+|3+|1|1|MELEE||false|
+000002606|2|Relic Celestite Warmace||4|3+|3+|1|3|MELEE||false|
+000002607|1|Gardening Tools||1|4+|3+|-|1|MELEE|Crit (Mortal)|false|
+000002608|1|Skryre Bombs|10"|2|4+|4+|2|1|RANGED|Shoot in Combat|false|
+000002608|2|Warp Drill||3|3+|4+|1|D3|MELEE||false|
+000002608|3|Tunnelling Gear||2|4+|4+|1|D3|MELEE|Charge (+1 Damage)|false|
+000002608|4|Mangy Claws||2|4+|5+|-|1|MELEE||false|
+000002609|1|Bloodied Weapons||5|3+|3+|2|2|MELEE|Blood-hungry|false|
+000002610|1|Kurnothi Bow|18"|3|3+|4+|1|1|RANGED||false|
+000002610|2|Hunter Weapons||3|3+|4+|1|1|MELEE|Charge (+1 Damage)|false|
+000002611|1|Ruinous Torrents|18"|6|4+|4+|1|D3|RANGED|Crit (2 Hits), Shoot in Combat|false|
+000002611|2|Dumakaz||4|4+|3+|1|D3|MELEE||false|
+000002611|3|Ghorrakos’s Horns and Hooves||6|4+|2+|2|3|MELEE|Charge (+1 Damage), Companion|true|
+000002612|1|Hashu-Zharr Rockets|24"|3|4+|2+|2|D3+2|RANGED|Anti-<span class="kwb">MONSTER</span> (+1 Rend), Anti-<span class="kwb">WAR</span> <span class="kwb">MACHINE</span> (+1 Rend)|false|
+000002612|2|Artillerist Weapons||3|4+|4+|-|1|MELEE||false|
+000002613|1|Torrent of Ruinous Energy|30"|4|3+|3+|1|D3|RANGED|Anti-<span class="kwb">CAVALRY</span> (+1 Rend), Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000002613|2|Artillerist Weapons||3|4+|4+|-|1|MELEE||false|
+000002614|1|Hurled Daemonfire|18"|3|4+|4+|1|D3|RANGED|Crit (2 Hits), Shoot in Combat|false|
+000002614|2|Infernal Staff||3|4+|3+|1|D3|MELEE||false|
+000002614|3|Horns and Hooves||6|4+|2+|2|3|MELEE|Charge (+1 Damage), Companion|true|
+000002615|1|Brazen Mauls||4|3+|3+|1|2|MELEE|Charge (+1 Damage), Crit (Mortal)|false|
+000002616|1|Hashutite Spear||2|3+|4+|-|1|MELEE|Anti-<span class="kwb">CAVALRY</span> (+1 Rend), Anti-charge (+1 Rend)|false|
+000002617|1|Hurled Daemonfire|18"|3|4+|4+|1|D3|RANGED|Crit (2 Hits), Shoot in Combat|false|
+000002617|2|Darkiron Talon||3|3+|4+|1|D3|MELEE||false|
+000002618|1|Karagthrun Flamehurlers|12"|3|2+|4+|-|1|RANGED|Shoot in Combat|false|
+000002618|2|Weapon Butt||1|4+|4+|-|1|MELEE||false|
+000002619|1|Scavenged Weapons||2|4+|5+|-|1|MELEE||false|
+000002620|1|Daemonflame Glaive||5|3+|3+|1|2|MELEE|Crit (Mortal)|false|
+000002621|1|Black Hammer of Hashut||3|3+|4+|1|D3|MELEE||false|
+000002622|1|Grizmalok Blunderbusses|18"|1|3+|2+|-|2|RANGED||false|
+000002622|2|Weapon Butt||1|4+|4+|-|1|MELEE||false|
+000002623|1|Hashutite Blade||2|3+|4+|-|1|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000002624|1|Thrice-cursed Glaive||3|3+|3+|1|2|MELEE|Anti-<span class="kwb">CAVALRY</span> (+1 Rend), Charge (+1 Damage)|false|
+000002625|1|Bane Maces||4|4+|2+|1|3|MELEE|Charge (+1 Damage)|false|
+000002626|1|Immolation Cannons|8"|5|2+|4+|1|D3|RANGED|Anti-<span class="kwb">CAVALRY</span> (+1 Rend), Shoot in Combat|false|
+000002626|2|Horns and Pummelling Strikes||3|4+|3+|1|D3|MELEE|Charge (+1 Damage)|false|
+000002627|1|Master-crafted Flamehurler|12"|4|2+|4+|2|1|RANGED|Shoot in Combat|false|
+000002627|2|Daemonflame Weapons||2|3+|4+|1|1|MELEE||false|
+000002627|3|Blades and Fists||2|4+|4+|-|1|MELEE||false|
+000002644|1|Chaos Blade||3|4+|3+|1|2|MELEE||false|
+000002645|1|Hacka||5|4+|3+|1|2|MELEE||false|
+000002646|1|Choppa||7|4+|3+|1|2|MELEE||false|
+000002647|1|Boss Weapon||3|4+|4+|1|2|MELEE||false|
+000002648|1|Troggoth Club||4|4+|2+|1|D3+1|MELEE||false|
+000002649|1|Grave Blade||3|4+|4+|1|2|MELEE||false|
+000002656|1|Grave Blade||3|4+|4+|1|2|MELEE||false|
+000002657|1|Hashutite Blade||2|3+|4+|-|1|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000002658|1|Daemonflame Glaive||5|3+|3+|1|2|MELEE|Crit (Mortal)|false|
+000002659|1|Kharadron Pistol|10"|2|3+|3+|1|2|RANGED|Shoot in Combat|false|
+000002659|2|Steamforged Weapon||3|3+|3+|1|2|MELEE||false|
+000002660|1|Hashutite Blade||3|3+|4+|1|2|MELEE||false|
+000002661|1|Blood-slick Weapon||4|3+|4+|1|2|MELEE|Blood-hungry|false|
+000002662|1|Thalassic Weapon||3|3+|4+|1|2|MELEE||false|
+000002663|1|Knightly Battleaxe||5|3+|4+|1|2|MELEE||false|
+000002664|1|Hand-and-a-half Sword||5|3+|4+|2|2|MELEE||false|
+000002665|1|Purified Water Blast|10"|3|3+|4+|1|D3|RANGED|Crit (Auto-wound)|false|
+000002665|2|Blade of Flowing Waters||3|3+|4+|1|D3|MELEE|Crit (Auto-wound)|false|
+000002666|1|Snaplock Crossbow|10"|3|3+|4+|1|2|RANGED||false|
+000002666|2|Runic Axes||5|3+|4+|1|2|MELEE||false|
+000002667|1|Vineroot Staf|9"|2|3+|3+|2|3|RANGED|Anti-<span class="kwb">FACTION</span> <span class="kwb">TERRAIN</span> (+1 Rend)|false|
+000002667|2|Enchanted Sickle||3|4+|4+|1|D3|MELEE||false|
+000002668|1|Vulpine Fangs||2|4+|5+|-|1|MELEE||false|
+000002669|1|Feral Claws||6|4+|2+|2|2|MELEE|Crit (2 Hits)|false|
+000002681|1|Malignant Blade||3|4+|3+|1|2|MELEE||false|
+000002682|1|Tainted Talons and Fangs||5|4+|3+|1|2|MELEE||false|
+000002683|1|Hamilcar’s Halberd||5|3+|3+|1|2|MELEE|Anti-<span class="kwb">MONSTER</span> (+1 Rend), Crit (Mortal)|false|
+000002684|1|Rune Axe of Grimnir||5|3+|3+|2|3|MELEE|Crit (2 Hits)|false|
+000002687|1|Bludgeoning Strikes||5|4+|2+|2|4|MELEE|Crit (2 Hits)|false|
+000002687|2|Petrified Spinesaw||1|4+|3+|2|6|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000002688|1|Bossbiter’s Roar|8"|4|2+|3+|1|1|RANGED|Shoot in Combat, Companion|false|
+000002688|2|Overboss-choppa||6|4+|2+|1|3|MELEE|Crit (2 Hits), Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000002688|3|Bossbiter’s Fists and Tail||6|4+|2+|2|3|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend), Companion|true|
+000002693|1|Spear of the Khul||6|4+|3+|1|2|MELEE|Crit (Mortal)|false|
+000002694|1|Axe of Khorne||6|3+|3+|2|2|MELEE|Crit (Mortal), Blood-hungry|false|
+000002694|2|Grizzlemaw's Blood-dark Claws||4|4+|3+|-|1|MELEE|Anti-<span class="kwb">WIZARD</span> (+1 Rend), Companion|false|
+000002695|1|Axe of Khorne||6|3+|3+|2|3|MELEE|Crit (Mortal), Blood-hungry|false|
+000002723|1|Ruined Master-crafted Weapons||2|3+|3+|1|1|MELEE|Crit (2 Hits)|false|
+000002724|1|Thrice-tainted Staff||3|4+|4+|1|D3|MELEE||false|
+000002725|1|Corroded Weapons||2|4+|3+|-|1|MELEE||false|
+000002726|1|Rotstave||3|4+|3+|1|D3|MELEE||false|
+000002727|1|Entropic Bludgeons||2|4+|3+|2|2|MELEE|Charge (+1 Damage)|false|
+000002727|2|Foetid Nag’s Hooves||2|5+|3+|-|1|MELEE|Companion|false|
+000002728|1|Decaying Weapons||2|4+|4+|-|1|MELEE|Crit (Auto-wound)|false|
+000002729|1|Filthy Claws and Slobbering Maw||5|4+|3+|1|D3|MELEE|Companion|false|
+000002730|1|Blightblades||4|3+|3+|1|3|MELEE|Crit (Mortal)|false|
+000002731|1|Malady and Contagion||7|3+|3+|1|3|MELEE|Crit (Auto-wound)|false|
+000002966|1|Septic Weapon||3|3+|4+|1|D3|MELEE||false|
+000002967|1|Realmstone-enhanced Arsenal||3|3+|3+|1|D3|MELEE|Crit (Mortal)|false|
+000002968|1|Implements of Sabotage||3|3+|3+|1|D3|MELEE||false|
+000002970|1|Weird-wrangling Basha||3|3+|3+|1|D3|MELEE||false|
+000002978|1|Fireglaive of Tzeentch||3|3+|3+|1|D3|MELEE||false|
+000002978|2|Disc’s Teeth and Horns||2|4+|3+|1|D3|MELEE|Companion|false|
+000003010|1|Tzeentchian Spear and Vicious Beak||2|4+|3+|1|2|MELEE||false|
+000003011|1|The Trickster’s Staff||3|3+|3+|1|D3|MELEE||false|
+000003029|1|Regent’s Sword||5|3+|4+|1|2|MELEE|Crit (Mortal)|false|
+000003029|2|Lightcourser’s Horns and Claws||3|4+|3+|1|1|MELEE|Companion|false|
+000003084|1|Charioteers’ Weapons||4|3+|4+|1|1|MELEE||false|
+000003084|2|Chariot Steeds’ Fangs and Claws||6|5+|3+|-|1|MELEE|Companion|false|
+000003085|1|Osseous Bow|18"|2|3+|4+|1|1|RANGED||false|
+000003085|2|Nadirite Dagger||1|3+|4+|-|1|MELEE||false|
+000003086|1|Reaper’s Blades||3|3+|4+|1|1|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend)|false|
+000003087|1|Commander’s Weapon||5|3+|4+|1|2|MELEE||false|
+000003088|1|Commander’s Blade||5|3+|4+|1|2|MELEE|Charge (+1 Damage)|false|
+000003088|2|Chariot Steeds’ Fangs and Claws||6|5+|3+|-|1|MELEE|Companion|false|
+000003089|1|Weapons of the Tithe-reapers||2|3+|4+|1|1|MELEE||false|
+000003117|1|Nadirite Blade||5|3+|4+|1|2|MELEE||false|
+000003118|1|Bladed Staff||3|3+|4+|1|D3|MELEE||false|
+000003119|1|Hyshian Blade||3|3+|4+|1|2|MELEE||false|
+000003120|1|Plague Staf||3|4+|3+|-|D3|MELEE||false|
+000003134|1|Kurnoth Greatbow|18"|2|3+|3+|1|2|RANGED|Anti-<span class="kwb">CAVALRY</span> (+1 Rend)|false|
+000003134|2|Vicious Claws||3|3+|3+|-|1|MELEE||false|
+000003135|1|Kurnoth Greatscythe||3|3+|3+|1|3|MELEE|Anti-charge (+1 Rend)|false|
+000003136|1|Grove Sickle or Shears||3|3+|4+|1|D3|MELEE||false|
+000003136|2|Guardian Spites||6|4+|4+|1|D3|MELEE|Crit (Mortal), Companion|false|
+000003137|1|Kurnoth Greatsword||4|3+|3+|1|2|MELEE|Crit (Mortal)|false|
+000003138|1|Kurnothi Princeling’s Bow|18"|3|3+|3+|2|2|RANGED|Crit (Auto-wound)|false|
+000003138|2|Hooves and Knuckles||4|3+|3+|1|1|MELEE|Charge (+1 Damage)|false|
+000003153|1|Aelven Crossbow|10"|3|3+|4+|-|1|RANGED|Crit (Auto-wound)|false|
+000003153|2|Haruspicy Blades||3|3+|4+|1|D3|MELEE||false|
+000003154|1|Ki’raich|10"|1|3+|4+|1|1|RANGED||false|
+000003154|2|Valthrai||3|3+|4+|1|1|MELEE||false|
+000003174|1|Cult Blade||5|3+|4+|1|2|MELEE||false|
+000003175|1|Greenwood Blade||4|3+|4+|1|2|MELEE||false|
+000003176|1|Sweeping Branches||5|4+|2+|1|2|MELEE|Anti-charge (+1 Rend)|true|
+000003176|2|Huge Impaling Talons||2|4+|2+|2|3|MELEE|Crit (Mortal)|false|
+000003177|1|The Blades of Thirteen Cuts||13|2+|4+|1|1|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend), Crit (Mortal)|false|
+000003178|1|Saboteur Bombs|10"|2|4+|2+|-|D3|RANGED|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Shoot in Combat|false|
+000003178|2|Punch Dagger and Blade||3|3+|4+|1|1|MELEE|Crit (Mortal)|false|
+000003223|1|Gossamid Bow|12"|2|3+|4+|1|1|RANGED|Shoot in Combat|false|
+000003223|2|Cruel Talons||1|3+|4+|-|1|MELEE||false|
+000003224|1|Spiterider Lance||3|3+|4+|1|1|MELEE|Charge (+1 Damage)|false|
+000003224|2|Dragonspite's Mandibles||3|4+|3+|1|2|MELEE|Companion|false|
+000003225|1|Arch-Revenant’s Glaive||5|3+|4+|1|2|MELEE||false|
+000003226|1|Seeker’s Sickle||3|3+|4+|1|1|MELEE|Crit (Mortal)|false|
+000003226|2|Dragonspite's Mandibles||3|4+|3+|1|2|MELEE|Companion|false|
+000003227|1|Nadirite Spear||3|3+|4+|1|1|MELEE|Charge (+1 Damage)|false|
+000003227|2|Kavalos Steed’s Hooves and Teeth||2|5+|3+|-|1|MELEE|Companion|false|
+000003228|1|Commander’s Blade||5|3+|4+|1|2|MELEE|Charge (+1 Damage)|false|
+000003228|2|Kavalos Steed’s Hooves, Teeth and Barbed Tails||4|5+|3+|-|1|MELEE|Companion|false|
+000003229|1|Cohort Weapons||2|3+|4+|1|1|MELEE||false|
+000003230|1|Sky Ordnance|15"|3|4+|3+|2|3|RANGED||false|
+000003230|2|Boarding Weapons||4|4+|4+|-|1|MELEE||false|
+000003231|1|Aethershot Rifle|18"|2|3+|4+|1|1|RANGED||false|
+000003231|2|Aetheric Fumigator or Decksweeper|10"|5|3+|4+|-|1|RANGED|Shoot in Combat|false|
+000003231|3|Grundstok Mortar or Aethercannon|18"|2|4+|3+|1|2|RANGED||false|
+000003231|4|Gun Butt||1|4+|5+|-|1|MELEE||false|
+000003232|1|Rapid-fire Rivet Gun|10"|3|3+|4+|1|1|RANGED|Shoot in Combat|false|
+000003232|2|Aethermatic Volley Gun|15"|2D6|4+|4+|-|1|RANGED|Crit (2 Hits)|false|
+000003232|3|Skyrigger Heavy Weapon|15"|1|4+|3+|1|D3|RANGED|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000003232|4|Aethermatic Saw||3|4+|3+|1|2|MELEE|Anti-charge (+1 Rend)|false|
+000003232|5|Gun Butt||1|4+|5+|-|1|MELEE||false|
+000003233|1|Aethercannon|18"|1|3+|3+|2|3|RANGED||false|
+000003233|2|Dirigible Suit Weapon Battery|12"|6|3+|3+|1|1|RANGED||false|
+000003233|3|Upgraded Aethermatic Saw||4|3+|3+|2|2|MELEE||false|
+000003234|1|Throwin’ Rocks|12"|1|5+|2+|2|D3|RANGED||false|
+000003234|2|Massive Club||4|4+|2+|1|2|MELEE||false|
+000003234|3|'Eadbutt||1|4+|2+|2|4|MELEE||false|
+000003234|4|Mighty Kick||1|4+|2+|2|D3|MELEE||false|
+000003235|1|Slickblade Glaive||3|3+|4+|1|1|MELEE|Charge (+1 Damage)|false|
+000003235|2|Exalted Steed’s Poisoned Tongue||3|3+|4+|-|1|MELEE|Companion|false|
+000003236|1|Razor-sharp Claw and Gilded Weapon||5|4+|3+|1|2|MELEE||false|
+000003236|2|Razor-sharp Claws||4|4+|3+|1|2|MELEE||false|
+000003237|1|Blissbarb Bow|18"|2|3+|4+|1|1|RANGED||false|
+000003237|2|Sybarite Blade||1|3+|4+|-|1|MELEE||false|
+000003238|1|Haze Staff||3|3+|4+|1|D3|MELEE||false|
+000003239|1|Hunting Crossbow|15"|2|4+|4+|1|1|RANGED||false|
+000003239|2|Hunting Weapons||2|4+|4+|-|1|MELEE||false|
+000003239|3|Trailhound’s Ferocious Bite||2|4+|3+|-|1|MELEE||false|
+000003240|1|Tongstaff||3|4+|4+|1|D3|MELEE||false|
+000003241|1|Fusil-cannon|18"|2|4+|4+|1|1|RANGED||false|
+000003241|2|Bayonet||1|4+|4+|-|1|MELEE||false|
+000003242|1|Long Fusil|24"|3|3+|3+|1|2|RANGED||false|
+000003242|2|Warhulk's Mace||4|4+|2+|2|2|MELEE||false|
+000003243|1|Celestite Weapons||3|3+|3+|1|2|MELEE||false|
+000003244|1|Glob of Flame Acid|16"|1|4+|2+|2|D3+3|RANGED|Companion|false|
+000003244|2|Fiery Maw||3|3+|3+|2|3|MELEE|Companion|false|
+000003245|1|Celestite Club||2|3+|3+|1|1|MELEE||false|
+000003246|1|Snapping Beaks||3|4+|4+|-|1|MELEE|Companion|false|
+000003247|1|Dartpipe|10"|2|3+|3+|-|1|RANGED||false|
+000003247|2|Feeble Claws||1|4+|5+|-|1|MELEE||false|
+000003248|1|Rusty Blade||2|4+|5+|-|1|MELEE||false|
+000003249|1|Warpfire Gun|10"|2D6|2+|4+|2|1|RANGED|Shoot in Combat|false|
+000003249|2|Claws, Blades and Fangs||5|4+|3+|1|2|MELEE||false|
+000003250|1|Warpstone Staff||3|4+|4+|1|D3|MELEE||false|
+000003251|1|Warplock Musket|24"|2|3+|3+|2|D3|RANGED|Crit (Auto-wound)|false|
+000003251|2|Warpforged Dagger||3|4+|4+|-|2|MELEE||false|
+000003252|1|Ratling Pistol|10"|D6|3+|3+|1|1|RANGED|Shoot in Combat, Crit (Auto-wound)|false|
+000003252|2|Warpforged Halberd||5|3+|4+|1|2|MELEE||false|
+000003252|3|Gnaw-beast's Chisel Fangs||4|4+|3+|1|D3|MELEE|Companion|false|
+000003253|1|Blood-dark Claws||4|4+|3+|-|1|MELEE||false|
+000003254|1|Savage Maws and Goreslick Claws||6|4+|3+|1|2|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend)|false|
+000003255|1|Weapons of the Hunt||3|4+|3+|-|1|MELEE|Crit (2 Hits)|false|
+000003256|1|Goreaxe and Gorefist||3|4+|3+|1|1|MELEE||false|
+000003257|1|Hackblade and Wrath-hammer||4|3+|3+|1|2|MELEE||false|
+000003258|1|Reaver Blades||2|4+|3+|-|1|MELEE||false|
+000003259|1|Bloodglaive||3|3+|3+|1|1|MELEE|Charge (+1 Damage)|false|
+000003259|2|Juggernaut’s Brazen Hooves||2|4+|3+|1|D3|MELEE|Companion|false|
+000003260|1|Hallowed Greataxe||5|3+|3+|2|2|MELEE||false|
+000003260|2|Gryph-stalker’s Beak and Talons||3|4+|3+|1|2|MELEE|Companion|false|
+000003261|1|Warhammer||2|3+|3+|1|1|MELEE|Crit (Mortal)|false|
+000003261|2|Grandhammer||2|3+|3+|1|2|MELEE|Crit (Mortal)|false|
+000003262|1|Staff of Abjuration||1|3+|3+|1|3|MELEE||false|
+000003262|2|Judgement Blade||3|3+|3+|1|D3|MELEE|Anti-<span class="kwb">WIZARD</span> (+1 Rend), Anti-<span class="kwb">PRIEST</span> (+1 Rend)|false|
+000003263|1|Stormcall Javelin|10"|1|3+|3+|1|D3|RANGED||false|
+000003263|2|Stormcall Javelin||3|3+|3+|1|1|MELEE||false|
+000003264|1|Boss Loppa||5|4+|4+|1|2|MELEE||false|
+000003264|2|Snarlfang’s Slavering Jaws||2|4+|3+|-|2|MELEE|Companion|false|
+000003265|1|Grot Bow|15"|2|4+|5+|-|1|RANGED||false|
+000003265|2|Wheela Slicers and Stabbin’ Stikka||4|4+|4+|-|1|MELEE||false|
+000003265|3|Snarlfangs’ Slavering Jaws||4|4+|3+|-|2|MELEE|Companion|false|
+000003266|1|Pointy Skewas||4|4+|5+|-|1|MELEE|Charge (+1 Damage)|false|
+000003266|2|Giant Snarlfang’s Jaws||3|4+|3+|-|2|MELEE|Companion|false|
+000003267|1|Grot Bow|15"|2|4+|5+|-|1|RANGED||false|
+000003267|2|Stabbin’ Stikka||2|4+|5+|-|1|MELEE||false|
+000003267|3|Snarlfang’s Slavering Jaws||2|4+|3+|-|2|MELEE|Companion|false|
+000003268|1|Dragoon Pistol|10"|2|3+|4+|1|1|RANGED|Shoot in Combat|false|
+000003268|2|Master-forged Longsword||5|3+|4+|1|2|MELEE||false|
+000003268|3|Warhorse’s Steel-shod Hooves||2|5+|3+|-|1|MELEE|Companion|false|
+000003269|1|Great Cannon: Cannonball|24"|2|4+|2+|2|D3+2|RANGED||false|
+000003269|2|Great Cannon: Grapeshot|12"|5|3+|3+|1|2|RANGED||false|
+000003269|3|Crew’s Tools and Sidearms||2|4+|4+|-|1|MELEE||false|
+000003270|1|Cavalier Weapon||3|4+|4+|1|1|MELEE|Charge (+1 Damage)|false|
+000003270|2|Warhorse’s Steel-shod Hooves||2|5+|3+|-|1|MELEE|Companion|false|
+000003271|1|Freeguild Weapon||2|4+|4+|-|1|MELEE||false|
+000003272|1|Warden’s Pike||2|3+|4+|-|1|MELEE|Crit (Mortal), Anti-charge (+1 Rend)|false|
+000003273|1|Windcharger Bow|12"|3|3+|4+|1|1|RANGED||false|
+000003273|2|Windcharger Blade||1|4+|4+|-|1|MELEE||false|
+000003273|3|Treerunner’s Claws||2|5+|3+|-|1|MELEE|Companion|false|
+000003274|1|Bow of the Wind’s Vengeance|15"|4|2+|3+|2|2|RANGED||false|
+000003274|2|Swirling Shards||6|2+|4+|-|1|MELEE||false|
+000003275|1|Windblast Vortex|12"|1|2+|3+|2|D3|RANGED||false|
+000003275|2|Aspiragillum||3|3+|4+|1|D3|MELEE||false|
+000003276|1|Cursed Weapon||3|4+|4+|1|1|MELEE||false|
+000003277|1|Grisly Lance||2|3+|4+|1|1|MELEE|Charge (+1 Damage)|false|
+000003277|2|Nightshrieker’s Claws and Teeth||3|4+|3+|1|2|MELEE|Companion|false|
+000003278|1|Gory Talons and Fangs||5|3+|3+|1|2|MELEE||false|
+000003279|1|Immense Claws||7|4+|3+|1|2|MELEE||false|
+000003279|2|Dagger-like Fangs||1|3+|2+|2|3|MELEE||false|
+000003280|1|Death’s Head Maw|12"|4|4+|4+|1|1|RANGED||false|
+000003280|2|Soulcrusher Bludgeons||6|4+|2+|2|2|MELEE||false|
+000003280|3|Ossified Hooves and Tail||4|4+|3+|1|2|MELEE||false|
+000003281|1|Nadirite Spear||2|3+|4+|-|1|MELEE|Anti-charge (+1 Rend)|false|
+000003282|1|Soulreaper Scythe||3|4+|3+|2|2|MELEE||false|
+000003283|1|Slitta||2|4+|5+|-|1|MELEE||false|
+000003283|2|Squig’s Fang-filled Gob||3|4+|3+|1|1|MELEE|Companion|false|
+000003284|1|Stabba||2|4+|5+|-|1|MELEE||false|
+000003285|1|Moon-slicer||5|4+|4+|1|D3|MELEE||false|
+000003286|1|Throwin’ Boulders|10"|1|5+|2+|2|D3|RANGED||false|
+000003286|2|Massive Stone Maul||2|4+|2+|2|3|MELEE||false|
+000003287|1|Murderous Fangs and Talons||3|4+|3+|1|2|MELEE|Crit (2 Hits)|false|
+000003288|1|Ancient Weapon||2|4+|4+|-|1|MELEE||false|
+000003289|1|Dynastic War-relic||5|3+|3+|1|2|MELEE||false|
+000003290|1|Templar Lance or Templar Blade||3|3+|3+|1|1|MELEE|Charge (+1 Damage)|false|
+000003290|2|Nightmare’s Hooves and Teeth||3|5+|3+|-|1|MELEE|Companion|false|
+000003291|1|Doomfire Crossbow|10"|2|3+|4+|-|1|RANGED||false|
+000003291|2|Cursed Scimitar||2|3+|4+|1|1|MELEE||false|
+000003291|3|Dark Steed’s Vicious Bite||2|5+|3+|-|1|MELEE|Companion|false|
+000003292|1|Keldrisaíth|12"|2|3+|3+|1|D3|RANGED||false|
+000003292|2|Keldrisaíth||6|3+|4+|1|2|MELEE||false|
+000003293|1|Heartseeker Bow|18"|3|3+|4+|1|1|RANGED|Crit (Auto-wound)|false|
+000003293|2|Scianlar||2|3+|4+|-|1|MELEE||false|
+000003294|1|Paired Sciansá||3|3+|4+|-|1|MELEE|Crit (Auto-wound)|false|
+000003295|1|Murknob Cleaver||4|4+|3+|1|2|MELEE|Crit (Mortal)|false|
+000003296|1|Man-skewer Crossbow|18"|2|4+|3+|1|2|RANGED|Crit (Auto-wound)|false|
+000003296|2|Jaggedy Blade||1|4+|3+|-|1|MELEE|Crit (Mortal)|false|
+000003297|1|Wicked Hacka||2|4+|3+|-|1|MELEE|Crit (Mortal)|false|
+000003298|1|Beast-skewer Bolts|24"|2|4+|2+|2|D6|RANGED|Crit (Auto-wound)|false|
+000003298|2|Jaggedy Blades||2|4+|3+|-|1|MELEE|Crit (Mortal)|false|
+000003299|1|Jagged Boss-stikka||4|3+|3+|1|2|MELEE|Crit (Mortal)|false|
+000003299|2|Gnashtoof’s Bone-crushing Fangs||5|4+|3+|1|2|MELEE|Companion|false|
+000003300|1|Kurnoth Greatbow|18"|2|3+|3+|1|2|RANGED||false|
+000003300|2|Vicious Claws||3|3+|3+|-|1|MELEE||false|
+000003301|1|Greenwood Scythe and Bittergrub||3|3+|4+|1|D3|MELEE||false|
+000003302|1|Enchanted Blade||2|3+|4+|1|1|MELEE||false|
+000003303|1|Strangleroots|10"|3|3+|2+|1|2|RANGED|Shoot in Combat|false|
+000003303|2|Sweeping Blows||5|4+|2+|1|2|MELEE||false|
+000003303|3|Massive Impaling Talons||2|4+|2+|2|3|MELEE||true|
+000003304|1|Tzeentchian Spear and Vicious Beak||3|4+|3+|1|2|MELEE||false|
+000003304|2|Disc’s Teeth and Horns||2|4+|3+|1|D3|MELEE|Companion|false|
+000003305|1|Staff of Change and Ritual Dagger||3|4+|3+|1|D3|MELEE||false|
+000003305|2|Disc’s Teeth and Horns||2|4+|3+|1|D3|MELEE|Companion|false|
+000003306|1|Arrow of Fate|18"|2|4+|3+|1|2|RANGED||false|
+000003306|2|Bow Stave and Vicious Beak||1|4+|3+|-|1|MELEE||false|
+000003306|3|Disc’s Teeth and Horns||2|4+|3+|1|D3|MELEE|Companion|false|
+000003307|1|Savage Blade and Vicious Beak||2|4+|3+|-|1|MELEE||false|
+000003308|1|Whisperbow|12"|2|3+|4+|1|1|RANGED|Crit (Auto-wound)|false|
+000003308|2|Keening Blade||1|3+|4+|-|1|MELEE||false|
+000003309|1|Voltspear||2|3+|4+|1|1|MELEE|Charge (+1 Damage)|false|
+000003309|2|Fangmora’s Fangs and Lashing Tail||3|4+|3+|1|D3|MELEE|Companion|false|
+000003310|1|Helsabre||3|3+|4+|1|1|MELEE||false|
+000003310|2|Fangmora’s Fangs and Lashing Tail||3|4+|3+|1|D3|MELEE|Companion|false|
+000003311|1|Akhelian Royal Weapons||5|3+|4+|1|2|MELEE||false|
+000003311|2|Deepmare’s Fangs, Talons and Lashing Tails||4|4+|3+|1|2|MELEE|Companion|false|
+000003312|1|Irongut Weapon||3|4+|2+|2|3|MELEE||false|
+000003313|1|Piles of Old Scrap|24"|3D6|4+|4+|-|1|RANGED|Crit (Auto-wound)|false|
+000003313|2|Scrappers’ Stabbers||7|5+|5+|-|1|MELEE||false|
+000003313|3|Rhinox’s Sharp Horns||2|4+|2+|1|D3|MELEE|Companion|false|
+000003314|1|Sharp Stuff|8"|1|4+|5+|-|1|RANGED||false|
+000003314|2|Motley Assortment of Weapons||1|5+|5+|-|1|MELEE||false|
+000003315|1|Mantrapper Crossbow|12"|2|4+|2+|1|D3|RANGED||false|
+000003315|2|Frost Sabre's Fangs||3|4+|3+|1|1|MELEE|Companion|false|
+000003315|3|Culling Knife||4|4+|2+|1|2|MELEE||false|
+000003316|1|Ghastflails|12"|2|4+|3+|2|1|RANGED|Crit (Auto-wound)|false|
+000003316|2|Ghastflails||2|4+|3+|2|1|MELEE|Crit (Auto-wound)|false|
+000003317|1|Scythed Limbs||3|4+|4+|1|1|MELEE|Crit (Auto-wound)|false|
+000003318|1|Dreadblade||4|4+|3+|1|2|MELEE|Crit (Auto-wound)|false|
+000003318|2|Ethereal Steed’s Ghostly Hooves and Teeth||3|5+|3+|-|1|MELEE|Companion, Crit (Auto-wound)|false|
+000003319|1|Shacklegheist Chains||5|4+|3+|1|2|MELEE|Crit (Auto-wound)|false|
+000003320|1|Tomb Greatblade||2|3+|3+|1|1|MELEE|Crit (Auto-wound)|false|
+000003321|1|Baleful Tomb Blade||5|4+|3+|1|2|MELEE|Crit (Mortal)|false|
+000003322|1|Barrow Lance||2|4+|3+|1|1|MELEE|Crit (Mortal), Charge (+1 Damage)|false|
+000003322|2|Skeletal Steed’s Hooves and Teeth||2|5+|3+|-|1|MELEE|Companion|false|
+000003323|1|Wight Blade||2|4+|3+|1|1|MELEE|Crit (Mortal)|false|
+000003324|1|Hashutite Spear||2|3+|4+|-|1|MELEE|Anti-charge (+1 Rend)|false|
+000003325|1|Daemonflame Glaive||5|3+|3+|1|2|MELEE|Crit (Mortal)|false|
+000003326|1|Immolation Cannons|8"|5|2+|4+|1|D3|RANGED|Shoot in Combat|false|
+000003326|2|Horns and Pummelling Strikes||3|4+|3+|1|D3|MELEE||false|
+000003327|1|Torrent of Ruinous Energy|30"|4|3+|3+|1|D3|RANGED|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Anti-<span class="kwb">CAVALRY</span> (+1 Rend)|false|
+000003327|2|Artillerist Weapons||3|4+|4+|-|1|MELEE||false|
+000003328|1|Stalker Blades||4|3+|3+|2|1|MELEE||false|
+000003329|1|Ossified Talons||3|4+|4+|-|2|MELEE||false|
+000003330|1|Dread Halberd||3|3+|3+|1|2|MELEE||false|
+000003331|1|Spirit Weapons||3|3+|2+|2|3|MELEE||false|
+000003332|1|Razorshell Harpoon Launcher|18"|2|3+|2+|1|3|RANGED|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000003332|2|Barbed Hooks and Blades||4|3+|4+|1|1|MELEE||false|
+000003332|3|Allopex’s Ferocious Bite||3|4+|2+|2|2|MELEE|Companion|false|
+000003333|1|Lanmari||2|3+|4+|1|1|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend)|false|
+000003334|1|Scryfish Shoal|10"|8|5+|5+|-|1|RANGED|Shoot in Combat, Companion|false|
+000003334|2|Abyssal Touch||3|3+|4+|-|D3|MELEE||false|
+000003335|1|Fellrider Blades||2|4+|3+|-|1|MELEE|Charge (+1 Damage)|false|
+000003335|2|Warsteed’s Hooves||2|5+|3+|-|1|MELEE|Companion|false|
+000003336|1|Darkoath Weapons||2|4+|3+|-|1|MELEE|Crit (Mortal)|false|
+000003337|1|Rune-etched Axe||5|4+|3+|1|2|MELEE|Crit (Mortal)|false|
+000003338|1|Raider Weapons||2|4+|3+|-|1|MELEE||false|
+000003339|1|Plaguesword||1|4+|3+|-|1|MELEE|Crit (Mortal)|false|
+000003340|1|Blighted Weapon||4|3+|3+|1|1|MELEE||false|
+000003341|1|Disgusting Sneezes|7"|D6|2+|4+|-|1|RANGED|Shoot in Combat|false|
+000003341|2|Distended Maw||3|4+|3+|1|2|MELEE||false|
+000003342|1|Blighted Scythe||3|3+|3+|2|1|MELEE||false|
+000003342|2|Rot Fly’s Mouthparts and Sting||6|4+|2+|-|1|MELEE|Companion|false|
+000003343|1|Ironblaster Cannon|18"|2|4+|2+|2|D3+3|RANGED||false|
+000003343|2|Clubber||2|4+|2+|-|2|MELEE||false|
+000003343|3|Rhinox's Sharp Horns||2|4+|2+|1|D3|MELEE|Companion|false|
+000003344|1|Ogor Weapons||4|4+|2+|1|2|MELEE||false|
+000003345|1|Leadbelcher Gun|15"|D3|4+|3+|1|1|RANGED||false|
+000003345|2|Bludgeoning Blow||2|4+|2+|-|2|MELEE||false|
+000003346|1|Ogor Pistols|10"|2|4+|3+|1|D3|RANGED|Shoot in Combat|false|
+000003346|2|Thundermace||3|4+|2+|2|3|MELEE||false|
+000003346|3|Beastskewer Glaive||2|4+|2+|1|2|MELEE|Anti-<span class="kwb">MONSTER</span> (+1 Rend)|false|
+000003347|1|Culling Clubs and Hackers||3|4+|2+|1|2|MELEE||false|
+000003347|2|Mounrfang's Tusks||4|4+|2+|1|2|MELEE|Companion|false|
+000003348|1|Sunbolt Gauntlet|12"|D6|3+|3+|1|1|RANGED|Shoot in Combat|false|
+000003348|2|Relic Celestite Weapon||5|3+|3+|1|2|MELEE||false|
+000003348|3|Carnosaur’s Massive Jaws||3|4+|2+|2|3|MELEE|Companion|true|
+000003349|1|Drakebite Maul||4|4+|2+|1|2|MELEE||false|
+000003350|1|Gory Talons and Fangs||5|3+|3+|1|2|MELEE||false|
+000003351|1|Club and Septic Talons||4|4+|3+|1|2|MELEE||false|
+000003352|1|Beastflayer Weapons||3|4+|4+|-|1|MELEE||false|
+000003353|1|Death Scream|10"|4|4+|3+|2|1|RANGED|Shoot in Combat|false|
+000003353|2|Piercing Talons||4|4+|3+|1|1|MELEE||false|
+000003354|1|Blade of Khaine||5|3+|4+|1|2|MELEE||false|
+000003355|1|Shrine Guardians’ Blades||9|3+|4+|1|2|MELEE||false|
+000003356|1|Cursed Bolts and Missiles|10"|2|3+|4+|1|1|RANGED||false|
+000003356|2|Blades of Murder||2|3+|4+|1|1|MELEE||false|
+000003357|1|Kruiplash||3|3+|4+|-|1|MELEE||false|
+000003358|1|Bloodwrack Spear||5|3+|4+|1|2|MELEE||false|
+000003359|1|Ancestral Battle-axe||5|3+|3+|1|2|MELEE||false|
+000003360|1|Flamestrike Poleaxe||2|3+|3+|1|2|MELEE|Crit (Mortal)|false|
+000003361|1|Fyresteel Handaxes||2|4+|3+|1|1|MELEE|Anti-charge (+1 Rend)|false|
+000003362|1|Brute Weapons||3|4+|3+|1|2|MELEE||false|
+000003363|1|Boss-choppa||8|4+|2+|1|2|MELEE||false|
+000003364|1|Rager Weapons||3|4+|2+|1|2|MELEE||false|
+000003365|1|Choppa or Stikka||2|4+|3+|1|1|MELEE|Anti-charge (+1 Rend)|false|
+000003366|1|Tzeentchian Runestaff|18"|1|3+|4+|-|D3|RANGED||false|
+000003366|2|Warpsteel Sword||3|3+|4+|-|D3|MELEE||false|
+000003366|3|Disc’s Teeth and Horns||2|4+|3+|1|D3|MELEE|Companion|false|
+000003367|1|Lamprey Bite||3|4+|3+|1|1|MELEE||false|
+000003368|1|Wyrdflame|12|3|3+|4+|-|D3|RANGED||false|
+000003368|2|Flaming Maws||3|3+|4+|-|1|MELEE||false|
+000003369|1|Sorcerous Bolts|18"|1|4+|3+|-|1|RANGED||false|
+000003369|2|Cursed Blade||2|4+|4+|-|1|MELEE||false|
+000003370|1|Eshin Specialist Blades||3|3+|4+|1|1|MELEE|Crit (Mortal)|false|
+000003371|1|The Blades of Thirteen Cuts||13|2+|4+|1|1|MELEE|Crit (Mortal)|false|
+000003372|1|Slings and Poisoned Stars|10"|2|4+|4+|-|1|RANGED|Shoot in Combat, Crit (Auto-wound)|false|
+000003372|2|Poisoned Blades||2|4+|5+|-|1|MELEE|Crit (Mortal)|false|
+000003373|1|Weeping Blade||5|3+|4+|1|D3|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend), Crit (Mortal)|false|
+000003374|1|Thengavar|12"|1|3+|2+|2|4|RANGED|Shoot in Combat|false|
+000003374|2|Blade of the High Heavens||5|3+|3+|2|3|MELEE||false|
+000003375|1|Great Stormbow|18"|2|3+|3+|1|1|RANGED||false|
+000003375|2|Stormstrike Axe||3|3+|3+|1|1|MELEE||false|
+000003375|3|Gryph-chargers’ Beaks and Claws||6|4+|3+|1|1|MELEE|Companion|false|
+000003376|1|Sigmarite Warblade||4|3+|3+|1|2|MELEE||false|
+000003377|1|Celestial Greatsword||2|3+|3+|1|1|MELEE||false|
+000003378|1|Meteoric Hammer||3|3+|3+|1|2|MELEE||false|
+000003379|1|Ratling Cannons|15"|3D6|4+|3+|1|1|RANGED||false|
+000003379|2|Windlaunchers|15"|3|4+|3+|2|D3|RANGED||false|
+000003379|3|Shock Gauntlets||4|4+|2+|1|2|MELEE||false|
+000003379|4|Clubbing Blows||4|4+|2+|-|2|MELEE||false|
+000003380|1|Warp Lightning Blast|20"|2D6|4+|#3|||RANGED||false|
+000003380|2|Crew's Teeth and Knives||D6|4+|5+|-|1|MELEE||false|
+000003381|1|Sword of Stolen Hours||5|4+|3+|1|2|MELEE|Crit (Auto-wound)|false|
+000003382|1|Malignant Weapon||2|4+|5+|-|1|MELEE|Crit (Auto-wound)|false|
+000003383|1|Spectral Claws and Daggers||6|4+|4+|-|1|MELEE|Crit (Auto-wound)|false|
+000003384|1|Slasher Scythe||2|4+|3+|1|1|MELEE|Crit (Auto-wound)|false|
+000003385|1|Sigmarite Warhammer||4|4+|3+|1|D3|MELEE||false|
+000003386|1|Ruin-sweeper Arsenal|10"|1|4+|2+|2|1|RANGED||false|
+000003386|2|Grenadier Bardiche||2|4+|4+|1|2|MELEE||false|
+000003387|1|Weapons of Gallantry||2|3+|4+|1|1|MELEE||false|
+000003388|1|Ranger Blades||6|3+|4+|1|2|MELEE||false|
+000003389|1|Chaos War-flail||6|3+|3+|-|1|MELEE||false|
+000003389|2|Driver’s Lashing Whip||2|4+|4+|-|1|MELEE||false|
+000003389|3|Warhorses’ Trampling Hooves||4|5+|3+|-|1|MELEE|Companion|false|
+000003390|1|Reaperblade||5|3+|3+|1|2|MELEE|Crit (Mortal)|false|
+000003391|1|Rune-etched Halberd||2|3+|3+|1|1|MELEE||false|
+000003392|1|Cursed Lance||3|3+|3+|1|1|MELEE|Charge (+1 Damage)|false|
+000003392|2|Chaos Steed’s Trampling Hooves||2|5+|3+|-|1|MELEE|Companion|false|
+000003393|1|Despairing Touch||3|3+|4+|-|D3|MELEE||false|
+000003394|1|Auralan Bow|18"|2|3+|4+|1|1|RANGED|Crit (Auto-wound)|false|
+000003394|2|Vanari Dagger||1|3+|4+|-|1|MELEE||false|
+000003395|1|Sunmetal Greatblade: Perfect Strike||1|#4||||MELEE||false|
+000003395|2|Sunmetal Greatblade: Flurry of Blows||3|3+|4+|1|1|MELEE|Anti-<span class="kwb">INFANTRY</span> (+1 Rend), Crit (Mortal)|false|
+000003396|1|Vulcaniser Pistol|10"|3|3+|3+|1|1|RANGED|Shoot in Combat|false|
+000003396|2|Aethermatic Volley Gun|15"|2D6|4+|4+|-|1|RANGED||false|
+000003396|3|Skypike||2|3+|3+|1|2|MELEE|Crit (Mortal)|false|
+000003396|4|Gun Butt||1|4+|5+|-|1|MELEE||false|
+000003397|1|Masterwork Volley Pistol|10"|3|3+|3+|1|2|RANGED|Shoot in Combat|false|
+000003397|2|Skalfhammer||3|3+|2+|1|3|MELEE||false|
+000003398|1|Heavy Skyhook|24"|2|4+|3+|2|D6|RANGED||true|
+000003398|2|Aethershot Carbines|12"|4|3+|3+|1|2|RANGED|Shoot in Combat|false|
+000003398|3|Crew’s Boarding Weapons||8|4+|4+|-|1|MELEE||false|
+000003399|1|Privateer Pistol|10"|2|4+|4+|-|1|RANGED|Shoot in Combat|false|
+000003399|2|Aethermatic Volley Gun|15"|2D6|4+|4+|-|1|RANGED||false|
+000003399|3|Light Skyhook|15"|1|4+|3+|2|D3|RANGED||false|
+000003399|4|Arkanaut Cutter||2|4+|4+|-|1|MELEE||false|
+000003399|5|Gun Butt||1|4+|5+|-|1|MELEE||false|
+000003399|6|Skypike||2|3+|3+|1|2|MELEE|Crit (Mortal)|false|
+000003400|1|Rotwood Staff||3|4+|3+|1|D3|MELEE||false|
+000003401|1|Tiny Razor-sharp Teeth||5|5+|5+|-|1|MELEE|Crit (Auto-wound)|false|
+000003402|1|Filthy Claws and Slobbering Maw||5|4+|3+|1|D3|MELEE|Companion|false|
+000003403|1|Contagion Blowpipes|12"|2|4+|3+|-|1|RANGED|Crit (Auto-wound)|false|
+000003403|2|Bilewood Weapons||2|4+|4+|-|1|MELEE||false|
+000003404|1|Kavalos Blade||3|3+|4+|1|1|MELEE||false|
+000003404|2|Kavalos Steed’s Hooves and Teeth||2|5+|3+|-|1|MELEE|Companion|false|
+000003405|1|Savage Blade and Vicious Beak||2|4+|3+|1|1|MELEE||false|
+000003406|1|Morbid Catapult|18"|4|4+|4+|1|3|RANGED|Companion|false|
+000003406|2|Titanic Weapons||7|4+|3+|-|2|MELEE|Crit (Mortal), Anti-<span class="kwb">HERO</span> (+1 Rend)|false|
+000003406|3|Nadirite Blade||3|3+|4+|1|2|MELEE|Anti-<span class="kwb">HERO</span> (+1 Rend)|false|
+000003406|4|Crushing Appendages||6|3+|2+|2|3|MELEE|Anti-<span class="kwb">FACTION</span> <span class="kwb">TERRAIN</span> (+1 Rend), Anti-<span class="kwb">HERO</span> (+1 Rend), Companion|false|
+000003407|1|Nadirite Blade||3|3+|4+|1|2|MELEE||false|
+000003408|1|Warden Pike and Blade||2|3+|4+|-|1|MELEE|Crit (Mortal), Anti-charge (+1 Rend)|false|
+000003409|1|Duelling Pistols|10"|4|3+|4+|1|1|RANGED|Shoot in Combat|false|
+000003409|2|Master-forged Weapon||5|3+|4+|1|2|MELEE||false|
+000003410|1|Sceptre of the Wheel||3|4+|4+|1|D3|MELEE||false|
+000003411|1|Enchanted Rapier||4|3+|4+|2|2|MELEE||false|
+000003412|1|Command Weapons||3|3+|4+|1|1|MELEE||false|
+000003413|1|Freeguild Weapon||2|4+|4+|-|1|MELEE||false|
