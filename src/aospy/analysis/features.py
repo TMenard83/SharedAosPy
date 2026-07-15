@@ -31,7 +31,7 @@ from dataclasses import dataclass
 import duckdb
 
 from ..domain.models import Unit
-from ..engine.combat import CombatModifiers, unit_damage_moments
+from ..engine.combat import CombatModifiers, unit_damage_moments, weapon_crit_type
 from ..persistence.repository import load_all_units_with_weapons
 
 #: Repère les mots-clés `WIZARD (N)`/`PRIEST (N)` (BSData les capture tels quels
@@ -75,6 +75,7 @@ _PROBE_SAVE4 = Unit(name="_probe", army_id=0, move=0, save=4, health=1, control=
 _PROBE_NOSAVE = Unit(name="_probe", army_id=0, move=0, save=7, health=1, control=0, models=1, points=0)
 
 _NO_MODS = CombatModifiers()
+_CHARGED_MODS = CombatModifiers(attacker_charged=True)
 
 
 @dataclass(frozen=True)
@@ -93,6 +94,16 @@ class UnitFeatures:
     dmg_ranged_vs_nosave: float
     dmg_pen: float  # dmg_vs_save2 / dmg_vs_nosave (0 si dmg_vs_nosave == 0)
     dmg_cv_vs_save4: float  # écart-type / moyenne contre save4 (fiabilité offensive)
+    charge_bonus_save2: float  # supplément de dmg_vs_save2 apporté par un `Charge (+N <Stat>)`
+    # (0 si l'unité n'a aucun profil d'arme avec ce texte) — sans ce champ, ce bonus était
+    # invisible au modèle de coût (les sondes ci-dessous ne simulent jamais une charge).
+    # Magnitude, pas simple indicateur de présence : cf. `scratch/experiment_weapon_tags.py`,
+    # même constat que `dmg_pen`→`dmg_vs_save2` (la magnitude explique le prix, pas la
+    # présence — `has_charge` seul n'était pas significatif, p=0.150 vs p=0.001 en magnitude).
+    # `Anti-<MOT-CLÉ>` a été testé dans le même essai et écarté : ni la présence
+    # (`has_anti`, p=0.500) ni la magnitude (`anti_bonus_save2`, p=0.83-0.91) n'étaient
+    # significatives, contre un défenseur sonde portant tous les mots-clés jamais visés
+    # par un Anti-X dans la base — GW ne semble pas facturer ce tag séparément.
 
     wounds_total: int  # health * models
     save_num: int
@@ -115,6 +126,10 @@ class UnitFeatures:
     is_unique: bool  # mot-clé UNIQUE — proxy grossier de la prime "aptitudes/narratif" d'un
     # personnage nommé, qu'aospy ne modélise pas autrement (pas de texte d'aptitude en base) ;
     # cf. `scratch/experiment_unique_factor.py`, +16.6 pts significatif (p<0.001)
+    crit_type: str  # type de Crit (none/2hits/mortal/autowound) du profil d'arme qui contribue
+    # le plus à dmg_vs_save2 (proxy du "crit dominant" d'une unité multi-profils) — significatif
+    # au-delà de la magnitude de dégât déjà captée par dmg_vs_save2 : cf.
+    # `scratch/experiment_weapon_tags.py` (autowound +17.1 pts, mortal -15.9 pts vs 2hits, p<0.05)
 
 
 def _ranged_only(unit: Unit) -> Unit:
@@ -122,11 +137,29 @@ def _ranged_only(unit: Unit) -> Unit:
     return dataclasses.replace(unit, weapons=[w for w in unit.weapons if w.kind == "ranged"])
 
 
+def _dominant_crit_type(unit: Unit) -> str:
+    """Type de Crit du profil d'arme qui contribue le plus à `dmg_vs_save2` — proxy du
+    "crit dominant" d'une unité à profils d'arme multiples (chacun peut porter un Crit
+    différent). "none" si l'unité n'a aucune arme ou aucun Crit."""
+    best_type = "none"
+    best_dmg = -1.0
+    for w in unit.weapons:
+        dmg, _v, _s = unit_damage_moments(
+            dataclasses.replace(unit, weapons=[w]), unit.models, _PROBE_SAVE2, _NO_MODS,
+        )
+        if dmg > best_dmg:
+            best_dmg = dmg
+            best_type = weapon_crit_type(w.abilities)
+    return best_type
+
+
 def compute_features(unit: Unit) -> UnitFeatures:
     """Calcule le vecteur de caractéristiques d'une unité (cœur pur, sans DB)."""
     mean2, _v2, _s2 = unit_damage_moments(unit, unit.models, _PROBE_SAVE2, _NO_MODS)
     mean4, var4, _s4 = unit_damage_moments(unit, unit.models, _PROBE_SAVE4, _NO_MODS)
     mean_nosave, _vn, _sn = unit_damage_moments(unit, unit.models, _PROBE_NOSAVE, _NO_MODS)
+    mean2_charged, _v2c, _s2c = unit_damage_moments(unit, unit.models, _PROBE_SAVE2, _CHARGED_MODS)
+    charge_bonus_save2 = max(0.0, mean2_charged - mean2)
 
     ranged_unit = _ranged_only(unit)
     dmg_ranged_vs_nosave = (
@@ -160,6 +193,7 @@ def compute_features(unit: Unit) -> UnitFeatures:
         dmg_ranged_vs_nosave=dmg_ranged_vs_nosave,
         dmg_pen=dmg_pen,
         dmg_cv_vs_save4=dmg_cv_vs_save4,
+        charge_bonus_save2=charge_bonus_save2,
         wounds_total=unit.health * unit.models,
         save_num=unit.save,
         ward_num=unit.ward if unit.ward is not None else 7,
@@ -174,12 +208,13 @@ def compute_features(unit: Unit) -> UnitFeatures:
         wizard_level=_caster_level(unit.keywords, "WIZARD"),
         priest_level=_caster_level(unit.keywords, "PRIEST"),
         is_unique="UNIQUE" in unit.keywords,
+        crit_type=_dominant_crit_type(unit),
     )
 
 
 def all_features(con: duckdb.DuckDBPyConnection) -> list[UnitFeatures]:
     """Calcule le vecteur de caractéristiques de toutes les unités de la base."""
-    from .repository import list_armies
+    from ..persistence.repository import list_armies
 
     armies = list_armies(con)
     alliance_by_army = {a.id: a.grand_alliance for a in armies}

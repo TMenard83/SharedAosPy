@@ -42,12 +42,20 @@ from .features import UnitFeatures, all_features
 #: font moins bien que la somme sur les lignes — la moyenne dilue le poids des
 #: lignes à peu de porteurs, la somme (ce que fait `dmg_vs_save2`) pondère chaque
 #: ligne exactement par son dégât réel.
+#: ``charge_bonus_save2`` (supplément de ``dmg_vs_save2`` apporté par un texte d'arme
+#: `Charge (+N <Stat>)`) rejoint ces prédicteurs suite à `scratch/experiment_weapon_tags.py` :
+#: la magnitude est significative (+11.7 pts par point de dégât de charge, p=0.001) alors
+#: qu'un simple indicateur de présence (`has_charge`) ne l'était pas (p=0.150) — même
+#: enseignement que le remplacement `dmg_pen`→`dmg_vs_save2` ci-dessus, la magnitude
+#: explique le prix, pas la présence. `Anti-<MOT-CLÉ>` a été testé dans le même essai
+#: (présence et magnitude) et écarté : ni l'un ni l'autre n'étaient significatifs.
 MODEL_FEATURES: tuple[str, ...] = (
     "unit_size",
     "dmg_vs_nosave",
     "dmg_ranged_vs_nosave",
     "dmg_vs_save2",
     "dmg_cv_vs_save4",
+    "charge_bonus_save2",
     "wounds_total",
     "save_num",
     "ward_num",
@@ -72,7 +80,14 @@ SEGMENTS: dict[str, str] = {"hero": "is_hero == True", "troupe": "is_hero == Fal
 #: narratif" qu'aospy ne modélise pas autrement — essai dans `scratch/experiment_unique_factor.py`,
 #: +16.6 pts significatif (p<0.001), R² ajusté +0.0025, peu colinéaire avec is_hero (corr. 0.24 :
 #: 38/144 UNIQUE ne sont pas des héros, ex. monstres/machines de guerre nommés).
-CATEGORICAL_FEATURES: tuple[str, ...] = ("army_name", "is_hero", "weapon_mix", "unit_type", "is_flying", "is_unique")
+#: ``crit_type`` (type de Crit dominant, cf. `features._dominant_crit_type`) rejoint ces
+#: facteurs suite à `scratch/experiment_weapon_tags.py` : significatif au-delà de la magnitude
+#: de dégât déjà captée par `dmg_vs_save2` (autowound +17.1 pts, mortal -15.9 pts vs 2hits
+#: comme modalité de référence, p<0.05 sur les deux), gain de R² ajusté +0.0058 combiné à
+#: `charge_bonus_save2`.
+CATEGORICAL_FEATURES: tuple[str, ...] = (
+    "army_name", "is_hero", "weapon_mix", "unit_type", "is_flying", "is_unique", "crit_type",
+)
 
 #: Interactions bloc×continu : au lieu de deux régressions séparées héros/troupe
 #: (`fit_segmented`), on module directement, dans un seul modèle, l'effet des

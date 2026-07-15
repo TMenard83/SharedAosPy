@@ -99,3 +99,41 @@ def test_unit_type_defaults_to_other_without_a_type_keyword():
     feats = compute_features(unit)
     assert feats.unit_type == "OTHER"
     assert feats.is_flying is False
+
+
+def test_charge_bonus_save2_zero_without_charge_ability():
+    weapon = Weapon(name="w", kind="melee", attacks=2, hit=3, wound=3, rend=1, damage=2, wielders=5)
+    unit = _unit(weapons=[weapon])
+    feats = compute_features(unit)
+    assert feats.charge_bonus_save2 == 0.0
+
+
+def test_charge_bonus_save2_reflects_weapon_charge_ability():
+    weapon = Weapon(name="w", kind="melee", attacks=2, hit=3, wound=3, rend=1, damage=2,
+                    wielders=5, abilities="Charge (+1 Damage)")
+    unit = _unit(weapons=[weapon])
+    feats = compute_features(unit)
+    mean2, _, _ = unit_damage_moments(unit, unit.models, _PROBE_SAVE2, CombatModifiers())
+    mean2_charged, _, _ = unit_damage_moments(
+        unit, unit.models, _PROBE_SAVE2, CombatModifiers(attacker_charged=True),
+    )
+    assert feats.charge_bonus_save2 == pytest.approx(mean2_charged - mean2)
+    assert feats.charge_bonus_save2 > 0.0
+
+
+def test_crit_type_none_without_weapons_or_crit_text():
+    unit = _unit(weapons=[])
+    assert compute_features(unit).crit_type == "none"
+    weapon = Weapon(name="w", kind="melee", attacks=2, hit=3, wound=3, damage=2, wielders=5)
+    assert compute_features(_unit(weapons=[weapon])).crit_type == "none"
+
+
+def test_crit_type_picks_the_highest_damage_weapon_profile():
+    # "main" cogne beaucoup plus fort que "side" : le crit dominant doit être celui
+    # de "main" (Mortal), pas celui de "side" (2 Hits), même si "side" est listé en premier.
+    side = Weapon(name="side", kind="melee", attacks=1, hit=5, wound=5, damage=1,
+                  wielders=5, abilities="Crit (2 Hits)")
+    main = Weapon(name="main", kind="melee", attacks=4, hit=3, wound=3, damage=3,
+                  wielders=5, abilities="Crit (Mortal)")
+    unit = _unit(weapons=[side, main])
+    assert compute_features(unit).crit_type == "mortal"

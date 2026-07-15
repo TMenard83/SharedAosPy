@@ -39,11 +39,27 @@ def _prob_x_plus(x: int, modifier: int = 0) -> float:
     return (7 - target) / 6
 
 
+#: BSData encode le texte d'aptitudes avec du markup de mise en forme
+#: (`**gras**`, `^^exposant^^`, parfois un tiret insécable U+2011 dans "Anti‑X")
+#: et Wahapedia avec du HTML (`<span class="kwb">MOT-CLÉ</span>`) : sans nettoyage,
+#: `Anti-**^^Infantry^^** (+1 Rend)` ne matche aucune des deux regex ci-dessous
+#: (constaté : 118 des 134 unités portant un Anti-X en base n'appliquaient aucun
+#: bonus). Idempotent sur du texte déjà propre (tests unitaires).
+_MARKUP_RE = re.compile(r"\*\*|\^\^|<[^>]+>")
+
+
+def _normalize_abilities(abilities: str) -> str:
+    """Retire le markup de mise en forme (gras/exposant/HTML) et les espaces/tirets
+    insécables du texte libre `Weapon.abilities`, avant tout matching par regex."""
+    text = _MARKUP_RE.sub("", abilities)
+    return text.replace("‑", "-").replace("\xa0", " ")
+
+
 def _parse_crit(abilities: Optional[str]) -> str:
     """Détecte le type de crit dans le champ abilities (insensible à la casse)."""
     if not abilities:
         return "none"
-    s = abilities.lower()
+    s = _normalize_abilities(abilities).lower()
     if "crit (2 hits)" in s or "crit (2hits)" in s:
         return "2hits"
     if "crit (mortal" in s:
@@ -53,8 +69,18 @@ def _parse_crit(abilities: Optional[str]) -> str:
     return "none"
 
 
+def weapon_crit_type(abilities: Optional[str]) -> str:
+    """Alias public de `_parse_crit`, pour un usage hors de ce module (ex. le
+    vecteur de caractéristiques du modèle de coût, `analysis/features.py`)."""
+    return _parse_crit(abilities)
+
+
 _ANTI_RE = re.compile(r"Anti-([A-Za-z ]+?)\s*\(\s*\+(\d+)\s+(\w+)\s*\)", re.IGNORECASE)
-_CHARGE_RE = re.compile(r"Charge\s*\(\s*\+(\d+)\s+(\w+)\s*\)", re.IGNORECASE)
+#: Lookbehind négatif : exclut `Anti-charge (+N Rend)` (mot-clé "CHARGE", bonus vs
+#: un défenseur qui a chargé — état non modélisé côté défenseur, cf. docstring de
+#: `_intrinsic_bonus`) qui sinon matcherait comme le bonus de charge de l'attaquant
+#: lui-même, alors que ce sont deux mécaniques distinctes.
+_CHARGE_RE = re.compile(r"(?<!anti-)Charge\s*\(\s*\+(\d+)\s+(\w+)\s*\)", re.IGNORECASE)
 _STAT_FIELD = {
     "attacks": "attacks", "atk": "attacks",
     "hit": "hit",
@@ -84,16 +110,24 @@ def _intrinsic_bonus(
     ce mot-clé ; `Charge (+N <Stat>)` seulement si `charged`. Il n'y a pas de
     bonus de charge universel en AoS 4 : c'est ce texte d'arme qui porte
     l'intégralité du bonus (souvent +1 dégât sur des profils de cavalerie).
+
+    Cas particulier : `Anti-charge (+N <Stat>)` (mot-clé "CHARGE") vise un
+    défenseur qui a chargé ce combat, un état que `CombatModifiers` ne modélise
+    que côté attaquant (`attacker_charged`) — cette clause matche donc bien
+    `_ANTI_RE` (elle ne se déclenche jamais, faute de mot-clé "CHARGE" dans
+    `Unit.keywords`) mais n'applique aucun bonus, plutôt que de se faire
+    absorber à tort par `_CHARGE_RE` comme le bonus de charge de l'attaquant.
     """
     bonus = _IntrinsicBonus()
     if not abilities:
         return bonus
-    for keyword, amount, stat in _ANTI_RE.findall(abilities):
+    text = _normalize_abilities(abilities)
+    for keyword, amount, stat in _ANTI_RE.findall(text):
         field_name = _STAT_FIELD.get(stat.lower())
         if field_name and keyword.strip().upper() in defender_keywords:
             setattr(bonus, field_name, getattr(bonus, field_name) + int(amount))
     if charged:
-        for amount, stat in _CHARGE_RE.findall(abilities):
+        for amount, stat in _CHARGE_RE.findall(text):
             field_name = _STAT_FIELD.get(stat.lower())
             if field_name:
                 setattr(bonus, field_name, getattr(bonus, field_name) + int(amount))

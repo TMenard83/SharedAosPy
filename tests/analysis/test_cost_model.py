@@ -21,10 +21,11 @@ def _uf(i: int, **overrides) -> UnitFeatures:
     base = dict(
         unit_id=i, army_id=1, name=f"U{i}", points=100, is_hero=False,
         dmg_vs_save2=1.0, dmg_vs_save4=2.0, dmg_vs_nosave=3.0,
-        dmg_ranged_vs_nosave=0.0, dmg_pen=0.33, dmg_cv_vs_save4=0.5,
+        dmg_ranged_vs_nosave=0.0, dmg_pen=0.33, dmg_cv_vs_save4=0.5, charge_bonus_save2=0.0,
         wounds_total=10, save_num=4, ward_num=7, move=5, control=1, unit_size=5,
         grand_alliance="Order", army_name="TestArmy", weapon_mix="melee",
         unit_type="INFANTRY", is_flying=False, wizard_level=0, priest_level=0, is_unique=False,
+        crit_type="none",
     )
     base.update(overrides)
     return UnitFeatures(**base)

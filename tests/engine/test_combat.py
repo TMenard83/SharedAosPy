@@ -279,6 +279,34 @@ def test_anti_keyword_bonus_absent_without_matching_keyword():
     assert result == pytest.approx(10 * (1/2) * (1/2) * (1/2))
 
 
+def test_anti_keyword_bonus_active_with_bsdata_markup():
+    # BSData encode le mot-clé avec du markup (**gras**/^^exposant^^, parfois un
+    # tiret insécable U+2011 dans "Anti‑") : cf. `_normalize_abilities`.
+    weapon = Weapon(name="w", kind="melee", attacks=2, hit=4, wound=4, damage=1,
+                    abilities="Anti‑**^^MONSTER^^**\xa0(+1 Rend)")
+    monster = _unit(save=4, keywords=frozenset({"MONSTER"}))
+    result = expected_weapon_damage(weapon, 5, monster, CombatModifiers())
+    assert result == pytest.approx(10 * (1/2) * (1/2) * (4/6))
+
+
+def test_anti_keyword_bonus_active_with_wahapedia_html_markup():
+    weapon = Weapon(name="w", kind="melee", attacks=2, hit=4, wound=4, damage=1,
+                    abilities='Anti-<span class="kwb">MONSTER</span> (+1 Rend)')
+    monster = _unit(save=4, keywords=frozenset({"MONSTER"}))
+    result = expected_weapon_damage(weapon, 5, monster, CombatModifiers())
+    assert result == pytest.approx(10 * (1/2) * (1/2) * (4/6))
+
+
+def test_anti_charge_text_does_not_trigger_attacker_charge_bonus():
+    # "Anti-charge (+N Rend)" (mot-clé "CHARGE") est une mécanique distincte du
+    # bonus de charge de l'attaquant — ne doit pas être absorbée par _CHARGE_RE.
+    weapon = Weapon(name="w", kind="melee", attacks=2, hit=4, wound=4, damage=1,
+                    abilities="Anti-charge (+1 Rend)")
+    defender = _unit(save=4, keywords=frozenset())
+    result = expected_weapon_damage(weapon, 5, defender, CombatModifiers(attacker_charged=True))
+    assert result == pytest.approx(10 * (1/2) * (1/2) * (1/2))
+
+
 def test_charge_ability_bonus_only_from_weapon_text():
     # Pas de bonus universel de charge en AoS4 : seul le texte d'arme compte
     # (ex. Charge (+1 Damage), typique des profils de cavalerie).
