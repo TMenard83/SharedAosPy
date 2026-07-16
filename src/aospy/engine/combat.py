@@ -336,14 +336,23 @@ def unit_damage_moments(
     return mean_total, var_total, math.sqrt(var_total)
 
 
-#: Quantile de la loi normale centrée réduite pour le 5ᵉ centile (couverture 95 %).
+#: Quantiles de la loi normale centrée réduite (couverture 80 %/95 %, borne inférieure).
+_Z80 = 0.8416212335729143
 _Z95 = 1.6448536269514722
 
 
-def damage_floor95(mean: float, std: float) -> float:
-    """Plancher de dégâts atteint 95 % du temps : `moyenne - z·σ` (≥ 0).
+def _damage_floor(mean: float, std: float, z: float) -> float:
+    """Plancher de dégâts `moyenne - z·σ` (≥ 0), approximation normale (somme de
+    nombreuses variables indépendantes ⇒ raisonnable par le théorème central limite)."""
+    return max(0.0, mean - z * std)
 
-    Approximation normale (somme de nombreuses variables indépendantes ⇒
-    raisonnable par le théorème central limite), même formule que StatHammer.
-    """
-    return max(0.0, mean - _Z95 * std)
+
+def damage_floor95(mean: float, std: float) -> float:
+    """Plancher de dégâts atteint 95 % du temps, même formule que StatHammer."""
+    return _damage_floor(mean, std, _Z95)
+
+
+def damage_floor80(mean: float, std: float) -> float:
+    """Plancher de dégâts atteint 80 % du temps : lecture pessimiste plus permissive
+    que `damage_floor95` (z plus petit ⇒ plus proche de la moyenne)."""
+    return _damage_floor(mean, std, _Z80)

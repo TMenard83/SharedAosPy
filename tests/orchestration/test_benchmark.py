@@ -114,6 +114,50 @@ def test_benchmark_table_contains_pts_net_columns(con):
     assert "ROI" in text
 
 
+def test_unit_duel_default_mode_is_mean(con):
+    libs, clan = _pair(con)
+    r = bench.unit_duel(libs, clan, "Skaven")
+    assert r.mode_a == "mean"
+    assert r.mode_b == "mean"
+
+
+def test_unit_duel_asymmetric_modes(con):
+    # A→B au plancher pessimiste 80%, B→A à la moyenne : la lecture peut différer
+    # par sens du duel (pas de symétrie imposée par unit_duel).
+    libs, clan = _pair(con)
+    mean_result = bench.unit_duel(libs, clan, "Skaven")
+    asym = bench.unit_duel(libs, clan, "Skaven", mode_a="floor80", mode_b="mean")
+    assert asym.mode_a == "floor80"
+    assert asym.mode_b == "mean"
+    assert asym.raw_a_to_b <= mean_result.raw_a_to_b
+    assert asym.raw_b_to_a == pytest.approx(mean_result.raw_b_to_a)
+
+
+def test_benchmark_attacker_propagates_modes(con):
+    libs, _ = _pair(con)
+    results = bench.benchmark_attacker(
+        con, libs, target_army="Skaven", mode_a="floor80", mode_b="floor95",
+    )
+    assert results
+    assert all(r.mode_a == "floor80" and r.mode_b == "floor95" for r in results)
+
+
+def test_save_results_persists_modes_and_coexists(con):
+    libs, clan = _pair(con)
+    mean_result = bench.unit_duel(libs, clan, "Skaven")
+    floor_result = bench.unit_duel(libs, clan, "Skaven", mode_a="floor80", mode_b="mean")
+    bench.save_results(con, [mean_result, floor_result])
+    rows = con.execute(
+        "SELECT attacker_mode, defender_mode, raw_a_to_b FROM unit_benchmark "
+        "WHERE attacker_id = ? AND defender_id = ? ORDER BY attacker_mode",
+        [libs.id, clan.id],
+    ).fetchall()
+    assert rows == [
+        ("floor80", "mean", pytest.approx(floor_result.raw_a_to_b)),
+        ("mean", "mean", pytest.approx(mean_result.raw_a_to_b)),
+    ]
+
+
 def test_unit_duel_reinforced_scales(con):
     libs, clan = _pair(con)
     base = bench.unit_duel(libs, clan, "Skaven")
@@ -188,3 +232,38 @@ def test_cli_unit_benchmark_end_to_end(tmp_path: Path, capsys):
     out = capsys.readouterr().out
     assert rc == 0
     assert "Benchmark" in out
+
+
+def test_cli_unit_duel_asymmetric_modes_end_to_end(tmp_path: Path, capsys):
+    dbp = tmp_path / "cli.duckdb"
+    cli_main(["--db", str(dbp), "init"])
+    capsys.readouterr()
+    rc = cli_main([
+        "--db", str(dbp), "unit", "duel",
+        "--attacker", "Liberators", "--defender", "Clanrats",
+        "--attacker-mode", "floor80", "--defender-mode", "mean",
+    ])
+    out = capsys.readouterr().out
+    assert rc == 0
+    assert "plancher 80%" in out
+    assert "moyenne" in out
+
+
+def test_cli_unit_benchmark_all_persists_modes(tmp_path: Path, capsys):
+    dbp = tmp_path / "cli.duckdb"
+    cli_main(["--db", str(dbp), "init"])
+    capsys.readouterr()
+    rc = cli_main([
+        "--db", str(dbp), "unit", "benchmark-all",
+        "--attacker-mode", "floor80", "--defender-mode", "mean",
+    ])
+    capsys.readouterr()
+    assert rc == 0
+    con = db.connect(dbp)
+    try:
+        row = con.execute(
+            "SELECT DISTINCT attacker_mode, defender_mode FROM unit_benchmark"
+        ).fetchall()
+        assert row == [("floor80", "mean")]
+    finally:
+        con.close()

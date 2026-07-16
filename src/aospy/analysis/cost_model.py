@@ -36,14 +36,14 @@ from .features import UnitFeatures, all_features
 #: magnitude — un profil à dégât quasi nul avec 100 % de rend obtenait le même score
 #: qu'un gros cogneur avec 100 % de rend. `dmg_vs_save2` grandit avec les deux à la
 #: fois, plus fidèle à ce que GW valorise en points. Essais comparatifs dans
-#: `scratch/experiment_dmg_pen_weighted.py` (R² ajusté 0.8765 → 0.8794) ; deux
+#: `analysis/experiments/dmg_pen_weighted.py` (R² ajusté 0.8765 → 0.8794) ; deux
 #: variantes par ligne d'arme (moyenne simple, moyenne pondérée par le nombre
 #: d'attaques) ont aussi été testées (`scratch/experiment_dmg_pen_lineavg*.py`) et
 #: font moins bien que la somme sur les lignes — la moyenne dilue le poids des
 #: lignes à peu de porteurs, la somme (ce que fait `dmg_vs_save2`) pondère chaque
 #: ligne exactement par son dégât réel.
 #: ``charge_bonus_save2`` (supplément de ``dmg_vs_save2`` apporté par un texte d'arme
-#: `Charge (+N <Stat>)`) rejoint ces prédicteurs suite à `scratch/experiment_weapon_tags.py` :
+#: `Charge (+N <Stat>)`) rejoint ces prédicteurs suite à `analysis/experiments/weapon_tags.py` :
 #: la magnitude est significative (+11.7 pts par point de dégât de charge, p=0.001) alors
 #: qu'un simple indicateur de présence (`has_charge`) ne l'était pas (p=0.150) — même
 #: enseignement que le remplacement `dmg_pen`→`dmg_vs_save2` ci-dessus, la magnitude
@@ -72,16 +72,16 @@ SEGMENTS: dict[str, str] = {"hero": "is_hero == True", "troupe": "is_hero == Fal
 #: Facteurs catégoriels du plan d'expérience factoriel (voir `fit_cost_model_factorial`).
 #: ``army_name`` (≈25 modalités) remplace ``grand_alliance`` (4 modalités, dont il est le
 #: sur-ensemble strict — armée ⊂ alliance, les deux ensemble seraient colinéaires) :
-#: essai comparatif dans `scratch/experiment_army_factor.py`, F-test emboîté significatif
+#: essai comparatif dans `analysis/experiments/army_factor.py`, F-test emboîté significatif
 #: (p≈4e-9) et R² ajusté +0.012 (0.865 → 0.877) pour le remplacement. Prudence : les armées
 #: à très peu d'unités importées (ex. Sons of Behemat, n≈7) ont un coefficient à fort effet
 #: de levier, moins fiable que celui des factions bien peuplées.
 #: ``is_unique`` (mot-clé UNIQUE, personnage nommé) proxy une part de la prime "aptitudes/
-#: narratif" qu'aospy ne modélise pas autrement — essai dans `scratch/experiment_unique_factor.py`,
+#: narratif" qu'aospy ne modélise pas autrement — essai dans `analysis/experiments/unique_factor.py`,
 #: +16.6 pts significatif (p<0.001), R² ajusté +0.0025, peu colinéaire avec is_hero (corr. 0.24 :
 #: 38/144 UNIQUE ne sont pas des héros, ex. monstres/machines de guerre nommés).
 #: ``crit_type`` (type de Crit dominant, cf. `features._dominant_crit_type`) rejoint ces
-#: facteurs suite à `scratch/experiment_weapon_tags.py` : significatif au-delà de la magnitude
+#: facteurs suite à `analysis/experiments/weapon_tags.py` : significatif au-delà de la magnitude
 #: de dégât déjà captée par `dmg_vs_save2` (autowound +17.1 pts, mortal -15.9 pts vs 2hits
 #: comme modalité de référence, p<0.05 sur les deux), gain de R² ajusté +0.0058 combiné à
 #: `charge_bonus_save2`.

@@ -257,7 +257,7 @@ def draw_data_bg(c, doc):
 # Document
 # ----------------------------------------------------------------------------
 doc = BaseDocTemplate(
-    "scratch/AoS_synthese_combats_par_unite.pdf",
+    "scratch/output/AoS_synthese_combats_par_unite.pdf",
     pagesize=landscape(A4),
     title="Age of Sigmar — Synthèse des combats par unité",
     author="AoSPy",
@@ -313,4 +313,4 @@ story += scenario_flowables(
 )
 
 doc.build(story)
-print("PDF genere: scratch/AoS_synthese_combats_par_unite.pdf")
+print("PDF genere: scratch/output/AoS_synthese_combats_par_unite.pdf")

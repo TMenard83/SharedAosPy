@@ -10,6 +10,9 @@ from ..orchestration.benchmark import DuelResult
 from ..orchestration.simulation import BattleReport, SideOptions, SideReport
 
 
+_MODE_LABEL = {"mean": "moyenne", "floor80": "plancher 80%", "floor95": "plancher 95%"}
+
+
 def _opts_line(label: str, opts: SideOptions) -> str:
     parts = []
     parts.append("charge" if opts.charged else "no charge")
@@ -166,11 +169,11 @@ def format_duel_detail(r: DuelResult) -> str:
         f"(x{r.defender_models}, M{d.move} Sv{d.save}+ HP{d.health} pts{d.points}) ---\n"
     )
     buf.write(
-        f"  A → B : E[dmg]={r.expected_a_to_b:6.2f} (brut {r.raw_a_to_b:6.2f}) "
+        f"  A → B ({_MODE_LABEL[r.mode_a]}) : E[dmg]={r.expected_a_to_b:6.2f} (brut {r.raw_a_to_b:6.2f}) "
         f"/ HP {r.defender_total_hp} → E[models killed]={r.expected_models_killed_b:5.2f}\n"
     )
     buf.write(
-        f"  B → A : E[dmg]={r.expected_b_to_a:6.2f} (brut {r.raw_b_to_a:6.2f}) "
+        f"  B → A ({_MODE_LABEL[r.mode_b]}) : E[dmg]={r.expected_b_to_a:6.2f} (brut {r.raw_b_to_a:6.2f}) "
         f"/ HP {r.attacker_total_hp} → E[models killed]={r.expected_models_killed_a:5.2f}\n"
     )
     buf.write(f"  Net (HP)  : {r.net:+6.2f}\n")

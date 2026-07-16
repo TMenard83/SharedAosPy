@@ -10,6 +10,7 @@ from aospy.engine.combat import (
     CombatModifiers,
     _parse_crit,
     _prob_x_plus,
+    damage_floor80,
     damage_floor95,
     expected_unit_damage,
     expected_weapon_damage,
@@ -251,6 +252,18 @@ def test_damage_floor95_basic():
 
 def test_damage_floor95_clamped_at_zero():
     assert damage_floor95(1.0, 10.0) == 0.0
+
+
+def test_damage_floor80_basic():
+    assert damage_floor80(10.0, 2.0) == pytest.approx(10.0 - 0.8416212335729143 * 2.0)
+
+
+def test_damage_floor80_clamped_at_zero():
+    assert damage_floor80(1.0, 10.0) == 0.0
+
+
+def test_damage_floor80_less_pessimistic_than_floor95():
+    assert damage_floor80(10.0, 2.0) > damage_floor95(10.0, 2.0)
 
 
 # --------------------------------------------------------------------------- #

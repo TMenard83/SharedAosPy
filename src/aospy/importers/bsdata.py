@@ -355,13 +355,15 @@ def parse_library_units(xml_text: str) -> dict[str, ParsedUnit]:
 # ----- Filtrage Legends / packs narratifs périmés ------------------------------
 
 #: Fragments de nom (minuscules) signalant une variante de pack narratif expiré.
-#: "Scourge of Aqshy" et "Scourge of Ghyran" sont des packs narratifs saisonniers
-#: dépassés ; absents des CSV Wahapedia (Aqshy) ou explicitement écartés (Ghyran),
-#: mais BSData continue de les exposer sous ces deux formes de nommage
+#: Seul "Scourge of Ghyran" (le pack narratif saisonnier en cours) est écarté :
+#: absent des règles matched play courantes, mais BSData continue de l'exposer
 #: (suffixe « (Scourge of Ghyran) » côté BSData, préfixe « Scourge of Ghyran »
 #: côté Wahapedia — cf. `wahapedia.py::import_faction`).
+#: "Scourge of Aqshy" (pack antérieur) n'est PAS filtré : ces entrées ciblent un
+#: `targetId` distinct de l'unité de base (points/profil différents), ce ne sont
+#: donc pas de simples doublons mais des unités à part entière toujours valides.
 _EXPIRED_VARIANT_MARKERS: frozenset[str] = frozenset({
-    "scourge of aqshy", "scourge of ghyran",
+    "scourge of ghyran",
 })
 
 

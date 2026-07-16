@@ -105,11 +105,13 @@ CREATE TABLE IF NOT EXISTS composition_unit (
     artefact_id     INTEGER REFERENCES artefact(id)
 );
 
--- Résultats persistés des duels unité vs unité (1 round). `floor95=FALSE` : les
--- colonnes raw_*/expected_* portent le dégât espéré (moyenne). `floor95=TRUE` :
--- elles portent le plancher de dégât à 95% de confiance (combat.py::damage_floor95,
--- moyenne − 1,645·σ) — les deux variantes coexistent (clé incluant `floor95`),
--- calculées par `benchmark.py::unit_duel(..., use_floor95=...)`.
+-- Résultats persistés des duels unité vs unité (1 round). `attacker_mode`/
+-- `defender_mode` ('mean'/'floor80'/'floor95') contrôlent indépendamment la
+-- lecture du dégât de chaque sens : 'mean' = dégât espéré, 'floor80'/'floor95' =
+-- plancher de dégât à 80%/95% de confiance (combat.py::damage_floor80/damage_floor95,
+-- moyenne − z·σ) — un duel n'est donc pas nécessairement symétrique dans sa lecture.
+-- Les variantes coexistent (clé incluant les deux modes), calculées par
+-- `benchmark.py::unit_duel(..., mode_a=..., mode_b=...)`.
 CREATE TABLE IF NOT EXISTS unit_benchmark (
     attacker_id         INTEGER NOT NULL REFERENCES unit(id),
     defender_id         INTEGER NOT NULL REFERENCES unit(id),
@@ -117,7 +119,8 @@ CREATE TABLE IF NOT EXISTS unit_benchmark (
     defender_reinforced BOOLEAN NOT NULL DEFAULT FALSE,
     attacker_charged    BOOLEAN NOT NULL DEFAULT FALSE,
     defender_charged    BOOLEAN NOT NULL DEFAULT FALSE,
-    floor95              BOOLEAN NOT NULL DEFAULT FALSE,
+    attacker_mode       VARCHAR NOT NULL DEFAULT 'mean',
+    defender_mode       VARCHAR NOT NULL DEFAULT 'mean',
     raw_a_to_b          DOUBLE NOT NULL,
     expected_a_to_b     DOUBLE NOT NULL,
     raw_b_to_a          DOUBLE NOT NULL,
@@ -129,13 +132,14 @@ CREATE TABLE IF NOT EXISTS unit_benchmark (
     computed_at         TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (attacker_id, defender_id,
                  attacker_reinforced, defender_reinforced,
-                 attacker_charged, defender_charged, floor95)
+                 attacker_charged, defender_charged,
+                 attacker_mode, defender_mode)
 );
 -- Pas d'ALTER TABLE ADD COLUMN IF NOT EXISTS ici (contrairement à wielders/keywords
--- ci-dessus) : `floor95` fait déjà partie du CREATE TABLE. Un ALTER ADD COLUMN
--- IF NOT EXISTS réexécuté à chaque connect() sur une colonne déjà présente
--- réinitialise silencieusement toutes les valeurs à sa DEFAULT (bug DuckDB
+-- ci-dessus) : `attacker_mode`/`defender_mode` font déjà partie du CREATE TABLE. Un
+-- ALTER ADD COLUMN IF NOT EXISTS réexécuté à chaque connect() sur une colonne déjà
+-- présente réinitialise silencieusement toutes les valeurs à sa DEFAULT (bug DuckDB
 -- constaté) — inutile de toute façon puisqu'aucune base existante ne préexistait
--- sans cette colonne. La migration `floor80` -> `floor95` (renommage + purge des
--- lignes désormais mal étiquetées, calculées avec l'ancien z-score 80%) est gérée
--- dans db.py::connect() avant l'exécution de ce schéma.
+-- sans ces colonnes. La migration `floor80` (colonne booléenne) -> `floor95` puis
+-- `floor95` -> `attacker_mode`/`defender_mode` (reconstruction de la table, clé
+-- primaire changée) est gérée dans db.py::connect() avant l'exécution de ce schéma.

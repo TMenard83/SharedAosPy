@@ -255,7 +255,7 @@ def delete_units_imported_before(
     CASCADE dans le schéma). Restreint à `army_id` si fourni, sinon global.
     `cutoff` s'obtient typiquement en notant `datetime.now()` juste avant de
     relancer un import complet : tout ce qui n'a pas été rafraîchi depuis a
-    disparu de la source (ou a été filtré, ex. Legends/Scourge of Aqshy-Ghyran).
+    disparu de la source (ou a été filtré, ex. Legends/Scourge of Ghyran).
     """
     where = "imported_at < ?" + (" AND army_id = ?" if army_id is not None else "")
     params: list[object] = [cutoff] + ([army_id] if army_id is not None else [])
@@ -536,7 +536,8 @@ def save_benchmark_result(
     defender_reinforced: bool,
     attacker_charged: bool,
     defender_charged: bool,
-    floor95: bool,
+    attacker_mode: str,
+    defender_mode: str,
     raw_a_to_b: float,
     expected_a_to_b: float,
     raw_b_to_a: float,
@@ -546,21 +547,21 @@ def save_benchmark_result(
     pts_net: float,
     roi: float,
 ) -> None:
-    """Upsert d'un résultat de duel (clé : attacker × defender × options × floor95)."""
+    """Upsert d'un résultat de duel (clé : attacker × defender × options × modes)."""
     now = datetime.now()
     con.execute(
         """
         INSERT INTO unit_benchmark (
             attacker_id, defender_id,
             attacker_reinforced, defender_reinforced,
-            attacker_charged, defender_charged, floor95,
+            attacker_charged, defender_charged, attacker_mode, defender_mode,
             raw_a_to_b, expected_a_to_b, raw_b_to_a, expected_b_to_a,
             pts_destroyed, pts_lost, pts_net, roi, computed_at
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ON CONFLICT (attacker_id, defender_id,
                      attacker_reinforced, defender_reinforced,
-                     attacker_charged, defender_charged, floor95)
+                     attacker_charged, defender_charged, attacker_mode, defender_mode)
         DO UPDATE SET
             raw_a_to_b      = EXCLUDED.raw_a_to_b,
             expected_a_to_b = EXCLUDED.expected_a_to_b,
@@ -575,7 +576,7 @@ def save_benchmark_result(
         [
             attacker_id, defender_id,
             attacker_reinforced, defender_reinforced,
-            attacker_charged, defender_charged, floor95,
+            attacker_charged, defender_charged, attacker_mode, defender_mode,
             raw_a_to_b, expected_a_to_b, raw_b_to_a, expected_b_to_a,
             pts_destroyed, pts_lost, pts_net, roi, now,
         ],
@@ -584,9 +585,9 @@ def save_benchmark_result(
 
 _BENCH_COLS = (
     "attacker_id, defender_id, attacker_reinforced, defender_reinforced, "
-    "attacker_charged, defender_charged, floor95, raw_a_to_b, expected_a_to_b, "
-    "raw_b_to_a, expected_b_to_a, pts_destroyed, pts_lost, pts_net, roi, "
-    "computed_at"
+    "attacker_charged, defender_charged, attacker_mode, defender_mode, "
+    "raw_a_to_b, expected_a_to_b, raw_b_to_a, expected_b_to_a, pts_destroyed, "
+    "pts_lost, pts_net, roi, computed_at"
 )
 
 
@@ -600,6 +601,8 @@ def _fmt_bench_value(v: object) -> str:
         return f"TIMESTAMP '{v.isoformat(sep=' ', timespec='microseconds')}'"
     if isinstance(v, float):
         return repr(v)
+    if isinstance(v, str):
+        return "'" + v.replace("'", "''") + "'"
     return str(v)
 
 
@@ -632,7 +635,7 @@ def save_benchmark_results_many(
         SELECT {_BENCH_COLS} FROM _unit_benchmark_stg
         ON CONFLICT (attacker_id, defender_id,
                      attacker_reinforced, defender_reinforced,
-                     attacker_charged, defender_charged, floor95)
+                     attacker_charged, defender_charged, attacker_mode, defender_mode)
         DO UPDATE SET
             raw_a_to_b      = EXCLUDED.raw_a_to_b,
             expected_a_to_b = EXCLUDED.expected_a_to_b,

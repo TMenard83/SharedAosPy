@@ -234,6 +234,7 @@ def cmd_unit_duel(args: argparse.Namespace) -> int:
         defender_reinforced=args.defender_reinforced,
         options_a=_side_options(args, "a"),
         options_b=_side_options(args, "b"),
+        mode_a=args.attacker_mode, mode_b=args.defender_mode,
     )
     print(format_duel_detail(result))
     con.close()
@@ -256,7 +257,7 @@ def cmd_unit_benchmark_all(args: argparse.Namespace) -> int:
         options_a=opts_a, options_b=opts_b,
         include_heroes=args.include_heroes,
         progress=_progress if args.verbose else None,
-        use_floor95=args.floor95,
+        mode_a=args.attacker_mode, mode_b=args.defender_mode,
     )
     print(
         f"\nTerminé : {summary.attackers} attaquants × défenseurs "
@@ -282,6 +283,7 @@ def cmd_unit_benchmark(args: argparse.Namespace) -> int:
         include_heroes=args.include_heroes,
         options_a=_side_options(args, "a"),
         options_b=_side_options(args, "b"),
+        mode_a=args.attacker_mode, mode_b=args.defender_mode,
     )
     label = f"{attacker.name} [{attacker_army}]"
     if args.attacker_reinforced:
@@ -434,7 +436,7 @@ def cmd_unit_stats(args: argparse.Namespace) -> int:
 
 def cmd_cost_fit(args: argparse.Namespace) -> int:
     con = _connect(args)
-    from . import cost_model
+    from ..analysis import cost_model
 
     try:
         if args.segmented:
@@ -460,7 +462,7 @@ def cmd_cost_fit(args: argparse.Namespace) -> int:
 
 def cmd_cost_residuals(args: argparse.Namespace) -> int:
     con = _connect(args)
-    from . import cost_model
+    from ..analysis import cost_model
 
     try:
         result = cost_model.fit_cost_model(con)

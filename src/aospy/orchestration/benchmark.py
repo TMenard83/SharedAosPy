@@ -3,19 +3,28 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Callable, Optional
+from typing import Callable, Literal, Optional
 
 import duckdb
 
 from ..domain.models import Unit
-from ..engine.combat import CombatModifiers, damage_floor95, expected_unit_damage, unit_damage_moments
+from ..engine.combat import (
+    CombatModifiers, damage_floor80, damage_floor95, expected_unit_damage, unit_damage_moments,
+)
 from ..persistence import repository
 from .simulation import SideOptions
+
+#: Mode de lecture du dégât d'un côté d'un duel : espérance brute, ou plancher
+#: pessimiste à 80%/95% de confiance (cf. `engine/combat.py::damage_floor80`/`damage_floor95`).
+DamageMode = Literal["mean", "floor80", "floor95"]
 
 
 @dataclass
 class DuelResult:
-    """Résultat d'un duel symétrique unité A vs unité B (1 round, dégât espéré)."""
+    """Résultat d'un duel unité A vs unité B (1 round). `mode_a`/`mode_b` peuvent
+    différer : par exemple lire A→B au plancher pessimiste (dégât qu'on peut
+    "garantir" en attaquant) et B→A à la moyenne (riposte "typique" plutôt que
+    pire cas), un duel n'est donc pas nécessairement symétrique dans sa lecture."""
     attacker: Unit
     attacker_models: int
     attacker_reinforced: bool
@@ -31,6 +40,8 @@ class DuelResult:
     expected_models_killed_a: float
     options_a: SideOptions
     options_b: SideOptions
+    mode_a: DamageMode = "mean"
+    mode_b: DamageMode = "mean"
 
     @property
     def attacker_total_hp(self) -> int:
@@ -85,18 +96,17 @@ def _mods(attacker_opts: SideOptions, defender_opts: SideOptions) -> CombatModif
 
 def _attack_damage(
     attacker: Unit, attacker_models: int, defender: Unit, modifiers: CombatModifiers,
-    *, use_floor95: bool,
+    *, mode: DamageMode,
 ) -> float:
-    """Dégât total d'une unité en 1 round : espérance, ou plancher 95% de confiance.
-
-    `use_floor95=True` substitue `damage_floor95(moyenne, écart-type)` (via
-    `unit_damage_moments`) à la moyenne brute `expected_unit_damage` — même
-    modèle probabiliste, juste une lecture pessimiste (95%) au lieu de l'espérance.
+    """Dégât total d'une unité en 1 round, lu selon `mode` : espérance brute
+    (`expected_unit_damage`), ou plancher pessimiste à 80%/95% de confiance
+    (`damage_floor80`/`damage_floor95`, via `unit_damage_moments`) — même
+    modèle probabiliste dans les trois cas, seule la lecture change.
     """
-    if not use_floor95:
+    if mode == "mean":
         return expected_unit_damage(attacker, attacker_models, defender, modifiers)
     mean, _var, std = unit_damage_moments(attacker, attacker_models, defender, modifiers)
-    return damage_floor95(mean, std)
+    return damage_floor80(mean, std) if mode == "floor80" else damage_floor95(mean, std)
 
 
 def unit_duel(
@@ -108,13 +118,17 @@ def unit_duel(
     defender_reinforced: bool = False,
     options_a: Optional[SideOptions] = None,
     options_b: Optional[SideOptions] = None,
-    use_floor95: bool = False,
+    mode_a: DamageMode = "mean",
+    mode_b: DamageMode = "mean",
 ) -> DuelResult:
     """Calcule le duel attaquant vs défenseur dans les deux sens.
 
-    `use_floor95=True` : les dégâts (et donc pts_destroyed/pts_lost/pts_net/roi,
-    dérivés de `expected_a_to_b`/`expected_b_to_a`) sont le plancher à 95% de
-    confiance plutôt que l'espérance — cf. `_attack_damage`.
+    `mode_a`/`mode_b` contrôlent indépendamment la lecture du dégât de chaque
+    sens (`_attack_damage`) — et donc de `pts_destroyed`/`pts_lost`/`pts_net`/`roi`,
+    dérivés de `expected_a_to_b`/`expected_b_to_a`. Un duel n'est donc pas
+    nécessairement symétrique : par ex. `mode_a="floor80"`, `mode_b="mean"` lit le
+    dégât infligé par l'attaquant au plancher pessimiste 80% mais la riposte du
+    défenseur à la moyenne.
     """
     opts_a = options_a or SideOptions(charged=False)
     opts_b = options_b or SideOptions(charged=False)
@@ -124,8 +138,8 @@ def unit_duel(
     a_hp_total = a_models * attacker.health
     b_hp_total = b_models * defender.health
 
-    raw_ab = _attack_damage(attacker, a_models, defender, _mods(opts_a, opts_b), use_floor95=use_floor95)
-    raw_ba = _attack_damage(defender, b_models, attacker, _mods(opts_b, opts_a), use_floor95=use_floor95)
+    raw_ab = _attack_damage(attacker, a_models, defender, _mods(opts_a, opts_b), mode=mode_a)
+    raw_ba = _attack_damage(defender, b_models, attacker, _mods(opts_b, opts_a), mode=mode_b)
 
     exp_ab = min(raw_ab, float(b_hp_total))
     exp_ba = min(raw_ba, float(a_hp_total))
@@ -141,6 +155,7 @@ def unit_duel(
         raw_b_to_a=raw_ba, expected_b_to_a=exp_ba,
         expected_models_killed_a=min(exp_ba / attacker.health, float(a_models)),
         options_a=opts_a, options_b=opts_b,
+        mode_a=mode_a, mode_b=mode_b,
     )
 
 
@@ -184,12 +199,14 @@ def benchmark_attacker(
     options_b: Optional[SideOptions] = None,
     defenders_by_army: Optional[dict[int, list[Unit]]] = None,
     army_names: Optional[dict[int, str]] = None,
-    use_floor95: bool = False,
+    mode_a: DamageMode = "mean",
+    mode_b: DamageMode = "mean",
 ) -> list[DuelResult]:
     """Lance le duel de `attacker` contre chaque unité défenseur sélectionnée.
 
     `defenders_by_army` et `army_names` permettent de fournir un cache pré-chargé
     pour éviter les requêtes DB par attaquant (utilisé par run_all_benchmarks).
+    `mode_a`/`mode_b` : cf. `unit_duel`.
     """
     results: list[DuelResult] = []
     if defenders_by_army is None or army_names is None:
@@ -215,16 +232,19 @@ def benchmark_attacker(
                 attacker_reinforced=attacker_reinforced,
                 defender_reinforced=defender_reinforced,
                 options_a=options_a, options_b=options_b,
-                use_floor95=use_floor95,
+                mode_a=mode_a, mode_b=mode_b,
             ))
     return results
 
 
 
-def save_results(
-    con: duckdb.DuckDBPyConnection, results: list[DuelResult], *, floor95: bool = False,
-) -> int:
-    """Persiste une liste de DuelResult dans la table `unit_benchmark` (batch executemany)."""
+def save_results(con: duckdb.DuckDBPyConnection, results: list[DuelResult]) -> int:
+    """Persiste une liste de DuelResult dans la table `unit_benchmark` (batch executemany).
+
+    `mode_a`/`mode_b` sont lus sur chaque `DuelResult` (pas un flag partagé) : ils
+    font partie de la clé de la table, donc deux runs avec des modes différents
+    coexistent sans s'écraser (cf. `schema.sql::unit_benchmark`).
+    """
     from datetime import datetime
     now = datetime.now()
     rows: list[tuple] = []
@@ -234,7 +254,7 @@ def save_results(
         rows.append((
             r.attacker.id, r.defender.id,
             r.attacker_reinforced, r.defender_reinforced,
-            r.options_a.charged, r.options_b.charged, floor95,
+            r.options_a.charged, r.options_b.charged, r.mode_a, r.mode_b,
             r.raw_a_to_b, r.expected_a_to_b,
             r.raw_b_to_a, r.expected_b_to_a,
             r.pts_destroyed, r.pts_lost, r.pts_net, r.roi, now,
@@ -257,13 +277,14 @@ def run_all_benchmarks(
     options_b: Optional[SideOptions] = None,
     include_heroes: bool = False,
     progress: Optional[Callable[[str, str, int, int], None]] = None,
-    use_floor95: bool = False,
+    mode_a: DamageMode = "mean",
+    mode_b: DamageMode = "mean",
 ) -> FullBenchmarkSummary:
     """Benchmarke chaque unité (non héros par défaut) contre toutes les autres armées.
 
     Les résultats sont persistés (upsert) dans `unit_benchmark`.
     `progress(attacker_name, army_name, idx, total)` est appelé avant chaque attaquant.
-    `use_floor95` : cf. `unit_duel` — plancher 95% de confiance au lieu de l'espérance.
+    `mode_a`/`mode_b` : cf. `unit_duel`.
     """
     summary = FullBenchmarkSummary()
     armies = [a for a in repository.list_armies(con) if a.id is not None]
@@ -287,8 +308,8 @@ def run_all_benchmarks(
             options_a=options_a, options_b=options_b,
             defenders_by_army=defenders_by_army,
             army_names=army_names,
-            use_floor95=use_floor95,
+            mode_a=mode_a, mode_b=mode_b,
         )
-        summary.duels += save_results(con, results, floor95=use_floor95)
+        summary.duels += save_results(con, results)
         summary.attackers += 1
     return summary

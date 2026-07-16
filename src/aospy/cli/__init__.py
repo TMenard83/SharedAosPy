@@ -11,6 +11,7 @@ from ..persistence.db import DEFAULT_DB_PATH
 
 
 def _add_init_reset_subparsers(sub: argparse._SubParsersAction) -> None:
+    """Sous-commandes `init` et `reset` (gestion du fichier DuckDB)."""
     p = sub.add_parser("init", help="Initialise la DB et seed les données JSON.")
     p.add_argument("--no-compositions", action="store_true",
                    help="Ne charge pas data/compositions.json.")
@@ -21,12 +22,14 @@ def _add_init_reset_subparsers(sub: argparse._SubParsersAction) -> None:
 
 
 def _add_army_subparser(sub: argparse._SubParsersAction) -> None:
+    """Sous-commande `army` (liste des armées)."""
     p_army = sub.add_parser("army", help="Commandes sur les armées.")
     sa = p_army.add_subparsers(dest="action", required=True)
     sa.add_parser("list", help="Liste les armées.").set_defaults(func=cmd.cmd_army_list)
 
 
 def _add_unit_subparser(sub: argparse._SubParsersAction) -> None:
+    """Sous-commande `unit` : list/duel/benchmark/benchmark-all/stats."""
     p_unit = sub.add_parser("unit", help="Commandes sur les unités.")
     su = p_unit.add_subparsers(dest="action", required=True)
     p = su.add_parser("list", help="Liste les unités d'une armée.")
@@ -43,6 +46,10 @@ def _add_unit_subparser(sub: argparse._SubParsersAction) -> None:
     p.add_argument("--charge", choices=["a", "b", "both", "none"], default="none")
     p.add_argument("--aoa", choices=["a", "b", "both", "none"], default="none")
     p.add_argument("--aod", choices=["a", "b", "both", "none"], default="none")
+    p.add_argument("--attacker-mode", choices=["mean", "floor80", "floor95"], default="mean",
+                   help="Lecture du dégât A→B : espérance (défaut) ou plancher 80%%/95%%.")
+    p.add_argument("--defender-mode", choices=["mean", "floor80", "floor95"], default="mean",
+                   help="Lecture du dégât B→A : espérance (défaut) ou plancher 80%%/95%%.")
     p.set_defaults(func=cmd.cmd_unit_duel)
 
     p = su.add_parser("benchmark",
@@ -65,6 +72,10 @@ def _add_unit_subparser(sub: argparse._SubParsersAction) -> None:
                    help="Limiter la section détails au top N (par net).")
     p.add_argument("--detail", action="store_true",
                    help="Affiche aussi le détail de chaque duel.")
+    p.add_argument("--attacker-mode", choices=["mean", "floor80", "floor95"], default="mean",
+                   help="Lecture du dégât A→B : espérance (défaut) ou plancher 80%%/95%%.")
+    p.add_argument("--defender-mode", choices=["mean", "floor80", "floor95"], default="mean",
+                   help="Lecture du dégât B→A : espérance (défaut) ou plancher 80%%/95%%.")
     p.set_defaults(func=cmd.cmd_unit_benchmark)
 
     p = su.add_parser("benchmark-all",
@@ -76,8 +87,10 @@ def _add_unit_subparser(sub: argparse._SubParsersAction) -> None:
     p.add_argument("--aod", choices=["a", "b", "both", "none"], default="none")
     p.add_argument("--reset", action="store_true",
                    help="Vide la table unit_benchmark avant de relancer.")
-    p.add_argument("--floor95", action="store_true",
-                   help="Utilise le plancher de dégâts à 95%% de confiance au lieu de l'espérance.")
+    p.add_argument("--attacker-mode", choices=["mean", "floor80", "floor95"], default="mean",
+                   help="Lecture du dégât A→B : espérance (défaut) ou plancher 80%%/95%%.")
+    p.add_argument("--defender-mode", choices=["mean", "floor80", "floor95"], default="mean",
+                   help="Lecture du dégât B→A : espérance (défaut) ou plancher 80%%/95%%.")
     p.add_argument("-v", "--verbose", action="store_true",
                    help="Affiche la progression attaquant par attaquant.")
     p.set_defaults(func=cmd.cmd_unit_benchmark_all)
@@ -92,6 +105,7 @@ def _add_unit_subparser(sub: argparse._SubParsersAction) -> None:
 
 
 def _add_comp_subparser(sub: argparse._SubParsersAction) -> None:
+    """Sous-commande `comp` : list/show/create/add-unit/remove-entry/clone/delete."""
     p_comp = sub.add_parser("comp", help="Commandes sur les compositions.")
     sc = p_comp.add_subparsers(dest="action", required=True)
 
@@ -138,6 +152,7 @@ def _add_comp_subparser(sub: argparse._SubParsersAction) -> None:
 
 
 def _add_battle_subparser(sub: argparse._SubParsersAction) -> None:
+    """Sous-commande `battle` (simulation composition contre composition)."""
     p_battle = sub.add_parser("battle", help="Simulation d'affrontement.")
     sb = p_battle.add_subparsers(dest="action", required=True)
     p = sb.add_parser("simulate", help="Simule un combat entre 2 compositions.")
@@ -153,6 +168,7 @@ def _add_battle_subparser(sub: argparse._SubParsersAction) -> None:
 
 
 def _add_import_subparser(sub: argparse._SubParsersAction) -> None:
+    """Sous-commande `import` : bsdata/bsdata-list/wahapedia/wahapedia-list."""
     p_import = sub.add_parser("import", help="Import de données externes.")
     si = p_import.add_subparsers(dest="action", required=True)
     p = si.add_parser("bsdata", help="Importe une armée depuis BSData (GitHub).")
@@ -180,6 +196,7 @@ def _add_import_subparser(sub: argparse._SubParsersAction) -> None:
 
 
 def _add_cost_subparser(sub: argparse._SubParsersAction) -> None:
+    """Sous-commande `cost` : fit/residuals (nécessite l'extra `[analysis]`)."""
     p_cost = sub.add_parser("cost", help="Modèle de coût (points ~ caractéristiques).")
     scst = p_cost.add_subparsers(dest="action", required=True)
     p = scst.add_parser("fit", help="Ajuste le modèle et affiche les coefficients.")

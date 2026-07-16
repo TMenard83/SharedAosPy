@@ -22,7 +22,7 @@ pytest tests/engine/test_combat.py           # single file
 pytest tests/engine/test_combat.py::test_prob_x_plus_basic   # single test
 ```
 
-There is no configured linter; there is no `pytest.ini`/`tool.pytest.ini_options` in `pyproject.toml`, so pytest defaults apply (run from repo root).
+There is no configured linter; there is no `pytest.ini`/`tool.pytest.ini_options` in `pyproject.toml`, so pytest defaults apply (run from repo root). `tests/` mirrors the `src/aospy/` sub-package layout below.
 
 Common CLI flows (all take `--db path/to.duckdb`, default `data/aospy.duckdb`):
 
@@ -36,7 +36,8 @@ aospy import wahapedia --all                # import every known faction (data/w
 aospy unit duel --attacker X --defender Y
 aospy unit benchmark --attacker X --charge a --detail
 aospy unit benchmark-all --charge both -v   # persists all attacker×defender pairs to unit_benchmark
-aospy unit benchmark-all --charge both --floor95   # same, but persists the 95%-confidence floor instead of the mean
+aospy unit benchmark-all --charge both --attacker-mode floor95 --defender-mode floor95   # same, but persists the 95%-confidence floor instead of the mean
+aospy unit benchmark-all --charge both --attacker-mode floor80 --defender-mode mean      # asymmetric: A→B at the 80%-confidence floor, B→A at the mean
 aospy unit stats --attacker X [--charge]    # mean / std / 95%-confidence damage floor vs 3 standard targets
 aospy battle simulate --a <comp_id> --b <comp_id> --charge both
 aospy import bsdata --all --clean-stale     # also purges units an import no longer touched (see `imported_at`)
@@ -45,136 +46,68 @@ aospy cost fit [--segmented]                # OLS points ~ features (needs `[ana
 aospy cost residuals --top 20 --direction under   # most under/over-costed units by residual
 ```
 
+`cost_model.fit_cost_model_factorial` (single OLS with categorical factors + hero/troupe interaction terms) is available as a library call but not yet wired to the CLI — see "Cost model" below.
+
 ## Architecture
 
-`src/aospy/` is split into sub-packages by layer (bottom to top — each module only calls downward):
+`src/aospy/` is one sub-package per layer, bottom to top — each layer only calls downward. Each sub-package's own docstring (`__init__.py`) gives the one-line summary; this list adds the cross-file wiring:
 
-1. **`domain/models.py`** — frozen/plain dataclasses for the domain (`Army`, `Weapon`, `Unit`, `HeroicTrait`, `Artefact`, `CompositionUnit`, `Composition`). No DB or logic.
-2. **`persistence/db.py`** — opens a DuckDB connection at `DEFAULT_DB_PATH` (`data/aospy.duckdb`) and applies `schema.sql` on every `connect()` (idempotent `CREATE TABLE IF NOT EXISTS` + `ALTER TABLE ... ADD COLUMN IF NOT EXISTS` migrations for `weapon.wielders` and `unit.keywords`/`unit.description`). Schema changes go in `persistence/schema.sql`, not in Python.
-3. **`persistence/repository.py`** — all SQL lives here (CRUD for army/unit/weapon/heroic_trait/artefact/composition/composition_unit, plus `unit_benchmark` upsert helpers). Nothing above this layer writes raw SQL. `Unit.keywords` (a `frozenset[str]`) round-trips through a single comma-joined `VARCHAR` column (`_keywords_to_db`/`_keywords_from_db`).
-4. **`engine/combat.py`** — pure math, no DB access. `expected_weapon_damage` computes expected damage for one weapon profile (hit → wound → save/rend → ward, with crit variants **and** intrinsic bonuses parsed from the free-text `abilities` field: `Crit (2 Hits/Mortal/Auto-Wound)`, `Anti-<KEYWORD> (+N <Stat>)` — active only if the defender has that keyword — and `Charge (+N <Stat>)` — active only if the attacker charged; there is no universal charge bonus in AoS4, this weapon-text clause is the *only* source of a charge bonus, and it's typically `Charge (+1 Damage)` on cavalry profiles rather than an attacks bonus). `expected_unit_damage` sums across a unit's weapon profiles, using `_effective_counts` to resolve how many models carry each profile: `loadout.model_counts` (from `Unit.description`, free text) when present, else `weapon.wielders`-based scaling (BattleScribe constraints). `weapon_damage_moments`/`unit_damage_moments` extend the same branch-by-branch model to `E[D²]` to get variance/std (`Var(D) = E[D²] − E[D]²`); `damage_floor95` turns `(mean, std)` into a normal-approximation 95%-confidence damage floor (`mean − 1.6449·σ`). **Caveat**: `Weapon.attacks`/`damage` are integers already resolved at import time (no dice notation kept), so this variance only captures hit/wound/save/ward/crit randomness, not dice-valued attacks/damage — a known simplification (see `wahapedia.py` for why).
-5. **`engine/loadout.py`** — ported from StatHammer's own `loadout.py`: parses `Unit.description` (free text: "*n/m models can replace X with Y*", "*N of the following options*", named rosters…) into per-weapon-profile model counts (`model_counts`). Best-effort: unrecognized clauses fall back to "every model carries every profile", logged in the returned notes. Used by `combat.py::_effective_counts`, not called directly by callers.
-6. **`orchestration/benchmark.py`** / **`orchestration/simulation.py`** — orchestration on top of `combat.py` + `repository.py`. `benchmark.py` does single-attacker-vs-many-defenders duels (`unit_duel`, `benchmark_attacker`, `run_all_benchmarks`) and persists results; all three take `use_floor95: bool = False` — when `True`, `_attack_damage` substitutes `damage_floor95(mean, std)` (via `unit_damage_moments`) for the raw `expected_unit_damage` mean, so the persisted/reported figures become a pessimistic 95%-confidence floor instead of the expectation (`--floor95` on `unit benchmark-all`). `simulation.py` does full composition-vs-composition (`simulate_battle`, all-entries-vs-all-entries).
-7. **`cli/report.py`** — pure text formatting of `DuelResult`/`BattleReport`/unit-stats rows for terminal output. No computation.
-8. **`cli/__init__.py`** / **`cli/commands.py`** — argparse wiring (`cli/__init__.py`, exposes `main`) dispatching to one `cmd_*` function per subcommand (`cli/commands.py`). Each `cmd_*` opens its own DB connection via `_connect(args)` and closes it before returning.
-9. **`importers/bsdata.py`** — standalone importer: downloads `.cat` XML files from the `BSData/age-of-sigmar-4th` GitHub repo, parses BattleScribe profiles into `Unit`/`Weapon`, and upserts via `repository.replace_unit`. `KNOWN_ARMIES` maps army name → (main catalogue file, library file, grand alliance). `_keywords(entry)` collects category-link names (excluding the `WARD (N+)` pseudo-category, handled separately by `_ward_from_categories`) into `Unit.keywords`; `Unit.description` is left `None` (no BattleScribe XML field identified yet as an equivalent free-text restriction — units imported via BSData keep the `wielders`-based allocation in `combat.py`, unaffected). Also filters out expired/Legends content — see "Legends & stale-unit filtering" below.
-10. **`importers/wahapedia.py`** — second importer, reading `data/wahapedia/*.csv` (same format as the StatHammer project) instead of BSData, upserting into the *same* `Army`/`Unit`/`Weapon` schema via the same `repository.replace_unit`. Reuses `bsdata.parse_dice`/`parse_target` and `bsdata.KNOWN_ARMIES` (for the grand-alliance mapping — absent from the Wahapedia CSVs themselves). See "Wahapedia import" below for its documented simplifications.
-11. **`analysis/features.py`** / **`analysis/cost_model.py`** — analysis layer (needs the `[analysis]` extra: pandas + statsmodels). `features.py::compute_features` probes a unit's offense against three synthetic defenders (save 2+/4+/none) via `combat.py`'s moments engine to build a numeric feature vector (`UnitFeatures`); `cost_model.py::fit_cost_model`/`fit_segmented` regress `points ~ features` (OLS) to get interpretable coefficients and per-unit residuals, `CostModelResult.undercosted()`/`.overcosted()` surface the biggest relative residuals. See "Cost model" below for scope/limitations.
-12. **`persistence/seed.py`** — one-time JSON loaders (`data/armies.json`, `data/compositions.json`) for hand-authored seed data, idempotent by name.
+1. **`domain/models.py`** — frozen/plain dataclasses (`Army`, `Weapon`, `Unit`, `HeroicTrait`, `Artefact`, `CompositionUnit`, `Composition`). No DB or logic.
+2. **`persistence/db.py`** — opens a DuckDB connection at `DEFAULT_DB_PATH` (`data/aospy.duckdb`) and applies `persistence/schema.sql` on every `connect()` (idempotent `CREATE TABLE IF NOT EXISTS` + `ALTER TABLE ... ADD COLUMN IF NOT EXISTS` migrations). Schema changes go in `schema.sql`, not in Python.
+3. **`persistence/repository.py`** — all SQL lives here; nothing above this layer writes raw SQL. `Unit.keywords` (`frozenset[str]`) round-trips through one comma-joined `VARCHAR` column.
+4. **`engine/combat.py`** — pure math, no DB access. `expected_weapon_damage` (hit → wound → save/rend → ward, crit variants + intrinsic `Anti-X`/`Charge` bonuses parsed from `Weapon.abilities` — see "Intrinsic Anti-X/Charge bonuses" below) and its `E[D²]` twin `weapon_damage_moments` (→ `unit_damage_moments`, `damage_floor80`/`damage_floor95`). **Caveat**: `Weapon.attacks`/`damage` are integers resolved at import time (no dice notation kept), so variance only captures hit/wound/save/ward/crit randomness, not dice-valued attacks/damage.
+5. **`engine/loadout.py`** — ported from StatHammer's `loadout.py`: parses `Unit.description` (free text) into per-weapon-profile model counts (`model_counts`). Best-effort, unrecognized clauses fall back to "every model carries every profile" (logged in the returned notes). Used by `combat.py::_effective_counts`.
+6. **`orchestration/benchmark.py`** / **`orchestration/simulation.py`** — orchestration on `combat.py` + `repository.py`. `benchmark.py`: single-attacker-vs-many-defenders duels (`unit_duel`, `benchmark_attacker`, `run_all_benchmarks`), with independent `mode_a`/`mode_b: DamageMode` (`"mean"`/`"floor80"`/`"floor95"`) per duel direction — a duel need not read both sides at the same confidence level. `simulation.py`: full composition-vs-composition (`simulate_battle`, all-entries-vs-all-entries).
+7. **`cli/report.py`** — pure text formatting of `DuelResult`/`BattleReport`/unit-stats rows. No computation.
+8. **`cli/__init__.py`** (argparse wiring, exposes `main`) / **`cli/commands.py`** (one `cmd_*` per subcommand, each opens its own DB connection via `_connect(args)` and closes it before returning).
+9. **`importers/bsdata.py`** — downloads `.cat` XML from `BSData/age-of-sigmar-4th` (GitHub), parses BattleScribe profiles, upserts via `repository.replace_unit`. `KNOWN_ARMIES` maps army name → (catalogue, library, grand alliance). `Unit.description` is left `None` (no BattleScribe equivalent found yet — BSData units keep the `wielders`-based allocation instead). Filters Legends/expired content and merges free companion units into their paid parent — see the two dedicated sections below.
+10. **`importers/wahapedia.py`** — second importer, reading `data/wahapedia/*.csv` into the *same* schema via the same `repository.replace_unit`. Reuses `bsdata.parse_dice`/`parse_target`/`KNOWN_ARMIES`. See "Wahapedia import" below.
+11. **`analysis/features.py`** / **`analysis/cost_model.py`** (needs `[analysis]`: pandas + statsmodels). `features.py::compute_features` probes a unit against three synthetic defenders (save 2+/4+/none) via `combat.py`'s moments engine → `UnitFeatures`. `cost_model.py` regresses `points ~ features` (OLS) three ways (`fit_cost_model`, `fit_segmented`, `fit_cost_model_factorial`) for coefficients + per-unit residuals. See "Cost model" below.
+12. **`persistence/seed.py`** — one-time JSON loaders (`data/armies.json`, `data/compositions.json`), idempotent by name.
 
 ### Key domain concepts
 
-- **Points economy**: every `DuelResult` computes `pts_destroyed`/`pts_lost`/`pts_net`/`roi` by scaling expected damage against the defender's/attacker's total points — this is how units are compared across point costs, not just raw damage.
-- **Reinforcement**: doubles model count and points; `combat.py::_effective_counts` scales per-profile model counts (from `loadout.model_counts` or `weapon.wielders`) proportionally rather than assuming all models carry all weapons (matters for units with limited special-weapon loadouts).
-- **Side modifiers**: All-out Attack (+1 hit) and All-out Defense (+1 save) are represented as `CombatModifiers`/`SideOptions` and threaded through as directional flags (attacker vs defender), configurable per-side via CLI flags (`--aoa`, `--aod`). Charge (`--charge {a,b,both,none}`) carries **no universal bonus** in AoS4 — only a weapon's own `abilities` text can carry a `Charge (+N <Stat>)` clause (see `combat.py`), active only when that side charged.
-- **`unit_benchmark` table**: a persisted cache of duel results keyed by `(attacker_id, defender_id, attacker_reinforced, defender_reinforced, attacker_charged, defender_charged, floor95)`, populated via `benchmark-all`. The `floor95` key column lets the mean-damage rows and the `--floor95` pessimistic-floor rows (see `benchmark.py` above) coexist without clobbering each other. `repository.save_benchmark_results_many` batches upserts through a staged temp table because DuckDB's `executemany` is ~150ms/row vs <2ms/row for an inlined multi-row `INSERT`.
-- **BSData import**: `wielders` (how many models in a unit actually carry a given weapon) is inferred from BattleScribe `constraints` on `selections` (min/max, scoped to `parent` or the unit itself) — see `_weapon_wielders`/`_entry_minmax` in `bsdata.py`. This is the trickiest part of the importer; if imported weapon counts look wrong, check constraint scope handling there first.
-- **Legends & stale-unit filtering**: both importers skip retired/narrative-pack content and can purge units a re-import no longer touches — see "Legends & stale-unit filtering" below.
+- **Points economy**: every `DuelResult` computes `pts_destroyed`/`pts_lost`/`pts_net`/`roi` by scaling expected damage against the defender's/attacker's total points — units are compared across point costs, not just raw damage.
+- **Reinforcement**: doubles model count and points; `combat.py::_effective_counts` scales per-profile model counts (from `loadout.model_counts` or `weapon.wielders`) proportionally rather than assuming all models carry all weapons.
+- **Side modifiers**: All-out Attack (+1 hit) / All-out Defense (+1 save) are `CombatModifiers`/`SideOptions`, threaded as directional flags (`--aoa`/`--aod`). Charge (`--charge {a,b,both,none}`) carries **no universal bonus** in AoS4 — only a weapon's own `Charge (+N <Stat>)` ability text does (see "Intrinsic Anti-X/Charge bonuses" below).
+- **`unit_benchmark` table**: persisted duel-result cache keyed by `(attacker_id, defender_id, attacker_reinforced, defender_reinforced, attacker_charged, defender_charged, attacker_mode, defender_mode)`, populated via `benchmark-all`. `attacker_mode`/`defender_mode` (`"mean"`/`"floor80"`/`"floor95"`) let different confidence levels coexist per duel direction — see `orchestration/benchmark.py::DamageMode`. `repository.save_benchmark_results_many` batches upserts through a staged temp table (DuckDB `executemany` is ~150ms/row vs <2ms/row for an inlined multi-row `INSERT`).
+- **BSData `wielders`**: inferred from BattleScribe `constraints` on `selections` (min/max, scoped to `parent` or the unit) — see `_weapon_wielders`/`_entry_minmax` in `bsdata.py`. Trickiest part of that importer; check there first if imported weapon counts look wrong.
 
-### Wahapedia import (`wahapedia.py`) — second import mechanism, same schema
+### Wahapedia import — second import mechanism, same schema
 
-`data/wahapedia/*.csv` (pipe-separated, UTF-8 BOM — same files as the StatHammer project) is an
-alternative to BSData for populating the DB. Both write into the identical `Army`/`Unit`/`Weapon`
-schema, so downstream code (`combat.py`, `benchmark.py`, `cost_model.py`…) doesn't care which importer
-populated a given army. Known, deliberate simplifications (kept small/additive rather than changing the
-schema):
+`data/wahapedia/*.csv` (pipe-separated, UTF-8 BOM) is an alternative to BSData; both write into the identical schema, so downstream code doesn't care which importer populated a given army. Deliberate simplifications:
 
-- **`Weapon.wielders` is always `0`** ("all models carry it by default") — Wahapedia has no
-  BattleScribe-style constraint data to infer per-model weapon loadouts from directly on the weapon
-  row. Instead, `Unit.description` (the warscroll's free-text restriction, e.g. Arkanaut Company's
-  "*2/10 models can replace their Privateer Pistol with…*") is captured and resolved at combat-time by
-  `loadout.model_counts` (see `combat.py::_effective_counts`) — this is the faithful per-model
-  allocation, just computed downstream instead of stored back into `wielders`.
-- **`Unit.keywords`** is captured in full (not just a `HERO` check) so that weapon-level
-  `Anti-<KEYWORD> (+N <Stat>)` clauses (in `Weapon.abilities`) can be evaluated against a defender's
-  actual keyword set in `combat.py`.
-- **Only "regular battlefield unit" roles are imported** (`INGESTIBLE_ROLES`: Infantry/Cavalry/Beast/
-  Monster/War Machine, each plain or `* Hero`). `Endless Spell`, `Manifestation`, `Regiment of Renown`,
-  `Faction Terrain` and a few other special roles are skipped — `Unit` has no `role` column to store
-  them distinctly after import; adding one is a possible follow-up if a need arises.
-- **Canonical dedup** (`_canonical_ids`, ported from StatHammer's `ingest/dedupe.py::mark_canonical`):
-  a warscroll is a "shell" dominated by a sibling if a `virtual='false'` version exists, or if a
-  non-`Regiment of Renown` version exists for what would otherwise be a RoR reference. Unlike
-  StatHammer, there's no manual overrides file here — a residual ambiguity (rare) just picks the first
-  candidate and prints a warning, so an unattended `--all` import never blocks.
-- **Grand alliance mapping** (`FACTION_GRAND_ALLIANCE`) is derived from `bsdata.KNOWN_ARMIES` (Wahapedia
-  faction names match BSData army names) since the Wahapedia CSVs don't carry alliance info themselves.
+- **`Weapon.wielders` is always `0`** ("all models carry it"). Instead, `Unit.description` (the warscroll's free-text restriction) is captured and resolved at combat-time by `loadout.model_counts`.
+- **`Unit.keywords`** captured in full (not just `HERO`) so weapon-level `Anti-<KEYWORD>` clauses can be evaluated against a defender's keyword set.
+- **Only "regular battlefield unit" roles** are imported (`INGESTIBLE_ROLES`: Infantry/Cavalry/Beast/Monster/War Machine, plain or `* Hero`); `Endless Spell`/`Manifestation`/`Regiment of Renown`/`Faction Terrain` are skipped (`Unit` has no `role` column to store them distinctly).
+- **Canonical dedup** (`_canonical_ids`, ported from StatHammer's `mark_canonical`): a warscroll "shell" dominated by a sibling (`virtual='false'` version, or a non-RoR version) is dropped. No manual overrides file — a residual ambiguity just picks the first candidate and warns, so `--all` never blocks.
+- **Grand alliance mapping** (`FACTION_GRAND_ALLIANCE`) is derived from `bsdata.KNOWN_ARMIES` (faction names match) since Wahapedia CSVs carry no alliance info.
 
 ### Legends & stale-unit filtering (both importers)
 
-Both importers now skip content that's no longer legal/current, and can purge units that a
-re-import stops touching:
+- **Legends detection**: `bsdata._is_legends_catalogue` skips a whole catalogue named `... [Legends]`. For individually-retired units in an otherwise-current army, `bsdata._wahapedia_legends_names` cross-references `data/wahapedia/Source.csv`+`Warscrolls.csv` by name (read-only; `bsdata.py` never imports `wahapedia.py`, keeping the one-way dependency above) — same "legend" substring match `wahapedia._legends_warscroll_ids` uses for its own importer.
+- **Expired narrative packs**: `bsdata._is_expired_variant` matches the name suffix "Scourge of Ghyran" (current seasonal narrative pack, absent from matched-play rules); shared by both importers. Both count these on `ImportSummary.skipped_legends`, reported separately from `skipped_no_profile`/`skipped_no_points`. "Scourge of Aqshy" (an earlier pack) is deliberately *not* filtered — those BSData entries target a distinct `targetId`/points cost from the base unit, so they're standalone valid units, not duplicates.
+- **`--clean-stale`** (`cmd_import_bsdata`/`cmd_import_wahapedia`): records `datetime.now()` as `cutoff` before importing, then `repository.delete_units_imported_before(con, cutoff, army_id=...)` deletes any unit (+ weapons/composition entries/`unit_benchmark` rows) whose `unit.imported_at` predates it — i.e. units the run didn't touch. Scoped to the current army/faction, unscoped for `--all`.
+- **Why `imported_at`/`unit_benchmark.attacker_mode`/`defender_mode` are declared directly in `CREATE TABLE`** rather than via the usual `ALTER TABLE ... ADD COLUMN IF NOT EXISTS` migration: DuckDB silently resets a column's value to its `DEFAULT` if that statement re-runs on a column that already exists — which would wipe `imported_at` (or mislabel old mode rows) on every `connect()`. This column pair has been through two migrations, both one-shot table rewrites in `db.py::connect()`: `floor80` (BOOLEAN) → `floor95` (BOOLEAN, confidence level moved 80%→95%, `_migrate_floor95` purges leftover `floor95=TRUE` rows from the old formula) → `attacker_mode`/`defender_mode` (VARCHAR, `_migrate_damage_mode` rebuilds the table so each duel direction can read a different confidence level, translating old `floor95` values 1:1 with no data loss).
 
-- **Legends detection**: `bsdata.py::_is_legends_catalogue` skips an entire catalogue whose
-  BattleScribe root is named `... [Legends]` (e.g. Beasts of Chaos, Bonesplitterz — armies pulled
-  wholesale). For individually-retired units within an otherwise-current army (e.g. Terrorgheist in
-  Soulblight Gravelords), `bsdata.py::_wahapedia_legends_names` cross-references `data/wahapedia/
-  Source.csv` + `Warscrolls.csv` by name (the two data sources share no common ID) — same signal
-  `wahapedia.py::_legends_warscroll_ids` already used for its own importer, now broadened from
-  matching only `"warhammer legends"` in the notes field to matching `"legend"` (catches more
-  variants of the note text). `bsdata.py` reads the Wahapedia CSVs read-only for this cross-check
-  only (`WAHAPEDIA_DATA_DIR`); it does not import `wahapedia.py` itself, to keep the dependency
-  direction documented above (Wahapedia importer may reuse BSData helpers, not the reverse).
-- **Expired narrative packs**: `bsdata._is_expired_variant`/`_EXPIRED_VARIANT_MARKERS` matches name
-  fragments like "Scourge of Aqshy"/"Scourge of Ghyran" (seasonal narrative-pack variants BSData
-  still exposes as a name suffix, absent or excluded from the Wahapedia CSVs). Shared by both
-  importers (`wahapedia.py` imports the same helper) so a warscroll named e.g. "Bonesplitterz
-  (Scourge of Ghyran)" is skipped identically either way. Both importers count these skips on
-  `ImportSummary.skipped_legends`, reported separately from `skipped_no_profile`/`skipped_no_points`
-  in the CLI summary (`aospy import bsdata|wahapedia [--faction/--army] / --all`).
-- **`--clean-stale`** (`cmd_import_bsdata`/`cmd_import_wahapedia` in `cli_commands.py`): records
-  `datetime.now()` as `cutoff` before importing, then calls
-  `repository.delete_units_imported_before(con, cutoff, army_id=...)` — deletes any unit (and its
-  weapons/composition entries/`unit_benchmark` rows) whose `unit.imported_at` is older than the
-  cutoff, i.e. units the just-run import didn't touch (removed from source, or now filtered as
-  Legends/expired above). Restricted to the current army/faction for a single import, unscoped for
-  `--all`. `unit.imported_at` (new column, `DEFAULT CURRENT_TIMESTAMP`, refreshed on every
-  `repository.replace_unit` update) is declared directly in `CREATE TABLE` rather than via the usual
-  `ALTER TABLE ... ADD COLUMN IF NOT EXISTS` migration pattern — DuckDB silently resets a column's
-  values to its `DEFAULT` if that `ALTER ADD COLUMN IF NOT EXISTS` runs again on a column that
-  already exists, which would wipe `imported_at` on every `connect()`. Same reasoning applies to the
-  `unit_benchmark.floor95` column above (originally `floor80`, renamed when the confidence level moved
-  to 95% — `db.py::_migrate_floor95` runs a one-shot `ALTER TABLE ... RENAME COLUMN` before `schema.sql`
-  on `connect()`, and purges any `floor95=TRUE` rows leftover from the old 80%-floor formula rather than
-  serving them mislabeled).
+### Composite/companion unit merging (`bsdata.py` only)
 
-### Intrinsic Anti-X / Charge bonuses and per-model weapon allocation
+Some warscrolls are split across several free BattleScribe entries that only exist because a paid entry was taken (e.g. "Neave Blacktalon" + Neave's Companions, "Morathi-Khaine" + The Shadow Queen, "Freeguild Command Corps" = paid Adjutants + free Auxiliaries). `_detect_composite_units` finds these by following the BSData `entryLink`/`condition` graph itself (a free entry's condition referencing another, paid `entryLink`) rather than a hardcoded name list — verified against all 27 known catalogues (7 sub-entries across 4 armies). `_merge_composite_units` then folds the free entry's models/weapons/keywords into its paid parent in-place. **Simplification**: if the two differ in `save`, the parent's value wins (aospy's `Unit` has one `save` per unit).
 
-Ported from StatHammer's `stats.py::_intrinsic_clauses` (regex-driven ability text) and
-`loadout.py` (`model_counts`), onto aospy's own combat engine — this benefits **both** importers
-(BSData and Wahapedia), not just one:
+Wahapedia's importer has no equivalent merge — companion warscrolls there still land as separate `points <= 0` rows, which is why `analysis/features.py::feature_frame` unconditionally excludes `points <= 0` units from training/scoring (mechanically ≈ -100% residual otherwise, not a meaningful signal).
 
-- `combat.py::_intrinsic_bonus` detects `Anti-<KEYWORD> (+N <Stat>)` and `Charge (+N <Stat>)` in
-  `Weapon.abilities` (the same free-text field already used for the Crit tag) and folds the bonus into
-  `attacks`/`hit`/`wound`/`rend`/`damage` before the hit/wound/save chain. Anti-X requires
-  `Unit.keywords` (see above); Charge requires no schema addition (`CombatModifiers.attacker_charged`
-  already existed) — and, being the sole source of a charge bonus in AoS4, is what actually drives any
-  difference between a charged and un-charged attack.
-- `loadout.py::model_counts` requires `Unit.description` — currently populated by `wahapedia.py` (the
-  Wahapedia CSVs carry it), **not** by `bsdata.py` (no equivalent BattleScribe field identified yet).
-  BSData-imported units therefore keep the `wielders`-based allocation, which is already faithful for
-  that import path (BattleScribe constraints resolve `wielders` directly) — this is a documented
-  difference between the two import paths, not a regression on either one.
+### Intrinsic `Anti-X`/`Charge` bonuses
 
-**Deliberately out of scope** (proposed as a separate, larger follow-up PR): StatHammer's full
-Stage/Modifier/Context engine (`stats.py:670-1066+` — `detect_ability_modifiers` for self-conditional
-unit abilities, `build_army_catalog`/`compatible_army_buffs` for buffs one unit grants to *other* units,
-and the CLI flags `--enable`/`--on-objective`/`--army-buff`). That needs a full per-unit abilities table
-(name + description, one row per ability) that neither aospy's schema nor either importer has today —
-a materially bigger change (new table, both importers, multi-unit context threading) than the additive,
-same-`abilities`-field bonuses above.
+Ported from StatHammer's `stats.py::_intrinsic_clauses`, benefiting **both** importers: `combat.py::_intrinsic_bonus` detects `Anti-<KEYWORD> (+N <Stat>)` and `Charge (+N <Stat>)` in `Weapon.abilities` (same free-text field as the Crit tag) and folds the bonus into `attacks`/`hit`/`wound`/`rend`/`damage` before the hit/wound/save chain. `Charge` is the *only* source of a charge bonus in AoS4 (typically `Charge (+1 Damage)` on cavalry). `Anti-X` needs `Unit.keywords`; both importers populate it.
 
-### Cost model (`features.py` / `cost_model.py`) — scope vs StatHammer
+**Deliberately out of scope** (candidate for a separate, larger PR): StatHammer's Stage/Modifier/Context engine (`detect_ability_modifiers` for self-conditional unit abilities, `build_army_catalog`/`compatible_army_buffs` for cross-unit buffs, `--enable`/`--on-objective`/`--army-buff` CLI flags) — needs a full per-unit abilities table (name + description) neither aospy's schema nor either importer has today.
 
-Ported from StatHammer's own `features.py`/`cost_model.py`, adapted to aospy's already-typed schema
-(no text parsing needed for `move`/`save`/`control` — they're plain ints already). Deliberately **not**
-ported: an ability-power axis (StatHammer's `ability_scores.py`, LLM-scored) and a tactical-role ranking
-(`roles.py`) — aospy stores no per-unit ability text or keyword table, only a single free-text Crit tag
-per weapon (`Weapon.abilities`). Also not ported: free-companion aggregation (StatHammer's `bundles.py`,
-e.g. Neave's Companions bundled into Neave's own profile) — instead, `feature_frame` simply **excludes
-`points <= 0` units** from training/scoring (a `points=0` companion has no independent price, so its
-residual would be a mechanical ≈-100% rather than a meaningful signal).
+### Cost model (`analysis/features.py` / `analysis/cost_model.py`) — scope vs StatHammer
+
+Ported from StatHammer's own modules, adapted to aospy's already-typed schema (no text parsing needed for `move`/`save`/`control`). `MODEL_FEATURES`/`CATEGORICAL_FEATURES` in `cost_model.py` document, inline, the rationale behind each predictor choice — read those comments before adding/removing a feature. The A/B experiments backing each choice are runnable code: `analysis/experiments/*.py` holds the ones that were adopted (each derives its "before" baseline from the current, already-adopted `MODEL_FEATURES`/`CATEGORICAL_FEATURES` rather than hardcoding a snapshot, so the comparison stays valid as those constants evolve); `scratch/experiment_*.py` keeps the ones that were tried and rejected. Three fitting strategies share `feature_frame`: `fit_cost_model` (single OLS), `fit_segmented` (separate hero/troupe regressions), `fit_cost_model_factorial` (one OLS with categorical factors + `C(is_hero):...` interaction terms — only the first two are wired to `aospy cost fit`).
+
+Deliberately **not** ported: an ability-power axis (StatHammer's LLM-scored `ability_scores.py`) and a tactical-role ranking (`roles.py`) — aospy stores no per-unit ability text, only a free-text Crit tag per weapon. `wizard_level`/`priest_level` (from the `WIZARD (N)`/`PRIEST (N)` keywords) are the one exception, giving casters a direct — if narrow — ability-power proxy.
 
 ### Data files vs generated files
 
-`data/armies.json` and `data/compositions.json` are hand-authored seed data (loaded by `seed.py` / `aospy init`). `data/wahapedia/*.csv` is the Wahapedia data source for `wahapedia.py` (same files as the StatHammer project; re-download to refresh). `data/aospy.duckdb` (default DB path), the `bench_*.log`/`bench_*.txt`/`*_ranking_*.csv`/`*.pdf` files at repo root, and everything under `scratch/` (ad hoc aggregation/PDF-report scripts and their JSON/PDF outputs, e.g. `scratch/build_pdf.py`) are generated/exploratory outputs, not source.
+`data/armies.json` and `data/compositions.json` are hand-authored seed data (loaded by `seed.py`/`aospy init`). `data/wahapedia/*.csv` is the Wahapedia data source (same files as the StatHammer project; re-download to refresh). `data/aospy.duckdb` (default DB path) and everything under `scratch/` (ad hoc aggregation/PDF-report scripts, e.g. `scratch/build_pdf.py`) are generated/exploratory, not source — PDF/JSON outputs from those scripts land in `scratch/output/`, kept out of the scripts themselves.
