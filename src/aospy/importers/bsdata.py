@@ -14,6 +14,7 @@ from typing import Optional
 import duckdb
 
 from ..domain.models import Army, Unit, Weapon
+from ..engine.combat import reference_expected_damage
 from ..persistence import repository
 
 NS = "http://www.battlescribe.net/schema/catalogueSchema"
@@ -188,7 +189,38 @@ def _entry_minmax(entry: ET.Element, scope: str) -> tuple[Optional[int], Optiona
     return mn, mx
 
 
-def _weapon_wielders(weapon_entry: ET.Element, model_count: int, unit_id: str) -> int:
+#: Scopes "par instance" (à ne pas confondre avec un plafond à l'échelle de
+#: l'unité entière) ou sans lien avec le décompte de porteurs d'une unité donnée.
+_NON_UNIT_SCOPES = {"parent", "self", "force", "roster", "ancestor", "primary-catalogue", "primary-category"}
+
+
+def _unit_wide_max(entry: ET.Element) -> Optional[int]:
+    """Plus petit plafond `max` (field=selections) dont le scope désigne toute
+    l'unité plutôt qu'une instance du parent immédiat. Ce scope est censé être
+    l'id de l'unité elle-même, mais au moins un catalogue BSData (le variant
+    « Scourge of Aqshy » des Endrinriggers) référence par erreur l'id de l'unité
+    standard sœur au lieu du sien — on accepte donc tout scope qui n'est pas un
+    mot-clé "par instance" plutôt que d'exiger une correspondance exacte avec
+    l'id de l'unité en cours de parsing (une correspondance exacte manquerait ce
+    plafond et ferait remonter un compte d'arme de remplacement non plafonné).
+    """
+    best: Optional[int] = None
+    for c in entry.findall(_ns("constraints") + "/" + _ns("constraint")):
+        if c.get("field") != "selections" or c.get("type") != "max":
+            continue
+        if (c.get("scope") or "") in _NON_UNIT_SCOPES:
+            continue
+        try:
+            val = int(c.get("value") or "0")
+        except ValueError:
+            continue
+        if val < 0:
+            continue
+        best = val if best is None else min(best, val)
+    return best
+
+
+def _weapon_wielders(weapon_entry: ET.Element, model_count: int) -> int:
     """Calcule le nombre de modèles porteurs d'une arme à partir des contraintes BSData.
 
     - Arme requise (min ≥ 1 scope=parent) → portée par chaque modèle du groupe.
@@ -197,7 +229,7 @@ def _weapon_wielders(weapon_entry: ET.Element, model_count: int, unit_id: str) -
     - Aucune contrainte → tous les modèles du groupe (comportement par défaut).
     """
     min_pp, max_pp = _entry_minmax(weapon_entry, "parent")
-    _, max_iu = _entry_minmax(weapon_entry, unit_id)
+    max_iu = _unit_wide_max(weapon_entry)
     if min_pp is not None and min_pp >= 1:
         return max(1, model_count * min_pp)
     caps: list[int] = []
@@ -210,6 +242,87 @@ def _weapon_wielders(weapon_entry: ET.Element, model_count: int, unit_id: str) -
     return max(1, model_count)
 
 
+def _raw_wielders(entry: ET.Element, model_count: int) -> int:
+    """`_weapon_wielders`, sauf pour une entrée `type=model` : celle-ci redéfinit son
+    propre nombre d'instances (son min scope=parent) plutôt que d'être multipliée par
+    le `model_count` du niveau au-dessus (une entrée modèle n'est pas une arme)."""
+    if entry.get("type") == "model":
+        mn, _mx = _entry_minmax(entry, "parent")
+        return mn if mn and mn > 0 else 1
+    return _weapon_wielders(entry, model_count)
+
+
+def _replaced_by(entry: ET.Element) -> list[str]:
+    """IDs des entrées sœurs qui, si sélectionnées, remplacent `entry` (ex. « 1/3
+    modèles peuvent remplacer leur(s) arme(s) par... ») : BattleScribe encode ce
+    remplacement comme un modifier qui met à 0 la propre contrainte
+    min/max(scope=parent) de `entry`, conditionné par la sélection d'une entrée
+    sœur. Sans ce suivi, `_weapon_wielders` compte l'arme de base sur tous les
+    modèles du groupe même quand une partie d'entre eux l'a remplacée."""
+    own_ids: set[str] = set()
+    for c in entry.findall(_ns("constraints") + "/" + _ns("constraint")):
+        if c.get("field") == "selections" and c.get("scope") == "parent" and c.get("type") in ("min", "max"):
+            cid = c.get("id")
+            if cid:
+                own_ids.add(cid)
+    if not own_ids:
+        return []
+    replacers: set[str] = set()
+    for m in entry.findall(_ns("modifiers") + "/" + _ns("modifier")):
+        if m.get("type") != "set" or m.get("value") != "0" or m.get("field") not in own_ids:
+            continue
+        for cond in m.findall(".//" + _ns("condition")):
+            if cond.get("type") == "atLeast" and cond.get("field") == "selections":
+                child_id = cond.get("childId")
+                if child_id:
+                    replacers.add(child_id)
+    return list(replacers)
+
+
+def _group_cap(group: ET.Element) -> Optional[int]:
+    """Plafond propre à un `selectionEntryGroup` (field=selections, type=max,
+    scope=parent) — c'est le groupe lui-même qui porte la contrainte d'exclusivité
+    d'un choix « 1 of the following » (ex. Stegadon : Skystreak Bow OU Sunfire
+    Throwers), pas un modifier sur une entrée sœur (cf. `_replaced_by`)."""
+    cap: Optional[int] = None
+    for c in group.findall(_ns("constraints") + "/" + _ns("constraint")):
+        if c.get("field") == "selections" and c.get("type") == "max" and c.get("scope") == "parent":
+            try:
+                val = int(c.get("value") or "0")
+            except ValueError:
+                continue
+            cap = val if cap is None else min(cap, val)
+    return cap
+
+
+def _option_damage_score(entry: ET.Element) -> float:
+    """Dégât espéré (1 porteur, cible de référence save 4+) de tous les profils
+    Melee/Ranged Weapon du sous-arbre de `entry` — sert à départager un choix
+    d'arme exclusif plafonné au niveau d'un `selectionEntryGroup` BSData : on
+    garde les N meilleures options, même convention que
+    `loadout.py::_apply_exclusive_choices` (texte libre « N of the following
+    options »), appliquée ici aux contraintes BSData plutôt qu'à
+    `Unit.description`."""
+    total = 0.0
+    for profile in entry.iter(_ns("profile")):
+        kind_xml = profile.get("typeName") or ""
+        if kind_xml not in ("Melee Weapon", "Ranged Weapon"):
+            continue
+        ability = _char(profile, "Ability")
+        w = Weapon(
+            name=profile.get("name") or "?",
+            kind="ranged" if kind_xml == "Ranged Weapon" else "melee",
+            attacks=parse_dice(_char(profile, "Atk")),
+            hit=parse_target(_char(profile, "Hit")),
+            wound=parse_target(_char(profile, "Wnd")),
+            rend=parse_dice(_char(profile, "Rnd")),
+            damage=parse_dice(_char(profile, "Dmg")),
+            abilities=None if ability in ("", "-") else ability,
+        )
+        total += reference_expected_damage([w])[0]
+    return total
+
+
 def _extract_weapons(unit_entry: ET.Element) -> list[ParsedWeapon]:
     """Parcourt récursivement les profils Melee/Ranged Weapon et calcule les porteurs.
 
@@ -220,17 +333,21 @@ def _extract_weapons(unit_entry: ET.Element) -> list[ParsedWeapon]:
     `selectionEntry` différentes), leurs `wielders` sont additionnés sous une seule
     entrée `ParsedWeapon` plutôt que de garder seulement la première rencontrée (le
     dédoublonnage par nom sous-comptait ces porteurs : 1 au lieu de 3).
+
+    `model_count` reçu par `walk` est toujours déjà résolu pour `entry` elle-même
+    (nombre de fois où elle est effectivement choisie) — c'est le niveau parent
+    qui calcule ce nombre pour chacun de ses enfants (via `_raw_wielders`, réduit
+    par `_replaced_by`) avant de descendre, ce qui propage correctement les caps
+    des groupes d'armes intermédiaires (ex. « Skyrigger Heavy Weapon and Gun
+    Butt » plafonné à 1/3 modèles) et retire des armes de base remplacées les
+    modèles qui ont pris une option de remplacement.
     """
     weapons: list[ParsedWeapon] = []
     by_name: dict[str, ParsedWeapon] = {}
     seen_ids: set[str] = set()
-    unit_id = unit_entry.get("id") or ""
     base_models = _base_models(unit_entry)
 
     def walk(entry: ET.Element, model_count: int) -> None:
-        if entry.get("type") == "model":
-            mn, _mx = _entry_minmax(entry, "parent")
-            model_count = mn if mn and mn > 0 else 1
         for profile in entry.findall(_ns("profiles") + "/" + _ns("profile")):
             kind_xml = profile.get("typeName") or ""
             if kind_xml not in ("Melee Weapon", "Ranged Weapon"):
@@ -241,7 +358,7 @@ def _extract_weapons(unit_entry: ET.Element) -> list[ParsedWeapon]:
                 continue
             seen_ids.add(dedup_key)
             name = profile.get("name") or "?"
-            wielders = _weapon_wielders(entry, model_count, unit_id)
+            wielders = model_count
             if name in by_name:
                 by_name[name].wielders += wielders
                 continue
@@ -261,12 +378,32 @@ def _extract_weapons(unit_entry: ET.Element) -> list[ParsedWeapon]:
             )
             weapons.append(w)
             by_name[name] = w
-        for child in entry.findall(_ns("selectionEntries") + "/" + _ns("selectionEntry")):
-            walk(child, model_count)
-        # Choix mutuellement exclusifs (Lance vs Warblade) : descendre dans les groupes.
+
+        def _walk_siblings(siblings: list[ET.Element]) -> None:
+            raw = {(c.get("id") or f"_{id(c)}"): _raw_wielders(c, model_count) for c in siblings}
+            for c in siblings:
+                cid = c.get("id") or f"_{id(c)}"
+                effective = raw[cid]
+                replaced_by = _replaced_by(c)
+                if replaced_by:
+                    effective = max(0, effective - sum(raw.get(rid, 0) for rid in replaced_by))
+                walk(c, effective)
+
+        _walk_siblings(entry.findall(_ns("selectionEntries") + "/" + _ns("selectionEntry")))
+
+        # Choix mutuellement exclusifs (Lance vs Warblade, Stegadon Bow vs Throwers) :
+        # un `selectionEntryGroup` peut porter lui-même un plafond (cf. `_group_cap`)
+        # inférieur au nombre d'options d'armes qu'il contient — on ne garde alors
+        # que les N meilleures (par dégât espéré, cf. `_option_damage_score`).
         for group in entry.findall(_ns("selectionEntryGroups") + "/" + _ns("selectionEntryGroup")):
-            for child in group.findall(_ns("selectionEntries") + "/" + _ns("selectionEntry")):
-                walk(child, model_count)
+            group_children = group.findall(_ns("selectionEntries") + "/" + _ns("selectionEntry"))
+            if not group_children:
+                continue
+            cap = _group_cap(group)
+            if cap is not None and cap < len(group_children):
+                ranked = sorted(group_children, key=_option_damage_score, reverse=True)
+                group_children = ranked[:cap]
+            _walk_siblings(group_children)
 
     walk(unit_entry, base_models)
     return weapons

@@ -204,6 +204,34 @@ def expected_weapon_damage(
     return e_unsaved * dmg * ward_mult
 
 
+#: Cible de référence utilisée pour classer des profils d'arme entre eux (rend
+#: modéré, comme le CV) — partagée par `loadout.py` (choix exclusifs décrits en
+#: texte libre) et `importers/bsdata.py` (choix exclusifs portés par une
+#: contrainte BSData sur un `selectionEntryGroup`).
+REFERENCE_SAVE = 4
+
+
+def reference_expected_damage(weapons: list[Weapon]) -> list[float]:
+    """Dégâts attendus par profil (1 porteur) contre la cible de référence.
+
+    Sert uniquement à départager des profils d'arme entre eux (choix exclusif),
+    pas à produire un résultat de duel réel — d'où la cible fixe `REFERENCE_SAVE`
+    plutôt qu'un vrai défenseur.
+    """
+    probe = Unit(
+        name="_probe", army_id=0, move=0, save=REFERENCE_SAVE, health=1, control=0,
+        models=1, points=0,
+    )
+    mods = CombatModifiers()
+    out: list[float] = []
+    for w in weapons:
+        try:
+            out.append(expected_weapon_damage(w, 1, probe, mods))
+        except Exception:
+            out.append(0.0)
+    return out
+
+
 def _effective_counts(attacker: Unit, attacker_models: int) -> list[int]:
     """Nombre de modèles portant chaque profil d'arme, à la taille d'attaque donnée.
 

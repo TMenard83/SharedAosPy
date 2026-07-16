@@ -14,7 +14,7 @@ modèle **base + gains/pertes par sous-groupe** :
   - « *armed with W in addition to…* », « *n/m models can carry W* » → W s'**ajoute** ;
   - « *(can|must) replace V with W* » → idem remplacement.
 * un **choix exclusif** « *N of the following options: A | B | C* » → on garde les ``N``
-  meilleurs (par dégâts attendus contre une cible de référence, via `combat.expected_weapon_damage`).
+  meilleurs (par dégâts attendus contre une cible de référence, via `combat.reference_expected_damage`).
 
 Une arme « spéciale » (introduite par un sous-groupe) ne compte que ses porteurs ; les armes
 de base partent de la taille d'unité, minorées des remplacements. Les profils non mentionnés
@@ -31,13 +31,10 @@ import re
 from collections import defaultdict
 
 from ..domain.models import Unit, Weapon
-from .combat import CombatModifiers, expected_weapon_damage
+from .combat import reference_expected_damage
 
 _TAG = re.compile(r"<[^>]+>")
 _PAREN = re.compile(r"\s*\([^)]*\)\s*$")  # parenthétique de fluff : « ... (Volley Gun or Skyhook) »
-
-#: Cible de référence pour départager les options exclusives (rend modéré, comme le CV).
-_REF_SAVE = 4
 
 # Grammaires (sur texte nettoyé) ------------------------------------------------------------
 _RE_CHOICE = re.compile(
@@ -105,22 +102,6 @@ def _match_profiles(name: str, names_norm: list[str]) -> list[int]:
     return []
 
 
-def _ref_expected(weapons: list[Weapon]) -> list[float]:
-    """Dégâts attendus par profil contre la cible de référence (pour classer les options)."""
-    probe = Unit(
-        name="_probe", army_id=0, move=0, save=_REF_SAVE, health=1, control=0,
-        models=1, points=0,
-    )
-    mods = CombatModifiers()
-    out: list[float] = []
-    for w in weapons:
-        try:
-            out.append(expected_weapon_damage(w, 1, probe, mods))
-        except Exception:
-            out.append(0.0)
-    return out
-
-
 def _qty(clause: str, size: int) -> int:
     """Nombre de figurines visées par une clause : numérateur de « n/m », « N models »,
     champion → 1, sujet générique → taille, sinon figurines nommées."""
@@ -163,7 +144,7 @@ def _collapse_modes(
         if len(idxs) < 2:
             continue
         if expected is None:
-            expected = _ref_expected(weapons)
+            expected = reference_expected_damage(weapons)
         best = max(idxs, key=lambda i: expected[i])
         for i in idxs:
             if i != best:
@@ -200,7 +181,7 @@ def _apply_exclusive_choices(
         if len(idxs) < 2:
             continue
         if expected is None:
-            expected = _ref_expected(weapons)
+            expected = reference_expected_damage(weapons)
         best = sorted(idxs, key=lambda i: expected[i], reverse=True)[:keep]
         for i in idxs:
             special[i] = size if i in best else 0
