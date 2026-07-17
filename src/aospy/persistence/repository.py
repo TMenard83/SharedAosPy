@@ -79,14 +79,14 @@ def add_weapon(con: duckdb.DuckDBPyConnection, unit_id: int, weapon: Weapon) -> 
     row = con.execute(
         """
         INSERT INTO weapon(unit_id, name, kind, range_in, attacks, hit,
-                           wound, rend, damage, abilities, wielders)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                           wound, rend, damage, abilities, wielders, is_companion)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         RETURNING id
         """,
         [
             unit_id, weapon.name, weapon.kind, weapon.range_in, weapon.attacks,
             weapon.hit, weapon.wound, weapon.rend, weapon.damage, weapon.abilities,
-            weapon.wielders,
+            weapon.wielders, weapon.is_companion,
         ],
     ).fetchone()
     return int(row[0])
@@ -136,7 +136,7 @@ def _list_weapons(con: duckdb.DuckDBPyConnection, unit_id: int) -> list[Weapon]:
     rows = con.execute(
         """
         SELECT id, unit_id, name, kind, range_in, attacks, hit, wound,
-               rend, damage, abilities, wielders
+               rend, damage, abilities, wielders, is_companion
         FROM weapon WHERE unit_id = ? ORDER BY kind, name
         """,
         [unit_id],
@@ -145,7 +145,7 @@ def _list_weapons(con: duckdb.DuckDBPyConnection, unit_id: int) -> list[Weapon]:
         Weapon(
             id=r[0], unit_id=r[1], name=r[2], kind=r[3], range_in=r[4],
             attacks=r[5], hit=r[6], wound=r[7], rend=r[8], damage=r[9],
-            abilities=r[10], wielders=r[11],
+            abilities=r[10], wielders=r[11], is_companion=bool(r[12]),
         )
         for r in rows
     ]
@@ -175,7 +175,7 @@ def load_all_units_with_weapons(
     weapon_rows = con.execute(
         """
         SELECT id, unit_id, name, kind, range_in, attacks, hit, wound,
-               rend, damage, abilities, wielders
+               rend, damage, abilities, wielders, is_companion
         FROM weapon ORDER BY unit_id, kind, name
         """,
     ).fetchall()
@@ -184,7 +184,7 @@ def load_all_units_with_weapons(
         weapons_by_unit.setdefault(int(r[1]), []).append(Weapon(
             id=r[0], unit_id=r[1], name=r[2], kind=r[3], range_in=r[4],
             attacks=r[5], hit=r[6], wound=r[7], rend=r[8], damage=r[9],
-            abilities=r[10], wielders=r[11],
+            abilities=r[10], wielders=r[11], is_companion=bool(r[12]),
         ))
     by_army: dict[int, list[Unit]] = {}
     for r in unit_rows:

@@ -8,16 +8,29 @@ import pytest
 
 from aospy.engine.combat import (
     CombatModifiers,
+    RANGED_DOUBLE_MULT,
     _parse_crit,
     _prob_x_plus,
+    damage_floor66,
     damage_floor80,
     damage_floor95,
+    distribution_floor,
     expected_unit_damage,
     expected_weapon_damage,
+    unit_damage_distribution,
     unit_damage_moments,
+    weapon_damage_distribution,
     weapon_damage_moments,
 )
 from aospy.domain.models import Unit, Weapon
+
+
+def _pmf_moments(pmf: list[float]) -> tuple[float, float]:
+    """Moyenne/variance recalculées à la main depuis une PMF, pour comparer à
+    `weapon_damage_moments`/`unit_damage_moments`."""
+    mean = sum(d * p for d, p in enumerate(pmf))
+    e2 = sum(d * d * p for d, p in enumerate(pmf))
+    return mean, e2 - mean * mean
 
 
 def _unit(save=4, health=2, ward=None, weapons=None, models=5, keywords=frozenset()):
@@ -266,6 +279,136 @@ def test_damage_floor80_less_pessimistic_than_floor95():
     assert damage_floor80(10.0, 2.0) > damage_floor95(10.0, 2.0)
 
 
+def test_damage_floor66_basic():
+    assert damage_floor66(10.0, 2.0) == pytest.approx(10.0 - 0.41246312944140484 * 2.0)
+
+
+def test_damage_floor66_clamped_at_zero():
+    assert damage_floor66(1.0, 10.0) == 0.0
+
+
+def test_damage_floor66_less_pessimistic_than_floor80():
+    assert damage_floor66(10.0, 2.0) > damage_floor80(10.0, 2.0)
+
+
+# --------------------------------------------------------------------------- #
+# Distribution exacte (convolution) — remplace l'approximation gaussienne
+# --------------------------------------------------------------------------- #
+
+@pytest.mark.parametrize(
+    "weapon, defender, mods",
+    [
+        (Weapon(name="w", kind="melee", attacks=6, hit=4, wound=4, damage=1), _unit(save=4), CombatModifiers()),
+        (Weapon(name="w", kind="melee", attacks=6, hit=4, wound=4, damage=1, abilities="Crit (2 Hits)"),
+         _unit(save=7), CombatModifiers()),
+        (Weapon(name="w", kind="melee", attacks=6, hit=4, wound=6, damage=1, abilities="Crit (Auto-Wound)"),
+         _unit(save=7), CombatModifiers()),
+        (Weapon(name="w", kind="melee", attacks=6, hit=4, wound=6, damage=2, abilities="Crit (Mortal Wounds)"),
+         _unit(save=2, ward=5), CombatModifiers()),
+        (Weapon(name="w", kind="ranged", attacks=3, hit=3, wound=3, damage=1,
+                abilities="Each hit inflicts 1 mortal damage on the target and the attack sequence ends. no wound roll"),
+         _unit(save=2, ward=5), CombatModifiers()),
+    ],
+)
+def test_weapon_damage_distribution_sums_to_one(weapon, defender, mods):
+    pmf = weapon_damage_distribution(weapon, 5, defender, mods)
+    assert sum(pmf) == pytest.approx(1.0)
+    assert all(p >= 0.0 for p in pmf)
+
+
+@pytest.mark.parametrize(
+    "weapon, defender, mods",
+    [
+        (Weapon(name="w", kind="melee", attacks=6, hit=4, wound=4, damage=1), _unit(save=4), CombatModifiers()),
+        (Weapon(name="w", kind="melee", attacks=6, hit=4, wound=4, damage=1, abilities="Crit (2 Hits)"),
+         _unit(save=7), CombatModifiers()),
+        (Weapon(name="w", kind="melee", attacks=6, hit=4, wound=6, damage=1, abilities="Crit (Auto-Wound)"),
+         _unit(save=7), CombatModifiers()),
+        (Weapon(name="w", kind="melee", attacks=6, hit=4, wound=6, damage=2, abilities="Crit (Mortal Wounds)"),
+         _unit(save=2, ward=5), CombatModifiers()),
+    ],
+)
+def test_weapon_damage_distribution_moments_match_weapon_damage_moments(weapon, defender, mods):
+    # La PMF exacte doit redonner exactement la même moyenne/variance que le
+    # calcul en moments seuls (deux lectures du même modèle probabiliste).
+    pmf = weapon_damage_distribution(weapon, 5, defender, mods)
+    mean_pmf, var_pmf = _pmf_moments(pmf)
+    mean_moments, var_moments = weapon_damage_moments(weapon, 5, defender, mods)
+    assert mean_pmf == pytest.approx(mean_moments)
+    assert var_pmf == pytest.approx(var_moments)
+
+
+def test_unit_damage_distribution_moments_match_unit_damage_moments():
+    w1 = Weapon(name="a", kind="melee", attacks=4, hit=4, wound=4, damage=3, wielders=1)
+    w2 = Weapon(name="b", kind="ranged", attacks=4, hit=4, wound=4, damage=3, wielders=1)
+    attacker = Unit(
+        name="A", army_id=1, move=5, save=4, health=2, control=1,
+        models=1, points=100, weapons=[w1, w2],
+    )
+    defender = _unit(save=7)
+    pmf = unit_damage_distribution(attacker, 1, defender, CombatModifiers())
+    mean_pmf, var_pmf = _pmf_moments(pmf)
+    mean_moments, var_moments, _std = unit_damage_moments(attacker, 1, defender, CombatModifiers())
+    assert mean_pmf == pytest.approx(mean_moments)
+    assert var_pmf == pytest.approx(var_moments)
+
+
+def test_weapon_damage_distribution_binomial_known_case():
+    # 4 attaques, hit 4+ (1/2), wound 4+ (1/2), save impossible (7+), dmg 1 :
+    # chaque attaque est un Bernoulli(1/4) valant 1 dégât -> Binomial(4, 1/4).
+    weapon = Weapon(name="w", kind="melee", attacks=4, hit=4, wound=4, damage=1)
+    defender = _unit(save=7)
+    pmf = weapon_damage_distribution(weapon, 1, defender, CombatModifiers())
+    p = 0.25
+    expected = [math.comb(4, k) * p**k * (1 - p) ** (4 - k) for k in range(5)]
+    assert pmf == pytest.approx(expected)
+
+
+def test_distribution_floor_matches_binomial_quantile():
+    # Reprend le cas binomial ci-dessus : P(D >= 3) = C(4,3)p^3(1-p) + C(4,4)p^4
+    weapon = Weapon(name="w", kind="melee", attacks=4, hit=4, wound=4, damage=1)
+    defender = _unit(save=7)
+    pmf = weapon_damage_distribution(weapon, 1, defender, CombatModifiers())
+    p = 0.25
+    p_at_least_3 = math.comb(4, 3) * p**3 * (1 - p) + p**4
+    assert p_at_least_3 == pytest.approx(0.05078125)
+    # coverage juste sous p_at_least_3 -> plancher exact = 3
+    assert distribution_floor(pmf, p_at_least_3 - 1e-6) == pytest.approx(3.0)
+    # coverage juste au-dessus -> il faut redescendre à 2
+    assert distribution_floor(pmf, p_at_least_3 + 1e-6) == pytest.approx(2.0)
+
+
+def test_distribution_floor_diverges_from_gaussian_for_few_high_damage_attacks():
+    # Peu d'attaques (2) à fort dégât unitaire (8) : la probabilité de rater les
+    # deux attaques dépasse 5%, donc le vrai plancher à 95% est 0 -- mais
+    # l'approximation gaussienne (continue, symétrique) le rate complètement et
+    # annonce ~2.5 dégâts "garantis" à 95% (dangereusement optimiste : c'est
+    # précisément le cas que la refonte corrige).
+    weapon = Weapon(name="w", kind="melee", attacks=2, hit=2, wound=2, damage=8)
+    defender = _unit(save=7)
+    mods = CombatModifiers()
+    mean, var = weapon_damage_moments(weapon, 1, defender, mods)
+    approx_95 = damage_floor95(mean, math.sqrt(var))
+    pmf = weapon_damage_distribution(weapon, 1, defender, mods)
+    exact_95 = distribution_floor(pmf, 0.95)
+    assert exact_95 == pytest.approx(0.0)
+    assert approx_95 - exact_95 >= 2.0
+
+
+def test_distribution_floor_converges_to_gaussian_for_many_attacks():
+    # Beaucoup d'attaques i.i.d. (40) : le théorème central limite s'applique
+    # bien, l'approximation gaussienne doit être proche (mais pas identique) du
+    # plancher exact.
+    weapon = Weapon(name="w", kind="melee", attacks=40, hit=4, wound=4, damage=1)
+    defender = _unit(save=4)
+    mods = CombatModifiers()
+    mean, var = weapon_damage_moments(weapon, 1, defender, mods)
+    approx_95 = damage_floor95(mean, math.sqrt(var))
+    pmf = weapon_damage_distribution(weapon, 1, defender, mods)
+    exact_95 = distribution_floor(pmf, 0.95)
+    assert abs(approx_95 - exact_95) <= 1.5
+
+
 # --------------------------------------------------------------------------- #
 # Bonus intrinsèques Anti-<MOT-CLÉ> / Charge (texte libre, Weapon.abilities)
 # --------------------------------------------------------------------------- #
@@ -384,3 +527,39 @@ def test_anti_keyword_and_charge_moments_match_expected_weapon_damage():
     mods = CombatModifiers(attacker_charged=True)
     mean, _var = weapon_damage_moments(weapon, 5, defender, mods)
     assert mean == pytest.approx(expected_weapon_damage(weapon, 5, defender, mods))
+
+
+# --------------------------------------------------------------------------- #
+# Règle optionnelle "tir double" (CombatModifiers.attacker_ranged_double)
+# --------------------------------------------------------------------------- #
+
+def test_ranged_double_doubles_ranged_weapon_damage():
+    weapon = Weapon(name="r", kind="ranged", attacks=2, hit=4, wound=4, damage=1)
+    defender = _unit(save=7)
+    base = expected_weapon_damage(weapon, 5, defender, CombatModifiers())
+    doubled = expected_weapon_damage(
+        weapon, 5, defender, CombatModifiers(attacker_ranged_double=True),
+    )
+    assert doubled == pytest.approx(RANGED_DOUBLE_MULT * base)
+
+
+def test_ranged_double_does_not_affect_melee_weapon():
+    weapon = Weapon(name="m", kind="melee", attacks=2, hit=4, wound=4, damage=1)
+    defender = _unit(save=7)
+    base = expected_weapon_damage(weapon, 5, defender, CombatModifiers())
+    result = expected_weapon_damage(
+        weapon, 5, defender, CombatModifiers(attacker_ranged_double=True),
+    )
+    assert result == pytest.approx(base)
+
+
+def test_ranged_double_moments_double_mean_and_variance_not_variance_times_4():
+    # mean ET var sont multipliées par RANGED_DOUBLE_MULT, pas la var par son carré.
+    weapon = Weapon(name="r", kind="ranged", attacks=4, hit=4, wound=4, damage=3)
+    defender = _unit(save=7)
+    mean, var = weapon_damage_moments(weapon, 1, defender, CombatModifiers())
+    mean2, var2 = weapon_damage_moments(
+        weapon, 1, defender, CombatModifiers(attacker_ranged_double=True),
+    )
+    assert mean2 == pytest.approx(RANGED_DOUBLE_MULT * mean)
+    assert var2 == pytest.approx(RANGED_DOUBLE_MULT * var)

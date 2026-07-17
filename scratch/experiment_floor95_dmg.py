@@ -1,5 +1,5 @@
-"""Essai : remplacer les features de dégât moyen (dmg_vs_save2/4/nosave,
-dmg_ranged_vs_nosave) par leur plancher de confiance à 95 % (combat.damage_floor95
+"""Essai : remplacer les features de dégât moyen (dmg_vs_save2/4/6,
+dmg_ranged_vs_save6) par leur plancher de confiance à 95 % (combat.damage_floor95
 = moyenne − 1.6449·σ, même formule que `--floor95` sur les benchmarks), pour voir
 si un dégât "pessimiste" prédit mieux les points que le dégât moyen actuel.
 `dmg_cv_vs_save4` (irrégularité) est laissée inchangée pour isoler l'effet du seul
@@ -8,8 +8,10 @@ N'écrit rien dans cost_model.py/features.py : comparaison ad hoc uniquement.
 """
 import dataclasses
 
-from aospy import combat, db, cost_model, repository
-from aospy.features import _NO_MODS, _PROBE_NOSAVE, _PROBE_SAVE2, _ranged_only, compute_features
+from aospy.analysis import cost_model
+from aospy.analysis.features import _NO_MODS, _PROBE_SAVE2, _PROBE_SAVE6, _ranged_only, compute_features
+from aospy.engine import combat
+from aospy.persistence import db, repository
 
 con = db.connect()
 armies = {a.id: a for a in repository.list_armies(con)}
@@ -31,23 +33,23 @@ for units in by_army.values():
         rows_mean.append(base)
 
         mean2, _v2, std2 = combat.unit_damage_moments(unit, unit.models, _PROBE_SAVE2, _NO_MODS)
-        mean_nosave, _vn, std_nosave = combat.unit_damage_moments(unit, unit.models, _PROBE_NOSAVE, _NO_MODS)
+        mean_save6, _vn, std_save6 = combat.unit_damage_moments(unit, unit.models, _PROBE_SAVE6, _NO_MODS)
         ranged_unit = _ranged_only(unit)
         if ranged_unit.weapons:
-            mean_r, _vr, std_r = combat.unit_damage_moments(ranged_unit, unit.models, _PROBE_NOSAVE, _NO_MODS)
+            mean_r, _vr, std_r = combat.unit_damage_moments(ranged_unit, unit.models, _PROBE_SAVE6, _NO_MODS)
             floor_ranged = combat.damage_floor95(mean_r, std_r)
         else:
             floor_ranged = 0.0
 
         floor2 = combat.damage_floor95(mean2, std2)
-        floor_nosave = combat.damage_floor95(mean_nosave, std_nosave)
-        floor_pen = (floor2 / floor_nosave) if floor_nosave > 0 else 0.0
+        floor_save6 = combat.damage_floor95(mean_save6, std_save6)
+        floor_pen = (floor2 / floor_save6) if floor_save6 > 0 else 0.0
 
         rows_floor95.append(dataclasses.replace(
             base,
             dmg_vs_save2=floor2,
-            dmg_vs_nosave=floor_nosave,
-            dmg_ranged_vs_nosave=floor_ranged,
+            dmg_vs_save6=floor_save6,
+            dmg_ranged_vs_save6=floor_ranged,
             dmg_pen=floor_pen,
         ))
 

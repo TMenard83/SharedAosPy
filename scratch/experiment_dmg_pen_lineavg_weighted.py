@@ -10,9 +10,10 @@ dmg_pen_lineavg_w = Σ_i(attacks_i × dmg_save2_i) / Σ_i(attacks_i)
 
 N'écrit rien dans cost_model.py/features.py : comparaison ad hoc uniquement.
 """
-from aospy import db, cost_model, repository
-from aospy.combat import _effective_counts, _intrinsic_bonus, expected_weapon_damage
-from aospy.features import _NO_MODS, _PROBE_NOSAVE, _PROBE_SAVE2
+from aospy.analysis import cost_model
+from aospy.engine.combat import _effective_counts, _intrinsic_bonus, expected_weapon_damage
+from aospy.analysis.features import _NO_MODS, _PROBE_SAVE2, _PROBE_SAVE6
+from aospy.persistence import db, repository
 
 con = db.connect()
 frame = cost_model.feature_frame(con)
@@ -31,10 +32,10 @@ def line_avg_dmg_pen_weighted(unit) -> float:
         total_attacks = (w.attacks + bonus.attacks) * c
         if total_attacks <= 0:
             continue
-        dmg_nosave = expected_weapon_damage(w, c, _PROBE_NOSAVE, _NO_MODS)
+        dmg_save6 = expected_weapon_damage(w, c, _PROBE_SAVE6, _NO_MODS)
         dmg_save2 = expected_weapon_damage(w, c, _PROBE_SAVE2, _NO_MODS)
-        pen = (dmg_save2 / dmg_nosave) if dmg_nosave > 0 else 0.0
-        product = dmg_nosave * pen  # == dmg_save2 de la ligne
+        pen = (dmg_save2 / dmg_save6) if dmg_save6 > 0 else 0.0
+        product = dmg_save6 * pen  # == dmg_save2 de la ligne
         weighted_sum += total_attacks * product
         total_weight += total_attacks
     return weighted_sum / total_weight if total_weight > 0 else 0.0
@@ -47,9 +48,9 @@ lineavg_w_by_unit_id = {
 }
 frame["dmg_pen_lineavg_w"] = frame["unit_id"].map(lineavg_w_by_unit_id)
 
-FEATURES_A = cost_model.MODEL_FEATURES  # officiel actuel : ... dmg_pen (ratio, somme) ...
-FEATURES_B = tuple("dmg_vs_save2" if f == "dmg_pen" else f for f in cost_model.MODEL_FEATURES)
-FEATURES_F = tuple("dmg_pen_lineavg_w" if f == "dmg_pen" else f for f in cost_model.MODEL_FEATURES)
+FEATURES_B = cost_model.MODEL_FEATURES  # officiel actuel : dmg_vs_save2 (ratio, somme sur les lignes)
+FEATURES_A = tuple("dmg_pen" if f == "dmg_vs_save2" else f for f in FEATURES_B)  # avant adoption : ratio dmg_pen
+FEATURES_F = tuple("dmg_pen_lineavg_w" if f == "dmg_vs_save2" else f for f in FEATURES_B)  # variante testée ici
 
 model_a = cost_model.fit_cost_model_factorial(features=FEATURES_A, frame=frame.copy())
 model_b = cost_model.fit_cost_model_factorial(features=FEATURES_B, frame=frame.copy())

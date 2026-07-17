@@ -5,7 +5,7 @@ from __future__ import annotations
 import pytest
 
 from aospy.engine.combat import CombatModifiers, unit_damage_moments
-from aospy.analysis.features import _PROBE_NOSAVE, _PROBE_SAVE2, _PROBE_SAVE4, compute_features
+from aospy.analysis.features import _PROBE_SAVE6, _PROBE_SAVE2, _PROBE_SAVE4, compute_features
 from aospy.domain.models import Unit, Weapon
 
 
@@ -23,9 +23,13 @@ def test_no_weapons_gives_zero_offense():
     feats = compute_features(unit)
     assert feats.dmg_vs_save2 == 0.0
     assert feats.dmg_vs_save4 == 0.0
-    assert feats.dmg_vs_nosave == 0.0
-    assert feats.dmg_ranged_vs_nosave == 0.0
+    assert feats.dmg_vs_save6 == 0.0
+    assert feats.dmg_melee_vs_save6 == 0.0
+    assert feats.dmg_ranged_vs_save6 == 0.0
+    assert feats.dmg_melee_vs_save2 == 0.0
+    assert feats.dmg_ranged_vs_save2 == 0.0
     assert feats.dmg_pen == 0.0
+    assert feats.dmg_vs_save2_sq == 0.0
     assert feats.dmg_cv_vs_save4 == 0.0
 
 
@@ -33,7 +37,7 @@ def test_offense_increases_as_save_weakens():
     weapon = Weapon(name="w", kind="melee", attacks=2, hit=3, wound=3, rend=1, damage=2, wielders=5)
     unit = _unit(weapons=[weapon])
     feats = compute_features(unit)
-    assert feats.dmg_vs_save2 < feats.dmg_vs_save4 < feats.dmg_vs_nosave
+    assert feats.dmg_vs_save2 < feats.dmg_vs_save4 < feats.dmg_vs_save6
 
 
 def test_dmg_pen_matches_manual_ratio():
@@ -41,8 +45,15 @@ def test_dmg_pen_matches_manual_ratio():
     unit = _unit(weapons=[weapon])
     feats = compute_features(unit)
     mean2, _, _ = unit_damage_moments(unit, unit.models, _PROBE_SAVE2, CombatModifiers())
-    mean_nosave, _, _ = unit_damage_moments(unit, unit.models, _PROBE_NOSAVE, CombatModifiers())
-    assert feats.dmg_pen == pytest.approx(mean2 / mean_nosave)
+    mean6, _, _ = unit_damage_moments(unit, unit.models, _PROBE_SAVE6, CombatModifiers())
+    assert feats.dmg_pen == pytest.approx(mean2 / mean6)
+
+
+def test_dmg_vs_save2_sq_is_the_square_of_dmg_vs_save2():
+    weapon = Weapon(name="w", kind="melee", attacks=2, hit=3, wound=3, rend=1, damage=2, wielders=5)
+    unit = _unit(weapons=[weapon])
+    feats = compute_features(unit)
+    assert feats.dmg_vs_save2_sq == pytest.approx(feats.dmg_vs_save2**2)
 
 
 def test_dmg_cv_matches_manual_coefficient_of_variation():
@@ -62,8 +73,37 @@ def test_ranged_split_isolates_ranged_weapons_only():
     feats_mixed = compute_features(mixed)
     feats_ranged_only = compute_features(ranged_only)
 
-    assert feats_mixed.dmg_ranged_vs_nosave == pytest.approx(feats_ranged_only.dmg_vs_nosave)
-    assert feats_mixed.dmg_vs_nosave > feats_mixed.dmg_ranged_vs_nosave
+    assert feats_mixed.dmg_ranged_vs_save6 == pytest.approx(feats_ranged_only.dmg_vs_save6)
+    assert feats_mixed.dmg_vs_save6 > feats_mixed.dmg_ranged_vs_save6
+
+
+def test_melee_split_isolates_melee_weapons_only():
+    melee = Weapon(name="m", kind="melee", attacks=2, hit=3, wound=3, damage=2, wielders=5)
+    ranged = Weapon(name="r", kind="ranged", attacks=1, hit=4, wound=4, damage=1, wielders=5)
+    mixed = _unit(weapons=[melee, ranged])
+    melee_only = _unit(weapons=[melee])
+
+    feats_mixed = compute_features(mixed)
+    feats_melee_only = compute_features(melee_only)
+
+    assert feats_mixed.dmg_melee_vs_save6 == pytest.approx(feats_melee_only.dmg_vs_save6)
+    assert feats_mixed.dmg_melee_vs_save6 + feats_mixed.dmg_ranged_vs_save6 == pytest.approx(feats_mixed.dmg_vs_save6)
+
+
+def test_melee_ranged_split_isolates_weapons_on_the_pen_axis_too():
+    melee = Weapon(name="m", kind="melee", attacks=2, hit=3, wound=3, rend=1, damage=2, wielders=5)
+    ranged = Weapon(name="r", kind="ranged", attacks=1, hit=4, wound=4, rend=1, damage=1, wielders=5)
+    mixed = _unit(weapons=[melee, ranged])
+    melee_only = _unit(weapons=[melee])
+    ranged_only = _unit(weapons=[ranged])
+
+    feats_mixed = compute_features(mixed)
+    feats_melee_only = compute_features(melee_only)
+    feats_ranged_only = compute_features(ranged_only)
+
+    assert feats_mixed.dmg_melee_vs_save2 == pytest.approx(feats_melee_only.dmg_vs_save2)
+    assert feats_mixed.dmg_ranged_vs_save2 == pytest.approx(feats_ranged_only.dmg_vs_save2)
+    assert feats_mixed.dmg_melee_vs_save2 + feats_mixed.dmg_ranged_vs_save2 == pytest.approx(feats_mixed.dmg_vs_save2)
 
 
 def test_raw_characteristics_are_passed_through():
@@ -75,6 +115,7 @@ def test_raw_characteristics_are_passed_through():
     assert feats.move == 8
     assert feats.control == 2
     assert feats.unit_size == 4
+    assert feats.unit_size_sq == 16
     assert feats.is_hero is True
     assert feats.points == 240
 
@@ -83,6 +124,26 @@ def test_ward_num_defaults_to_7_when_absent():
     unit = _unit(ward=None)
     feats = compute_features(unit)
     assert feats.ward_num == 7
+
+
+def test_effective_wounds_matches_manual_formula_without_ward():
+    # save nue 4+, dégradée par _REPRESENTATIVE_REND=1 -> save effective 5+, P(échec)=4/6
+    unit = _unit(health=2, models=5, save=4, ward=None)  # wounds_total=10
+    feats = compute_features(unit)
+    assert feats.effective_wounds == pytest.approx(10 / (4 / 6))
+
+
+def test_effective_wounds_accounts_for_ward():
+    # save nue 4+ -> effective 5+ (Rend représentatif 1), P(échec save)=4/6 ; P(échec ward 5+)=4/6
+    unit = _unit(health=2, models=5, save=4, ward=5)
+    feats = compute_features(unit)
+    assert feats.effective_wounds == pytest.approx(10 / ((4 / 6) * (4 / 6)))
+
+
+def test_effective_wounds_grows_with_better_defense():
+    weak = _unit(health=2, models=5, save=6, ward=None)
+    strong = _unit(health=2, models=5, save=2, ward=4)
+    assert compute_features(weak).effective_wounds < compute_features(strong).effective_wounds
 
 
 def test_unit_type_and_caster_levels_from_keywords():

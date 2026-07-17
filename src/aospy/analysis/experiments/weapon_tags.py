@@ -8,7 +8,7 @@ pas le markup **gras**/^^exposant^^ de BSData ni le HTML <span> de Wahapedia) em
 quasi-totalité des Anti-X réels de s'appliquer même en combat — corrigé séparément (159/159
 unités concernées matchent maintenant). Même corrigé, ce bonus reste invisible aux features
 officielles de `features.py` : ses défenseurs sondes (`_PROBE_SAVE2` etc.) n'ont aucun mot-clé,
-et `_NO_MODS` n'a jamais `attacker_charged=True` — donc `dmg_vs_save2`/`dmg_vs_nosave` ne
+et `_NO_MODS` n'a jamais `attacker_charged=True` — donc `dmg_vs_save2`/`dmg_vs_save6` ne
 peuvent physiquement pas refléter un Anti-X ou un Charge (+N), quel que soit l'état du bug de
 parsing.
 

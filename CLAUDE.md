@@ -55,9 +55,9 @@ aospy cost residuals --top 20 --direction under   # most under/over-costed units
 1. **`domain/models.py`** — frozen/plain dataclasses (`Army`, `Weapon`, `Unit`, `HeroicTrait`, `Artefact`, `CompositionUnit`, `Composition`). No DB or logic.
 2. **`persistence/db.py`** — opens a DuckDB connection at `DEFAULT_DB_PATH` (`data/aospy.duckdb`) and applies `persistence/schema.sql` on every `connect()` (idempotent `CREATE TABLE IF NOT EXISTS` + `ALTER TABLE ... ADD COLUMN IF NOT EXISTS` migrations). Schema changes go in `schema.sql`, not in Python.
 3. **`persistence/repository.py`** — all SQL lives here; nothing above this layer writes raw SQL. `Unit.keywords` (`frozenset[str]`) round-trips through one comma-joined `VARCHAR` column.
-4. **`engine/combat.py`** — pure math, no DB access. `expected_weapon_damage` (hit → wound → save/rend → ward, crit variants + intrinsic `Anti-X`/`Charge` bonuses parsed from `Weapon.abilities` — see "Intrinsic Anti-X/Charge bonuses" below) and its `E[D²]` twin `weapon_damage_moments` (→ `unit_damage_moments`, `damage_floor80`/`damage_floor95`). **Caveat**: `Weapon.attacks`/`damage` are integers resolved at import time (no dice notation kept), so variance only captures hit/wound/save/ward/crit randomness, not dice-valued attacks/damage.
+4. **`engine/combat.py`** — pure math, no DB access. `expected_weapon_damage` (hit → wound → save/rend → ward, crit variants + intrinsic `Anti-X`/`Charge` bonuses parsed from `Weapon.abilities` — see "Intrinsic Anti-X/Charge bonuses" below) and its `E[D²]` twin `weapon_damage_moments` (→ `unit_damage_moments`). Damage-floor reads go through the *exact* discrete distribution (`weapon_damage_distribution` → `unit_damage_distribution` → `distribution_floor`), not a Gaussian approximation — see "Damage floor: exact distribution vs Gaussian approximation" below; `damage_floor66`/`80`/`95` (`mean − z·σ`) survive only as a comparison baseline. **Caveat**: `Weapon.attacks`/`damage` are integers resolved at import time (no dice notation kept), so variance only captures hit/wound/save/ward/crit randomness, not dice-valued attacks/damage.
 5. **`engine/loadout.py`** — ported from StatHammer's `loadout.py`: parses `Unit.description` (free text) into per-weapon-profile model counts (`model_counts`). Best-effort, unrecognized clauses fall back to "every model carries every profile" (logged in the returned notes). Used by `combat.py::_effective_counts`.
-6. **`orchestration/benchmark.py`** / **`orchestration/simulation.py`** — orchestration on `combat.py` + `repository.py`. `benchmark.py`: single-attacker-vs-many-defenders duels (`unit_duel`, `benchmark_attacker`, `run_all_benchmarks`), with independent `mode_a`/`mode_b: DamageMode` (`"mean"`/`"floor80"`/`"floor95"`) per duel direction — a duel need not read both sides at the same confidence level. `simulation.py`: full composition-vs-composition (`simulate_battle`, all-entries-vs-all-entries).
+6. **`orchestration/benchmark.py`** / **`orchestration/simulation.py`** — orchestration on `combat.py` + `repository.py`. `benchmark.py`: single-attacker-vs-many-defenders duels (`unit_duel`, `benchmark_attacker`, `run_all_benchmarks`), with independent `mode_a`/`mode_b: DamageMode` (`"mean"`/`"floor66"`/`"floor80"`/`"floor95"`) per duel direction — a duel need not read both sides at the same confidence level. `_attack_damage` reads `floorNN` modes off `combat.py::unit_damage_distribution`'s exact PMF (`distribution_floor`), not a Gaussian approximation. `simulation.py`: full composition-vs-composition (`simulate_battle`, all-entries-vs-all-entries).
 7. **`cli/report.py`** — pure text formatting of `DuelResult`/`BattleReport`/unit-stats rows. No computation.
 8. **`cli/__init__.py`** (argparse wiring, exposes `main`) / **`cli/commands.py`** (one `cmd_*` per subcommand, each opens its own DB connection via `_connect(args)` and closes it before returning).
 9. **`importers/bsdata.py`** — downloads `.cat` XML from `BSData/age-of-sigmar-4th` (GitHub), parses BattleScribe profiles, upserts via `repository.replace_unit`. `KNOWN_ARMIES` maps army name → (catalogue, library, grand alliance). `Unit.description` is left `None` (no BattleScribe equivalent found yet — BSData units keep the `wielders`-based allocation instead). Filters Legends/expired content and merges free companion units into their paid parent — see the two dedicated sections below.
@@ -70,7 +70,7 @@ aospy cost residuals --top 20 --direction under   # most under/over-costed units
 - **Points economy**: every `DuelResult` computes `pts_destroyed`/`pts_lost`/`pts_net`/`roi` by scaling expected damage against the defender's/attacker's total points — units are compared across point costs, not just raw damage.
 - **Reinforcement**: doubles model count and points; `combat.py::_effective_counts` scales per-profile model counts (from `loadout.model_counts` or `weapon.wielders`) proportionally rather than assuming all models carry all weapons.
 - **Side modifiers**: All-out Attack (+1 hit) / All-out Defense (+1 save) are `CombatModifiers`/`SideOptions`, threaded as directional flags (`--aoa`/`--aod`). Charge (`--charge {a,b,both,none}`) carries **no universal bonus** in AoS4 — only a weapon's own `Charge (+N <Stat>)` ability text does (see "Intrinsic Anti-X/Charge bonuses" below).
-- **`unit_benchmark` table**: persisted duel-result cache keyed by `(attacker_id, defender_id, attacker_reinforced, defender_reinforced, attacker_charged, defender_charged, attacker_mode, defender_mode)`, populated via `benchmark-all`. `attacker_mode`/`defender_mode` (`"mean"`/`"floor80"`/`"floor95"`) let different confidence levels coexist per duel direction — see `orchestration/benchmark.py::DamageMode`. `repository.save_benchmark_results_many` batches upserts through a staged temp table (DuckDB `executemany` is ~150ms/row vs <2ms/row for an inlined multi-row `INSERT`).
+- **`unit_benchmark` table**: persisted duel-result cache keyed by `(attacker_id, defender_id, attacker_reinforced, defender_reinforced, attacker_charged, defender_charged, attacker_mode, defender_mode)`, populated via `benchmark-all`. `attacker_mode`/`defender_mode` (`"mean"`/`"floor66"`/`"floor80"`/`"floor95"`) let different confidence levels coexist per duel direction — see `orchestration/benchmark.py::DamageMode`. `repository.save_benchmark_results_many` batches upserts through a staged temp table (DuckDB `executemany` is ~150ms/row vs <2ms/row for an inlined multi-row `INSERT`).
 - **BSData `wielders`**: inferred from BattleScribe `constraints` on `selections` (min/max, scoped to `parent` or the unit), with parent-resolved counts for nested weapon bundles, replaced-base-weapon reduction, and group-level exclusive choices — see "BSData wielders resolution" below. Trickiest part of that importer; check there first if imported weapon counts look wrong.
 
 ### Wahapedia import — second import mechanism, same schema
@@ -111,6 +111,33 @@ Wahapedia's importer has no equivalent merge — companion warscrolls there stil
 Ported from StatHammer's `stats.py::_intrinsic_clauses`, benefiting **both** importers: `combat.py::_intrinsic_bonus` detects `Anti-<KEYWORD> (+N <Stat>)` and `Charge (+N <Stat>)` in `Weapon.abilities` (same free-text field as the Crit tag) and folds the bonus into `attacks`/`hit`/`wound`/`rend`/`damage` before the hit/wound/save chain. `Charge` is the *only* source of a charge bonus in AoS4 (typically `Charge (+1 Damage)` on cavalry). `Anti-X` needs `Unit.keywords`; both importers populate it.
 
 **Deliberately out of scope** (candidate for a separate, larger PR): StatHammer's Stage/Modifier/Context engine (`detect_ability_modifiers` for self-conditional unit abilities, `build_army_catalog`/`compatible_army_buffs` for cross-unit buffs, `--enable`/`--on-objective`/`--army-buff` CLI flags) — needs a full per-unit abilities table (name + description) neither aospy's schema nor either importer has today.
+
+### Damage floor: exact distribution vs Gaussian approximation
+
+`damage_floor66`/`damage_floor80`/`damage_floor95` (`mean − z·σ`, `_Z66`/`_Z80`/`_Z95` = inverse-normal quantiles) was
+the original implementation, ported unchanged from StatHammer: it assumes the sum of hit/wound/save/ward outcomes is
+approximately Gaussian, which the central limit theorem supports for many i.i.d. attacks but breaks down for the
+low-attack/high-damage profiles common in AoS (monsters, single big war-machine models) — the true distribution is
+discrete, bounded at 0, and often asymmetric. Concretely, a 2-attack/8-damage profile reads ~2.5 "guaranteed" damage
+at 95% confidence under the Gaussian formula, but the real chance of both attacks missing exceeds 5%, so the true
+95%-floor is 0 — the approximation isn't just imprecise there, it's actively optimistic.
+
+`weapon_damage_distribution` → `unit_damage_distribution` → `distribution_floor` replace it with the *exact* discrete
+distribution, no normality assumption. Since `total_attacks` is a fixed integer (not a die — see the caveat on
+`engine/combat.py` above) and each attack is an independent categorical draw (miss / normal hit / crit hit, same
+branches as `weapon_damage_moments`), the total-damage PMF of one weapon profile is the auto-convolution of a single
+attack's outcome distribution over `total_attacks` draws; weapon profiles are independent, so a unit's PMF is the
+convolution of its profiles' PMFs (mirrors `unit_damage_moments`'s variance-additivity). `distribution_floor` then
+reads the quantile directly: the largest `d` with `P(damage ≥ d) ≥ coverage`. Convolution is plain Python (`list`,
+no numpy) by design — `engine/combat.py` ships in the base install (`pyproject.toml` core deps = `duckdb` only;
+numpy/pandas stay behind `[analysis]`) — and stays fast because PMF supports remain in the low hundreds of entries
+for realistic attack counts (benchmarked ~0.6 ms/duel across the full unit database).
+
+`orchestration/benchmark.py::_attack_damage` reads `floor66`/`floor80`/`floor95` off this exact PMF for production
+use (`unit_duel`, `benchmark_attacker`, `run_all_benchmarks`, `unit_benchmark` persistence, `aospy unit stats`).
+`damage_floor66`/`80`/`95` and their Gaussian machinery are kept, unchanged, purely as a comparison baseline (see
+`tests/engine/test_combat.py`'s divergence/convergence tests) — nothing in the codebase still reads a floor through
+them.
 
 ### Cost model (`analysis/features.py` / `analysis/cost_model.py`) — scope vs StatHammer
 

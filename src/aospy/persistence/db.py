@@ -93,6 +93,29 @@ def _migrate_damage_mode(con: duckdb.DuckDBPyConnection) -> None:
     con.execute("ALTER TABLE unit_benchmark_new RENAME TO unit_benchmark")
 
 
+def _migrate_weapon_is_companion(con: duckdb.DuckDBPyConnection) -> None:
+    """Ajoute `weapon.is_companion` (BOOLEAN) pour les bases existantes qui ne l'ont pas.
+
+    Gardée explicitement (vérifie `information_schema` avant d'altérer) plutôt que
+    laissée comme `ALTER TABLE ... ADD COLUMN IF NOT EXISTS` permanent dans
+    `schema.sql` (comme `wielders`/`keywords`) : une colonne BOOLEAN ajoutée ainsi
+    voit sa valeur silencieusement réinitialisée à sa DEFAULT à chaque `connect()`
+    tant que l'instruction reste dans le schéma appliqué systématiquement — constaté
+    empiriquement, contrairement aux colonnes INTEGER/VARCHAR qui n'y sont pas
+    sujettes. Cette fonction ne s'exécute donc qu'une fois par base (le check
+    `col_names` réussit ensuite, comme `_migrate_floor95`/`_migrate_damage_mode`).
+    """
+    tables = con.execute("SELECT table_name FROM information_schema.tables").fetchall()
+    if ("weapon",) not in tables:
+        return
+    cols = {r[0] for r in con.execute(
+        "SELECT column_name FROM information_schema.columns WHERE table_name = 'weapon'"
+    ).fetchall()}
+    if "is_companion" in cols:
+        return
+    con.execute("ALTER TABLE weapon ADD COLUMN is_companion BOOLEAN NOT NULL DEFAULT FALSE")
+
+
 def connect(db_path: str | Path = DEFAULT_DB_PATH) -> duckdb.DuckDBPyConnection:
     """Ouvre (ou crée) la base DuckDB et applique le schéma."""
     path = Path(db_path)
@@ -100,6 +123,7 @@ def connect(db_path: str | Path = DEFAULT_DB_PATH) -> duckdb.DuckDBPyConnection:
     con = duckdb.connect(str(path))
     _migrate_floor95(con)
     _migrate_damage_mode(con)
+    _migrate_weapon_is_companion(con)
     con.execute(_read_schema())
     return con
 

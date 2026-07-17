@@ -2,7 +2,7 @@
 
 Port du principe de StatHammer (voir son `features.py`) sur le modèle de données
 natif d'aospy : chaque unité est sondée offensivement contre trois défenseurs
-synthétiques (save 2+, save 4+, aucune save) pour capter à la fois la magnitude
+synthétiques (save 2+, save 4+, save 6+) pour capter à la fois la magnitude
 brute des dégâts et la sensibilité au rend, en réutilisant le moteur de
 `combat.py` (`unit_damage_moments`) — aucun calcul de dés n'est réécrit ici.
 
@@ -67,15 +67,27 @@ def _unit_type(keywords: frozenset[str]) -> str:
             return t
     return "OTHER"
 
-#: Défenseurs synthétiques pour la sonde offensive. Save 7 = aucune sauvegarde
-#: possible (convention identique à StatHammer), ward toujours absent : on veut
-#: mesurer l'attaquant, pas la défense.
+#: Défenseurs synthétiques pour la sonde offensive. Save 6+ = pire sauvegarde native
+#: existant réellement en AoS4 — il n'y a pas de "aucune save" comme stat native du jeu
+#: (le save 7 utilisé auparavant ici, convention empruntée à StatHammer, ne correspond à
+#: aucune unité jouable) ; ward toujours absent : on veut mesurer l'attaquant, pas la défense.
 _PROBE_SAVE2 = Unit(name="_probe", army_id=0, move=0, save=2, health=1, control=0, models=1, points=0)
 _PROBE_SAVE4 = Unit(name="_probe", army_id=0, move=0, save=4, health=1, control=0, models=1, points=0)
-_PROBE_NOSAVE = Unit(name="_probe", army_id=0, move=0, save=7, health=1, control=0, models=1, points=0)
+_PROBE_SAVE6 = Unit(name="_probe", army_id=0, move=0, save=6, health=1, control=0, models=1, points=0)
 
 _NO_MODS = CombatModifiers()
 _CHARGED_MODS = CombatModifiers(attacker_charged=True)
+
+#: Rend "représentatif" supposé par `_effective_wounds` pour dégrader la save nue avant de
+#: calculer sa probabilité de succès. `combat.py` calcule toujours `save_eff = defender.save +
+#: weapon.rend` face à un attaquant précis ; `effective_wounds` n'a pas d'attaquant (c'est une
+#: caractéristique du seul défenseur) et supposait jusqu'ici Rend 0 — optimiste, puisque la
+#: quasi-totalité des profils d'arme de la base portent du Rend (moyenne pondérée par profil :
+#: 0,98 mêlée / 1,05 tir). Le Ward, lui, n'a besoin d'aucun ajustement analogue : contrairement
+#: à la save, il n'est jamais modifié par le Rend (règle AoS core). Valeur choisie par balayage
+#: entier 0-3 sur le modèle de coût complet (R² ajusté : 0,9175 / 0,9204 / 0,9199 / 0,9169) —
+#: cf. `analysis/experiments/effective_wounds_rend.py`.
+_REPRESENTATIVE_REND = 1
 
 
 @dataclass(frozen=True)
@@ -90,9 +102,21 @@ class UnitFeatures:
 
     dmg_vs_save2: float
     dmg_vs_save4: float
-    dmg_vs_nosave: float
-    dmg_ranged_vs_nosave: float
-    dmg_pen: float  # dmg_vs_save2 / dmg_vs_nosave (0 si dmg_vs_nosave == 0)
+    dmg_vs_save6: float
+    dmg_melee_vs_save6: float  # pool de dégâts bruts (avant save/ward) des seuls profils
+    # de mêlée — cf. `dmg_ranged_vs_save6`, même sonde save6+ mais côté cac. Avec
+    # `dmg_ranged_vs_save6`, permet de scinder `dmg_vs_save6` en deux pools tir/cac plutôt
+    # que de traiter le tir comme un delta sur un total déjà mêlée+tir — cf.
+    # `analysis/experiments/melee_ranged_split.py`.
+    dmg_ranged_vs_save6: float
+    dmg_melee_vs_save2: float  # même scission tir/cac que ci-dessus, mais côté pool perçant
+    # (sonde save2+) plutôt que pool brut (save6+) — cf. `dmg_ranged_vs_save2`.
+    dmg_ranged_vs_save2: float
+    dmg_pen: float  # dmg_vs_save2 / dmg_vs_save6 (0 si dmg_vs_save6 == 0)
+    dmg_vs_save2_sq: float  # dmg_vs_save2² — terme quadratique : au-delà d'un certain seuil,
+    # chaque dégât perçant supplémentaire vaut structurellement plus (rendements croissants,
+    # pas décroissants) que ne le capte le terme linéaire seul. Cf.
+    # `analysis/experiments/durability_and_saturation.py`, gain R² ajusté +0.0040 seul.
     dmg_cv_vs_save4: float  # écart-type / moyenne contre save4 (fiabilité offensive)
     charge_bonus_save2: float  # supplément de dmg_vs_save2 apporté par un `Charge (+N <Stat>)`
     # (0 si l'unité n'a aucun profil d'arme avec ce texte) — sans ce champ, ce bonus était
@@ -108,10 +132,27 @@ class UnitFeatures:
     wounds_total: int  # health * models
     save_num: int
     ward_num: int  # ward, ou 7 si aucun ward
+    effective_wounds: float  # wounds_total / P(un coup passe la save ET le ward) — combine les
+    # trois caractéristiques ci-dessus en un seul indice de durabilité "nombre de coups qu'il
+    # faut effectivement porter pour tuer l'unité", au lieu de les traiter comme trois effets
+    # additifs indépendants. Remplace wounds_total/save_num/ward_num dans
+    # `cost_model.MODEL_FEATURES` (ils restent ici comme caractéristiques brutes, utiles
+    # hors régression) — cf. `analysis/experiments/durability_and_saturation.py`, gain R²
+    # ajusté +0.0067 seul (+0.0105 combiné à `dmg_vs_save2_sq` et à l'interaction héros).
+    # La probabilité de save est dégradée par `_REPRESENTATIVE_REND` avant ce calcul (le Ward
+    # reste nu) — cf. `analysis/experiments/effective_wounds_rend.py`, gain R² ajusté +0.0029.
 
     move: int
     control: int
     unit_size: int  # models
+    unit_size_sq: int  # unit_size² — terme quadratique : rendement croissant sur la taille
+    # d'unité, symétrique de `dmg_vs_save2_sq` sur le pool perçant. Une fois ce terme ajouté,
+    # le coefficient linéaire de `unit_size` devient franchement négatif (rabais de volume
+    # marqué), compensé par le carré positif au-delà d'une dizaine de modèles — GW semble
+    # facturer une prime sur les très grosses hordes (contrôle d'objectif, difficulté à les
+    # effacer), pas seulement un rabais continu. Cf.
+    # `analysis/experiments/unit_size_saturation.py`, gain R² ajusté +0.0009, robuste au
+    # retrait des unités à 20 modèles (les plus grosses de la base).
 
     grand_alliance: str  # résolu par `all_features` (nécessite la DB) ; gardé comme métadonnée,
     # mais absorbé par `army_name` dans `cost_model.CATEGORICAL_FEATURES` (armée ⊂ alliance,
@@ -137,6 +178,11 @@ def _ranged_only(unit: Unit) -> Unit:
     return dataclasses.replace(unit, weapons=[w for w in unit.weapons if w.kind == "ranged"])
 
 
+def _melee_only(unit: Unit) -> Unit:
+    """Copie de `unit` ne conservant que ses profils d'arme de mêlée."""
+    return dataclasses.replace(unit, weapons=[w for w in unit.weapons if w.kind == "melee"])
+
+
 def _dominant_crit_type(unit: Unit) -> str:
     """Type de Crit du profil d'arme qui contribue le plus à `dmg_vs_save2` — proxy du
     "crit dominant" d'une unité à profils d'arme multiples (chacun peut porter un Crit
@@ -153,23 +199,56 @@ def _dominant_crit_type(unit: Unit) -> str:
     return best_type
 
 
+def _effective_wounds(wounds_total: int, save_num: int, ward_num: int) -> float:
+    """PV totaux normalisés par la probabilité qu'un coup passe la save ET le ward —
+    "nombre de coups qu'il faut effectivement porter pour tuer l'unité", plutôt que
+    trois effets additifs séparés (cf. note de `UnitFeatures.effective_wounds`). La save
+    est dégradée par `_REPRESENTATIVE_REND` (le Ward, jamais modifié par le Rend, ne l'est
+    pas)."""
+    save_eff = min(save_num + _REPRESENTATIVE_REND, 7)
+    p_save = max(0.0, (7 - save_eff) / 6.0)
+    p_ward = max(0.0, (7 - ward_num) / 6.0) if ward_num <= 6 else 0.0
+    p_fail = (1 - p_save) * (1 - p_ward)
+    return wounds_total / p_fail if p_fail > 0 else wounds_total * 6.0
+
+
 def compute_features(unit: Unit) -> UnitFeatures:
     """Calcule le vecteur de caractéristiques d'une unité (cœur pur, sans DB)."""
     mean2, _v2, _s2 = unit_damage_moments(unit, unit.models, _PROBE_SAVE2, _NO_MODS)
     mean4, var4, _s4 = unit_damage_moments(unit, unit.models, _PROBE_SAVE4, _NO_MODS)
-    mean_nosave, _vn, _sn = unit_damage_moments(unit, unit.models, _PROBE_NOSAVE, _NO_MODS)
+    mean6, _v6, _s6 = unit_damage_moments(unit, unit.models, _PROBE_SAVE6, _NO_MODS)
     mean2_charged, _v2c, _s2c = unit_damage_moments(unit, unit.models, _PROBE_SAVE2, _CHARGED_MODS)
     charge_bonus_save2 = max(0.0, mean2_charged - mean2)
 
     ranged_unit = _ranged_only(unit)
-    dmg_ranged_vs_nosave = (
-        unit_damage_moments(ranged_unit, unit.models, _PROBE_NOSAVE, _NO_MODS)[0]
+    dmg_ranged_vs_save6 = (
+        unit_damage_moments(ranged_unit, unit.models, _PROBE_SAVE6, _NO_MODS)[0]
         if ranged_unit.weapons
         else 0.0
     )
+    melee_unit = _melee_only(unit)
+    dmg_melee_vs_save6 = (
+        unit_damage_moments(melee_unit, unit.models, _PROBE_SAVE6, _NO_MODS)[0]
+        if melee_unit.weapons
+        else 0.0
+    )
+    dmg_ranged_vs_save2 = (
+        unit_damage_moments(ranged_unit, unit.models, _PROBE_SAVE2, _NO_MODS)[0]
+        if ranged_unit.weapons
+        else 0.0
+    )
+    dmg_melee_vs_save2 = (
+        unit_damage_moments(melee_unit, unit.models, _PROBE_SAVE2, _NO_MODS)[0]
+        if melee_unit.weapons
+        else 0.0
+    )
 
-    dmg_pen = (mean2 / mean_nosave) if mean_nosave > 0 else 0.0
+    dmg_pen = (mean2 / mean6) if mean6 > 0 else 0.0
     dmg_cv_vs_save4 = (var4**0.5 / mean4) if mean4 > 0 else 0.0
+
+    save_num = unit.save
+    ward_num = unit.ward if unit.ward is not None else 7
+    wounds_total = unit.health * unit.models
 
     kinds = {w.kind for w in unit.weapons}
     if kinds == {"melee"}:
@@ -189,17 +268,23 @@ def compute_features(unit: Unit) -> UnitFeatures:
         is_hero=unit.is_hero,
         dmg_vs_save2=mean2,
         dmg_vs_save4=mean4,
-        dmg_vs_nosave=mean_nosave,
-        dmg_ranged_vs_nosave=dmg_ranged_vs_nosave,
+        dmg_vs_save6=mean6,
+        dmg_melee_vs_save6=dmg_melee_vs_save6,
+        dmg_ranged_vs_save6=dmg_ranged_vs_save6,
+        dmg_melee_vs_save2=dmg_melee_vs_save2,
+        dmg_ranged_vs_save2=dmg_ranged_vs_save2,
         dmg_pen=dmg_pen,
+        dmg_vs_save2_sq=mean2**2,
         dmg_cv_vs_save4=dmg_cv_vs_save4,
         charge_bonus_save2=charge_bonus_save2,
-        wounds_total=unit.health * unit.models,
-        save_num=unit.save,
-        ward_num=unit.ward if unit.ward is not None else 7,
+        wounds_total=wounds_total,
+        save_num=save_num,
+        ward_num=ward_num,
+        effective_wounds=_effective_wounds(wounds_total, save_num, ward_num),
         move=unit.move,
         control=unit.control,
         unit_size=unit.models,
+        unit_size_sq=unit.models**2,
         grand_alliance="",
         army_name="",
         weapon_mix=weapon_mix,

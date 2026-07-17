@@ -30,6 +30,9 @@ class Weapon:
     range_in: int = 1   # pouces
     abilities: Optional[str] = None
     wielders: int = 0   # nb de modèles porteurs (taille de base) ; 0 = tous
+    is_companion: bool = False  # profil hérité d'une sous-entrée gratuite fusionnée
+    # (cf. importers/bsdata.py::_merge_composite_units) ; toujours False côté Wahapedia,
+    # qui n'a pas d'équivalent de fusion (cf. CLAUDE.md, "Composite/companion unit merging")
     id: Optional[int] = None
     unit_id: Optional[int] = None
 

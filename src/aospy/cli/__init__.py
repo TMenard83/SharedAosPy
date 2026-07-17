@@ -46,10 +46,24 @@ def _add_unit_subparser(sub: argparse._SubParsersAction) -> None:
     p.add_argument("--charge", choices=["a", "b", "both", "none"], default="none")
     p.add_argument("--aoa", choices=["a", "b", "both", "none"], default="none")
     p.add_argument("--aod", choices=["a", "b", "both", "none"], default="none")
-    p.add_argument("--attacker-mode", choices=["mean", "floor80", "floor95"], default="mean",
-                   help="Lecture du dégât A→B : espérance (défaut) ou plancher 80%%/95%%.")
-    p.add_argument("--defender-mode", choices=["mean", "floor80", "floor95"], default="mean",
-                   help="Lecture du dégât B→A : espérance (défaut) ou plancher 80%%/95%%.")
+    p.add_argument("--ran-and-charged", choices=["a", "b", "both", "none"], default="none",
+                   help="Côté(s) ayant une règle autorisant courir + charger (interdit par défaut).")
+    p.add_argument("--rule-double-shoot", action=argparse.BooleanOptionalAction, default=True,
+                   help="Règle optionnelle (active par défaut, --no-rule-double-shoot pour désactiver) : "
+                        "le camp à la plus petite portée charge (déduit des stats) ; "
+                        "tir double si son Move+charge(+course) < portée adverse.")
+    p.add_argument("--rule-charge-threshold", action=argparse.BooleanOptionalAction, default=True,
+                   help="Règle optionnelle (active par défaut, --no-rule-charge-threshold pour désactiver) : "
+                        "la charge (et son bonus Charge(+N)) se déclenche automatiquement si Move attaquant "
+                        "> +30%% du défenseur (indépendant de --charge).")
+    p.add_argument("--charge-dist", type=float, default=7.0,
+                   help="Distance de charge en pouces (défaut : 7 = espérance de 2D6).")
+    p.add_argument("--run-dist", type=float, default=3.5,
+                   help="Distance de course en pouces (défaut : 3.5 = espérance de 1D6).")
+    p.add_argument("--attacker-mode", choices=["mean", "floor66", "floor80", "floor95"], default="mean",
+                   help="Lecture du dégât A→B : espérance (défaut) ou plancher 66%%/80%%/95%%.")
+    p.add_argument("--defender-mode", choices=["mean", "floor66", "floor80", "floor95"], default="mean",
+                   help="Lecture du dégât B→A : espérance (défaut) ou plancher 66%%/80%%/95%%.")
     p.set_defaults(func=cmd.cmd_unit_duel)
 
     p = su.add_parser("benchmark",
@@ -65,6 +79,20 @@ def _add_unit_subparser(sub: argparse._SubParsersAction) -> None:
     p.add_argument("--charge", choices=["a", "b", "both", "none"], default="none")
     p.add_argument("--aoa", choices=["a", "b", "both", "none"], default="none")
     p.add_argument("--aod", choices=["a", "b", "both", "none"], default="none")
+    p.add_argument("--ran-and-charged", choices=["a", "b", "both", "none"], default="none",
+                   help="Côté(s) ayant une règle autorisant courir + charger (interdit par défaut).")
+    p.add_argument("--rule-double-shoot", action=argparse.BooleanOptionalAction, default=True,
+                   help="Règle optionnelle (active par défaut, --no-rule-double-shoot pour désactiver) : "
+                        "le camp à la plus petite portée charge (déduit des stats) ; "
+                        "tir double si son Move+charge(+course) < portée adverse.")
+    p.add_argument("--rule-charge-threshold", action=argparse.BooleanOptionalAction, default=True,
+                   help="Règle optionnelle (active par défaut, --no-rule-charge-threshold pour désactiver) : "
+                        "la charge (et son bonus Charge(+N)) se déclenche automatiquement si Move attaquant "
+                        "> +30%% du défenseur (indépendant de --charge).")
+    p.add_argument("--charge-dist", type=float, default=7.0,
+                   help="Distance de charge en pouces (défaut : 7 = espérance de 2D6).")
+    p.add_argument("--run-dist", type=float, default=3.5,
+                   help="Distance de course en pouces (défaut : 3.5 = espérance de 1D6).")
     p.add_argument("--sort-by",
                    choices=["pts-net", "roi", "net", "atb", "bta", "points", "army"],
                    default="pts-net")
@@ -72,10 +100,10 @@ def _add_unit_subparser(sub: argparse._SubParsersAction) -> None:
                    help="Limiter la section détails au top N (par net).")
     p.add_argument("--detail", action="store_true",
                    help="Affiche aussi le détail de chaque duel.")
-    p.add_argument("--attacker-mode", choices=["mean", "floor80", "floor95"], default="mean",
-                   help="Lecture du dégât A→B : espérance (défaut) ou plancher 80%%/95%%.")
-    p.add_argument("--defender-mode", choices=["mean", "floor80", "floor95"], default="mean",
-                   help="Lecture du dégât B→A : espérance (défaut) ou plancher 80%%/95%%.")
+    p.add_argument("--attacker-mode", choices=["mean", "floor66", "floor80", "floor95"], default="mean",
+                   help="Lecture du dégât A→B : espérance (défaut) ou plancher 66%%/80%%/95%%.")
+    p.add_argument("--defender-mode", choices=["mean", "floor66", "floor80", "floor95"], default="mean",
+                   help="Lecture du dégât B→A : espérance (défaut) ou plancher 66%%/80%%/95%%.")
     p.set_defaults(func=cmd.cmd_unit_benchmark)
 
     p = su.add_parser("benchmark-all",
@@ -85,12 +113,26 @@ def _add_unit_subparser(sub: argparse._SubParsersAction) -> None:
     p.add_argument("--charge", choices=["a", "b", "both", "none"], default="none")
     p.add_argument("--aoa", choices=["a", "b", "both", "none"], default="none")
     p.add_argument("--aod", choices=["a", "b", "both", "none"], default="none")
+    p.add_argument("--ran-and-charged", choices=["a", "b", "both", "none"], default="none",
+                   help="Côté(s) ayant une règle autorisant courir + charger (interdit par défaut).")
+    p.add_argument("--rule-double-shoot", action=argparse.BooleanOptionalAction, default=True,
+                   help="Règle optionnelle (active par défaut, --no-rule-double-shoot pour désactiver) : "
+                        "le camp à la plus petite portée charge (déduit des stats) ; "
+                        "tir double si son Move+charge(+course) < portée adverse.")
+    p.add_argument("--rule-charge-threshold", action=argparse.BooleanOptionalAction, default=True,
+                   help="Règle optionnelle (active par défaut, --no-rule-charge-threshold pour désactiver) : "
+                        "la charge (et son bonus Charge(+N)) se déclenche automatiquement si Move attaquant "
+                        "> +30%% du défenseur (indépendant de --charge).")
+    p.add_argument("--charge-dist", type=float, default=7.0,
+                   help="Distance de charge en pouces (défaut : 7 = espérance de 2D6).")
+    p.add_argument("--run-dist", type=float, default=3.5,
+                   help="Distance de course en pouces (défaut : 3.5 = espérance de 1D6).")
     p.add_argument("--reset", action="store_true",
                    help="Vide la table unit_benchmark avant de relancer.")
-    p.add_argument("--attacker-mode", choices=["mean", "floor80", "floor95"], default="mean",
-                   help="Lecture du dégât A→B : espérance (défaut) ou plancher 80%%/95%%.")
-    p.add_argument("--defender-mode", choices=["mean", "floor80", "floor95"], default="mean",
-                   help="Lecture du dégât B→A : espérance (défaut) ou plancher 80%%/95%%.")
+    p.add_argument("--attacker-mode", choices=["mean", "floor66", "floor80", "floor95"], default="mean",
+                   help="Lecture du dégât A→B : espérance (défaut) ou plancher 66%%/80%%/95%%.")
+    p.add_argument("--defender-mode", choices=["mean", "floor66", "floor80", "floor95"], default="mean",
+                   help="Lecture du dégât B→A : espérance (défaut) ou plancher 66%%/80%%/95%%.")
     p.add_argument("-v", "--verbose", action="store_true",
                    help="Affiche la progression attaquant par attaquant.")
     p.set_defaults(func=cmd.cmd_unit_benchmark_all)

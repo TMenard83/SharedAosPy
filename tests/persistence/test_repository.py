@@ -36,6 +36,8 @@ def test_add_unit_with_weapons(con):
         weapons=[
             Weapon(name="Malignant Weapon", kind="melee",
                    attacks=2, hit=4, wound=4, rend=0, damage=1),
+            Weapon(name="Companion Blade", kind="melee",
+                   attacks=1, hit=4, wound=4, rend=0, damage=1, is_companion=True),
         ],
     )
     unit_id = repository.add_unit(con, unit)
@@ -43,8 +45,11 @@ def test_add_unit_with_weapons(con):
     assert got is not None
     assert got.name == "Chainrasps"
     assert got.ward == 5
-    assert len(got.weapons) == 1
-    assert got.weapons[0].kind == "melee"
+    assert len(got.weapons) == 2
+    by_name = {w.name: w for w in got.weapons}
+    assert by_name["Malignant Weapon"].kind == "melee"
+    assert by_name["Malignant Weapon"].is_companion is False
+    assert by_name["Companion Blade"].is_companion is True
 
 
 def test_load_armies_from_json(con):

@@ -1,7 +1,7 @@
 """Essai (concluant, adopté) : remplacer `dmg_pen` (ratio sans dimension
-dmg_vs_save2/dmg_vs_nosave) par `dmg_vs_save2` (dégât absolu contre une save 2+), qui EST
+dmg_vs_save2/dmg_vs_save6) par `dmg_vs_save2` (dégât absolu contre une save 2+), qui EST
 déjà, par construction, la "moyenne des dommages × pénétration" suggérée —
-dmg_vs_nosave × dmg_pen == dmg_vs_save2 exactement, mais calculé directement par le moteur
+dmg_vs_save6 × dmg_pen == dmg_vs_save2 exactement, mais calculé directement par le moteur
 de combat (chaîne hit/wound/save/ward) plutôt que reconstruit après coup par un ratio. La
 différence n'est pas cosmétique : le ratio est aveugle à la magnitude (un profil à dégât nul
 avec 100% de rend obtient le même dmg_pen qu'un profil à gros dégât avec 100% de rend), alors
@@ -39,5 +39,5 @@ print()
 for label, model in [("A", model_ratio), ("B", model_weighted), ("C", model_both)]:
     print(f"-- Modèle {label} : coefficients dmg_pen / dmg_vs_save2 --")
     for c in model.coefficients:
-        if c.name in ("dmg_pen", "dmg_vs_save2", "dmg_vs_nosave"):
+        if c.name in ("dmg_pen", "dmg_vs_save2", "dmg_vs_save6"):
             print(f"  {c.name:20s} {c.coef:+8.2f}  p={c.p_value:.3f}")

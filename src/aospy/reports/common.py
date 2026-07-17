@@ -10,7 +10,7 @@ from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.units import mm
 from reportlab.lib.enums import TA_CENTER, TA_LEFT
 from reportlab.platypus import (
-    BaseDocTemplate, PageTemplate, Frame, Table, TableStyle, Flowable,
+    BaseDocTemplate, PageTemplate, Frame, Table, TableStyle, Flowable, Paragraph,
 )
 
 OLD_ENGLISH_FONT = "Times-Bold"
@@ -80,6 +80,13 @@ section_note = ParagraphStyle(
 subhead = ParagraphStyle(
     "subhead", fontName="Times-Bold", fontSize=11, leading=14,
     textColor=NIGHT_BLUE, spaceBefore=6, spaceAfter=4,
+)
+#: Corps de texte pour les pages "Data" (fond parchemin clair) — contrairement à
+#: `cover_body` (texte clair, prévu pour le fond nuit de la couverture), qui
+#: deviendrait illisible sur ce fond.
+body_text = ParagraphStyle(
+    "body_text", fontName="Times-Roman", fontSize=9.5, leading=13.5,
+    textColor=NIGHT_BLUE, alignment=TA_LEFT, spaceBefore=4, spaceAfter=6,
 )
 
 
@@ -203,6 +210,17 @@ def ranked_table(header, col_widths, rows, fmt_row, alliance_of, colored_cols=()
     if ranks is None:
         ranks = [start_rank + i for i in range(len(rows))]
     data = [header] + [fmt_row(rank, r) for rank, r in zip(ranks, rows)]
+    #: Colonne 1 (nom) : seule colonne à largeur de texte non bornée (noms de
+    #: profil libres, parfois longs — ex. "Hearthguard Berzerkers with
+    #: Flamestrike Poleaxes") — enveloppée dans un `Paragraph` pour un retour à
+    #: la ligne automatique dans sa largeur de colonne, plutôt que de déborder
+    #: sur la colonne "Armée" voisine comme le ferait une chaîne brute.
+    name_style = ParagraphStyle(
+        "table_name", fontName="Times-Roman", fontSize=font_size, leading=font_size * 1.15,
+        textColor=colors.black, alignment=TA_LEFT,
+    )
+    for row in data[1:]:
+        row[1] = Paragraph(row[1], name_style)
     t = Table(data, colWidths=col_widths, repeatRows=1)
     style = [
         ("BACKGROUND", (0, 0), (-1, 0), NIGHT_BLUE),

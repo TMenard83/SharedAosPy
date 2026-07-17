@@ -28,10 +28,20 @@ class PairResult:
 
 @dataclass
 class SideOptions:
-    """Options par côté (offensif + défensif)."""
+    """Options par côté (offensif + défensif).
+
+    `ran_and_charged` : le côté a une règle spécifique l'autorisant à courir
+    ET charger le même tour (interdit par défaut) — n'a d'effet que combiné à
+    la règle optionnelle "tir double" (`orchestration/benchmark.py::DuelRules.
+    double_shoot`), et seulement si ce côté est celui déduit comme chargeur
+    (plus petite portée à distance des deux, cf. `_mods`) ; ignoré ailleurs
+    (`battle simulate` notamment). Indépendant de `charged` : ce dernier ne
+    gouverne plus que le bonus `Charge (+N)` (`DuelRules.charge_move_threshold`).
+    """
     charged: bool = True
     all_out_attack: bool = False
     all_out_defense: bool = False
+    ran_and_charged: bool = False
 
 
 @dataclass

@@ -6,10 +6,11 @@ from pathlib import Path
 
 import pytest
 
+from aospy.domain.models import Unit, Weapon
 from aospy.orchestration import benchmark as bench
 from aospy.persistence import db, repository, seed
 from aospy.cli import main as cli_main
-from aospy.engine.combat import CombatModifiers, expected_unit_damage
+from aospy.engine.combat import CombatModifiers, RANGED_DOUBLE_MULT, expected_unit_damage
 from aospy.cli.report import format_benchmark, format_benchmark_table, format_duel_detail
 from aospy.orchestration.simulation import SideOptions
 
@@ -131,6 +132,14 @@ def test_unit_duel_asymmetric_modes(con):
     assert asym.mode_b == "mean"
     assert asym.raw_a_to_b <= mean_result.raw_a_to_b
     assert asym.raw_b_to_a == pytest.approx(mean_result.raw_b_to_a)
+
+
+def test_unit_duel_floor66_less_pessimistic_than_floor80(con):
+    libs, clan = _pair(con)
+    floor66 = bench.unit_duel(libs, clan, "Skaven", mode_a="floor66", mode_b="mean")
+    floor80 = bench.unit_duel(libs, clan, "Skaven", mode_a="floor80", mode_b="mean")
+    assert floor66.mode_a == "floor66"
+    assert floor66.raw_a_to_b >= floor80.raw_a_to_b
 
 
 def test_benchmark_attacker_propagates_modes(con):
@@ -267,3 +276,222 @@ def test_cli_unit_benchmark_all_persists_modes(tmp_path: Path, capsys):
         assert row == [("floor80", "mean")]
     finally:
         con.close()
+
+
+# --------------------------------------------------------------------------- #
+# Règles optionnelles (DuelRules) : tir double + seuil de charge à 30% de Move
+# --------------------------------------------------------------------------- #
+
+def _melee_unit(name, move, save=7, weapons=None, models=1):
+    return Unit(
+        name=name, army_id=1, move=move, save=save, health=1, control=1,
+        models=models, points=100, weapons=weapons or [],
+    )
+
+
+def test_duel_rules_default_does_not_change_behavior():
+    # DuelRules() désactivées par défaut : aucun changement vs sans `rules`.
+    ranged = Weapon(name="r", kind="ranged", attacks=2, hit=4, wound=4, damage=1, range_in=18)
+    charge_weapon = Weapon(name="m", kind="melee", attacks=2, hit=4, wound=4, damage=1,
+                           abilities="Charge (+1 Damage)")
+    attacker = _melee_unit("A", move=8, weapons=[charge_weapon])
+    defender = _melee_unit("B", move=4, weapons=[ranged])
+    without_rules = bench.unit_duel(
+        attacker, defender, "B-army",
+        options_a=SideOptions(charged=True), options_b=SideOptions(charged=False),
+    )
+    with_default_rules = bench.unit_duel(
+        attacker, defender, "B-army",
+        options_a=SideOptions(charged=True), options_b=SideOptions(charged=False),
+        rules=bench.DuelRules(),
+    )
+    assert with_default_rules.raw_a_to_b == pytest.approx(without_rules.raw_a_to_b)
+    assert with_default_rules.raw_b_to_a == pytest.approx(without_rules.raw_b_to_a)
+
+
+def test_charge_move_threshold_disables_charge_bonus_below_30_percent():
+    weapon = Weapon(name="m", kind="melee", attacks=2, hit=4, wound=4, damage=1,
+                    abilities="Charge (+1 Damage)")
+    # Move 6 vs Move 5 : 6 n'est pas > 5*1.3=6.5 → bonus neutralisé.
+    attacker = _melee_unit("A", move=6, weapons=[weapon])
+    defender = _melee_unit("B", move=5)
+    result = bench.unit_duel(
+        attacker, defender, "B-army",
+        options_a=SideOptions(charged=True), options_b=SideOptions(charged=False),
+        rules=bench.DuelRules(charge_move_threshold=True),
+    )
+    no_rule = bench.unit_duel(
+        attacker, defender, "B-army",
+        options_a=SideOptions(charged=False), options_b=SideOptions(charged=False),
+    )
+    assert result.raw_a_to_b == pytest.approx(no_rule.raw_a_to_b)
+
+
+def test_charge_move_threshold_keeps_charge_bonus_above_30_percent():
+    weapon = Weapon(name="m", kind="melee", attacks=2, hit=4, wound=4, damage=1,
+                    abilities="Charge (+1 Damage)")
+    # Move 8 vs Move 5 : 8 > 5*1.3=6.5 → bonus conservé.
+    attacker = _melee_unit("A", move=8, weapons=[weapon])
+    defender = _melee_unit("B", move=5)
+    result = bench.unit_duel(
+        attacker, defender, "B-army",
+        options_a=SideOptions(charged=True), options_b=SideOptions(charged=False),
+        rules=bench.DuelRules(charge_move_threshold=True),
+    )
+    charged_no_rule = bench.unit_duel(
+        attacker, defender, "B-army",
+        options_a=SideOptions(charged=True), options_b=SideOptions(charged=False),
+    )
+    assert result.raw_a_to_b == pytest.approx(charged_no_rule.raw_a_to_b)
+
+
+def test_charge_move_threshold_triggers_without_charge_flag():
+    # --charge none (options_a.charged=False) : la règle active détermine
+    # quand même l'état chargé toute seule, à partir du seul écart de Move.
+    weapon = Weapon(name="m", kind="melee", attacks=2, hit=4, wound=4, damage=1,
+                    abilities="Charge (+1 Damage)")
+    attacker = _melee_unit("A", move=8, weapons=[weapon])
+    defender = _melee_unit("B", move=5)
+    result = bench.unit_duel(
+        attacker, defender, "B-army",
+        options_a=SideOptions(charged=False), options_b=SideOptions(charged=False),
+        rules=bench.DuelRules(charge_move_threshold=True),
+    )
+    charged_no_rule = bench.unit_duel(
+        attacker, defender, "B-army",
+        options_a=SideOptions(charged=True), options_b=SideOptions(charged=False),
+    )
+    assert result.raw_a_to_b == pytest.approx(charged_no_rule.raw_a_to_b)
+
+
+def test_charge_move_threshold_cancels_charge_flag_when_below_threshold():
+    # --charge a (options_a.charged=True) : la règle active peut désormais
+    # aussi ANNULER une charge déclarée si l'écart de Move est insuffisant.
+    weapon = Weapon(name="m", kind="melee", attacks=2, hit=4, wound=4, damage=1,
+                    abilities="Charge (+1 Damage)")
+    attacker = _melee_unit("A", move=6, weapons=[weapon])
+    defender = _melee_unit("B", move=5)
+    result = bench.unit_duel(
+        attacker, defender, "B-army",
+        options_a=SideOptions(charged=True), options_b=SideOptions(charged=False),
+        rules=bench.DuelRules(charge_move_threshold=True),
+    )
+    no_charge_no_rule = bench.unit_duel(
+        attacker, defender, "B-army",
+        options_a=SideOptions(charged=False), options_b=SideOptions(charged=False),
+    )
+    assert result.raw_a_to_b == pytest.approx(no_charge_no_rule.raw_a_to_b)
+
+
+def test_double_shoot_triggers_when_reach_below_defender_range():
+    # A n'a pas d'arme ranged (portée 0), B a un tireur de portée 18 : A est
+    # déduit chargeur (plus petite portée) sans avoir besoin de --charge.
+    # reach(A) = Move 4 + charge_dist défaut 7 = 11 < 18 → B tire deux fois sur A.
+    ranged = Weapon(name="r", kind="ranged", attacks=2, hit=4, wound=4, damage=1, range_in=18)
+    attacker = _melee_unit("A", move=4)
+    defender = _melee_unit("B", move=5, weapons=[ranged])
+    base = bench.unit_duel(attacker, defender, "B-army")
+    doubled = bench.unit_duel(
+        attacker, defender, "B-army", rules=bench.DuelRules(double_shoot=True),
+    )
+    assert doubled.raw_b_to_a == pytest.approx(RANGED_DOUBLE_MULT * base.raw_b_to_a)
+    assert doubled.raw_a_to_b == pytest.approx(base.raw_a_to_b)  # A n'a pas d'arme ranged
+
+
+def test_double_shoot_inactive_when_reach_covers_defender_range():
+    # reach = 4 + 7 = 11 > portée 10 : A (chargeur déduit) peut couvrir la
+    # distance, pas de tir double — sans aucun --charge non plus.
+    ranged = Weapon(name="r", kind="ranged", attacks=2, hit=4, wound=4, damage=1, range_in=10)
+    attacker = _melee_unit("A", move=4)
+    defender = _melee_unit("B", move=5, weapons=[ranged])
+    base = bench.unit_duel(attacker, defender, "B-army")
+    result = bench.unit_duel(
+        attacker, defender, "B-army", rules=bench.DuelRules(double_shoot=True),
+    )
+    assert result.raw_b_to_a == pytest.approx(base.raw_b_to_a)
+
+
+def test_double_shoot_ran_and_charged_extends_reach():
+    # portée 12 : sans course+charge reach=11 < 12 → tir double ; avec course
+    # (ran_and_charged côté A, +3.5) reach=14.5 >= 12 → plus de tir double.
+    # A est déduit chargeur (portée 0 < 12), donc c'est bien options_a qui compte.
+    ranged = Weapon(name="r", kind="ranged", attacks=2, hit=4, wound=4, damage=1, range_in=12)
+    attacker = _melee_unit("A", move=4)
+    defender = _melee_unit("B", move=5, weapons=[ranged])
+    base = bench.unit_duel(attacker, defender, "B-army")
+    without_run = bench.unit_duel(
+        attacker, defender, "B-army", rules=bench.DuelRules(double_shoot=True),
+    )
+    with_run = bench.unit_duel(
+        attacker, defender, "B-army",
+        options_a=SideOptions(ran_and_charged=True),
+        rules=bench.DuelRules(double_shoot=True),
+    )
+    assert without_run.raw_b_to_a == pytest.approx(RANGED_DOUBLE_MULT * base.raw_b_to_a)
+    assert with_run.raw_b_to_a == pytest.approx(base.raw_b_to_a)
+
+
+def test_double_shoot_only_doubles_ranged_profile_not_melee():
+    ranged = Weapon(name="r", kind="ranged", attacks=2, hit=4, wound=4, damage=1, range_in=18)
+    melee = Weapon(name="m", kind="melee", attacks=2, hit=4, wound=4, damage=1)
+    attacker = _melee_unit("A", move=4)
+    defender = _melee_unit("B", move=5, weapons=[ranged, melee])
+    base = bench.unit_duel(attacker, defender, "B-army")
+    doubled = bench.unit_duel(
+        attacker, defender, "B-army", rules=bench.DuelRules(double_shoot=True),
+    )
+    # seul le profil ranged double, le profil melee reste identique
+    assert doubled.raw_b_to_a < 2 * base.raw_b_to_a
+    assert doubled.raw_b_to_a > base.raw_b_to_a
+
+
+def test_double_shoot_does_not_need_charge_flag_at_all():
+    # Le camp chargeur est déduit des portées, pas de --charge : même résultat
+    # que --charge a/b/both/none n'ait aucune incidence sur ce calcul.
+    ranged = Weapon(name="r", kind="ranged", attacks=2, hit=4, wound=4, damage=1, range_in=18)
+    attacker = _melee_unit("A", move=4)
+    defender = _melee_unit("B", move=5, weapons=[ranged])
+    rules = bench.DuelRules(double_shoot=True)
+    none_charged = bench.unit_duel(
+        attacker, defender, "B-army",
+        options_a=SideOptions(charged=False), options_b=SideOptions(charged=False),
+        rules=rules,
+    )
+    both_charged = bench.unit_duel(
+        attacker, defender, "B-army",
+        options_a=SideOptions(charged=True), options_b=SideOptions(charged=True),
+        rules=rules,
+    )
+    assert none_charged.raw_b_to_a == pytest.approx(both_charged.raw_b_to_a)
+
+
+def test_double_shoot_inactive_when_ranges_tied():
+    # Portées égales (y compris 0-0, mêlée pure des deux côtés) : aucun camp
+    # n'est désigné chargeur par ce critère, la règle ne s'applique pas.
+    melee_a = Weapon(name="ma", kind="melee", attacks=2, hit=4, wound=4, damage=1)
+    melee_b = Weapon(name="mb", kind="melee", attacks=2, hit=4, wound=4, damage=1)
+    attacker = _melee_unit("A", move=4, weapons=[melee_a])
+    defender = _melee_unit("B", move=4, weapons=[melee_b])
+    base = bench.unit_duel(attacker, defender, "B-army")
+    result = bench.unit_duel(
+        attacker, defender, "B-army", rules=bench.DuelRules(double_shoot=True),
+    )
+    assert result.raw_a_to_b == pytest.approx(base.raw_a_to_b)
+    assert result.raw_b_to_a == pytest.approx(base.raw_b_to_a)
+
+
+def test_cli_unit_duel_optional_rules_flags_parse_and_report(tmp_path: Path, capsys):
+    dbp = tmp_path / "cli.duckdb"
+    cli_main(["--db", str(dbp), "init"])
+    capsys.readouterr()
+    rc = cli_main([
+        "--db", str(dbp), "unit", "duel",
+        "--attacker", "Liberators", "--defender", "Clanrats",
+        "--charge", "a", "--rule-double-shoot", "--rule-charge-threshold",
+        "--ran-and-charged", "a",
+    ])
+    out = capsys.readouterr().out
+    assert rc == 0
+    assert "Règles optionnelles" in out
+    assert "tir double" in out
+    assert "seuil de charge 30%" in out

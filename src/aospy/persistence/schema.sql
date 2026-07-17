@@ -55,12 +55,20 @@ CREATE TABLE IF NOT EXISTS weapon (
     rend            INTEGER NOT NULL DEFAULT 0, -- valeur positive (0,1,2…) appliquée en -X
     damage          INTEGER NOT NULL,
     abilities       VARCHAR,                    -- texte libre (crit/anti/…)
-    wielders        INTEGER NOT NULL DEFAULT 0  -- nb de modèles porteurs (0 = tous)
+    wielders        INTEGER NOT NULL DEFAULT 0, -- nb de modèles porteurs (0 = tous)
+    is_companion    BOOLEAN NOT NULL DEFAULT FALSE -- hérité d'une sous-entrée gratuite fusionnée (BSData)
 );
 
--- Migration : ajoute la colonne wielders si la table existait sans elle
--- (DuckDB n'autorise pas NOT NULL sur ADD COLUMN ; le DEFAULT 0 suffit en pratique)
+-- Migration : ajoute wielders si la table existait sans elle
+-- (DuckDB n'autorise pas NOT NULL sur ADD COLUMN ; le DEFAULT suffit en pratique)
 ALTER TABLE weapon ADD COLUMN IF NOT EXISTS wielders INTEGER DEFAULT 0;
+-- is_companion (BOOLEAN) n'a volontairement PAS son propre ADD COLUMN IF NOT EXISTS
+-- ici : contrairement à wielders (INTEGER) ou keywords/description (VARCHAR),
+-- une colonne BOOLEAN réinitialise silencieusement sa valeur à sa DEFAULT quand
+-- cette instruction est ré-exécutée sur une colonne déjà existante (constaté
+-- empiriquement, cf. db.py::_migrate_weapon_is_companion) — la migration est donc
+-- gardée en Python (exécutée une seule fois, jamais réémise une fois la colonne
+-- présente) plutôt que placée ici.
 
 -- Traits héroïques (spécifiques à une armée en AoS 4)
 CREATE TABLE IF NOT EXISTS heroic_trait (
@@ -106,10 +114,11 @@ CREATE TABLE IF NOT EXISTS composition_unit (
 );
 
 -- Résultats persistés des duels unité vs unité (1 round). `attacker_mode`/
--- `defender_mode` ('mean'/'floor80'/'floor95') contrôlent indépendamment la
--- lecture du dégât de chaque sens : 'mean' = dégât espéré, 'floor80'/'floor95' =
--- plancher de dégât à 80%/95% de confiance (combat.py::damage_floor80/damage_floor95,
--- moyenne − z·σ) — un duel n'est donc pas nécessairement symétrique dans sa lecture.
+-- `defender_mode` ('mean'/'floor66'/'floor80'/'floor95') contrôlent indépendamment
+-- la lecture du dégât de chaque sens : 'mean' = dégât espéré, 'floor66'/'floor80'/
+-- 'floor95' = plancher de dégât à 66%/80%/95% de confiance
+-- (combat.py::damage_floor66/damage_floor80/damage_floor95, moyenne − z·σ) — un
+-- duel n'est donc pas nécessairement symétrique dans sa lecture.
 -- Les variantes coexistent (clé incluant les deux modes), calculées par
 -- `benchmark.py::unit_duel(..., mode_a=..., mode_b=...)`.
 CREATE TABLE IF NOT EXISTS unit_benchmark (

@@ -73,6 +73,8 @@ class ParsedWeapon:
     damage: int
     abilities: Optional[str] = None
     wielders: int = 0  # nb de modèles porteurs (0 = défaut, ne devrait pas survenir post-parse)
+    is_companion: bool = False  # marqué par `_merge_composite_units` pour les profils
+    # hérités d'une sous-entrée gratuite fusionnée dans son parent payant
 
 
 @dataclass
@@ -88,6 +90,7 @@ class ParsedUnit:
     ward: Optional[int]
     keywords: frozenset[str] = frozenset()
     weapons: list[ParsedWeapon] = field(default_factory=list)
+    is_legends: bool = False  # cf. `_is_legends_entry`
 
 
 # ----- Conversions BattleScribe -----------------------------------------------
@@ -323,6 +326,32 @@ def _option_damage_score(entry: ET.Element) -> float:
     return total
 
 
+#: Corrections manuelles pour des règles spéciales portées par un profil séparé
+#: du warscroll (`typeName="Ability (Passive)"`) plutôt que par la caractéristique
+#: "Ability" du profil d'arme lui-même (la seule que `_extract_weapons` lit) —
+#: aospy ne stocke pas de table d'aptitudes par unité (cf. CLAUDE.md), donc ces
+#: règles échappent structurellement au parsing générique. Repérable dans le
+#: catalogue par des caractéristiques Wnd/Rnd/Dmg non numériques du genre
+#: « See <X> ability » : `parse_target`/`parse_dice` les résolvent alors en
+#: valeurs par défaut (wound=7 impossible, rend=0, damage=0) qui masquent
+#: silencieusement l'effet réel. Clé = nom du profil d'arme (unique au
+#: catalogue à ce jour) ; seuls les champs qui ont réellement besoin d'être
+#: corrigés sont listés (`wound`/`rend` restent au fallback ci-dessus quand ils
+#: n'ont pas d'effet propre à modéliser).
+_KNOWN_WEAPON_FIXUPS: dict[str, dict[str, object]] = {
+    # Warp Lightning Cannon (Skaven), warscroll : "Each hit inflicts 1 mortal
+    # damage on the target and the attack sequence ends." — pas de jet pour
+    # blesser du tout (cf. `combat.py::_has_no_wound_roll`).
+    "Warp Lightning Blast": {"damage": 1, "abilities": "No Wound Roll (Mortal)"},
+}
+
+
+def _apply_known_weapon_fixups(weapons: list[ParsedWeapon]) -> None:
+    for w in weapons:
+        for field, value in _KNOWN_WEAPON_FIXUPS.get(w.name, {}).items():
+            setattr(w, field, value)
+
+
 def _extract_weapons(unit_entry: ET.Element) -> list[ParsedWeapon]:
     """Parcourt récursivement les profils Melee/Ranged Weapon et calcule les porteurs.
 
@@ -406,6 +435,7 @@ def _extract_weapons(unit_entry: ET.Element) -> list[ParsedWeapon]:
             _walk_siblings(group_children)
 
     walk(unit_entry, base_models)
+    _apply_known_weapon_fixups(weapons)
     return weapons
 
 
@@ -485,8 +515,25 @@ def parse_library_units(xml_text: str) -> dict[str, ParsedUnit]:
             ward=_ward_from_categories(entry),
             keywords=_keywords(entry),
             weapons=_extract_weapons(entry),
+            is_legends=_is_legends_entry(entry),
         )
     return units
+
+
+def _is_legends_entry(entry: ET.Element) -> bool:
+    """Détecte le tag natif BSData `categoryLink name="Legends"` sur un
+    `selectionEntry` — signal per-unit posé directement par BSData, indépendant
+    du recoupement par nom avec Wahapedia (`_wahapedia_legends_names`, sujet à
+    des faux négatifs si les deux jeux de données divergent, cf. apostrophes
+    typographiques ci-dessous). Vérifié en confrontant les deux sources : les
+    deux s'accordent (ex. "Gryselle's Arenai" chez Daughters of Khaine, "Hexbane's
+    Hunters" chez Cities of Sigmar), donc gardé en complément plutôt qu'en
+    remplacement — l'un peut être mis à jour avant l'autre.
+    """
+    for cl in entry.findall(_ns("categoryLinks") + "/" + _ns("categoryLink")):
+        if (cl.get("name") or "").strip().lower() == "legends":
+            return True
+    return False
 
 
 # ----- Filtrage Legends / packs narratifs périmés ------------------------------
@@ -507,6 +554,17 @@ _EXPIRED_VARIANT_MARKERS: frozenset[str] = frozenset({
 def _is_expired_variant(name: str) -> bool:
     lname = name.strip().lower()
     return any(marker in lname for marker in _EXPIRED_VARIANT_MARKERS)
+
+
+def _normalize_name(name: str) -> str:
+    """Casse + apostrophes typographiques -> ASCII, pour comparer un nom BSData
+    (`&apos;` = U+0027) à un nom Wahapedia (guillemet courbe U+2019 systématique
+    dans les CSV, ex. "Gryselle’s Arenai") sans faux négatif silencieux — sinon
+    toute unité au nom possessif (nombreuses : "X's ...") échappe au filtre
+    Legends alors même que `_wahapedia_legends_names`/`_legends_warscroll_ids`
+    la détecte correctement côté données.
+    """
+    return name.strip().lower().replace("’", "'").replace("‘", "'")
 
 
 def _is_legends_catalogue(xml_text: str) -> bool:
@@ -547,7 +605,7 @@ def _wahapedia_legends_names(data_dir: Path = WAHAPEDIA_DATA_DIR) -> set[str]:
             or "legend" in (w.get("notes") or "").lower()
         )
         if is_legend:
-            names.add((w.get("name") or "").strip().lower())
+            names.add(_normalize_name(w.get("name") or ""))
     return names
 
 
@@ -637,6 +695,8 @@ def _merge_composite_units(
         parent = units.get(parent_id)
         if extra is None or parent is None:
             continue
+        for w in extra.weapons:
+            w.is_companion = True
         parent.models += extra.models
         parent.weapons += extra.weapons
         parent.keywords |= extra.keywords
@@ -687,7 +747,11 @@ def import_army(
         if parsed is None:
             summary.skipped_no_profile += 1
             continue
-        if parsed.name.strip().lower() in legends_names or _is_expired_variant(parsed.name):
+        if (
+            parsed.is_legends
+            or _normalize_name(parsed.name) in legends_names
+            or _is_expired_variant(parsed.name)
+        ):
             summary.skipped_legends += 1
             continue
         if "FACTION TERRAIN" in parsed.keywords:
@@ -706,7 +770,7 @@ def import_army(
                 name=w.name, kind=w.kind, range_in=w.range_in,  # type: ignore[arg-type]
                 attacks=w.attacks, hit=w.hit, wound=w.wound,
                 rend=w.rend, damage=w.damage, abilities=w.abilities,
-                wielders=w.wielders,
+                wielders=w.wielders, is_companion=w.is_companion,
             ) for w in parsed.weapons],
         )
         was_update = repository.replace_unit(con, unit)

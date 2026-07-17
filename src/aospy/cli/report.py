@@ -6,11 +6,21 @@ from collections import defaultdict
 from io import StringIO
 from typing import Iterable
 
-from ..orchestration.benchmark import DuelResult
+from ..orchestration.benchmark import DuelResult, DuelRules
 from ..orchestration.simulation import BattleReport, SideOptions, SideReport
 
 
 _MODE_LABEL = {"mean": "moyenne", "floor80": "plancher 80%", "floor95": "plancher 95%"}
+
+
+def _rules_line(rules: DuelRules) -> str:
+    """Ligne listant les règles optionnelles actives (vide si aucune)."""
+    active = []
+    if rules.double_shoot:
+        active.append("tir double")
+    if rules.charge_move_threshold:
+        active.append("seuil de charge 30%")
+    return f"  Règles optionnelles : {', '.join(active)}\n" if active else ""
 
 
 def _opts_line(label: str, opts: SideOptions) -> str:
@@ -176,6 +186,7 @@ def format_duel_detail(r: DuelResult) -> str:
         f"  B → A ({_MODE_LABEL[r.mode_b]}) : E[dmg]={r.expected_b_to_a:6.2f} (brut {r.raw_b_to_a:6.2f}) "
         f"/ HP {r.attacker_total_hp} → E[models killed]={r.expected_models_killed_a:5.2f}\n"
     )
+    buf.write(_rules_line(r.rules))
     buf.write(f"  Net (HP)  : {r.net:+6.2f}\n")
     buf.write(
         f"  Pts détruits chez B : {r.pts_destroyed:6.1f} "
@@ -220,6 +231,8 @@ def format_benchmark(
     buf = StringIO()
     buf.write(f"\n=========== Benchmark : {attacker_label} ===========\n")
     buf.write(_duel_opts_line(opts_a, opts_b) + "\n")
+    if results:
+        buf.write(_rules_line(results[0].rules))
     buf.write(f"  {len(results)} défenseurs testés\n\n")
     buf.write(format_benchmark_table(results, sort_by=sort_by))
     if detail:

@@ -11,6 +11,10 @@ Mécaniques prises en compte :
   charge ne donne aucun bonus universel : seuls certains profils d'arme
   (typiquement de la cavalerie) portent ce texte, le plus souvent
   `Charge (+1 Damage)` plutôt qu'un bonus d'attaques.
+- Règle optionnelle "tir double" (`CombatModifiers.attacker_ranged_double`,
+  cf. `orchestration/benchmark.py::DuelRules.double_shoot`) : multiplie par
+  `RANGED_DOUBLE_MULT` le dégât espéré des profils `ranged` de l'attaquant,
+  la mêlée n'est pas concernée.
 """
 
 from __future__ import annotations
@@ -22,13 +26,26 @@ from typing import Optional
 
 from ..domain.models import Unit, Weapon
 
+#: Multiplicateur de la règle optionnelle "tir double" (`CombatModifiers.
+#: attacker_ranged_double`) — appliqué aux seuls profils `ranged` de
+#: l'attaquant. Historiquement 2.0 (deux tirs), ramené à 1.5 : la règle reste
+#: un simple multiplicateur du dégât espéré, plus littéralement "N tirs".
+RANGED_DOUBLE_MULT = 1.5
+
 
 @dataclass
 class CombatModifiers:
-    """Modificateurs pour une direction d'attaque (attaquant vs défenseur)."""
+    """Modificateurs pour une direction d'attaque (attaquant vs défenseur).
+
+    `attacker_ranged_double` : règle optionnelle "tir double"
+    (`orchestration/benchmark.py::DuelRules.double_shoot`) — multiplie par
+    `RANGED_DOUBLE_MULT` le dégât espéré des profils d'arme `ranged` de
+    l'attaquant (mêlée non affectée).
+    """
     attacker_all_out_attack: bool = False
     attacker_charged: bool = False
     defender_all_out_defense: bool = False
+    attacker_ranged_double: bool = False
 
 
 def _prob_x_plus(x: int, modifier: int = 0) -> float:
@@ -73,6 +90,19 @@ def weapon_crit_type(abilities: Optional[str]) -> str:
     """Alias public de `_parse_crit`, pour un usage hors de ce module (ex. le
     vecteur de caractéristiques du modèle de coût, `analysis/features.py`)."""
     return _parse_crit(abilities)
+
+
+def _has_no_wound_roll(abilities: Optional[str]) -> bool:
+    """Détecte la règle spéciale « pas de jet pour blesser » dans `Weapon.abilities` :
+    chaque touche inflige directement le dégât du profil en blessures mortelles —
+    saute blessure ET save (le ward peut encore l'arrêter). Ex. Warp Lightning
+    Cannon (« Each hit inflicts 1 mortal damage on the target and the attack
+    sequence ends. ») : contrairement à `Crit (Mortal)`, qui ne s'applique qu'aux
+    touches critiques (6 naturel), cette règle s'applique à *toutes* les touches
+    — il n'y a jamais de jet pour blesser du tout sur ce profil."""
+    if not abilities:
+        return False
+    return "no wound roll" in _normalize_abilities(abilities).lower()
 
 
 _ANTI_RE = re.compile(r"Anti-([A-Za-z ]+?)\s*\(\s*\+(\d+)\s+(\w+)\s*\)", re.IGNORECASE)
@@ -176,18 +206,27 @@ def expected_weapon_damage(
     dmg = weapon.damage + bonus.damage
     crit_type = _parse_crit(weapon.abilities)
 
+    #: Règle optionnelle "tir double" (`DuelRules.double_shoot`) : ne
+    #: multiplie que les profils `ranged`, la mêlée n'est pas concernée.
+    ranged_mult = RANGED_DOUBLE_MULT if modifiers.attacker_ranged_double and weapon.kind == "ranged" else 1.0
+
+    if _has_no_wound_roll(weapon.abilities):
+        # pas de jet pour blesser : chaque touche saute blessure ET save (le ward peut encore l'arrêter)
+        e_hits = total_attacks * p_hit
+        return e_hits * dmg * ward_mult * ranged_mult
+
     if crit_type == "2hits":
         e_hits = total_attacks * (p_normal_hit + 2.0 * p_crit)
         e_wounds = e_hits * p_wound
         e_unsaved = e_wounds * p_unsaved
-        return e_unsaved * dmg * ward_mult
+        return e_unsaved * dmg * ward_mult * ranged_mult
 
     if crit_type == "autowound":
         e_normal_hits = total_attacks * p_normal_hit
         e_crit_hits = total_attacks * p_crit
         e_wounds = e_normal_hits * p_wound + e_crit_hits
         e_unsaved = e_wounds * p_unsaved
-        return e_unsaved * dmg * ward_mult
+        return e_unsaved * dmg * ward_mult * ranged_mult
 
     if crit_type == "mortal":
         e_normal_hits = total_attacks * p_normal_hit
@@ -195,13 +234,13 @@ def expected_weapon_damage(
         e_normal_unsaved = e_normal_hits * p_wound * p_unsaved
         e_damage_normal = e_normal_unsaved * dmg
         e_damage_mortal = e_crit_hits * dmg   # bypass wound + save
-        return (e_damage_normal + e_damage_mortal) * ward_mult
+        return (e_damage_normal + e_damage_mortal) * ward_mult * ranged_mult
 
     # standard
     e_hits = total_attacks * p_hit
     e_wounds = e_hits * p_wound
     e_unsaved = e_wounds * p_unsaved
-    return e_unsaved * dmg * ward_mult
+    return e_unsaved * dmg * ward_mult * ranged_mult
 
 
 #: Cible de référence utilisée pour classer des profils d'arme entre eux (rend
@@ -320,7 +359,11 @@ def weapon_damage_moments(
     p_land = p_wound * p_unsaved * ward_survive
     crit_type = _parse_crit(weapon.abilities)
 
-    if crit_type == "2hits":
+    if _has_no_wound_roll(weapon.abilities):
+        # pas de jet pour blesser : chaque touche est un Bernoulli(ward_survive) direct
+        ex1 = p_hit * ward_survive
+        ex2 = ex1
+    elif crit_type == "2hits":
         # une touche crit vaut 2 essais indépendants Bernoulli(p_land) : E[Y²] = 2p + 2p² pour Y = B1+B2
         ex1 = p_normal_hit * p_land + p_crit * 2.0 * p_land
         ex2 = p_normal_hit * p_land + p_crit * (2.0 * p_land + 2.0 * p_land * p_land)
@@ -340,7 +383,15 @@ def weapon_damage_moments(
     mean_attack = ex1 * dmg
     var_attack = max(0.0, ex2 * dmg * dmg - mean_attack * mean_attack)
 
-    return total_attacks * mean_attack, total_attacks * var_attack
+    #: Règle optionnelle "tir double" (`DuelRules.double_shoot`), profils
+    #: `ranged` uniquement : la moyenne ET la variance sont multipliées par
+    #: `RANGED_DOUBLE_MULT` (pas la variance au carré qu'on aurait en mettant
+    #: à l'échelle une seule variable aléatoire par une constante) — exact
+    #: pour une somme de tirages i.i.d. (le cas historique ×2 = 2 tirs),
+    #: traité ici comme un simple multiplicateur au-delà de ce cas entier.
+    ranged_mult = RANGED_DOUBLE_MULT if modifiers.attacker_ranged_double and weapon.kind == "ranged" else 1.0
+
+    return total_attacks * mean_attack * ranged_mult, total_attacks * var_attack * ranged_mult
 
 
 def unit_damage_moments(
@@ -364,23 +415,201 @@ def unit_damage_moments(
     return mean_total, var_total, math.sqrt(var_total)
 
 
-#: Quantiles de la loi normale centrée réduite (couverture 80 %/95 %, borne inférieure).
+#: Quantiles de la loi normale centrée réduite (couverture 66 %/80 %/95 %, borne inférieure).
+#: NB : conservées uniquement pour comparaison avec `distribution_floor` (approximation
+#: gaussienne historique) — la lecture des planchers en production passe désormais par
+#: la distribution exacte ci-dessous (`orchestration/benchmark.py::_attack_damage`).
+_Z66 = 0.41246312944140484
 _Z80 = 0.8416212335729143
 _Z95 = 1.6448536269514722
 
 
 def _damage_floor(mean: float, std: float, z: float) -> float:
     """Plancher de dégâts `moyenne - z·σ` (≥ 0), approximation normale (somme de
-    nombreuses variables indépendantes ⇒ raisonnable par le théorème central limite)."""
+    nombreuses variables indépendantes ⇒ raisonnable par le théorème central limite).
+
+    Approximation : la vraie distribution des dégâts est discrète, bornée à 0 et
+    souvent asymétrique (peu d'attaques à fort dégât, probabilités extrêmes) — voir
+    `distribution_floor` pour la lecture exacte du même plancher, sans hypothèse de
+    normalité.
+    """
     return max(0.0, mean - z * std)
 
 
 def damage_floor95(mean: float, std: float) -> float:
-    """Plancher de dégâts atteint 95 % du temps, même formule que StatHammer."""
+    """Plancher de dégâts atteint 95 % du temps, même formule que StatHammer.
+
+    Approximation gaussienne, voir `_damage_floor`. Équivalent exact :
+    `distribution_floor(unit_damage_distribution(...), 0.95)`.
+    """
     return _damage_floor(mean, std, _Z95)
 
 
 def damage_floor80(mean: float, std: float) -> float:
     """Plancher de dégâts atteint 80 % du temps : lecture pessimiste plus permissive
-    que `damage_floor95` (z plus petit ⇒ plus proche de la moyenne)."""
+    que `damage_floor95` (z plus petit ⇒ plus proche de la moyenne).
+
+    Approximation gaussienne, voir `_damage_floor`. Équivalent exact :
+    `distribution_floor(unit_damage_distribution(...), 0.80)`.
+    """
     return _damage_floor(mean, std, _Z80)
+
+
+def damage_floor66(mean: float, std: float) -> float:
+    """Plancher de dégâts atteint 66 % du temps : lecture pessimiste la plus permissive
+    des trois planchers (z le plus petit ⇒ le plus proche de la moyenne).
+
+    Approximation gaussienne, voir `_damage_floor`. Équivalent exact :
+    `distribution_floor(unit_damage_distribution(...), 0.66)`.
+    """
+    return _damage_floor(mean, std, _Z66)
+
+
+# ---------------------------------------------------------------------------
+# Distribution exacte (convolution) — remplace l'approximation gaussienne
+# ci-dessus pour la lecture des planchers de dégâts.
+# ---------------------------------------------------------------------------
+#
+# Chaque attaque individuelle est un tirage indépendant sur un petit nombre
+# d'issues discrètes (raté / touche normale / touche critique, cf. les branches
+# de `weapon_damage_moments`), chacune valant 0, `dmg` ou `2×dmg` dégâts. Comme
+# `total_attacks` est un entier fixe (pas un dé, `Weapon.attacks` est déjà résolu
+# à l'import), la distribution exacte des dégâts d'un profil d'arme est la loi
+# de la somme de `total_attacks` tirages i.i.d. de cette petite loi — calculable
+# par auto-convolution, sans aucune hypothèse de normalité. Les profils d'arme
+# étant indépendants (cf. `unit_damage_moments`), on convolue ensuite leurs PMF
+# pour obtenir la distribution totale de l'unité.
+
+
+def _convolve(a: list[float], b: list[float]) -> list[float]:
+    """Produit de convolution discret de deux lois de probabilité (index = valeur
+    entière, résultat de longueur `len(a) + len(b) - 1`)."""
+    result = [0.0] * (len(a) + len(b) - 1)
+    for i, pa in enumerate(a):
+        if pa == 0.0:
+            continue
+        for j, pb in enumerate(b):
+            if pb:
+                result[i + j] += pa * pb
+    return result
+
+
+def weapon_damage_distribution(
+    weapon: Weapon,
+    attacker_models: int,
+    defender: Unit,
+    modifiers: CombatModifiers,
+) -> list[float]:
+    """PMF exacte des dégâts d'un profil d'arme sur un défenseur : `resultat[d]` =
+    probabilité d'infliger exactement `d` dégâts avec ce profil.
+
+    Même modèle probabiliste que `weapon_damage_moments` (voir sa docstring) —
+    mêmes branches crit (`2hits`/`autowound`/`mortal`/`no wound roll`/standard) —
+    mais construit toute la distribution par auto-convolution de la loi d'une
+    attaque individuelle sur les `total_attacks` tirages i.i.d, plutôt que ses
+    deux premiers moments seulement. Sert de brique à `distribution_floor`.
+    """
+    bonus = _intrinsic_bonus(
+        weapon.abilities, charged=modifiers.attacker_charged, defender_keywords=defender.keywords,
+    )
+    total_attacks = (weapon.attacks + bonus.attacks) * attacker_models
+    if total_attacks <= 0:
+        return [1.0]
+
+    hit_mod = (1 if modifiers.attacker_all_out_attack else 0) + bonus.hit
+    p_hit = _prob_x_plus(weapon.hit, hit_mod)
+    p_crit = min(p_hit, 1.0 / 6.0)
+    p_normal_hit = max(0.0, p_hit - p_crit)
+
+    p_wound = _prob_x_plus(weapon.wound, bonus.wound)
+
+    save_mod = 1 if modifiers.defender_all_out_defense else 0
+    save_eff = defender.save + weapon.rend + bonus.rend - save_mod
+    p_save = 0.0 if save_eff > 6 else _prob_x_plus(save_eff)
+    p_unsaved = 1.0 - p_save
+
+    ward_survive = 1.0
+    if defender.ward is not None:
+        ward_survive = 1.0 - _prob_x_plus(defender.ward)
+
+    dmg = weapon.damage + bonus.damage
+    if dmg <= 0:
+        return [1.0]
+
+    p_land = p_wound * p_unsaved * ward_survive
+    crit_type = _parse_crit(weapon.abilities)
+
+    #: PMF d'une seule attaque, exprimée en « paliers de touche réussie »
+    #: (1 palier = 1 touche qui passe blessure/save/ward, valant `dmg` dégâts ;
+    #: 2 paliers pour la branche `2hits`, dont le crit vaut deux essais indépendants).
+    if _has_no_wound_roll(weapon.abilities):
+        p = p_hit * ward_survive
+        per_attack = [1.0 - p, p]
+    elif crit_type == "2hits":
+        p0 = (1.0 - p_hit) + p_normal_hit * (1.0 - p_land) + p_crit * (1.0 - p_land) ** 2
+        p1 = p_normal_hit * p_land + p_crit * 2.0 * p_land * (1.0 - p_land)
+        p2 = p_crit * p_land * p_land
+        per_attack = [p0, p1, p2]
+    elif crit_type == "autowound":
+        p_land_autowound = p_unsaved * ward_survive
+        p = p_normal_hit * p_land + p_crit * p_land_autowound
+        per_attack = [1.0 - p, p]
+    elif crit_type == "mortal":
+        p = p_normal_hit * p_land + p_crit * ward_survive
+        per_attack = [1.0 - p, p]
+    else:
+        p = p_hit * p_land
+        per_attack = [1.0 - p, p]
+
+    #: Règle optionnelle "tir double" (`DuelRules.double_shoot`), profils `ranged`
+    #: uniquement : contrairement à `weapon_damage_moments` (qui multiplie
+    #: directement moyenne/variance — une approximation au-delà du cas entier ×2),
+    #: la distribution exacte modélise le multiplicateur comme des tirages
+    #: supplémentaires — exact pour ×2 (le cas historique : deux salves), extension
+    #: raisonnable pour tout autre multiplicateur non entier.
+    ranged_mult = RANGED_DOUBLE_MULT if modifiers.attacker_ranged_double and weapon.kind == "ranged" else 1.0
+    attack_count = round(total_attacks * ranged_mult)
+
+    result = [1.0]
+    for _ in range(attack_count):
+        result = _convolve(result, per_attack)
+
+    #: Ré-espace le support de « nombre de paliers » (indices 0..len(result)-1)
+    #: vers « dégâts réels » (multiples de `dmg`), pour pouvoir ensuite convoluer
+    #: avec la PMF d'autres profils d'arme portant un `dmg` différent.
+    damage_pmf = [0.0] * ((len(result) - 1) * dmg + 1)
+    for k, prob in enumerate(result):
+        damage_pmf[k * dmg] = prob
+    return damage_pmf
+
+
+def unit_damage_distribution(
+    attacker: Unit,
+    attacker_models: int,
+    defender: Unit,
+    modifiers: CombatModifiers,
+) -> list[float]:
+    """PMF exacte des dégâts totaux d'une unité (tous profils, 1 round) : convolution
+    des PMF indépendantes de chaque profil d'arme (`weapon_damage_distribution`).
+
+    Même `_effective_counts` (loadout ou wielders) que `unit_damage_moments`, mais
+    lecture exacte de la distribution plutôt que ses deux premiers moments seulement.
+    """
+    counts = _effective_counts(attacker, attacker_models)
+    total_pmf = [1.0]
+    for w, c in zip(attacker.weapons, counts, strict=True):
+        total_pmf = _convolve(total_pmf, weapon_damage_distribution(w, c, defender, modifiers))
+    return total_pmf
+
+
+def distribution_floor(pmf: list[float], coverage: float) -> float:
+    """Plus grand dégât `d` tel que P(dégâts ≥ d) ≥ `coverage` : lecture *exacte*
+    du quantile inverse sur la distribution complète — remplace l'approximation
+    gaussienne `_damage_floor`/`mean - z·σ`, sans hypothèse de normalité.
+    """
+    survival = 0.0
+    for d in range(len(pmf) - 1, -1, -1):
+        survival += pmf[d]
+        if survival >= coverage - 1e-9:
+            return float(d)
+    return 0.0

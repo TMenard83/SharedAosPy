@@ -6,7 +6,7 @@ import argparse
 from datetime import datetime
 
 from ..domain.models import Composition, CompositionUnit, Unit
-from ..engine.combat import CombatModifiers, damage_floor95, unit_damage_moments
+from ..engine.combat import CombatModifiers, distribution_floor, unit_damage_distribution, unit_damage_moments
 from ..importers import bsdata, wahapedia
 from ..orchestration import benchmark as bench
 from ..orchestration.simulation import SideOptions, simulate_battle
@@ -221,6 +221,16 @@ def _side_options(args: argparse.Namespace, side: str) -> SideOptions:
         charged=_resolve_side(args.charge, side),
         all_out_attack=_resolve_side(args.aoa, side),
         all_out_defense=_resolve_side(args.aod, side),
+        ran_and_charged=_resolve_side(args.ran_and_charged, side),
+    )
+
+
+def _duel_rules(args: argparse.Namespace) -> bench.DuelRules:
+    return bench.DuelRules(
+        double_shoot=args.rule_double_shoot,
+        charge_move_threshold=args.rule_charge_threshold,
+        charge_dist_in=args.charge_dist,
+        run_dist_in=args.run_dist,
     )
 
 
@@ -235,6 +245,7 @@ def cmd_unit_duel(args: argparse.Namespace) -> int:
         options_a=_side_options(args, "a"),
         options_b=_side_options(args, "b"),
         mode_a=args.attacker_mode, mode_b=args.defender_mode,
+        rules=_duel_rules(args),
     )
     print(format_duel_detail(result))
     con.close()
@@ -258,6 +269,7 @@ def cmd_unit_benchmark_all(args: argparse.Namespace) -> int:
         include_heroes=args.include_heroes,
         progress=_progress if args.verbose else None,
         mode_a=args.attacker_mode, mode_b=args.defender_mode,
+        rules=_duel_rules(args),
     )
     print(
         f"\nTerminé : {summary.attackers} attaquants × défenseurs "
@@ -284,6 +296,7 @@ def cmd_unit_benchmark(args: argparse.Namespace) -> int:
         options_a=_side_options(args, "a"),
         options_b=_side_options(args, "b"),
         mode_a=args.attacker_mode, mode_b=args.defender_mode,
+        rules=_duel_rules(args),
     )
     label = f"{attacker.name} [{attacker_army}]"
     if args.attacker_reinforced:
@@ -428,7 +441,8 @@ def cmd_unit_stats(args: argparse.Namespace) -> int:
     rows = []
     for label, target in _STATS_TARGETS:
         mean, _var, std = unit_damage_moments(unit, unit.models, target, mods)
-        rows.append((label, mean, std, damage_floor95(mean, std)))
+        pmf = unit_damage_distribution(unit, unit.models, target, mods)
+        rows.append((label, mean, std, distribution_floor(pmf, 0.95)))
     print(format_unit_stats(unit, army_name, rows, charged=args.charge))
     con.close()
     return 0

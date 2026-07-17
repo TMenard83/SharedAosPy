@@ -31,8 +31,17 @@ from .features import UnitFeatures, all_features
 
 #: Prédicteurs par défaut. ``is_hero`` n'y figure pas : c'est la clé de
 #: segmentation de `fit_segmented`, pas un prédicteur continu.
+#: ``dmg_vs_save6`` (pool de dégâts bruts mêlée+tir) a été retiré au profit du seul
+#: ``dmg_ranged_vs_save6`` : `analysis/experiments/melee_ranged_split.py` montre que
+#: `dmg_vs_save6` et `dmg_ranged_vs_save6` étaient déjà mécaniquement colinéaires
+#: (le second est un sous-ensemble exact du premier), et qu'une fois reparamétrés en
+#: deux pools disjoints mêlée/tir, le pool mêlée seul (`dmg_melee_vs_save6`) n'a
+#: aucun effet-prix distinguable de zéro (p=0.65) — probablement déjà absorbé par
+#: `dmg_vs_save2`/`effective_wounds` — alors que le pool tir reste significatif
+#: (p=0.004-0.06 selon la variante). Retirer le pool mêlée du modèle laisse le R²
+#: ajusté inchangé, voire légèrement meilleur (0.9173 → 0.9175).
 #: ``dmg_vs_save2`` (dégât absolu contre une save 2+) remplace l'ancien ``dmg_pen``
-#: (ratio sans dimension dmg_vs_save2/dmg_vs_nosave) : le ratio est aveugle à la
+#: (ratio sans dimension dmg_vs_save2/dmg_vs_save6) : le ratio est aveugle à la
 #: magnitude — un profil à dégât quasi nul avec 100 % de rend obtenait le même score
 #: qu'un gros cogneur avec 100 % de rend. `dmg_vs_save2` grandit avec les deux à la
 #: fois, plus fidèle à ce que GW valorise en points. Essais comparatifs dans
@@ -49,17 +58,41 @@ from .features import UnitFeatures, all_features
 #: enseignement que le remplacement `dmg_pen`→`dmg_vs_save2` ci-dessus, la magnitude
 #: explique le prix, pas la présence. `Anti-<MOT-CLÉ>` a été testé dans le même essai
 #: (présence et magnitude) et écarté : ni l'un ni l'autre n'étaient significatifs.
+#: ``effective_wounds`` remplace le trio ``wounds_total``/``save_num``/``ward_num`` : au lieu
+#: de trois effets additifs indépendants, on normalise les PV par la probabilité qu'un coup
+#: passe la save ET le ward — plus fidèle à ce que ces trois stats *font ensemble* en jeu
+#: (durabilité multiplicative, pas additive). ``dmg_vs_save2_sq`` (terme quadratique de
+#: ``dmg_vs_save2``) capte des rendements croissants au-delà d'un certain seuil de dégât
+#: perçant, que le terme linéaire seul sous-estime. Essais comparatifs dans
+#: `analysis/experiments/durability_and_saturation.py` (R² ajusté 0.9067 → 0.9173 combiné,
+#: interaction héros incluse — voir `FACTORIAL_INTERACTIONS`) ; ``wounds_total``/``save_num``/
+#: ``ward_num`` restent des champs de `UnitFeatures` (utiles hors régression, notamment
+#: l'affichage) mais ne sont plus des prédicteurs du modèle de coût.
+#: ``unit_size_sq`` (terme quadratique de ``unit_size``) rejoint ces prédicteurs suite à un
+#: balayage de rendements croissants sur tous les indicateurs numériques principaux (seul
+#: `unit_size` était significatif, p=0.002, gain R² ajusté +0.0009, robuste au retrait des
+#: unités à 20 modèles) — cf. `analysis/experiments/unit_size_saturation.py`. Le coefficient
+#: linéaire de ``unit_size`` devient franchement négatif une fois ce terme ajouté (rabais de
+#: volume marqué en dessous d'une dizaine de modèles), compensé par le carré positif au-delà —
+#: GW semble facturer une prime sur les très grosses hordes, pas juste un rabais continu.
+#: ``dmg_cv_vs_save4`` et ``move`` ont été retirés par élimination arrière pas-à-pas (à chaque
+#: étape, retirer le prédicteur dont le retrait dégrade le moins le R² ajusté, jusqu'à ce que
+#: plus rien ne puisse partir sans perte) sur l'ensemble `MODEL_FEATURES`/`CATEGORICAL_FEATURES` :
+#: les deux étaient de purs poids morts (p=0.444 pour `move`, coefficient +0.57 pts/pouce avec un
+#: écart-type de 0.75 — plus grand que l'estimation elle-même), leur retrait améliore même
+#: légèrement le R² ajusté (0,9213 → 0,9214 pour les deux ensemble) grâce à la pénalité de
+#: parcimonie. Un retrait "un par un" isolé avait aussi repéré `dmg_vs_save2`/`weapon_mix`/
+#: `unit_type`/`is_unique` comme candidats individuellement peu coûteux, mais les retirer
+#: ensemble dégrade le R² ajusté de -0.0010 : leur contribution, faible, n'est pas nulle une
+#: fois les vrais doublons partis — gardés. Cf. `analysis/experiments/backward_elimination.py`.
 MODEL_FEATURES: tuple[str, ...] = (
     "unit_size",
-    "dmg_vs_nosave",
-    "dmg_ranged_vs_nosave",
+    "unit_size_sq",
+    "dmg_ranged_vs_save6",
     "dmg_vs_save2",
-    "dmg_cv_vs_save4",
+    "dmg_vs_save2_sq",
     "charge_bonus_save2",
-    "wounds_total",
-    "save_num",
-    "ward_num",
-    "move",
+    "effective_wounds",
     "control",
     "wizard_level",
     "priest_level",
@@ -91,11 +124,13 @@ CATEGORICAL_FEATURES: tuple[str, ...] = (
 
 #: Interactions bloc×continu : au lieu de deux régressions séparées héros/troupe
 #: (`fit_segmented`), on module directement, dans un seul modèle, l'effet des
-#: dégâts et des points de vie selon que l'unité est un héros (durabilité
-#: "premium") ou une troupe (stats brutes + rabais de volume).
+#: points de vie selon que l'unité est un héros (durabilité "premium") ou une
+#: troupe (stats brutes + rabais de volume). L'interaction héros × dégât brut
+#: (`C(is_hero):dmg_vs_save6`) a été retirée avec `dmg_vs_save6` lui-même (voir
+#: la note de `MODEL_FEATURES`) : son propre coefficient n'était pas significatif
+#: (p=0.79) avant même le retrait du pool mêlée.
 FACTORIAL_INTERACTIONS: tuple[str, ...] = (
-    "C(is_hero):dmg_vs_nosave",
-    "C(is_hero):wounds_total",
+    "C(is_hero):effective_wounds",
 )
 
 

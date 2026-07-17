@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import xml.etree.ElementTree as ET
+from pathlib import Path
 
 from aospy.importers import bsdata
 from aospy.importers.bsdata import parse_dice, parse_library_units, parse_main_costs, parse_target
@@ -255,6 +256,30 @@ def test_replaced_by_ignores_non_zero_modifiers() -> None:
     assert bsdata._replaced_by(entry) == []
 
 
+def test_merge_composite_units_tags_merged_weapons_as_companion() -> None:
+    parent = bsdata.ParsedUnit(
+        target_id="parent", name="Neave Blacktalon", move=6, save=4, health=6,
+        control=2, models=1, is_hero=True, ward=None,
+        weapons=[bsdata.ParsedWeapon(name="Shadowclaw", kind="melee", range_in=1,
+                                      attacks=4, hit=3, wound=3, rend=1, damage=2)],
+    )
+    extra = bsdata.ParsedUnit(
+        target_id="extra", name="Neave's Companions", move=6, save=5, health=1,
+        control=1, models=2, is_hero=False, ward=None,
+        weapons=[bsdata.ParsedWeapon(name="Companion Blade", kind="melee", range_in=1,
+                                      attacks=2, hit=4, wound=4, rend=0, damage=1)],
+    )
+    units = {"parent": parent, "extra": extra}
+    bsdata._merge_composite_units(units, {"extra": ("parent", None)})
+
+    assert "extra" not in units
+    merged = units["parent"]
+    assert merged.models == 3
+    by_name = {w.name: w for w in merged.weapons}
+    assert by_name["Shadowclaw"].is_companion is False
+    assert by_name["Companion Blade"].is_companion is True
+
+
 def test_group_cap_reads_max_scope_parent() -> None:
     group = _frag('''
       <selectionEntryGroup>
@@ -269,6 +294,54 @@ def test_group_cap_reads_max_scope_parent() -> None:
 def test_group_cap_none_without_constraint() -> None:
     group = _frag("<selectionEntryGroup/>")
     assert bsdata._group_cap(group) is None
+
+
+def test_is_legends_entry_true_with_legends_category_link() -> None:
+    entry = _frag('''
+      <selectionEntry name="Gryselle's Arenai">
+        <categoryLinks>
+          <categoryLink name="Legends" id="cat-legends" targetId="cat-legends" primary="false"/>
+        </categoryLinks>
+      </selectionEntry>
+    ''')
+    assert bsdata._is_legends_entry(entry) is True
+
+
+def test_is_legends_entry_false_without_legends_category_link() -> None:
+    entry = _frag('''
+      <selectionEntry name="Freeguild Steelhelms">
+        <categoryLinks>
+          <categoryLink name="Infantry" id="cat-inf" targetId="cat-inf" primary="true"/>
+        </categoryLinks>
+      </selectionEntry>
+    ''')
+    assert bsdata._is_legends_entry(entry) is False
+
+
+def test_is_legends_entry_false_without_category_links_element() -> None:
+    entry = _frag('<selectionEntry name="No Categories"/>')
+    assert bsdata._is_legends_entry(entry) is False
+
+
+def test_normalize_name_folds_typographic_apostrophes_and_case() -> None:
+    assert bsdata._normalize_name("Gryselle’s Arenai") == "gryselle's arenai"
+    assert bsdata._normalize_name("Gryselle's Arenai") == "gryselle's arenai"
+    assert bsdata._normalize_name(" Skabbik‘s Plaguepack ") == "skabbik's plaguepack"
+
+
+def test_wahapedia_legends_names_matches_bsdata_apostrophe_variant(tmp_path: Path) -> None:
+    (tmp_path / "Source.csv").write_text(
+        "id|name|type|edition|version|errata_date|errata_link|\n"
+        "1|Legends compendium|Warscroll|4|||\n",
+        encoding="utf-8-sig",
+    )
+    (tmp_path / "Warscrolls.csv").write_text(
+        "id|name|faction_id|source_id|notes|\n"
+        "1|Gryselle’s Arenai|DoK|1||\n",
+        encoding="utf-8-sig",
+    )
+    names = bsdata._wahapedia_legends_names(tmp_path)
+    assert bsdata._normalize_name("Gryselle's Arenai") in names
 
 
 def test_option_damage_score_ranks_higher_damage_weapon_first() -> None:

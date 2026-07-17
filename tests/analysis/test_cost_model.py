@@ -20,9 +20,11 @@ from aospy.analysis.features import UnitFeatures
 def _uf(i: int, **overrides) -> UnitFeatures:
     base = dict(
         unit_id=i, army_id=1, name=f"U{i}", points=100, is_hero=False,
-        dmg_vs_save2=1.0, dmg_vs_save4=2.0, dmg_vs_nosave=3.0,
-        dmg_ranged_vs_nosave=0.0, dmg_pen=0.33, dmg_cv_vs_save4=0.5, charge_bonus_save2=0.0,
-        wounds_total=10, save_num=4, ward_num=7, move=5, control=1, unit_size=5,
+        dmg_vs_save2=1.0, dmg_vs_save4=2.0, dmg_vs_save6=3.0, dmg_melee_vs_save6=3.0, dmg_vs_save2_sq=1.0,
+        dmg_ranged_vs_save6=0.0, dmg_melee_vs_save2=1.0, dmg_ranged_vs_save2=0.0,
+        dmg_pen=0.33, dmg_cv_vs_save4=0.5, charge_bonus_save2=0.0,
+        wounds_total=10, save_num=4, ward_num=7, effective_wounds=20.0, move=5, control=1,
+        unit_size=5, unit_size_sq=25,
         grand_alliance="Order", army_name="TestArmy", weapon_mix="melee",
         unit_type="INFANTRY", is_flying=False, wizard_level=0, priest_level=0, is_unique=False,
         crit_type="none",
@@ -35,19 +37,21 @@ def _training_set() -> list[UnitFeatures]:
     # 30 unités (pas quelques-unes) : un jeu plus large dilue l'effet de levier
     # d'un seul point sous/sur-cotée injecté par les tests ci-dessous (sinon un
     # unique outlier peut à lui seul faire pivoter la droite de régression).
-    # Seuls dmg_vs_nosave/wounds_total varient (et déterminent linéairement les
-    # points) : les autres caractéristiques restent constantes pour ne pas
+    # Seuls dmg_ranged_vs_save6/effective_wounds varient (et déterminent linéairement
+    # les points) : les autres caractéristiques restent constantes pour ne pas
     # introduire de corrélation accidentelle avec l'indice `i`. `dmg` varie en
     # cycle (pas linéairement en `i`) pour ne pas être parfaitement colinéaire
     # avec `wounds` — une colinéarité parfaite laisserait l'OLS un degré de
     # liberté libre qui absorbe exactement un futur point aberrant injecté par
-    # les tests (au lieu de le faire ressortir comme résidu).
+    # les tests (au lieu de le faire ressortir comme résidu). `dmg_vs_save2`/
+    # `dmg_vs_save2_sq` restent constants : `dmg_vs_save2_sq` ne fait alors
+    # qu'ajouter une constante absorbée par l'intercept, sans casser la linéarité.
     units = []
     for i in range(30):
         dmg = 1.0 + (i % 7) * 0.8
         wounds = 8 + i
         points = round(10 * dmg + 3 * wounds + 20)
-        units.append(_uf(i, dmg_vs_nosave=dmg, wounds_total=wounds, points=points, is_hero=(i % 4 == 0)))
+        units.append(_uf(i, dmg_ranged_vs_save6=dmg, effective_wounds=wounds, points=points, is_hero=(i % 4 == 0)))
     return units
 
 
@@ -127,7 +131,7 @@ def test_fit_cost_model_flags_a_clearly_underpriced_unit():
     # doit ressortir comme nettement sous-cotée (résidu négatif marqué), sans
     # exiger qu'elle soit le rang #1 absolu (un seul outlier parmi 30 points
     # propres influence légèrement le reste de l'ajustement OLS).
-    bargain = _uf(999, dmg_vs_nosave=8.0, wounds_total=35, points=20, is_hero=False)
+    bargain = _uf(999, dmg_ranged_vs_save6=8.0, effective_wounds=35, points=20, is_hero=False)
     result = fit_cost_model(frame=feature_frame(features=[*units, bargain]))
     bargain_residual = next(r for r in result.residuals if r.unit_id == 999)
     assert bargain_residual.residual < 0

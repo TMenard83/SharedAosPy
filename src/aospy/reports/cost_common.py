@@ -1,7 +1,10 @@
 """Étiquettes françaises et tableau de coefficients partagés par les registres
-de coût (cost_unites.py / cost_heros.py) — factorisé pour ne pas dupliquer le
-mapping nom-de-variable → libellé entre les deux modules."""
+de coût (cost_unites.py / cost_heros.py), plus le score composite partagé par
+les registres « meilleures unités »/« meilleurs héros » (best_unites.py /
+best_heros.py) — factorisé pour ne pas dupliquer entre les deux paires de
+modules."""
 import re
+from collections.abc import Sequence
 
 from reportlab.lib import colors
 from reportlab.lib.units import mm
@@ -11,19 +14,17 @@ from .common import NIGHT_BLUE, GOLD_BRIGHT, GOLD_DIM, GOLD, PARCHMENT, PARCHMEN
 
 FEATURE_LABELS = {
     "unit_size": "Taille d'unité",
-    "dmg_vs_nosave": "Dégât vs aucune save",
-    "dmg_ranged_vs_nosave": "Dégât à distance vs aucune save",
+    "dmg_vs_save6": "Dégât vs save 6+",
+    "dmg_ranged_vs_save6": "Dégât à distance vs save 6+",
     "dmg_vs_save2": "Dégât perçant (vs save 2+)",
+    "dmg_vs_save2_sq": "Dégât perçant² (rendement croissant)",
     "dmg_cv_vs_save4": "Irrégularité (écart-type/moy.) vs save 4+",
-    "wounds_total": "PV totaux (health × modèles)",
-    "save_num": "Sauvegarde",
-    "ward_num": "Ward (7 = aucun)",
+    "effective_wounds": "PV effectifs (PV / proba. coup passant)",
     "move": "Mouvement",
     "control": "Contrôle",
     "wizard_level": "Niveau de sorcier (Wizard N)",
     "priest_level": "Niveau de prêtre (Priest N)",
-    "C(is_hero)[T.True]:dmg_vs_nosave": "Héros × dégât vs aucune save",
-    "C(is_hero)[T.True]:wounds_total": "Héros × PV totaux",
+    "C(is_hero)[T.True]:effective_wounds": "Héros × PV effectifs",
 }
 
 #: Formatage générique des coefficients catégoriels ``C(champ)[T.modalité]`` non
@@ -105,3 +106,23 @@ def coef_table(result, n_cols: int = 3):
             style.append(("LINEBEFORE", (base, 0), (base, -1), 0.9, GOLD))
     t.setStyle(TableStyle(style))
     return t
+
+
+def combined_score(components: Sequence[tuple[float, float]], imbalance_weight: float) -> float:
+    """Score composite à partir de N z-scores orientés « plus haut = meilleur »
+    (ex. combat, sous-cotation, impact absolu), chacun fourni comme un couple
+    ``(z, poids)`` : moyenne pondérée, pénalisée par la semi-déviation pondérée
+    *vers le bas* des composantes. Sans le terme de pénalité, une moyenne
+    pondérée est pleinement compensatoire — un excès sur une composante peut
+    masquer une faiblesse arbitrairement grande sur une autre (ex. une unité
+    très sous-cotée mais médiocre en combat peut dominer une unité équilibrée
+    à moyenne égale). La semi-déviation ne compte que les composantes
+    *en dessous* de la moyenne pondérée (à la façon d'un ratio de Sortino) —
+    une composante au-dessus de la moyenne n'est jamais pénalisée pour son
+    écart, seule une composante faible coûte des points, ce qui favorise les
+    profils équilibrés sur les profils extrêmes d'un seul côté sans jamais
+    rogner sur un axe où l'unité excelle."""
+    total_weight = sum(w for _, w in components)
+    mean = sum(z * w for z, w in components) / total_weight
+    downside_variance = sum(w * min(z - mean, 0.0) ** 2 for z, w in components) / total_weight
+    return mean - imbalance_weight * downside_variance**0.5

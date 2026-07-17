@@ -2,21 +2,59 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Callable, Literal, Optional
 
 import duckdb
 
 from ..domain.models import Unit
-from ..engine.combat import (
-    CombatModifiers, damage_floor80, damage_floor95, expected_unit_damage, unit_damage_moments,
-)
+from ..engine.combat import CombatModifiers, distribution_floor, expected_unit_damage, unit_damage_distribution
 from ..persistence import repository
 from .simulation import SideOptions
 
 #: Mode de lecture du dégât d'un côté d'un duel : espérance brute, ou plancher
-#: pessimiste à 80%/95% de confiance (cf. `engine/combat.py::damage_floor80`/`damage_floor95`).
-DamageMode = Literal["mean", "floor80", "floor95"]
+#: pessimiste à 66%/80%/95% de confiance — lu sur la distribution *exacte* des
+#: dégâts (`engine/combat.py::unit_damage_distribution`/`distribution_floor`),
+#: pas une approximation gaussienne (voir la docstring de `_attack_damage`).
+DamageMode = Literal["mean", "floor66", "floor80", "floor95"]
+
+#: Couverture (probabilité d'atteindre au moins le plancher) par mode `floorNN`.
+_FLOOR_COVERAGE: dict[str, float] = {"floor66": 0.66, "floor80": 0.80, "floor95": 0.95}
+
+#: Seuil de la règle optionnelle "seuil de charge" : le bonus intrinsèque
+#: `Charge (+N <Stat>)` n'est actif que si le Move de l'attaquant dépasse
+#: celui du défenseur de plus de 30 %.
+CHARGE_MOVE_THRESHOLD_PCT = 0.3
+
+
+@dataclass
+class DuelRules:
+    """Corpus de règles optionnelles pour un duel, indépendantes entre elles
+    (désactivées par défaut — aucun changement de comportement si non demandées).
+
+    - `double_shoot` : entre les deux unités du duel, celle qui a la plus
+      petite portée à distance (0 si elle n'a aucune arme `ranged`) est réputée
+      chargeuse — pas besoin de `SideOptions.charged`/`--charge`, c'est déduit
+      des stats. Si son reach (`Move + charge_dist_in` [+ `run_dist_in` si
+      `SideOptions.ran_and_charged`]) `< portée de l'arme à distance la plus
+      longue de l'autre camp`, ce dernier voit son dégât à distance multiplié
+      par `engine.combat.RANGED_DOUBLE_MULT` ce round (ses profils `ranged`
+      uniquement, cf. `CombatModifiers.attacker_ranged_double`).
+      Portées égales (y compris 0 des deux côtés) → aucun camp désigné, règle
+      inactive pour cette paire.
+    - `charge_move_threshold` : détermine à elle seule si l'attaquant est
+      "chargé" (`attacker_charged`, qui gouverne le bonus `Charge (+N <Stat>)`
+      d'une arme) — actif seulement si son Move dépasse celui du défenseur de
+      plus de `CHARGE_MOVE_THRESHOLD_PCT`. Ne dépend pas de `SideOptions.charged`/
+      `--charge` : pas besoin de déclarer une charge, elle est déduite du seul
+      écart de Move (même logique de déduction par les stats que `double_shoot`).
+    - `charge_dist_in`/`run_dist_in` : distances (pouces) utilisées par
+      `double_shoot`, par défaut l'espérance des dés (2D6=7, 1D6=3.5).
+    """
+    double_shoot: bool = False
+    charge_move_threshold: bool = False
+    charge_dist_in: float = 7.0
+    run_dist_in: float = 3.5
 
 
 @dataclass
@@ -42,6 +80,7 @@ class DuelResult:
     options_b: SideOptions
     mode_a: DamageMode = "mean"
     mode_b: DamageMode = "mean"
+    rules: DuelRules = field(default_factory=DuelRules)
 
     @property
     def attacker_total_hp(self) -> int:
@@ -86,11 +125,57 @@ def _effective_models(unit: Unit, reinforced: bool) -> int:
     return unit.models * (2 if reinforced else 1)
 
 
-def _mods(attacker_opts: SideOptions, defender_opts: SideOptions) -> CombatModifiers:
+def _mods(
+    attacker: Unit, attacker_opts: SideOptions,
+    defender: Unit, defender_opts: SideOptions,
+    rules: DuelRules,
+) -> CombatModifiers:
+    """Modificateurs d'une direction d'attaque, règles optionnelles incluses.
+
+    Symétrique par construction : pour A→B on appelle `_mods(attacker=A,
+    attacker_opts=opts_a, defender=B, defender_opts=opts_b, ...)`, pour B→A on
+    inverse les deux paires — même code des deux côtés, pas de cas particulier.
+
+    `charge_move_threshold` : quand la règle est active, elle détermine à elle
+    seule l'état chargé (`attacker_charged`, qui gouverne le bonus intrinsèque
+    `Charge (+N <Stat>)`) — `Move(attaquant) > Move(défenseur) ×
+    (1 + CHARGE_MOVE_THRESHOLD_PCT)` — sans tenir compte de `SideOptions.charged`
+    ni de `--charge` : une charge n'est plus un choix déclaré, elle est déduite
+    du seul écart de Move. Rule inactive → comportement de base inchangé,
+    `attacker_charged` suit alors `SideOptions.charged`/`--charge` comme avant.
+
+    `double_shoot` : contrairement à `charge_move_threshold`, ne dépend pas de
+    `SideOptions.charged` — le camp qui charge est déduit des stats elles-mêmes
+    : entre les deux unités du duel, celle qui a la plus petite portée à
+    distance (0 si elle n'a aucune arme `ranged`) est forcément celle qui doit
+    franchir la distance, donc celle qui charge. Ici, `attacker` tire dans
+    cette direction et `defender` est le camp d'en face : si `attacker` a une
+    portée strictement supérieure à celle de `defender`, `defender` est réputé
+    chargeur et on compare son reach (Move + charge [+ course]) à la portée de
+    `attacker`. Seuls les profils `ranged` de `attacker` sont concernés (géré
+    dans `engine/combat.py`). En cas de portées égales (y compris 0 des deux
+    côtés, mêlée pure), aucun camp n'est désigné chargeur : la règle ne
+    s'applique pas.
+    """
+    attacker_charged = attacker_opts.charged
+    if rules.charge_move_threshold:
+        attacker_charged = attacker.move > defender.move * (1 + CHARGE_MOVE_THRESHOLD_PCT)
+
+    ranged_double = False
+    if rules.double_shoot:
+        attacker_range = max((w.range_in for w in attacker.weapons if w.kind == "ranged"), default=0)
+        defender_range = max((w.range_in for w in defender.weapons if w.kind == "ranged"), default=0)
+        if attacker_range > defender_range:
+            reach = defender.move + rules.charge_dist_in + (
+                rules.run_dist_in if defender_opts.ran_and_charged else 0.0
+            )
+            ranged_double = reach < attacker_range
+
     return CombatModifiers(
         attacker_all_out_attack=attacker_opts.all_out_attack,
-        attacker_charged=attacker_opts.charged,
+        attacker_charged=attacker_charged,
         defender_all_out_defense=defender_opts.all_out_defense,
+        attacker_ranged_double=ranged_double,
     )
 
 
@@ -99,14 +184,17 @@ def _attack_damage(
     *, mode: DamageMode,
 ) -> float:
     """Dégât total d'une unité en 1 round, lu selon `mode` : espérance brute
-    (`expected_unit_damage`), ou plancher pessimiste à 80%/95% de confiance
-    (`damage_floor80`/`damage_floor95`, via `unit_damage_moments`) — même
-    modèle probabiliste dans les trois cas, seule la lecture change.
+    (`expected_unit_damage`), ou plancher pessimiste à 66%/80%/95% de confiance,
+    lu *exactement* sur la distribution complète des dégâts
+    (`unit_damage_distribution`/`distribution_floor`) plutôt qu'approximé par une
+    loi normale sur (moyenne, écart-type) — voir `engine/combat.py` pour le détail
+    et `damage_floor66`/`damage_floor80`/`damage_floor95` pour l'ancienne
+    approximation gaussienne, conservée à titre de comparaison.
     """
     if mode == "mean":
         return expected_unit_damage(attacker, attacker_models, defender, modifiers)
-    mean, _var, std = unit_damage_moments(attacker, attacker_models, defender, modifiers)
-    return damage_floor80(mean, std) if mode == "floor80" else damage_floor95(mean, std)
+    pmf = unit_damage_distribution(attacker, attacker_models, defender, modifiers)
+    return distribution_floor(pmf, _FLOOR_COVERAGE[mode])
 
 
 def unit_duel(
@@ -120,6 +208,7 @@ def unit_duel(
     options_b: Optional[SideOptions] = None,
     mode_a: DamageMode = "mean",
     mode_b: DamageMode = "mean",
+    rules: Optional[DuelRules] = None,
 ) -> DuelResult:
     """Calcule le duel attaquant vs défenseur dans les deux sens.
 
@@ -129,17 +218,23 @@ def unit_duel(
     nécessairement symétrique : par ex. `mode_a="floor80"`, `mode_b="mean"` lit le
     dégât infligé par l'attaquant au plancher pessimiste 80% mais la riposte du
     défenseur à la moyenne.
+
+    `rules` : corpus de règles optionnelles (`DuelRules`), désactivées par
+    défaut — aucun changement de comportement si non fourni.
     """
     opts_a = options_a or SideOptions(charged=False)
     opts_b = options_b or SideOptions(charged=False)
+    duel_rules = rules or DuelRules()
 
     a_models = _effective_models(attacker, attacker_reinforced)
     b_models = _effective_models(defender, defender_reinforced)
     a_hp_total = a_models * attacker.health
     b_hp_total = b_models * defender.health
 
-    raw_ab = _attack_damage(attacker, a_models, defender, _mods(opts_a, opts_b), mode=mode_a)
-    raw_ba = _attack_damage(defender, b_models, attacker, _mods(opts_b, opts_a), mode=mode_b)
+    mods_ab = _mods(attacker, opts_a, defender, opts_b, duel_rules)
+    mods_ba = _mods(defender, opts_b, attacker, opts_a, duel_rules)
+    raw_ab = _attack_damage(attacker, a_models, defender, mods_ab, mode=mode_a)
+    raw_ba = _attack_damage(defender, b_models, attacker, mods_ba, mode=mode_b)
 
     exp_ab = min(raw_ab, float(b_hp_total))
     exp_ba = min(raw_ba, float(a_hp_total))
@@ -156,6 +251,7 @@ def unit_duel(
         expected_models_killed_a=min(exp_ba / attacker.health, float(a_models)),
         options_a=opts_a, options_b=opts_b,
         mode_a=mode_a, mode_b=mode_b,
+        rules=duel_rules,
     )
 
 
@@ -201,12 +297,13 @@ def benchmark_attacker(
     army_names: Optional[dict[int, str]] = None,
     mode_a: DamageMode = "mean",
     mode_b: DamageMode = "mean",
+    rules: Optional[DuelRules] = None,
 ) -> list[DuelResult]:
     """Lance le duel de `attacker` contre chaque unité défenseur sélectionnée.
 
     `defenders_by_army` et `army_names` permettent de fournir un cache pré-chargé
     pour éviter les requêtes DB par attaquant (utilisé par run_all_benchmarks).
-    `mode_a`/`mode_b` : cf. `unit_duel`.
+    `mode_a`/`mode_b`/`rules` : cf. `unit_duel`.
     """
     results: list[DuelResult] = []
     if defenders_by_army is None or army_names is None:
@@ -233,6 +330,7 @@ def benchmark_attacker(
                 defender_reinforced=defender_reinforced,
                 options_a=options_a, options_b=options_b,
                 mode_a=mode_a, mode_b=mode_b,
+                rules=rules,
             ))
     return results
 
@@ -279,12 +377,16 @@ def run_all_benchmarks(
     progress: Optional[Callable[[str, str, int, int], None]] = None,
     mode_a: DamageMode = "mean",
     mode_b: DamageMode = "mean",
+    rules: Optional[DuelRules] = None,
 ) -> FullBenchmarkSummary:
     """Benchmarke chaque unité (non héros par défaut) contre toutes les autres armées.
 
     Les résultats sont persistés (upsert) dans `unit_benchmark`.
     `progress(attacker_name, army_name, idx, total)` est appelé avant chaque attaquant.
-    `mode_a`/`mode_b` : cf. `unit_duel`.
+    `mode_a`/`mode_b`/`rules` : cf. `unit_duel`. Note : la table `unit_benchmark`
+    n'a pas de colonne pour `rules` (pas de migration pour cet axe, cf.
+    `DuelRules`) — un run avec des règles optionnelles actives écrase les
+    lignes déjà persistées sous la même clé qu'un run sans ces règles.
     """
     summary = FullBenchmarkSummary()
     armies = [a for a in repository.list_armies(con) if a.id is not None]
@@ -309,6 +411,7 @@ def run_all_benchmarks(
             defenders_by_army=defenders_by_army,
             army_names=army_names,
             mode_a=mode_a, mode_b=mode_b,
+            rules=rules,
         )
         summary.duels += save_results(con, results)
         summary.attackers += 1

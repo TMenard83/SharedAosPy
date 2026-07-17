@@ -11,3 +11,6 @@ dist/
 *.duckdb
 *.duckdb.wal
 data/*.duckdb
+
+# Generated report output (scratch/build_pdf*.py)
+scratch/output/
