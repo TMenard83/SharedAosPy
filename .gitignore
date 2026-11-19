@@ -14,3 +14,15 @@ data/*.duckdb
 
 # Generated report output (scratch/build_pdf*.py)
 scratch/output/
+
+# Sources sous droits (PDF Games Workshop) et données d'équipes : jamais dans le dépôt partagé
+data/Battle tome/
+data/Manuel du général/
+data/2026-27 L3 Aller/
+data/Proposition de listes/
+data/doc d'entree/
+
+# Copies de sauvegarde de l'export Wahapedia et captures de travail
+data/wahapedia/*/
+scratch/app_capture/
+scratch/wahapedia/
