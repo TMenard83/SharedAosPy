@@ -2,8 +2,6 @@
 000001584|1|Fomoroid Crusher|1|
 000001584|2|Ogroid Myrmidon|1|
 000001584|3|Mindstealer Sphiranx|1|
-000001978|1|Warstomper Mega-Gargant|1|
-000002154|1|Mancrusher Gargant|1|
 000002265|1|Loonboss|1|
 000002265|2|Dankhold Troggoth|1|
 000002409|1|Endrinmaster with Dirigible Suit|1|
@@ -19,6 +17,8 @@
 000002971|3|Burning Sigil of Tzeentch|1|
 000002971|4|Tome of Eyes|1|
 000002971|5|Daemonic Simulacrum|1|
+000003738|1|<b>Warstomper Mega-Gargant</b>|1|
+000003790|1|Mancrusher Gargant|1|
 000002454|1|<b>Skarbrand</b>|1|
 000002461|1|Slaughterpriest|1|
 000002461|2|Bloodreavers|10|
@@ -37,10 +37,8 @@
 000002509|1|Chaos Lord on Daemonic Mount|1|
 000002509|2|Chaos Knights unit with 5 models.|1|
 000002509|3|Chaos Warriors unit with 10 models.|1|
-000002513|1|Warstomper Mega-Gargant|1|
 000002519|1|Loonboss|1|
 000002519|2|Dankhold Troggoth|1|
-000002523|1|Mancrusher Gargant|1|
 000002538|1|Warlock Galvaneer|1|
 000002538|2|Warpvolt Scourgers unit with 3 models|1|
 000002538|3|Ratling Warpblaster|1|
@@ -60,18 +58,18 @@
 000002937|3|Feculent Gnarlmaw|1|
 000002944|1|Sloppity Bilepiper, Herald of Nurgle|1|
 000002944|2|Beast of Nurgle|2|
+000003472|1|Outlaw Cannonade Cogfort|1|
+000003497|1|Outlaw Conqueror Cogfort|1|
+000003739|1|<b>Warstomper Mega-Gargant</b>|1|
+000003756|1|<b>Mancrusher Gargant</b>|1|
+000003791|1|Mancrusher Gargant|1|
 000002019|1|Ogroid Myrmidon|1|
 000002019|2|Ogroid Thaumaturge|1|
 000002019|3|Ogroid Theridons|3|
-000002032|1|Gatebreaker Mega-Gargant|1|
 000002035|1|Beast-skewer Killbow|1|
 000002035|2|Man-skewer Boltboyz unit with 3 models|1|
 000002035|3|Man-skewer Boltboyz unit with 3 models|1|
 000002035|4|The Beast-skewer Killbow in this Regiment of Renown has the <span class="kwb">HERO</span> keyword.||
-000002041|1|Kraken-eater Mega-Gargant|1|
-000002108|1|Beast-smasher Mega-Gargant|1|
-000002111|1|Warstomper Mega-Gargant|1|
-000002156|1|Mancrusher Gargant|1|
 000002241|1|Tuskboss on Maw-grunta|1|
 000002241|2|Maw-grunta Gougers|1|
 000002248|1|Swampboss Skumdrekk|1|
@@ -87,44 +85,16 @@
 000002410|3|Grundstok Gunhauler|1|
 000002920|1|Nurglings unit with 3 models||
 000002920|2|Nurglings unit with 3 models||
-000001668|1|Grimhold Exile|1|
-000001668|2|Auric Hearthguard unit with 5 models|1|
-000001668|3|Hearthguard Berzerkers with Flamestrike Poleaxes unit with 5 models|1|
-000001668|4|Vulkite Berzerkers with Fyresteel Weapons unit with 10 models|1|
-000001710|1|Neave Blacktalon|1|
-000001710|2|Lorai, Child of the Abyss|1|
-000001710|3|Neave’s Companions|1|
+000003710|1|<b>Kraken-eater Mega-Gargant</b>|1|
+000003724|1|<b>Beast-smasher Mega-Gargant</b>|1|
+000003729|1|<b>Gatebreaker Mega-Gargant</b>|1|
+000003740|1|<b>Warstomper Mega-Gargant</b>|1|
+000003792|1|Mancrusher Gargant|1|
 000001837|1|Runelord|1|
-000001837|2|Irondrakes unit with 10 models|1|
-000001837|3|Longbeards unit with 10 models|1|
+000001837|2|Longbeards|1|
+000001837|3|Irondrakes|1|
 000001838|1|Callis and Toll|1|
 000001838|2|Toll’s Companions|1|
-000001894|1|Lord-Aquilor.|1|
-000001894|2|Vanguard-Hunters.|1|
-000001894|3|Vanguard-Palladors with Starstrike Javelins unit with 3 models.|1|
-000001896|1|Knight-Draconis|1|
-000001896|2|Stormdrake Guard (1 model)|1|
-000001942|1|Kraken-eater Mega-Gargant|1|
-000002157|1|Mancrusher Gargant|1|
-000002217|1|Gotrek Gurnisson|1|
-000002268|1|Loonboss|1|
-000002268|2|Dankhold Troggoth|1|
-000002411|1|Endrinmaster with Dirigible Suit|1|
-000002411|2|Skywardens|3|
-000002411|3|Grundstok Gunhauler|1|
-000002432|1|Drekki Flynt|1|
-000002432|2|Arkanaut Frigate (the <i>Aelsling</i>)|1|
-000002432|3|Arkanaut Company unit with 10 models|1|
-000002442|1|Codewright|1|
-000002442|2|Grundstok Thunderers unit with 5 models|1|
-000002442|3|Grundstok Thunderers unit with 5 models|1|
-000002474|1|Akhelian Allopex|2|
-000002483|1|Akhelian Thrallmaster|1|
-000002483|2|Namarti Reavers with 10 models|1|
-000002483|3|Namarti Thralls with 10 models|1|
-000002571|1|Grand Justice Gormayne|1|
-000002571|2|Royal Decapitator|1|
-000002571|3|Cryptguard|10|
 000002671|1|Edmark Valoran the Manticore Knight |0-1|
 000002671|2|Bren Tylis the Renegade Saint|0-1|
 000002671|3|Inara Sion the Cleansing Blade|0-1|
@@ -134,45 +104,87 @@
 000002671|7|Drasher Vorn the Rampaging Beast|0-1|
 000002671|8|This Regiment of Renown is built during army composition. You must include at least 1 of the units opposite in this regiment and can include 1 of each of them. Add together the points values of each unit you include in this regiment to determine its points cost.||
 000002671|9|<div class="BreakInsideAvoid" style="" "=""><table border="0" bordercolor="#888" cellpadding="4" cellspacing="0" style="border-collapse:collapse;border-width:0px"><tbody><tr><td><table class=" customTable" border="1" bordercolor="#888" cellpadding="4" style="border-collapse:collapse;border-color:#908249;border-width:0px"><tbody><tr><td style="border-width:0 1px 0 0;border-style:none solid none none;background-color:rgb(141,39,39);color:rgb(254,254,254);border-color:rgb(255,255,255);text-align:center;vertical-align:bottom;width:266px;height:0px;"><b>Unit</b></td><td style="border-width:0 0 0 0;border-style:none none none none;background-color:rgb(141,39,39);color:rgb(254,254,254);vertical-align:bottom;width:1&nbsp;028px;height:0px;"><b>Points</b></td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Edmark Valoran, the Manticore Knight</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+110</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Bren Tylis, the Renegade Saint</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Inara Sion, the Cleansing Blade</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drolf Ironhead, the Grizzled Explorer</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+100</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Kelthannor, the Forest Prince</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Jacobus Vyne, the Jade Wizard</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+130</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drasher Vorn, the Rampaging Beast</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr></tbody></table></td></tr></tbody></table></div>||
-000002672|1|Edmark Valoran the Manticore Knight |0-1|
-000002672|2|Bren Tylis the Renegade Saint|0-1|
-000002672|3|Inara Sion the Cleansing Blade|0-1|
-000002672|4|Drolf Ironhead the Grizzled Explorer|0-1|
-000002672|5|Kelthannor the Forest Prince|0-1|
-000002672|6|Jacobus Vyne the Jade Wizard|0-1|
-000002672|7|Drasher Vorn the Rampaging Beast|0-1|
-000002672|8|This Regiment of Renown is built during army composition. You must include at least 1 of the units opposite in this regiment and can include 1 of each of them. Add together the points values of each unit you include in this regiment to determine its points cost.||
-000002672|9|<div class="BreakInsideAvoid" style="" "=""><table border="0" bordercolor="#888" cellpadding="4" cellspacing="0" style="border-collapse:collapse;border-width:0px"><tbody><tr><td><table class=" customTable" border="1" bordercolor="#888" cellpadding="4" style="border-collapse:collapse;border-color:#908249;border-width:0px"><tbody><tr><td style="border-width:0 1px 0 0;border-style:none solid none none;background-color:rgb(141,39,39);color:rgb(254,254,254);border-color:rgb(255,255,255);text-align:center;vertical-align:bottom;width:266px;height:0px;"><b>Unit</b></td><td style="border-width:0 0 0 0;border-style:none none none none;background-color:rgb(141,39,39);color:rgb(254,254,254);vertical-align:bottom;width:1&nbsp;028px;height:0px;"><b>Points</b></td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Edmark Valoran, the Manticore Knight</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+110</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Bren Tylis, the Renegade Saint</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Inara Sion, the Cleansing Blade</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drolf Ironhead, the Grizzled Explorer</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+100</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Kelthannor, the Forest Prince</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Jacobus Vyne, the Jade Wizard</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+130</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drasher Vorn, the Rampaging Beast</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr></tbody></table></td></tr></tbody></table></div>||
-000002921|1|Nurglings unit with 3 models||
-000002921|2|Nurglings unit with 3 models||
-000002980|1|Mask of the Deceiver|1|
-000003031|1|Scinari Calligrave|1|
-000003031|2|Sanctum of Amyntok|1|
-000003031|3|Hyshian Twinstones|1|
-000003031|4|Rune of Petrification|1|
-000003031|5|<b>Designer’s Note:</b> <i>Including this Regiment of Renown in your army does not stop you from being able to pick a manifestation lore for your army</i>||
-000003039|1|Vanari Lord Regent on Lightcourser|1|
-000003039|2|Vanari Dawnriders|5|
-000003072|1|Mortisan Ossifector|1|
-000003072|2|Mortek Guard|10|
-000003072|3|Mortek Guard|10|
-000003072|4|Gothizzar Harvester|1|
-000003121|1|Arch-Revenant|1|
-000003121|2|Gossamid Archers unit with 5 models|1|
-000003140|1|Branchwych|1|
-000003140|2|The Twistweald unit with 8 models|1|
-000003147|1|Drycha Hamadreth||
-000003147|2|Spite-Revenants with 5 models|2|
-000003157|1|Khinerai Heartrenders unit with 5 models|1|
-000003157|2|Khinerai Lifetakers unit with 5 models|1|
-000003166|1|High Gladiatrix|1|
-000003166|2|Sisters of Slaughter unit with 10 models|1|
+000003430|1|Edmark Valoran the Manticore Knight |0-1|
+000003430|2|Bren Tylis the Renegade Saint|0-1|
+000003430|3|Inara Sion the Cleansing Blade|0-1|
+000003430|4|Drolf Ironhead the Grizzled Explorer|0-1|
+000003430|5|Kelthannor the Forest Prince|0-1|
+000003430|6|Jacobus Vyne the Jade Wizard|0-1|
+000003430|7|Drasher Vorn the Rampaging Beast|0-1|
+000003430|8|This Regiment of Renown is built during army composition. You must include at least 1 of the units opposite in this regiment and can include 1 of each of them. Add together the points values of each unit you include in this regiment to determine its points cost.||
+000003430|9|<div class="BreakInsideAvoid" style="" "=""><table border="0" bordercolor="#888" cellpadding="4" cellspacing="0" style="border-collapse:collapse;border-width:0px"><tbody><tr><td><table class=" customTable" border="1" bordercolor="#888" cellpadding="4" style="border-collapse:collapse;border-color:#908249;border-width:0px"><tbody><tr><td style="border-width:0 1px 0 0;border-style:none solid none none;background-color:rgb(141,39,39);color:rgb(254,254,254);border-color:rgb(255,255,255);text-align:center;vertical-align:bottom;width:266px;height:0px;"><b>Unit</b></td><td style="border-width:0 0 0 0;border-style:none none none none;background-color:rgb(141,39,39);color:rgb(254,254,254);vertical-align:bottom;width:1&nbsp;028px;height:0px;"><b>Points</b></td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Edmark Valoran, the Manticore Knight</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+110</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Bren Tylis, the Renegade Saint</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Inara Sion, the Cleansing Blade</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drolf Ironhead, the Grizzled Explorer</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+100</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Kelthannor, the Forest Prince</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Jacobus Vyne, the Jade Wizard</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+130</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drasher Vorn, the Rampaging Beast</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr></tbody></table></td></tr></tbody></table></div>||
+000003449|1|Galen and Doralia ven Denst||
+000003449|2|Wildercorps Hunters|11|
+000003458|1|Fusil-Major on Ogor Warhulk|1|
+000003458|2|Ironweld Great Cannon|1|
+000003458|3|Freeguild Fusiliers|10|
+000003471|1|Outlaw Cannonade Cogfort|1|
+000003496|1|Outlaw Conqueror Cogfort|1|
+000003529|1|Akhelian Allopex|2|
+000003531|1|Vanari Lord Regent on Lightcourser|1|
+000003531|2|Vanari Dawnriders|5|
+000003532|1|Drekki Flynt|1|
+000003532|2|Arkanaut Frigate (the <i>Aelsling</i>)|1|
+000003532|3|Arkanaut Company unit with 10 models|1|
+000003533|1|Drycha Hamadreth||
+000003533|2|Spite-Revenants with 5 models|2|
+000003534|1|Arch-Revenant|1|
+000003534|2|Gossamid Archers unit with 5 models|1|
+000003535|1|Mortisan Ossifector|1|
+000003535|2|Mortek Guard|10|
+000003535|3|Mortek Guard|10|
+000003535|4|Gothizzar Harvester|1|
+000003536|1|Endrinmaster with Dirigible Suit|1|
+000003536|2|Skywardens|3|
+000003536|3|Grundstok Gunhauler|1|
+000003537|1|Grimhold Exile|1|
+000003537|2|Auric Hearthguard unit with 5 models|1|
+000003537|3|Hearthguard Berzerkers with Flamestrike Poleaxes unit with 5 models|1|
+000003537|4|Vulkite Berzerkers with Fyresteel Weapons unit with 10 models|1|
+000003538|1|Gotrek Gurnisson|1|
+000003539|1|Khinerai Heartrenders unit with 5 models|1|
+000003539|2|Khinerai Lifetakers unit with 5 models|1|
+000003540|1|Mask of the Deceiver|1|
+000003541|1|Akhelian Thrallmaster|1|
+000003541|2|Namarti Reavers with 10 models|1|
+000003541|3|Namarti Thralls with 10 models|1|
+000003542|1|Nurglings unit with 3 models||
+000003542|2|Nurglings unit with 3 models||
+000003543|1|Scinari Calligrave|1|
+000003543|2|Sanctum of Amyntok|1|
+000003543|3|Hyshian Twinstones|1|
+000003543|4|Rune of Petrification|1|
+000003543|5|<b>Designer’s Note:</b> <i>Including this Regiment of Renown in your army does not stop you from being able to pick a manifestation lore for your army</i>||
+000003544|1|Codewright|1|
+000003544|2|Grundstok Thunderers unit with 5 models|1|
+000003544|3|Grundstok Thunderers unit with 5 models|1|
+000003545|1|Loonboss|1|
+000003545|2|Dankhold Troggoth|1|
+000003547|1|Neave Blacktalon|1|
+000003547|2|Lorai, Child of the Abyss|1|
+000003547|3|Neave’s Companions|1|
+000003548|1|High Gladiatrix|1|
+000003548|2|Sisters of Slaughter unit with 10 models|1|
+000003549|1|Lord-Aquilor.|1|
+000003549|2|Vanguard-Hunters.|1|
+000003549|3|Vanguard-Palladors with Starstrike Javelins unit with 3 models.|1|
+000003550|1|Grand Justice Gormayne|1|
+000003550|2|Royal Decapitator|1|
+000003550|3|Cryptguard|10|
+000003551|1|Branchwych|1|
+000003551|2|The Twistweald unit with 8 models|1|
+000003552|1|Knight-Draconis|1|
+000003552|2|Stormdrake Guard (1 model)|1|
+000003660|1|Tyrant on Glutthorn|1|
+000003660|2|Maulbeast Cavalry|2|
+000003711|1|<b>Kraken-eater Mega-Gargant</b>|1|
+000003757|1|<b>Mancrusher Gargant</b>|1|
+000003793|1|Mancrusher Gargant|1|
 000003156|1|Khinerai Heartrenders unit with 5 models|1|
 000003156|2|Khinerai Lifetakers unit with 5 models|1|
 000003165|1|High Gladiatrix|1|
 000003165|2|Sisters of Slaughter unit with 10 models|1|
 000003179|1|Akhelian Allopex|2|
-000003181|1|Kraken-eater Mega-Gargant|1|
 000003183|1|Vanari Lord Regent on Lightcourser|1|
 000003183|2|Vanari Dawnriders|5|
 000003185|1|Drekki Flynt|1|
@@ -194,26 +206,12 @@
 000003191|3|Hearthguard Berzerkers with Flamestrike Poleaxes unit with 5 models|1|
 000003191|4|Vulkite Berzerkers with Fyresteel Weapons unit with 10 models|1|
 000003193|1|Gotrek Gurnisson|1|
-000003195|1|Edmark Valoran the Manticore Knight |0-1|
-000003195|2|Bren Tylis the Renegade Saint|0-1|
-000003195|3|Inara Sion the Cleansing Blade|0-1|
-000003195|4|Drolf Ironhead the Grizzled Explorer|0-1|
-000003195|5|Kelthannor the Forest Prince|0-1|
-000003195|6|Jacobus Vyne the Jade Wizard|0-1|
-000003195|7|Drasher Vorn the Rampaging Beast|0-1|
-000003195|8|This Regiment of Renown is built during army composition. You must include at least 1 of the units opposite in this regiment and can include 1 of each of them. Add together the points values of each unit you include in this regiment to determine its points cost.||
-000003195|9|<div class="BreakInsideAvoid" style="" "=""><table border="0" bordercolor="#888" cellpadding="4" cellspacing="0" style="border-collapse:collapse;border-width:0px"><tbody><tr><td><table class=" customTable" border="1" bordercolor="#888" cellpadding="4" style="border-collapse:collapse;border-color:#908249;border-width:0px"><tbody><tr><td style="border-width:0 1px 0 0;border-style:none solid none none;background-color:rgb(141,39,39);color:rgb(254,254,254);border-color:rgb(255,255,255);text-align:center;vertical-align:bottom;width:266px;height:0px;"><b>Unit</b></td><td style="border-width:0 0 0 0;border-style:none none none none;background-color:rgb(141,39,39);color:rgb(254,254,254);vertical-align:bottom;width:1&nbsp;028px;height:0px;"><b>Points</b></td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Edmark Valoran, the Manticore Knight</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+110</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Bren Tylis, the Renegade Saint</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Inara Sion, the Cleansing Blade</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drolf Ironhead, the Grizzled Explorer</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+100</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Kelthannor, the Forest Prince</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Jacobus Vyne, the Jade Wizard</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+130</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drasher Vorn, the Rampaging Beast</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr></tbody></table></td></tr></tbody></table></div>||
 000003197|1|Mask of the Deceiver|1|
 000003199|1|Akhelian Thrallmaster|1|
 000003199|2|Namarti Reavers with 10 models|1|
 000003199|3|Namarti Thralls with 10 models|1|
-000003201|1|Runelord|1|
-000003201|2|Irondrakes unit with 10 models|1|
-000003201|3|Longbeards unit with 10 models|1|
 000003203|1|Nurglings unit with 3 models||
 000003203|2|Nurglings unit with 3 models||
-000003205|1|Callis and Toll|1|
-000003205|2|Toll’s Companions|1|
 000003207|1|Scinari Calligrave|1|
 000003207|2|Sanctum of Amyntok|1|
 000003207|3|Hyshian Twinstones|1|
@@ -224,7 +222,6 @@
 000003209|3|Grundstok Thunderers unit with 5 models|1|
 000003211|1|Loonboss|1|
 000003211|2|Dankhold Troggoth|1|
-000003212|1|Mancrusher Gargant|1|
 000003214|1|Neave Blacktalon|1|
 000003214|2|Lorai, Child of the Abyss|1|
 000003214|3|Neave’s Companions|1|
@@ -235,6 +232,30 @@
 000003218|2|The Twistweald unit with 8 models|1|
 000003219|1|Knight-Draconis|1|
 000003219|2|Stormdrake Guard (1 model)|1|
+000003414|1|Runelord|1|
+000003414|2|Longbeards|1|
+000003414|3|Irondrakes|1|
+000003422|1|Callis and Toll|1|
+000003422|2|Toll’s Companions|1|
+000003431|1|Edmark Valoran the Manticore Knight |0-1|
+000003431|2|Bren Tylis the Renegade Saint|0-1|
+000003431|3|Inara Sion the Cleansing Blade|0-1|
+000003431|4|Drolf Ironhead the Grizzled Explorer|0-1|
+000003431|5|Kelthannor the Forest Prince|0-1|
+000003431|6|Jacobus Vyne the Jade Wizard|0-1|
+000003431|7|Drasher Vorn the Rampaging Beast|0-1|
+000003431|8|This Regiment of Renown is built during army composition. You must include at least 1 of the units opposite in this regiment and can include 1 of each of them. Add together the points values of each unit you include in this regiment to determine its points cost.||
+000003431|9|<div class="BreakInsideAvoid" style="" "=""><table border="0" bordercolor="#888" cellpadding="4" cellspacing="0" style="border-collapse:collapse;border-width:0px"><tbody><tr><td><table class=" customTable" border="1" bordercolor="#888" cellpadding="4" style="border-collapse:collapse;border-color:#908249;border-width:0px"><tbody><tr><td style="border-width:0 1px 0 0;border-style:none solid none none;background-color:rgb(141,39,39);color:rgb(254,254,254);border-color:rgb(255,255,255);text-align:center;vertical-align:bottom;width:266px;height:0px;"><b>Unit</b></td><td style="border-width:0 0 0 0;border-style:none none none none;background-color:rgb(141,39,39);color:rgb(254,254,254);vertical-align:bottom;width:1&nbsp;028px;height:0px;"><b>Points</b></td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Edmark Valoran, the Manticore Knight</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+110</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Bren Tylis, the Renegade Saint</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Inara Sion, the Cleansing Blade</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drolf Ironhead, the Grizzled Explorer</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+100</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Kelthannor, the Forest Prince</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Jacobus Vyne, the Jade Wizard</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+130</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drasher Vorn, the Rampaging Beast</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr></tbody></table></td></tr></tbody></table></div>||
+000003450|1|Galen and Doralia ven Denst||
+000003450|2|Wildercorps Hunters|11|
+000003459|1|Fusil-Major on Ogor Warhulk|1|
+000003459|2|Ironweld Great Cannon|1|
+000003459|3|Freeguild Fusiliers|10|
+000003473|1|Outlaw Cannonade Cogfort|1|
+000003498|1|Outlaw Conqueror Cogfort|1|
+000003712|1|<b>Kraken-eater Mega-Gargant</b>|1|
+000003758|1|<b>Mancrusher Gargant</b>|1|
+000003794|1|Mancrusher Gargant|1|
 000001912|1|Magister|1|
 000001912|2|Pink Horrors with 10 models|1|
 000001912|3|Burning Sigil of Tzeentch|1|
@@ -260,7 +281,6 @@
 000003017|1|Chaos Lord on Daemonic Mount|1|
 000003017|2|Chaos Knights unit with 5 models.|1|
 000003017|3|Chaos Warriors unit with 10 models.|1|
-000003018|1|Warstomper Mega-Gargant|1|
 000003019|1|Harbinger of Decay|1|
 000003019|2|Putrid Blightkings unit with 5 models|1|
 000003019|3|Pusgoyle Blightlords unit with 2 models|1|
@@ -270,7 +290,6 @@
 000003021|2|Dankhold Troggoth|1|
 000003022|1|Varghulf Courtier|1|
 000003022|2|Morbheg Knights|3|
-000003023|1|Mancrusher Gargant|1|
 000003024|1|Daemonsmith|1|
 000003024|2|Tormentor Bombard|1|
 000003024|3|Deathshrieker Rocket Battery|1|
@@ -285,6 +304,17 @@
 000003028|2|Warpvolt Scourgers unit with 3 models|1|
 000003028|3|Ratling Warpblaster|1|
 000003028|4|Each unit in this Regiment of Renown has the <span class="kwb">VOLT-KLAW’S</span> <span class="kwb">ENGINECOVEN</span> keyword.||
+000003474|1|Outlaw Cannonade Cogfort|1|
+000003499|1|Outlaw Conqueror Cogfort|1|
+000003590|1|Shardspeaker of Slaanesh|1|
+000003590|2|Blissbarb Archers unit with 10 models|1|
+000003597|1|Contorted Epitome|1|
+000003597|2|Wheels of Excruciation|1|
+000003597|3|Mesmerising Mirror|1|
+000003597|4|Dreadful Visage|1|
+000003741|1|<b>Warstomper Mega-Gargant</b>|1|
+000003759|1|<b>Mancrusher Gargant</b>|1|
+000003795|1|Mancrusher Gargant|1|
 000001919|1|Ushoran, Mortarch of Delusion||
 000001919|2|Cryptguard unit with 10 models|1|
 000001919|3|Morbheg Knights unit with 3 models|1|
@@ -298,7 +328,6 @@
 000002570|1|Grand Justice Gormayne|1|
 000002570|2|Royal Decapitator|1|
 000002570|3|Cryptguard|10|
-000002582|1|Gatebreaker Mega-Gargant|1|
 000002584|1|Blades of the Hollow King|1|
 000002586|1|Black Coach|1|
 000002587|1|Scriptor Mortis|1|
@@ -308,7 +337,6 @@
 000002589|2|Barrow Knights unit with 5 models|1|
 000002589|3|Deathrattle Skeletons unit with 10 models|1|
 000002589|4|Deathrattle Skeletons unit with 10 models|1|
-000002593|1|Mancrusher Gargant|1|
 000002595|1|Revenant Draconith|1|
 000002601|1|Lady Olynder, Mortarch of Grief||
 000002601|2|Dreadscythe Harridans unit with 10 models|1|
@@ -340,17 +368,17 @@
 000003129|1|Treelord|1|
 000003129|2|Spite-Revenants|5|
 000003129|3|Spite-Revenants|5|
+000003475|1|Outlaw Cannonade Cogfort|1|
+000003500|1|Outlaw Conqueror Cogfort|1|
+000003661|1|Tyrant on Glutthorn|1|
+000003661|2|Maulbeast Cavalry|2|
+000003730|1|<b>Gatebreaker Mega-Gargant</b>|1|
+000003760|1|<b>Mancrusher Gargant</b>|1|
+000003796|1|Mancrusher Gargant|1|
 000001984|1|Grimhold Exile|1|
 000001984|2|Auric Hearthguard unit with 5 models|1|
 000001984|3|Hearthguard Berzerkers with Flamestrike Poleaxes unit with 5 models|1|
 000001984|4|Vulkite Berzerkers with Fyresteel Weapons unit with 10 models|1|
-000002042|1|Kraken-eater Mega-Gargant|1|
-000002086|1|Runelord|1|
-000002086|2|Irondrakes unit with 10 models|1|
-000002086|3|Longbeards unit with 10 models|1|
-000002120|1|Callis and Toll|1|
-000002120|2|Toll’s Companions|1|
-000002161|1|Mancrusher Gargant|1|
 000002179|1|Neave Blacktalon|1|
 000002179|2|Lorai, Child of the Abyss|1|
 000002179|3|Neave’s Companions|1|
@@ -374,15 +402,6 @@
 000002485|1|Akhelian Thrallmaster|1|
 000002485|2|Namarti Reavers with 10 models|1|
 000002485|3|Namarti Thralls with 10 models|1|
-000002674|1|Edmark Valoran the Manticore Knight |0-1|
-000002674|2|Bren Tylis the Renegade Saint|0-1|
-000002674|3|Inara Sion the Cleansing Blade|0-1|
-000002674|4|Drolf Ironhead the Grizzled Explorer|0-1|
-000002674|5|Kelthannor the Forest Prince|0-1|
-000002674|6|Jacobus Vyne the Jade Wizard|0-1|
-000002674|7|Drasher Vorn the Rampaging Beast|0-1|
-000002674|8|This Regiment of Renown is built during army composition. You must include at least 1 of the units opposite in this regiment and can include 1 of each of them. Add together the points values of each unit you include in this regiment to determine its points cost.||
-000002674|9|<div class="BreakInsideAvoid" style="" "=""><table border="0" bordercolor="#888" cellpadding="4" cellspacing="0" style="border-collapse:collapse;border-width:0px"><tbody><tr><td><table class=" customTable" border="1" bordercolor="#888" cellpadding="4" style="border-collapse:collapse;border-color:#908249;border-width:0px"><tbody><tr><td style="border-width:0 1px 0 0;border-style:none solid none none;background-color:rgb(141,39,39);color:rgb(254,254,254);border-color:rgb(255,255,255);text-align:center;vertical-align:bottom;width:266px;height:0px;"><b>Unit</b></td><td style="border-width:0 0 0 0;border-style:none none none none;background-color:rgb(141,39,39);color:rgb(254,254,254);vertical-align:bottom;width:1&nbsp;028px;height:0px;"><b>Points</b></td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Edmark Valoran, the Manticore Knight</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+110</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Bren Tylis, the Renegade Saint</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Inara Sion, the Cleansing Blade</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drolf Ironhead, the Grizzled Explorer</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+100</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Kelthannor, the Forest Prince</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Jacobus Vyne, the Jade Wizard</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+130</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drasher Vorn, the Rampaging Beast</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr></tbody></table></td></tr></tbody></table></div>||
 000002924|1|Nurglings unit with 3 models||
 000002924|2|Nurglings unit with 3 models||
 000002983|1|Mask of the Deceiver|1|
@@ -403,6 +422,32 @@
 000003158|2|Khinerai Lifetakers unit with 5 models|1|
 000003167|1|High Gladiatrix|1|
 000003167|2|Sisters of Slaughter unit with 10 models|1|
+000003415|1|Runelord|1|
+000003415|2|Longbeards|1|
+000003415|3|Irondrakes|1|
+000003423|1|Callis and Toll|1|
+000003423|2|Toll’s Companions|1|
+000003432|1|Edmark Valoran the Manticore Knight |0-1|
+000003432|2|Bren Tylis the Renegade Saint|0-1|
+000003432|3|Inara Sion the Cleansing Blade|0-1|
+000003432|4|Drolf Ironhead the Grizzled Explorer|0-1|
+000003432|5|Kelthannor the Forest Prince|0-1|
+000003432|6|Jacobus Vyne the Jade Wizard|0-1|
+000003432|7|Drasher Vorn the Rampaging Beast|0-1|
+000003432|8|This Regiment of Renown is built during army composition. You must include at least 1 of the units opposite in this regiment and can include 1 of each of them. Add together the points values of each unit you include in this regiment to determine its points cost.||
+000003432|9|<div class="BreakInsideAvoid" style="" "=""><table border="0" bordercolor="#888" cellpadding="4" cellspacing="0" style="border-collapse:collapse;border-width:0px"><tbody><tr><td><table class=" customTable" border="1" bordercolor="#888" cellpadding="4" style="border-collapse:collapse;border-color:#908249;border-width:0px"><tbody><tr><td style="border-width:0 1px 0 0;border-style:none solid none none;background-color:rgb(141,39,39);color:rgb(254,254,254);border-color:rgb(255,255,255);text-align:center;vertical-align:bottom;width:266px;height:0px;"><b>Unit</b></td><td style="border-width:0 0 0 0;border-style:none none none none;background-color:rgb(141,39,39);color:rgb(254,254,254);vertical-align:bottom;width:1&nbsp;028px;height:0px;"><b>Points</b></td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Edmark Valoran, the Manticore Knight</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+110</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Bren Tylis, the Renegade Saint</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Inara Sion, the Cleansing Blade</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drolf Ironhead, the Grizzled Explorer</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+100</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Kelthannor, the Forest Prince</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Jacobus Vyne, the Jade Wizard</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+130</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drasher Vorn, the Rampaging Beast</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr></tbody></table></td></tr></tbody></table></div>||
+000003451|1|Galen and Doralia ven Denst||
+000003451|2|Wildercorps Hunters|11|
+000003460|1|Fusil-Major on Ogor Warhulk|1|
+000003460|2|Ironweld Great Cannon|1|
+000003460|3|Freeguild Fusiliers|10|
+000003476|1|Outlaw Cannonade Cogfort|1|
+000003501|1|Outlaw Conqueror Cogfort|1|
+000003662|1|Tyrant on Glutthorn|1|
+000003662|2|Maulbeast Cavalry|2|
+000003713|1|<b>Kraken-eater Mega-Gargant</b>|1|
+000003761|1|<b>Mancrusher Gargant</b>|1|
+000003797|1|Mancrusher Gargant|1|
 000002004|1|Rabble-Rowza|1|
 000002004|2|Gobbapalooza|1|
 000002004|3|Squig Herd unit with 12 models|1|
@@ -425,14 +470,9 @@
 000002303|4|The Beast-skewer Killbow in this Regiment of Renown has the <span class="kwb">HERO</span> keyword.||
 000002304|1|Tuskboss on Maw-grunta|1|
 000002304|2|Maw-grunta Gougers|1|
-000002305|1|Kraken-eater Mega-Gargant|1|
-000002313|1|Mancrusher Gargant|1|
 000002319|1|Ogroid Myrmidon|1|
 000002319|2|Ogroid Thaumaturge|1|
 000002319|3|Ogroid Theridons|3|
-000002322|1|Gatebreaker Mega-Gargant|1|
-000002323|1|Beast-smasher Mega-Gargant|1|
-000002326|1|Warstomper Mega-Gargant|1|
 000002414|1|Endrinmaster with Dirigible Suit|1|
 000002414|2|Skywardens|3|
 000002414|3|Grundstok Gunhauler|1|
@@ -443,6 +483,18 @@
 000003076|2|Mortek Guard|10|
 000003076|3|Mortek Guard|10|
 000003076|4|Gothizzar Harvester|1|
+000003477|1|Outlaw Cannonade Cogfort|1|
+000003502|1|Outlaw Conqueror Cogfort|1|
+000003655|1|Huskard on Stonehorn|1|
+000003655|2|Thundertusk Beastriders|1|
+000003663|1|Tyrant on Glutthorn|1|
+000003663|2|Maulbeast Cavalry|2|
+000003714|1|<b>Kraken-eater Mega-Gargant</b>|1|
+000003725|1|<b>Beast-smasher Mega-Gargant</b>|1|
+000003731|1|<b>Gatebreaker Mega-Gargant</b>|1|
+000003742|1|<b>Warstomper Mega-Gargant</b>|1|
+000003762|1|<b>Mancrusher Gargant</b>|1|
+000003798|1|Mancrusher Gargant|1|
 000002628|1|Ashen Elder|1|
 000002628|2|Dominator Engine with Bane Maces|1|
 000002636|1|Daemonsmith|1|
@@ -461,8 +513,6 @@
 000002655|1|Slaughterpriest|1|
 000002655|2|Bloodreavers|10|
 000002655|3|Skullreapers|5|
-000002696|1|Warstomper Mega-Gargant|1|
-000002699|1|Mancrusher Gargant|1|
 000002915|1|Harbinger of Decay|1|
 000002915|2|Putrid Blightkings unit with 5 models|1|
 000002915|3|Pusgoyle Blightlords unit with 2 models|1|
@@ -481,56 +531,78 @@
 000003083|2|Mortek Guard|10|
 000003083|3|Mortek Guard|10|
 000003083|4|Gothizzar Harvester|1|
-000001587|1|Fomoroid Crusher|1|
-000001587|2|Ogroid Myrmidon|1|
-000001587|3|Mindstealer Sphiranx|1|
-000001757|1|Singri Brand|1|
-000001757|2|Gunnar Brand|1|
-000001757|3|The Oathsworn Kin|1|
-000001971|1|Warstomper Mega-Gargant|1|
-000002011|1|Chaos Lord on Daemonic Mount|1|
-000002011|2|Chaos Knights unit with 5 models.|1|
-000002011|3|Chaos Warriors unit with 10 models.|1|
-000002017|1|Daemon Prince|1|
-000002083|1|Krittok Foulblade|1|
-000002083|2|Stormvermin unit with 10 models|1|
-000002083|3|Doom-Flayers unit with 2 models|1|
-000002083|4|Each unit in this Regiment of Renown has the <span class="kwb">KRITTOK’S</span> <span class="kwb">CLAWPACK</span> keyword.||
-000002163|1|Mancrusher Gargant|1|
-000002210|1|Warlock Galvaneer|1|
-000002210|2|Warpvolt Scourgers unit with 3 models|1|
-000002210|3|Ratling Warpblaster|1|
-000002210|4|Each unit in this Regiment of Renown has the <span class="kwb">VOLT-KLAW’S</span> <span class="kwb">ENGINECOVEN</span> keyword.||
-000002271|1|Loonboss|1|
-000002271|2|Dankhold Troggoth|1|
-000002456|1|<b>Skarbrand</b>|1|
-000002463|1|Slaughterpriest|1|
-000002463|2|Bloodreavers|10|
-000002463|3|Skullreapers|5|
-000002562|1|Varghulf Courtier|1|
-000002562|2|Morbheg Knights|3|
-000002631|1|Ashen Elder|1|
-000002631|2|Dominator Engine with Bane Maces|1|
-000002639|1|Daemonsmith|1|
-000002639|2|Tormentor Bombard|1|
-000002639|3|Deathshrieker Rocket Battery|1|
-000002914|1|Harbinger of Decay|1|
-000002914|2|Putrid Blightkings unit with 5 models|1|
-000002914|3|Pusgoyle Blightlords unit with 2 models|1|
-000002939|1|Spoilpox Scrivener, Herald of Nurgle|1|
-000002939|2|Plaguebearers with 10 models|1|
-000002939|3|Feculent Gnarlmaw|1|
-000002946|1|Sloppity Bilepiper, Herald of Nurgle|1|
-000002946|2|Beast of Nurgle|2|
-000002972|1|Magister|1|
-000002972|2|Pink Horrors with 10 models|1|
-000002972|3|Burning Sigil of Tzeentch|1|
-000002972|4|Tome of Eyes|1|
-000002972|5|Daemonic Simulacrum|1|
-000002985|1|Mask of the Deceiver|1|
-000003004|1|Gaunt Summoner on Disc of Tzeentch|1|
-000003004|2|Magister on Disc of Tzeentch|1|
-000003004|3|Screamers of Tzeentch|3|
+000003479|1|Outlaw Cannonade Cogfort|1|
+000003504|1|Outlaw Conqueror Cogfort|1|
+000003591|1|Shardspeaker of Slaanesh|1|
+000003591|2|Blissbarb Archers unit with 10 models|1|
+000003598|1|Contorted Epitome|1|
+000003598|2|Wheels of Excruciation|1|
+000003598|3|Mesmerising Mirror|1|
+000003598|4|Dreadful Visage|1|
+000003664|1|Tyrant on Glutthorn|1|
+000003664|2|Maulbeast Cavalry|2|
+000003750|1|<b>Warstomper Mega-Gargant</b>|1|
+000003764|1|<b>Mancrusher Gargant</b>|1|
+000003815|1|Mancrusher Gargant|1|
+000003589|1|Shardspeaker of Slaanesh|1|
+000003589|2|Blissbarb Archers unit with 10 models|1|
+000003596|1|Contorted Epitome|1|
+000003596|2|Wheels of Excruciation|1|
+000003596|3|Mesmerising Mirror|1|
+000003596|4|Dreadful Visage|1|
+000003611|1|Singri Brand|1|
+000003611|2|Gunnar Brand|1|
+000003611|3|The Oathsworn Kin|1|
+000003612|1|Outlaw Conqueror Cogfort|1|
+000003613|1|Sloppity Bilepiper, Herald of Nurgle|1|
+000003613|2|Beast of Nurgle|2|
+000003624|1|Daemon Prince|1|
+000003625|1|Fomoroid Crusher|1|
+000003625|2|Ogroid Myrmidon|1|
+000003625|3|Mindstealer Sphiranx|1|
+000003626|1|Krittok Foulblade|1|
+000003626|2|Stormvermin unit with 10 models|1|
+000003626|3|Doom-Flayers unit with 2 models|1|
+000003626|4|Each unit in this Regiment of Renown has the <span class="kwb">KRITTOK’S</span> <span class="kwb">CLAWPACK</span> keyword.||
+000003627|1|Chaos Lord on Daemonic Mount|1|
+000003627|2|Chaos Knights unit with 5 models.|1|
+000003627|3|Chaos Warriors unit with 10 models.|1|
+000003628|1|Mask of the Deceiver|1|
+000003630|1|Harbinger of Decay|1|
+000003630|2|Putrid Blightkings unit with 5 models|1|
+000003630|3|Pusgoyle Blightlords unit with 2 models|1|
+000003631|1|Outlaw Cannonade Cogfort|1|
+000003632|1|Ashen Elder|1|
+000003632|2|Dominator Engine with Bane Maces|1|
+000003633|1|Gaunt Summoner on Disc of Tzeentch|1|
+000003633|2|Magister on Disc of Tzeentch|1|
+000003633|3|Screamers of Tzeentch|3|
+000003634|1|Loonboss|1|
+000003634|2|Dankhold Troggoth|1|
+000003635|1|Varghulf Courtier|1|
+000003635|2|Morbheg Knights|3|
+000003637|1|Magister|1|
+000003637|2|Pink Horrors with 10 models|1|
+000003637|3|Burning Sigil of Tzeentch|1|
+000003637|4|Tome of Eyes|1|
+000003637|5|Daemonic Simulacrum|1|
+000003638|1|Daemonsmith|1|
+000003638|2|Tormentor Bombard|1|
+000003638|3|Deathshrieker Rocket Battery|1|
+000003639|1|<b>Skarbrand</b>|1|
+000003640|1|Spoilpox Scrivener, Herald of Nurgle|1|
+000003640|2|Plaguebearers with 10 models|1|
+000003640|3|Feculent Gnarlmaw|1|
+000003641|1|Slaughterpriest|1|
+000003641|2|Bloodreavers|10|
+000003641|3|Skullreapers|5|
+000003642|1|Warlock Galvaneer|1|
+000003642|2|Warpvolt Scourgers unit with 3 models|1|
+000003642|3|Ratling Warpblaster|1|
+000003642|4|Each unit in this Regiment of Renown has the <span class="kwb">VOLT-KLAW’S</span> <span class="kwb">ENGINECOVEN</span> keyword.||
+000003743|1|<b>Warstomper Mega-Gargant</b>|1|
+000003763|1|<b>Mancrusher Gargant</b>|1|
+000003799|1|Mancrusher Gargant|1|
 000002473|1|Akhelian Allopex|2|
 000002482|1|Akhelian Thrallmaster|1|
 000002482|2|Namarti Reavers with 10 models|1|
@@ -538,23 +610,16 @@
 000002491|1|Drekki Flynt|1|
 000002491|2|Arkanaut Frigate (the <i>Aelsling</i>)|1|
 000002491|3|Arkanaut Company unit with 10 models|1|
-000002497|1|Kraken-eater Mega-Gargant|1|
 000002501|1|Grimhold Exile|1|
 000002501|2|Auric Hearthguard unit with 5 models|1|
 000002501|3|Hearthguard Berzerkers with Flamestrike Poleaxes unit with 5 models|1|
 000002501|4|Vulkite Berzerkers with Fyresteel Weapons unit with 10 models|1|
 000002504|1|Gotrek Gurnisson|1|
-000002510|1|Runelord|1|
-000002510|2|Irondrakes unit with 10 models|1|
-000002510|3|Longbeards unit with 10 models|1|
-000002515|1|Callis and Toll|1|
-000002515|2|Toll’s Companions|1|
 000002518|1|Codewright|1|
 000002518|2|Grundstok Thunderers unit with 5 models|1|
 000002518|3|Grundstok Thunderers unit with 5 models|1|
 000002520|1|Loonboss|1|
 000002520|2|Dankhold Troggoth|1|
-000002524|1|Mancrusher Gargant|1|
 000002527|1|Neave Blacktalon|1|
 000002527|2|Lorai, Child of the Abyss|1|
 000002527|3|Neave’s Companions|1|
@@ -563,15 +628,6 @@
 000002529|3|Vanguard-Palladors with Starstrike Javelins unit with 3 models.|1|
 000002536|1|Knight-Draconis|1|
 000002536|2|Stormdrake Guard (1 model)|1|
-000002675|1|Edmark Valoran the Manticore Knight |0-1|
-000002675|2|Bren Tylis the Renegade Saint|0-1|
-000002675|3|Inara Sion the Cleansing Blade|0-1|
-000002675|4|Drolf Ironhead the Grizzled Explorer|0-1|
-000002675|5|Kelthannor the Forest Prince|0-1|
-000002675|6|Jacobus Vyne the Jade Wizard|0-1|
-000002675|7|Drasher Vorn the Rampaging Beast|0-1|
-000002675|8|This Regiment of Renown is built during army composition. You must include at least 1 of the units opposite in this regiment and can include 1 of each of them. Add together the points values of each unit you include in this regiment to determine its points cost.||
-000002675|9|<div class="BreakInsideAvoid" style="" "=""><table border="0" bordercolor="#888" cellpadding="4" cellspacing="0" style="border-collapse:collapse;border-width:0px"><tbody><tr><td><table class=" customTable" border="1" bordercolor="#888" cellpadding="4" style="border-collapse:collapse;border-color:#908249;border-width:0px"><tbody><tr><td style="border-width:0 1px 0 0;border-style:none solid none none;background-color:rgb(141,39,39);color:rgb(254,254,254);border-color:rgb(255,255,255);text-align:center;vertical-align:bottom;width:266px;height:0px;"><b>Unit</b></td><td style="border-width:0 0 0 0;border-style:none none none none;background-color:rgb(141,39,39);color:rgb(254,254,254);vertical-align:bottom;width:1&nbsp;028px;height:0px;"><b>Points</b></td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Edmark Valoran, the Manticore Knight</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+110</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Bren Tylis, the Renegade Saint</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Inara Sion, the Cleansing Blade</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drolf Ironhead, the Grizzled Explorer</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+100</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Kelthannor, the Forest Prince</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Jacobus Vyne, the Jade Wizard</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+130</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drasher Vorn, the Rampaging Beast</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr></tbody></table></td></tr></tbody></table></div>||
 000002987|1|Mask of the Deceiver|1|
 000003034|1|Scinari Calligrave|1|
 000003034|2|Sanctum of Amyntok|1|
@@ -593,6 +649,30 @@
 000003159|2|Khinerai Lifetakers unit with 5 models|1|
 000003168|1|High Gladiatrix|1|
 000003168|2|Sisters of Slaughter unit with 10 models|1|
+000003416|1|Runelord|1|
+000003416|2|Longbeards|1|
+000003416|3|Irondrakes|1|
+000003424|1|Callis and Toll|1|
+000003424|2|Toll’s Companions|1|
+000003433|1|Edmark Valoran the Manticore Knight |0-1|
+000003433|2|Bren Tylis the Renegade Saint|0-1|
+000003433|3|Inara Sion the Cleansing Blade|0-1|
+000003433|4|Drolf Ironhead the Grizzled Explorer|0-1|
+000003433|5|Kelthannor the Forest Prince|0-1|
+000003433|6|Jacobus Vyne the Jade Wizard|0-1|
+000003433|7|Drasher Vorn the Rampaging Beast|0-1|
+000003433|8|This Regiment of Renown is built during army composition. You must include at least 1 of the units opposite in this regiment and can include 1 of each of them. Add together the points values of each unit you include in this regiment to determine its points cost.||
+000003433|9|<div class="BreakInsideAvoid" style="" "=""><table border="0" bordercolor="#888" cellpadding="4" cellspacing="0" style="border-collapse:collapse;border-width:0px"><tbody><tr><td><table class=" customTable" border="1" bordercolor="#888" cellpadding="4" style="border-collapse:collapse;border-color:#908249;border-width:0px"><tbody><tr><td style="border-width:0 1px 0 0;border-style:none solid none none;background-color:rgb(141,39,39);color:rgb(254,254,254);border-color:rgb(255,255,255);text-align:center;vertical-align:bottom;width:266px;height:0px;"><b>Unit</b></td><td style="border-width:0 0 0 0;border-style:none none none none;background-color:rgb(141,39,39);color:rgb(254,254,254);vertical-align:bottom;width:1&nbsp;028px;height:0px;"><b>Points</b></td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Edmark Valoran, the Manticore Knight</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+110</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Bren Tylis, the Renegade Saint</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Inara Sion, the Cleansing Blade</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drolf Ironhead, the Grizzled Explorer</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+100</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Kelthannor, the Forest Prince</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Jacobus Vyne, the Jade Wizard</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+130</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drasher Vorn, the Rampaging Beast</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr></tbody></table></td></tr></tbody></table></div>||
+000003452|1|Galen and Doralia ven Denst||
+000003452|2|Wildercorps Hunters|11|
+000003461|1|Fusil-Major on Ogor Warhulk|1|
+000003461|2|Ironweld Great Cannon|1|
+000003461|3|Freeguild Fusiliers|10|
+000003480|1|Outlaw Cannonade Cogfort|1|
+000003505|1|Outlaw Conqueror Cogfort|1|
+000003715|1|<b>Kraken-eater Mega-Gargant</b>|1|
+000003765|1|<b>Mancrusher Gargant</b>|1|
+000003800|1|Mancrusher Gargant|1|
 000002240|1|Tuskboss on Maw-grunta|1|
 000002240|2|Maw-grunta Gougers|1|
 000002246|1|Beast-skewer Killbow|1|
@@ -601,7 +681,6 @@
 000002246|4|The Beast-skewer Killbow in this Regiment of Renown has the <span class="kwb">HERO</span> keyword.||
 000002250|1|Swampboss Skumdrekk|1|
 000002250|2|Hobgrot Slittaz units with 10 models|2|
-000002254|1|Gatebreaker Mega-Gargant|1|
 000002261|1|Rabble-Rowza|1|
 000002261|2|Gobbapalooza|1|
 000002261|3|Squig Herd unit with 12 models|1|
@@ -616,13 +695,9 @@
 000002298|1|Loonboss|1|
 000002298|2|Moonclan Stabbas unit with 20 models|1|
 000002298|3|Loonsmasha Fanatics unit with 5 models|1|
-000002306|1|Kraken-eater Mega-Gargant|1|
-000002314|1|Mancrusher Gargant|1|
 000002320|1|Ogroid Myrmidon|1|
 000002320|2|Ogroid Thaumaturge|1|
 000002320|3|Ogroid Theridons|3|
-000002324|1|Beast-smasher Mega-Gargant|1|
-000002327|1|Warstomper Mega-Gargant|1|
 000002415|1|Endrinmaster with Dirigible Suit|1|
 000002415|2|Skywardens|3|
 000002415|3|Grundstok Gunhauler|1|
@@ -632,6 +707,18 @@
 000002927|1|Nurglings unit with 3 models||
 000002927|2|Nurglings unit with 3 models||
 000002988|1|Mask of the Deceiver|1|
+000003481|1|Outlaw Cannonade Cogfort|1|
+000003506|1|Outlaw Conqueror Cogfort|1|
+000003656|1|Huskard on Stonehorn|1|
+000003656|2|Thundertusk Beastriders|1|
+000003665|1|Tyrant on Glutthorn|1|
+000003665|2|Maulbeast Cavalry|2|
+000003716|1|<b>Kraken-eater Mega-Gargant</b>|1|
+000003726|1|<b>Beast-smasher Mega-Gargant</b>|1|
+000003732|1|<b>Gatebreaker Mega-Gargant</b>|1|
+000003744|1|<b>Warstomper Mega-Gargant</b>|1|
+000003766|1|<b>Mancrusher Gargant</b>|1|
+000003801|1|Mancrusher Gargant|1|
 000001855|1|Beast-skewer Killbow|1|
 000001855|2|Man-skewer Boltboyz unit with 3 models|1|
 000001855|3|Man-skewer Boltboyz unit with 3 models|1|
@@ -640,7 +727,6 @@
 000002243|2|Maw-grunta Gougers|1|
 000002247|1|Swampboss Skumdrekk|1|
 000002247|2|Hobgrot Slittaz units with 10 models|2|
-000002255|1|Gatebreaker Mega-Gargant|1|
 000002262|1|Rabble-Rowza|1|
 000002262|2|Gobbapalooza|1|
 000002262|3|Squig Herd unit with 12 models|1|
@@ -655,13 +741,9 @@
 000002299|1|Loonboss|1|
 000002299|2|Moonclan Stabbas unit with 20 models|1|
 000002299|3|Loonsmasha Fanatics unit with 5 models|1|
-000002307|1|Kraken-eater Mega-Gargant|1|
-000002315|1|Mancrusher Gargant|1|
 000002321|1|Ogroid Myrmidon|1|
 000002321|2|Ogroid Thaumaturge|1|
 000002321|3|Ogroid Theridons|3|
-000002325|1|Beast-smasher Mega-Gargant|1|
-000002328|1|Warstomper Mega-Gargant|1|
 000002416|1|Endrinmaster with Dirigible Suit|1|
 000002416|2|Skywardens|3|
 000002416|3|Grundstok Gunhauler|1|
@@ -675,6 +757,18 @@
 000003078|2|Mortek Guard|10|
 000003078|3|Mortek Guard|10|
 000003078|4|Gothizzar Harvester|1|
+000003483|1|Outlaw Cannonade Cogfort|1|
+000003508|1|Outlaw Conqueror Cogfort|1|
+000003657|1|Huskard on Stonehorn|1|
+000003657|2|Thundertusk Beastriders|1|
+000003667|1|Tyrant on Glutthorn|1|
+000003667|2|Maulbeast Cavalry|2|
+000003718|1|<b>Kraken-eater Mega-Gargant</b>|1|
+000003727|1|<b>Beast-smasher Mega-Gargant</b>|1|
+000003733|1|<b>Gatebreaker Mega-Gargant</b>|1|
+000003745|1|<b>Warstomper Mega-Gargant</b>|1|
+000003768|1|<b>Mancrusher Gargant</b>|1|
+000003803|1|Mancrusher Gargant|1|
 000002026|1|Endrinmaster with Dirigible Suit|1|
 000002026|2|Skywardens|3|
 000002026|3|Grundstok Gunhauler|1|
@@ -688,18 +782,11 @@
 000002486|1|Akhelian Thrallmaster|1|
 000002486|2|Namarti Reavers with 10 models|1|
 000002486|3|Namarti Thralls with 10 models|1|
-000002498|1|Kraken-eater Mega-Gargant|1|
 000002502|1|Grimhold Exile|1|
 000002502|2|Auric Hearthguard unit with 5 models|1|
 000002502|3|Hearthguard Berzerkers with Flamestrike Poleaxes unit with 5 models|1|
 000002502|4|Vulkite Berzerkers with Fyresteel Weapons unit with 10 models|1|
 000002505|1|Gotrek Gurnisson|1|
-000002511|1|Runelord|1|
-000002511|2|Irondrakes unit with 10 models|1|
-000002511|3|Longbeards unit with 10 models|1|
-000002516|1|Callis and Toll|1|
-000002516|2|Toll’s Companions|1|
-000002525|1|Mancrusher Gargant|1|
 000002528|1|Neave Blacktalon|1|
 000002528|2|Lorai, Child of the Abyss|1|
 000002528|3|Neave’s Companions|1|
@@ -711,15 +798,6 @@
 000002573|1|Grand Justice Gormayne|1|
 000002573|2|Royal Decapitator|1|
 000002573|3|Cryptguard|10|
-000002676|1|Edmark Valoran the Manticore Knight |0-1|
-000002676|2|Bren Tylis the Renegade Saint|0-1|
-000002676|3|Inara Sion the Cleansing Blade|0-1|
-000002676|4|Drolf Ironhead the Grizzled Explorer|0-1|
-000002676|5|Kelthannor the Forest Prince|0-1|
-000002676|6|Jacobus Vyne the Jade Wizard|0-1|
-000002676|7|Drasher Vorn the Rampaging Beast|0-1|
-000002676|8|This Regiment of Renown is built during army composition. You must include at least 1 of the units opposite in this regiment and can include 1 of each of them. Add together the points values of each unit you include in this regiment to determine its points cost.||
-000002676|9|<div class="BreakInsideAvoid" style="" "=""><table border="0" bordercolor="#888" cellpadding="4" cellspacing="0" style="border-collapse:collapse;border-width:0px"><tbody><tr><td><table class=" customTable" border="1" bordercolor="#888" cellpadding="4" style="border-collapse:collapse;border-color:#908249;border-width:0px"><tbody><tr><td style="border-width:0 1px 0 0;border-style:none solid none none;background-color:rgb(141,39,39);color:rgb(254,254,254);border-color:rgb(255,255,255);text-align:center;vertical-align:bottom;width:266px;height:0px;"><b>Unit</b></td><td style="border-width:0 0 0 0;border-style:none none none none;background-color:rgb(141,39,39);color:rgb(254,254,254);vertical-align:bottom;width:1&nbsp;028px;height:0px;"><b>Points</b></td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Edmark Valoran, the Manticore Knight</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+110</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Bren Tylis, the Renegade Saint</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Inara Sion, the Cleansing Blade</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drolf Ironhead, the Grizzled Explorer</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+100</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Kelthannor, the Forest Prince</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Jacobus Vyne, the Jade Wizard</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+130</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drasher Vorn, the Rampaging Beast</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr></tbody></table></td></tr></tbody></table></div>||
 000002928|1|Nurglings unit with 3 models||
 000002928|2|Nurglings unit with 3 models||
 000002989|1|Mask of the Deceiver|1|
@@ -740,6 +818,32 @@
 000003160|2|Khinerai Lifetakers unit with 5 models|1|
 000003169|1|High Gladiatrix|1|
 000003169|2|Sisters of Slaughter unit with 10 models|1|
+000003417|1|Runelord|1|
+000003417|2|Longbeards|1|
+000003417|3|Irondrakes|1|
+000003425|1|Callis and Toll|1|
+000003425|2|Toll’s Companions|1|
+000003434|1|Edmark Valoran the Manticore Knight |0-1|
+000003434|2|Bren Tylis the Renegade Saint|0-1|
+000003434|3|Inara Sion the Cleansing Blade|0-1|
+000003434|4|Drolf Ironhead the Grizzled Explorer|0-1|
+000003434|5|Kelthannor the Forest Prince|0-1|
+000003434|6|Jacobus Vyne the Jade Wizard|0-1|
+000003434|7|Drasher Vorn the Rampaging Beast|0-1|
+000003434|8|This Regiment of Renown is built during army composition. You must include at least 1 of the units opposite in this regiment and can include 1 of each of them. Add together the points values of each unit you include in this regiment to determine its points cost.||
+000003434|9|<div class="BreakInsideAvoid" style="" "=""><table border="0" bordercolor="#888" cellpadding="4" cellspacing="0" style="border-collapse:collapse;border-width:0px"><tbody><tr><td><table class=" customTable" border="1" bordercolor="#888" cellpadding="4" style="border-collapse:collapse;border-color:#908249;border-width:0px"><tbody><tr><td style="border-width:0 1px 0 0;border-style:none solid none none;background-color:rgb(141,39,39);color:rgb(254,254,254);border-color:rgb(255,255,255);text-align:center;vertical-align:bottom;width:266px;height:0px;"><b>Unit</b></td><td style="border-width:0 0 0 0;border-style:none none none none;background-color:rgb(141,39,39);color:rgb(254,254,254);vertical-align:bottom;width:1&nbsp;028px;height:0px;"><b>Points</b></td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Edmark Valoran, the Manticore Knight</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+110</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Bren Tylis, the Renegade Saint</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Inara Sion, the Cleansing Blade</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drolf Ironhead, the Grizzled Explorer</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+100</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Kelthannor, the Forest Prince</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Jacobus Vyne, the Jade Wizard</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+130</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drasher Vorn, the Rampaging Beast</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr></tbody></table></td></tr></tbody></table></div>||
+000003453|1|Galen and Doralia ven Denst||
+000003453|2|Wildercorps Hunters|11|
+000003462|1|Fusil-Major on Ogor Warhulk|1|
+000003462|2|Ironweld Great Cannon|1|
+000003462|3|Freeguild Fusiliers|10|
+000003482|1|Outlaw Cannonade Cogfort|1|
+000003507|1|Outlaw Conqueror Cogfort|1|
+000003666|1|Tyrant on Glutthorn|1|
+000003666|2|Maulbeast Cavalry|2|
+000003717|1|<b>Kraken-eater Mega-Gargant</b>|1|
+000003767|1|<b>Mancrusher Gargant</b>|1|
+000003802|1|Mancrusher Gargant|1|
 000000847|1|Vanari Lord Regent on Lightcourser|1|
 000000847|2|Vanari Dawnriders|5|
 000003030|1|Scinari Calligrave|1|
@@ -749,7 +853,6 @@
 000003030|5|<b>Designer’s Note:</b> <i>Including this Regiment of Renown in your army does not stop you from being able to pick a manifestation lore for your army</i>||
 000003047|1|Mask of the Deceiver|1|
 000003048|1|Akhelian Allopex|2|
-000003049|1|Kraken-eater Mega-Gargant|1|
 000003050|1|Drekki Flynt|1|
 000003050|2|Arkanaut Frigate (the <i>Aelsling</i>)|1|
 000003050|3|Arkanaut Company unit with 10 models|1|
@@ -761,31 +864,16 @@
 000003053|3|Hearthguard Berzerkers with Flamestrike Poleaxes unit with 5 models|1|
 000003053|4|Vulkite Berzerkers with Fyresteel Weapons unit with 10 models|1|
 000003054|1|Gotrek Gurnisson|1|
-000003055|1|Edmark Valoran the Manticore Knight |0-1|
-000003055|2|Bren Tylis the Renegade Saint|0-1|
-000003055|3|Inara Sion the Cleansing Blade|0-1|
-000003055|4|Drolf Ironhead the Grizzled Explorer|0-1|
-000003055|5|Kelthannor the Forest Prince|0-1|
-000003055|6|Jacobus Vyne the Jade Wizard|0-1|
-000003055|7|Drasher Vorn the Rampaging Beast|0-1|
-000003055|8|This Regiment of Renown is built during army composition. You must include at least 1 of the units opposite in this regiment and can include 1 of each of them. Add together the points values of each unit you include in this regiment to determine its points cost.||
-000003055|9|<div class="BreakInsideAvoid" style="" "=""><table border="0" bordercolor="#888" cellpadding="4" cellspacing="0" style="border-collapse:collapse;border-width:0px"><tbody><tr><td><table class=" customTable" border="1" bordercolor="#888" cellpadding="4" style="border-collapse:collapse;border-color:#908249;border-width:0px"><tbody><tr><td style="border-width:0 1px 0 0;border-style:none solid none none;background-color:rgb(141,39,39);color:rgb(254,254,254);border-color:rgb(255,255,255);text-align:center;vertical-align:bottom;width:266px;height:0px;"><b>Unit</b></td><td style="border-width:0 0 0 0;border-style:none none none none;background-color:rgb(141,39,39);color:rgb(254,254,254);vertical-align:bottom;width:1&nbsp;028px;height:0px;"><b>Points</b></td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Edmark Valoran, the Manticore Knight</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+110</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Bren Tylis, the Renegade Saint</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Inara Sion, the Cleansing Blade</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drolf Ironhead, the Grizzled Explorer</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+100</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Kelthannor, the Forest Prince</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Jacobus Vyne, the Jade Wizard</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+130</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drasher Vorn, the Rampaging Beast</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr></tbody></table></td></tr></tbody></table></div>||
 000003056|1|Akhelian Thrallmaster|1|
 000003056|2|Namarti Reavers with 10 models|1|
 000003056|3|Namarti Thralls with 10 models|1|
-000003057|1|Runelord|1|
-000003057|2|Irondrakes unit with 10 models|1|
-000003057|3|Longbeards unit with 10 models|1|
 000003058|1|Nurglings unit with 3 models||
 000003058|2|Nurglings unit with 3 models||
-000003059|1|Callis and Toll|1|
-000003059|2|Toll’s Companions|1|
 000003060|1|Codewright|1|
 000003060|2|Grundstok Thunderers unit with 5 models|1|
 000003060|3|Grundstok Thunderers unit with 5 models|1|
 000003061|1|Loonboss|1|
 000003061|2|Dankhold Troggoth|1|
-000003062|1|Mancrusher Gargant|1|
 000003063|1|Neave Blacktalon|1|
 000003063|2|Lorai, Child of the Abyss|1|
 000003063|3|Neave’s Companions|1|
@@ -804,6 +892,30 @@
 000003161|2|Khinerai Lifetakers unit with 5 models|1|
 000003170|1|High Gladiatrix|1|
 000003170|2|Sisters of Slaughter unit with 10 models|1|
+000003418|1|Runelord|1|
+000003418|2|Longbeards|1|
+000003418|3|Irondrakes|1|
+000003426|1|Callis and Toll|1|
+000003426|2|Toll’s Companions|1|
+000003435|1|Edmark Valoran the Manticore Knight |0-1|
+000003435|2|Bren Tylis the Renegade Saint|0-1|
+000003435|3|Inara Sion the Cleansing Blade|0-1|
+000003435|4|Drolf Ironhead the Grizzled Explorer|0-1|
+000003435|5|Kelthannor the Forest Prince|0-1|
+000003435|6|Jacobus Vyne the Jade Wizard|0-1|
+000003435|7|Drasher Vorn the Rampaging Beast|0-1|
+000003435|8|This Regiment of Renown is built during army composition. You must include at least 1 of the units opposite in this regiment and can include 1 of each of them. Add together the points values of each unit you include in this regiment to determine its points cost.||
+000003435|9|<div class="BreakInsideAvoid" style="" "=""><table border="0" bordercolor="#888" cellpadding="4" cellspacing="0" style="border-collapse:collapse;border-width:0px"><tbody><tr><td><table class=" customTable" border="1" bordercolor="#888" cellpadding="4" style="border-collapse:collapse;border-color:#908249;border-width:0px"><tbody><tr><td style="border-width:0 1px 0 0;border-style:none solid none none;background-color:rgb(141,39,39);color:rgb(254,254,254);border-color:rgb(255,255,255);text-align:center;vertical-align:bottom;width:266px;height:0px;"><b>Unit</b></td><td style="border-width:0 0 0 0;border-style:none none none none;background-color:rgb(141,39,39);color:rgb(254,254,254);vertical-align:bottom;width:1&nbsp;028px;height:0px;"><b>Points</b></td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Edmark Valoran, the Manticore Knight</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+110</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Bren Tylis, the Renegade Saint</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Inara Sion, the Cleansing Blade</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drolf Ironhead, the Grizzled Explorer</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+100</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Kelthannor, the Forest Prince</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Jacobus Vyne, the Jade Wizard</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+130</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drasher Vorn, the Rampaging Beast</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr></tbody></table></td></tr></tbody></table></div>||
+000003454|1|Galen and Doralia ven Denst||
+000003454|2|Wildercorps Hunters|11|
+000003463|1|Fusil-Major on Ogor Warhulk|1|
+000003463|2|Ironweld Great Cannon|1|
+000003463|3|Freeguild Fusiliers|10|
+000003484|1|Outlaw Cannonade Cogfort|1|
+000003509|1|Outlaw Conqueror Cogfort|1|
+000003719|1|<b>Kraken-eater Mega-Gargant</b>|1|
+000003770|1|<b>Mancrusher Gargant</b>|1|
+000003804|1|Mancrusher Gargant|1|
 000001905|1|Harbinger of Decay|1|
 000001905|2|Putrid Blightkings unit with 5 models|1|
 000001905|3|Pusgoyle Blightlords unit with 2 models|1|
@@ -828,14 +940,12 @@
 000002955|2|Stormvermin unit with 10 models|1|
 000002955|3|Doom-Flayers unit with 2 models|1|
 000002955|4|Each unit in this Regiment of Renown has the <span class="kwb">KRITTOK’S</span> <span class="kwb">CLAWPACK</span> keyword.||
-000002956|1|Warstomper Mega-Gargant|1|
 000002957|1|Ashen Elder|1|
 000002957|2|Dominator Engine with Bane Maces|1|
 000002958|1|Loonboss|1|
 000002958|2|Dankhold Troggoth|1|
 000002959|1|Varghulf Courtier|1|
 000002959|2|Morbheg Knights|3|
-000002960|1|Mancrusher Gargant|1|
 000002962|1|Daemonsmith|1|
 000002962|2|Tormentor Bombard|1|
 000002962|3|Deathshrieker Rocket Battery|1|
@@ -856,6 +966,17 @@
 000003007|1|Gaunt Summoner on Disc of Tzeentch|1|
 000003007|2|Magister on Disc of Tzeentch|1|
 000003007|3|Screamers of Tzeentch|3|
+000003485|1|Outlaw Cannonade Cogfort|1|
+000003510|1|Outlaw Conqueror Cogfort|1|
+000003593|1|Shardspeaker of Slaanesh|1|
+000003593|2|Blissbarb Archers unit with 10 models|1|
+000003600|1|Contorted Epitome|1|
+000003600|2|Wheels of Excruciation|1|
+000003600|3|Mesmerising Mirror|1|
+000003600|4|Dreadful Visage|1|
+000003746|1|<b>Warstomper Mega-Gargant</b>|1|
+000003771|1|<b>Mancrusher Gargant</b>|1|
+000003805|1|Mancrusher Gargant|1|
 000001073|1|Lady Olynder, Mortarch of Grief||
 000001073|2|Dreadscythe Harridans unit with 10 models|1|
 000001073|3|Myrmourn Banshees unit with 4 models|1|
@@ -875,13 +996,11 @@
 000002576|1|Grand Justice Gormayne|1|
 000002576|2|Royal Decapitator|1|
 000002576|3|Cryptguard|10|
-000002583|1|Gatebreaker Mega-Gargant|1|
 000002585|1|Blades of the Hollow King|1|
 000002590|1|Neferata, Mortarch of Blood||
 000002590|2|Barrow Knights unit with 5 models|1|
 000002590|3|Deathrattle Skeletons unit with 10 models|1|
 000002590|4|Deathrattle Skeletons unit with 10 models|1|
-000002594|1|Mancrusher Gargant|1|
 000002596|1|Revenant Draconith|1|
 000002603|1|Mannfred von Carstein, Mortarch of Night|1|
 000002603|2|Barrow Guard unit with 10 models|1|
@@ -903,6 +1022,11 @@
 000003131|1|Treelord|1|
 000003131|2|Spite-Revenants|5|
 000003131|3|Spite-Revenants|5|
+000003486|1|Outlaw Cannonade Cogfort|1|
+000003511|1|Outlaw Conqueror Cogfort|1|
+000003734|1|<b>Gatebreaker Mega-Gargant</b>|1|
+000003772|1|<b>Mancrusher Gargant</b>|1|
+000003806|1|Mancrusher Gargant|1|
 000001859|1|Katakros, Mortarch of the Necropolis||
 000001859|2|Immortis Guard unit with 3 models|1|
 000001859|3|Immortis Guard unit with 3 models|1|
@@ -918,7 +1042,6 @@
 000003090|3|Mortek Guard|10|
 000003094|1|Mortisan Ossifector|1|
 000003094|2|Mortek Crawler|1|
-000003098|1|Gatebreaker Mega-Gargant|1|
 000003099|1|Blades of the Hollow King|1|
 000003100|1|Black Coach|1|
 000003101|1|Scriptor Mortis|1|
@@ -941,7 +1064,6 @@
 000003106|3|Grundstok Thunderers unit with 5 models|1|
 000003107|1|Loonboss|1|
 000003107|2|Dankhold Troggoth|1|
-000003108|1|Mancrusher Gargant|1|
 000003109|1|Revenant Draconith|1|
 000003110|1|Royal Terrorgheist|1|
 000003112|1|Grand Justice Gormayne|1|
@@ -962,53 +1084,67 @@
 000003132|1|Treelord|1|
 000003132|2|Spite-Revenants|5|
 000003132|3|Spite-Revenants|5|
-000002023|1|Ogroid Myrmidon|1|
-000002023|2|Ogroid Thaumaturge|1|
-000002023|3|Ogroid Theridons|3|
-000002034|1|Gatebreaker Mega-Gargant|1|
-000002038|1|Beast-skewer Killbow|1|
-000002038|2|Man-skewer Boltboyz unit with 3 models|1|
-000002038|3|Man-skewer Boltboyz unit with 3 models|1|
-000002038|4|The Beast-skewer Killbow in this Regiment of Renown has the <span class="kwb">HERO</span> keyword.||
-000002046|1|Kraken-eater Mega-Gargant|1|
-000002110|1|Beast-smasher Mega-Gargant|1|
-000002113|1|Warstomper Mega-Gargant|1|
-000002171|1|Mancrusher Gargant|1|
-000002244|1|Tuskboss on Maw-grunta|1|
-000002244|2|Maw-grunta Gougers|1|
-000002263|1|Rabble-Rowza|1|
-000002263|2|Gobbapalooza|1|
-000002263|3|Squig Herd unit with 12 models|1|
-000002263|4|Squig Hoppers unit with 10 models|1|
-000002277|1|Loonboss|1|
-000002277|2|Dankhold Troggoth|1|
-000002294|1|Snarlboss|1|
-000002294|2|Wolfgit Retinue unit with 2 models|1|
-000002294|3|Snarlpack Cavalry unit with 3 models|1|
-000002294|4|Snarlpack Cavalry unit with 3 models|1|
-000002294|5|Sunsteala Wheelas unit with 2 models|1|
-000002300|1|Loonboss|1|
-000002300|2|Moonclan Stabbas unit with 20 models|1|
-000002300|3|Loonsmasha Fanatics unit with 5 models|1|
-000002418|1|Endrinmaster with Dirigible Suit|1|
-000002418|2|Skywardens|3|
-000002418|3|Grundstok Gunhauler|1|
-000002437|1|Drekki Flynt|1|
-000002437|2|Arkanaut Frigate (the <i>Aelsling</i>)|1|
-000002437|3|Arkanaut Company unit with 10 models|1|
-000002447|1|Codewright|1|
-000002447|2|Grundstok Thunderers unit with 5 models|1|
-000002447|3|Grundstok Thunderers unit with 5 models|1|
-000002577|1|Grand Justice Gormayne|1|
-000002577|2|Royal Decapitator|1|
-000002577|3|Cryptguard|10|
-000002932|1|Nurglings unit with 3 models||
-000002932|2|Nurglings unit with 3 models||
-000002995|1|Mask of the Deceiver|1|
-000003079|1|Mortisan Ossifector|1|
-000003079|2|Mortek Guard|10|
-000003079|3|Mortek Guard|10|
-000003079|4|Gothizzar Harvester|1|
+000003488|1|Outlaw Cannonade Cogfort|1|
+000003513|1|Outlaw Conqueror Cogfort|1|
+000003669|1|Tyrant on Glutthorn|1|
+000003669|2|Maulbeast Cavalry|2|
+000003736|1|<b>Gatebreaker Mega-Gargant</b>|1|
+000003774|1|<b>Mancrusher Gargant</b>|1|
+000003808|1|Mancrusher Gargant|1|
+000003654|1|Huskard on Stonehorn|1|
+000003654|2|Thundertusk Beastriders|1|
+000003659|1|Tyrant on Glutthorn|1|
+000003659|2|Maulbeast Cavalry|2|
+000003676|1|Grand Justice Gormayne|1|
+000003676|2|Royal Decapitator|1|
+000003676|3|Cryptguard|10|
+000003677|1|Endrinmaster with Dirigible Suit|1|
+000003677|2|Skywardens|3|
+000003677|3|Grundstok Gunhauler|1|
+000003678|1|Ogroid Myrmidon|1|
+000003678|2|Ogroid Thaumaturge|1|
+000003678|3|Ogroid Theridons|3|
+000003679|1|Loonboss|1|
+000003679|2|Dankhold Troggoth|1|
+000003706|1|Drekki Flynt|1|
+000003706|2|Arkanaut Frigate (the <i>Aelsling</i>)|1|
+000003706|3|Arkanaut Company unit with 10 models|1|
+000003707|1|Outlaw Cannonade Cogfort|1|
+000003708|1|Outlaw Conqueror Cogfort|1|
+000003709|1|Loonboss|1|
+000003709|2|Moonclan Stabbas unit with 20 models|1|
+000003709|3|Loonsmasha Fanatics unit with 5 models|1|
+000003720|1|<b>Kraken-eater Mega-Gargant</b>|1|
+000003728|1|<b>Beast-smasher Mega-Gargant</b>|1|
+000003735|1|<b>Gatebreaker Mega-Gargant</b>|1|
+000003747|1|<b>Warstomper Mega-Gargant</b>|1|
+000003773|1|<b>Mancrusher Gargant</b>|1|
+000003783|1|Beast-skewer Killbow|1|
+000003783|2|Man-skewer Boltboyz unit with 3 models|1|
+000003783|3|Man-skewer Boltboyz unit with 3 models|1|
+000003783|4|The Beast-skewer Killbow in this Regiment of Renown has the <span class="kwb">HERO</span> keyword.||
+000003784|1|Rabble-Rowza|1|
+000003784|2|Gobbapalooza|1|
+000003784|3|Squig Herd unit with 12 models|1|
+000003784|4|Squig Hoppers unit with 10 models|1|
+000003785|1|Tuskboss on Maw-grunta|1|
+000003785|2|Maw-grunta Gougers|1|
+000003786|1|Mortisan Ossifector|1|
+000003786|2|Mortek Guard|10|
+000003786|3|Mortek Guard|10|
+000003786|4|Gothizzar Harvester|1|
+000003787|1|Mask of the Deceiver|1|
+000003788|1|Nurglings unit with 3 models||
+000003788|2|Nurglings unit with 3 models||
+000003789|1|Codewright|1|
+000003789|2|Grundstok Thunderers unit with 5 models|1|
+000003789|3|Grundstok Thunderers unit with 5 models|1|
+000003807|1|Mancrusher Gargant|1|
+000003816|1|Snarlboss|1|
+000003816|2|Wolfgit Retinue unit with 2 models|1|
+000003816|3|Snarlpack Cavalry unit with 3 models|1|
+000003816|4|Snarlpack Cavalry unit with 3 models|1|
+000003816|5|Sunsteala Wheelas unit with 2 models|1|
 000001674|1|Grimhold Exile|1|
 000001674|2|Auric Hearthguard unit with 5 models|1|
 000001674|3|Hearthguard Berzerkers with Flamestrike Poleaxes unit with 5 models|1|
@@ -1021,13 +1157,6 @@
 000001886|3|Vanguard-Palladors with Starstrike Javelins unit with 3 models.|1|
 000001895|1|Knight-Draconis|1|
 000001895|2|Stormdrake Guard (1 model)|1|
-000001943|1|Kraken-eater Mega-Gargant|1|
-000002091|1|Runelord|1|
-000002091|2|Irondrakes unit with 10 models|1|
-000002091|3|Longbeards unit with 10 models|1|
-000002125|1|Callis and Toll|1|
-000002125|2|Toll’s Companions|1|
-000002177|1|Mancrusher Gargant|1|
 000002223|1|Gotrek Gurnisson|1|
 000002283|1|Loonboss|1|
 000002283|2|Dankhold Troggoth|1|
@@ -1041,15 +1170,6 @@
 000002489|1|Akhelian Thrallmaster|1|
 000002489|2|Namarti Reavers with 10 models|1|
 000002489|3|Namarti Thralls with 10 models|1|
-000002679|1|Edmark Valoran the Manticore Knight |0-1|
-000002679|2|Bren Tylis the Renegade Saint|0-1|
-000002679|3|Inara Sion the Cleansing Blade|0-1|
-000002679|4|Drolf Ironhead the Grizzled Explorer|0-1|
-000002679|5|Kelthannor the Forest Prince|0-1|
-000002679|6|Jacobus Vyne the Jade Wizard|0-1|
-000002679|7|Drasher Vorn the Rampaging Beast|0-1|
-000002679|8|This Regiment of Renown is built during army composition. You must include at least 1 of the units opposite in this regiment and can include 1 of each of them. Add together the points values of each unit you include in this regiment to determine its points cost.||
-000002679|9|<div class="BreakInsideAvoid" style="" "=""><table border="0" bordercolor="#888" cellpadding="4" cellspacing="0" style="border-collapse:collapse;border-width:0px"><tbody><tr><td><table class=" customTable" border="1" bordercolor="#888" cellpadding="4" style="border-collapse:collapse;border-color:#908249;border-width:0px"><tbody><tr><td style="border-width:0 1px 0 0;border-style:none solid none none;background-color:rgb(141,39,39);color:rgb(254,254,254);border-color:rgb(255,255,255);text-align:center;vertical-align:bottom;width:266px;height:0px;"><b>Unit</b></td><td style="border-width:0 0 0 0;border-style:none none none none;background-color:rgb(141,39,39);color:rgb(254,254,254);vertical-align:bottom;width:1&nbsp;028px;height:0px;"><b>Points</b></td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Edmark Valoran, the Manticore Knight</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+110</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Bren Tylis, the Renegade Saint</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Inara Sion, the Cleansing Blade</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drolf Ironhead, the Grizzled Explorer</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+100</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Kelthannor, the Forest Prince</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Jacobus Vyne, the Jade Wizard</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+130</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drasher Vorn, the Rampaging Beast</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr></tbody></table></td></tr></tbody></table></div>||
 000003001|1|Mask of the Deceiver|1|
 000003037|1|Scinari Calligrave|1|
 000003037|2|Sanctum of Amyntok|1|
@@ -1068,6 +1188,32 @@
 000003163|2|Khinerai Lifetakers unit with 5 models|1|
 000003172|1|High Gladiatrix|1|
 000003172|2|Sisters of Slaughter unit with 10 models|1|
+000003420|1|Runelord|1|
+000003420|2|Longbeards|1|
+000003420|3|Irondrakes|1|
+000003428|1|Callis and Toll|1|
+000003428|2|Toll’s Companions|1|
+000003437|1|Edmark Valoran the Manticore Knight |0-1|
+000003437|2|Bren Tylis the Renegade Saint|0-1|
+000003437|3|Inara Sion the Cleansing Blade|0-1|
+000003437|4|Drolf Ironhead the Grizzled Explorer|0-1|
+000003437|5|Kelthannor the Forest Prince|0-1|
+000003437|6|Jacobus Vyne the Jade Wizard|0-1|
+000003437|7|Drasher Vorn the Rampaging Beast|0-1|
+000003437|8|This Regiment of Renown is built during army composition. You must include at least 1 of the units opposite in this regiment and can include 1 of each of them. Add together the points values of each unit you include in this regiment to determine its points cost.||
+000003437|9|<div class="BreakInsideAvoid" style="" "=""><table border="0" bordercolor="#888" cellpadding="4" cellspacing="0" style="border-collapse:collapse;border-width:0px"><tbody><tr><td><table class=" customTable" border="1" bordercolor="#888" cellpadding="4" style="border-collapse:collapse;border-color:#908249;border-width:0px"><tbody><tr><td style="border-width:0 1px 0 0;border-style:none solid none none;background-color:rgb(141,39,39);color:rgb(254,254,254);border-color:rgb(255,255,255);text-align:center;vertical-align:bottom;width:266px;height:0px;"><b>Unit</b></td><td style="border-width:0 0 0 0;border-style:none none none none;background-color:rgb(141,39,39);color:rgb(254,254,254);vertical-align:bottom;width:1&nbsp;028px;height:0px;"><b>Points</b></td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Edmark Valoran, the Manticore Knight</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+110</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Bren Tylis, the Renegade Saint</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Inara Sion, the Cleansing Blade</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drolf Ironhead, the Grizzled Explorer</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+100</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Kelthannor, the Forest Prince</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Jacobus Vyne, the Jade Wizard</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+130</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drasher Vorn, the Rampaging Beast</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr></tbody></table></td></tr></tbody></table></div>||
+000003456|1|Galen and Doralia ven Denst||
+000003456|2|Wildercorps Hunters|11|
+000003465|1|Fusil-Major on Ogor Warhulk|1|
+000003465|2|Ironweld Great Cannon|1|
+000003465|3|Freeguild Fusiliers|10|
+000003494|1|Outlaw Cannonade Cogfort|1|
+000003519|1|Outlaw Conqueror Cogfort|1|
+000003673|1|Tyrant on Glutthorn|1|
+000003673|2|Maulbeast Cavalry|2|
+000003722|1|<b>Kraken-eater Mega-Gargant</b>|1|
+000003779|1|<b>Mancrusher Gargant</b>|1|
+000003813|1|Mancrusher Gargant|1|
 000001925|1|Neferata, Mortarch of Blood||
 000001925|2|Barrow Knights unit with 5 models|1|
 000001925|3|Deathrattle Skeletons unit with 10 models|1|
@@ -1085,10 +1231,8 @@
 000002450|1|Codewright|1|
 000002450|2|Grundstok Thunderers unit with 5 models|1|
 000002450|3|Grundstok Thunderers unit with 5 models|1|
-000002495|1|Gatebreaker Mega-Gargant|1|
 000002521|1|Loonboss|1|
 000002521|2|Dankhold Troggoth|1|
-000002526|1|Mancrusher Gargant|1|
 000002543|1|Lady Olynder, Mortarch of Grief||
 000002543|2|Dreadscythe Harridans unit with 10 models|1|
 000002543|3|Myrmourn Banshees unit with 4 models|1|
@@ -1127,17 +1271,17 @@
 000003133|1|Treelord|1|
 000003133|2|Spite-Revenants|5|
 000003133|3|Spite-Revenants|5|
-000002047|1|Kraken-eater Mega-Gargant|1|
+000003493|1|Outlaw Cannonade Cogfort|1|
+000003518|1|Outlaw Conqueror Cogfort|1|
+000003672|1|Tyrant on Glutthorn|1|
+000003672|2|Maulbeast Cavalry|2|
+000003737|1|<b>Gatebreaker Mega-Gargant</b>|1|
+000003778|1|<b>Mancrusher Gargant</b>|1|
+000003812|1|Mancrusher Gargant|1|
 000002078|1|Grimhold Exile|1|
 000002078|2|Auric Hearthguard unit with 5 models|1|
 000002078|3|Hearthguard Berzerkers with Flamestrike Poleaxes unit with 5 models|1|
 000002078|4|Vulkite Berzerkers with Fyresteel Weapons unit with 10 models|1|
-000002090|1|Runelord|1|
-000002090|2|Irondrakes unit with 10 models|1|
-000002090|3|Longbeards unit with 10 models|1|
-000002124|1|Callis and Toll|1|
-000002124|2|Toll’s Companions|1|
-000002173|1|Mancrusher Gargant|1|
 000002182|1|Neave Blacktalon|1|
 000002182|2|Lorai, Child of the Abyss|1|
 000002182|3|Neave’s Companions|1|
@@ -1162,15 +1306,6 @@
 000002488|1|Akhelian Thrallmaster|1|
 000002488|2|Namarti Reavers with 10 models|1|
 000002488|3|Namarti Thralls with 10 models|1|
-000002678|1|Edmark Valoran the Manticore Knight |0-1|
-000002678|2|Bren Tylis the Renegade Saint|0-1|
-000002678|3|Inara Sion the Cleansing Blade|0-1|
-000002678|4|Drolf Ironhead the Grizzled Explorer|0-1|
-000002678|5|Kelthannor the Forest Prince|0-1|
-000002678|6|Jacobus Vyne the Jade Wizard|0-1|
-000002678|7|Drasher Vorn the Rampaging Beast|0-1|
-000002678|8|This Regiment of Renown is built during army composition. You must include at least 1 of the units opposite in this regiment and can include 1 of each of them. Add together the points values of each unit you include in this regiment to determine its points cost.||
-000002678|9|<div class="BreakInsideAvoid" style="" "=""><table border="0" bordercolor="#888" cellpadding="4" cellspacing="0" style="border-collapse:collapse;border-width:0px"><tbody><tr><td><table class=" customTable" border="1" bordercolor="#888" cellpadding="4" style="border-collapse:collapse;border-color:#908249;border-width:0px"><tbody><tr><td style="border-width:0 1px 0 0;border-style:none solid none none;background-color:rgb(141,39,39);color:rgb(254,254,254);border-color:rgb(255,255,255);text-align:center;vertical-align:bottom;width:266px;height:0px;"><b>Unit</b></td><td style="border-width:0 0 0 0;border-style:none none none none;background-color:rgb(141,39,39);color:rgb(254,254,254);vertical-align:bottom;width:1&nbsp;028px;height:0px;"><b>Points</b></td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Edmark Valoran, the Manticore Knight</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+110</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Bren Tylis, the Renegade Saint</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Inara Sion, the Cleansing Blade</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drolf Ironhead, the Grizzled Explorer</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+100</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Kelthannor, the Forest Prince</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Jacobus Vyne, the Jade Wizard</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+130</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drasher Vorn, the Rampaging Beast</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr></tbody></table></td></tr></tbody></table></div>||
 000002997|1|Mask of the Deceiver|1|
 000003036|1|Scinari Calligrave|1|
 000003036|2|Sanctum of Amyntok|1|
@@ -1189,14 +1324,37 @@
 000003162|2|Khinerai Lifetakers unit with 5 models|1|
 000003171|1|High Gladiatrix|1|
 000003171|2|Sisters of Slaughter unit with 10 models|1|
-000001935|1|Kraken-eater Mega-Gargant|1|
-000001950|1|Beast-smasher Mega-Gargant|1|
-000001956|1|Gatebreaker Mega-Gargant|1|
-000001966|1|Warstomper Mega-Gargant|1|
+000003419|1|Runelord|1|
+000003419|2|Longbeards|1|
+000003419|3|Irondrakes|1|
+000003427|1|Callis and Toll|1|
+000003427|2|Toll’s Companions|1|
+000003436|1|Edmark Valoran the Manticore Knight |0-1|
+000003436|2|Bren Tylis the Renegade Saint|0-1|
+000003436|3|Inara Sion the Cleansing Blade|0-1|
+000003436|4|Drolf Ironhead the Grizzled Explorer|0-1|
+000003436|5|Kelthannor the Forest Prince|0-1|
+000003436|6|Jacobus Vyne the Jade Wizard|0-1|
+000003436|7|Drasher Vorn the Rampaging Beast|0-1|
+000003436|8|This Regiment of Renown is built during army composition. You must include at least 1 of the units opposite in this regiment and can include 1 of each of them. Add together the points values of each unit you include in this regiment to determine its points cost.||
+000003436|9|<div class="BreakInsideAvoid" style="" "=""><table border="0" bordercolor="#888" cellpadding="4" cellspacing="0" style="border-collapse:collapse;border-width:0px"><tbody><tr><td><table class=" customTable" border="1" bordercolor="#888" cellpadding="4" style="border-collapse:collapse;border-color:#908249;border-width:0px"><tbody><tr><td style="border-width:0 1px 0 0;border-style:none solid none none;background-color:rgb(141,39,39);color:rgb(254,254,254);border-color:rgb(255,255,255);text-align:center;vertical-align:bottom;width:266px;height:0px;"><b>Unit</b></td><td style="border-width:0 0 0 0;border-style:none none none none;background-color:rgb(141,39,39);color:rgb(254,254,254);vertical-align:bottom;width:1&nbsp;028px;height:0px;"><b>Points</b></td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Edmark Valoran, the Manticore Knight</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+110</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Bren Tylis, the Renegade Saint</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Inara Sion, the Cleansing Blade</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drolf Ironhead, the Grizzled Explorer</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+100</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Kelthannor, the Forest Prince</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Jacobus Vyne, the Jade Wizard</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+130</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drasher Vorn, the Rampaging Beast</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr></tbody></table></td></tr></tbody></table></div>||
+000003455|1|Galen and Doralia ven Denst||
+000003455|2|Wildercorps Hunters|11|
+000003464|1|Fusil-Major on Ogor Warhulk|1|
+000003464|2|Ironweld Great Cannon|1|
+000003464|3|Freeguild Fusiliers|10|
+000003489|1|Outlaw Cannonade Cogfort|1|
+000003514|1|Outlaw Conqueror Cogfort|1|
+000003721|1|<b>Kraken-eater Mega-Gargant</b>|1|
+000003775|1|<b>Mancrusher Gargant</b>|1|
+000003809|1|Mancrusher Gargant|1|
+000001935|1|<b>Kraken-eater Mega-Gargant</b>|1|
+000001950|1|<b>Beast-smasher Mega-Gargant</b>|1|
+000001956|1|<b>Gatebreaker Mega-Gargant</b>|1|
+000001966|1|<b>Warstomper Mega-Gargant</b>|1|
 000002024|1|Ogroid Myrmidon|1|
 000002024|2|Ogroid Thaumaturge|1|
 000002024|3|Ogroid Theridons|3|
-000002030|1|Mancrusher Gargant|1|
 000002039|1|Beast-skewer Killbow|1|
 000002039|2|Man-skewer Boltboyz unit with 3 models|1|
 000002039|3|Man-skewer Boltboyz unit with 3 models|1|
@@ -1229,6 +1387,11 @@
 000003081|2|Mortek Guard|10|
 000003081|3|Mortek Guard|10|
 000003081|4|Gothizzar Harvester|1|
+000003492|1|Outlaw Cannonade Cogfort|1|
+000003517|1|Outlaw Conqueror Cogfort|1|
+000003658|1|Huskard on Stonehorn|1|
+000003658|2|Thundertusk Beastriders|1|
+000003755|1|<b>Mancrusher Gargant</b>|1|
 000001590|1|Fomoroid Crusher|1|
 000001590|2|Ogroid Myrmidon|1|
 000001590|3|Mindstealer Sphiranx|1|
@@ -1243,11 +1406,9 @@
 000001785|2|Stormvermin unit with 10 models|1|
 000001785|3|Doom-Flayers unit with 2 models|1|
 000001785|4|Each unit in this Regiment of Renown has the <span class="kwb">KRITTOK’S</span> <span class="kwb">CLAWPACK</span> keyword.||
-000001972|1|Warstomper Mega-Gargant|1|
 000002012|1|Chaos Lord on Daemonic Mount|1|
 000002012|2|Chaos Knights unit with 5 models.|1|
 000002012|3|Chaos Warriors unit with 10 models.|1|
-000002174|1|Mancrusher Gargant|1|
 000002280|1|Loonboss|1|
 000002280|2|Dankhold Troggoth|1|
 000002459|1|<b>Skarbrand</b>|1|
@@ -1282,6 +1443,19 @@
 000003080|2|Mortek Guard|10|
 000003080|3|Mortek Guard|10|
 000003080|4|Gothizzar Harvester|1|
+000003490|1|Outlaw Cannonade Cogfort|1|
+000003515|1|Outlaw Conqueror Cogfort|1|
+000003594|1|Shardspeaker of Slaanesh|1|
+000003594|2|Blissbarb Archers unit with 10 models|1|
+000003601|1|Contorted Epitome|1|
+000003601|2|Wheels of Excruciation|1|
+000003601|3|Mesmerising Mirror|1|
+000003601|4|Dreadful Visage|1|
+000003670|1|Tyrant on Glutthorn|1|
+000003670|2|Maulbeast Cavalry|2|
+000003748|1|<b>Warstomper Mega-Gargant</b>|1|
+000003776|1|<b>Mancrusher Gargant</b>|1|
+000003810|1|Mancrusher Gargant|1|
 000001822|1|Singri Brand|1|
 000001822|2|Gunnar Brand|1|
 000001822|3|The Oathsworn Kin|1|
@@ -1299,8 +1473,6 @@
 000002084|2|Stormvermin unit with 10 models|1|
 000002084|3|Doom-Flayers unit with 2 models|1|
 000002084|4|Each unit in this Regiment of Renown has the <span class="kwb">KRITTOK’S</span> <span class="kwb">CLAWPACK</span> keyword.||
-000002114|1|Warstomper Mega-Gargant|1|
-000002175|1|Mancrusher Gargant|1|
 000002211|1|Warlock Galvaneer|1|
 000002211|2|Warpvolt Scourgers unit with 3 models|1|
 000002211|3|Ratling Warpblaster|1|
@@ -1343,6 +1515,19 @@
 000003009|1|Gaunt Summoner on Disc of Tzeentch|1|
 000003009|2|Magister on Disc of Tzeentch|1|
 000003009|3|Screamers of Tzeentch|3|
+000003491|1|Outlaw Cannonade Cogfort|1|
+000003516|1|Outlaw Conqueror Cogfort|1|
+000003595|1|Shardspeaker of Slaanesh|1|
+000003595|2|Blissbarb Archers unit with 10 models|1|
+000003602|1|Contorted Epitome|1|
+000003602|2|Wheels of Excruciation|1|
+000003602|3|Mesmerising Mirror|1|
+000003602|4|Dreadful Visage|1|
+000003671|1|Tyrant on Glutthorn|1|
+000003671|2|Maulbeast Cavalry|2|
+000003749|1|<b>Warstomper Mega-Gargant</b>|1|
+000003777|1|<b>Mancrusher Gargant</b>|1|
+000003811|1|Mancrusher Gargant|1|
 000001606|1|Arch-Revenant|1|
 000001606|2|Gossamid Archers unit with 5 models|1|
 000002028|1|Treelord|1|
@@ -1357,7 +1542,6 @@
 000003173|1|High Gladiatrix|1|
 000003173|2|Sisters of Slaughter unit with 10 models|1|
 000003180|1|Akhelian Allopex|2|
-000003182|1|Kraken-eater Mega-Gargant|1|
 000003184|1|Vanari Lord Regent on Lightcourser|1|
 000003184|2|Vanari Dawnriders|5|
 000003186|1|Drekki Flynt|1|
@@ -1368,26 +1552,12 @@
 000003192|3|Hearthguard Berzerkers with Flamestrike Poleaxes unit with 5 models|1|
 000003192|4|Vulkite Berzerkers with Fyresteel Weapons unit with 10 models|1|
 000003194|1|Gotrek Gurnisson|1|
-000003196|1|Edmark Valoran the Manticore Knight |0-1|
-000003196|2|Bren Tylis the Renegade Saint|0-1|
-000003196|3|Inara Sion the Cleansing Blade|0-1|
-000003196|4|Drolf Ironhead the Grizzled Explorer|0-1|
-000003196|5|Kelthannor the Forest Prince|0-1|
-000003196|6|Jacobus Vyne the Jade Wizard|0-1|
-000003196|7|Drasher Vorn the Rampaging Beast|0-1|
-000003196|8|This Regiment of Renown is built during army composition. You must include at least 1 of the units opposite in this regiment and can include 1 of each of them. Add together the points values of each unit you include in this regiment to determine its points cost.||
-000003196|9|<div class="BreakInsideAvoid" style="" "=""><table border="0" bordercolor="#888" cellpadding="4" cellspacing="0" style="border-collapse:collapse;border-width:0px"><tbody><tr><td><table class=" customTable" border="1" bordercolor="#888" cellpadding="4" style="border-collapse:collapse;border-color:#908249;border-width:0px"><tbody><tr><td style="border-width:0 1px 0 0;border-style:none solid none none;background-color:rgb(141,39,39);color:rgb(254,254,254);border-color:rgb(255,255,255);text-align:center;vertical-align:bottom;width:266px;height:0px;"><b>Unit</b></td><td style="border-width:0 0 0 0;border-style:none none none none;background-color:rgb(141,39,39);color:rgb(254,254,254);vertical-align:bottom;width:1&nbsp;028px;height:0px;"><b>Points</b></td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Edmark Valoran, the Manticore Knight</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+110</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Bren Tylis, the Renegade Saint</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Inara Sion, the Cleansing Blade</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drolf Ironhead, the Grizzled Explorer</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+100</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Kelthannor, the Forest Prince</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Jacobus Vyne, the Jade Wizard</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+130</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drasher Vorn, the Rampaging Beast</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr></tbody></table></td></tr></tbody></table></div>||
 000003198|1|Mask of the Deceiver|1|
 000003200|1|Akhelian Thrallmaster|1|
 000003200|2|Namarti Reavers with 10 models|1|
 000003200|3|Namarti Thralls with 10 models|1|
-000003202|1|Runelord|1|
-000003202|2|Irondrakes unit with 10 models|1|
-000003202|3|Longbeards unit with 10 models|1|
 000003204|1|Nurglings unit with 3 models||
 000003204|2|Nurglings unit with 3 models||
-000003206|1|Callis and Toll|1|
-000003206|2|Toll’s Companions|1|
 000003208|1|Scinari Calligrave|1|
 000003208|2|Sanctum of Amyntok|1|
 000003208|3|Hyshian Twinstones|1|
@@ -1396,7 +1566,6 @@
 000003210|1|Codewright|1|
 000003210|2|Grundstok Thunderers unit with 5 models|1|
 000003210|3|Grundstok Thunderers unit with 5 models|1|
-000003213|1|Mancrusher Gargant|1|
 000003215|1|Neave Blacktalon|1|
 000003215|2|Lorai, Child of the Abyss|1|
 000003215|3|Neave’s Companions|1|
@@ -1405,3 +1574,27 @@
 000003217|3|Vanguard-Palladors with Starstrike Javelins unit with 3 models.|1|
 000003220|1|Knight-Draconis|1|
 000003220|2|Stormdrake Guard (1 model)|1|
+000003421|1|Runelord|1|
+000003421|2|Longbeards|1|
+000003421|3|Irondrakes|1|
+000003429|1|Callis and Toll|1|
+000003429|2|Toll’s Companions|1|
+000003438|1|Edmark Valoran the Manticore Knight |0-1|
+000003438|2|Bren Tylis the Renegade Saint|0-1|
+000003438|3|Inara Sion the Cleansing Blade|0-1|
+000003438|4|Drolf Ironhead the Grizzled Explorer|0-1|
+000003438|5|Kelthannor the Forest Prince|0-1|
+000003438|6|Jacobus Vyne the Jade Wizard|0-1|
+000003438|7|Drasher Vorn the Rampaging Beast|0-1|
+000003438|8|This Regiment of Renown is built during army composition. You must include at least 1 of the units opposite in this regiment and can include 1 of each of them. Add together the points values of each unit you include in this regiment to determine its points cost.||
+000003438|9|<div class="BreakInsideAvoid" style="" "=""><table border="0" bordercolor="#888" cellpadding="4" cellspacing="0" style="border-collapse:collapse;border-width:0px"><tbody><tr><td><table class=" customTable" border="1" bordercolor="#888" cellpadding="4" style="border-collapse:collapse;border-color:#908249;border-width:0px"><tbody><tr><td style="border-width:0 1px 0 0;border-style:none solid none none;background-color:rgb(141,39,39);color:rgb(254,254,254);border-color:rgb(255,255,255);text-align:center;vertical-align:bottom;width:266px;height:0px;"><b>Unit</b></td><td style="border-width:0 0 0 0;border-style:none none none none;background-color:rgb(141,39,39);color:rgb(254,254,254);vertical-align:bottom;width:1&nbsp;028px;height:0px;"><b>Points</b></td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Edmark Valoran, the Manticore Knight</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+110</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Bren Tylis, the Renegade Saint</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Inara Sion, the Cleansing Blade</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+120</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drolf Ironhead, the Grizzled Explorer</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+100</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Kelthannor, the Forest Prince</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Jacobus Vyne, the Jade Wizard</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+130</td></tr><tr><td style="border-width:0 1px 1px 0;border-style:none solid solid none;border-color:rgb(141,39,39);text-align:center;vertical-align:middle;width:266px;height:0px;"><b>Drasher Vorn, the Rampaging Beast</b></td><td style="border-width:0 0 1px 0;border-style:none none solid none;border-color:rgb(141,39,39);text-align:left;vertical-align:middle;width:1&nbsp;028px;height:0px;">+150</td></tr></tbody></table></td></tr></tbody></table></div>||
+000003457|1|Galen and Doralia ven Denst||
+000003457|2|Wildercorps Hunters|11|
+000003466|1|Fusil-Major on Ogor Warhulk|1|
+000003466|2|Ironweld Great Cannon|1|
+000003466|3|Freeguild Fusiliers|10|
+000003495|1|Outlaw Cannonade Cogfort|1|
+000003520|1|Outlaw Conqueror Cogfort|1|
+000003723|1|<b>Kraken-eater Mega-Gargant</b>|1|
+000003780|1|<b>Mancrusher Gargant</b>|1|
+000003814|1|Mancrusher Gargant|1|

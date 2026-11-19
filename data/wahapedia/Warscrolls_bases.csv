@@ -77,6 +77,8 @@
 000003256|1|Blood Warriors|32mm|
 000003257|1|Slaughterpriest|40mm|
 000003258|1|Bloodreavers|32mm|
+000003573|1|Scourge of Aqshy Bloodletters|32mm|
+000003574|1|Scourge of Aqshy Blood Warriors|32mm|
 000001989|1|Maniak Weirdnob|60 × 35mm|
 000001990|1|Wurrgog Prophet|32mm|
 000001991|1|Wardokk|32mm|
@@ -120,8 +122,6 @@
 000000464|1|Hammerers|25mm|
 000000465|1|Irondrakes|25mm|
 000000482|1|Steam Tank|120 × 92mm|
-000001126|1|Doralia ven Denst|28.5mm|
-000001127|1|Galen ven Denst|28.5mm|
 000001207|1|Ironweld Great Cannon|90mm|
 000001645|1|Aemos Duncarrow, Quiet Pock|32mm|
 000001645|2|Brydget Axwold|28mm|
@@ -137,9 +137,6 @@
 000001683|1|Battlemage on Luminark of Hysh|120 × 92mm|
 000001684|1|Freeguild Marshal on Griffon|120 × 92mm|
 000001685|1|Tahlia Vedra, Lioness of the Parch|100mm|
-000001686|1|Soul Shepherd|40mm|
-000001686|2|Mascot Gargoylian|28.5mm|
-000001686|3|Arch-Knight, Whisperblade, Great Herald and War Surgeon|32mm|
 000001687|1|Freeguild Fusiliers|28.5mm|
 000001688|1|Freeguild Cavaliers|60 × 35mm|
 000001690|1|Wildercorps Warden, Arbalest|40mm|
@@ -147,7 +144,7 @@
 000001690|3|2 x Scouts and 4 x Trailhounds|25mm|
 000001735|1|Armand Callis and Hanniver Toll|32mm|
 000001736|1|Valius, the Keeper Aqshian|40mm|
-000001736|2|Mistress Verentia and Lyssa Revenya|32mm|
+000001736|2|Mistress Verentia, Balthas the gryph-hound and Lyssa Revenya|32mm|
 000001740|1|Friar Galvic|32mm|
 000001740|2|Soror Tazat, Acolyte Arcus and Scorched Yakob|25mm|
 000001763|1|Scourgerunner Chariot|120 × 92mm|
@@ -155,6 +152,13 @@
 000001765|1|Drakespawn Chariot|120 × 92mm|
 000002374|1|Scourge of Ghyran Freeguild Cavaliers|60 × 35mm|
 000002375|1|Scourge of Ghyran Pontifex Zenestra|90 × 52mm|
+000002663|1|Edmark Valoran, the Manticore Knight|32mm|
+000002664|1|Bren Tylis, the Renegade Saint|28mm|
+000002665|1|Inara Sion, the Cleansing Blade|32mm|
+000002666|1|Drolf Ironhead, the Grizzled Explorer|28mm|
+000002667|1|Jacobus Vyne, the Jade Wizard|28mm|
+000002668|1|Wisper|25mm|
+000002669|1|Drasher Vorn, the Rampaging Beast|40mm|
 000003240|1|Alchemite Warforger|32mm|
 000003241|1|Freeguild Fusiliers|28.5mm|
 000003242|1|Fusil-Major on Ogor Warhulk|50mm|
@@ -163,6 +167,35 @@
 000003385|1|Mallus Forgepriest|28mm|
 000003386|1|Freeguild Grenadiers|28mm|
 000003387|1|Freeguild Gallants|28mm|
+000003411|1|Freeguild Command Corps Whisperblade|28.5mm|
+000003439|1|Erasmus Zonn, the Enlightened One|75 × 42mm|
+000003440|1|Galen and Doralia ven Denst|28.5mm|
+000003441|1|Dawners Triumph|100mm|
+000003442|1|Aqshian Pyrocaster|32mm|
+000003443|1|Conqueror Cogfort|160mm|
+000003444|1|Amethyst Knellmage|32mm|
+000003445|1|Arch-Knight|32mm|
+000003445|2|1 Great Herald and 1 Mascot Gargoylian|28.5mm|
+000003446|1|Cannonade Cogfort|160mm|
+000003447|1|Soul Shepherd|40mm|
+000003447|2|War Surgeon|28.5mm|
+000003448|1|Gate Gargants|80mm|
+000003467|1|Jorvan Kreel|32mm|
+000003467|2|Thexa|25mm|
+000003468|1|Mallus Forgepriest|28.5mm|
+000003469|1|Freeguild Gallants|28.5mm|
+000003521|1|Outlaw Cannonade Cogfort|160mm|
+000003522|1|Outlaw Conqueror Cogfort|160mm|
+000003523|1|Allies of the Free Cities Auric Hearthguard|32mm|
+000003524|1|Kyndledroth, Drothmaster, Drothblood Thane and Vulkyn Runefather|32mm|
+000003524|2|5 x Scalebreakers|28.5mm|
+000003525|1|Allies of the Free Cities Vanari Auralan Sentinels|32mm|
+000003526|1|Allies of the Free Cities Vanari Auralan Wardens|32mm|
+000003527|1|Immolator Cogfort|160mm|
+000003528|1|Linebreaker Cogfort|160mm|
+000003553|1|Freeguild Command Corps Whisperblade|28.5mm|
+000003563|1|Scourge of Aqshy Pontifex Zenestra, Matriarch of the Great Wheel|90 × 52mm|
+000003564|1|Scourge of Aqshy Alchemite Warforger|32mm|
 000000870|1|Sisters of Slaughter|25mm|
 000000871|1|Witch Aelves|25mm|
 000000872|1|Avatar of Khaine|40mm|
@@ -202,6 +235,9 @@
 000003354|1|Hag Queen|25mm|
 000003357|1|Sisters of Slaughter|25mm|
 000003358|1|Bloodwrack Medusa|40mm|
+000003569|1|Scourge of Aqshy Melusai Ironscale|40mm|
+000003570|1|Shroud Queen|40mm|
+000003570|2|1x Slaughtershade, 2x Darkflame Warlocks, 5x Shroudblades|28.5mm|
 000000643|1|Kairic Acolytes|32mm|
 000000644|1|Tzaangors|32mm|
 000000645|1|The Blue Scribes|60mm|
@@ -239,6 +275,10 @@
 000001911|2|Horrors|25mm|
 000002380|1|Scourge of Ghyran Ogroid Thaumaturge|50mm|
 000002381|1|Scourge of Ghyran Kairic Acolytes|32mm|
+000002689|1|Pyrofane Fusiliers|28.5mm|
+000002690|1|Pyrofane Great Cannon|90mm|
+000002691|1|Pyrofane Fusil-Major on Ogor Warhulk|50mm|
+000002692|1|Pyrofane Steelhelms|25mm|
 000002976|1|Argent Shard|80mm|
 000002978|1|Fatemaster on Disc of Tzeentch|60mm|
 000003010|1|Tzaangor Enlightened on Foot|40mm|
@@ -250,6 +290,8 @@
 000003367|1|Screamers of Tzeentch|32mm|
 000003368|1|Flamers of Tzeentch|32mm|
 000003369|1|Kairic Acolytes|32mm|
+000003575|1|Scourge of Aqshy Screamers of Tzeentch|32mm|
+000003576|1|Scourge of Aqshy Ogroid Thaumaturge|50mm|
 000001151|1|Aethervoid Pendulum|Use model|
 000001152|1|The Burning Head|Use model|
 000001153|1|Chronomantic Cogs|Use model|
@@ -313,6 +355,8 @@
 000003350|1|Abhorrant Gorewarden|40mm|
 000003351|1|Crypt Horrors|50mm|
 000003353|1|Crypt Flayers|50mm|
+000003609|1|Scourge of Aqshy Royal Decapitator|32mm|
+000003610|1|Scourge of Aqshy Varghulf Courtier|90 × 52mm|
 000000226|1|Auric Runefather|32mm|
 000000227|1|Auric Runemaster|32mm|
 000000228|1|Auric Runesmiter|32mm|
@@ -343,6 +387,9 @@
 000003359|1|Battlesmith|32mm|
 000003360|1|Hearthguard Berzerkers|32mm|
 000003361|1|Vulkite Berzerkers|32mm|
+000003557|1|Scourge of Aqshy Auric Runeson on Magmadroth|120 × 92mm|
+000003558|1|Kyndledroth, Drothmaster, Drothblood Thane and Vulkyn Runefather|32mm|
+000003558|2|5 x Scalebreakers|28.5mm|
 000000009|1|Moonclan Shootas|25mm|
 000000010|1|Moonclan Stabbas|25mm|
 000000011|1|Dankhold Troggboss|60mm|
@@ -405,6 +452,8 @@
 000003284|1|Moonclan Stabbas|25mm|
 000003285|1|Loonboss|32mm|
 000003286|1|Rockgut Troggoths|50mm|
+000003622|1|Scourge of Aqshy Fellwater Troggoths|50mm|
+000003623|1|Scourge of Aqshy Sunsteala Wheelas|105 × 70mm|
 000002611|1|Urak Taar, the First Daemonsmith|130mm|
 000002612|1|Deathshrieker Rocket Battery|100mm|
 000002613|1|Tormentor Bombard|100mm|
@@ -430,6 +479,8 @@
 000003325|1|War Despot|32mm|
 000003326|1|Dominator Engine with Immolation Cannons|80mm|
 000003327|1|Tormentor Bombard|100mm|
+000003577|1|Scourge of Aqshy Daemonsmith on Infernal Taurus|130mm|
+000003578|1|Scourge of Aqshy Anointed Sentinels|75 × 42mm|
 000000330|1|Daemonettes|25mm|
 000000331|1|Bladebringer, Herald on Exalted Chariot|120 × 92mm|
 000000332|1|Bladebringer, Herald on Hellflayer|120 × 92mm|
@@ -448,6 +499,7 @@
 000000352|1|Fane of Slaanesh|Use model|
 000000353|1|Dreadful Visage|90 × 52mm|
 000000354|1|Mesmerising Mirror|90 × 52mm|
+000000355|1|Wheels of Excruciation|Use model|
 000001027|1|Glutos Orscollion, Lord of Gluttony|170 × 105mm|
 000001028|1|Lord of Pain|40mm|
 000001029|1|Shardspeaker of Slaanesh|32mm|
@@ -468,13 +520,17 @@
 000001628|1|Lord of Hubris|40mm|
 000001730|1|Vexmor|40mm|
 000001730|2|Vashtiss the Coiled and Lascivyr|28.5mm|
-000001913|1|Wheels of Excrutiation|Use model|
 000001914|1|Hellstriders|60 × 35mm|
 000002385|1|Scourge of Ghyran Syll’Esske, the Vengeful Allegiance|50mm|
 000002386|1|Scourge of Ghyran Slaangor Fiendbloods|40mm|
 000003236|1|Slaangor Fiendbloods|40mm|
 000003237|1|Blissbarb Archers|25mm|
 000003238|1|Shardspeaker of Slaanesh|32mm|
+000003585|1|Scourge of Aqshy Blissbarb Seekers|75 × 42mm|
+000003586|1|Scourge of Aqshy Infernal Enrapturess, Herald of Slaanesh|60 × 35mm|
+000003587|1|Vexmor|40mm|
+000003587|2|Vashtiss the Coiled and Lascivyr|28.5mm|
+000003588|1|Lord of Hysteria|40mm|
 000000897|1|Namarti Thralls|32mm|
 000000898|1|Akhelian Leviadon|120 × 92mm|
 000000899|1|Akhelian King|60mm|
@@ -506,6 +562,8 @@
 000003311|1|Akhelian King|60mm|
 000003333|1|Namarti Thralls|32mm|
 000003334|1|Isharann Soulscryer|32mm|
+000003565|1|Scourge of Aqshy Isharann Tidecaster|32mm|
+000003566|1|Scourge of Aqshy Namarti Reavers|32mm|
 000000391|1|Gordrakk, the Fist of Gork|160mm|
 000000392|1|Megaboss on Maw-krusha|160mm|
 000001697|1|Maw-grunta Gougers|120 × 92mm|
@@ -533,6 +591,8 @@
 000003363|1|Megaboss|60mm|
 000003364|1|Brute Ragerz|40mm|
 000003365|1|Ardboyz|32mm|
+000003616|1|Scourge of Aqshy Megaboss|60mm|
+000003617|1|Scourge of Aqshy Brutes|40mm|
 000001142|1|Gutrippaz|32mm|
 000001145|1|Killaboss on Great Gnashtoof|105 × 70mm|
 000001146|1|Killaboss|40mm|
@@ -562,6 +622,9 @@
 000003295|1|Murknob with Belcha-banna|40mm|
 000003296|1|Man-skewer Boltboyz|32mm|
 000003297|1|Gutrippaz|32mm|
+000003614|1|Scourge of Aqshy Killaboss on Great Gnashtoof|105 × 70mm|
+000003615|1|Killaboss|40mm|
+000003615|2|Stab-grot|25mm|
 000000685|1|Arkanaut Company|25mm|
 000000686|1|Arkanaut Frigate|120 × 92mm|
 000000687|1|Arkanaut Ironclad|170 × 105mm|
@@ -592,6 +655,8 @@
 000003396|1|Skywardens|32mm|
 000003397|1|Arkanaut Admiral|32mm|
 000003399|1|Arkanaut Company|25mm|
+000003559|1|Scourge of Aqshy Null-Khemist|40mm|
+000003560|1|Scourge of Aqshy Endrinriggers|32mm|
 000000835|1|Vanari Auralan Wardens|32mm|
 000000836|1|Alarith Spirit of the Mountain|100mm|
 000000837|1|Alarith Stonemage|40mm|
@@ -631,6 +696,10 @@
 000003393|1|Scinari Cathallar|32mm|
 000003394|1|Vanari Auralan Sentinels|32mm|
 000003395|1|Vanari Bladelords|32mm|
+000003554|1|Thyrielle, Orieth, Sirikith, Anara|28.5mm|
+000003554|2|Tzul|25mm|
+000003571|1|Scourge of Aqshy Alarith Stonemage|40mm|
+000003572|1|Scourge of Aqshy Scinari Loreseeker|32mm|
 000000927|1|Plaguebearers|32mm|
 000000928|1|Epidemius, Tallyman of Nurgle|60mm|
 000000930|1|The Wurmspat|40mm|
@@ -681,6 +750,8 @@
 000003400|1|Rotbringer Sorcerer|32mm|
 000003401|1|Nurglings|40mm|
 000003402|1|Beast of Nurgle|60mm|
+000003579|1|Scourge of Aqshy Sloven Knights|75 × 42mm|
+000003580|1|Scourge of Aqshy Putrid Blightkings|40mm|
 000000192|1|Chainrasp Horde|25mm|
 000000193|1|Cairn Wraith|25mm|
 000000196|1|Knight of Shrouds|32mm|
@@ -731,6 +802,8 @@
 000003382|1|Chainrasps|25mm|
 000003383|1|Spirit Hosts|50mm|
 000003384|1|Grimghast Reapers|32mm|
+000003605|1|Scourge of Aqshy Black Coach|170 × 105mm|
+000003606|1|Scourge of Aqshy Spirit Hosts|50mm|
 000000520|1|Kavalos Deathriders|60 × 35mm|
 000000521|1|Mortek Guard|25mm|
 000000522|1|Mortek Crawler|170 × 105mm|
@@ -776,6 +849,8 @@
 000003329|1|Mortisan Ossifector|32mm|
 000003330|1|Immortis Guard|50mm|
 000003331|1|Morghast Archai|60mm|
+000003603|1|Scourge of Aqshy Vokmortian, Master of the Bone-tithe|40mm|
+000003604|1|Scourge of Aqshy Mortis Reapers|32mm|
 000000487|1|Ironblaster|120 × 92mm|
 000000488|1|Gnoblar Scraplauncher|120 × 92mm|
 000000489|1|Ogor Gluttons|40mm|
@@ -815,6 +890,16 @@
 000003344|1|Ogor Gluttons|40mm|
 000003345|1|Leadbelchers|40mm|
 000003346|1|Tyrant|50mm|
+000003620|1|Scourge of Aqshy Huskard on Thundertusk|120 × 92mm|
+000003621|1|Scourge of Aqshy Frostlord on Thundertusk|120 × 92mm|
+000003645|1|Redd the Maw, High Slaughtermaster|160mm|
+000003646|1|Maulbeast Cavalry|90 × 52mm|
+000003647|1|Morga The Mighty, Overtyrant|120 × 92mm|
+000003649|1|Maulbeast Raiders|90 × 52mm|
+000003650|1|Tyrant on Glutthorn|120 × 92mm|
+000003651|1|Cleavers|40mm|
+000003652|1|Gutseers|40mm|
+000003653|1|Grell Firefist|50mm|
 000000060|1|Celestar Ballista|60mm|
 000000060|2|Celestar Ballista Crew|40mm|
 000000061|1|Liberators|40mm|
@@ -918,6 +1003,8 @@
 000003376|1|Knight-Vexillor|40mm|
 000003377|1|Vanquishers|40mm|
 000003378|1|Annihilators|40mm|
+000003567|1|Scourge of Aqshy Iridan the Witness|120 × 92mm|
+000003568|1|Scourge of Aqshy Stormstrike Palladors|90 × 52mm|
 000000981|1|Dire Wolves|60 × 35mm|
 000000984|1|Mortis Engine|120 × 92mm|
 000000985|1|Terrorgheist|130mm|
@@ -930,8 +1017,7 @@
 000000999|1|Prince Vhordrai|160mm|
 000001000|1|Vampire Lord on Zombie Dragon|130mm|
 000001003|1|Blood Knights|75 × 42mm|
-000001006|1|Bat Swarms|40mm|
-000001006|2|Fell Bats|40mm|
+000001006|1|Fell Bats|40mm|
 000001012|1|The Sepulchral Guard|25mm|
 000001014|1|Vargheists|50mm|
 000001090|1|Gorslav the Gravekeeper|40mm|
@@ -986,6 +1072,9 @@
 000003289|1|Vampire Lord|40mm|
 000003321|1|Wight King|32mm|
 000003323|1|Barrow Guard|28.5mm|
+000003607|1|Scourge of Aqshy Revenant Draconith|160mm|
+000003608|1|Scourge of Aqshy Vengorian Lord|80mm|
+000003822|1|Nagash, Supreme Lord of the Underworlds|130mm|
 000000704|1|Engine of the Gods|120 × 92mm|
 000000705|1|Saurus Warriors|32mm|
 000000707|1|Stegadon|120 × 92mm|
@@ -1035,7 +1124,8 @@
 000003245|1|Saurus Warriors|32mm|
 000003246|1|Terrawings|32mm|
 000003349|1|Kroxigor|50mm|
-000000866|1|Mancrusher Mob|90 × 52mm|
+000003561|1|Scourge of Aqshy Saurus Scar-Veteran on Aggradon|90 × 52mm|
+000003562|1|Scourge of Aqshy Slann Starmaster|80mm|
 000000867|1|Gatebreaker Mega-Gargant|130mm|
 000000868|1|Kraken-eater Mega-Gargant|130mm|
 000000869|1|Warstomper Mega-Gargant|130mm|
@@ -1044,6 +1134,13 @@
 000001543|1|Mancrusher Gargant|90 × 52mm|
 000001934|1|Kragnos, the End of Empires|130mm|
 000002402|1|Scourge of Ghyran Kraken-eater Mega-Gargant|130mm|
+000003618|1|Scourge of Aqshy Gatebreaker Mega-Gargant|130mm|
+000003619|1|Scourge of Aqshy Mancrusher Gargant|90 × 52mm|
+000003751|1|Rock-hurlers|90mm|
+000003752|1|Boss-Stompers|90mm|
+000003753|1|Ma Maegran, Chooser Of The Mighty|90mm|
+000003754|1|Ancient Ghyrochs|105 × 70mm|
+000003782|1|Rock-hurlers|90mm|
 000000248|1|Plagueclaw|120 × 92mm|
 000000249|1|Warp Lightning Cannon|120 × 92mm|
 000000250|1|Warplock Jezzails|60 × 35mm|
@@ -1068,7 +1165,6 @@
 000000269|1|Verminlord Deceiver|120 × 92mm|
 000000270|1|Verminlord Warbringer|120 × 92mm|
 000000271|1|Verminlord Warpseer|120 × 92mm|
-000000274|1|Gutter Runners|25mm|
 000000275|1|Night Runners|28.5mm|
 000000278|1|Plague Monks|25mm|
 000000279|1|Rat Ogors|50mm|
@@ -1113,6 +1209,8 @@
 000003371|1|Deathmaster Crixxit|40mm|
 000003373|1|Deathmaster|32mm|
 000003379|1|Stormfiends|60mm|
+000003581|1|Scourge of Aqshy Grey Seer on Screaming Bell|120 × 92mm|
+000003582|1|Scourge of Aqshy Verminlord Corruptor|120 × 92mm|
 000000553|1|Chaos Warriors|32mm|
 000000554|1|Chaos Warshrine|120 × 92mm|
 000000555|1|Mutalith Vortex Beast|120 × 92mm|
@@ -1177,7 +1275,14 @@
 000001347|1|Broodmaster|32mm|
 000001347|2|2 x Doomweaver|28.5mm|
 000001347|3|10 x Broodkin, Spider Swarms|25mm|
+000001476|1|Flamers of Tzeentch|32mm|
+000001477|1|Screamers of Tzeentch|32mm|
 000001485|1|Bloodletters|32mm|
+000001495|1|Bloodcrushers|90 × 52mm|
+000001498|1|Plaguebearers|32mm|
+000001506|1|Beasts of Nurgle|60mm|
+000001522|1|Fiends|75 × 42mm|
+000001523|1|Hellflayer|120 × 92mm|
 000001529|1|Centaurion Marshal|80mm|
 000001530|1|1х Decuriarch, 1x Mutandor with Beast Spear, 3x Hornhelms|32mm|
 000001530|2|3 x Hornshields|28.5mm|
@@ -1205,6 +1310,8 @@
 000003338|1|Darkoath Marauders|28.5mm|
 000003390|1|Chaos Lord|40mm|
 000003391|1|Chaos Warriors|32mm|
+000003583|1|Scourge of Aqshy Chaos Warriors|32mm|
+000003584|1|Scourge of Aqshy Chaos Lord on Karkadrak|90 × 52mm|
 000000304|1|Sylvaneth Dryads|32mm|
 000000305|1|Treelord|105 × 70mm|
 000000306|1|Arch-Revenant|40mm|
@@ -1250,3 +1357,5 @@
 000003300|1|Kurnoth Hunters|50mm|
 000003301|1|Branchwych|32mm|
 000003302|1|Tree-Revenants|32mm|
+000003555|1|Scourge of Aqshy Kurnoth Hunters with Greatswords|50mm|
+000003556|1|Scourge of Aqshy Treelord Ancient|105 × 70mm|
