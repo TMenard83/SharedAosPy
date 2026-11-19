@@ -26,7 +26,7 @@ Un menu s'affiche et pose les questions nécessaires :
 
 1. **Générer le PDF d'une liste de tournoi** — choisit un fichier dans
    `data/Proposition de listes/`, choisit un mode de traduction, produit le PDF
-   dans `scratch/output/roster/...`.
+   dans `scratch/output/roster/<équipe>/<liste>/`.
 2. **Comparer deux unités en duel** — choisit une armée puis une unité pour
    l'attaquant et le défenseur, affiche le résultat détaillé du duel.
 3. **Comparer une unité contre toutes les autres (benchmark)** — choisit une

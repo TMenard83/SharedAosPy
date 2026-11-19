@@ -1,0 +1,187 @@
+[
+  {
+    "number": 1,
+    "name_en": "Blazing Onslaught",
+    "title_fr": "Assaut Flamboyant",
+    "flavor": "Inaugurée par un ouragan de feu et de fumée, la bataille pour le contrôle d’une place forte vitale éclate pour de bon.",
+    "special_rule": "Au début de la bataille, après avoir utilisé toutes les aptitudes de <b>Phase de Déploiement</b> mais avant de déterminer le joueur qui a le premier tour, votre adversaire doit choisir 1 élément de terrain autre qu’un TERRAIN DE FACTION dans son territoire qui sera son <b>repaire</b>. Le <b>repaire</b> ne peut pas être retiré du champ de bataille au cours de cette bataille.",
+    "sub_tactics": [
+      {
+        "kind": "Échauffourée",
+        "name": "Maître d’Armes",
+        "flavor": "Réussir une invasion requiert une certaine habileté dans tous les aspects de guerre.",
+        "condition": "Vous exécutez cette tactique de bataille à la fin de votre tour si la même unité ennemie a reçu au moins 1 dégât lors de 3 phases différentes à ce tour.",
+        "points": 5
+      },
+      {
+        "kind": "Frappe",
+        "name": "Brisez Leurs Défenses",
+        "flavor": "L’ennemi ne pourra pas se cacher très longtemps…",
+        "condition": "Vous exécutez cette tactique de bataille à la fin de votre tour si vous contrôlez le <b>repaire</b> ennemi.",
+        "points": 5
+      },
+      {
+        "kind": "Domination",
+        "name": "Pas de Survivants",
+        "flavor": "Assurez-vous que les seuls récits de cette bataille seront ceux de votre victoire.",
+        "condition": "Vous exécutez cette tactique de bataille à la fin de votre tour si au moins 2 unités ennemies ont été détruites à ce tour et si vous contrôlez le <b>repaire</b> ennemi.",
+        "points": 5
+      }
+    ]
+  },
+  {
+    "number": 2,
+    "name_en": "Siege of Ashes",
+    "title_fr": "Siège de Cendres",
+    "flavor": "Vous tenez un fort qui barre la route à l’ennemi, et le défendrez jusqu’à la mort.",
+    "special_rule": null,
+    "sub_tactics": [
+      {
+        "kind": "Échauffourée",
+        "name": "Formez un Rempart",
+        "flavor": "Une bonne défense commence par des fondations solides.",
+        "condition": "Vous exécutez cette tactique de bataille à la fin de votre tour si au moins 2 unités amies sont entièrement hors du territoire ami, entièrement à 6\" du territoire ami et à 3\" l’une de l’autre.",
+        "points": 5
+      },
+      {
+        "kind": "Frappe",
+        "name": "Ravitaillement",
+        "flavor": "Un bon général doit choisir précisément où et quand il envoie des renforts.",
+        "condition": "Vous exécutez cette tactique de bataille à la fin de votre tour si vous contrôlez un objectif dans le territoire ennemi et si cet objectif est contesté par :<br/>• Au moins 1 unité amie qui n’a utilisé aucune aptitude de <b>Mouvement</b> à ce tour<br/>• Au moins 1 autre unité amie qui a chargé à ce tour.",
+        "points": 5
+      },
+      {
+        "kind": "Domination",
+        "name": "Repoussez les Assaillants",
+        "flavor": "Déchaînez votre fureur intérieure et nettoyez le champ de bataille de toute présence ennemie.",
+        "condition": "Vous exécutez cette tactique de bataille à la fin de votre tour s’il y a au moins 3 unités amies à 3\" du centre du champ de bataille qui ne sont pas en mêlée.",
+        "points": 5
+      }
+    ]
+  },
+  {
+    "number": 3,
+    "name_en": "Flanking Firestorm",
+    "title_fr": "Encerclés par le Feu",
+    "flavor": "Le plan est simple : flanquez et encerclez vos ennemis, et assurez-vous qu’aucun d’eux n’en réchappe.",
+    "special_rule": null,
+    "sub_tactics": [
+      {
+        "kind": "Échauffourée",
+        "name": "Embuscade",
+        "flavor": "Envoyez des éclaireurs pour tendre un piège à l’ennemi.",
+        "condition": "Vous exécutez cette tactique de bataille à la fin de votre tour si vous contrôlez une combinaison d’au moins 2 objectifs ou éléments de terrain autres que des Terrains de Faction, et si chacun d’eux est contesté par une unité amie différente située à plus de 6\" du territoire ami et n’ayant pas été placée à ce tour.",
+        "points": 5,
+        "provenance": {
+          "bt_text": "si vous contrôlez une combinaison d’au moins 2 objectifs ou éléments de terrain, et si chacun d’eux",
+          "errata_patch": "Dans la règle de la tactique de bataille Échauffourée : Embuscade, remplacez « objectifs ou éléments de terrain » par « objectifs ou éléments de terrain autres que des Terrains de Faction ».",
+          "errata_source": "Mises à jour de règles, Août 2026, Manuel du Général 2026-27 (carte de tactique 3), p.25"
+        }
+      },
+      {
+        "kind": "Frappe",
+        "name": "Cernez l’Ennemi",
+        "flavor": "Encerclez vos ennemis comme les flammes encerclent les condamnés.",
+        "condition": "Vous exécutez cette tactique de bataille à la fin de votre tour si au moins 2 unités amies qui n’ont pas été placées à ce tour sont chacune à 9\" d’un coin différent du champ de bataille et entièrement hors du territoire ami.",
+        "points": 5
+      },
+      {
+        "kind": "Domination",
+        "name": "Prenez votre Dû",
+        "flavor": "Ces terres vous appartiennent ; l’ennemi doit en être chassé.",
+        "condition": "Vous exécutez cette tactique de bataille à la fin de votre tour s’il y a plus d’unités amies que d’unités ennemies en territoire ennemi, et s’il y a au moins 1 <b>HÉROS</b> ami entièrement en territoire ennemi.",
+        "points": 5
+      }
+    ]
+  },
+  {
+    "number": 4,
+    "name_en": "Smoke Screen",
+    "title_fr": "Écran de Fumée",
+    "flavor": "Appâtez l’ennemi en simulant la faiblesse et en dissimulant votre vraie force dans la fumée des combats jusqu’au moment opportun.",
+    "special_rule": null,
+    "sub_tactics": [
+      {
+        "kind": "Échauffourée",
+        "name": "Gardez l’Ennemi Près de Vous",
+        "flavor": "Masquez vos intentions, et l’ennemi n’aura pas conscience de son rôle dans vos plans.",
+        "condition": "Vous exécutez cette tactique de bataille à la fin de votre tour si vous contrôlez un objectif contesté par au moins 1 unité ennemie.",
+        "points": 5
+      },
+      {
+        "kind": "Frappe",
+        "name": "Feignez la Faiblesse",
+        "flavor": "Autoriser quelques petites victoires le distrait de sa tâche.",
+        "condition": "Vous exécutez cette tactique de bataille à la fin de votre tour si plus d’unités amies que d’unités ennemies ont été détruites à ce tour.",
+        "points": 5
+      },
+      {
+        "kind": "Domination",
+        "name": "Exécutez le Plan",
+        "flavor": "Menez votre plan à bien et contemplez l’armée ennemie se consumer dans les flammes.",
+        "condition": "Vous exécutez cette tactique de bataille à la fin de votre tour si vous contrôlez tous les objectifs situés en territoire ennemi.",
+        "points": 5
+      }
+    ]
+  },
+  {
+    "number": 5,
+    "name_en": "Burning for Vengeance",
+    "title_fr": "Vengeance Ardente",
+    "flavor": "Les outrages de l’ennemi méritent un châtiment brutal. Traquez-le et piétinez-le.",
+    "special_rule": "Au début de la bataille, après avoir utilisé toutes les aptitudes de <b>Phase de Déploiement</b> mais avant de déterminer le joueur qui a le premier tour, choisissez un <b>HÉROS</b> ennemi qui est sur le champ de bataille ou en réserve, qui sera le <b>fugitif</b> pour le restant de la bataille.",
+    "sub_tactics": [
+      {
+        "kind": "Échauffourée",
+        "name": "Fouillez Chaque Recoin",
+        "flavor": "Champs de lave, plaines de cendres ou jungle étouffante… ne laissez aucun site inexploré.",
+        "condition": "Vous exécutez cette tactique de bataille à la fin de votre tour s’il y a une unité amie différente qui est entièrement dans chaque grand quart du champ de bataille, à plus de 9\" du centre du champ de bataille, et si pas plus d’une de ces unités amies n’a été placée à ce tour.",
+        "points": 5
+      },
+      {
+        "kind": "Frappe",
+        "name": "Poursuite Effrénée",
+        "flavor": "Le fugitif a été repéré, son temps est compté.",
+        "condition": "Vous exécutez cette tactique de bataille à la fin de votre tour si 1 des critères suivants est vrai :<br/>• Il y a au moins 3 unités amies qui sont hors de mêlée et qui sont à 12\" du <b>fugitif</b> ennemi.<br/>• Il n’y a pas de <b>fugitif</b> ennemi sur le champ de bataille.",
+        "points": 5
+      },
+      {
+        "kind": "Domination",
+        "name": "Ramenez-le !",
+        "flavor": "Mort ou vif, le fugitif va payer pour ses méfaits.",
+        "condition": "Vous exécutez cette tactique de bataille à la fin de votre tour si 1 des critères suivants est vrai :<br/>• Il y a au moins 3 unités amies qui sont en mêlée avec le <b>fugitif</b> ennemi.<br/>• Il n’y a pas de <b>fugitif</b> ennemi sur le champ de bataille et au moins 3 unités amies contestent le même objectif situé entièrement hors du territoire ami.",
+        "points": 5
+      }
+    ]
+  },
+  {
+    "number": 6,
+    "name_en": "Legend of the Parch",
+    "title_fr": "Légende de l’Aride",
+    "flavor": "Alors qu’un feu rageur menace de tout consumer, un héros se dresse et une légende va naître.",
+    "special_rule": null,
+    "sub_tactics": [
+      {
+        "kind": "Échauffourée",
+        "name": "Sauvetage Audacieux",
+        "flavor": "Les guerriers les plus respectés sont ceux qui vont volontairement au secours de leurs alliés.",
+        "condition": "Vous exécutez cette tactique de bataille à la fin de votre tour si une unité ennemie qui était en mêlée au début du tour a été détruite par une attaque de mêlée faite par une unité amie qui a chargé à ce tour.",
+        "points": 5
+      },
+      {
+        "kind": "Frappe",
+        "name": "Commander au Front",
+        "flavor": "Les commandants doivent œuvrer de concert pour alimenter la machine de guerre.",
+        "condition": "Vous exécutez cette tactique de bataille à la fin de votre tour s’il y a au moins 2 <b>HÉROS</b> amis sur le champ de bataille, s’ils sont tous à 9\" d’une unité ennemie visible, et si aucun d’eux n’a été tué à ce tour.",
+        "points": 5
+      },
+      {
+        "kind": "Domination",
+        "name": "Héros Légendaire",
+        "flavor": "Qui accomplit une quête glorieuse voit son nom gravé dans l’histoire.",
+        "condition": "Vous exécutez cette tactique de bataille à la fin de votre tour si vous contrôlez un objectif qui est entièrement hors de votre territoire, que vous ne contrôliez pas au début du tour, et qu’un <b>HÉROS</b> ami conteste.",
+        "points": 5
+      }
+    ]
+  }
+]

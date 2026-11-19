@@ -106,7 +106,14 @@ def _enhancement_label(row: dict[str, str]) -> str:
 #: Wahapedia mais bien une coquille isolée sur cette seule ligne.
 _WARSCROLL_NAME_ALIASES = {
     "hearthguard berzerkers with berzerker broadaxes": "hearthguard berzerker with berzerker broadaxes",
+    # export de liste « with Kurnoth Greatswords » vs Wahapedia « with Greatswords »
+    "kurnoth hunters with kurnoth greatswords": "kurnoth hunters with greatswords",
+    "kurnoth hunters with kurnoth greatbows": "kurnoth hunters with greatbows",
+    "kurnoth hunters with kurnoth greatscythes": "kurnoth hunters with greatscythes",
 }
+
+
+_SEASONAL_SUFFIX_RE = re.compile(r"^(.*?)\s*\((Scourge of \w+)\)\s*$", re.IGNORECASE)
 
 
 def _normalize(name: str) -> str:
@@ -120,6 +127,9 @@ def _normalize(name: str) -> str:
     # Wahapedia correspondant ("Scourge of Aqshy Black Coach") — aucun nom
     # Wahapedia ne contient de ":", ce n'est donc jamais ambigu de le retirer.
     name = name.replace(":", "")
+    # Sigdex exporte la même variante en suffixe ("Namarti Reavers (Scourge
+    # of Aqshy)") plutôt qu'en préfixe : on la remet devant, à la Wahapedia.
+    name = _SEASONAL_SUFFIX_RE.sub(r"\2 \1", name)
     folded = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode("ascii")
     return " ".join(folded.strip().lower().split())
 
@@ -154,6 +164,17 @@ def _read_csv(path: Path) -> list[dict[str, str]]:
     return rows
 
 
+def _wound_rend_damage(row: dict[str, str]) -> dict[str, str]:
+    """Blessure/Perforation/Dégâts d'une ligne `Warscrolls_weapons.csv`. Un
+    `Wnd` « #N » est un `colspan` Wahapedia : l'arme n'a pas de valeur pour
+    ses N colonnes (ex. Warp Lightning Blast, résolue par son aptitude) —
+    affichées « - » au lieu du marqueur brut."""
+    wnd = row.get("Wnd", "")
+    if re.fullmatch(r"#\d+", wnd):
+        return {"wound": "-", "rend": "-", "damage": "-"}
+    return {"wound": wnd, "rend": row.get("Rnd", ""), "damage": row.get("Dmg", "")}
+
+
 def _ability_entry(row: dict[str, str]) -> "AbilityEntry":
     """Construit une `AbilityEntry` à partir d'une ligne `Warscrolls_abilities.csv`
     ou `Faction_abilities.csv` — les deux partagent le même schéma d'aptitude
@@ -163,7 +184,7 @@ def _ability_entry(row: dict[str, str]) -> "AbilityEntry":
         ability_type=row.get("ability_type", ""), is_reaction=row.get("is_reaction", "") == "true",
         condition=row.get("condition", ""), keywords=row.get("keywords", ""),
         ability_phase=row.get("ability_phase", ""), points_type=row.get("points_type", ""),
-        points=row.get("points", ""),
+        points=row.get("points", ""), wahapedia_type=row.get("type_name", ""),
     )
 
 
@@ -179,12 +200,46 @@ class AbilityEntry:
     ability_phase: str = ""
     points_type: str = ""
     points: str = ""
+    # `type_name` de la ligne `Faction_abilities.csv` (ex. "Heroic Traits",
+    # "Brazen Mutations"), vide pour une aptitude de warscroll — sert à
+    # départager deux homonymes de catégories différentes dans
+    # `faction_rules_fr.apply_fr_overrides` (clé `wahapedia_type` du JSON).
+    wahapedia_type: str = ""
     # étiquette explicite de regroupement (cf. warscroll_card._ability_category) —
     # seule valeur posée aujourd'hui : "manifestation", par `set_ability_category`
     # dans pdf_builder.py pour une aptitude de convocation d'un domaine de
     # manifestations (son `points_type` seul ne suffit pas à la distinguer d'un
     # sort/d'une prière ordinaire, cf. le commentaire de `_ability_category`).
     ability_category: str = ""
+    # warscroll(s) d'où vient l'aptitude, une fois sortie de sa carte d'unité
+    # pour rejoindre une carte de règles par tour (mode `fr-split`, cf.
+    # `pdf_builder.build_roster_pdf`) — rendu en badge dédié par
+    # `warscroll_card._warscroll_pills`. Plusieurs noms quand la même
+    # aptitude (texte identique) est portée par plusieurs unités de la liste.
+    warscrolls: tuple[str, ...] = ()
+    # sous-section d'affichage d'un bandeau de phase en mode `fr-split`
+    # (« Règles de base », « Règles d'armée »), posée par `pdf_builder` qui
+    # sait d'où vient l'aptitude — vide pour une aptitude de warscroll, rangée
+    # sous le nom de son/ses warscroll(s) (cf. `warscroll_card.ability_section`).
+    section: str = ""
+    # aptitude qui ne modifie que le profil de sa propre unité, décidé sur le
+    # texte Wahapedia d'origine avant tout correctif français (cf.
+    # `pdf_builder._mark_self_profile`/`warscroll_card.is_self_profile_modifier`).
+    self_profile: bool = False
+    # rang explicite de la sous-section de l'aptitude dans son bandeau de
+    # phase (mode sectionné, cf. `warscroll_card._section_rank`) — posé
+    # uniquement par `roster_simplifications.py` (`before_spells`).
+    section_rank: int | None = None
+    # case pleine largeur dans la grille d'une sous-section (mode sectionné,
+    # cf. `warscroll_card._ability_span`) — posé uniquement par
+    # `pdf_builder._order_deploy`.
+    full_width: bool = False
+    # ressources de saison gagnées/dépensées, en icônes à côté des badges
+    # (dé de rage, point de fureur — cf. `warscroll_card._resource_badges`) :
+    # paires (type, valeur), ex. (("Rage", "+2"), ("Fury", "+2")). Posé par
+    # le JSON (`season_rules.json`/`generic_core_abilities.json`, clé
+    # `resources`).
+    resources: tuple[tuple[str, str], ...] = ()
 
 
 @dataclass(frozen=True)
@@ -219,6 +274,13 @@ class WarscrollData:
     description: str = ""  # texte libre de restriction d'arme (ex. "1/5 models
     # can replace their Warhammer with a Grandhammer") — sert à afficher un
     # ratio de porteurs discret sur l'arme concernée (cf. warscroll_card.py)
+    # aptitude de convocation d'une manifestation (sort persistant), posée par
+    # `rules_resolution._resolve_rules` — badge de lancement et note de pose
+    # résumée sur la carte (cf. `warscroll_card.summon_placement_note`).
+    summon: AbilityEntry | None = None
+    # nom français affiché en petit sous le nom anglais de la carte (celui de
+    # l'export de liste de l'App) — `subtitle_fr` de `faction_rules_fr.json`.
+    subtitle: str = ""
 
 
 @dataclass(frozen=True)
@@ -410,7 +472,7 @@ class WahapediaLookup:
         `Slaughterers of Thousands -> FRENZIED TASKMASTER` (un genuine
         homonyme différent), et cette fonction ne fait de correspondance que
         sur le nom -- elle ne sait pas distinguer les deux si l'un et l'autre
-        apparaissent dans la même liste. `data/faction_rules_fr.json` garde
+        apparaissent dans la même liste. `data/json/faction_rules_fr.json` garde
         `wahapedia_name: "FRENZIED TASKMASTER"` pour les deux entrées
         (c'est la seule clé qui matche réellement les données Wahapedia
         telles quelles) ; corriger `BLADE-LIMBS` dans le CSV lui-même casserait
@@ -422,14 +484,22 @@ class WahapediaLookup:
         if not key:
             return None
         target = _normalize(key)
-        for r in self.faction_abilities:
-            if r["faction_id"] != fid:
-                continue
-            if r["type_name"] in _ENHANCEMENT_EXCLUDED_TYPES or r["subtype_name"] in _ENHANCEMENT_EXCLUDED_SUBTYPES:
-                continue
-            if _normalize(r["name"]) == target:
-                return _enhancement_label(r), _ability_entry(r)
-        return None
+        matches = [
+            r for r in self.faction_abilities
+            if r["faction_id"] == fid
+            and r["type_name"] not in _ENHANCEMENT_EXCLUDED_TYPES
+            and r["subtype_name"] not in _ENHANCEMENT_EXCLUDED_SUBTYPES
+            and _normalize(r["name"]) == target
+        ]
+        if not matches:
+            return None
+        # Homonymes (cf. collision BoK ci-dessus) : l'App affiche « - (N)
+        # Points » pour une option payante (Mutation d'Airain, Trait
+        # Monstrueux...), jamais pour un Trait Héroïque/Artefact de Pouvoir.
+        paid = bool(_POINTS_SUFFIX_RE.search(option_text))
+        free_types = {"Heroic Traits", "Artefacts of Power"}
+        r = next((m for m in matches if (m["type_name"] in free_types) != paid), matches[0])
+        return _enhancement_label(r), _ability_entry(r)
 
     # -- Règles d'une armée de renom (ex. "Legion of the First Prince") --
 
@@ -506,8 +576,7 @@ class WahapediaLookup:
         weapons = [
             WeaponEntry(
                 name=w["name"], range=w.get("Rng", ""), attacks=w.get("Atk", ""), hit=w.get("Hit", ""),
-                wound=w.get("Wnd", ""), rend=w.get("Rnd", ""), damage=w.get("Dmg", ""),
-                kind=w.get("type", ""), abilities=w.get("abilities", ""),
+                kind=w.get("type", ""), abilities=w.get("abilities", ""), **_wound_rend_damage(w),
             )
             for w in self.weapons if w["warscroll_id"] == wid
         ]

@@ -20,6 +20,17 @@ import re
 from dataclasses import dataclass, field
 from pathlib import Path
 
+#: Battletomes couvrant plusieurs factions jouables à la fois (ex. « Orruk
+#: Warclans » = Ironjawz + Kruleboyz). L'App exporte alors la ligne de
+#: faction comme « <nom du tome> | <sous-faction> <id de liste numérique> »
+#: (ex. « Orruk Warclans | Ironjawz 104433899 ») — à l'inverse du cas armée
+#: de renom (« Slaves to Darkness | Legion of the First Prince ») où c'est le
+#: segment *avant* le « | » qui est la vraie faction, ici c'est celui
+#: *après*, sans l'id de liste, qui l'est. `base_faction` doit distinguer les
+#: deux pour indexer correctement `warscroll_index.json`/Wahapedia.
+_COMBINED_BOOK_NAMES = frozenset({"Orruk Warclans"})
+_TRAILING_LIST_ID_RE = re.compile(r"\s+\d+$")
+
 _UNIT_RE = re.compile(r"^(?P<name>.+?) \((?P<points>\d+)\)$")
 #: Un Faction Terrain payant est exporté avec son coût inline (ex. « Shrine
 #: of Dark Tribute (20 Points) »), contrairement à `_UNIT_RE` (juste des
@@ -27,8 +38,105 @@ _UNIT_RE = re.compile(r"^(?P<name>.+?) \((?P<points>\d+)\)$")
 #: suffixe, ex. « Nexus Chaotica ») — nécessaire pour que le nom recherché
 #: dans le battletome/Wahapedia corresponde au nom canonique de la charte.
 _TERRAIN_POINTS_RE = re.compile(r"^(?P<name>.+?) \(\d+ Points\)$")
-_OPTION_PREFIX = " • "
+#: Puce d'option, cherchée après `strip()` : selon l'export, la ligne
+#: commence par « • » avec ou sans espace devant.
+_OPTION_PREFIX = "• "
 _REGIMENT_HEADER_RE = re.compile(r"^(General's Regiment|Regiment \d+)$")
+
+#: Variantes de l'export Sigdex (sigdex.io), sinon identique au format de
+#: l'App : variante saisonnière en suffixe (« Namarti Reavers (Scourge of
+#: Aqshy) », réécrit en « Scourge of Aqshy: Namarti Reavers » comme l'App),
+#: coût d'option nu (« Aqshian Sea Nettles (10) », réécrit en
+#: « ... - (10) Points ») et en-têtes numériques en plus (« Wounds: 117 »).
+_VARIANT_SUFFIX_RE = re.compile(r"^(?P<name>.+?) \((?P<variant>Scourge of \w+)\)$")
+_BARE_OPTION_COST_RE = re.compile(r"\s*\((?P<points>\d+)\)$")
+_NUMERIC_HEADER_RE = re.compile(r"^[A-Za-z][\w ]*:\s*\d+$")
+
+#: Second format d'export, « compact » (observé sur une liste partagée par un
+#: joueur, ex. `Vae Victis Vernou/Sylv - Pierrodactyl - nom_de_liste.txt`) :
+#: pas de titre, 1re ligne « <faction> | <formation> », 2e ligne
+#: « 2000/2000 points - 4 drops », en-têtes « Clé: valeur » (au lieu de
+#: « Clé - valeur »), cartes de tactique séparées par « / », Faction Terrain
+#: en en-tête, apostrophe typographique dans « General’s Regiment », options
+#: sur la même ligne que l'unité (« Nom (190)  • Opt  • Opt », parfois
+#: « Nom (620) , • General »), effectif préfixé (« 6x ») et coût d'option en
+#: « (10 pts) ». `_normalize_compact` le réécrit au format standard ci-dessus
+#: plutôt que de dupliquer le parseur.
+_COMPACT_POINTS_RE = re.compile(r"^\d+\s*/\s*\d+\s*points?(?:\s*-\s*(?P<drops>\d+)\s*drops?)?$", re.IGNORECASE)
+_COMPACT_HEADERS = {
+    "spell lore": "Spell Lore",
+    "prayer lore": "Prayer Lore",
+    "manifestation lore": "Manifestation Lore",
+}
+_COMPACT_UNIT_RE = re.compile(r"^(?:\d+x\s+)?(?P<name>.+?)\s*\((?P<points>\d+)\)\s*,?\s*(?P<rest>.*)$")
+_COMPACT_PAID_OPTION_RE = re.compile(r"^(?P<name>.+?)\s*\((?P<points>\d+)\s*pts?\)$", re.IGNORECASE)
+
+
+def _compact_offset(lines: list[str]) -> int | None:
+    """Nombre de lignes de titre (0 ou 1) avant la ligne « <faction> | ... »
+    d'une liste au format compact, ou `None` si ce n'est pas ce format — un
+    joueur peut ajouter son propre titre en 1re ligne avant de la partager."""
+    nonblank = [line.strip() for line in lines if line.strip()]
+    for offset in (0, 1):
+        if len(nonblank) >= offset + 2 and _COMPACT_POINTS_RE.match(nonblank[offset + 1]):
+            return offset
+    return None
+
+
+def _is_compact(lines: list[str]) -> bool:
+    return _compact_offset(lines) is not None
+
+
+def _normalize_compact(lines: list[str], title: str | None) -> list[str]:
+    offset = _compact_offset(lines) or 0
+    nonblank = [line.strip() for line in lines if line.strip()]
+    if offset:
+        title = title or nonblank[0]
+        nonblank = nonblank[offset:]
+    faction, _, formation = nonblank[0].partition("|")
+    out = [title or nonblank[0], faction.strip()]
+    if formation.strip():
+        out.append(formation.strip())
+    m = _COMPACT_POINTS_RE.match(nonblank[1])
+    if m.group("drops"):
+        out.append(f"Drops: {m.group('drops')}")
+    terrain: list[str] = []
+    body_start = len(lines)
+    seen = 0
+    for i, raw in enumerate(lines):
+        stripped = raw.strip().replace("’", "'")
+        if not stripped:
+            continue
+        seen += 1
+        if seen <= 2 + offset:
+            continue
+        key, sep, value = stripped.partition(":")
+        key_l = key.strip().lower()
+        if sep and key_l in _COMPACT_HEADERS:
+            out.append(f"{_COMPACT_HEADERS[key_l]} - {value.strip()}")
+        elif sep and key_l == "battle tactic cards":
+            out.append("Battle Tactic Cards: " + ", ".join(c.strip() for c in re.split(r"[/,]", value) if c.strip()))
+        elif sep and key_l == "faction terrain":
+            terrain.extend(t.strip() for t in value.split(",") if t.strip())
+        else:
+            body_start = i
+            break
+    out.append("")
+    for raw in lines[body_start:]:
+        stripped = raw.strip().replace("’", "'")
+        unit = _COMPACT_UNIT_RE.match(stripped) if not _REGIMENT_HEADER_RE.match(stripped) else None
+        if unit is None:
+            out.append(stripped)
+            continue
+        out.append(f"{unit.group('name')} ({unit.group('points')})")
+        for opt in (o.strip(" ,") for o in unit.group("rest").split("•")):
+            if not opt:
+                continue
+            paid = _COMPACT_PAID_OPTION_RE.match(opt)
+            out.append(f"{_OPTION_PREFIX}{paid.group('name')} - ({paid.group('points')}) Points" if paid else f"{_OPTION_PREFIX}{opt}")
+    if terrain:
+        out += ["", "Faction Terrain", *terrain]
+    return out
 
 
 @dataclass(frozen=True)
@@ -69,9 +177,20 @@ class ParsedList:
     def base_faction(self) -> str:
         """Faction sans le suffixe d'armée de renom (ex. « Slaves to Darkness »
         pour « Slaves to Darkness | Legion of the First Prince ») — c'est ce
-        nom qui indexe `data/warscroll_index.json`, la battletome de base
-        restant la même pour une armée de renom."""
-        return self.faction.split("|", 1)[0].strip()
+        nom qui indexe `data/json/warscroll_index.json`, la battletome de base
+        restant la même pour une armée de renom.
+
+        Cas inverse pour un tome multi-factions (voir `_COMBINED_BOOK_NAMES`) :
+        le segment avant le « | » est le nom du tome, pas une faction jouable
+        — c'est celui après, une fois l'id de liste numérique retiré, qu'il
+        faut utiliser."""
+        left, sep, right = self.faction.partition("|")
+        left = left.strip()
+        if sep and left in _COMBINED_BOOK_NAMES:
+            right = _TRAILING_LIST_ID_RE.sub("", right.strip()).strip()
+            if right:
+                return right
+        return left
 
     def unique_unit_names(self) -> list[str]:
         """Noms d'unité uniques (dédoublonne p. ex. les entrées Reinforced
@@ -98,14 +217,18 @@ def _next_nonblank(lines: list[str], start: int) -> int:
     return i
 
 
-def parse_list(text: str) -> ParsedList:
+def parse_list(text: str, *, title: str | None = None) -> ParsedList:
+    """`title` ne sert qu'au format compact (sans ligne de titre, voir
+    `_normalize_compact`) ; à défaut, sa ligne « faction | formation »."""
     lines = text.splitlines()
+    if _is_compact(lines):
+        lines = _normalize_compact(lines, title)
 
     idx = _next_nonblank(lines, 0)
     title = lines[idx].strip()
     idx = _next_nonblank(lines, idx + 1)
     faction = lines[idx].strip()
-    idx += 1
+    idx = _next_nonblank(lines, idx + 1)
 
     header_keywords = (
         "General's Handbook", "Drops:", "Spell Lore -", "Prayer Lore -", "Manifestation Lore -",
@@ -155,6 +278,10 @@ def parse_list(text: str) -> ParsedList:
             battle_tactic_cards = [c.strip() for c in cards_raw.split(",") if c.strip()]
             idx += 1
             continue
+        if _NUMERIC_HEADER_RE.match(stripped):
+            # en-tête informatif sans usage ici (ex. « Wounds: 117 », Sigdex)
+            idx += 1
+            continue
         break
 
     regiments: list[Regiment] = []
@@ -177,13 +304,14 @@ def parse_list(text: str) -> ParsedList:
             while idx < len(lines) and lines[idx].strip() != "":
                 entry_raw = lines[idx]
                 entry_stripped = entry_raw.strip()
-                if entry_raw.startswith(_OPTION_PREFIX):
+                if entry_stripped.startswith(_OPTION_PREFIX):
                     if units:
-                        units[-1].options.append(entry_stripped[1:].strip())
+                        units[-1].options.append(_BARE_OPTION_COST_RE.sub(r" - (\g<points>) Points", entry_stripped[1:].strip()))
                 else:
                     m = _UNIT_RE.match(entry_stripped)
                     if m:
-                        units.append(UnitEntry(name=m.group("name"), points=int(m.group("points"))))
+                        name = _VARIANT_SUFFIX_RE.sub(r"\g<variant>: \g<name>", m.group("name"))
+                        units.append(UnitEntry(name=name, points=int(m.group("points"))))
                 idx += 1
             regiments.append(Regiment(title=regiment_title, units=units))
             continue
@@ -222,4 +350,5 @@ def parse_list(text: str) -> ParsedList:
 
 
 def parse_list_file(path: str | Path) -> ParsedList:
-    return parse_list(Path(path).read_text(encoding="utf-8"))
+    path = Path(path)
+    return parse_list(path.read_text(encoding="utf-8"), title=path.stem)

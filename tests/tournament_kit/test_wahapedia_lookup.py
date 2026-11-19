@@ -48,7 +48,7 @@ def test_find_regiment_of_renown():
     wh = load_wahapedia()
     ror = wh.find_regiment_of_renown("The Exiled One")
     assert ror is not None
-    assert ror.points == "390"
+    assert ror.points == "400"
     assert any("Skarbrand" in c for c in ror.composition)
     assert any(a.name == "HATRED FOR ALL" for a in ror.abilities)
 
@@ -84,10 +84,38 @@ def test_find_warscroll_missing_returns_none():
 
 def test_find_warscroll_tolerates_known_singular_plural_alias():
     # Wahapedia orthographie ce warscroll au singulier ("Berzerker"), alors
-    # que BSData/l'App (et donc data/faction_rules_fr.json) utilisent le
+    # que BSData/l'App (et donc data/json/faction_rules_fr.json) utilisent le
     # pluriel -- cf. _WARSCROLL_NAME_ALIASES. Sans l'alias, cette unité
     # échouait à se résoudre dans les 3 modes de `aospy roster pdf`.
     wh = load_wahapedia()
     ws = wh.find_warscroll("Hearthguard Berzerkers with Berzerker Broadaxes")
     assert ws is not None
     assert ws.faction_id == "FY"
+
+
+def test_find_warscroll_accepts_sigdex_seasonal_suffix():
+    # Sigdex exporte « Namarti Reavers (Scourge of Aqshy) » là où Wahapedia
+    # nomme le warscroll « Scourge of Aqshy Namarti Reavers ».
+    wh = load_wahapedia()
+    ws = wh.find_warscroll("Namarti Reavers (Scourge of Aqshy)")
+    assert ws is not None
+    assert ws.name == "Scourge of Aqshy Namarti Reavers"
+
+
+def test_colspan_wound_marker_renders_as_dashes():
+    """« #3 » dans `Wnd` (colspan Wahapedia, ex. Warp Lightning Blast) : pas
+    de Blessure/Perforation/Dégâts — affichés « - », jamais le marqueur brut."""
+    wh = load_wahapedia()
+    ws = wh.find_warscroll("Warp Lightning Cannon", prefer_faction="Skaven")
+    (blast,) = [w for w in ws.weapons if w.name == "Warp Lightning Blast"]
+    assert (blast.wound, blast.rend, blast.damage) == ("-", "-", "-")
+
+
+def test_find_unit_enhancement_disambiguates_homonyms_by_paid_suffix():
+    # BoK : « FRENZIED TASKMASTER » est à la fois un Trait Héroïque (gratuit)
+    # et une Mutation d'Airain (payante, nom erroné côté Wahapedia)
+    wh = load_wahapedia()
+    label, _ = wh.find_unit_enhancement("Blades of Khorne", "Frenzied Taskmaster")
+    assert label == "Trait Héroïque"
+    label, _ = wh.find_unit_enhancement("Blades of Khorne", "Frenzied Taskmaster - (10) Points")
+    assert label == "Mutation d'Airain"

@@ -1,11 +1,11 @@
 ---
 name: faction-rules-fr
-description: Curation manuelle d'une nouvelle faction (ou d'une entrée existante) dans data/faction_rules_fr.json, le vérbatim français des règles de faction et des aptitudes d'unité utilisé par les modes `fr`/`fr-extended` de `aospy roster pdf`. Utiliser quand l'utilisateur fournit un scan de battletome/faction pack (+ sa mise à jour de règles + ses règles de saison type Scourge of Aqshy) et demande de l'intégrer au mode français.
+description: Curation manuelle d'une nouvelle faction (ou d'une entrée existante) dans data/json/faction_rules_fr.json, le vérbatim français des règles de faction et des aptitudes d'unité utilisé par les modes `fr`/`fr-extended` de `aospy roster pdf`. Utiliser quand l'utilisateur fournit un scan de battletome/faction pack (+ sa mise à jour de règles + ses règles de saison type Scourge of Aqshy) et demande de l'intégrer au mode français.
 ---
 
 # Faction Rules FR
 
-`data/faction_rules_fr.json` porte, par faction, le texte français **final**
+`data/json/faction_rules_fr.json` porte, par faction, le texte français **final**
 (déjà corrigé par les erratas officiels) de chaque règle de faction et de
 chaque aptitude d'unité, pour les modes `fr`/`fr-extended` de
 `aospy roster pdf --mode ...` (`tournament_kit/translation/faction_rules_fr.py`,
@@ -34,7 +34,7 @@ le classement d'une aptitude, demander à l'utilisateur plutôt que deviner :
 c'est un document de règles de jeu, une erreur de transcription trompe le
 joueur à la table.
 
-## Format de `data/faction_rules_fr.json`
+## Format de `data/json/faction_rules_fr.json`
 
 ```json
 {
@@ -119,6 +119,16 @@ Chaque entrée d'aptitude est soit un **correctif** soit une **addition** :
 la carte rendue (`tag_ability_origin`), en plus du badge de catégorie
 existant ("Traits de Bataille"...).
 
+**BT fourni en anglais** (cas Sylvaneth, 29/10/2026 — l'utilisateur a demandé
+explicitement la traduction) : `origin: "BT (trad.)"` pour tout texte traduit
+par nos soins, afin que le joueur voie à la table que ce n'est pas un texte
+officiel. Avant de traduire, récupérer tout le vérbatim FR officiel
+disponible (Fléau d'Aqshy, Mises à jour de Règles, Armées/Régiments de Renom,
+Fer de Lance, Profils de Bataille pour les noms d'unités/formations/domaines)
+et le garder tel quel (`origin` normal). Le texte Wahapedia de ces factions
+peut être tronqué ou fusionné entre deux aptitudes : traduire depuis le scan
+du BT dans ce cas.
+
 **`scope`** (formations/domaines de sorts/prières/manifestations
 uniquement) : le nom de la formation/du domaine exact (comme
 `ParsedList.allegiance`/`.spell_lore`/`.manifestation_lore`/`.prayer_lore`)
@@ -183,13 +193,13 @@ cette catégorie.
    "Aqshy"`, addition nette si absent de Wahapedia (vérifié à l'étape 1),
    sinon correctif si Wahapedia porte déjà l'ability sous un autre texte.
 
-4. **Écrire dans `data/faction_rules_fr.json`** (fichier plat, une seule
+4. **Écrire dans `data/json/faction_rules_fr.json`** (fichier plat, une seule
    fois pour tout le projet — ajouter la faction sous `factions.<nom>` sans
    toucher aux autres factions déjà curées).
 
 5. **Valider** :
    ```bash
-   python3 -c "import json; json.load(open('data/faction_rules_fr.json'))"
+   python3 -c "import json; json.load(open('data/json/faction_rules_fr.json'))"
    ```
    puis un run réel en mode `fr` sur une liste citant la faction concernée :
    ```bash
@@ -205,7 +215,7 @@ cette catégorie.
 
 ## Portée actuelle et limites connues
 
-- `data/faction_rules_fr.json` est vide (`{"factions": {}}`) tant qu'aucune
+- `data/json/faction_rules_fr.json` est vide (`{"factions": {}}`) tant qu'aucune
   faction n'a été curée par ce skill — les modes `fr`/`fr-extended`
   dégradent alors silencieusement vers le même résultat que `en` (Wahapedia
   uniquement), sans erreur.
@@ -213,11 +223,11 @@ cette catégorie.
   prévues (PDF déjà compilés par l'utilisateur, cf. ci-dessus) — curation
   différée à une session dédiée où l'utilisateur fournit le contenu à
   transcrire, pas faite en même temps que la mise en place de ce skill.
-- `data/generic_core_abilities.json` (mode `fr-extended`, transcription
+- `data/json/generic_core_abilities.json` (mode `fr-extended`, transcription
   complète de `data/Manuel du général/MdG26-27 Aptitudes.pdf`) suit la même
   logique mais n'est **pas** dans le périmètre de ce skill — c'est un
   contenu générique partagé entre toutes les factions, pas une entrée
-  `faction_rules_fr.json` ; même forme que `data/season_rules.json`
+  `faction_rules_fr.json` ; même forme que `data/json/season_rules.json`
   (`name`/`description`/`condition`/`ability_phase`), sans `origin`/
   `provenance` (pas de correctif/addition à distinguer, tout vient du même
   PDF).
@@ -228,3 +238,40 @@ cette catégorie.
   relais en `fr`/`fr-extended` sans qu'il faille toucher à
   `_ABILITY_TEXT_OVERRIDES`, qui continuerait de s'appliquer en
   `hybrid`/`en`.
+
+## Domaines et manifestations génériques (`Endless Spells`)
+
+Les 6 domaines de manifestations partagés entre factions (Wahapedia
+`faction_id == "EnS"` : Pouvoir Interdit, Charmes Morbides, Machineries
+Éthériques, Énergie Primordiale, Sortilèges Crépusculaires, Incarnation de la
+Krondéchine) sont curés **une seule fois** sous la pseudo-faction
+`factions."Endless Spells"` (`faction_rules_fr.GENERIC_LORES_FACTION`) :
+sorts de convocation dans `rules.manifestation_lores` (avec `scope` = nom
+Wahapedia du domaine), aptitudes des chartes dans `units.<nom Wahapedia>`.
+`rules_resolution._fr_patch` y retombe quand la faction de la liste n'a rien
+pour ce `scope`, et `pdf_builder` cherche les aptitudes d'une manifestation
+invoquée sous la faction de sa charte (`"Endless Spells"`) avant celle de la
+liste. Source : `data/Manuel du général/sorts persistants - manifestations.pdf`
+(`origin: "MdG"`).
+
+## Sources officielles téléchargeables
+
+Les PDF Fléau d'Aqshy, la dernière « Mises à jour de Règles », les
+« Profils de Bataille » et les suppléments de tome de bataille sont
+téléchargeables en français depuis Warhammer Community (API
+`/api/search/downloads/`, `"language": "french"`, fichiers sur
+`assets.warhammer-community.com`) ; ils ont une couche texte. Les ranger
+dans `data/Battle tome/Download GW/`. Avant de demander un scan à
+l'utilisateur, vérifier s'ils n'y sont pas déjà.
+
+**À chaque nouvelle « Mises à jour de Règles »** : les errata sont cumulatifs,
+repasser la nouvelle version sur *toutes* les factions déjà curées, pas
+seulement celle en cours. `scripts/audit_rules_updates.py` (alias
+`tm-aospy-audit-errata`, `--old-wahapedia <ancien export>` pour le diff
+Wahapedia) trie les candidats ; il ne voit pas les remplacements d'aptitude
+entière non guillemetés, donc relire quand même les pages de chaque faction.
+
+Chartes Wahapedia à deux aptitudes homonymes ou à nom vide :
+`apply_fr_overrides` consomme les homonymes dans l'ordre et apparie une clé
+`wahapedia_name: ""` au nom vide — transcrire dans le même ordre que
+Wahapedia.

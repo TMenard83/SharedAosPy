@@ -1,6 +1,6 @@
 ---
 name: warscroll-index
-description: Curation manuelle d'une nouvelle entrée (ou correction d'une entrée existante) dans data/warscroll_index.json, l'index reliant chaque nom d'unité canonique et chaque règle de faction/carte de tactique à sa page de PDF. Utiliser quand une faction, une unité ou une section de règles n'est pas trouvée par le skill roster-pdf, ou qu'un nouveau battletome est ajouté sous data/Battle tome/.
+description: Curation manuelle d'une nouvelle entrée (ou correction d'une entrée existante) dans data/json/warscroll_index.json, l'index reliant chaque nom d'unité canonique et chaque règle de faction/carte de tactique à sa page de PDF. Utiliser quand une faction, une unité ou une section de règles n'est pas trouvée par le skill roster-pdf, ou qu'un nouveau battletome est ajouté sous data/Battle tome/.
 ---
 
 # Warscroll Index
@@ -8,13 +8,13 @@ description: Curation manuelle d'une nouvelle entrée (ou correction d'une entr�
 Les PDF de battletome (`data/Battle tome/*.pdf`) et du Manuel du général
 (`data/Manuel du général/*.pdf`) n'ont **aucun calque texte** (aplatis/
 vectorisés par GW) : impossible de chercher un nom d'unité ou de règle dans
-le texte du PDF. `data/warscroll_index.json` est donc curé à la main, une
+le texte du PDF. `data/json/warscroll_index.json` est donc curé à la main, une
 fois par PDF (ils changent rarement), sur le même principe que
-`data/army_rules.json`. La curation se fait en 3 temps : lister ce qui est
+`data/json/army_rules.json`. La curation se fait en 3 temps : lister ce qui est
 attendu, rendre les pages en image, les lire visuellement pour faire la
 correspondance.
 
-## Format de `data/warscroll_index.json`
+## Format de `data/json/warscroll_index.json`
 
 ```json
 {
@@ -137,7 +137,7 @@ manifestations, pas à une seule.
 
 4. **Valider** :
    ```bash
-   python3 -c "import json; json.load(open('data/warscroll_index.json'))"
+   python3 -c "import json; json.load(open('data/json/warscroll_index.json'))"
    ```
    puis relancer `aospy roster pdf --list <liste concernée>` (ou le skill
    `roster-pdf`) et vérifier que les éléments visés ne sont plus signalés
@@ -169,7 +169,7 @@ manifestations, pas à une seule.
   Energy, Morbid Conjuration) sont couverts en **français** par
   `data/Manuel du général/sorts persistants - manifestations.pdf` (scan
   fourni par l'utilisateur) — indexés sous `generic_manifestation_lores` à la
-  racine de `data/warscroll_index.json` (pas dans `factions/*/rules`, car
+  racine de `data/json/warscroll_index.json` (pas dans `factions/*/rules`, car
   partagés entre factions), avec pour chaque domaine `domain_pages` (la page
   de convocation) et `manifestations` (nom → pages de charte, une entrée par
   manifestation invocable). Pas besoin non plus de les curer ici sauf pour
@@ -178,6 +178,6 @@ manifestations, pas à une seule.
   battletome, mais écrire sous `generic_manifestation_lores.lores` plutôt que
   sous une faction.
 - Ce skill (curation manuelle de pages PDF) reste utile pour : étendre
-  `data/warscroll_index.json` à un nouveau battletome complet sous
+  `data/json/warscroll_index.json` à un nouveau battletome complet sous
   `data/Battle tome/`, ou corriger une entrée existante qui pointe vers la
   mauvaise page.

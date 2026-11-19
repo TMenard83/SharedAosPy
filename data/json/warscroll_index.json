@@ -1,0 +1,4644 @@
+{
+  "factions": {
+    "Lumineth Realm-lords": {
+      "file": "AOSv4 - LRL - BT - lumineth realm lord.pdf",
+      "units": [
+        {
+          "name": "Archmage Teclis and Celennar, Spirit of Hysh",
+          "pages": [
+            11
+          ]
+        },
+        {
+          "name": "Ellania and Ellathor, Eclipsian Warsages",
+          "pages": [
+            12
+          ]
+        },
+        {
+          "name": "The Light of Eltharion",
+          "pages": [
+            12
+          ]
+        },
+        {
+          "name": "Lyrior Uthralle, Warden of Ymetrica",
+          "pages": [
+            13
+          ]
+        },
+        {
+          "name": "Vanari Lord Regent on Lightcourser",
+          "pages": [
+            13
+          ]
+        },
+        {
+          "name": "Vanari Lord Regent",
+          "pages": [
+            14
+          ]
+        },
+        {
+          "name": "Scinari Enlightener",
+          "pages": [
+            15
+          ]
+        },
+        {
+          "name": "Scinari Loreseeker",
+          "pages": [
+            15
+          ]
+        },
+        {
+          "name": "Scinari Calligrave",
+          "pages": [
+            16
+          ]
+        },
+        {
+          "name": "Scinari Cathallar",
+          "pages": [
+            16
+          ]
+        },
+        {
+          "name": "Vanari Bannerblade",
+          "pages": [
+            17
+          ]
+        },
+        {
+          "name": "Vanari Auralan Wardens",
+          "pages": [
+            17
+          ]
+        },
+        {
+          "name": "Vanari Auralan Sentinels",
+          "pages": [
+            18
+          ]
+        },
+        {
+          "name": "Vanari Starshard Ballista",
+          "pages": [
+            18
+          ]
+        },
+        {
+          "name": "Vanari Bladelords",
+          "pages": [
+            19
+          ]
+        },
+        {
+          "name": "Vanari Dawnriders",
+          "pages": [
+            19
+          ]
+        },
+        {
+          "name": "Ydrilan Riverblades",
+          "pages": [
+            20
+          ]
+        },
+        {
+          "name": "Alarith Stonemage (Scourge of Aqshy)",
+          "pages": [
+            21
+          ]
+        },
+        {
+          "name": "Scinari Loreseeker (Scourge of Aqshy)",
+          "pages": [
+            21
+          ]
+        },
+        {
+          "name": "Avalenor, the Stoneheart King",
+          "pages": [
+            22
+          ]
+        },
+        {
+          "name": "Alarith Stonemage",
+          "pages": [
+            22
+          ]
+        },
+        {
+          "name": "Alarith Spirit of the Mountain",
+          "pages": [
+            23
+          ]
+        },
+        {
+          "name": "Alarith Stoneguard",
+          "pages": [
+            23
+          ]
+        },
+        {
+          "name": "Sevireth, Lord of the Seventh Wind",
+          "pages": [
+            24
+          ]
+        },
+        {
+          "name": "Hurakan Windmage",
+          "pages": [
+            24
+          ]
+        },
+        {
+          "name": "Hurakan Spirit of the Wind",
+          "pages": [
+            25
+          ]
+        },
+        {
+          "name": "Hurakan Windchargers",
+          "pages": [
+            25
+          ]
+        },
+        {
+          "name": "Shrine Luminor",
+          "pages": [
+            26
+          ]
+        }
+      ],
+      "rules": {
+        "battle_traits": [
+          2
+        ],
+        "formations": [
+          3
+        ],
+        "heroic_traits_artefacts": [
+          4
+        ],
+        "spell_lores": [
+          {
+            "name": "Lore of Hysh",
+            "pages": [
+              6
+            ]
+          },
+          {
+            "name": "Lore of the Awakened Realms",
+            "pages": [
+              7
+            ]
+          }
+        ],
+        "manifestation_lores": [
+          {
+            "name": "Manifestations of Hysh",
+            "pages": [
+              8,
+              9,
+              10
+            ]
+          }
+        ]
+      }
+    },
+    "Slaves to Darkness": {
+      "file": "AOSv4 - STD - BT - slave to darkness.pdf",
+      "units": [
+        {
+          "name": "Archaon, the Everchosen",
+          "pages": [
+            13
+          ]
+        },
+        {
+          "name": "Gaunt Summoner",
+          "pages": [
+            14
+          ]
+        },
+        {
+          "name": "Gaunt Summoner on Disc of Tzeentch",
+          "pages": [
+            14
+          ]
+        },
+        {
+          "name": "Abraxia, Spear of the Everchosen",
+          "pages": [
+            15
+          ]
+        },
+        {
+          "name": "Varanguard",
+          "pages": [
+            16
+          ]
+        },
+        {
+          "name": "Be'lakor, the Dark Master",
+          "pages": [
+            17
+          ]
+        },
+        {
+          "name": "Eternus, Blade of the First Prince",
+          "pages": [
+            18
+          ]
+        },
+        {
+          "name": "Centaurion Marshal",
+          "pages": [
+            18
+          ]
+        },
+        {
+          "name": "Daemon Prince",
+          "pages": [
+            19
+          ]
+        },
+        {
+          "name": "Chaos Lord on Daemonic Mount",
+          "pages": [
+            20
+          ]
+        },
+        {
+          "name": "Chaos Lord on Karkadrak",
+          "pages": [
+            20
+          ]
+        },
+        {
+          "name": "Chaos Lord",
+          "pages": [
+            21
+          ]
+        },
+        {
+          "name": "Exalted Hero of Chaos",
+          "pages": [
+            21
+          ]
+        },
+        {
+          "name": "Chaos Sorcerer Lord",
+          "pages": [
+            22
+          ]
+        },
+        {
+          "name": "Ogroid Myrmidon",
+          "pages": [
+            23
+          ]
+        },
+        {
+          "name": "Ogroid Theridons",
+          "pages": [
+            23
+          ]
+        },
+        {
+          "name": "Chaos Chosen",
+          "pages": [
+            24
+          ]
+        },
+        {
+          "name": "Chaos Knights",
+          "pages": [
+            24
+          ]
+        },
+        {
+          "name": "Chaos Lord on Karkadrak (Scourge of Aqshy)",
+          "pages": [
+            25
+          ]
+        },
+        {
+          "name": "Chaos Warriors (Scourge of Aqshy)",
+          "pages": [
+            25
+          ]
+        },
+        {
+          "name": "Chaos Warriors",
+          "pages": [
+            26
+          ]
+        },
+        {
+          "name": "Chaos Legionnaires",
+          "pages": [
+            26
+          ]
+        },
+        {
+          "name": "Chaos Chariot",
+          "pages": [
+            27
+          ]
+        },
+        {
+          "name": "Gorebeast Chariot",
+          "pages": [
+            28
+          ]
+        },
+        {
+          "name": "Darkoath Chieftain on Warsteed",
+          "pages": [
+            29
+          ]
+        },
+        {
+          "name": "Darkoath Chieftain",
+          "pages": [
+            29
+          ]
+        },
+        {
+          "name": "Darkoath Warqueen",
+          "pages": [
+            30
+          ]
+        },
+        {
+          "name": "Darkoath Marauders",
+          "pages": [
+            31
+          ]
+        },
+        {
+          "name": "Darkoath Fellriders",
+          "pages": [
+            31
+          ]
+        },
+        {
+          "name": "Darkoath Savagers",
+          "pages": [
+            32
+          ]
+        },
+        {
+          "name": "Darkoath Wilderfiend",
+          "pages": [
+            32
+          ]
+        },
+        {
+          "name": "Gunnar Brand",
+          "pages": [
+            33
+          ]
+        },
+        {
+          "name": "Singri Brand",
+          "pages": [
+            34
+          ]
+        },
+        {
+          "name": "The Oathsworn Kin",
+          "pages": [
+            34
+          ]
+        },
+        {
+          "name": "Mutalith Vortex Beast",
+          "pages": [
+            35
+          ]
+        },
+        {
+          "name": "Slaughterbrute",
+          "pages": [
+            35
+          ]
+        },
+        {
+          "name": "Chaos Spawn",
+          "pages": [
+            36
+          ]
+        },
+        {
+          "name": "Chaos Furies",
+          "pages": [
+            37
+          ]
+        },
+        {
+          "name": "Mindstealer Sphiranx",
+          "pages": [
+            37
+          ]
+        },
+        {
+          "name": "Fomoroid Crusher",
+          "pages": [
+            38
+          ]
+        },
+        {
+          "name": "Raptoryx",
+          "pages": [
+            38
+          ]
+        },
+        {
+          "name": "Nexus Chaotica",
+          "pages": [
+            39
+          ]
+        }
+      ],
+      "rules": {
+        "battle_traits": [
+          3
+        ],
+        "formations": [
+          4,
+          5
+        ],
+        "heroic_traits_artefacts": [
+          6
+        ],
+        "spell_lores": [
+          {
+            "name": "Lore of the Damned",
+            "pages": [
+              8
+            ]
+          }
+        ],
+        "manifestation_lores": [
+          {
+            "name": "Manifestations of Malice",
+            "pages": [
+              9,
+              10,
+              11
+            ]
+          }
+        ]
+      }
+    },
+    "Skaven": {
+      "file": "AOSv4 - BT - Ska - Skaven.pdf",
+      "units": [
+        {
+          "name": "Acolyte Globadiers",
+          "pages": [
+            19
+          ]
+        },
+        {
+          "name": "Arch-Warlock",
+          "pages": [
+            16
+          ]
+        },
+        {
+          "name": "Brood Terror",
+          "pages": [
+            30
+          ]
+        },
+        {
+          "name": "Clanrats",
+          "pages": [
+            28
+          ]
+        },
+        {
+          "name": "Clawlord",
+          "pages": [
+            27
+          ]
+        },
+        {
+          "name": "Clawlord on Gnaw-beast",
+          "pages": [
+            27
+          ]
+        },
+        {
+          "name": "Deathmaster",
+          "pages": [
+            31
+          ]
+        },
+        {
+          "name": "Deathmaster Crixxit",
+          "pages": [
+            43
+          ]
+        },
+        {
+          "name": "Doom-flayers",
+          "pages": [
+            23
+          ]
+        },
+        {
+          "name": "Doomwheel",
+          "pages": [
+            21
+          ]
+        },
+        {
+          "name": "Grey Seer",
+          "pages": [
+            14
+          ]
+        },
+        {
+          "name": "Grey Seer on Screaming Bell",
+          "pages": [
+            15
+          ]
+        },
+        {
+          "name": "Grey Seer on Screaming Bell (Scourge of Aqshy)",
+          "pages": [
+            46
+          ]
+        },
+        {
+          "name": "Gutter Runners",
+          "pages": [
+            44
+          ]
+        },
+        {
+          "name": "Hell Pit Abomination",
+          "pages": [
+            29
+          ]
+        },
+        {
+          "name": "Krittok Foulblade",
+          "pages": [
+            26
+          ]
+        },
+        {
+          "name": "Lord Skreech Verminking",
+          "pages": [
+            9
+          ]
+        },
+        {
+          "name": "Master Moulder",
+          "pages": [
+            29
+          ]
+        },
+        {
+          "name": "Night Runners",
+          "pages": [
+            44
+          ]
+        },
+        {
+          "name": "Plague Monks",
+          "pages": [
+            25
+          ]
+        },
+        {
+          "name": "Plague Priest on Plague Furnace",
+          "pages": [
+            24
+          ]
+        },
+        {
+          "name": "Plagueclaw",
+          "pages": [
+            25
+          ]
+        },
+        {
+          "name": "Plaguepack",
+          "pages": [
+            24
+          ]
+        },
+        {
+          "name": "Rat Ogors",
+          "pages": [
+            30
+          ]
+        },
+        {
+          "name": "Ratling Guns",
+          "pages": [
+            20
+          ]
+        },
+        {
+          "name": "Ratling Warpblaster",
+          "pages": [
+            22
+          ]
+        },
+        {
+          "name": "Stormfiends",
+          "pages": [
+            17
+          ]
+        },
+        {
+          "name": "Stormvermin",
+          "pages": [
+            28
+          ]
+        },
+        {
+          "name": "Thanquol on Boneripper",
+          "pages": [
+            8
+          ]
+        },
+        {
+          "name": "Verminlord Corruptor",
+          "pages": [
+            12
+          ]
+        },
+        {
+          "name": "Verminlord Corruptor (Scourge of Aqshy)",
+          "pages": [
+            46
+          ]
+        },
+        {
+          "name": "Verminlord Deceiver",
+          "pages": [
+            10
+          ]
+        },
+        {
+          "name": "Verminlord Warbringer",
+          "pages": [
+            11
+          ]
+        },
+        {
+          "name": "Verminlord Warpseer",
+          "pages": [
+            13
+          ]
+        },
+        {
+          "name": "Vizzik Skour, Prophet of the Horned Rat",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "name": "Warlock Bombardier",
+          "pages": [
+            18
+          ]
+        },
+        {
+          "name": "Warlock Engineer",
+          "pages": [
+            18
+          ]
+        },
+        {
+          "name": "Warlock Galvaneer",
+          "pages": [
+            16
+          ]
+        },
+        {
+          "name": "Warp Lightning Cannon",
+          "pages": [
+            19
+          ]
+        },
+        {
+          "name": "Warp-Grinder",
+          "pages": [
+            23
+          ]
+        },
+        {
+          "name": "Warpfire Throwers",
+          "pages": [
+            20
+          ]
+        },
+        {
+          "name": "Warplock Jezzails",
+          "pages": [
+            22
+          ]
+        },
+        {
+          "name": "Warpvolt Scourgers",
+          "pages": [
+            21
+          ]
+        }
+      ],
+      "rules": {
+        "battle_traits": [
+          1
+        ],
+        "formations": [
+          2,
+          43
+        ],
+        "heroic_traits_artefacts": [
+          3,
+          4
+        ],
+        "spell_lores": [
+          {
+            "name": "Lore of Ruin",
+            "pages": [
+              5
+            ]
+          }
+        ],
+        "manifestation_lores": [
+          {
+            "name": "Manifestations of Doom",
+            "pages": [
+              6,
+              32,
+              33
+            ]
+          }
+        ]
+      }
+    },
+    "Blades of Khorne": {
+      "file": "AOSv4 - BoK - Lames de Khorne.pdf",
+      "units": [
+        {
+          "name": "Blood Warriors",
+          "pages": [
+            21
+          ]
+        },
+        {
+          "name": "Bloodcrushers",
+          "pages": [
+            14
+          ]
+        },
+        {
+          "name": "Bloodletters",
+          "pages": [
+            12
+          ]
+        },
+        {
+          "name": "Bloodmaster, Herald of Khorne",
+          "pages": [
+            11
+          ]
+        },
+        {
+          "name": "Bloodreavers",
+          "pages": [
+            22
+          ]
+        },
+        {
+          "name": "Bloodsecrator",
+          "pages": [
+            17
+          ]
+        },
+        {
+          "name": "Bloodstoker",
+          "pages": [
+            18
+          ]
+        },
+        {
+          "name": "Bloodthirster of Insensate Rage",
+          "pages": [
+            9
+          ]
+        },
+        {
+          "name": "Bloodthirster of Unfettered Fury",
+          "pages": [
+            10
+          ]
+        },
+        {
+          "name": "Claws of Karanak",
+          "pages": [
+            16
+          ]
+        },
+        {
+          "name": "Deathbringer",
+          "pages": [
+            21
+          ]
+        },
+        {
+          "name": "Flesh Hounds",
+          "pages": [
+            15
+          ]
+        },
+        {
+          "name": "Herald of Khorne on Blood Throne",
+          "pages": [
+            13
+          ]
+        },
+        {
+          "name": "Karanak",
+          "pages": [
+            15
+          ]
+        },
+        {
+          "name": "Khorgorath",
+          "pages": [
+            18
+          ]
+        },
+        {
+          "name": "Mighty Lord of Khorne",
+          "pages": [
+            17
+          ]
+        },
+        {
+          "name": "Mighty Skullcrushers",
+          "pages": [
+            22
+          ]
+        },
+        {
+          "name": "Realmgore Ritualist",
+          "pages": [
+            19
+          ]
+        },
+        {
+          "name": "Skarbrand",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "name": "Skull Cannon",
+          "pages": [
+            14
+          ]
+        },
+        {
+          "name": "Skullgrinder",
+          "pages": [
+            20
+          ]
+        },
+        {
+          "name": "Skullreapers",
+          "pages": [
+            23
+          ]
+        },
+        {
+          "name": "Skulltaker",
+          "pages": [
+            11
+          ]
+        },
+        {
+          "name": "Slaughterpriest",
+          "pages": [
+            20
+          ]
+        },
+        {
+          "name": "Wrath of Khorne Bloodthirster",
+          "pages": [
+            8
+          ]
+        },
+        {
+          "name": "Wrathmongers",
+          "pages": [
+            23
+          ]
+        }
+      ],
+      "rules": {
+        "battle_traits": [
+          1,
+          2
+        ],
+        "formations": [
+          3
+        ],
+        "heroic_traits_artefacts": [
+          4
+        ],
+        "manifestation_lores": [
+          {
+            "name": "Judgements of Khorne",
+            "pages": [
+              6,
+              24,
+              25
+            ]
+          }
+        ]
+      }
+    },
+    "Fyreslayers": {
+      "file": "AOSv4 - STD - FP - FyreSlayers.pdf",
+      "units": [
+        {
+          "name": "Auric Flamekeeper",
+          "pages": [
+            15
+          ]
+        },
+        {
+          "name": "Auric Hearthguard",
+          "pages": [
+            20
+          ]
+        },
+        {
+          "name": "Auric Runefather",
+          "pages": [
+            9
+          ]
+        },
+        {
+          "name": "Auric Runefather on Magmadroth",
+          "pages": [
+            6
+          ]
+        },
+        {
+          "name": "Auric Runemaster",
+          "pages": [
+            12
+          ]
+        },
+        {
+          "name": "Auric Runesmiter",
+          "pages": [
+            11
+          ]
+        },
+        {
+          "name": "Auric Runesmiter on Magmadroth",
+          "pages": [
+            8
+          ]
+        },
+        {
+          "name": "Auric Runeson",
+          "pages": [
+            10
+          ]
+        },
+        {
+          "name": "Auric Runeson on Magmadroth",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "name": "Battlesmith",
+          "pages": [
+            13
+          ]
+        },
+        {
+          "name": "Doomseeker",
+          "pages": [
+            16
+          ]
+        },
+        {
+          "name": "Grimhold Exile",
+          "pages": [
+            17
+          ]
+        },
+        {
+          "name": "Grimwrath Berzerker",
+          "pages": [
+            14
+          ]
+        },
+        {
+          "name": "Hearthguard Berzerkers with Berzerker Broadaxes",
+          "pages": [
+            23
+          ]
+        },
+        {
+          "name": "Hearthguard Berzerkers with Flamestrike Poleaxes",
+          "pages": [
+            22
+          ]
+        },
+        {
+          "name": "Vulkite Berzerkers with Bladed Slingshields",
+          "pages": [
+            18
+          ]
+        },
+        {
+          "name": "Vulkite Berzerkers with Fyresteel Weapons",
+          "pages": [
+            19
+          ]
+        },
+        {
+          "name": "Vulkyn Flameseekers",
+          "pages": [
+            21
+          ]
+        }
+      ],
+      "rules": {
+        "battle_traits": [
+          1
+        ],
+        "formations": [
+          2
+        ],
+        "heroic_traits_artefacts": [
+          3
+        ],
+        "manifestation_lores": [
+          {
+            "name": "Magmic Invocations",
+            "pages": [
+              5,
+              24,
+              25,
+              26
+            ]
+          }
+        ]
+      }
+    },
+    "Seraphon": {
+      "file": "AOSv4 - STD - FP - seraphon.pdf",
+      "units": [
+        {
+          "name": "Aggradon Lancers",
+          "pages": [
+            11
+          ]
+        },
+        {
+          "name": "Bastiladon with Ark of Sotek",
+          "pages": [
+            23
+          ]
+        },
+        {
+          "name": "Bastiladon with Solar Engine",
+          "pages": [
+            24
+          ]
+        },
+        {
+          "name": "Engine of the Gods",
+          "pages": [
+            31
+          ]
+        },
+        {
+          "name": "Hunters of Huanchi with Dartpipes",
+          "pages": [
+            20
+          ]
+        },
+        {
+          "name": "Hunters of Huanchi with Starstone Bolas",
+          "pages": [
+            21
+          ]
+        },
+        {
+          "name": "Kroxigor",
+          "pages": [
+            35
+          ]
+        },
+        {
+          "name": "Kroxigor Warspawned",
+          "pages": [
+            34
+          ]
+        },
+        {
+          "name": "Lord Kroak",
+          "pages": [
+            6
+          ]
+        },
+        {
+          "name": "Raptadon Chargers",
+          "pages": [
+            19
+          ]
+        },
+        {
+          "name": "Raptadon Hunters",
+          "pages": [
+            18
+          ]
+        },
+        {
+          "name": "Ripperdactyl Chief",
+          "pages": [
+            27
+          ]
+        },
+        {
+          "name": "Ripperdactyl Riders",
+          "pages": [
+            28
+          ]
+        },
+        {
+          "name": "Saurus Astrolith Bearer",
+          "pages": [
+            33
+          ]
+        },
+        {
+          "name": "Saurus Guard",
+          "pages": [
+            14
+          ]
+        },
+        {
+          "name": "Saurus Oldblood",
+          "pages": [
+            37
+          ]
+        },
+        {
+          "name": "Saurus Oldblood on Carnosaur",
+          "pages": [
+            9
+          ]
+        },
+        {
+          "name": "Saurus Scar-Veteran on Aggradon",
+          "pages": [
+            10
+          ]
+        },
+        {
+          "name": "Saurus Scar-Veteran on Carnosaur",
+          "pages": [
+            36
+          ]
+        },
+        {
+          "name": "Saurus Warriors",
+          "pages": [
+            13
+          ]
+        },
+        {
+          "name": "Skink Oracle on Troglodon",
+          "pages": [
+            8
+          ]
+        },
+        {
+          "name": "Skink Starpriest",
+          "pages": [
+            15
+          ]
+        },
+        {
+          "name": "Skink Starseer",
+          "pages": [
+            14
+          ]
+        },
+        {
+          "name": "Skinks",
+          "pages": [
+            16
+          ]
+        },
+        {
+          "name": "Slann Starmaster",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "name": "Spawn of Chotec",
+          "pages": [
+            17
+          ]
+        },
+        {
+          "name": "Stegadon",
+          "pages": [
+            30
+          ]
+        },
+        {
+          "name": "Stegadon Chief",
+          "pages": [
+            29
+          ]
+        },
+        {
+          "name": "Terradon Chief",
+          "pages": [
+            25
+          ]
+        },
+        {
+          "name": "Terradon Riders",
+          "pages": [
+            26
+          ]
+        },
+        {
+          "name": "Terrawings",
+          "pages": [
+            22
+          ]
+        }
+      ],
+      "rules": {
+        "battle_traits": [
+          1
+        ],
+        "formations": [
+          2
+        ],
+        "heroic_traits_artefacts": [
+          3
+        ],
+        "spell_lores": [
+          {
+            "name": "Lore of Celestial Manipulation",
+            "pages": [
+              4
+            ]
+          },
+          {
+            "name": "Lore of Primal Jungles",
+            "pages": [
+              5
+            ]
+          }
+        ]
+      }
+    },
+    "Cities of Sigmar": {
+      "file": "AOSv4 - CoS - Citées de Sigmar.pdf",
+      "units": [
+        {
+          "name": "Alchemite Warforger",
+          "pages": [
+            12
+          ]
+        },
+        {
+          "name": "Amethyst Knellmage",
+          "pages": [
+            13
+          ]
+        },
+        {
+          "name": "Aqshian Pyrocaster",
+          "pages": [
+            13
+          ]
+        },
+        {
+          "name": "Assassin",
+          "pages": [
+            17
+          ]
+        },
+        {
+          "name": "Battlemage",
+          "pages": [
+            49
+          ]
+        },
+        {
+          "name": "Battlemage on Celestial Hurricanum",
+          "pages": [
+            51
+          ]
+        },
+        {
+          "name": "Battlemage on Griffon",
+          "pages": [
+            49
+          ]
+        },
+        {
+          "name": "Battlemage on Luminark of Hysh",
+          "pages": [
+            50
+          ]
+        },
+        {
+          "name": "Black Ark Corsairs",
+          "pages": [
+            60
+          ]
+        },
+        {
+          "name": "Black Ark Fleetmaster",
+          "pages": [
+            60
+          ]
+        },
+        {
+          "name": "Black Guard",
+          "pages": [
+            63
+          ]
+        },
+        {
+          "name": "Bleakswords",
+          "pages": [
+            65
+          ]
+        },
+        {
+          "name": "Callis and Toll",
+          "pages": [
+            15
+          ]
+        },
+        {
+          "name": "Cannonade Cogfort",
+          "pages": [
+            22
+          ]
+        },
+        {
+          "name": "Celestial Hurricanum",
+          "pages": [
+            51
+          ]
+        },
+        {
+          "name": "Cogsmith",
+          "pages": [
+            54
+          ]
+        },
+        {
+          "name": "Conqueror Cogfort",
+          "pages": [
+            23
+          ]
+        },
+        {
+          "name": "Dark Riders",
+          "pages": [
+            57
+          ]
+        },
+        {
+          "name": "Darkshards",
+          "pages": [
+            64
+          ]
+        },
+        {
+          "name": "Drakespawn Chariot",
+          "pages": [
+            59
+          ]
+        },
+        {
+          "name": "Drakespawn Knights",
+          "pages": [
+            58
+          ]
+        },
+        {
+          "name": "Dreadlord on Black Dragon",
+          "pages": [
+            58
+          ]
+        },
+        {
+          "name": "Dreadspears",
+          "pages": [
+            64
+          ]
+        },
+        {
+          "name": "Erasmus Zonn, the Enlightened One",
+          "pages": [
+            12
+          ]
+        },
+        {
+          "name": "Executioners",
+          "pages": [
+            65
+          ]
+        },
+        {
+          "name": "Flagellants",
+          "pages": [
+            48
+          ]
+        },
+        {
+          "name": "Freeguild Cavalier-Marshal",
+          "pages": [
+            10
+          ]
+        },
+        {
+          "name": "Freeguild Cavaliers",
+          "pages": [
+            18
+          ]
+        },
+        {
+          "name": "Freeguild Command Corps",
+          "pages": [
+            16
+          ]
+        },
+        {
+          "name": "Freeguild Fusiliers",
+          "pages": [
+            21
+          ]
+        },
+        {
+          "name": "Freeguild Gallants",
+          "pages": [
+            19
+          ]
+        },
+        {
+          "name": "Freeguild Grenadiers",
+          "pages": [
+            19
+          ]
+        },
+        {
+          "name": "Freeguild Marshal and Relic Envoy",
+          "pages": [
+            10
+          ]
+        },
+        {
+          "name": "Freeguild Marshal on Griffon",
+          "pages": [
+            46
+          ]
+        },
+        {
+          "name": "Freeguild Steelhelms",
+          "pages": [
+            18
+          ]
+        },
+        {
+          "name": "Fusil-Major on Ogor Warhulk",
+          "pages": [
+            20
+          ]
+        },
+        {
+          "name": "Galen and Doralia ven Denst",
+          "pages": [
+            14
+          ]
+        },
+        {
+          "name": "Gate Gargants",
+          "pages": [
+            24
+          ]
+        },
+        {
+          "name": "Gyrobomber",
+          "pages": [
+            53
+          ]
+        },
+        {
+          "name": "Gyrocopter",
+          "pages": [
+            54
+          ]
+        },
+        {
+          "name": "Hammerers",
+          "pages": [
+            56
+          ]
+        },
+        {
+          "name": "Ironbreakers",
+          "pages": [
+            55
+          ]
+        },
+        {
+          "name": "Irondrakes",
+          "pages": [
+            55
+          ]
+        },
+        {
+          "name": "Ironweld Great Cannon",
+          "pages": [
+            20
+          ]
+        },
+        {
+          "name": "Jorvan Kreel, Heir of the Kraken",
+          "pages": [
+            11
+          ]
+        },
+        {
+          "name": "Kharibdyss",
+          "pages": [
+            61
+          ]
+        },
+        {
+          "name": "Longbeards",
+          "pages": [
+            56
+          ]
+        },
+        {
+          "name": "Luminark of Hysh",
+          "pages": [
+            50
+          ]
+        },
+        {
+          "name": "Mallus Forgepriest",
+          "pages": [
+            11
+          ]
+        },
+        {
+          "name": "Pontifex Zenestra, Matriarch of the Great Wheel",
+          "pages": [
+            9
+          ]
+        },
+        {
+          "name": "Runelord",
+          "pages": [
+            52
+          ]
+        },
+        {
+          "name": "Scourgerunner Chariot",
+          "pages": [
+            61
+          ]
+        },
+        {
+          "name": "Sorceress",
+          "pages": [
+            63
+          ]
+        },
+        {
+          "name": "Sorceress on Black Dragon",
+          "pages": [
+            62
+          ]
+        },
+        {
+          "name": "Steam Tank",
+          "pages": [
+            48
+          ]
+        },
+        {
+          "name": "Steam Tank Commander",
+          "pages": [
+            47
+          ]
+        },
+        {
+          "name": "Tahlia Vedra, Lioness of the Parch",
+          "pages": [
+            8
+          ]
+        },
+        {
+          "name": "Toll's Companions",
+          "pages": [
+            15
+          ]
+        },
+        {
+          "name": "War Hydra",
+          "pages": [
+            59
+          ]
+        },
+        {
+          "name": "Warden King",
+          "pages": [
+            52
+          ]
+        },
+        {
+          "name": "Wildercorps Hunters",
+          "pages": [
+            21
+          ]
+        }
+      ],
+      "rules": {
+        "battle_traits": [
+          1
+        ],
+        "formations": [
+          3,
+          45
+        ],
+        "heroic_traits_artefacts": [
+          4,
+          5
+        ],
+        "spell_lores": [
+          {
+            "name": "Spells of the Collegiate Arcane",
+            "pages": [
+              6
+            ]
+          }
+        ]
+      }
+    },
+    "Flesh-eater Courts": {
+      "file": "AoSv4 - BT - FEC - Flesh-Eater Court.pdf",
+      "units": [
+        {
+          "name": "Nagash, Supreme Lord of the Undead",
+          "pages": [
+            9
+          ]
+        },
+        {
+          "name": "Ushoran, Mortarch of Delusion",
+          "pages": [
+            10
+          ]
+        },
+        {
+          "name": "Abhorrant Ghoul King on Royal Terrorgheist",
+          "pages": [
+            11
+          ]
+        },
+        {
+          "name": "Royal Terrorgheist",
+          "pages": [
+            12
+          ]
+        },
+        {
+          "name": "Abhorrant Ghoul King on Royal Zombie Dragon",
+          "pages": [
+            13
+          ]
+        },
+        {
+          "name": "Royal Zombie Dragon",
+          "pages": [
+            14
+          ]
+        },
+        {
+          "name": "Grand Justice Gormayne",
+          "pages": [
+            15
+          ]
+        },
+        {
+          "name": "Abhorrant Archregent",
+          "pages": [
+            15
+          ]
+        },
+        {
+          "name": "High Falconer Felgryn",
+          "pages": [
+            16
+          ]
+        },
+        {
+          "name": "Abhorrant Ghoul King",
+          "pages": [
+            17
+          ]
+        },
+        {
+          "name": "Abhorrant Gorewarden",
+          "pages": [
+            17
+          ]
+        },
+        {
+          "name": "Abhorrant Cardinal",
+          "pages": [
+            18
+          ]
+        },
+        {
+          "name": "Marrowscroll Herald",
+          "pages": [
+            18
+          ]
+        },
+        {
+          "name": "Royal Decapitator",
+          "pages": [
+            19
+          ]
+        },
+        {
+          "name": "Varghulf Courtier",
+          "pages": [
+            19
+          ]
+        },
+        {
+          "name": "Cryptguard",
+          "pages": [
+            20
+          ]
+        },
+        {
+          "name": "Morbheg Knights",
+          "pages": [
+            20
+          ]
+        },
+        {
+          "name": "Crypt Haunter Courtier",
+          "pages": [
+            21
+          ]
+        },
+        {
+          "name": "Crypt Ghouls",
+          "pages": [
+            22
+          ]
+        },
+        {
+          "name": "Crypt Horrors",
+          "pages": [
+            22
+          ]
+        },
+        {
+          "name": "Crypt Infernal Courtier",
+          "pages": [
+            23
+          ]
+        },
+        {
+          "name": "Crypt Flayers",
+          "pages": [
+            23
+          ]
+        },
+        {
+          "name": "Royal Beastflayers",
+          "pages": [
+            24
+          ]
+        }
+      ],
+      "rules": {
+        "battle_traits": [
+          1
+        ],
+        "formations": [
+          3
+        ],
+        "heroic_traits_artefacts": [
+          5
+        ],
+        "spell_lores": [
+          {
+            "name": "Lore of Madness",
+            "pages": [
+              6
+            ]
+          }
+        ],
+        "manifestation_lores": [
+          {
+            "name": "Manifested Insanity",
+            "pages": [
+              8,
+              25,
+              26
+            ]
+          }
+        ]
+      }
+    },
+    "Stormcast Eternals": {
+      "file": "AoSv4 - BT - SCE - Stormcast Eternals.pdf",
+      "units": [
+        {
+          "name": "Celestant-Prime, Hammer of Sigmar",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "name": "Yndrasta, the Celestial Spear",
+          "pages": [
+            8
+          ]
+        },
+        {
+          "name": "Karazai the Scarred",
+          "pages": [
+            9
+          ]
+        },
+        {
+          "name": "Krondys, Son of Dracothion",
+          "pages": [
+            10
+          ]
+        },
+        {
+          "name": "Iridan the Witness",
+          "pages": [
+            11
+          ]
+        },
+        {
+          "name": "Neave Blacktalon",
+          "pages": [
+            12
+          ]
+        },
+        {
+          "name": "Lord-Commander Bastian Carthalos",
+          "pages": [
+            14
+          ]
+        },
+        {
+          "name": "Vandus Hammerhand",
+          "pages": [
+            14
+          ]
+        },
+        {
+          "name": "Gardus Steel Soul",
+          "pages": [
+            15
+          ]
+        },
+        {
+          "name": "Tornus the Redeemed",
+          "pages": [
+            15
+          ]
+        },
+        {
+          "name": "Lord-Celestant",
+          "pages": [
+            16
+          ]
+        },
+        {
+          "name": "Lord-Celestant on Dracoth",
+          "pages": [
+            16
+          ]
+        },
+        {
+          "name": "Lord-Imperatant",
+          "pages": [
+            17
+          ]
+        },
+        {
+          "name": "Lord-Relictor",
+          "pages": [
+            17
+          ]
+        },
+        {
+          "name": "Knight-Arcanum",
+          "pages": [
+            19
+          ]
+        },
+        {
+          "name": "Knight-Judicator with Gryph-hounds",
+          "pages": [
+            19
+          ]
+        },
+        {
+          "name": "Knight-Relictor",
+          "pages": [
+            20
+          ]
+        },
+        {
+          "name": "Knight-Vexillor",
+          "pages": [
+            20
+          ]
+        },
+        {
+          "name": "Knight-Questor",
+          "pages": [
+            21
+          ]
+        },
+        {
+          "name": "Praetors",
+          "pages": [
+            22
+          ]
+        },
+        {
+          "name": "Prosecutors",
+          "pages": [
+            22
+          ]
+        },
+        {
+          "name": "Stormstrike Palladors",
+          "pages": [
+            23
+          ]
+        },
+        {
+          "name": "Stormstrike Chariot",
+          "pages": [
+            23
+          ]
+        },
+        {
+          "name": "Vigilors",
+          "pages": [
+            24
+          ]
+        },
+        {
+          "name": "Liberators",
+          "pages": [
+            24
+          ]
+        },
+        {
+          "name": "Vanquishers",
+          "pages": [
+            25
+          ]
+        },
+        {
+          "name": "Vindictors",
+          "pages": [
+            25
+          ]
+        },
+        {
+          "name": "Questor Soulsworn",
+          "pages": [
+            26
+          ]
+        },
+        {
+          "name": "Stormcoven",
+          "pages": [
+            26
+          ]
+        },
+        {
+          "name": "Annihilators",
+          "pages": [
+            27
+          ]
+        },
+        {
+          "name": "Annihilators with Meteoric Grandhammers",
+          "pages": [
+            27
+          ]
+        },
+        {
+          "name": "Lord-Celestant on Stardrake",
+          "pages": [
+            28
+          ]
+        },
+        {
+          "name": "Drakesworn Templar",
+          "pages": [
+            30
+          ]
+        },
+        {
+          "name": "Dracothian Guard Concussors",
+          "pages": [
+            31
+          ]
+        },
+        {
+          "name": "Dracothian Guard Desolators",
+          "pages": [
+            31
+          ]
+        },
+        {
+          "name": "Dracothian Guard Fulminators",
+          "pages": [
+            32
+          ]
+        },
+        {
+          "name": "Dracothian Guard Tempestors",
+          "pages": [
+            32
+          ]
+        },
+        {
+          "name": "Knight-Draconis",
+          "pages": [
+            33
+          ]
+        },
+        {
+          "name": "Stormdrake Guard",
+          "pages": [
+            33
+          ]
+        },
+        {
+          "name": "Lord-Aquilor",
+          "pages": [
+            34
+          ]
+        },
+        {
+          "name": "Vanguard-Hunters",
+          "pages": [
+            34
+          ]
+        },
+        {
+          "name": "Vanguard-Palladors with Shock Handaxes",
+          "pages": [
+            35
+          ]
+        },
+        {
+          "name": "Vanguard-Palladors with Starstrike Javelins",
+          "pages": [
+            35
+          ]
+        },
+        {
+          "name": "Vanguard-Raptors with Longstrike Crossbows",
+          "pages": [
+            36
+          ]
+        },
+        {
+          "name": "Aetherwings",
+          "pages": [
+            36
+          ]
+        },
+        {
+          "name": "Vanguard-Raptors with Hurricane Crossbows",
+          "pages": [
+            37
+          ]
+        },
+        {
+          "name": "Gryph-hounds",
+          "pages": [
+            37
+          ]
+        },
+        {
+          "name": "Lord-Vigilant on Morrgryph",
+          "pages": [
+            38
+          ]
+        },
+        {
+          "name": "Knight-Azyros",
+          "pages": [
+            38
+          ]
+        },
+        {
+          "name": "Lord-Vigilant on Gryph-stalker",
+          "pages": [
+            39
+          ]
+        },
+        {
+          "name": "Lord-Terminos",
+          "pages": [
+            39
+          ]
+        },
+        {
+          "name": "Lord-Veritant",
+          "pages": [
+            40
+          ]
+        },
+        {
+          "name": "Reclusians",
+          "pages": [
+            40
+          ]
+        }
+      ],
+      "rules": {
+        "battle_traits": [
+          1
+        ],
+        "formations": [
+          2
+        ],
+        "heroic_traits_artefacts": [
+          3
+        ],
+        "spell_lores": [
+          {
+            "name": "Lore of the Storm",
+            "pages": [
+              4
+            ]
+          }
+        ],
+        "manifestation_lores": [
+          {
+            "name": "Manifestations of the Storm",
+            "pages": [
+              6,
+              41,
+              42
+            ]
+          }
+        ]
+      }
+    },
+    "Maggotkin of Nurgle": {
+      "file": "AoSv4 - BT- MON - Maggotkin of Nurgle.pdf",
+      "units": [
+        {
+          "name": "Rotigus",
+          "pages": [
+            8
+          ]
+        },
+        {
+          "name": "Great Unclean One",
+          "pages": [
+            9
+          ]
+        },
+        {
+          "name": "Spoilpox Scrivener, Herald of Nurgle",
+          "pages": [
+            10
+          ]
+        },
+        {
+          "name": "Sloppity Bilepiper, Herald of Nurgle",
+          "pages": [
+            10
+          ]
+        },
+        {
+          "name": "Harbinger of Decay",
+          "pages": [
+            11
+          ]
+        },
+        {
+          "name": "Plaguebearers",
+          "pages": [
+            12
+          ]
+        },
+        {
+          "name": "Nurglings",
+          "pages": [
+            12
+          ]
+        },
+        {
+          "name": "Horticulous Slimux",
+          "pages": [
+            13
+          ]
+        },
+        {
+          "name": "Beast of Nurgle",
+          "pages": [
+            14
+          ]
+        },
+        {
+          "name": "Plague Drones",
+          "pages": [
+            14
+          ]
+        },
+        {
+          "name": "Festus the Leechlord",
+          "pages": [
+            15
+          ]
+        },
+        {
+          "name": "The Glottkin",
+          "pages": [
+            17
+          ]
+        },
+        {
+          "name": "Bloab Rotspawned",
+          "pages": [
+            18
+          ]
+        },
+        {
+          "name": "Orghotts Daemonspew",
+          "pages": [
+            18
+          ]
+        },
+        {
+          "name": "Morbidex Twiceborn",
+          "pages": [
+            19
+          ]
+        },
+        {
+          "name": "Gelgus Pust, the Prince of Sores",
+          "pages": [
+            20
+          ]
+        },
+        {
+          "name": "Gutrot Spume",
+          "pages": [
+            20
+          ]
+        },
+        {
+          "name": "Lord of Afflictions",
+          "pages": [
+            21
+          ]
+        },
+        {
+          "name": "Poxbringer, Herald of Nurgle",
+          "pages": [
+            21
+          ]
+        },
+        {
+          "name": "Lord of Plagues",
+          "pages": [
+            22
+          ]
+        },
+        {
+          "name": "Lord of Blights",
+          "pages": [
+            22
+          ]
+        },
+        {
+          "name": "Rotbringer Sorcerer",
+          "pages": [
+            23
+          ]
+        },
+        {
+          "name": "Belga the Cystwitch",
+          "pages": [
+            23
+          ]
+        },
+        {
+          "name": "Putrid Blightkings",
+          "pages": [
+            24
+          ]
+        },
+        {
+          "name": "Rotmire Creed",
+          "pages": [
+            24
+          ]
+        },
+        {
+          "name": "Rotswords",
+          "pages": [
+            25
+          ]
+        },
+        {
+          "name": "Pusgoyle Blightlords",
+          "pages": [
+            26
+          ]
+        },
+        {
+          "name": "Sloven Knights",
+          "pages": [
+            26
+          ]
+        },
+        {
+          "name": "Pestigors",
+          "pages": [
+            27
+          ]
+        },
+        {
+          "name": "Shaman Foulhoof",
+          "pages": [
+            27
+          ]
+        },
+        {
+          "name": "Cankerborn",
+          "pages": [
+            28
+          ]
+        },
+        {
+          "name": "Pox-Wretches",
+          "pages": [
+            28
+          ]
+        }
+      ],
+      "rules": {
+        "battle_traits": [
+          1
+        ],
+        "formations": [
+          2
+        ],
+        "heroic_traits_artefacts": [
+          3,
+          4
+        ],
+        "spell_lores": [
+          {
+            "name": "Lore of Malignance",
+            "pages": [
+              5
+            ]
+          }
+        ]
+      }
+    },
+    "Disciples of Tzeentch": {
+      "file": "AoSv4 - BT - DoT - Disciples of Tzeentch.pdf",
+      "units": [
+        {
+          "name": "Blue Horrors and Brimstone Horrors",
+          "pages": [
+            13
+          ]
+        },
+        {
+          "name": "Burning Chariot of Tzeentch",
+          "pages": [
+            11
+          ]
+        },
+        {
+          "name": "Changecaster, Herald of Tzeentch",
+          "pages": [
+            10
+          ]
+        },
+        {
+          "name": "Chaos Spawn of Tzeentch",
+          "pages": [
+            23
+          ]
+        },
+        {
+          "name": "Curseling, Eye of Tzeentch",
+          "pages": [
+            19
+          ]
+        },
+        {
+          "name": "Exalted Flamer of Tzeentch",
+          "pages": [
+            11
+          ]
+        },
+        {
+          "name": "Fatemaster",
+          "pages": [
+            16
+          ]
+        },
+        {
+          "name": "Fateskimmer, Herald of Tzeentch on Burning Chariot",
+          "pages": [
+            10
+          ]
+        },
+        {
+          "name": "Flamers of Tzeentch",
+          "pages": [
+            12
+          ]
+        },
+        {
+          "name": "Gaunt Summoner",
+          "pages": [
+            15
+          ]
+        },
+        {
+          "name": "Gaunt Summoner on Disc of Tzeentch",
+          "pages": [
+            14
+          ]
+        },
+        {
+          "name": "Jade Obelisk",
+          "pages": [
+            23
+          ]
+        },
+        {
+          "name": "Kairic Acolytes",
+          "pages": [
+            22
+          ]
+        },
+        {
+          "name": "Kairos Fateweaver",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "name": "Lord of Change",
+          "pages": [
+            8
+          ]
+        },
+        {
+          "name": "Magister",
+          "pages": [
+            17
+          ]
+        },
+        {
+          "name": "Magister on Disc of Tzeentch",
+          "pages": [
+            17
+          ]
+        },
+        {
+          "name": "Ogroid Thaumaturge",
+          "pages": [
+            18
+          ]
+        },
+        {
+          "name": "Pink Horrors",
+          "pages": [
+            13
+          ]
+        },
+        {
+          "name": "Screamers of Tzeentch",
+          "pages": [
+            12
+          ]
+        },
+        {
+          "name": "The Changeling",
+          "pages": [
+            9
+          ]
+        },
+        {
+          "name": "Tzaangor Enlightened",
+          "pages": [
+            21
+          ]
+        },
+        {
+          "name": "Tzaangor Shaman",
+          "pages": [
+            20
+          ]
+        },
+        {
+          "name": "Tzaangor Skyfires",
+          "pages": [
+            21
+          ]
+        },
+        {
+          "name": "Tzaangors",
+          "pages": [
+            20
+          ]
+        },
+        {
+          "name": "Ogroid Thaumaturge (Scourge of Aqshy)",
+          "pages": [
+            1
+          ],
+          "file": "fre_01-07_warhammer_age_of_sigmar_scourge_of_aqshy_disciples_of_tzeentch-otc2ec3zeh-avx4zsfbno.pdf"
+        },
+        {
+          "name": "Screamers of Tzeentch (Scourge of Aqshy)",
+          "pages": [
+            1
+          ],
+          "file": "fre_01-07_warhammer_age_of_sigmar_scourge_of_aqshy_disciples_of_tzeentch-otc2ec3zeh-avx4zsfbno.pdf"
+        }
+      ],
+      "rules": {
+        "battle_traits": [
+          1
+        ],
+        "formations": [
+          2
+        ],
+        "heroic_traits_artefacts": [
+          3,
+          4
+        ],
+        "spell_lores": [
+          {
+            "name": "Lore of Fate",
+            "pages": [
+              5
+            ]
+          },
+          {
+            "name": "Lore of Change",
+            "pages": [
+              5
+            ]
+          }
+        ],
+        "manifestation_lores": [
+          {
+            "name": "Manifestations of Tzeentch",
+            "pages": [
+              6,
+              24,
+              25
+            ]
+          }
+        ]
+      }
+    },
+    "Nighthaunt": {
+      "file": "AoSv4 - BT - NH - Nighthaunt.pdf",
+      "units": [
+        {
+          "name": "Awlrach the Drowner",
+          "pages": [
+            10
+          ]
+        },
+        {
+          "name": "Black Coach",
+          "pages": [
+            23
+          ]
+        },
+        {
+          "name": "Bladegheist Revenants",
+          "pages": [
+            19
+          ]
+        },
+        {
+          "name": "Chainghasts",
+          "pages": [
+            16
+          ]
+        },
+        {
+          "name": "Chainrasps",
+          "pages": [
+            17
+          ]
+        },
+        {
+          "name": "Craventhrone Guard",
+          "pages": [
+            19
+          ]
+        },
+        {
+          "name": "Dreadblade Harrows",
+          "pages": [
+            22
+          ]
+        },
+        {
+          "name": "Dreadscythe Harridans",
+          "pages": [
+            21
+          ]
+        },
+        {
+          "name": "Grimghast Reapers",
+          "pages": [
+            17
+          ]
+        },
+        {
+          "name": "Guardian of Souls",
+          "pages": [
+            14
+          ]
+        },
+        {
+          "name": "Hexwraiths",
+          "pages": [
+            22
+          ]
+        },
+        {
+          "name": "Knight of Shrouds",
+          "pages": [
+            13
+          ]
+        },
+        {
+          "name": "Knight of Shrouds on Ethereal Steed",
+          "pages": [
+            13
+          ]
+        },
+        {
+          "name": "Krulghast Cruciator",
+          "pages": [
+            14
+          ]
+        },
+        {
+          "name": "Kurdoss Valentian, the Craven King",
+          "pages": [
+            9
+          ]
+        },
+        {
+          "name": "Lady Olynder, Mortarch of Grief",
+          "pages": [
+            8
+          ]
+        },
+        {
+          "name": "Lord Executioner",
+          "pages": [
+            15
+          ]
+        },
+        {
+          "name": "Lord Vitriolic",
+          "pages": [
+            12
+          ]
+        },
+        {
+          "name": "Myrmourn Banshees",
+          "pages": [
+            21
+          ]
+        },
+        {
+          "name": "Nagash, Supreme Lord of the Undead",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "name": "Pyregheists",
+          "pages": [
+            18
+          ]
+        },
+        {
+          "name": "Reikenor the Grimhailer",
+          "pages": [
+            11
+          ]
+        },
+        {
+          "name": "Scriptor Mortis",
+          "pages": [
+            11
+          ]
+        },
+        {
+          "name": "Spirit Hosts",
+          "pages": [
+            20
+          ]
+        },
+        {
+          "name": "Spirit Torment",
+          "pages": [
+            16
+          ]
+        },
+        {
+          "name": "Black Coach (Scourge of Aqshy)",
+          "pages": [
+            1
+          ],
+          "file": "fre_02-07_warhammer_age_of_sigmar_scourge_of_aqshy_nighthaunt-f5x7u8cc9k-1kj0g2egr7.pdf"
+        },
+        {
+          "name": "Spirit Hosts (Scourge of Aqshy)",
+          "pages": [
+            1
+          ],
+          "file": "fre_02-07_warhammer_age_of_sigmar_scourge_of_aqshy_nighthaunt-f5x7u8cc9k-1kj0g2egr7.pdf"
+        }
+      ],
+      "rules": {
+        "battle_traits": [
+          1
+        ],
+        "formations": [
+          2
+        ],
+        "heroic_traits_artefacts": [
+          3,
+          4
+        ],
+        "spell_lores": [
+          {
+            "name": "Lore of the Underworlds",
+            "pages": [
+              5
+            ]
+          }
+        ],
+        "manifestation_lores": [
+          {
+            "name": "Infernal Sorceries",
+            "pages": [
+              6,
+              24,
+              25
+            ]
+          }
+        ]
+      }
+    },
+    "Soulblight Gravelords": {
+      "file": "AoSv4 - BT - SBGL - Soulblight gravelords.pdf",
+      "units": [
+        {
+          "name": "Askurgan Trueblades",
+          "pages": [
+            20
+          ]
+        },
+        {
+          "name": "Barrow Guard",
+          "pages": [
+            25
+          ]
+        },
+        {
+          "name": "Barrow Knights",
+          "pages": [
+            25
+          ]
+        },
+        {
+          "name": "Belladamma Volga, First of the Vyrkos",
+          "pages": [
+            15
+          ]
+        },
+        {
+          "name": "Blades of the Hollow King",
+          "pages": [
+            12
+          ]
+        },
+        {
+          "name": "Blood Knights",
+          "pages": [
+            19
+          ]
+        },
+        {
+          "name": "Corpse Cart",
+          "pages": [
+            27
+          ]
+        },
+        {
+          "name": "Coven Throne",
+          "pages": [
+            21
+          ]
+        },
+        {
+          "name": "Deadwalker Zombies",
+          "pages": [
+            27
+          ]
+        },
+        {
+          "name": "Deathrattle Skeletons",
+          "pages": [
+            24
+          ]
+        },
+        {
+          "name": "Dire Wolves",
+          "pages": [
+            28
+          ]
+        },
+        {
+          "name": "Fell Bats",
+          "pages": [
+            28
+          ]
+        },
+        {
+          "name": "Ivya Volga, the Outcast",
+          "pages": [
+            15
+          ]
+        },
+        {
+          "name": "Kritza, the Rat Prince",
+          "pages": [
+            16
+          ]
+        },
+        {
+          "name": "Lady Annika, the Thirsting Blade",
+          "pages": [
+            16
+          ]
+        },
+        {
+          "name": "Lauka Vai, Mother of Nightmares",
+          "pages": [
+            10
+          ]
+        },
+        {
+          "name": "Mannfred von Carstein, Mortarch of Night",
+          "pages": [
+            9
+          ]
+        },
+        {
+          "name": "Mortis Engine",
+          "pages": [
+            22
+          ]
+        },
+        {
+          "name": "Nagash, Supreme Lord of the Undead",
+          "pages": [
+            6
+          ]
+        },
+        {
+          "name": "Necromancer",
+          "pages": [
+            26
+          ]
+        },
+        {
+          "name": "Neferata, Mortarch of Blood",
+          "pages": [
+            8
+          ]
+        },
+        {
+          "name": "Prince Vhordrai",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "name": "Radukar the Beast",
+          "pages": [
+            14
+          ]
+        },
+        {
+          "name": "Radukar the Wolf",
+          "pages": [
+            14
+          ]
+        },
+        {
+          "name": "Revenant Draconith",
+          "pages": [
+            18
+          ]
+        },
+        {
+          "name": "Revenant Draconith (Scourge of Aqshy)",
+          "pages": [
+            1
+          ],
+          "file": "fre_02-07_warhammer_age_of_sigmar_scourge_of_aqshy_soulblight_gravelords-q6rdyy2ouu-4klcthfwbl.pdf"
+        },
+        {
+          "name": "Sekhar, Fang of Nulahmia",
+          "pages": [
+            13
+          ]
+        },
+        {
+          "name": "Vampire Lord",
+          "pages": [
+            17
+          ]
+        },
+        {
+          "name": "Vampire Lord on Nightmare Steed",
+          "pages": [
+            17
+          ]
+        },
+        {
+          "name": "Vargheists",
+          "pages": [
+            19
+          ]
+        },
+        {
+          "name": "Vengorian Lord",
+          "pages": [
+            11
+          ]
+        },
+        {
+          "name": "Vengorian Lord (Scourge of Aqshy)",
+          "pages": [
+            2
+          ],
+          "file": "fre_02-07_warhammer_age_of_sigmar_scourge_of_aqshy_soulblight_gravelords-q6rdyy2ouu-4klcthfwbl.pdf"
+        },
+        {
+          "name": "Wight King",
+          "pages": [
+            23
+          ]
+        },
+        {
+          "name": "Wight King on Skeletal Steed",
+          "pages": [
+            23
+          ]
+        },
+        {
+          "name": "Wight Lord on Skeletal Steed",
+          "pages": [
+            24
+          ]
+        }
+      ],
+      "rules": {
+        "battle_traits": [
+          1
+        ],
+        "formations": [
+          2
+        ],
+        "heroic_traits_artefacts": [
+          3
+        ],
+        "spell_lores": [
+          {
+            "name": "Lore of Undeath",
+            "pages": [
+              4
+            ]
+          }
+        ],
+        "manifestation_lores": [
+          {
+            "name": "Manifestations of the Grave",
+            "pages": [
+              5,
+              29,
+              30
+            ]
+          }
+        ]
+      }
+    },
+    "Daughters of Khaine": {
+      "file": "AoSv4 - BT - DoK - Daughters of Khaine (photos partielles).pdf",
+      "units": [
+        {
+          "name": "Morathi-Khaine",
+          "pages": [
+            4
+          ]
+        },
+        {
+          "name": "The Shadow Queen",
+          "pages": [
+            5
+          ]
+        },
+        {
+          "name": "Slaughter Queen",
+          "pages": [
+            8
+          ]
+        },
+        {
+          "name": "Hag Queen",
+          "pages": [
+            8
+          ]
+        },
+        {
+          "name": "Sisters of Slaughter",
+          "pages": [
+            9
+          ]
+        },
+        {
+          "name": "Blood Hags",
+          "pages": [
+            10
+          ]
+        },
+        {
+          "name": "Khainite Shadowstalkers",
+          "pages": [
+            10
+          ]
+        },
+        {
+          "name": "Khinerai Heartrenders",
+          "pages": [
+            11
+          ]
+        },
+        {
+          "name": "Khinerai Lifetakers",
+          "pages": [
+            11
+          ]
+        },
+        {
+          "name": "Blood Sisters",
+          "pages": [
+            12
+          ]
+        },
+        {
+          "name": "Blood Stalkers",
+          "pages": [
+            12
+          ]
+        },
+        {
+          "name": "Bloodwrack Viper",
+          "pages": [
+            13
+          ]
+        },
+        {
+          "name": "Bladewind",
+          "pages": [
+            13
+          ]
+        },
+        {
+          "name": "Heart of Fury",
+          "pages": [
+            14
+          ]
+        },
+        {
+          "name": "Avatar of Khaine",
+          "pages": [
+            14
+          ]
+        },
+        {
+          "name": "Shrine of Dark Tribute",
+          "pages": [
+            15
+          ]
+        }
+      ],
+      "rules": {
+        "battle_traits": [
+          0
+        ],
+        "formations": [
+          1
+        ],
+        "heroic_traits_artefacts": [
+          2
+        ],
+        "spell_lores": [
+          {
+            "name": "Lore of Shadows",
+            "pages": [
+              3
+            ]
+          }
+        ],
+        "manifestation_lores": [
+          {
+            "name": "Manifestations of Khaine",
+            "pages": [
+              6,
+              13,
+              14
+            ]
+          }
+        ]
+      }
+    },
+    "Ironjawz": {
+      "file": "AOSv4 - ORK - BT - Orruk Warclans.pdf",
+      "units": [
+        {
+          "name": "Kragnos, the End of Empires",
+          "pages": [
+            16
+          ]
+        },
+        {
+          "name": "Gordrakk, the Fist of Gork",
+          "pages": [
+            17
+          ]
+        },
+        {
+          "name": "Megaboss on Maw-Krusha",
+          "pages": [
+            18
+          ]
+        },
+        {
+          "name": "Zoggrok Anvilsmasha",
+          "pages": [
+            19
+          ]
+        },
+        {
+          "name": "Megaboss",
+          "pages": [
+            19
+          ]
+        },
+        {
+          "name": "Warchanter",
+          "pages": [
+            20
+          ]
+        },
+        {
+          "name": "Brutes",
+          "pages": [
+            20
+          ]
+        },
+        {
+          "name": "Weirdnob Shaman",
+          "pages": [
+            21
+          ]
+        },
+        {
+          "name": "Weirdbrute Wrekkaz",
+          "pages": [
+            22
+          ]
+        },
+        {
+          "name": "Brute Ragerz",
+          "pages": [
+            22
+          ]
+        },
+        {
+          "name": "Ardboy Big Boss",
+          "pages": [
+            23
+          ]
+        },
+        {
+          "name": "Ardboyz",
+          "pages": [
+            23
+          ]
+        },
+        {
+          "name": "Tuskboss on Maw-grunta",
+          "pages": [
+            24
+          ]
+        },
+        {
+          "name": "Gore-gruntas",
+          "pages": [
+            25
+          ]
+        },
+        {
+          "name": "Maw-grunta with Hakkin’ Krew",
+          "pages": [
+            26
+          ]
+        },
+        {
+          "name": "Maw-grunta Gougers",
+          "pages": [
+            26
+          ]
+        }
+      ],
+      "rules": {
+        "battle_traits": [
+          12
+        ],
+        "formations": [
+          12
+        ],
+        "heroic_traits_artefacts": [
+          13
+        ],
+        "spell_lores": [
+          {
+            "name": "Domaine du Bizarre",
+            "pages": [
+              14
+            ]
+          }
+        ],
+        "manifestation_lores": [
+          {
+            "name": "Manifestations de Gorkamorka",
+            "pages": [
+              15,
+              44,
+              45
+            ]
+          }
+        ]
+      }
+    },
+    "Kruleboyz": {
+      "file": "AOSv4 - ORK - BT - Orruk Warclans.pdf",
+      "units": [
+        {
+          "name": "Kragnos, the End of Empires",
+          "pages": [
+            16
+          ]
+        },
+        {
+          "name": "Gobsprakk, the Mouth of Mork",
+          "pages": [
+            32
+          ]
+        },
+        {
+          "name": "Killaboss on Corpse-rippa Vulcha",
+          "pages": [
+            33
+          ]
+        },
+        {
+          "name": "Killaboss on Great Gnashtoof",
+          "pages": [
+            33
+          ]
+        },
+        {
+          "name": "Killaboss with Stab-grot",
+          "pages": [
+            34
+          ]
+        },
+        {
+          "name": "Murknob with Belcha-banna",
+          "pages": [
+            34
+          ]
+        },
+        {
+          "name": "Swampcalla Shaman with Pot-grot",
+          "pages": [
+            35
+          ]
+        },
+        {
+          "name": "Swampboss Skumdrekk",
+          "pages": [
+            36
+          ]
+        },
+        {
+          "name": "Breaka-boss on Mirebrute Troggoth",
+          "pages": [
+            37
+          ]
+        },
+        {
+          "name": "Hobgrot Slittaboss",
+          "pages": [
+            38
+          ]
+        },
+        {
+          "name": "Hobgrot Slittaz",
+          "pages": [
+            38
+          ]
+        },
+        {
+          "name": "Snatchaboss on Sludgeraker Beast",
+          "pages": [
+            39
+          ]
+        },
+        {
+          "name": "Marshcrawla Sloggoth",
+          "pages": [
+            40
+          ]
+        },
+        {
+          "name": "Monsta-killaz",
+          "pages": [
+            40
+          ]
+        },
+        {
+          "name": "Gutrippaz",
+          "pages": [
+            41
+          ]
+        },
+        {
+          "name": "Man-skewer Boltboyz",
+          "pages": [
+            42
+          ]
+        },
+        {
+          "name": "Beast-skewer Killbow",
+          "pages": [
+            42
+          ]
+        },
+        {
+          "name": "Scourge of Aqshy Killaboss on Great Gnashtoof",
+          "pages": [
+            1
+          ],
+          "file": "fre_03-07_warhammer_age_of_sigmar_scourge_of_aqshy_kruleboyz-zx66jhdeqm-meytjekpyr.pdf"
+        },
+        {
+          "name": "Scourge of Aqshy Killaboss with Stab-grot",
+          "pages": [
+            1
+          ],
+          "file": "fre_03-07_warhammer_age_of_sigmar_scourge_of_aqshy_kruleboyz-zx66jhdeqm-meytjekpyr.pdf"
+        }
+      ],
+      "rules": {
+        "battle_traits": [
+          28
+        ],
+        "formations": [
+          29
+        ],
+        "heroic_traits_artefacts": [
+          30
+        ],
+        "spell_lores": [
+          {
+            "name": "Domaine du Marais",
+            "pages": [
+              31
+            ]
+          }
+        ],
+        "manifestation_lores": [
+          {
+            "name": "Manifestations de Gorkamorka",
+            "pages": [
+              31,
+              44,
+              45
+            ]
+          }
+        ]
+      }
+    },
+    "Hedonites of Slaanesh": {
+      "file": "AoSv4 - HoS - Hedonites of Slaanesh.pdf",
+      "units": [
+        {
+          "name": "Shalaxi Helbane",
+          "pages": [
+            10
+          ]
+        },
+        {
+          "name": "Keeper of Secrets",
+          "pages": [
+            11
+          ]
+        },
+        {
+          "name": "Dexcessa, the Talon of Slaanesh",
+          "pages": [
+            12
+          ]
+        },
+        {
+          "name": "Synessa, the Voice of Slaanesh",
+          "pages": [
+            12
+          ]
+        },
+        {
+          "name": "The Masque",
+          "pages": [
+            13
+          ]
+        },
+        {
+          "name": "Syll’Esske, the Vengeful Allegiance",
+          "pages": [
+            13
+          ]
+        },
+        {
+          "name": "Thricefold Discord",
+          "pages": [
+            16
+          ]
+        },
+        {
+          "name": "Infernal Enrapturess, Herald of Slaanesh",
+          "pages": [
+            16
+          ]
+        },
+        {
+          "name": "Contorted Epitome",
+          "pages": [
+            17
+          ]
+        },
+        {
+          "name": "Daemonettes",
+          "pages": [
+            18
+          ]
+        },
+        {
+          "name": "Seekers",
+          "pages": [
+            22
+          ]
+        },
+        {
+          "name": "Fiends",
+          "pages": [
+            22
+          ]
+        },
+        {
+          "name": "Glutos Orscollion, Lord of Gluttony",
+          "pages": [
+            23
+          ]
+        },
+        {
+          "name": "Sigvald, Prince of Slaanesh",
+          "pages": [
+            24
+          ]
+        },
+        {
+          "name": "Lord of Hysteria",
+          "pages": [
+            24
+          ]
+        },
+        {
+          "name": "Shardspeaker of Slaanesh",
+          "pages": [
+            25
+          ]
+        },
+        {
+          "name": "Lord of Pain",
+          "pages": [
+            26
+          ]
+        },
+        {
+          "name": "Lord of Hubris",
+          "pages": [
+            26
+          ]
+        },
+        {
+          "name": "Slaangor Fiendbloods",
+          "pages": [
+            28
+          ]
+        },
+        {
+          "name": "Myrmidesh Painbringers",
+          "pages": [
+            28
+          ]
+        },
+        {
+          "name": "Symbaresh Twinsouls",
+          "pages": [
+            29
+          ]
+        },
+        {
+          "name": "Blissbarb Archers",
+          "pages": [
+            30
+          ]
+        },
+        {
+          "name": "Slickblade Seekers",
+          "pages": [
+            30
+          ]
+        },
+        {
+          "name": "Blissbarb Seekers",
+          "pages": [
+            31
+          ]
+        },
+        {
+          "name": "Fane of Slaanesh",
+          "pages": [
+            33
+          ]
+        },
+        {
+          "name": "Blissbarb Seekers (Scourge of Aqshy)",
+          "pages": [
+            1
+          ],
+          "file": "fre_scourge_of_aqshy_hedonites_of_slaanesh-xzaucb3iix-gzdqumwslk.pdf"
+        },
+        {
+          "name": "Infernal Enrapturess, Herald of Slaanesh (Scourge of Aqshy)",
+          "pages": [
+            1
+          ],
+          "file": "fre_scourge_of_aqshy_hedonites_of_slaanesh-xzaucb3iix-gzdqumwslk.pdf"
+        },
+        {
+          "name": "Bladebringer, Herald on Exalted Chariot",
+          "pages": [
+            1
+          ],
+          "file": "fre_17-06_aos_battletome_supplement_hedonites_of_slaanesh-qhhygqmkyp-cfh3bza7uf.pdf"
+        },
+        {
+          "name": "Hellflayer",
+          "pages": [
+            2
+          ],
+          "file": "fre_17-06_aos_battletome_supplement_hedonites_of_slaanesh-qhhygqmkyp-cfh3bza7uf.pdf"
+        },
+        {
+          "name": "Hellstriders",
+          "pages": [
+            2
+          ],
+          "file": "fre_17-06_aos_battletome_supplement_hedonites_of_slaanesh-qhhygqmkyp-cfh3bza7uf.pdf"
+        },
+        {
+          "name": "Seeker Chariot",
+          "pages": [
+            3
+          ],
+          "file": "fre_17-06_aos_battletome_supplement_hedonites_of_slaanesh-qhhygqmkyp-cfh3bza7uf.pdf"
+        }
+      ],
+      "rules": {
+        "battle_traits": [
+          2,
+          3
+        ],
+        "formations": [
+          5
+        ],
+        "heroic_traits_artefacts": [
+          6
+        ],
+        "spell_lores": [
+          {
+            "name": "Lore of Extravagance",
+            "pages": [
+              7
+            ]
+          }
+        ],
+        "manifestation_lores": [
+          {
+            "name": "Manifestations of Depravity",
+            "pages": [
+              8,
+              32,
+              33
+            ]
+          }
+        ]
+      }
+    },
+    "Sylvaneth": {
+      "file": "AoSv4 - BT - SYL - Sylvaneth.pdf",
+      "units": [
+        {
+          "name": "Alarielle the Everqueen",
+          "pages": [
+            6
+          ]
+        },
+        {
+          "name": "Belthanos, First Thorn of Kurnoth",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "name": "The Lady of Vines",
+          "pages": [
+            8
+          ]
+        },
+        {
+          "name": "Drycha Hamadreth",
+          "pages": [
+            9
+          ]
+        },
+        {
+          "name": "Grove Guardian",
+          "pages": [
+            10
+          ]
+        },
+        {
+          "name": "Warsong Revenant",
+          "pages": [
+            11
+          ]
+        },
+        {
+          "name": "Arch-Revenant",
+          "pages": [
+            11
+          ]
+        },
+        {
+          "name": "Treelord Ancient",
+          "pages": [
+            12
+          ]
+        },
+        {
+          "name": "Spirit of Durthu",
+          "pages": [
+            13
+          ]
+        },
+        {
+          "name": "Treelord",
+          "pages": [
+            13
+          ]
+        },
+        {
+          "name": "Branchwych",
+          "pages": [
+            14
+          ]
+        },
+        {
+          "name": "Dryads",
+          "pages": [
+            14
+          ]
+        },
+        {
+          "name": "Tree-Revenants",
+          "pages": [
+            15
+          ]
+        },
+        {
+          "name": "Spite-Revenants",
+          "pages": [
+            15
+          ]
+        },
+        {
+          "name": "Kurnoth Hunters with Greatswords",
+          "pages": [
+            16
+          ]
+        },
+        {
+          "name": "Kurnoth Hunters with Greatbows",
+          "pages": [
+            17
+          ]
+        },
+        {
+          "name": "Kurnoth Hunters with Greatscythes",
+          "pages": [
+            17
+          ]
+        },
+        {
+          "name": "Spiterider Lancers",
+          "pages": [
+            18
+          ]
+        },
+        {
+          "name": "Revenant Seekers",
+          "pages": [
+            18
+          ]
+        },
+        {
+          "name": "Gossamid Archers",
+          "pages": [
+            19
+          ]
+        },
+        {
+          "name": "The Twistweald",
+          "pages": [
+            19
+          ]
+        }
+      ],
+      "rules": {
+        "battle_traits": [
+          0
+        ],
+        "formations": [
+          1
+        ],
+        "heroic_traits_artefacts": [
+          2
+        ],
+        "spell_lores": [
+          {
+            "name": "Lore of the Deepwood",
+            "pages": [
+              3
+            ]
+          }
+        ],
+        "manifestation_lores": [
+          {
+            "name": "Manifestations of the Deepwood",
+            "pages": [
+              5,
+              20,
+              21
+            ]
+          }
+        ]
+      }
+    },
+    "Ogor Mawtribes": {
+      "file": "AoSv4 - BT - OM - Ogor Mawtribes.pdf",
+      "units": [
+        {
+          "name": "Bloodpelt Hunter",
+          "pages": [
+            15
+          ]
+        },
+        {
+          "name": "Butcher",
+          "pages": [
+            21
+          ]
+        },
+        {
+          "name": "Cleavers",
+          "pages": [
+            21
+          ]
+        },
+        {
+          "name": "Frostlord on Stonehorn",
+          "pages": [
+            12
+          ]
+        },
+        {
+          "name": "Frostlord on Thundertusk",
+          "pages": [
+            13
+          ]
+        },
+        {
+          "name": "Gluttons",
+          "pages": [
+            10
+          ]
+        },
+        {
+          "name": "Gnoblar Scraplauncher",
+          "pages": [
+            11
+          ]
+        },
+        {
+          "name": "Gorger Mawpack",
+          "pages": [
+            22
+          ]
+        },
+        {
+          "name": "Grell Firefist",
+          "pages": [
+            8
+          ]
+        },
+        {
+          "name": "Gutseers",
+          "pages": [
+            22
+          ]
+        },
+        {
+          "name": "Hunters with Sabrefangs",
+          "pages": [
+            17
+          ]
+        },
+        {
+          "name": "Huskard on Stonehorn",
+          "pages": [
+            14
+          ]
+        },
+        {
+          "name": "Huskard on Thundertusk",
+          "pages": [
+            14
+          ]
+        },
+        {
+          "name": "Ironblaster",
+          "pages": [
+            11
+          ]
+        },
+        {
+          "name": "Ironguts",
+          "pages": [
+            10
+          ]
+        },
+        {
+          "name": "Kragnos, the End of Empires",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "name": "Mantrapper",
+          "pages": [
+            16
+          ]
+        },
+        {
+          "name": "Maulbeast Cavalry",
+          "pages": [
+            9
+          ]
+        },
+        {
+          "name": "Maulbeast Raiders",
+          "pages": [
+            18
+          ]
+        },
+        {
+          "name": "Mawpit",
+          "pages": [
+            23
+          ]
+        },
+        {
+          "name": "Morga The Mighty, Overtyrant",
+          "pages": [
+            6
+          ]
+        },
+        {
+          "name": "Redd the Maw, High Slaughtermaster",
+          "pages": [
+            20
+          ]
+        },
+        {
+          "name": "Stonehorn Beastriders",
+          "pages": [
+            19
+          ]
+        },
+        {
+          "name": "Thundertusk Beastriders",
+          "pages": [
+            19
+          ]
+        },
+        {
+          "name": "Tyrant",
+          "pages": [
+            9
+          ]
+        },
+        {
+          "name": "Tyrant on Glutthorn",
+          "pages": [
+            8
+          ]
+        }
+      ],
+      "rules": {
+        "battle_traits": [
+          0,
+          1
+        ],
+        "formations": [
+          1
+        ],
+        "heroic_traits_artefacts": [
+          2,
+          3
+        ],
+        "spell_lores": [
+          {
+            "name": "Lore of Gut Magic",
+            "pages": [
+              4
+            ]
+          }
+        ]
+      }
+    },
+    "Idoneth Deepkin": {
+      "file": "AoSv4 - BT - IDK - Idoneth Deepkin.pdf",
+      "units": [
+        {
+          "name": "Eidolon of Mathlann, Aspect of the Storm",
+          "pages": [
+            6
+          ]
+        },
+        {
+          "name": "Eidolon of Mathlann, Aspect of the Sea",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "name": "Volturnos, High King of the Deep",
+          "pages": [
+            8
+          ]
+        },
+        {
+          "name": "Akhelian King",
+          "pages": [
+            9
+          ]
+        },
+        {
+          "name": "Lotann, Warden of the Soul Ledgers",
+          "pages": [
+            9
+          ]
+        },
+        {
+          "name": "Mathaela, Oracle of the Abyss",
+          "pages": [
+            10
+          ]
+        },
+        {
+          "name": "Ikon of the Storm",
+          "pages": [
+            11
+          ]
+        },
+        {
+          "name": "Ikon of the Sea",
+          "pages": [
+            11
+          ]
+        },
+        {
+          "name": "Isharann Soulscryer",
+          "pages": [
+            12
+          ]
+        },
+        {
+          "name": "Isharann Soulrender",
+          "pages": [
+            12
+          ]
+        },
+        {
+          "name": "Isharann Tidecaster",
+          "pages": [
+            13
+          ]
+        },
+        {
+          "name": "Akhelian Thrallmaster",
+          "pages": [
+            14
+          ]
+        },
+        {
+          "name": "Namarti Reavers",
+          "pages": [
+            15
+          ]
+        },
+        {
+          "name": "Namarti Thralls",
+          "pages": [
+            15
+          ]
+        },
+        {
+          "name": "Akhelian Allopex",
+          "pages": [
+            16
+          ]
+        },
+        {
+          "name": "Akhelian Leviadon",
+          "pages": [
+            17
+          ]
+        },
+        {
+          "name": "Akhelian Morrsarr Guard",
+          "pages": [
+            18
+          ]
+        },
+        {
+          "name": "Akhelian Ishlaen Guard",
+          "pages": [
+            18
+          ]
+        },
+        {
+          "name": "Gloomtide Shipwreck",
+          "pages": [
+            19
+          ]
+        },
+        {
+          "name": "Scourge of Aqshy Isharann Tidecaster",
+          "pages": [
+            1
+          ],
+          "file": "fre_23-09_aos_scourge_of_aqshy_idoneth_deepkin-ytwu3amurz-m24g2hf2h6.pdf"
+        },
+        {
+          "name": "Scourge of Aqshy Namarti Reavers",
+          "pages": [
+            1
+          ],
+          "file": "fre_23-09_aos_scourge_of_aqshy_idoneth_deepkin-ytwu3amurz-m24g2hf2h6.pdf"
+        }
+      ],
+      "rules": {
+        "battle_traits": [
+          0
+        ],
+        "formations": [
+          1
+        ],
+        "heroic_traits_artefacts": [
+          2,
+          3
+        ],
+        "spell_lores": [
+          {
+            "name": "Lore of the Deeps",
+            "pages": [
+              4
+            ]
+          }
+        ],
+        "manifestation_lores": [
+          {
+            "name": "Lore of the Abyss",
+            "pages": [
+              5,
+              20
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "battle_tactic_cards": {
+    "dir": "Manuel du général",
+    "file": "MdG26-27 Tactiques.pdf",
+    "cards": [
+      {
+        "name": "Blazing Onslaught",
+        "pages": [
+          0
+        ]
+      },
+      {
+        "name": "Siege of Ashes",
+        "pages": [
+          1
+        ]
+      },
+      {
+        "name": "Flanking Firestorm",
+        "pages": [
+          2
+        ]
+      },
+      {
+        "name": "Smoke Screen",
+        "pages": [
+          3
+        ]
+      },
+      {
+        "name": "Burning for Vengeance",
+        "pages": [
+          4
+        ]
+      },
+      {
+        "name": "Legend of the Parch",
+        "pages": [
+          5
+        ]
+      }
+    ]
+  },
+  "generic_manifestation_lores": {
+    "dir": "Manuel du général",
+    "file": "sorts persistants - manifestations.pdf",
+    "lores": {
+      "Krondspine Incarnate": {
+        "domain_pages": [
+          0
+        ],
+        "manifestations": [
+          {
+            "name": "Krondspine Incarnate of Ghur",
+            "pages": [
+              1
+            ]
+          }
+        ]
+      },
+      "Forbidden Power": {
+        "domain_pages": [
+          2,
+          3
+        ],
+        "manifestations": [
+          {
+            "name": "Shards of Valagharr",
+            "pages": [
+              4
+            ]
+          },
+          {
+            "name": "Horrorghast",
+            "pages": [
+              5
+            ]
+          },
+          {
+            "name": "Soulscream Bridge",
+            "pages": [
+              6
+            ]
+          },
+          {
+            "name": "Lauchon the Soulseeker",
+            "pages": [
+              7
+            ]
+          }
+        ]
+      },
+      "Morbid Conjuration": {
+        "domain_pages": [
+          8,
+          9
+        ],
+        "manifestations": [
+          {
+            "name": "Soulsnare Shackles",
+            "pages": [
+              10
+            ]
+          },
+          {
+            "name": "Malevolent Maelstrom",
+            "pages": [
+              11
+            ]
+          },
+          {
+            "name": "Suffocating Gravetide",
+            "pages": [
+              12
+            ]
+          },
+          {
+            "name": "Purple Sun of Shyish",
+            "pages": [
+              13
+            ]
+          }
+        ]
+      },
+      "Aetherwrought Machineries": {
+        "domain_pages": [
+          14
+        ],
+        "manifestations": [
+          {
+            "name": "Chronomantic Cogs",
+            "pages": [
+              15
+            ]
+          },
+          {
+            "name": "Aethervoid Pendulum",
+            "pages": [
+              16
+            ]
+          },
+          {
+            "name": "Quicksilver Swords",
+            "pages": [
+              17
+            ]
+          }
+        ]
+      },
+      "Primal Energy": {
+        "domain_pages": [
+          18
+        ],
+        "manifestations": [
+          {
+            "name": "The Burning Head",
+            "pages": [
+              19
+            ]
+          },
+          {
+            "name": "Ravenak’s Gnashing Jaws",
+            "pages": [
+              20
+            ]
+          },
+          {
+            "name": "Emerald Lifeswarm",
+            "pages": [
+              21
+            ]
+          }
+        ]
+      },
+      "Twilit Sorceries": {
+        "domain_pages": [
+          22
+        ],
+        "manifestations": [
+          {
+            "name": "Geminids of Uhl-Gysh",
+            "pages": [
+              23
+            ]
+          },
+          {
+            "name": "Prismatic Palisade",
+            "pages": [
+              24
+            ]
+          },
+          {
+            "name": "Umbral Spellportal",
+            "pages": [
+              25
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "rules_updates": {
+    "dir": "Battle tome/A curer",
+    "file": "fre_26_08_aos_rules_updates-qg24odwaat-akom0pf6yn.pdf",
+    "date": "Août 2026",
+    "note": "Errata/mises à jour uniquement (pas le texte intégral des aptitudes) — à croiser avec le battletome de chaque faction lors de sa curation dans faction_rules_fr.json (voir provenance.errata_source du skill faction-rules-fr). Pages 0-1: sommaire + Manuel du Général 2026-27 (core rules). 'Foire aux questions' d'une section fait partie de la faction qui la précède, sauf changement de tome en milieu de page (ex. p.18: FAQ Hedonites -> nouvelle section Helsmiths of Hashut).",
+    "sections": [
+      {
+        "name": "Fils de Behemat",
+        "pages": [
+          2
+        ]
+      },
+      {
+        "name": "Kragnos",
+        "pages": [
+          3
+        ]
+      },
+      {
+        "name": "Kritza, le Prince des Rats",
+        "pages": [
+          4
+        ]
+      },
+      {
+        "name": "Séraphons",
+        "pages": [
+          4,
+          5
+        ]
+      },
+      {
+        "name": "Blades of Khorne",
+        "pages": [
+          6,
+          7
+        ]
+      },
+      {
+        "name": "Cities of Sigmar",
+        "pages": [
+          8
+        ]
+      },
+      {
+        "name": "Daughters of Khaine",
+        "pages": [
+          9
+        ]
+      },
+      {
+        "name": "Disciples of Tzeentch",
+        "pages": [
+          10,
+          11
+        ]
+      },
+      {
+        "name": "Flesh-eater Courts",
+        "pages": [
+          12,
+          13
+        ]
+      },
+      {
+        "name": "Gloomspite Gitz",
+        "pages": [
+          14,
+          15
+        ]
+      },
+      {
+        "name": "Hedonites of Slaanesh",
+        "pages": [
+          16
+        ]
+      },
+      {
+        "name": "Helsmiths of Hashut",
+        "pages": [
+          17,
+          18
+        ]
+      },
+      {
+        "name": "Idoneth Deepkin",
+        "pages": [
+          19
+        ]
+      },
+      {
+        "name": "Kharadron Overlords",
+        "pages": [
+          20,
+          21
+        ]
+      },
+      {
+        "name": "Lumineth Realm-Lords",
+        "pages": [
+          22
+        ]
+      },
+      {
+        "name": "Maggotkin of Nurgle",
+        "pages": [
+          23,
+          24
+        ]
+      },
+      {
+        "name": "Nighthaunt",
+        "pages": [
+          25,
+          26
+        ]
+      },
+      {
+        "name": "Ogor Mawtribes",
+        "pages": [
+          27
+        ]
+      },
+      {
+        "name": "Orruk Warclans",
+        "pages": [
+          28,
+          29,
+          30
+        ]
+      },
+      {
+        "name": "Ossiarch Bonereapers",
+        "pages": [
+          31
+        ]
+      },
+      {
+        "name": "Skaven",
+        "pages": [
+          32,
+          33
+        ]
+      },
+      {
+        "name": "Slaves to Darkness",
+        "pages": [
+          34,
+          35
+        ]
+      },
+      {
+        "name": "Soulblight Gravelords",
+        "pages": [
+          36
+        ]
+      },
+      {
+        "name": "Stormcast Eternals",
+        "pages": [
+          37,
+          38
+        ]
+      },
+      {
+        "name": "Sylvaneth",
+        "pages": [
+          39,
+          40
+        ]
+      }
+    ],
+    "pending_regiments_of_renown": [
+      {
+        "faction": "Slaves to Darkness",
+        "regiment": "Ascendant Marqué par les Dieux",
+        "note": "Remplacez le premier point de « Dons du Chaos » par : « Si cette unité a le mot-clé Lames de Khorne, ses Armes Infernales ont l'aptitude d'arme Soif de Sang et ajoutez 1 à sa caractéristique d'Attaques. »",
+        "source_page": 34
+      }
+    ],
+    "resolved_regiments_of_renown": [
+      {
+        "faction": "Lumineth Realm-lords",
+        "regiment": "Lance de Chevauche-Levant",
+        "note": "PDF officiel dédié (data/Battle tome/Download GW/fre_01-04_aos_other_rules_regiments_of_renown_lumineth_realmlords-...pdf) déjà à jour : l'Organisation dit déjà « Seigneur Régent Vanari sur Coursiéclat ». Aptitudes (Maîtres de Tous les Terrains, Charge Aveuglante) curées dans faction_rules_fr.json, sans correctif à appliquer."
+      },
+      {
+        "faction": "Lumineth Realm-lords",
+        "regiment": "Convocation des Sceaux",
+        "note": "Curé dans faction_rules_fr.json à partir du même PDF officiel ; le correctif d'Août 2026 sur « Cycle de Manifestations » (elle est immédiatement bannie et retirée du jeu) a été appliqué à cette copie, en plus de celle de l'Armée de Renom Conclave des Aelementiri."
+      }
+    ]
+  }
+}

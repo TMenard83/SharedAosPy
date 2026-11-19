@@ -1,0 +1,51 @@
+[
+  {
+    "name": "Souffler sur les Braises",
+    "condition": "Once Per Battle (Army), Deployment Phase",
+    "ability_phase": "Deployment Phase",
+    "keywords": "",
+    "description": "<i>Les champs de bataille d’Aqshy insufflent une rage ardente aux guerriers comme aux bêtes, qui s’attisera si l’ennemi cherche à les intimider ou à les menacer.</i><br/><br/><b>Effet :</b> Si vous êtes l’attaquant, réglez votre <b>niveau de fureur</b> sur 1. Si vous êtes le défenseur, réglez votre <b>niveau de fureur</b> sur 2."
+  },
+  {
+    "name": "Rage Bouillonnante",
+    "condition": "Once Per Turn (Army), Start of Battle Round",
+    "ability_phase": "Start of Turn",
+    "keywords": "",
+    "description": "<i>Une fureur féroce brûle dans l’âme de ce commandant et menace d’exploser à tout moment.</i><br/><br/><b>Annonce :</b> Vous devez utiliser cette aptitude.<br/><br/><b>Effet :</b> Gagnez autant de <b>dés de rage</b> que votre <b>niveau de fureur</b>. À la fin du round de bataille, tous les <b>dés de rage</b> non dépensés sont perdus."
+  },
+  {
+    "name": "Éruption de Fureur",
+    "condition": "Once Per Turn (Army), End of Any Turn",
+    "ability_phase": "End of Turn",
+    "keywords": "Attaque,Corps à Corps",
+    "description": "<i>Attisée par la bataille, la colère de ce guerrier explose dans un tourbillon de violence.</i><br/><br/><b>Annonce :</b> Choisissez une unité amie pour qu’elle utilise cette aptitude, puis choisissez comme cible une unité ennemie en mêlée avec cette unité amie.<br/><br/><b>Effet :</b> Choisissez 1 des armes de mêlée de l’unité qui utilise cette aptitude. Puis dépensez 3 <b>dés de rage</b> maximum.<br/><br/>Résolvez autant d’attaques de mêlée contre la cible en utilisant l’arme de mêlée choisie que le nombre de <b>dés de rage</b> que vous avez dépensés.<br/><br/>Ces attaques ne peuvent pas causer de touches critiques. À la place, pour chaque jet de touche non modifié de 6 obtenu pour ces attaques :<br/><ul><li>Infligez D3 dégâts mortels supplémentaires à chaque unité ennemie en mêlée avec l’unité qui utilise cette aptitude.</li><li>Votre adversaire doit augmenter son <b>niveau de fureur</b> de 1, jusqu’à un maximum de 7.</li></ul>Pour chaque jet de touche non modifié de 1 pour ces attaques, allouez D3 dégâts mortels à l’unité qui utilise cette aptitude une fois la séquence de dégâts résolue (on ne peut tenter aucun jet de protection contre ces dégâts).<br/><br/><b><i>Note des Concepteurs :</i></b> <i>Les dés de rage ne s’ajoutent pas à la caractéristique d’Attaques de l’arme que vous choisissez ; si vous dépensez 3 dés de rage pour utiliser cette aptitude, vous faites seulement 3 attaques de mêlée.</i>",
+    "provenance": {
+      "bt_text": "Résolvez autant d’attaques de mêlée contre la cible qui utilise l’arme de mêlée choisie que le nombre de <b>dés de rage</b> que vous avez dépensés.",
+      "errata_patch": "Remplacez le deuxième paragraphe de l'effet par : « Résolvez autant d'attaques de mêlée contre la cible en utilisant l'arme de mêlée choisie que le nombre de dés de rage que vous avez dépensés. »",
+      "errata_source": "Mises à jour de règles, Août 2026, Manuel du Général 2026-27, p.25"
+    },
+    "resources": [
+      [
+        "Rage",
+        "1-3"
+      ]
+    ]
+  },
+  {
+    "name": "Braver la Douleur",
+    "condition": "Passive",
+    "ability_phase": "",
+    "keywords": "",
+    "description": "<i>La colère peut accorder la résilience nécessaire pour résister aux blessures les plus graves – si la promesse de vengeance est à portée.</i><br/><br/><b>Effet :</b> Avant d’allouer des dégâts à une unité amie, vous pouvez dépenser n’importe quel nombre de <b>dés de rage</b>. Pour chaque <b>dé de rage</b> dépensé, réduisez votre <b>niveau de fureur</b> de 1, jusqu’à un minimum de 0, puis jetez un dé. Sur 3+, retirez 1 dégât de la réserve de dégâts de l’unité.",
+    "resources": [
+      [
+        "Rage",
+        "X"
+      ],
+      [
+        "Fury",
+        "X"
+      ]
+    ]
+  }
+]

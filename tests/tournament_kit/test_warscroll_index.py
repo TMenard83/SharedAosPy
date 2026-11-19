@@ -1,4 +1,4 @@
-"""Tests : chargement et résolution de `data/warscroll_index.json`."""
+"""Tests : chargement et résolution de `data/json/warscroll_index.json`."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ from aospy.tournament_kit.translation.warscroll_index import (
     generic_manifestation_lores_path, load_index, tactic_cards_path, unit_pdf_path,
 )
 
-_INDEX_PATH = "data/warscroll_index.json"
+_INDEX_PATH = "data/json/warscroll_index.json"
 
 
 def test_load_index_reads_both_curated_factions():

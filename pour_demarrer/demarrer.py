@@ -94,11 +94,11 @@ def _args_benchmark(**overrides) -> argparse.Namespace:
 
 
 def action_roster_pdf() -> None:
-    listes = sorted(LISTES_DIR.glob("*.txt"))
+    listes = sorted(LISTES_DIR.rglob("*.txt"))
     if not listes:
         print(f"Aucune liste trouvée dans {LISTES_DIR}")
         return
-    idx = choisir_dans_liste([p.name for p in listes], "Quelle liste de tournoi ?")
+    idx = choisir_dans_liste([str(p.relative_to(LISTES_DIR)) for p in listes], "Quelle liste de tournoi ?")
     liste = listes[idx]
 
     modes = ["hybrid", "en", "fr", "fr-extended"]

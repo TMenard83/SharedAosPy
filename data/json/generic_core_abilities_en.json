@@ -1,0 +1,201 @@
+[
+  {
+    "fr_name": "Placez le Champ de Bataille",
+    "name": "Set Up the Battlefield",
+    "keywords": "Simple",
+    "source": "",
+    "description": "<b>1:</b> The players roll off. The winner chooses which player is the <b>attacker</b> and which is the <b>defender</b>.<br/><br/><b>2:</b> The defender sets up <b>objectives</b> in the locations indicated on the battlefield map. Then, the defender sets up <b>terrain features</b>. Each terrain feature must be set up more than 3\" from the battlefield edge, more than 3\" from all objectives and more than 6\" from all other terrain features.<br/><br/><b>3:</b> After objectives and terrain features have been set up, the <b>attacker</b> picks which territory is their territory. The other territory is the <b>defender</b>’s territory. The players then resolve the <b>deployment phase</b>. The attacker <b>begins deployment</b>.<br/><br/><b>4:</b> <b>Deploy Faction Terrain Features.</b> Some factions have faction terrain features, which have their own warscrolls and are set up using <b>Deploy Terrain</b> abilities. The player who begins deployment must use <b>Deploy Terrain</b> abilities first, followed by their opponent.<br/><br/><b>5:</b> <b>Deploy Armies.</b> Unless otherwise specified in the battleplan, the players alternate using <b>Deploy</b> abilities to deploy their units, starting with the player who begins deployment. Once one player has no more <b>Deploy</b> abilities to use, their opponent must continue to use <b>Deploy</b> abilities until they also have no more to use."
+  },
+  {
+    "fr_name": "Début de Round de Bataille",
+    "name": "Start of Battle Round",
+    "keywords": "",
+    "description": "<b>1:</b> <b>Determine the Active Player:</b><br/><ul><li>If it is the first battle round, the player who finished setting up their army first decides who will take the first turn (unless otherwise specified in the battlepack or battleplan).</li><li>If it is not the first battle round, the players make a roll-off called the <b>priority roll</b> and the winner decides who will take the first turn. If the roll-off is a tie, the player who took the first turn in the previous battle round decides who will take the first turn in the current battle round.</li></ul><br/><br/><b>2:</b> <b>Determine the Underdog:</b> Whichever player has the fewest victory points is the <b>underdog</b> for the battle round. If the players are tied (e.g. in the first battle round), then there is no underdog, unless otherwise specified."
+  },
+  {
+    "fr_name": "Déploiement d’Unité",
+    "name": "Deploy Unit",
+    "keywords": "Deploy",
+    "description": "<b>Declare:</b> Pick a unit from your army roster that has not been deployed to be the target.<br/><br/><b>Effect:</b> Set up the target unit wholly within friendly territory and more than 9\" from enemy territory. After you have done so, it has been deployed."
+  },
+  {
+    "fr_name": "Déploiement de Terrain de Faction",
+    "name": "Deploy Faction Terrain",
+    "keywords": "Deploy Terrain",
+    "description": "<b>Declare:</b> Pick a friendly faction terrain feature that has not been deployed to be the target.<br/><br/><b>Effect:</b> Set up the target faction terrain feature wholly within friendly territory, more than 3\" from all objectives and other terrain features. After you have done so, it has been deployed."
+  },
+  {
+    "fr_name": "Déploiement de Régiment",
+    "name": "Deploy Regiment",
+    "keywords": "Deploy",
+    "description": "<b>Declare:</b> Pick a regiment from your army roster to be the target. No units in that regiment can have already been deployed.<br/><br/><b>Effect:</b> Keep using Deploy abilities without alternating until all units in that regiment have been deployed. You cannot set up units that are not in that regiment on the battlefield or in reserve as part of any of those Deploy abilities."
+  },
+  {
+    "fr_name": "Ralliement",
+    "name": "Rally",
+    "keywords": "",
+    "description": "<b>Declare:</b> Pick a friendly unit that is not in combat to use this ability.<br/><br/><b>Effect:</b> Make 6 rally rolls of D6. For each 4+, you receive 1 rally point. Rally points can be spent in the following ways:<br/><ul><li>For each rally point spent, Heal (1) that unit.</li><li>You can spend a number of rally points equal to the Health characteristic of that unit to return a slain model to that unit.</li></ul>You can spend the rally points in any combination of the above. Unspent rally points are then lost."
+  },
+  {
+    "fr_name": "Musicien",
+    "name": "Musician",
+    "keywords": "",
+    "description": "<b>Effect:</b> While this unit contains any musicians, if it uses the ‘Rally’ command, you can make one additional rally roll of D6."
+  },
+  {
+    "fr_name": "Dissipation",
+    "name": "Unbind",
+    "condition": "Reaction: Opponent declared a Spell ability",
+    "keywords": "Unbind",
+    "description": "<b>Used By:</b> A friendly Wizard within 30\" of the enemy Wizard casting the spell.<br/><br/><b>Effect:</b> Make an unbinding roll of 2D6. If the roll exceeds the casting roll for the spell, then the spell is unbound and its effect is not resolved. This reaction cannot be used more than once per casting roll."
+  },
+  {
+    "fr_name": "Mouvement Normal",
+    "name": "Normal Move",
+    "keywords": "Core, Move",
+    "description": "<b>Declare:</b> Pick a friendly unit that is not in combat to use this ability.<br/><br/><b>Effect:</b> That unit can move a distance up to its Move characteristic. That unit cannot move into combat during any part of that move."
+  },
+  {
+    "fr_name": "Course",
+    "name": "Run",
+    "keywords": "Core, Move, Run",
+    "description": "<b>Declare:</b> Pick a friendly unit that is not in combat to use this ability.<br/><br/><b>Effect:</b> Make a run roll of D6. That unit can move a distance up to its Move characteristic added to the run roll. That unit cannot move into combat during any part of that move."
+  },
+  {
+    "fr_name": "Repli",
+    "name": "Retreat",
+    "keywords": "Core, Move, Retreat",
+    "description": "<b>Declare:</b> Pick a friendly unit that is in combat to use this ability.<br/><br/><b>Effect:</b> Inflict D3 mortal damage on that unit. That unit can move a distance up to its Move characteristic. That unit can move through the combat ranges of any enemy units but cannot end that move within an enemy unit’s combat range."
+  },
+  {
+    "fr_name": "Au Pas de Course",
+    "name": "At the Double",
+    "condition": "Reaction: You declared a Run ability",
+    "keywords": "",
+    "description": "<b>Used By:</b> The unit using that Run ability.<br/><br/><b>Effect:</b> Do not make a run roll as part of that Run ability. Instead, add 6\" to that unit’s Move characteristic to determine the distance each model in that unit can move as part of that Run ability."
+  },
+  {
+    "fr_name": "Redéploiement",
+    "name": "Redeploy",
+    "keywords": "Move, Run",
+    "description": "<b>Declare:</b> Pick a friendly unit that is not in combat to use this ability.<br/><br/><b>Effect:</b> Each model in that unit can move up to D6\". That move cannot pass through or end within the combat range of an enemy unit."
+  },
+  {
+    "fr_name": "Tir",
+    "name": "Shoot",
+    "keywords": "Core, Attack, Shoot",
+    "description": "<b>Declare:</b> Pick a friendly unit that has not used a Run or Retreat ability this turn to use this ability. Then, pick one or more enemy units as the target(s) of that unit’s attacks (see 16.0).<br/><br/><b>Effect:</b> Resolve shooting attacks against the target unit(s)."
+  },
+  {
+    "fr_name": "Tir de Couverture",
+    "name": "Covering Fire",
+    "keywords": "Attack, Shoot",
+    "description": "<b>Declare:</b> Pick a friendly unit that did not use a Run ability this turn and that is not in combat to use this ability, then pick the closest enemy unit (to that unit) that can be picked as the target of shooting attacks to be the target. You cannot pick Manifestations or faction terrain features as the target of this ability.<br/><br/><b>Effect:</b> Resolve shooting attacks for the unit using this ability against the target. You must subtract 1 from the hit rolls for those attacks."
+  },
+  {
+    "fr_name": "Charge",
+    "name": "Charge",
+    "keywords": "Core, Move, Charge",
+    "description": "<b>Declare:</b> Pick a friendly unit that is not in combat and has not used a Run or Retreat ability this turn to use this ability. Then, make a charge roll of 2D6.<br/><br/><b>Effect:</b> That unit can move a distance up to the value of the charge roll. That unit can move through the combat ranges of any enemy units and must end that move within ½\" of a visible enemy unit. If it does so, the unit using this ability has charged."
+  },
+  {
+    "fr_name": "En Avant, vers la Victoire",
+    "name": "Forward to Victory",
+    "condition": "Reaction: You declared a Charge ability",
+    "keywords": "",
+    "description": "<b>Used By:</b> The unit using that Charge ability.<br/><br/><b>Effect:</b> You can re-roll the charge roll."
+  },
+  {
+    "fr_name": "Contre-Charge",
+    "name": "Counter-charge",
+    "keywords": "",
+    "description": "<b>Declare:</b> Pick a friendly unit that is not in combat to use this ability.<br/><br/><b>Effect:</b> That unit can use a Charge ability as if it were your charge phase."
+  },
+  {
+    "fr_name": "Corps à Corps",
+    "name": "Fight",
+    "keywords": "Core, Attack, Fight",
+    "description": "<b>Declare:</b> Pick a friendly unit that is in combat or that charged this turn to use this ability. That unit can make a pile-in move (see 15.3). Then, if that unit is in combat, you must pick one or more enemy units as the target(s) of that unit’s attacks (see 16.0).<br/><br/><b>Effect:</b> Resolve combat attacks against the target unit(s)."
+  },
+  {
+    "fr_name": "Frappe en Premier et Frappe en Dernier",
+    "name": "Strike-first and Strike-last",
+    "keywords": "",
+    "description": "<b>Strike-first:</b> If there are any <b>Strike-first</b> units in combat after any non-<b>Fight</b> combat phase abilities have been used, other units cannot be picked to use a <b>Fight</b> ability until those units have been picked to use a <b>Fight</b> ability. After all those <b>Strike-first</b> units have fought, the active player picks the next unit to fight.<br/><br/><b>Strike-last:</b> If there are any <b>Strike-last</b> units in combat, they cannot be picked to use a <b>Fight</b> ability if there are any units in combat that do not have <b>Strike-last</b> and have not yet used a <b>Fight</b> ability.<br/><br/><b>Both:</b> If a unit has <b>Strike-first</b> and <b>Strike-last</b>, treat it as if it had neither."
+  },
+  {
+    "fr_name": "Champion",
+    "name": "Champion",
+    "keywords": "",
+    "description": "<b>Effect:</b> Add 1 to the Attacks characteristic of weapons used by champions in this unit."
+  },
+  {
+    "fr_name": "Porte-Étendard",
+    "name": "Standard Bearer",
+    "keywords": "",
+    "description": "<b>Effect:</b> While this unit contains any standard bearers, add 1 to this unit’s control score."
+  },
+  {
+    "fr_name": "Enfoncement",
+    "name": "Power Through",
+    "keywords": "Move",
+    "description": "<b>Declare:</b> Pick a friendly unit that charged this turn to use this ability, then you must pick an enemy unit in combat with it to be the target. The target must have a lower Health characteristic than the unit using this ability.<br/><br/><b>Effect:</b> Inflict D3 mortal damage on the target. Then, the unit using this ability can move a distance up to its Move characteristic. It can pass through and end that move within the combat ranges of enemy units that were in combat with it at the start of the move, but not those of other enemy units. It does not have to end the move in combat."
+  },
+  {
+    "fr_name": "Héros Gardé",
+    "name": "Guarded Hero",
+    "keywords": "",
+    "description": "<b>Effect:</b> If this Hero is within the combat range of a friendly unit that is not a Hero:<br/><ul><li>Subtract 1 from hit rolls for shooting attacks that target this Hero.</li><li>If this Hero is Infantry, they cannot be picked as the target of shooting attacks made by models more than 12\" from them.</li></ul>"
+  },
+  {
+    "fr_name": "Activation de Site de Pouvoir",
+    "name": "Activate Place of Power",
+    "keywords": "Core, Saison",
+    "source": "",
+    "description": "<b>Declare:</b> Pick a friendly Hero within 3\" of any Places of Power to use this ability.<br/><br/><b>Effect:</b> Roll a dice. On a 1, inflict D3 mortal damage on that Hero. On a 2+, pick 1 of the following effects:<br/><ul><li><i>Ignite Fury:</i> Gain 2 rage dice, then increase your fury level by 2, to a maximum of 7.</li><li><i>Channel Wrath:</i> If that Hero is a Wizard or Priest, add 1 to casting rolls or chanting rolls for that Hero for the rest of the turn.</li><li><i>Dizzying Rage:</i> For the rest of the turn, if that Hero is not a Wizard or Priest, they can use the ‘Unbind’ or ‘Banish Manifestation’ ability as if they had Wizard (1).</li></ul>"
+  },
+  {
+    "fr_name": "Intervention Magique",
+    "name": "Magical Intervention",
+    "keywords": "",
+    "source": "",
+    "description": "<b>Declare:</b> Pick a friendly Wizard or Priest to use this ability.<br/><br/><b>Effect:</b> That friendly unit can use a Spell, Prayer or Banish ability (as appropriate) as if it were your hero phase. If you do so, subtract 1 from casting rolls or chanting rolls made as part of that ability."
+  },
+  {
+    "fr_name": "Bannir une Manifestation",
+    "name": "Banish Manifestation",
+    "keywords": "Banish",
+    "source": "",
+    "description": "<b>Declare:</b> Pick a friendly Wizard or Priest to use this ability, pick a Manifestation within 30\" of them that was not summoned this turn to be the target, then make a banishment roll of 2D6. Add 1 to the banishment roll for each additional enemy Manifestation on the battlefield after the first. You cannot pick the same Manifestation to be the target of this ability more than once per turn.<br/><br/><b>Effect:</b> If the banishment roll equals or exceeds the banishment value listed on the Manifestation’s warscroll, it is banished and removed from play."
+  },
+  {
+    "fr_name": "Rites Sacrés",
+    "name": "Sacred Rites",
+    "keywords": "Prayer, Unlimited",
+    "source": "",
+    "description": "<b>Declare:</b> Pick a friendly Priest to use this ability, then make a chanting roll of D6. On an unmodified chanting roll of 1, remove 1 ritual point from that Priest instead of D3.<br/><br/><b>Effect:</b> Give a number of ritual points to the Priest equal to the unmodified chanting roll and do not reset the Priest’s ritual points total to 0."
+  },
+  {
+    "fr_name": "Attaque en Règle",
+    "name": "All-out Attack",
+    "condition": "Reaction: You declared an Attack ability",
+    "keywords": "",
+    "source": "",
+    "description": "<b>Used By:</b> The unit using that Attack ability.<br/><br/><b>Effect:</b> Add 1 to hit rolls for attacks made as part of that Attack ability. This also affects weapons that have the Companion weapon ability. For the rest of the turn, subtract 1 from save rolls for the unit using this ability."
+  },
+  {
+    "fr_name": "Défense en Règle",
+    "name": "All-out Defence",
+    "condition": "Reaction: Opponent declared an Attack ability",
+    "keywords": "",
+    "source": "",
+    "description": "<b>Used By:</b> A unit targeted by that Attack ability.<br/><br/><b>Effect:</b> Add 1 to save rolls for that unit until that Attack ability has been resolved."
+  },
+  {
+    "fr_name": "Terrain",
+    "name": "Terrain",
+    "keywords": "",
+    "source": "",
+    "description": "<b>Cover:</b> Subtract 1 from hit rolls for attacks that target a unit that is behind or wholly on this terrain feature, unless that unit charged this turn or has the Fly keyword.<br/><br/><b>Impassable:</b> Models cannot move across, be set up on or end moves on any part of this terrain feature.<br/><br/><b>Obscuring:</b> While every model in a non-Monster non-War Machine unit that does not have the Fly keyword is within 1\" of this terrain feature, the following apply:<br/><ul><li>That unit is only visible to enemy units that are within its combat range.</li><li>The Range characteristic of that unit’s ranged weapons is halved (rounding down to the nearest inch).</li></ul><br/><b>Place of Power:</b> Heroes within 3\" of this terrain feature can use the ‘Activate Place of Power’ ability.<br/><br/><b>Unstable:</b> Models can move across but cannot be set up on or end any type of move on any part of this terrain feature that is more than 1\" tall."
+  }
+]

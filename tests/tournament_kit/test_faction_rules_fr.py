@@ -1,5 +1,5 @@
 """Tests : chargement et application des correctifs/additions vérbatim
-français de `data/faction_rules_fr.json` (`faction_rules_fr.py`)."""
+français de `data/json/faction_rules_fr.json` (`faction_rules_fr.py`)."""
 
 from __future__ import annotations
 
@@ -74,6 +74,14 @@ def test_get_faction_category_overrides_filters_by_scope(tmp_path):
     assert get_faction_category_overrides(frf, "Slaves to Darkness", "formations", "Warhost of Duality") == []
 
 
+def test_get_faction_category_overrides_tolerates_doubled_letter_typo():
+    # l'App et Wahapedia écrivent « Blood Blesssings of Khorne » (3 s)
+    frf = FactionRulesFr(factions={"Blades of Khorne": {"rules": {"prayer_lores": [
+        {"scope": "Blood Blessings of Khorne", "wahapedia_name": "BLOOD BOIL", "name": "Sang Bouillant"}]}}})
+    rows = get_faction_category_overrides(frf, "Blades of Khorne", "prayer_lores", "Blood Blesssings of Khorne")
+    assert [r["name"] for r in rows] == ["Sang Bouillant"]
+
+
 def test_get_faction_category_overrides_unknown_faction_or_category(tmp_path):
     frf = load_faction_rules_fr(_write(tmp_path))
     assert get_faction_category_overrides(frf, "Nighthaunt", "battle_traits") == []
@@ -101,6 +109,40 @@ def test_apply_fr_overrides_patches_existing_entry_by_wahapedia_name():
     assert "BT" in patched.keywords
 
 
+def test_apply_fr_overrides_matches_typographic_apostrophe():
+    # Wahapedia écrit « ’ », la curation du JSON « ' » : sans normalisation le
+    # correctif devenait une addition nette et l'anglais restait à côté.
+    entries = [AbilityEntry(name="BASH ’EM LADZ!", description="original EN", legend="")]
+    overrides = [{"wahapedia_name": "BASH 'EM LADZ!", "name": "Kognez D'ssus, Lé Gars !", "description": "texte FR"}]
+    result = apply_fr_overrides(entries, overrides)
+    assert [e.name for e in result] == ["Kognez D'ssus, Lé Gars !"]
+
+
+def test_apply_fr_overrides_patches_homonyms_in_order():
+    # Deux aptitudes Wahapedia de même nom sur une charte (Pesticrates Putrides
+    # Fléau d'Aqshy) : chaque ligne de correctif consomme la suivante.
+    entries = [AbilityEntry(name="Putrescent Piety", description="EN 1", legend=""),
+               AbilityEntry(name="Putrescent Piety", description="EN 2", legend="")]
+    overrides = [{"wahapedia_name": "Putrescent Piety", "name": "Piété Putrescente", "description": "FR 1"},
+                 {"wahapedia_name": "Putrescent Piety", "name": "Dévotion Dégoûtante", "description": "FR 2"}]
+    result = apply_fr_overrides(entries, overrides)
+    assert [(e.name, e.description) for e in result] == [("Piété Putrescente", "FR 1"), ("Dévotion Dégoûtante", "FR 2")]
+
+
+def test_apply_fr_overrides_matches_empty_wahapedia_name():
+    # Wahapedia laisse parfois le nom vide (« Stigmates de Guerre » de Festus).
+    entries = [AbilityEntry(name="", description="EN", legend="")]
+    overrides = [{"wahapedia_name": "", "name": "Stigmates de Guerre", "description": "FR"}]
+    assert [e.name for e in apply_fr_overrides(entries, overrides)] == ["Stigmates de Guerre"]
+
+
+def test_get_faction_category_overrides_scope_ignores_typographic_apostrophe(tmp_path):
+    path = tmp_path / "faction_rules_fr.json"
+    path.write_text(json.dumps({"factions": {"F": {"rules": {"formations": [{"scope": "Nurgle’s Menagerie", "name": "X"}]}}}}), encoding="utf-8")
+    frf = load_faction_rules_fr(path)
+    assert len(get_faction_category_overrides(frf, "F", "formations", scope="Nurgle's Menagerie")) == 1
+
+
 def test_apply_fr_overrides_adds_standalone_entry_without_wahapedia_match():
     overrides = [{"name": "Rage d'Aqshy", "description": "texte FR", "condition": "Passive", "ability_phase": "", "origin": "Aqshy"}]
     result = apply_fr_overrides([], overrides)
@@ -118,3 +160,25 @@ def _write(tmp_path):
     path = tmp_path / "faction_rules_fr.json"
     path.write_text(json.dumps(_SAMPLE), encoding="utf-8")
     return path
+
+
+def test_load_faction_rules_fr_sanitizes_non_breaking_hyphen(tmp_path):
+    # texte de l'App : « FLESH‑EATER » (U+2011), carré noir en Helvetica
+    p = tmp_path / "rules.json"
+    p.write_text(json.dumps({"factions": {"X": {"note": "FLESH‑EATER"}}}, ensure_ascii=False), encoding="utf-8")
+    assert load_faction_rules_fr(p).factions["X"]["note"] == "FLESH-EATER"
+
+
+def test_apply_fr_overrides_typed_homonyms_patch_their_own_category():
+    # BoK : deux correctifs « FRENZIED TASKMASTER » (Trait Héroïque et
+    # Mutation d'Airain) — chacun ne corrige que l'entrée de sa catégorie
+    from aospy.tournament_kit.translation.faction_rules_fr import apply_fr_overrides
+    from aospy.tournament_kit.translation.wahapedia_lookup import AbilityEntry
+    overrides = [
+        {"wahapedia_name": "FRENZIED TASKMASTER", "wahapedia_type": "Heroic Traits", "name": "Contremaître", "description": "HT"},
+        {"wahapedia_name": "FRENZIED TASKMASTER", "wahapedia_type": "Brazen Mutations", "name": "Membres", "description": "BM"},
+    ]
+    heroic = AbilityEntry(name="FRENZIED TASKMASTER", description="x", legend="", wahapedia_type="Heroic Traits")
+    assert [e.name for e in apply_fr_overrides([heroic], overrides)][0] == "Contremaître"
+    mutation = AbilityEntry(name="FRENZIED TASKMASTER", description="x", legend="", wahapedia_type="Brazen Mutations")
+    assert apply_fr_overrides([mutation], overrides)[0].name == "Membres"

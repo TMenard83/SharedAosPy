@@ -1,0 +1,39 @@
+Les poissons 2000/2000 pts
+
+Idoneth Deepkin
+Akhelian Beastmasters (20)
+General's Handbook 2026-27
+Drops: 2
+Wounds: 117
+Spell Lore - Lore of the Deeps
+Manifestation Lore - Lore of the Abyss
+
+Battle Tactic Cards: Flanking Firestorm, Blazing Onslaught
+
+General's Regiment
+Eidolon of Mathlann, Aspect of the Sea (310)
+• General
+• Lifekelp Pod
+• Abyssal Dweller
+Namarti Reavers (Scourge of Aqshy) (100)
+Namarti Reavers (Scourge of Aqshy) (100)
+Namarti Reavers (Scourge of Aqshy) (100)
+Isharann Tidecaster (100)
+
+Regiment 1
+Mathaela, Oracle of the Abyss (150)
+Akhelian Leviadon (450)
+• Aqshian Sea Nettles (10)
+Akhelian Morrsarr Guard (320)
+• Reinforced
+Akhelian Ishlaen Guard (340)
+• Reinforced
+
+Faction Terrain
+Gloomtide Shipwreck
+
+
+Created with Sigdex: sigdex.io
+App Version: 25.1.2
+Server Version: 3.1.17
+Data Version: v42

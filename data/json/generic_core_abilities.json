@@ -1,0 +1,264 @@
+[
+  {
+    "name": "Placez le Champ de Bataille",
+    "condition": "Deployment Phase",
+    "ability_phase": "Deployment Phase",
+    "keywords": "Simple",
+    "description": "<b>1 :</b> Les joueurs tirent au dé. Le gagnant choisit quel joueur est l’<b>attaquant</b> et lequel est le <b>défenseur</b>.<br/><br/><b>2 :</b> Le défenseur place des <b>objectifs</b> aux endroits indiqués par des orbes dorés sur la carte de champ de bataille. Le défenseur place ensuite des <b>éléments de terrain</b>. Chaque élément de terrain doit être placé à plus de 3\" du bord du champ de bataille, à plus de 6\" des autres éléments de terrain et à plus de 3\" des objectifs.<br/><br/><b>3 :</b> Après avoir placé les objectifs et le terrain, l’<b>attaquant</b> désigne quel territoire est le sien. L’autre territoire est celui du <b>défenseur</b>. Puis les joueurs résolvent la <b>phase de déploiement</b>. L’attaquant <b>commence le déploiement</b>.<br/><br/><b>4 :</b> <b>Déployer les terrains de faction.</b> Certaines factions ont des éléments de terrain de faction, qui ont leurs propres chartes et sont placés grâce aux aptitudes de <b>Déploiement de Terrain</b>. Le joueur qui commence le déploiement doit utiliser des aptitudes de <b>Déploiement de Terrain</b> en premier, puis son adversaire peut en utiliser.<br/><br/><b>5 :</b> <b>Déployer les armées.</b> Sauf indication contraire du plan de bataille, les joueurs utilisent à tour de rôle des aptitudes de <b>Déploiement</b> pour déployer leurs unités, en commençant par celui qui a commencé le déploiement. Une fois qu’un joueur n’a plus d’aptitudes de <b>Déploiement</b> à utiliser, son adversaire doit continuer à utiliser des aptitudes de <b>Déploiement</b> jusqu’à ce qu’il n’en ait plus à utiliser."
+  },
+  {
+    "name": "Début de Round de Bataille",
+    "condition": "Start of Battle Round",
+    "ability_phase": "Start of Turn",
+    "keywords": "Simple",
+    "description": "<b>1 :</b> <b>Déterminez le Joueur Actif.</b><br/><ul><li>Si c’est le <b>premier</b> round de bataille, le joueur qui a fini de déployer son armée en premier choisit qui a le premier tour.</li><li>Si ce <b>n</b>’est <b>pas</b> le premier round, les joueurs font un tir au dé appelé <b>jet de priorité</b> et le gagnant choisit qui a le premier tour. Si le tir au dé est une <b>égalité</b>, le joueur qui a eu le premier tour au round <b>précédent</b> choisit qui a le premier tour du round de bataille <b>en cours</b>.</li></ul><br/><br/><b>2 :</b> <b>Déterminez l’Outsider.</b> Si un joueur a moins de points de victoire, il est l’<b>outsider</b> pour la durée du round."
+  },
+  {
+    "name": "Déploiement d’Unité",
+    "condition": "Deployment Phase",
+    "ability_phase": "Deployment Phase",
+    "keywords": "Déploiement",
+    "description": "<b>Annonce :</b> Choisissez comme cible une unité de votre feuille d’armée qui n’est pas encore déployée.<br/><br/><b>Effet :</b> Placez l’unité cible entièrement en territoire ami et à plus de 9\" du territoire ennemi. Elle est à présent déployée."
+  },
+  {
+    "name": "Déploiement de Terrain de Faction",
+    "condition": "Deployment Phase",
+    "ability_phase": "Deployment Phase",
+    "keywords": "Déploiement de Terrain",
+    "description": "<b>Annonce :</b> Choisissez comme cible un élément de terrain de faction ami qui n’est pas encore déployé.<br/><br/><b>Effet :</b> Placez l’élément de terrain de faction cible entièrement en territoire ami et à plus de 3\" des objectifs et des autres éléments de terrain. Il est à présent déployé."
+  },
+  {
+    "name": "Déploiement de Régiment",
+    "condition": "Deployment Phase",
+    "ability_phase": "Deployment Phase",
+    "keywords": "Déploiement",
+    "description": "<b>Annonce :</b> Choisissez comme cible un régiment de votre feuille d’armée. Aucune unité du régiment ne doit être déjà déployée.<br/><br/><b>Effet :</b> Enchaînez l’utilisation d’aptitudes de Déploiement, sans passer la main à l’adversaire, jusqu’à ce que toutes les unités du régiment soient déployées. Vous ne pouvez pas choisir des unités qui n’appartiennent pas à ce régiment comme cibles de ces aptitudes de Déploiement."
+  },
+  {
+    "name": "Activation de Site de Pouvoir",
+    "condition": "Once Per Turn (Army), Start of Any Turn",
+    "ability_phase": "Start of Turn",
+    "keywords": "Base,Saison",
+    "description": "<b>Annonce :</b> Choisissez un Héros ami à 3\" d’un ou plusieurs Sites de Pouvoir pour qu’il utilise l’aptitude.<br/><br/><b>Effet :</b> Jetez un dé. Sur 1, infligez D3 dégâts mortels à ce Héros. Sur 2+, choisissez 1 des effets suivants :<br/><ul><li><i>Fureur Ignée :</i> Gagnez 2 dés de rage, puis augmentez votre niveau de fureur de 2, jusqu’à un maximum de 7.</li><li><i>Colère Canalisée :</i> Si le Héros choisi est un Sorcier ou un Prêtre, ajoutez 1 aux jets de lancement ou de récitation pour ce Héros pour le restant du tour.</li><li><i>Rage Étourdissante :</i> Pour le restant du tour, si le Héros choisi n’est pas un Sorcier ou un Prêtre, il peut utiliser l’aptitude « Dissipation » ou « Bannir une Manifestation » comme s’il avait le mot-clé Sorcier (1).</li></ul>",
+    "resources": [
+      [
+        "Rage",
+        "+2"
+      ],
+      [
+        "Fury",
+        "+2"
+      ]
+    ]
+  },
+  {
+    "name": "Ralliement",
+    "condition": "Any Hero Phase",
+    "ability_phase": "Hero Phase",
+    "keywords": "",
+    "points_type": "Command",
+    "points": "1",
+    "description": "<b>Annonce :</b> Choisissez une unité amie qui n’est pas en mêlée pour qu’elle utilise cette aptitude.<br/><br/><b>Effet :</b> Faites 6 jets de ralliement d’un D6. Pour chaque jet de 4+, vous recevez 1 point de ralliement. Les points de ralliement peuvent être dépensés comme ceci :<br/><ul><li>Pour chaque point de ralliement dépensé, Soignez (1) l’unité.</li><li>Vous pouvez dépenser autant de points de ralliement que la caractéristique de Santé de l’unité pour ramener une figurine tuée dans l’unité.</li></ul>Vous pouvez dépenser les points de ralliement selon n’importe quelle combinaison (Soigner et ramener). Les points non dépensés sont ensuite perdus."
+  },
+  {
+    "name": "Musicien",
+    "requires_unit_keyword": "MUSICIAN",
+    "condition": "Passive",
+    "ability_phase": "Hero Phase",
+    "keywords": "",
+    "description": "<b>Effet :</b> Tant que cette unité contient un ou plusieurs musiciens, vous pouvez faire 1 jet de ralliement supplémentaire d’un D6 si elle utilise l’ordre « Ralliement »."
+  },
+  {
+    "name": "Bannir une Manifestation",
+    "requires_unit_keyword": [
+      "WIZARD",
+      "PRIEST"
+    ],
+    "condition": "Your Hero Phase",
+    "ability_phase": "Hero Phase",
+    "keywords": "Bannissement",
+    "description": "<b>Annonce :</b> Choisissez un Sorcier ou Prêtre ami pour qu’il utilise cette aptitude, et choisissez comme cible une Manifestation à 30\" de lui qui n’a pas été convoquée à ce tour, puis faites un jet de bannissement de 2D6. Ajoutez 1 au jet de bannissement pour chaque autre Manifestation ennemie sur le champ de bataille. Vous ne pouvez pas choisir la même Manifestation comme cible de cette aptitude plus d’une fois par tour.<br/><br/><b>Effet :</b> Si le jet de bannissement est supérieur ou égal à la valeur de bannissement indiquée sur la charte de la manifestation, elle est bannie et retirée du jeu."
+  },
+  {
+    "name": "Dissipation",
+    "requires_unit_keyword": "WIZARD",
+    "condition": "Reaction: L’adversaire a annoncé une aptitude de Sort",
+    "ability_phase": "Hero Phase",
+    "keywords": "Dissipation",
+    "description": "<b>Utilisée par :</b> Un Sorcier ami à 30\" du Sorcier ennemi qui lance le sort.<br/><br/><b>Effet :</b> Faites un jet de dissipation de 2D6. Si le jet est supérieur au jet de lancement pour le sort, il est dissipé et son effet n’est pas résolu. Cette réaction ne peut pas être utilisée plus d’une fois pour chaque jet de lancement."
+  },
+  {
+    "name": "Intervention Magique",
+    "requires_unit_keyword": [
+      "WIZARD",
+      "PRIEST"
+    ],
+    "condition": "Enemy Hero Phase",
+    "ability_phase": "Hero Phase",
+    "keywords": "",
+    "points_type": "Command",
+    "points": "1",
+    "description": "<b>Annonce :</b> Choisissez un Sorcier ou un Prêtre ami pour qu’il utilise cette aptitude.<br/><br/><b>Effet :</b> L’unité amie peut utiliser une aptitude de Sort, de Prière ou de Bannissement (selon le cas approprié) comme si c’était votre phase des héros. Dans ce cas, soustrayez 1 aux jets de lancement ou de récitation faits dans le cadre de cette aptitude."
+  },
+  {
+    "name": "Rites Sacrés",
+    "requires_unit_keyword": "PRIEST",
+    "condition": "Your Hero Phase",
+    "ability_phase": "Hero Phase",
+    "keywords": "Prière,Illimité",
+    "points_type": "Prayer",
+    "points": "2",
+    "description": "<b>Annonce :</b> Choisissez un Prêtre ami pour qu’il récite cette prière, puis faites un jet de récitation d’un D6. Sur un jet de récitation non modifié de 1, retirez 1 point de rituel à ce Prêtre au lieu de D3.<br/><br/><b>Effet :</b> Donnez au Prêtre autant de points de rituel que le jet de récitation non modifié et ne remettez pas son total de points de rituel à 0."
+  },
+  {
+    "name": "Mouvement Normal",
+    "condition": "Your Movement Phase",
+    "ability_phase": "Movement Phase",
+    "keywords": "Base,Mouvement",
+    "description": "<b>Annonce :</b> Choisissez une unité amie qui n’est pas en mêlée pour qu’elle utilise cette aptitude.<br/><br/><b>Effet :</b> L’unité peut se déplacer d’une distance maximale égale à sa caractéristique de Mouvement. Elle ne peut entrer en mêlée à aucun moment de ce mouvement."
+  },
+  {
+    "name": "Course",
+    "condition": "Your Movement Phase",
+    "ability_phase": "Movement Phase",
+    "keywords": "Base,Mouvement,Course",
+    "description": "<b>Annonce :</b> Choisissez une unité amie qui n’est pas en mêlée pour qu’elle utilise cette aptitude.<br/><br/><b>Effet :</b> Faites un jet de course d’un D6. L’unité peut se déplacer d’une distance maximale égale à sa caractéristique de Mouvement additionnée au jet de course. Elle ne peut entrer en mêlée à aucun moment de ce mouvement."
+  },
+  {
+    "name": "Repli",
+    "condition": "Your Movement Phase",
+    "ability_phase": "Movement Phase",
+    "keywords": "Base,Mouvement,Repli",
+    "description": "<b>Annonce :</b> Choisissez une unité amie qui est en mêlée pour qu’elle utilise cette aptitude.<br/><br/><b>Effet :</b> Infligez D3 dégâts mortels à l’unité. Elle peut se déplacer d’une distance maximale égale à sa caractéristique de Mouvement. Elle peut passer à portée de mêlée des unités ennemies au cours de ce mouvement, mais elle ne peut pas le finir à portée de mêlée des unités ennemies."
+  },
+  {
+    "name": "Au Pas de Course",
+    "condition": "Reaction: Vous avez annoncé une aptitude de Course",
+    "ability_phase": "Movement Phase",
+    "keywords": "",
+    "points_type": "Command",
+    "points": "1",
+    "description": "<b>Utilisé par :</b> L’unité qui utilise l’aptitude de Course.<br/><br/><b>Effet :</b> Ne faites pas un jet de course pour l’aptitude de Course. Au lieu de cela, ajoutez 6\" à la caractéristique de Mouvement de l’unité pour déterminer la distance que chaque figurine de l’unité peut parcourir dans le cadre de l’aptitude de Course."
+  },
+  {
+    "name": "Redéploiement",
+    "condition": "Enemy Movement Phase",
+    "ability_phase": "Movement Phase",
+    "keywords": "Mouvement,Course",
+    "points_type": "Command",
+    "points": "1",
+    "description": "<b>Annonce :</b> Choisissez une unité amie qui n’est pas en mêlée pour qu’elle utilise cette aptitude.<br/><br/><b>Effet :</b> Toutes les figurines de l’unité peuvent se déplacer de D6\" maximum. Ce mouvement ne peut pas traverser ni se terminer à portée de mêlée d’une unité ennemie."
+  },
+  {
+    "name": "Tir",
+    "condition": "Your Shooting Phase",
+    "ability_phase": "Shooting Phase",
+    "keywords": "Base,Attaque,Tir",
+    "description": "<b>Annonce :</b> Choisissez une unité amie qui n’a pas utilisé une aptitude de Course ni de Repli à ce tour pour qu’elle utilise cette aptitude. Puis choisissez une ou plusieurs unités ennemies comme cible(s) des attaques de l’unité (voir 16.0).<br/><br/><b>Effet :</b> Résolvez les attaques de tir contre la/les unité(s) cible(s)."
+  },
+  {
+    "name": "Tir de Couverture",
+    "condition": "Enemy Shooting Phase",
+    "ability_phase": "Shooting Phase",
+    "keywords": "Attaque,Tir",
+    "points_type": "Command",
+    "points": "1",
+    "description": "<b>Annonce :</b> Choisissez une unité amie qui n’a utilisé aucune aptitude de Course à ce tour et qui n’est pas en mêlée pour qu’elle utilise cette aptitude, puis choisissez comme cible l’unité ennemie la plus proche (de l’unité amie) qui peut être choisie comme cible d’attaques de tir. Vous ne pouvez pas choisir des Manifestations ni des éléments de terrain de faction comme cibles de cette aptitude.<br/><br/><b>Effet :</b> Résolvez des attaques de tir de l’unité qui utilise cette aptitude, contre la cible. Vous devez soustraire 1 aux jets de touche pour ces attaques."
+  },
+  {
+    "name": "Charge",
+    "condition": "Your Charge Phase",
+    "ability_phase": "Charge Phase",
+    "keywords": "Base,Mouvement,Charge",
+    "description": "<b>Annonce :</b> Choisissez une unité amie qui n’est pas en mêlée et qui n’a pas utilisé une aptitude de Course ni de Repli à ce tour pour qu’elle utilise cette aptitude. Puis faites un jet de charge de 2D6.<br/><br/><b>Effet :</b> L’unité peut se déplacer d’une distance maximale égale au jet de charge. Elle peut passer à portée de mêlée des unités ennemies au cours de ce mouvement, et doit finir à ½\" d’une unité ennemie visible. Si elle le fait, on dit de l’unité qui utilise cette aptitude qu’elle a chargé."
+  },
+  {
+    "name": "En Avant, vers la Victoire",
+    "condition": "Reaction: Vous avez annoncé une aptitude de Charge",
+    "ability_phase": "Charge Phase",
+    "keywords": "",
+    "points_type": "Command",
+    "points": "1",
+    "description": "<b>Utilisé par :</b> L’unité qui utilise l’aptitude de Charge.<br/><br/><b>Effet :</b> Vous pouvez relancer le jet de charge."
+  },
+  {
+    "name": "Contre-Charge",
+    "condition": "Enemy Charge Phase",
+    "ability_phase": "Charge Phase",
+    "keywords": "",
+    "points_type": "Command",
+    "points": "2",
+    "description": "<b>Annonce :</b> Choisissez une unité amie qui n’est pas en mêlée pour qu’elle utilise cette aptitude.<br/><br/><b>Effet :</b> Cette unité peut utiliser une aptitude de Charge comme si c’était votre phase de charge."
+  },
+  {
+    "name": "Corps à Corps",
+    "condition": "Any Combat Phase",
+    "ability_phase": "Combat Phase",
+    "keywords": "Base,Attaque,Corps à Corps",
+    "description": "<b>Annonce :</b> Choisissez une unité amie qui est en mêlée ou qui a chargé à ce tour pour qu’elle utilise cette aptitude. Elle peut faire un mouvement d’engagement (voir 15.3). Puis, si elle est en mêlée, vous devez choisir une ou plusieurs unités ennemies comme cible(s) de ses attaques (voir 16.0).<br/><br/><b>Effet :</b> Résolvez les attaques de mêlée contre la/les unité(s) cible(s)."
+  },
+  {
+    "name": "Frappe en Premier et Frappe en Dernier",
+    "condition": "Passive",
+    "ability_phase": "Combat Phase",
+    "keywords": "",
+    "description": "<b>Frappe en Premier :</b> une fois utilisées les aptitudes de la phase de mêlée autres que de <b>Corps à Corps</b>, si des unités ayant <b>Frappe en Premier</b> sont en mêlée, les autres unités ne peuvent pas être choisies pour utiliser une aptitude de <b>Corps à Corps</b> avant elles. Une fois que toutes les unités ayant <b>Frappe en Premier</b> ont combattu, le joueur actif choisit la prochaine unité qui combat.<br/><br/><b>Frappe en Dernier :</b> une unité en mêlée ayant <b>Frappe en Dernier</b> ne peut pas être choisie pour utiliser une aptitude de <b>Corps à Corps</b> tant que d’autres unités en mêlée sans <b>Frappe en Dernier</b> peuvent encore en utiliser une et ne l’ont pas encore fait.<br/><br/><b>Les deux :</b> une unité ayant à la fois <b>Frappe en Premier</b> et <b>Frappe en Dernier</b> est traitée comme si elle n’avait ni l’un ni l’autre."
+  },
+  {
+    "name": "Champion",
+    "requires_unit_keyword": "CHAMPION",
+    "condition": "Passive",
+    "ability_phase": "Combat Phase",
+    "keywords": "",
+    "description": "<b>Effet :</b> Ajoutez 1 à la caractéristique d’Attaques des armes utilisées par les champions de cette unité."
+  },
+  {
+    "name": "Attaque en Règle",
+    "condition": "Reaction: Vous avez annoncé une aptitude d’Attaque",
+    "ability_phase": "Defensive reaction",
+    "keywords": "",
+    "points_type": "Command",
+    "points": "1",
+    "description": "<b>Utilisée par :</b> L’unité qui utilise l’aptitude d’Attaque.<br/><br/><b>Effet :</b> Ajoutez 1 aux jets de touche pour les attaques faites dans le cadre de l’aptitude d’Attaque. Cela affecte également les armes de Compagnon. Pour le restant du tour, soustrayez 1 aux jets de sauvegarde pour l’unité qui utilise cette aptitude."
+  },
+  {
+    "name": "Défense en Règle",
+    "condition": "Reaction: L’adversaire a annoncé une aptitude d’Attaque",
+    "ability_phase": "Defensive reaction",
+    "keywords": "",
+    "points_type": "Command",
+    "points": "1",
+    "description": "<b>Utilisée par :</b> Une unité ciblée par l’aptitude d’Attaque.<br/><br/><b>Effet :</b> Ajoutez 1 aux jets de sauvegarde pour l’unité jusqu’à ce que l’aptitude d’Attaque ait été résolue."
+  },
+  {
+    "name": "Porte-Étendard",
+    "requires_unit_keyword": "STANDARD BEARER",
+    "condition": "Passive",
+    "ability_phase": "End of Turn",
+    "keywords": "",
+    "description": "<b>Effet :</b> Tant que cette unité contient un ou plusieurs porte-étendards, ajoutez 1 à son score de contrôle."
+  },
+  {
+    "name": "Enfoncement",
+    "condition": "End of Any Turn",
+    "ability_phase": "End of Turn",
+    "keywords": "Mouvement",
+    "points_type": "Command",
+    "points": "1",
+    "description": "<b>Annonce :</b> Choisissez une unité amie qui a chargé à ce tour pour qu’elle utilise cette aptitude, puis vous devez choisir comme cible une unité ennemie qui est en mêlée avec elle. La cible doit avoir une caractéristique de Santé inférieure à celle de l’unité qui utilise cette aptitude.<br/><br/><b>Effet :</b> Infligez D3 dégâts mortels à la cible. Puis l’unité qui utilise cette aptitude peut se déplacer d’une distance inférieure ou égale à sa caractéristique de Mouvement. Ce mouvement peut traverser et finir dans les portées de mêlée des unités ennemies avec lesquelles elle était en mêlée au début du mouvement, mais pas dans celles d’autres unités ennemies. Ce mouvement n’est pas obligé de finir en mêlée."
+  },
+  {
+    "name": "Héros Gardé",
+    "condition": "Passive",
+    "ability_phase": "Shooting Phase",
+    "keywords": "",
+    "description": "<b>Effet :</b> Si ce Héros est à portée de mêlée d’une unité amie qui n’est pas un Héros :<br/><ul><li>Soustrayez 1 aux jets de touche pour les attaques de tir ciblant ce Héros.</li><li>Si ce Héros a le mot-clé Infanterie, il ne peut pas être ciblé par des attaques de tir faites par des figurines situées à plus de 12\" de lui.</li></ul>"
+  },
+  {
+    "name": "Terrain",
+    "condition": "Passive",
+    "ability_phase": "",
+    "keywords": "Simple",
+    "description": "<b>Couvert :</b> Soustrayez 1 aux jets de touche pour les attaques ciblant une unité qui est derrière ou entièrement sur cet élément de terrain, sauf si elle a chargé à ce tour, ou si elle a le mot-clé Vol.<br/><br/><b>Infranchissable :</b> Les figurines ne peuvent pas se déplacer, être placées, ni finir un mouvement sur une partie de cet élément de terrain.<br/><br/><b>Occultant :</b> Tant que chaque figurine d’une unité n’ayant pas les mots-clés Monstre, Machine de Guerre, ou Vol est à 1\" de cet élément de terrain, les points suivants s’appliquent :<br/><ul><li>L’unité est visible seulement des unités ennemies qui sont à portée de mêlée.</li><li>La caractéristique de Portée des armes de tir de cette unité est divisée par deux (arrondissez au pouce le plus proche).</li></ul><br/><b>Site de Pouvoir :</b> Les Héros à 3\" de cet élément de terrain peuvent utiliser l’aptitude « Activation de Site de Pouvoir ».<br/><br/><b>Instable :</b> Les figurines peuvent se déplacer sur cet élément de terrain mais ne peuvent pas être placées ni finir tout type de mouvement sur des parties de cet élément plus hautes que 1\"."
+  }
+]

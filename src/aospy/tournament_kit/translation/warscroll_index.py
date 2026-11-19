@@ -1,4 +1,4 @@
-"""Charge `data/warscroll_index.json` — index curé manuellement (voir le
+"""Charge `data/json/warscroll_index.json` — index curé manuellement (voir le
 fichier lui-même) reliant :
 
 - chaque nom d'unité canonique (celui de l'App/BSData, identique à
@@ -31,7 +31,7 @@ from pathlib import Path
 from typing import TypeVar
 
 _REPO_ROOT = Path(__file__).resolve().parents[4]
-DEFAULT_INDEX_PATH = _REPO_ROOT / "data" / "warscroll_index.json"
+DEFAULT_INDEX_PATH = _REPO_ROOT / "data" / "json" / "warscroll_index.json"
 DEFAULT_BATTLETOME_DIR = _REPO_ROOT / "data" / "Battle tome" / "Done"
 DEFAULT_MANUEL_DIR = _REPO_ROOT / "data" / "Manuel du général"
 

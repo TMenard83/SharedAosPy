@@ -1,0 +1,23 @@
+[
+  {
+    "fr_name": "Souffler sur les Braises",
+    "name": "Raising the Heat",
+    "description": "<b>Effect:</b> If you are the attacker, set your <b>fury level</b> to 1. If you are the defender, set your <b>fury level</b> to 2."
+  },
+  {
+    "fr_name": "Rage Bouillonnante",
+    "name": "Simmering Rage",
+    "description": "<b>Declare:</b> You must use this ability.<br/><br/><b>Effect:</b> Gain a number of <b>rage dice</b> equal to your <b>fury level</b>. At the end of the battle round, any unspent <b>rage dice</b> are lost."
+  },
+  {
+    "fr_name": "Éruption de Fureur",
+    "name": "Eruption of Fury",
+    "keywords": "Attack, Fight",
+    "description": "<b>Declare:</b> Pick a friendly unit to use this ability, then pick an enemy unit in combat with that friendly unit to be the target.<br/><br/><b>Effect:</b> Pick 1 of the melee weapons that the unit using this ability is armed with. Then, spend up to 3 <b>rage dice</b>.<br/><br/>Resolve a number of combat attacks against the target using the melee weapon you picked equal to the number of <b>rage dice</b> you spent.<br/><br/>Those attacks cannot score critical hits. Instead, for each unmodified hit roll of 6 for those attacks:<br/><ul><li>Inflict an additional D3 mortal damage on each enemy unit in combat with the unit using this ability.</li><li>Your opponent must increase their <b>fury level</b> by 1, to a maximum of 7.</li></ul>For each unmodified hit roll of 1 for those attacks, allocate D3 mortal damage to this unit after the damage sequence has been resolved (ward rolls cannot be made for those damage points).<br/><br/><b><i>Designer’s Note:</i></b> <i>Rage dice do not add to the Attacks characteristic of the weapon you pick; if you spend 3 rage dice to use this ability, you only make 3 combat attacks.</i>"
+  },
+  {
+    "fr_name": "Braver la Douleur",
+    "name": "Fight Through the Pain",
+    "description": "<b>Effect:</b> Before allocating damage to a friendly unit, you can spend any number of <b>rage dice</b>. For each <b>rage dice</b> spent, reduce your <b>fury level</b> by 1, to a minimum of 0, then roll a dice. On a 3+, remove 1 damage point from that unit’s damage pool."
+  }
+]

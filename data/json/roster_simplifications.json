@@ -1,0 +1,1749 @@
+{
+  "all_lists": {
+    "base_rules_last": true,
+    "add_keywords": {
+      "Éruption de Fureur": "Simple",
+      "Activation de Site de Pouvoir": "Simple",
+      "Mouvement Normal": "Simple",
+      "Course": "Simple",
+      "Redéploiement": "Simple",
+      "Contre-Charge": "Simple",
+      "Ralliement": "Simple",
+      "Repli": "Simple",
+      "Tir": "Simple",
+      "Tir de Couverture": "Simple",
+      "Charge": "Simple",
+      "Corps à Corps": "Simple",
+      "Enfoncement": "Simple",
+      "Intervention Magique": "Simple",
+      "Bannir une Manifestation": "Simple",
+      "Dissipation": "Simple",
+      "Déploiement de Terrain de Faction": "Simple",
+      "Déploiement de Régiment": "Simple",
+      "Déploiement d’Unité": "Simple",
+      "Braver la Douleur": "Simple",
+      "Rage Bouillonnante": "Simple",
+      "Au Pas de Course": "Simple",
+      "Héros Gardé": "Simple",
+      "En Route pour les Grandes Oubliettes": "Simple",
+      "La Mort Manifeste": "Simple",
+      "Traînés dans la Tombe": "Simple",
+      "Détonation Morbide": "Simple",
+      "Début de Round de Bataille": "Simple",
+      "Terrain": "Simple"
+    },
+    "description_overrides": {
+      "Éruption de Fureur": "<b>Annonce :</b> Choisissez comme cible une unité ennemie en mêlée avec une unité amie.<br/><br/><b>Effet :</b> Avec 1 arme de mêlée de l’unité qui utilise cette aptitude :<ul><li>dépensez 1 à 3 <b>dés de rage</b> : autant d’attaques de mêlée (et non les Attaques de l’arme) ;</li><li>pas de touches critiques ;</li><li>chaque 6 non modifié : D3 mortels à chaque unité ennemie en mêlée avec l’unité, et l’adversaire gagne +1 <b>niveau de fureur</b> (max 7) ;</li><li>chaque 1 non modifié : D3 mortels à l’unité après la séquence de dégâts, sans protection.</li></ul>",
+      "Activation de Site de Pouvoir": "<b>Annonce :</b> Choisissez un Héros ami à 3\" d’un Site de Pouvoir.<br/><br/><b>Effet :</b> Jetez un dé. Sur 1, infligez D3 dégâts mortels à ce Héros. Sur 2+, choisissez 1 des effets suivants :<br/><ul><li><i>Fureur Ignée :</i> Gagnez 2 dés de rage, puis augmentez votre niveau de fureur de 2, jusqu’à un maximum de 7.</li><li><i>Colère Canalisée :</i> Sorcier/Prêtre : +1 au lancement/à la récitation de ce Héros ce tour.</li><li><i>Rage Étourdissante :</i> peut Dissiper ou Bannir comme un Sorcier (1) ce tour (pas de Bannir via Intervention Magique).</li></ul>",
+      "Mouvement Normal": "<b>Utilisée par :</b> Une unité amie qui n’est pas en mêlée.<br/><br/><b>Effet :</b> Se déplace de M\", sans entrer en mêlée.",
+      "Course": "<b>Utilisée par :</b> Une unité amie qui n’est pas en mêlée.<br/><br/><b>Effet :</b> Se déplace de M + D6\", sans entrer en mêlée.",
+      "Redéploiement": "<b>Utilisée par :</b> Une unité amie qui n’est pas en mêlée.<br/><br/><b>Effet :</b> D6\" maximum, sans traverser ni finir à portée de mêlée d’un ennemi.",
+      "Contre-Charge": "<b>Utilisée par :</b> Une unité amie qui n’est pas en mêlée.<br/><br/><b>Effet :</b> Cette unité peut utiliser une aptitude de Charge comme si c’était votre phase de charge.",
+      "Ralliement": "<b>Utilisée par :</b> Une unité amie qui n’est pas en mêlée.<br/><br/><b>Effet :</b> Faites 6 jets de ralliement (D6) : chaque 4+ donne 1 point de ralliement, à répartir librement entre :<br/><ul><li><b>1 point</b> : Soignez (1) l’unité.</li><li><b>X points = X Santé</b> : ramenez 1 figurine tuée dans l’unité.</li></ul>Les points non dépensés sont perdus.",
+      "Repli": "<b>Utilisée par :</b> Une unité amie qui est en mêlée.<br/><br/><b>Effet :</b> D3 dégâts mortels à l’unité, puis elle se déplace de M\". Elle peut traverser la mêlée, mais pas y finir.",
+      "Tir": "<b>Utilisée par :</b> Une unité amie qui n’a pas utilisé une aptitude de Course ni de Repli à ce tour.<br/><br/><b>Annonce :</b> Choisissez une ou plusieurs unités ennemies comme cible(s) de ses attaques.<br/><br/><b>Effet :</b> Résolvez les attaques de tir contre la/les unité(s) cible(s).",
+      "Tir de Couverture": "<b>Utilisée par :</b> Une unité amie qui n’a utilisé aucune aptitude de Course à ce tour et qui n’est pas en mêlée.<br/><br/><b>Cible :</b> l’unité ennemie la plus proche qu’on peut cibler au tir (ni Manifestation, ni terrain de faction).<br/><br/><b>Effet :</b> Résolvez les attaques de tir de l’unité contre la cible, à −1 touche.",
+      "Charge": "<b>Utilisée par :</b> Une unité amie qui n’est pas en mêlée et qui n’a pas utilisé une aptitude de Course ni de Repli à ce tour.<br/><br/><b>Annonce :</b> Faites un jet de charge de 2D6.<br/><br/><b>Effet :</b> Déplacement jusqu’au résultat du jet. Elle peut traverser la mêlée et doit finir à ½\" d’une unité ennemie visible ; si c’est le cas, elle a chargé.",
+      "Corps à Corps": "<b>Utilisée par :</b> Une unité amie qui est en mêlée ou qui a chargé à ce tour.<br/><br/><b>Annonce :</b> Elle peut faire un mouvement d’engagement. Puis, si elle est en mêlée, vous devez choisir une ou plusieurs unités ennemies comme cible(s) de ses attaques.<br/><br/><b>Effet :</b> Résolvez les attaques de mêlée contre la/les unité(s) cible(s).",
+      "Enfoncement": "<b>Utilisée par :</b> Une unité amie qui a chargé à ce tour.<br/><br/><b>Cible :</b> une unité ennemie en mêlée avec elle, dont la <b>caractéristique de Santé</b> est inférieure à la sienne.<br/><br/><b>Effet :</b> D3 dégâts mortels à la cible, puis déplacement de M\" maximum. Elle peut traverser ou finir dans la mêlée des seules unités avec lesquelles elle était déjà en mêlée, et n’est pas obligée de finir en mêlée.",
+      "Intervention Magique": "<b>Utilisée par :</b> Un Sorcier ou un Prêtre ami.<br/><br/><b>Effet :</b> L’unité amie peut utiliser une aptitude de Sort, de Prière ou de Bannissement (selon le cas approprié) comme si c’était votre phase des héros. Dans ce cas, soustrayez 1 aux jets de lancement ou de récitation faits dans le cadre de cette aptitude.",
+      "Bannir une Manifestation": "<b>Utilisée par :</b> Un Sorcier ou Prêtre ami.<br/><br/><b>Cible :</b> une Manifestation à 30\" de lui<ul><li>non convoquée à ce tour</li><li>une même Manifestation au plus 1 fois par tour</li><li>jet de bannissement de <b>2D6</b> (+1 par autre Manifestation ennemie)</li></ul><br/><br/><b>Effet :</b> Si le jet de bannissement est supérieur ou égal à la valeur de bannissement de la manifestation, elle est bannie et retirée du jeu.",
+      "Dissipation": "<b>Utilisée par :</b> Un Sorcier ami à 30\" du lanceur ennemi.<br/><br/><b>Effet :</b> Si le jet de dissipation est supérieur au jet de lancement, le sort est dissipé et son effet n’est pas résolu. Une seule dissipation par jet de lancement.",
+      "Déploiement de Terrain de Faction": "<b>Effet :</b> Placez un terrain de faction ami non déployé entièrement en territoire ami, à plus de 3\" des objectifs et des autres terrains.",
+      "Déploiement de Régiment": "<b>Effet :</b> Choisissez un régiment dont aucune unité n’est déployée : déployez-les toutes d’affilée, sans rendre la main.",
+      "Déploiement d’Unité": "<b>Effet :</b> Placez une unité non déployée entièrement en territoire ami, à plus de 9\" du territoire ennemi.",
+      "Braver la Douleur": "<b>Effet :</b> Avant d’allouer des dégâts à une unité amie, dépensez N <b>dés de rage</b> (−1 <b>niveau de fureur</b> chacun, minimum 0). Jetez 1 dé par dé de rage : chaque 3+ retire 1 dégât.",
+      "Rage Bouillonnante": "<b>Effet :</b> Aptitude obligatoire. Gagnez autant de <b>dés de rage</b> que votre <b>niveau de fureur</b> ; ceux qui ne sont pas dépensés sont perdus en fin de round.",
+      "Au Pas de Course": "<b>Utilisé par :</b> L’unité qui utilise l’aptitude de Course.<br/><br/><b>Effet :</b> Pour l’aptitude de Course, pas de jet de course : +6\" fixe.",
+      "Héros Gardé": "<b>Effet :</b> S’il est à portée de mêlée d’une unité amie non-Héros :<ul><li>−1 touche aux tirs qui le ciblent ;</li><li>Infanterie : ne peut pas être ciblé par des tirs de figurines à plus de 12\".</li></ul>",
+      "En Route pour les Grandes Oubliettes": "Chaque partie peut cibler une unité ennemie à 3\" d’elle (une même unité au plus 1 fois par tour). D3 par cible, sur 2+ :<ul><li>autant de dégâts mortels ;</li><li>autant de pouces en moins à son Mouvement pour le restant du tour.</li></ul>",
+      "La Mort Manifeste": "<ul><li>Se déplace de M\" maximum en traversant les figurines, sans finir en mêlée.</li><li>Puis jusqu’à 3 unités ennemies traversées : D3 chacune, sur 2+ autant de dégâts mortels.</li></ul>",
+      "Traînés dans la Tombe": "<ul><li>Se déplace de M\" maximum en traversant les figurines, sans finir en mêlée.</li><li>Puis une unité ennemie traversée : 1 dé par figurine, chaque 5+ = 1 dégât mortel.</li></ul>",
+      "Détonation Morbide": "Obligatoire dès 6 <b>points de maelström</b> (et seulement alors). Toutes les unités, amies et ennemies, à 9\" : 1 dé chacune, sur 2+ autant de dégâts mortels. Puis le Maelström est détruit.",
+      "Début de Round de Bataille": "<b>1 :</b> <b>Joueur actif.</b> Au round 1, celui qui a fini de déployer en premier choisit qui commence. Pour les autres rounds, jet de priorité ; en cas d’égalité, celui qui a eu le premier tour au round précédent choisit.<br/><br/><b>2 :</b> <b>Outsider :</b> le joueur qui a le moins de points de victoire, pour tout le round (égalité : pas d’outsider).<br/><br/><b>3 :</b> <b>Points d’ordre :</b> chaque joueur reçoit 4 points d’ordre (5 pour l’outsider).",
+      "Terrain": "<b>Couvert :</b> −1 touche contre une unité derrière ou entièrement sur le terrain, sauf si elle a chargé ce tour ou a Vol.<br/><br/><b>Infranchissable :</b> Les figurines ne peuvent pas se déplacer, être placées, ni finir un mouvement sur une partie de cet élément de terrain.<br/><br/><b>Occultant :</b> Tant que chaque figurine d’une unité non-Monstre, non-Machine de Guerre et non-Vol est à 1\" : elle n’est visible que des ennemis à portée de mêlée, et la portée de ses armes de tir est divisée par 2.<br/><br/><b>Site de Pouvoir :</b> Les Héros à 3\" de cet élément de terrain peuvent utiliser l’aptitude « Activation de Site de Pouvoir ».<br/><br/><b>Instable :</b> Interdit de placer une figurine ou de finir un mouvement sur une partie à plus de 1\" de haut.",
+      "Placez le Champ de Bataille": "<b>1 :</b> Les joueurs tirent au dé. Le gagnant choisit quel joueur est l’<b>attaquant</b> et lequel est le <b>défenseur</b>.<br/><br/><b>2 :</b> Le défenseur place les <b>objectifs</b> et les <b>éléments de terrain</b> comme indiqué sur la carte du plan de bataille.<br/><br/><b>3 :</b> Après avoir placé les objectifs et le terrain, l’<b>attaquant</b> désigne quel territoire est le sien. L’autre territoire est celui du <b>défenseur</b>. Puis les joueurs résolvent la <b>phase de déploiement</b>. L’attaquant <b>commence le déploiement</b>.<br/><br/><b>4 :</b> <b>Déployer les terrains de faction :</b> celui qui commence le déploiement utilise d’abord ses aptitudes de <b>Déploiement de Terrain</b>, puis l’adversaire.<br/><br/><b>5 :</b> <b>Déployer les armées :</b> à tour de rôle, en commençant par celui qui a commencé le déploiement, chaque joueur utilise une aptitude de <b>Déploiement de Régiment</b> ou de <b>Déploiement d’Unité</b>. Quand un joueur n’en a plus, l’autre continue jusqu’à ce qu’il n’en ait plus."
+    },
+    "compress_spell_declare": true,
+    "compress_tactic_conditions": true,
+    "merge_into": {
+      "Musicien": {
+        "into": "Ralliement",
+        "description": "<b>Utilisée par :</b> Une unité amie qui n’est pas en mêlée.<br/><br/><b>Effet :</b> Faites 6 jets de ralliement (D6), +1 jet si l’unité contient un musicien : chaque 4+ donne 1 point de ralliement, à répartir librement entre :<br/><ul><li><b>1 point</b> : Soignez (1) l’unité.</li><li><b>X points = X Santé</b> : ramenez 1 figurine tuée dans l’unité.</li></ul>Les points non dépensés sont perdus."
+      }
+    },
+    "compress_prayer_declare": true,
+    "compress_declare": true
+  },
+  "lists": {
+    "Totosai 197693535 - Intervilles": {
+      "option_labels": {
+        "Scholar of the Sigils": "Scholar of the Sigils : Thalari"
+      },
+      "units": {
+        "Scinari Enlightener": {
+          "add_abilities": [
+            {
+              "name": "Jet de Lancement",
+              "condition": "Passive",
+              "ability_phase": "Hero Phase",
+              "keywords": "Spell, Simple",
+              "before_spells": true,
+              "description": "+2 au lancement.<br/>Sort <b>illimité</b> lancé avec succès, 1 fois par tour (armée) : sur 4+, après son effet, il peut le lancer une 2e fois avec le même jet de lancement (ne compte pas dans ses sorts du tour).",
+              "note": "Baguette d'Argent + Érudit des Sceaux : Thalari, Rune d'Enthlaï"
+            }
+          ]
+        },
+        "Shrine Luminor": {
+          "add_abilities": [
+            {
+              "name": "Gardien du Temple",
+              "condition": "Passive",
+              "ability_phase": "Start of Turn",
+              "keywords": "Simple",
+              "description": "<b>Entrée</b> (phase des héros) : si pas de Gardien, 1 <b>Héros</b> d'<b>Infanterie Lumineth</b> ami à 3\" du Shrine et hors mêlée est placé sur le Shrine et devient Gardien du Temple.<br/><b>Sortie</b> (phase de mouvement) : si le Gardien n'a pas été placé à ce tour, placez-le entièrement à 6\" du Shrine et hors mêlée.<br/><b>Tant qu'il y a un Gardien :</b><br/>• Shrine : Mouvement 6\", peut utiliser les aptitudes de <b>Mouvement</b> (hors <b>Charge</b> et ordres), ne finit pas en mêlée.<br/>• Gardien : aucune aptitude de <b>Mouvement</b>, reste sur le Shrine ; pas de <b>Corps à Corps</b>.<br/>• Portée et visibilité mesurées depuis le Shrine.<br/>• Les attaques qui ciblent le Gardien ciblent le Shrine.<br/>• Ennemis : pas de placement à 9\" ou moins du Shrine, <b>Repli</b> obligatoire pour s'en éloigner, et un <b>Tir de Couverture</b> doit le cibler s'il est le plus proche.<br/><b>Shrine détruit</b> : D3 dégâts mortels au Gardien, puis placez-le entièrement à 3\" du Shrine et hors mêlée (sinon il est tué).",
+              "note": "Entrer dans le Sanctuaire, Sortir du Sanctuaire, Gardien du Temple"
+            },
+            {
+              "name": "Rituels Purificateurs",
+              "condition": "Once Per Turn, Any Hero Phase",
+              "ability_phase": "Hero Phase",
+              "keywords": "Spell, Simple",
+              "before_spells": true,
+              "description": "Si le Shrine a un Gardien du Temple : vous pouvez relancer le jet de lancement d'un sort d'une unité <b>Lumineth</b> amie entièrement à 12\" du Shrine."
+            }
+          ]
+        },
+        "Avalenor, The Stoneheart King": {
+          "add_abilities": [
+            {
+              "name": "Nombre d'Attaques",
+              "condition": "Passive",
+              "ability_phase": "Combat Phase",
+              "keywords": "Simple",
+              "description": "<b>Marteaux Volefeu :</b> 6 Attaques (4 si Avalenor a 10 dégâts ou plus), puis +1 par exemplaire d'<b>Alaithi</b> inscrit, puis +1 (L'Appel des Montagnes : Avalenor est à 12\" de lui-même).",
+              "note": "Avec la Force d'un Glissement de Terrain, Stigmates de Guerre, L'Appel des Montagnes"
+            },
+            {
+              "name": "L'Appel des Montagnes",
+              "condition": "Passive, Start of Battle Round",
+              "ability_phase": "Start of Turn",
+              "keywords": "Simple",
+              "description": "Toutes les unités <b>Alarithes</b> amies visibles et entièrement à 12\" d'Avalenor (Avalenor compris) :<br/>• +1 exemplaire d'<b>Alaithi</b> pour les aptitudes de leur charte (voir « Nombre d'Attaques » sur leur warscroll) ;<br/>• ciblées par Inscription de Rune, elles reçoivent les effets <b>améliorés</b> liés à <b>Alaithi</b> comme si elle était inscrite."
+            }
+          ]
+        },
+        "Alarith Spirit of the Mountain": {
+          "add_abilities": [
+            {
+              "name": "Nombre d'Attaques",
+              "condition": "Passive",
+              "ability_phase": "Combat Phase",
+              "keywords": "Simple",
+              "description": "<b>Marteau-monde Cœur de Pierre :</b> 4 Attaques (3 si cette unité a 10 dégâts ou plus), puis +1 par exemplaire d'<b>Alaithi</b> inscrit, puis +1 si cette unité est visible et entièrement à 12\" d'Avalenor (L'Appel des Montagnes).",
+              "note": "Avec la Force d'un Glissement de Terrain, Stigmates de Guerre, L'Appel des Montagnes"
+            }
+          ]
+        },
+        "Sevireth, Lord of the Seventh Wind": {
+          "add_abilities": [
+            {
+              "name": "L'Appel des Vents",
+              "condition": "Passive, Start of Battle Round",
+              "ability_phase": "Start of Turn",
+              "keywords": "Simple",
+              "description": "Toutes les unités <b>Hurakaines</b> amies (Sevireth et/ou le Windmage) visibles et entièrement à 12\" de Sevireth :<br/>• +1 exemplaire d'<b>Oreali</b> pour les aptitudes de leur charte (Esprit du Vent de Sevireth) ;<br/>• ciblées par Inscription de Rune, elles reçoivent les effets <b>améliorés</b> liés à <b>Oreali</b> comme si elle était inscrite."
+            }
+          ]
+        }
+      },
+      "remove_abilities": [
+        "Silver Wand",
+        "Baguette d'Argent",
+        "Scholar of the Sigils",
+        "Érudit des Sceaux",
+        "Cleansing Rituals",
+        "Rituels Purificateurs",
+        "Rune of Enthlai",
+        "Rune d'Enthlaï",
+        "Enter the Shrine",
+        "Entrer dans le Sanctuaire",
+        "Exit the Shrine",
+        "Sortir du Sanctuaire",
+        "Shrine Guardian",
+        "Gardien du Temple",
+        "With the Force of a Landslide",
+        "Avec la Force d'un Glissement de Terrain",
+        "Battle Damaged",
+        "Stigmates de Guerre",
+        "Call of the Mountains",
+        "L'Appel des Montagnes",
+        "Call of the Winds",
+        "L'Appel des Vents"
+      ],
+      "keep_on_warscroll": [
+        "Multiple Parts",
+        "Plusieurs Parties",
+        "Nombre d'Attaques",
+        "Necrotic Vortex",
+        "Vortex Nécrotique"
+      ],
+      "warscroll_order": [
+        "Avalenor, The Stoneheart King",
+        "Alarith Spirit of the Mountain"
+      ],
+      "description_overrides": {
+        "Inscription de Rune": "Inscrivez 1 rune dans votre <b>verset guerrier</b> ; elle y reste toute la bataille (sauf retrait ou remplacement). Ciblez jusqu'à 2 unités de <b>Suzerains Lumineths</b> amies par exemplaire de cette rune inscrit. L'effet et les effets <b>améliorés</b> durent pour le restant du round.<br/><br/><b>Alaithi, la Rune de la Montagne :</b> chaque cible a une <b>Protection (5+)</b>.<br/><ul><li>+ Varinor : armes de mêlée des cibles <b>Anti-charge (+1 Perf.)</b>.</li><li>+ Ydriliqi : −1 aux jets de blessure des unités ennemies en mêlée avec une cible.</li></ul><br/><b>Ydriliqi, la Rune du Fleuve :</b> -2 aux jets de charge des unités ennemies à 12\" d'une cible.<br/><ul><li>+ Alaithi : les cibles ignorent les modificateurs négatifs à leurs jets de touche et de blessure.</li><li>+ Oreali (immédiat) : chaque cible peut se déplacer de 3\" maximum, peut passer à portée de mêlée et finir en mêlée.</li></ul><br/><b>Oreali, la Rune du Vent :</b> -1 aux jets de touche des unités ennemies en mêlée avec une cible.<br/><ul><li>+ Varinor : +4\" au Mouvement des cibles.</li><li>+ Alaithi : +5 au score de contrôle des cibles.</li></ul><br/><b>Varinor, la Rune de Force :</b> +1 aux jets de course et de charge des cibles.<br/><ul><li>+ Ydriliqi : +1 aux jets de blessure des attaques de mêlée des cibles.</li><li>+ Oreali : les cibles peuvent utiliser des aptitudes de <b>Tir</b> et/ou de <b>Charge</b> même après une aptitude de <b>Repli</b> au même tour.</li></ul>",
+        "Bond du Vent": "<b>Cibles :</b> Sevireth et/ou le Windmage, visibles et entièrement à 12\" du Windmage. Pour le restant du tour, chaque cible peut <b>Courir</b> puis <b>Tirer</b> et/ou <b>Charger</b>.",
+        "Pensées Limpides": "<b>Cible :</b> l'Illumineur ou le Windmage, visible et entièrement à 12\" de l'Illumineur. Jusqu'à votre prochain tour, aucune touche critique contre la cible (elles comptent comme des touches normales).",
+        "Esprit du Vent": "Si Sevireth a utilisé une aptitude de <b>Tir</b> à cette phase : il peut se déplacer de D6\" + 2 par exemplaire d'<b>Oreali</b> inscrit, + 2 (L'Appel des Vents : Sevireth est à 12\" de lui-même). Pas de fin de mouvement en mêlée.",
+        "À l'Unisson": "Quand c'est à vous de choisir une unité pour le <b>Corps à Corps</b> : choisissez-en 2 de <b>Suzerains Lumineths</b>, résolues l'une après l'autre.",
+        "Rempart Impénétrable": "Si Avalenor n'a pas chargé à ce tour. <b>Cible :</b> une unité ennemie en mêlée avec lui. Sur 3+, pour le restant du tour, tant qu'elle est en mêlée avec lui : ses figurines à portée de mêlée d'Avalenor doivent l'attaquer.",
+        "Pluie de Pierres": "<b>Cible :</b> une unité ennemie en mêlée avec cet Esprit. D3 (+2 si la cible a chargé à ce tour) : sur 2+, autant de dégâts mortels.",
+        "Vents Ardents du Désert": "<b>Cibles :</b> jusqu'à 3 unités ennemies visibles et à 6\" de Sevireth. D3 par cible, sur 2+ :<ul><li>autant de dégâts mortels ;</li><li>−1 aux jets de blessure de ses attaques pour le restant du tour.</li></ul>",
+        "Érosion Concentrée": "<b>Cible :</b> une unité ennemie visible et à 18\" du lanceur. −1 Perf. à ses armes jusqu'à votre prochain tour.",
+        "Élan Élémentaire": "<b>Cible :</b> une unité de <b>Suzerains Lumineths</b> amie visible, entièrement à 12\" et pas placée à ce tour (−1 au lancement si elle est en mêlée). Elle peut se déplacer de 5\" maximum ; peut traverser la mêlée, pas y finir.",
+        "Pavois des Royaumes": "Jusqu'à votre prochain tour : <b>Protection (5+)</b> pour les <b>Suzerains Lumineths</b> amis entièrement à 12\" du lanceur.",
+        "Vortex Transporteur": "<b>Cible :</b> une unité de <b>Suzerains Lumineths</b> amie visible, entièrement à 12\" et hors mêlée. Retirez-la, puis replacez-la à plus de 9\" des unités ennemies.",
+        "Attraction du Nadir": "−1 aux jets de sauvegarde des unités amies et ennemies à 3\" du Soleil Violet.",
+        "Vortex Nécrotique": "+1 <b>point de maelström</b> (6 au maximum) quand :<ul><li>il est placé ;</li><li>une unité lance un sort avec succès à 12\" de lui ;</li><li>une figurine est tuée à 12\" de lui.</li></ul>",
+        "Plusieurs Parties": "Détruite quand ses dégâts atteignent sa Santé : toutes ses parties sont retirées."
+      },
+      "add_keywords": {
+        "Inscription de Rune": "Simple",
+        "Bond du Vent": "Simple",
+        "Pensées Limpides": "Simple",
+        "Esprit du Vent": "Simple",
+        "À l'Unisson": "Simple",
+        "Rempart Impénétrable": "Simple",
+        "Pluie de Pierres": "Simple",
+        "Vents Ardents du Désert": "Simple",
+        "Érosion Concentrée": "Simple",
+        "Élan Élémentaire": "Simple",
+        "Pavois des Royaumes": "Simple",
+        "Vortex Transporteur": "Simple",
+        "Attraction du Nadir": "Simple",
+        "Vortex Nécrotique": "Simple",
+        "Plusieurs Parties": "Simple"
+      },
+      "phase_overrides": {
+        "Attraction du Nadir": [
+          "Shooting Phase",
+          "Combat Phase"
+        ]
+      }
+    },
+    "Shadow 197693535 - Un cavalier ne parle pas aux fantassins": {
+      "units": {
+        "Varanguard": {
+          "add_abilities": [
+            {
+              "name": "Tueurs Implacables",
+              "condition": "Once Per Battle, Any Combat Phase",
+              "ability_phase": "Combat Phase",
+              "keywords": "Simple",
+              "description": "<ul><li>2 aptitudes de <b>Corps à Corps</b> à cette phase ;</li><li>après la première : <b>Frappe en Dernier</b> pour le restant du tour, <b>sauf</b> si entièrement à 12\" d'Abraxia.</li></ul>1 fois par bataille <b>pour chaque unité</b> de Varangarde.",
+              "note": "Tueurs Implacables + Seigneuresse de Guerre du Premier Cercle (Abraxia)"
+            }
+          ]
+        },
+        "Chaos Knights": {
+          "add_abilities": [
+            {
+              "name": "Champion",
+              "condition": "Passive",
+              "ability_phase": "Combat Phase",
+              "keywords": "Simple",
+              "description": "+1 Attaque aux armes du champion."
+            },
+            {
+              "name": "Porte-Étendard",
+              "condition": "Passive",
+              "ability_phase": "End of Turn",
+              "keywords": "Simple",
+              "description": "+1 au score de contrôle tant que l'unité a un porte-étendard."
+            }
+          ],
+          "description_overrides": {
+            "Voué à Khorne": "<i>Appliqué</i>",
+            "La Bannière de Rage": "<b>Voué à Khorne</b>. Tant que l'unité a un porte-étendard : +1 aux jets de blessure de ses attaques de mêlée."
+          },
+          "weapons": {
+            "Cursed Lance": {
+              "attacks": "4"
+            }
+          }
+        },
+        "Darkoath Savagers": {
+          "add_abilities": [
+            {
+              "name": "Champion",
+              "condition": "Passive",
+              "ability_phase": "Combat Phase",
+              "keywords": "Simple",
+              "description": "+1 Attaque aux armes du champion."
+            }
+          ]
+        },
+        "Daemon Prince": {
+          "stats": {
+            "ward": "5+",
+            "move": "10\""
+          },
+          "description_overrides": {
+            "Voué à Nurgle": "<i>Appliqué</i>",
+            "Horreur Ailée": "<i>Appliqué</i>"
+          }
+        },
+        "The Oathsworn Kin": {
+          "add_unit_keywords": [
+            "WIZARD (1)"
+          ]
+        },
+        "Abraxia, Spear of the Everchosen": {
+          "description_overrides": {
+            "Rugissement de Domination": "<b>Cible :</b> un <b>Héros</b> ennemi en mêlée avec Abraxia. Sur 3+ : −1 Attaque à ses armes de mêlée pour le restant du tour.",
+            "Sang de Varanite en Fusion": "Chaque dégât d'une attaque de mêlée alloué à Abraxia : sur 4+, 1 dégât mortel à l'unité attaquante, après la résolution de son aptitude de <b>Corps à Corps</b>.",
+            "Stigmates de Guerre": "10 dégâts ou plus : <b>Griffes et Crocs du Thanatorg</b> = 4 Attaques."
+          }
+        },
+        "Gunnar Brand": {
+          "description_overrides": {
+            "Tailler un Chemin Vers la Gloire": "Si Gunnar Brand est en mêlée avec un <b>Héros</b> ennemi :<ul><li>2 aptitudes de <b>Corps à Corps</b> à cette phase ;</li><li>après la première : <b>Frappe en Dernier</b> pour le restant du tour ;</li><li>à la seconde : toutes ses attaques ciblent un <b>Héros</b> ennemi.</li></ul>",
+            "Serment du Bain de Sang": "Si Gunnar Brand a tué au moins 1 <b>Héros</b> ennemi avec ses attaques de mêlée à ce tour : Gunnar Brand, Singri Brand et The Oathsworn Kin ont une <b>Protection (4+)</b> pour le restant de la bataille."
+          }
+        },
+        "Mindstealer Sphiranx": {
+          "description_overrides": {
+            "Dominer l'Esprit": "<b>Cible :</b> une unité ennemie à 6\" de la Sphiranx. Si 1D6 > Contrôle de la cible : <b>Frappe en Dernier</b> pour le restant du tour."
+          }
+        }
+      },
+      "remove_abilities": [
+        "The Mounted Skulls of the Fallen",
+        "Les Crânes des Vaincus",
+        "Relentless Killers",
+        "Tueurs Implacables",
+        "Warlord of the First Circle",
+        "Seigneuresse de Guerre du Premier Cercle",
+        "Champion",
+        "Porte-Étendard"
+      ],
+      "keep_on_warscroll": [
+        "Airborne Horror",
+        "Horreur Ailée",
+        "Pledged to Nurgle",
+        "Voué à Nurgle",
+        "Swift As The Wind",
+        "Vive Comme le Vent",
+        "Uncanny Shot",
+        "Tir Extraordinaire",
+        "Broken Nadja",
+        "Nadja l'Éraillée",
+        "Champion",
+        "Porte-Étendard",
+        "The Banner of Rage",
+        "La Bannière de Rage",
+        "Pledged to Khorne",
+        "Voué à Khorne",
+        "Burning Up",
+        "Consumation"
+      ],
+      "add_keywords": {
+        "Vocation au Chaos": "Simple",
+        "Gorbolga la Maudite": "Simple",
+        "Malédiction de Malelangue": "Simple",
+        "Entraves de Damnation": "Simple",
+        "Vitesse Démoniaque": "Simple",
+        "Tir Extraordinaire": "Simple",
+        "Nadja l'Éraillée": "Simple",
+        "Horreur Ailée": "Vol",
+        "La Bannière de Rage": "Simple",
+        "Voué à Tzeentch": "Simple",
+        "Rugissement de Domination": "Simple",
+        "Sang de Varanite en Fusion": "Simple",
+        "Stigmates de Guerre": "Simple",
+        "Tailler un Chemin Vers la Gloire": "Simple",
+        "Dominer l'Esprit": "Simple",
+        "Serment du Bain de Sang": "Simple",
+        "Vous Allez Me Servir !": "Simple",
+        "Voué à Slaanesh": "Simple"
+      },
+      "description_overrides": {
+        "Tir Extraordinaire": "<b>Arc de Guerre de Singri</b> : +1 Perf. contre une cible à 6\" d'un Gunnar Brand ami.",
+        "Nadja l'Éraillée": "<b>Sorcier (1)</b> tant que Nadja l'Éraillée est sur le champ de bataille : seul lanceur de la liste.",
+        "Activation de Site de Pouvoir": "<b>Annonce :</b> Choisissez un Héros ami à 3\" d’un Site de Pouvoir.<br/><br/><b>Effet :</b> Jetez un dé. Sur 1, infligez D3 dégâts mortels à ce Héros. Sur 2+, choisissez 1 des effets suivants :<br/><ul><li><i>Fureur Ignée :</i> Gagnez 2 dés de rage, puis augmentez votre niveau de fureur de 2, jusqu’à un maximum de 7.</li><li><i>Rage Étourdissante :</i> peut Dissiper ou Bannir comme un Sorcier (1) ce tour (pas de Bannir via Intervention Magique).</li></ul>",
+        "Vocation au Chaos": "<b>Cible :</b> une unité amie non <b>Unique</b> et sans Vocation au Chaos : Varanguard, Darkoath Savagers ou Mindstealer Sphiranx. Elle devient <b>Vouée à Khorne</b>, <b>Tzeentch</b>, <b>Nurgle</b> ou <b>Slaanesh</b> (au choix) pour le restant de la bataille.",
+        "Gorbolga la Maudite": "Si cette unité est en mêlée, jetez un dé :<br/><ul><li><b>1</b> : 1 dégât alloué à Abraxia ;</li><li><b>2</b> : rien ;</li><li><b>3-5</b> : Gorbolga +1 Dégât pour le restant du tour ;</li><li><b>6</b> : Gorbolga +1 Dégât et Crit (Mortel) pour le restant du tour.</li></ul>",
+        "Malédiction de Malelangue": "<b>Cible :</b> une unité ennemie visible et à 12\" du lanceur. 3 dégâts mortels à la cible.<br/>Lancement raté ou sort dissipé : D3 dégâts mortels au lanceur.",
+        "Entraves de Damnation": "<b>Cible :</b> une unité ennemie visible et à 12\" du lanceur. <b>Frappe en Dernier</b> jusqu'à votre prochain tour.",
+        "Vitesse Démoniaque": "<b>Cible :</b> une unité d'<b>Esclaves des Ténèbres</b> amie visible et entièrement à 12\" du lanceur. Pour le restant du tour, +1 dé aux jets de charge de la cible (3 au maximum).",
+        "Voué à Tzeentch": "<b>Cible :</b> une unité <b>Vouée à Tzeentch</b> amie.<ul><li>Jetez 2D6.</li><li>Choisissez un point à X\" ou moins de la cible (X = le résultat des 2D6).</li><li>Retirez la cible et replacez-la entièrement à 6\" de ce point et à plus de 9\" des unités ennemies.</li></ul>",
+        "Vous Allez Me Servir !": "<b>Utilisée par :</b> le Prince Démon.<br/><b>Cible :</b> Varanguard, Darkoath Savagers ou Mindstealer Sphiranx, visible et entièrement à 12\" de lui. Elle perd sa Vocation au Chaos et devient <b>Vouée à Nurgle</b>, comme le Prince Démon.",
+        "Voué à Slaanesh": "Jets de charge des unités <b>Vouées à Slaanesh</b> amies, pour le restant du tour : vous pouvez jeter 1 dé de plus (3 au maximum), puis défausser 1 dé de votre choix."
+      },
+      "condition_overrides": {
+        "Ravening Hunger": "Your Charge Phase",
+        "Faim Dévorante": "Your Charge Phase"
+      }
+    },
+    "NH - Syffe - Olynder divorce": {
+      "units": {
+        "Pyregheists": {
+          "add_abilities": [
+            {
+              "name": "Champion",
+              "condition": "Passive",
+              "ability_phase": "Combat Phase",
+              "keywords": "Simple",
+              "description": "+1 Attaque aux armes du champion."
+            }
+          ]
+        },
+        "Dreadscythe Harridans": {
+          "add_abilities": [
+            {
+              "name": "Champion",
+              "condition": "Passive",
+              "ability_phase": "Combat Phase",
+              "keywords": "Simple",
+              "description": "+1 Attaque aux armes du champion."
+            }
+          ]
+        },
+        "Chainrasps": {
+          "add_abilities": [
+            {
+              "name": "Champion",
+              "condition": "Passive",
+              "ability_phase": "Combat Phase",
+              "keywords": "Simple",
+              "description": "+1 Attaque aux armes du champion."
+            }
+          ]
+        },
+        "Hexwraiths": {
+          "add_abilities": [
+            {
+              "name": "Champion",
+              "condition": "Passive",
+              "ability_phase": "Combat Phase",
+              "keywords": "Simple",
+              "description": "+1 Attaque aux armes du champion."
+            }
+          ]
+        }
+      },
+      "remove_abilities": [
+        "Champion"
+      ],
+      "keep_on_warscroll": [
+        "Champion",
+        "Multiple Parts",
+        "Plusieurs Parties"
+      ],
+      "add_keywords": {
+        "Apparitions Sépulcrales": "Simple",
+        "Contorsion des Âmes": "Simple"
+      },
+      "description_overrides": {
+        "Apparitions Sépulcrales": "<b>Après le déploiement des armées</b> : s'il y a un <b>Nexus de Deuil</b> ami sur le champ de bataille, placez jusqu'à 2 <b>Nexus de Deuil</b> supplémentaires, chacun entièrement hors du territoire ennemi, à plus de 3\" des objectifs et des autres éléments de terrain, et à plus de 12\" des autres <b>Nexus de Deuil</b> amis.",
+        "Contorsion des Âmes": "<b>Cible :</b> Myrmourn Banshees, Pyregheists, Dreadscythe Harridans ou Chainrasps, visible et entièrement à 12\" du lanceur.<br/><br/><b>Effet :</b> La cible peut aussitôt utiliser l'aptitude « Mouvement Normal » ou « Repli » comme s'il s'agissait de votre phase de mouvement."
+      }
+    },
+    "Hibou_2  188507690 - Le rat decheant": {
+      "condition_overrides": {
+        "Terrain Saturé d'Énergie": "Passive (Enemy turn)"
+      },
+      "section_order": {
+        "hero": [
+          "Lord Skreech Verminking"
+        ]
+      },
+      "phase_overrides": {
+        "Soupe au Lait": "Charge Phase",
+        "Terrain Saturé d'Énergie": [
+          "Movement Phase",
+          "Charge Phase"
+        ]
+      },
+      "unit_aliases": {
+        "Warbringer riche et outillé": {
+          "unit": "Verminlord Warbringer",
+          "options": [
+            "Foulhide",
+            "Short-tempered"
+          ]
+        }
+      },
+      "units": {
+        "Lord Skreech Verminking": {
+          "add_abilities": [
+            {
+              "name": "Commandant de la Vermine",
+              "condition": "Passive",
+              "ability_phase": "Charge Phase",
+              "keywords": "Simple",
+              "description": "+1 aux jets de charge (Skreech, Warbringers) si Skreech a choisi <i>Commandant de la Vermine</i> (Le Rat aux Treize Têtes)."
+            }
+          ]
+        },
+        "Thanquol on Boneripper": {
+          "add_abilities": [
+            {
+              "name": "Jet de Lancement",
+              "condition": "Passive",
+              "ability_phase": "Hero Phase",
+              "keywords": "Spell, Simple",
+              "before_spells": true,
+              "description": "+1 au lancement de Thanquol.<br/>+1 de plus jusqu'à votre prochain tour si Skreech a choisi <i>Maître-sorcier de la Ruine</i> (Le Rat aux Treize Têtes) et que Thanquol est entièrement à 13\" de lui.",
+              "note": "Bâton du Rat Cornu + Le Rat aux Treize Têtes (Maître-sorcier de la Ruine)"
+            },
+            {
+              "name": "Soins (D3)",
+              "condition": "End of Any Turn",
+              "ability_phase": "End of Turn",
+              "keywords": "Simple",
+              "description": "<b>Soignez (D3)</b> cette unité.",
+              "note": "Amulette de Malepierre (Thanquol), Salecuir (Warbringer riche et outillé)"
+            }
+          ],
+          "description_overrides": {
+            "Stigmates de Guerre": "10 dégâts ou plus : <b>Braseros à Maleflamme</b> = 4 Attaques."
+          }
+        },
+        "Warbringer riche et outillé": {
+          "add_abilities": [
+            {
+              "name": "Soins (D3)",
+              "condition": "End of Any Turn",
+              "ability_phase": "End of Turn",
+              "keywords": "Simple",
+              "description": "<b>Soignez (D3)</b> cette unité.",
+              "note": "Amulette de Malepierre (Thanquol), Salecuir (Warbringer riche et outillé)"
+            }
+          ]
+        }
+      },
+      "remove_abilities": [
+        "Tyrant of Battle",
+        "Tyran des Batailles",
+        "Overseers of the Enginecovens",
+        "Contremaîtres des Conciles Mécaniques",
+        "Staff of the Horned Rat",
+        "Bâton du Rat Cornu",
+        "Warp-amulet",
+        "Amulette de Malepierre",
+        "Foulhide",
+        "Salecuir",
+        "Filth-crust",
+        "Croûte de Crasse",
+        "Bile-torrent",
+        "Torrent de Bile",
+        "Rabid-tough",
+        "Résistance Enragée",
+        "Diversionary Assault",
+        "Assaut de Diversion"
+      ],
+      "keep_on_warscroll": [
+        "Warp Lightning Blast",
+        "Décharge de Malefoudre",
+        "Dancing Blades",
+        "Lames Dansantes",
+        "The Pendulum Swings",
+        "Le Pendule Oscille",
+        "Master of Assassins",
+        "Maître des Assassins"
+      ],
+      "description_overrides": {
+        "Le Rat aux Treize Têtes": "Choisissez 1 effet jusqu'à votre prochain tour, pour les unités amies entièrement à 13\" de Skreech (chaque effet 1 fois par bataille) :<ul><li><b>Maître-sorcier de la Ruine :</b> +1 au lancement (Thanquol, Skreech) ;</li><li><b>Commandant de la Vermine :</b> +1 aux jets de charge (Skreech, Warbringers) ;</li><li><b>Technomage Suprême :</b> +1 aux jets de touche des tirs (Arch-Warlock, Warp Lightning Cannon, Skreech) ;</li><li><b>Expert des Lames Suintantes :</b> +1 Perf. aux armes de mêlée (Crixxit, Night Runners, Skreech) ;</li><li><b>Ultime Modeleur de Chair :</b> Soignez (D3) Skreech.</li></ul>",
+        "Cape d'Ombresang": "<b>Cible :</b> les <b>Night Runners</b> (2 figurines ou plus), visibles et entièrement à 18\" de Crixxit. Sur 3+ : retirez Crixxit et replacez-le entièrement à 6\" d'eux (il peut être placé en mêlée).",
+        "Le Raz-de-Vermine sans Fin": "<b>Cible :</b> les <b>Night Runners</b>, s'ils ont été détruits. Placez une unité de remplacement de 5 figurines (la moitié de 10) entièrement à 6\" d'un <b>Trou de Vermine</b> ami et à plus de 3\" des unités ennemies.",
+        "Bombes Fumigènes": "Comme un <b>Corps à Corps</b>. Puis, si l'unité est encore en mêlée, sur 3+ : elle peut se déplacer de M\" maximum. Elle peut traverser la mêlée, mais n'y finit qu'avec les unités avec lesquelles elle était déjà en mêlée (elle n'est pas obligée d'y finir).",
+        "Tir de Couverture": "<b>Utilisée par :</b> Une unité amie qui n’a utilisé aucune aptitude de Course à ce tour et qui n’est pas en mêlée.<br/><br/><b>Cible :</b> l’unité ennemie la plus proche qu’on peut cibler au tir (ni Manifestation, ni terrain de faction).<br/><br/><b>Effet :</b> Résolvez les attaques de tir de l’unité contre la cible, à −1 touche.<br/><br/><b>Arch-Warlock :</b> si l'unité est <b>Skryre</b> et entièrement à 13\" de l'Arch-Warlock, aucun point d'ordre n'est dépensé.",
+        "Cerveaux Transplantés": "Choisissez 1 cerveau pour le restant du tour :<ul><li><b>Accro à la Malepierre :</b> +1 aux jets de touche de ses attaques de mêlée ; score de contrôle maximum 1 ;</li><li><b>Jeune Technomage :</b> +10 au score de contrôle.</li></ul>",
+        "Mécanismes du Temps": "Si un <b>Sorcier</b> ami est à 3\" des Rouages, au choix, jusqu'à votre prochain tour :<ul><li><b>Accélérer le Flux du Temps :</b> relancez les jets de charge des unités amies entièrement à 12\" des Rouages ;</li><li><b>Freiner le Flux du Temps :</b> −1 aux jets de touche des attaques qui ciblent les <b>Sorciers</b> amis entièrement à 12\" des Rouages.</li></ul>",
+        "Le Très Redouté Treizième Sort": "<b>Cible :</b> une unité ennemie visible à 13\" de Skreech. Jetez 13 dés : chaque 5+ = 1 dégât mortel.",
+        "Monstruosité Terrifiante": "<b>Cible :</b> une unité d'<b>Infanterie</b> ennemie en mêlée avec Skreech. Sur 3+ :<ul><li>pas d'ordres pour le restant du tour ;</li><li>−(résultat du dé) à son score de contrôle jusqu'à votre prochain tour.</li></ul>",
+        "Plus-plus de Malefoudre !": "Si un <b>Héros Skryre</b> ami (Arch-Warlock, Skreech) est à portée de mêlée du Canon :<ul><li>+6 Attaques à la Décharge de Malefoudre pour le restant du tour ;</li><li>chaque jet de touche non modifié de 1 de la Décharge : D3 dégâts mortels au Canon, après le tir.</li></ul>",
+        "Folie Extrême": "<b>Cible :</b> une unité ennemie visible à 13\" de Thanquol.<ul><li>Pas d'ordres jusqu'à votre prochain tour.</li><li>1 dé par figurine de la cible : chaque 6 = 1 dégât mortel.</li></ul>",
+        "Ravages de Vorhax": "<b>Cible :</b> une unité ennemie en mêlée avec Thanquol. Sur 3-5 : D3 dégâts mortels ; sur 6 : 2D3.",
+        "Maître des Assassins": "Dégâts des armes de mêlée de Crixxit doublés contre un <b>Héros</b> ennemi.",
+        "Crochets d'Escalade": "Si les Night Runners n'ont pas été placés à ce tour. <b>Cible :</b> un élément de terrain à 3\" d'eux. Retirez-les et replacez-les entièrement à 3\" de lui et à plus de 3\" des unités ennemies.",
+        "Soupe au Lait": "+1 aux jets de course et de charge des unités de Skavens amies entièrement à 13\" de ce Warbringer.",
+        "Le Raz-de-Vermine Rampant": "<b>Cible :</b> une unité de Skavens amie non déployée. Placez-la en réserve <b>dans les tunnels du dessous</b> (elle compte comme déployée).",
+        "Trop Rapide pour Toucher-Toucher": "Aucun dégât mortel aux unités d'<b>Infanterie</b> Skavens amies par les aptitudes de <b>Repli</b>.",
+        "Éclats de Maleruine": "S'il y a moins de 3 Trous de Vermine : placez-en un à plus de 9\" des unités ennemies, à plus de 3\" des objectifs et à plus de 1\" des autres éléments de terrain.",
+        "Embuscade par Trou de Vermine": "Une unité de Skavens amie dans les tunnels du dessous : placez-la entièrement à 6\" d'un Trou de Vermine ami et à plus de 9\" des unités ennemies.",
+        "Toujours Trois Coups de Griffes d'Avance": "Arch-Warlock, Crixxit, Night Runners ou Warp Lightning Cannon (hors mêlée, pas placé à ce tour) : <b>Mouvement Normal</b> comme à votre phase de mouvement.",
+        "Terrain Saturé d'Énergie": "On peut traverser le Trou de Vermine, mais pas y être placé ni y finir un mouvement.<br/>Chaque unité ennemie qui finit un mouvement à travers ou par-dessus : D3, sur 2+ autant de dégâts mortels.",
+        "Tunnels dans la Réalité": "<b>Cible :</b> une unité de Skavens amie hors mêlée, entièrement à 6\" du Trou de Vermine. Retirez-la et replacez-la entièrement à 6\" d'un autre Trou de Vermine ami et à plus de 9\" des unités ennemies.",
+        "Lame Faucheuse": "<ul><li>Se déplace de M\" maximum en ligne droite (voir « Le Pendule Oscille »), peut traverser les figurines, sans finir en mêlée.</li><li>Puis jusqu'à 3 unités ennemies traversées ou à 1/2\" : 1 dé chacune, sur 2+ autant de dégâts mortels.</li></ul>"
+      },
+      "add_keywords": {
+        "Le Rat aux Treize Têtes": "Simple",
+        "Cape d'Ombresang": "Simple",
+        "Le Raz-de-Vermine sans Fin": "Simple",
+        "Bombes Fumigènes": "Simple",
+        "Cerveaux Transplantés": "Simple",
+        "Mécanismes du Temps": "Simple",
+        "Le Très Redouté Treizième Sort": "Simple",
+        "Monstruosité Terrifiante": "Simple",
+        "Plus-plus de Malefoudre !": "Simple",
+        "Folie Extrême": "Simple",
+        "Ravages de Vorhax": "Simple",
+        "Maître des Assassins": "Simple",
+        "Crochets d'Escalade": "Simple",
+        "Soupe au Lait": "Simple",
+        "Le Raz-de-Vermine Rampant": "Simple",
+        "Trop Rapide pour Toucher-Toucher": "Simple",
+        "Éclats de Maleruine": "Simple",
+        "Embuscade par Trou de Vermine": "Simple",
+        "Toujours Trois Coups de Griffes d'Avance": "Simple",
+        "Terrain Saturé d'Énergie": "Simple",
+        "Tunnels dans la Réalité": "Simple",
+        "Lame Faucheuse": "Simple",
+        "Stigmates de Guerre": "Simple"
+      }
+    },
+    "Pierrodactyl  n°188542842 ou n°197950119  je ne sais pas de quel numéro il s'agit ?": {
+      "remove_abilities": [
+        "NATURE’S TITANS",
+        "Titans de la Nature",
+        "ASPECT OF HEARTWOOD",
+        "Aspect de Cœurbois",
+        "Budding Forests",
+        "Forêts Bourgeonnantes",
+        "Rousing Accompaniment",
+        "Accompagnement Exaltant"
+      ],
+      "add_keywords": {
+        "Repousse Perpétuelle": "Simple",
+        "L'Invasion Végétale": "Simple",
+        "La Terre s'Éveille": "Simple",
+        "Luciorbes Dansantes": "Simple"
+      },
+      "description_overrides": {
+        "Repousse Perpétuelle": "<b>Cibles :</b> chaque unité de <b>Sylvaneths</b> amie entièrement dans l'<b>invasion végétale</b>.<br/><br/><b>Effet :</b><ul><li><b>Monstres</b> (Alarielle, Belthanos, Drycha) : <b>Soignez (3)</b>.</li><li>Autres : jetez un D3, puis <b>Soignez (X)</b>, ou ramenez des figurines tuées dont la Santé combinée ne dépasse pas X.</li><li><b>1 fois par bataille</b> (Aspect de Cœurbois), si les <b>Kurnoth Hunters</b> sont entièrement dans l'<b>invasion végétale</b>, pour chaque cible entièrement à 12\" d'eux : <b>Monstres</b> <b>Soignez (6)</b>, autres D6 au lieu de D3 ; <b>Kurnoth Hunters</b> : vous pouvez à la place ramener 1 figurine tuée.</li></ul><br/><font size=\"6\" color=\"#8a8a8a\">Repousse Perpétuelle, Titans de la Nature, Aspect de Cœurbois</font>",
+        "L'Invasion Végétale": "<b>Effet :</b> L'<b>invasion végétale</b> se mesure à partir de chaque élément de terrain qui a un <b>pion d'invasion végétale</b> ami. Sa portée dépend du nombre de pions amis sur le champ de bataille :<br/><ul><li>0-2 pions : 6\"</li><li>3-5 pions : 9\"</li><li>6-8 pions : 12\"</li><li>9+ pions : tout le champ de bataille</li></ul>Chaque <b>Bois Sauvage Éveillé</b> reçoit 1 pion quand il est placé.<br/><font size=\"6\" color=\"#8a8a8a\">L'Invasion Végétale, Forêts Bourgeonnantes</font>",
+        "La Terre s'Éveille": "<b>Cible :</b> une unité de <b>Gossamid Archers</b> ou de <b>Spite-Revenants</b> amie détruite.<br/><br/><b>Effet :</b> Placez une unité de remplacement comportant la moitié des figurines de l'unité cible (arrondie au supérieur), entièrement dans l'<b>invasion végétale</b> et à plus de 9\" des unités ennemies.",
+        "Luciorbes Dansantes": "<b>Effet :</b><ul><li>Cette unité peut utiliser l'aptitude « Dissipation » comme si elle avait le mot-clé <b>Sorcier (1)</b>.</li><li>Si elle réussit à dissiper le sort auquel elle a réagi et si le lanceur est dans l'<b>invasion végétale</b>, infligez au lanceur autant de dégâts mortels que la différence entre le jet de lancement et le jet de dissipation, jusqu'à un maximum de 6.</li></ul>"
+      },
+      "units": {
+        "Warsong Revenant": {
+          "add_abilities": [
+            {
+              "name": "Accompagnement Exaltant",
+              "condition": "Once Per Turn (Army), Reaction: Vous avez obtenu un 1 non modifié sur un jet de récitation pour cette unité",
+              "ability_phase": "Hero Phase",
+              "keywords": "Simple",
+              "description": "<b>Effet :</b> Relancez ce jet de récitation."
+            }
+          ]
+        }
+      }
+    },
+    "Cartoon 188602936 - Kroak & Croco": {
+      "units": {
+        "Saurus Warriors": {
+          "add_abilities": [
+            {
+              "name": "Champion",
+              "condition": "Passive",
+              "ability_phase": "Combat Phase",
+              "keywords": "Simple",
+              "description": "+1 Attaque aux armes du champion."
+            },
+            {
+              "name": "Porte-Étendard",
+              "condition": "Passive",
+              "ability_phase": "End of Turn",
+              "keywords": "Simple",
+              "description": "+1 au score de contrôle tant que l'unité a un porte-étendard."
+            }
+          ]
+        },
+        "Aggradon Lancers": {
+          "add_abilities": [
+            {
+              "name": "Champion",
+              "condition": "Passive",
+              "ability_phase": "Combat Phase",
+              "keywords": "Simple",
+              "description": "+1 Attaque aux armes du champion."
+            },
+            {
+              "name": "Porte-Étendard",
+              "condition": "Passive",
+              "ability_phase": "End of Turn",
+              "keywords": "Simple",
+              "description": "+1 au score de contrôle tant que l'unité a un porte-étendard."
+            }
+          ]
+        }
+      },
+      "remove_abilities": [
+        "ITZL THE TAMER",
+        "Itzl le Dompteur",
+        "QUETZL THE PRESERVER",
+        "Quetzl le Conservateur",
+        "SOTEK THE DELIVERER",
+        "Sotek le Libérateur",
+        "TEPOK THE SEER",
+        "Tepok le Prophète",
+        "Champion",
+        "Porte-Étendard",
+        "Standard Bearer"
+      ],
+      "keep_on_warscroll": [
+        "Champion",
+        "Porte-Étendard",
+        "Standard Bearer",
+        "Multiple Parts",
+        "Plusieurs Parties",
+        "BEING OF THE STARS",
+        "Créature des Étoiles"
+      ],
+      "add_keywords": {
+        "Le Grand Dessein": "Simple",
+        "Faites Avancer le Grand Dessein": "Simple",
+        "Maître Suprême de l'Ordre": "Simple",
+        "Mort depuis un Âge Immémorial": "Simple",
+        "Vassal Magique": "Simple",
+        "Vengeance d'Azyr": "Simple",
+        "Gardiens Farouches": "Simple",
+        "Écraseur d'Armures": "Simple",
+        "Rage Primitive": "Simple"
+      },
+      "description_overrides": {
+        "Le Grand Dessein": "<b>Effet :</b> Obligatoire. Prophétisez 1 Astérisme : lui seul est actif (les autres s'ajoutent via « Faites Avancer le Grand Dessein »).<ul><li><b>Itzl le Dompteur :</b> les armes de Compagnon des unités <b>Séraphons</b> amies ont Crit (2 Touches).</li><li><b>Quetzl le Conservateur :</b> −1 Perforation aux armes de mêlée pour les attaques qui ciblent des unités <b>Séraphons</b> amies entièrement en territoire ami.</li><li><b>Sotek le Libérateur :</b> +2 Mouvement aux unités <b>Séraphons</b> amies.</li><li><b>Tepok le Prophète :</b> +1 aux jets de lancement des unités <b>Séraphons</b> amies.</li></ul>",
+        "Faites Avancer le Grand Dessein": "<b>Effet :</b> Pas au premier round. Choisissez un Astérisme prophétisé, jamais choisi ainsi auparavant, dont la condition est remplie :<ul><li><b>Itzl :</b> au moins 3 unités ennemies ont été détruites.</li><li><b>Quetzl :</b> aucune unité ennemie n'est entièrement en territoire ami.</li><li><b>Sotek :</b> le général ennemi est en mêlée ou a été détruit.</li><li><b>Tepok :</b> au moins 1 <b>Slann</b> ami est sur le champ de bataille, et aucun <b>Slann</b> ami n'est en mêlée ni n'a été détruit.</li></ul>Puis prophétisez un nouvel Astérisme : il s'ajoute aux précédents.",
+        "Maître Suprême de l'Ordre": "<b>Effet :</b> +2 au lancement, +1 à la dissipation et au bannissement.<br/>Dissipation et Bannir une Manifestation : portée illimitée (au lieu de 30\").",
+        "Mort depuis un Âge Immémorial": "<b>Effet :</b> Obligatoire à chaque tour s'il est endommagé : jetez 3D6 + nombre de dégâts. Sur 20+ il est détruit, sinon Soignez (18).",
+        "Vassal Magique": "<b>Cible :</b> Skink Starpriest ou Skink Oracle on Troglodon entièrement à 18\".<br/><br/><b>Effet :</b> Le prochain sort de Kroak à cette phase mesure portée et visibilité depuis la cible, qui compte comme lanceur pour les autres aptitudes et effets (Dissipation, La Terre Tremble…).",
+        "Vengeance d'Azyr": "<b>Annonce :</b> Choisissez comme cibles jusqu'à 3 unités de <b>Saurus</b> amies en mêlée.<br/><br/><b>Effet :</b> Pour chaque cible :<ul><li>Faites un mouvement d'engagement.</li><li>Puis, choisissez une unité ennemie en mêlée avec la cible et jetez un D3. Sur 2+, infligez autant de dégâts mortels à l'unité que le résultat du jet.</li></ul>",
+        "Gardiens Farouches": "<b>Effet :</b> +1 touche aux attaques de mêlée des unités de <b>Saurus</b> amies qui ciblent une unité ennemie à 9\" de cet élément de terrain.",
+        "Écraseur d'Armures": "<b>Cible :</b> une unité ennemie en mêlée avec cette unité.<br/><br/><b>Effet :</b> La cible a −1 en sauvegarde pour le reste du tour si :<ul><li>vous dépensez 1 <b>dé de rage</b> (si le <b>niveau de fureur</b> de l'adversaire est inférieur au vôtre, il l'augmente de 1, max 7) ;</li><li>sinon, sur un dé ≥ caractéristique de Sauvegarde de la cible.</li></ul>",
+        "Rage Primitive": "<b>Effet :</b> Obligatoire à chaque tour. L'unité a utilisé une aptitude de Corps à Corps ce tour : +1 pion de rage (max 3). Sinon : retirez-lui tous ses pions.<br/>+1 Attaque aux armes de Compagnon par pion de rage, jusqu'à la fin du prochain tour."
+      }
+    },
+    "SoDarkSnow 195268327 - Ushoran tout en finesse": {
+      "units": {
+        "Abhorrant Ghoul King on Royal Terrorgheist": {
+          "add_abilities": [
+            {
+              "name": "Prédateur Cruel",
+              "condition": "Once Per Turn (Army), Any Combat Phase",
+              "ability_phase": "Combat Phase",
+              "keywords": "Simple",
+              "description": "<b>Cible :</b> une unité ennemie en mêlée avec cette unité.<ul><li>+1 Attaque à ses <b>Griffes de Squelette</b> par champion, porte-étendard et musicien de la cible (max 10), pour le restant de la phase.</li><li>Ces attaques supplémentaires doivent cibler cette unité.</li></ul>"
+            }
+          ],
+          "description_overrides": {
+            "Limites Nécromantiques": "<b>Griffes de Squelette de Chiropterreur</b> : max 10 Attaques ; 4 Attaques à 10 dégâts ou plus."
+          }
+        },
+        "Royal Terrorgheist": {
+          "add_abilities": [
+            {
+              "name": "Prédateur Cruel",
+              "condition": "Once Per Turn (Army), Any Combat Phase",
+              "ability_phase": "Combat Phase",
+              "keywords": "Simple",
+              "description": "<b>Cible :</b> une unité ennemie en mêlée avec cette unité.<ul><li>+1 Attaque à ses <b>Griffes de Squelette</b> par champion, porte-étendard et musicien de la cible (max 10), pour le restant de la phase.</li><li>Ces attaques supplémentaires doivent cibler cette unité.</li></ul>"
+            }
+          ],
+          "description_overrides": {
+            "Limites Nécromantiques": "<b>Griffes de Squelette</b> : max 10 Attaques ; 4 Attaques à 10 dégâts ou plus."
+          }
+        },
+        "Charnel Throne": {
+          "add_abilities": [
+            {
+              "name": "Intendant du Trône",
+              "condition": "Your Hero Phase",
+              "ability_phase": "Hero Phase",
+              "keywords": "Simple",
+              "note": "Champion Régnant + Intendant du Royaume + L'Appel du Devoir + Seigneur de Tout ce qu'il Voit",
+              "description": "<b>Phase des héros :</b> pas d'Intendant → la <b>Sangtinelle</b> (à 3\", hors de mêlée) peut être <b>placée</b> sur le trône = Intendant.<br/><b>Tant qu'elle est Intendant :</b><ul><li>Aucune aptitude de <b>Mouvement</b>.</li><li>Portée, visibilité et attaques : sur le trône à la place.</li><li>Trône détruit : D3 dégâts mortels, placée à 3\", hors de mêlée (sinon tuée) ; n'est plus Intendant.</li></ul><b>Phase de mouvement :</b><ul><li><b>Seigneur de Tout ce qu'il Voit</b> (si Intendant) : une unité des <b>Cours de Mangechairs</b> amie visible, autre qu'un <b>Héros</b>, hors de mêlée, se déplace de D3\" (D6\" si placée à ce tour), sans entrer en mêlée.</li><li><b>L'Appel du Devoir :</b> pas placée à ce tour → placée entièrement à 6\", hors de mêlée ; n'est plus Intendant.</li></ul>"
+            }
+          ]
+        },
+        "Ushoran, Mortarch of Delusion": {
+          "description_overrides": {
+            "Stigmates de Guerre": "10 dégâts ou plus : <b>Griffes Monstrueuses</b> = 4 Attaques."
+          }
+        },
+        "Royal Zombie Dragon": {
+          "description_overrides": {
+            "Limites Nécromantiques": "<b>Griffes Draconiques</b> : max 10 Attaques ; 5 Attaques à 10 dégâts ou plus."
+          }
+        }
+      },
+      "remove_abilities": [
+        "Muster Guard",
+        "Mobiliser la Garde",
+        "Summon Loyal Subjects",
+        "Convoquer de Loyaux Sujets",
+        "Wicked Predator",
+        "Prédateur Cruel",
+        "Reigning Champion",
+        "Champion Régnant",
+        "Steward of the Realm",
+        "Intendant du Royaume",
+        "Duty Calls",
+        "L'Appel du Devoir",
+        "Ruler of All They Survey",
+        "Seigneur de Tout ce qu'il Voit"
+      ],
+      "description_overrides": {
+        "Royaume Délirant": "<b>Obligatoire</b>, au début de chaque tour. Vous croyez au <b>Délire</b> choisi pour le restant du tour.<ul><li><b>Premier tour :</b> choisissez un <b>Délire</b> : traits de bataille, ou charte d'une unité amie sur le champ de bataille (exception : Défenseurs du Royaume).</li><li><b>Tours suivants</b>, jet de délire (D6) :<br/>&#160;&#160;&#160;– <b>1-2 :</b> un <b>Délire</b> <b>différent</b> du tour précédent.<br/>&#160;&#160;&#160;– <b>3-4 :</b> le <b>même</b> qu'au tour précédent (s'applique même si son unité a été détruite).<br/>&#160;&#160;&#160;– <b>5-6 :</b> au choix, comme au premier tour.</li></ul>",
+        "Épicentre de l'Illusion": "±1 aux jets de délire.",
+        "Cortège Splendide": "<b>Course</b> d'une unité des <b>Cours de Mangechairs</b> amie entièrement à 12\" d'un <b>Héros</b> des <b>Cours de Mangechairs</b> ami : un jet de course de 1-3 compte comme 4.",
+        "Banquet Glorieux": "+1 aux jets de touche des attaques de mêlée des unités des <b>Cours de Mangechairs</b> amies qui ont chargé à ce tour, entièrement à 12\" d'un <b>Héros</b> des <b>Cours de Mangechairs</b> ami.",
+        "Le Seul Vrai Roi": "<ul><li>+1 aux jets de course et de charge : unités des <b>Cours de Mangechairs</b> amies.</li><li>−1 aux jets de course et de charge : unités ennemies.</li></ul>",
+        "Une Ménagerie Majestueuse": "+1 Attaque aux armes de mêlée de <b>Compagnon</b> des unités des <b>Cours de Mangechairs</b> amies entièrement à 12\" d'un <b>Héros</b> des <b>Cours de Mangechairs</b> ami.",
+        "Défenseurs du Royaume": "<ul><li>Seulement si cette unité est <b>sur le champ de bataille</b> : +1 aux jets de charge des unités des <b>Cours de Mangechairs</b> amies entièrement à 12\" d'un <b>Héros</b> des <b>Cours de Mangechairs</b> ami (+2 si placées à ce tour).</li><li>Peut être <b>choisi</b> pendant que cette unité <b>patrouille sur les frontières</b> (aucun effet tant qu'elle n'est pas placée).</li></ul>",
+        "Mangez, mes Jolis": "<b>Monstre</b> des <b>Cours de Mangechairs</b> ami, autre qu'un <b>Héros</b>, entièrement à 12\" d'un <b>Héros</b> des <b>Cours de Mangechairs</b> ami :<ul><li>Peut utiliser un <b>Saccage</b> de sa charte déjà utilisé par un autre <b>Monstre</b> ami à ce tour.</li><li>A chargé à ce tour avec un jet de charge non modifié de 9+ : <b>Frappe en Premier</b> pour le restant du tour.</li></ul>",
+        "Festin Frénétique": "<b>Cible :</b> un <b>Héros</b> des <b>Cours de Mangechairs</b> ami en mêlée.<ul><li>Pour le restant du tour : +1 Attaque aux armes de mêlée (<b>Compagnon</b> compris) des unités des <b>Cours de Mangechairs</b> amies entièrement à 12\" de lui.</li></ul>",
+        "Aperçu du Delirium": "<b>Cible :</b> une figurine ennemie visible à 18\".<br/><b>Victime :</b> une unité ennemie visible de la cible et à sa portée de mêlée (l'unité de la cible seulement si elle a 2+ figurines).<ul><li>Choisissez 1 arme de mêlée de la cible : résolvez ses attaques de mêlée contre la victime.</li></ul>",
+        "Miasmes de Folie": "<b>Cible :</b> une unité ennemie visible à 18\".<ul><li>Jusqu'à votre prochain tour : chaque jet de touche non modifié de 1 de ses attaques de mêlée = 1 dégât mortel pour elle, après le <b>Corps à Corps</b>.</li></ul>",
+        "Convocation de Barricade Cadavérique": "Placez-la visible et entièrement à 18\" du lanceur.",
+        "Convocation de Funèbre Cavalcade": "Placez-la visible et entièrement à 12\" du lanceur, à plus de 9\" des unités ennemies.",
+        "Convocation de Calice d'Ushoran": "Placez-le visible et entièrement à 12\" du lanceur.",
+        "Mains Avides": "Unités ennemies à sa portée de mêlée :<ul><li>Pas de <b>Course</b> ni de <b>Repli</b>.</li><li>Choisies pour une aptitude de <b>Mouvement</b> : Mouvement divisé par deux (arrondi au supérieur) pour le restant du tour.</li></ul>",
+        "Piétiné": "Utilisable en mêlée. <b>Cible :</b> un point du bord du champ de bataille.<br/><b>Jet de cavalcade :</b> 2D6 +1D6 par round de bataille passé sur le champ de bataille (2D6 au tour de sa convocation, 3D6 au tour suivant…).<ul><li>Se déplace jusqu'au jet, en ligne droite vers le point, à travers les portées de mêlée ennemies. Finit en mêlée seulement à 1/2\" d'une unité ennemie visible = a chargé.</li><li>Chaque unité ennemie traversée : D3, sur 2+ autant de dégâts mortels.</li><li>A chargé : + jet de cavalcade aux Attaques de son <b>Piétinement Funèbre</b> pour le restant du tour.</li></ul>",
+        "Lampées de Délire": "<b>Cible :</b> une unité ennemie à 6\". Sur 3+, l'adversaire choisit pour le restant du tour :<ul><li><b>Boire au Calice :</b> les aptitudes d'arme de ses attaques n'ont aucun effet (sauf <b>Compagnon</b>).</li><li><b>Refuser :</b> les attaques de mêlée qui la ciblent causent des critiques sur 5+ non modifié.</li></ul>",
+        "Fragment de la Cage Voilée": "<b>Cibles :</b> jusqu'à 3 unités ennemies en mêlée avec cette unité.<ul><li>Un dé chacune : supérieur à son Contrôle = <b>Frappe en Dernier</b> pour le restant du tour.</li></ul>",
+        "Faim Féroce": "Sur 3+ : +1 aux jets de touche de ses armes de mêlée de <b>Compagnon</b>, pour le restant du tour.",
+        "Le Pennon Macabre": "A chargé à ce tour. <b>Cible :</b> une unité ennemie en mêlée avec elle. Dé > son Contrôle, ou un 6 — pour le restant du tour :<ul><li>−1 aux jets de touche des attaques de mêlée de la cible.</li><li>+1 aux jets de touche des attaques de mêlée amies qui la ciblent.</li></ul>",
+        "Renforcé par la Folie": "<ul><li>Ignorez le 1er dégât alloué à cette unité à chaque phase.</li><li>Attaques de mêlée qui la ciblent : aucune aptitude d'arme (sauf <b>Compagnon</b>).</li></ul>",
+        "Cri Terrorisant": "<b>Cible :</b> une unité d'<b>Infanterie</b> ennemie en mêlée avec cette unité.<ul><li>Un dé par figurine : chaque 6 = 1 dégât mortel.</li><li>3 dégâts alloués ou plus : −1 aux jets de touche de ses attaques pour le restant du tour.</li></ul>",
+        "Terreur Volante": "A chargé à ce tour. Sur 3+ :<ul><li>Se déplace de 2D6\" à travers les portées de mêlée ennemies, doit finir en mêlée.</li><li>D3 dégâts mortels à 1 unité ennemie survolée.</li></ul>",
+        "Porté par des Ailes Putrides": "Replacez-le n'importe où sur le champ de bataille, à plus de 9\" des unités ennemies.",
+        "Seigneur des Marches": "<b>Cibles :</b> cette unité + jusqu'à 2 unités des <b>Cours de Mangechairs</b> amies non déployées de son régiment.<ul><li>Placées en réserve, <b>patrouillant sur les frontières</b> (= déployées).</li></ul>",
+        "Des Intrus !": "Si elle <b>patrouille sur les frontières</b>. <b>Cible :</b> une unité ennemie.<ul><li><b>Placez</b> cette unité à plus de 6\" de la cible, à plus de 9\" des autres unités ennemies.</li><li>Puis <b>placez</b> les unités qui patrouillaient avec elle entièrement à 12\" d'elle, à plus de 9\" des unités ennemies.</li></ul>",
+        "Sang Royal": "<b>Soignez (D3)</b> <b>Ushoran</b>, la <b>Sangtinelle</b> et le <b>Roi Goule</b>.",
+        "Festin de Charogne": "<b>Cible :</b> une unité ennemie visible à 18\".<ul><li>D3 dégâts mortels.</li></ul>",
+        "Transformation Démente": "<b>Cible :</b> la <b>Sangtinelle</b>, visible, entièrement à 12\".<ul><li>Jusqu'à votre prochain tour : +2\" de Mouvement, +1 aux jets de blessure de ses attaques de mêlée.</li></ul>",
+        "Souffler sur les Braises": "Niveau de fureur : attaquant <b>1</b>, défenseur <b>2</b>.",
+        "Assaut Flamboyant : Règle Spéciale": "Après le déploiement, avant de déterminer qui a le premier tour : l'adversaire choisit 1 élément de terrain autre qu'un <b>Terrain de Faction</b> dans son territoire = son <b>repaire</b> (ne peut jamais être retiré)."
+      },
+      "phase_overrides": {
+        "Cortège Splendide": "Movement Phase",
+        "Le Seul Vrai Roi": [
+          "Movement Phase",
+          "Charge Phase"
+        ]
+      },
+      "add_keywords": {
+        "Royaume Délirant": "Simple",
+        "Épicentre de l'Illusion": "Simple",
+        "Cortège Splendide": "Simple",
+        "Banquet Glorieux": "Simple",
+        "Le Seul Vrai Roi": "Simple",
+        "Une Ménagerie Majestueuse": "Simple",
+        "Défenseurs du Royaume": "Simple",
+        "Mangez, mes Jolis": "Simple",
+        "Festin Frénétique": "Simple",
+        "Aperçu du Delirium": "Simple",
+        "Miasmes de Folie": "Simple",
+        "Convocation de Barricade Cadavérique": "Simple",
+        "Convocation de Funèbre Cavalcade": "Simple",
+        "Convocation de Calice d'Ushoran": "Simple",
+        "Mains Avides": "Simple",
+        "Piétiné": "Simple",
+        "Lampées de Délire": "Simple",
+        "Fragment de la Cage Voilée": "Simple",
+        "Faim Féroce": "Simple",
+        "Le Pennon Macabre": "Simple",
+        "Renforcé par la Folie": "Simple",
+        "Cri Terrorisant": "Simple",
+        "Terreur Volante": "Simple",
+        "Porté par des Ailes Putrides": "Simple",
+        "Seigneur des Marches": "Simple",
+        "Des Intrus !": "Simple",
+        "Sang Royal": "Simple",
+        "Festin de Charogne": "Simple",
+        "Transformation Démente": "Simple",
+        "Souffler sur les Braises": "Simple",
+        "Assaut Flamboyant : Règle Spéciale": "Simple"
+      }
+    },
+    "Martoni 193284769 - Ruze mais brutal": {
+      "units": {
+        "Skaregob Totem": {
+          "add_abilities": [
+            {
+              "name": "Boss Braillard",
+              "condition": "Passive",
+              "ability_phase": "",
+              "keywords": "Simple",
+              "note": "On Mont' ! + Okkupez la Tour ! + J'me Kasse ! + Regard Sinistre",
+              "description": "<b>Phase des héros :</b> pas de Boss Braillard → le <b>Killaboss</b> ou le <b>Shaman</b> (à 3\", hors de mêlée) peut être <b>placé</b> sur le totem = Boss Braillard.<br/><b>Tant qu'il est Boss Braillard :</b><ul><li>Aucune aptitude de <b>Mouvement</b>.</li><li>Portée, visibilité et attaques : sur le totem à la place.</li><li>Totem détruit : D3 dégâts mortels, placé à 3\", hors de mêlée (sinon tué) ; n'est plus Boss Braillard.</li></ul><b>Phase de mouvement :</b> pas placé à ce tour → placé entièrement à 6\", hors de mêlée ; n'est plus Boss Braillard.<br/><b>Regard Sinistre :</b> +1 aux jets de coup tordu des aptitudes qui ciblent une unité (amie ou ennemie) entièrement à 12\" du totem (18\" s'il a un Boss Braillard)."
+            }
+          ]
+        },
+        "Swampcalla Shaman with Pot-grot": {
+          "description_overrides": {
+            "Bâton des Marais": "<i>Appliqué</i>"
+          },
+          "add_unit_keywords": [
+            "WIZARD (2)"
+          ]
+        }
+      },
+      "remove_abilities": [
+        "Man Da Tower!",
+        "Okkupez la Tour !",
+        "Up We Go!",
+        "On Mont' !",
+        "I’m Off!",
+        "J'me Kasse !",
+        "Sinister Stare",
+        "Regard Sinistre",
+        "Mork Sez No!",
+        "Mork a Dit Non !",
+        "Klutcha-grot",
+        "Grot Chapardeur",
+        "Multiple Parts",
+        "Plusieurs Parties",
+        "Stab-grot",
+        "Grot Surineur"
+      ],
+      "keep_on_warscroll": [
+        "Swamp Staff",
+        "Bâton des Marais",
+        "Man-skewer Crossbows",
+        "Arbalètes Embrocheuses"
+      ],
+      "description_overrides": {
+        "Coups Tordus": "Jet de coup tordu, selon le nombre de <b>Coups Tordus</b> déjà utilisés par l'armée à ce round :<ul><li>1er : 2+</li><li>2e : 3+</li><li>3e : 4+</li><li>4e et suivants : 5+</li></ul>",
+        "Égoman'": "En mêlée avec une unité d'<b>Infanterie</b> <b>Kruelboyz</b> amie autre qu'un <b>Héros</b> :<ul><li><b>Protection (4+)</b>.</li><li>Chaque protection réussie : 1 dégât (sans protection) à une telle unité à sa portée de mêlée, après la séquence de dégâts.</li></ul>",
+        "Mandrag'hurle": "<ul><li>Gobsprakk utilise « Dissipation » avec <b>3D6</b> au lieu de 2D6.</li><li>Chaque sort dissipé par Gobsprakk : D3 dégâts mortels au lanceur (D6 si le jet de dissipation est de 10+).</li></ul>",
+        "Cris de Waaagh! Tonitruants": "<b>Cible :</b> un <b>Sorcier</b> <b>Kruelboy</b> ami à 3\".<ul><li>+1 ou +2 (au choix) à ses jets de lancement jusqu'à votre prochain tour.</li><li>Un dé par point choisi : chaque 1-2 = 1 dégât à la cible (sans protection).</li><li>Chaque 5+ : +1 aux jets de charge des unités <b>Kruelboyz</b> amies entièrement à 12\" de cette <b>Manifestation</b>, jusqu'à votre prochain tour (cumulable).</li></ul>",
+        "Un Grot Dur à Avaler": "Sur 2+, le <b>Saccage</b> n'a aucun effet. Sur 1, le <b>Grot Chapardeur</b> (pion) est retiré : cette aptitude n'est plus utilisable.",
+        "Destruction Errante": "<b>Cible :</b> une partie de cette <b>Manifestation</b>.<ul><li>Replacez-la entièrement à 9\" de l'autre partie.</li><li>Chaque unité ennemie à 3\" d'elle : D3, sur 2+ autant de dégâts mortels, et <b>Piétinée</b> jusqu'à votre prochain tour (−1 dé aux jets de charge, min. 1).</li><li>Autant de dégâts que sa Santé : détruite, ses 2 parties sont retirées.</li></ul>",
+        "Grot Touilleur": "Le <b>Grot Touilleur</b> est un pion.<ul><li>Tant qu'il est sur le champ de bataille : +1 aux jets de lancement du Shaman.</li><li>Jet de lancement non modifié de 4 ou moins : il est retiré.</li></ul>",
+        "Surprise Fatale": "<b>Cible :</b> une unité ennemie qui a chargé à ce tour, en mêlée avec des <b>Kruelboyz</b> amis. Jet de coup tordu réussi :<ul><li>D3 dégâts mortels.</li><li>Ses armes perdent <b>Charge (+1 Dégât)</b> pour le restant du tour.</li></ul>",
+        "Restez en Ligne": "Killaboss entièrement à 12\" de cette unité : +1 aux jets de blessure de ses attaques de mêlée, pour le restant de la phase.",
+        "Harnais d'Asservissement": "Jet d'asservissement (D3) :<ul><li>Autant de dégâts mortels à cette unité.</li><li>+ (jet × 2) Attaques à ses <b>Massues de Fangebrute</b>, pour le restant du tour.</li></ul>",
+        "Stigmates de Guerre": "10 dégâts ou plus : <b>Killabeak’s Talons and Beak</b> = 5 Attaques.",
+        "Arbalètes Embrocheuses": "À chaque <b>Tir</b> : Tir Ajusté (<i>Aimed Shot</i>) ou Tir Précipité (<i>Hasty Shot</i>) au choix, pour toutes ses <b>Man-skewer Crossbows</b>.",
+        "Suaire des Marais": "<b>Kruelboyz</b> amis entièrement à 3\" d'un terrain : invisibles des unités ennemies à plus de 12\".",
+        "Étreinte Muqueuse": "Unités ennemies à 6\" : pas de <b>Course</b>.",
+        "Embourbement": "Unités ennemies à 6\" : −3 à leur score de contrôle.",
+        "Descendez-les": "Ni <b>Mouvement</b> ni placée à ce tour : +1 aux jets de touche de ses attaques de tir, pour le restant du tour.",
+        "Traits Empaleurs": "Contre un <b>Monstre</b> : Dégâts 6 pour ses <b>Beast-skewer Bolts</b>, pour le restant du tour.",
+        "Lâcher de Grot Surineur": "Au choix :<ul><li>D3 dégâts mortels à une unité ennemie en mêlée avec lui.</li><li><b>Protection (5+)</b> pour le restant du tour.</li></ul>Puis le <b>Grot Surineur</b> (pion) est retiré : plus de <b>Stab-grot’s Shiv</b> ni de <i>Lâcher</i>.",
+        "Taktik Kintimide": "Sur 3+ : −1 aux jets de touche des attaques des unités autres qu'un <b>Héros</b> qui la ciblent, pour le restant du tour.",
+        "Furtif": "Replacez le Breaka-boss à plus de 9\" des unités ennemies.",
+        "Armes Croûtées de Venin": "<b>Cible :</b> une unité d'<b>Infanterie</b> <b>Kruelboyz</b> amie. Jet de coup tordu réussi : ses attaques causent des critiques sur 5+ non modifié, jusqu'à votre prochain tour.",
+        "Vils Sournois": "<b>Cible :</b> une unité d'<b>Infanterie</b> <b>Kruelboyz</b> amie de 10 figurines ou moins, hors de mêlée, pas encore ciblée par un <b>Coup Tordu</b> à ce tour. Jet de coup tordu réussi : replacez-la entièrement à 3\" d'un terrain, à plus de 9\" des unités ennemies.",
+        "Vacarme": "<b>Cible :</b> une unité ennemie en mêlée avec des <b>Kruelboyz</b> amis. Jet de coup tordu réussi : <b>Frappe en Dernier</b> pour le restant du tour.",
+        "Arracher les Membres": "<b>Cible :</b> une unité d'<b>Infanterie</b> ennemie à 1\". Dé > sa Santé : 1 figurine tuée.",
+        "Broyage": "<b>Cible :</b> une unité ennemie en mêlée avec Gobsprakk. Dé > sa Santé : 1 figurine tuée.",
+        "Appâter et Piéger": "<b>Cible :</b> un <b>Monstre</b> ennemi en mêlée avec cette unité. Sur 3+ (+1 s'il est endommagé) : <b>Frappe en Dernier</b> pour le restant du tour.",
+        "Explosion de Rékup'": "<b>Cible :</b> une unité ennemie en mêlée avec cette unité. Sur 3+ : 1 dégât mortel, puis elle peut faire un <b>Repli</b> aussitôt, sans dégâts mortels.",
+        "Élixirs Infâmes": "<b>Cible :</b> une unité d'<b>Infanterie</b> <b>Kruelboyz</b> amie entièrement à 12\". Sur 2+ : +1 aux jets de sauvegarde pour le restant du tour ; sur 1 : D3 dégâts mortels.",
+        "La Fosse Noire": "<b>Cible :</b> une unité ennemie visible à 18\" du lanceur. Un dé par figurine : chaque 6 = 1 dégât mortel.",
+        "Étouffement": "<b>Cible :</b> une unité ennemie visible à 18\" de Gobsprakk. Autant de dés que sa Santé (max 10) : chaque 4+ = 1 dégât mortel.",
+        "Brume Étouffante": "<b>Cible :</b> une unité ennemie visible à 12\" du lanceur. −1 Attaque à ses armes de mêlée jusqu'à votre prochain tour.",
+        "Ruze de Mork": "<b>Cible :</b> une unité <b>Kruelboyz</b> amie visible et entièrement à 12\" du lanceur. +1 aux jets de sauvegarde contre elle jusqu'à votre prochain tour."
+      },
+      "add_keywords": {
+        "Coups Tordus": "Simple",
+        "Égoman'": "Simple",
+        "Mandrag'hurle": "Simple",
+        "Cris de Waaagh! Tonitruants": "Simple",
+        "Un Grot Dur à Avaler": "Simple",
+        "Destruction Errante": "Simple",
+        "Grot Touilleur": "Simple",
+        "Surprise Fatale": "Simple",
+        "Restez en Ligne": "Simple",
+        "Harnais d'Asservissement": "Simple",
+        "Stigmates de Guerre": "Simple",
+        "Arbalètes Embrocheuses": "Simple",
+        "Suaire des Marais": "Simple",
+        "Étreinte Muqueuse": "Simple",
+        "Embourbement": "Simple",
+        "Descendez-les": "Simple",
+        "Traits Empaleurs": "Simple",
+        "Lâcher de Grot Surineur": "Simple",
+        "Taktik Kintimide": "Simple",
+        "Furtif": "Simple",
+        "Armes Croûtées de Venin": "Simple",
+        "Vils Sournois": "Simple",
+        "Vacarme": "Simple",
+        "Arracher les Membres": "Simple",
+        "Broyage": "Simple",
+        "Appâter et Piéger": "Simple",
+        "Explosion de Rékup'": "Simple",
+        "Élixirs Infâmes": "Simple",
+        "La Fosse Noire": "Simple",
+        "Étouffement": "Simple",
+        "Brume Étouffante": "Simple",
+        "Ruze de Mork": "Simple"
+      }
+    },
+    "Laytorn 188602936 - Thunderstruck": {
+      "remove_abilities": [
+        "SHOCK AND AWE",
+        "Choc et Stupeur",
+        "Blazing Impact",
+        "Impact Flamboyant",
+        "Guided by Lightning",
+        "Guidés par la Foudre",
+        "LIGHTNING BLAST",
+        "Salve d'Éclairs",
+        "THUNDERSHOCK",
+        "Choc du Tonnerre",
+        "STARFALL",
+        "Chute d'Étoile"
+      ],
+      "keep_on_warscroll": [
+        "Loyal Gryph-hound",
+        "Loyal Gryph-dogue",
+        "Dispersed Formation",
+        "Formation Dispersée",
+        "Mortis Priest",
+        "Prêtre Mortis"
+      ],
+      "description_overrides": {
+        "Le Royaume Céleste": "<b>Cible :</b> une unité d'<b>Éternels de l'Orage</b> amie non déployée (pas <b>Lorai</b>, qui est <b>Idoneth</b>), s'il y a plus d'unités d'<b>Éternels de l'Orage</b> amies sur le champ de bataille qu'en réserve.<br/>Placez-la en réserve dans le Royaume Céleste : elle compte comme déployée.",
+        "Illusions Aquatiques": "−1 aux jets de touche des attaques qui ciblent <b>Lorai</b>.",
+        "Aura de Pureté": "Si <b>Gardus</b> a chargé à ce tour : pour le restant du tour, <b>Protection (5+)</b> aux unités d'<b>Éternels de l'Orage</b> amies tant qu'elles sont entièrement à 12\" de lui.",
+        "Loyal Gryph-dogue": "Le <b>Gryph-dogue</b> est un pion.<ul><li><b>Protection (5+)</b> tant qu'il est sur le champ de bataille.</li><li>Sauvegarde non modifiée de 1 : retirez-le après l'aptitude d'<b>Attaque</b> (le dégât est quand même infligé).</li></ul>",
+        "Formation Dispersée": "Portée de cohésion de 2\".",
+        "Chambre de la Perdition": "Sur 4+ (1D6), l'aptitude non de <b>Base</b> n'a aucun effet sur les <b>Prosecutors</b>.",
+        "Bouclier d'Azyr": "Tant que <b>Neave Blacktalon</b> et/ou <b>Lorai</b> sont entièrement à portée de mêlée des <b>Compagnons de Neave</b> : <b>Protection (5+)</b> pour les Compagnons et pour elle(s).",
+        "Vétérans du Guet d'Ambre": "Les unités ennemies en mêlée avec les <b>Annihilators</b> perdent <b>Frappe en Premier</b> (mais gardent <b>Frappe en Dernier</b>).",
+        "Aspect Sauvage": "Quand « Bannir une Manifestation » devrait la bannir : elle ne l'est pas, elle subit 6 dégâts à la place (sans protection).",
+        "Pennon de Majesté Azyrite": "<b>Au début du tour</b> (avant la phase des héros).<br/><b>Cible ennemie :</b> une unité ennemie visible à 18\" du <b>Lord-Relictor</b>.<br/><b>Cible amie (facultatif) :</b> une unité d'<b>Éternels de l'Orage</b> amie entièrement à 12\" de lui.<ul><li>Dépensez 1 dé de rage : si le niveau de fureur adverse est inférieur au vôtre, il l'augmente de 1 (max 7).</li><li>Puis, pour le restant du tour, tant qu'elle est visible du <b>Lord-Relictor</b> : −1 (cible ennemie) / +1 (cible amie) aux jets de lancement et de récitation.</li></ul>",
+        "Heure de Gloire": "<b>Cible :</b> une unité d'<b>Éternels de l'Orage</b> amie qui ne l'a pas encore utilisée à cette bataille.<br/>Pour le restant du tour : +1 aux jets de blessure en mêlée et +1 aux jets de sauvegarde.",
+        "Aura Ancienne": "<b>Cible :</b> <b>Prosecutors</b>.<br/><b>Protection (5+)</b> pour le restant du tour.",
+        "Embruns Nébuleux": "Jusqu'au début de votre prochain tour, les attaques de tir qui ciblent une unité des <b>Serres Noires</b> amie (<b>Neave</b>, ses <b>Compagnons</b>, <b>Lorai</b>) entièrement à 6\" de <b>Lorai</b> ratent sur un jet de touche non modifié de 1-5.",
+        "Orage Guérisseur": "<b>Cible :</b> une unité d'<b>Éternels de l'Orage</b> amie visible et entièrement à 12\" du <b>Lord-Relictor</b>.<ul><li><b>Soignez (D3)</b> la cible.</li><li>Sur 8+ : à la place, <b>Soignez (D3)</b> chaque unité d'<b>Éternels de l'Orage</b> amie visible entièrement à 12\" de lui.</li></ul>",
+        "Bénédiction des Armes": "<b>Cible :</b> une unité d'<b>Éternels de l'Orage</b> amie visible et entièrement à 12\" du <b>Lord-Relictor</b>.<ul><li>+1 Attaque aux armes de mêlée de la cible jusqu'au début de votre prochain tour.</li><li>Sur 12+ : toutes les unités d'<b>Éternels de l'Orage</b> amies visibles entièrement à 12\" de lui.</li></ul>",
+        "Translocation": "<b>Cible :</b> une unité d'<b>Éternels de l'Orage</b> amie visible et entièrement à 12\" du <b>Lord-Relictor</b>.<ul><li>Retirez-la et replacez-la à plus de 9\" des unités ennemies.</li><li>Sur 8+ : −1 aux jets de touche des attaques qui la ciblent pour le restant du round.</li></ul>",
+        "Prêtre Mortis": "+1 aux jets de récitation.",
+        "Chambre d'Avant-garde": "Une seule unité par tour, <b>Neave</b> <i>ou</i> les <b>Vanguard-Raptors</b> : pour le restant du tour, elle peut utiliser des aptitudes de <b>Tir</b> et/ou de <b>Charge</b> même après une <b>Course</b> ou un <b>Repli</b>.",
+        "Descendants de l'Orage": "<b>Cible :</b> une unité d'<b>Éternels de l'Orage</b> amie dans le Royaume Céleste.<br/>Placez-la n'importe où à plus de 9\" des unités ennemies. Puis :<ul><li><b>Choc et Stupeur</b> : si c'est le <b>Lord-Imperatant</b>, ou si elle est placée entièrement à 12\" de lui : −1 aux jets de touche des attaques qui la ciblent pour le restant du round.</li><li><b>Impact Flamboyant</b> (<b>Annihilators</b> placés ainsi à ce tour) : jusqu'à 3 unités ennemies à 10\" d'eux ; 1D3 par cible, sur 2+ autant de dégâts mortels.</li><li><b>Guidés par la Foudre</b> (×1 / bataille, armée) : jusqu'à 3 unités placées ainsi à ce tour, entièrement à 12\" du <b>Lord-Imperatant</b>, se déplacent de D3\" chacune, sans entrer en mêlée.</li></ul>",
+        "Châtiment Divin": "<b>Cible :</b> le <b>Celestant-Prime</b>, s'il est dans le Royaume Céleste.<br/>Placez-le à plus de (10 − n° du round)\" des unités ennemies.",
+        "Descendus des Cieux": "<b>Cible :</b> <b>Vanguard-Raptors</b>, <b>Prosecutors</b> ou <b>Annihilators</b> détruits.<br/>Placez une unité de remplacement de 3 figurines (la moitié des 6) à plus de 9\" des unités ennemies.",
+        "Entrer dans l'Orage": "<b>Cible :</b> une unité d'<b>Éternels de l'Orage</b> amie hors de mêlée, entièrement à 6\" du <b>Stormreach Portal</b>.<br/>Retirez-la et replacez-la à plus de 9\" des unités ennemies.",
+        "Tir en Pleine Tête": "Si les <b>Vanguard-Raptors</b> n'ont ni utilisé d'aptitude de <b>Mouvement</b> ni été placés à ce tour : pour le restant du tour, leurs tirs ignorent « Héros Gardé ».",
+        "Assaut Sanctifié": "<b>Cibles :</b> jusqu'à 3 unités d'<b>Éternels de l'Orage</b> amies visibles et entièrement à 6\" de <b>Gardus</b>.<br/>Pour le restant du tour : +1 aux jets de charge et +1 Attaque aux armes de mêlée des cibles.",
+        "Hérauts de Vertu": "+1 dé aux jets de charge des <b>Prosecutors</b> (max 3).",
+        "La Force d'une Étoile Filante": "Si les <b>Annihilators</b> ont chargé à cette phase avec un jet de charge non modifié de 8+ :<br/><b>Cible :</b> une unité ennemie à 1\" d'eux.<br/><b>Frappe en Dernier</b> pour le restant du tour.",
+        "Prédateur Ésotérique": "Tant qu'elle est à 18\" d'une <b>Manifestation</b> ennemie : +1 dé aux jets de charge (max 3) au choix, mais elle doit alors finir sa charge à ½\" d'une <b>Manifestation</b> ennemie.",
+        "Chevaucheuse des Vents": "Comme « Corps à Corps ». Puis sur 3+ : retirez <b>Neave</b> et replacez-la à plus de 3\" des unités ennemies, entièrement à portée de mêlée de <b>Lorai</b> ou des <b>Compagnons de Neave</b> s'ils ne sont pas en mêlée.",
+        "Dévoreur de Magie": "Si elle a détruit une ou plusieurs <b>Manifestations</b> ennemies à ce tour : <b>Soignez (6)</b> cette Manifestation.",
+        "Sceptre de Chute de Comète": "Chaque touche : D3 dégâts mortels à la cible.",
+        "Justice d'Azyr": "+1 Dégâts aux <b>Haches Tornade</b> contre les <b>Héros</b>."
+      },
+      "add_keywords": {
+        "Le Royaume Céleste": "Simple",
+        "Illusions Aquatiques": "Simple",
+        "Aura de Pureté": "Simple",
+        "Loyal Gryph-dogue": "Simple",
+        "Formation Dispersée": "Simple",
+        "Chambre de la Perdition": "Simple",
+        "Bouclier d'Azyr": "Simple",
+        "Vétérans du Guet d'Ambre": "Simple",
+        "Aspect Sauvage": "Simple",
+        "Pennon de Majesté Azyrite": "Simple",
+        "Heure de Gloire": "Simple",
+        "Aura Ancienne": "Simple",
+        "Embruns Nébuleux": "Simple",
+        "Orage Guérisseur": "Simple",
+        "Bénédiction des Armes": "Simple",
+        "Translocation": "Simple",
+        "Prêtre Mortis": "Simple",
+        "Chambre d'Avant-garde": "Simple",
+        "Descendants de l'Orage": "Simple",
+        "Châtiment Divin": "Simple",
+        "Descendus des Cieux": "Simple",
+        "Entrer dans l'Orage": "Simple",
+        "Tir en Pleine Tête": "Simple",
+        "Assaut Sanctifié": "Simple",
+        "Hérauts de Vertu": "Simple",
+        "La Force d'une Étoile Filante": "Simple",
+        "Prédateur Ésotérique": "Simple",
+        "Chevaucheuse des Vents": "Simple",
+        "Dévoreur de Magie": "Simple",
+        "Sceptre de Chute de Comète": "Simple",
+        "Justice d'Azyr": "Simple"
+      },
+      "phase_overrides": {
+        "Illusions Aquatiques": [
+          "Shooting Phase",
+          "Combat Phase"
+        ],
+        "Aura de Pureté": "Charge Phase",
+        "Pennon de Majesté Azyrite": "Hero Phase"
+      },
+      "section_order": {
+        "hero": [
+          "Lord-Relictor"
+        ]
+      }
+    },
+    "Sharowkin 193356755 - La charge des Petaures": {
+      "remove_abilities": [
+        "BLOOD FEAST",
+        "Festin de Sang",
+        "SHINCRUNCHER",
+        "Croque-Jarret",
+        "TALLOWFLAGE",
+        "Brume de Suif",
+        "FREEZING TAILWINDS",
+        "Givrevents Arrières",
+        "PULVERISING HAILSTORM",
+        "Grêle Pulvérisante",
+        "FORTIFYING HOARFROST",
+        "Gelée Blanche Fortifiante",
+        "Vessel of the Gulping God",
+        "Réceptacle du Dieu Glouton",
+        "Throw ’Em In",
+        "Jetez-les d'Dans"
+      ],
+      "units": {
+        "Kragnos, the End of Empires": {
+          "description_overrides": {
+            "Stigmates de Guerre": "10 dégâts ou plus : <b>La Masse d’Effroi</b> = 4 Attaques ; Contrôle 10."
+          }
+        },
+        "Frostlord on Stonehorn": {
+          "description_overrides": {
+            "Stigmates de Guerre": "10 dégâts ou plus : <b>Cornes et Sabots de Pierre de Mastauroc</b> = 4 Attaques."
+          }
+        },
+        "Stonehorn Beastriders": {
+          "description_overrides": {
+            "Stigmates de Guerre": "10 dégâts ou plus : <b>Cornes et Sabots de Pierre de Mastauroc</b> = 4 Attaques."
+          }
+        },
+        "Thundertusk Beastriders": {
+          "description_overrides": {
+            "Stigmates de Guerre": "10 dégâts ou plus : <b>Défenses Colossales de Mégastodonte</b> = 2 Attaques."
+          }
+        }
+      },
+      "description_overrides": {
+        "Mâchoires de la Bête": "Le Tyran du Givre (non déployé) + une unité non-<b>Héros</b> non déployée de son régiment (Meutegueule d’Engorgeurs ou Monteurs de Mégastodonte) : en réserve, <b>sur la piste de la proie</b> (= déployées).",
+        "Rôdeurs Troglodytes": "Si non déployée : en réserve, <b>rôdant en périphérie</b> (= déployée).",
+        "Râtelier à Trophées": "1 trophée au choix, pour la bataille. Armes de mêlée des autres unités des <b>Hordegueules Ogors</b> amies entièrement à 6\" et visibles du Tyran du Givre :<ul><li><b>Tête Écrasée :</b> Anti-<b>Monstre</b> (+1 Perf.)</li><li><b>Débris de Cité Dévastée :</b> Anti-<b>Machine de Guerre</b> (+1 Perf.)</li><li><b>Appendices Arrachés :</b> Anti-<b>Cavalerie</b> (+1 Perf.)</li></ul>",
+        "Avatar de la Destruction": "Détruit automatiquement → à la place, 6 dégâts (sans protection).",
+        "Squelette de Pierre": "Ignorez le 1er dégât alloué à cette unité à chaque phase.",
+        "N'en Laissez pas une Miette": "Unités ennemies à 6\" et visibles du Tyran du Givre : pas de soin ni de figurines ramenées.",
+        "Contre-attaque Vorace": "Unités ennemies en mêlée avec cette unité : ne comptent pas comme ayant chargé.",
+        "Bouillon de Bataille": "<ul><li>Pleine au début de la bataille ; vide, elle se remplit dès qu'une figurine ennemie est tuée à 12\" d'elle.</li><li>Pleine : <b>Soignez (D3)</b> chaque unité amie visible et entièrement à 18\", puis elle est vide.</li></ul>",
+        "Le Bouclier Inviolé": "Si Kragnos est la cible du sort : sur 3+, il ignore son effet. Plusieurs fois par phase, 1 fois par sort.",
+        "Refermer les Mâchoires": "<b>Cible :</b> le Tyran du Givre, sur la piste de la proie.<ul><li><b>Placez</b>-le entièrement à 9\" du bord, à plus de 9\" des unités ennemies.</li><li>Puis l'autre unité de la piste : entièrement à 9\" du bord et du Tyran du Givre, à plus de 9\" des unités ennemies.</li></ul>",
+        "Chasseurs Frénétiques": "Si elle rôde en périphérie : <b>placez</b>-la entièrement à 9\" du bord, à plus de 9\" des unités ennemies.",
+        "Avancer dans la Trace": "<b>Cible :</b> la <b>Meutegueule d’Engorgeurs</b>, entièrement à 6\" et pas placée à ce tour.<ul><li>Retirez-la, puis <b>placez</b>-la entièrement à 6\" des Monteurs de Mégastodonte après leur mouvement, hors de mêlée.</li><li>Pas de <b>Charge</b> pour lui à ce tour.</li></ul>",
+        "Charge Buffle": "<b>Utilisée par :</b> une unité des <b>Hordegueules Ogors</b> amie qui a chargé à ce tour, sans <b>Saccage</b> à ce tour.<br/><b>Cible :</b> une unité ennemie en mêlée avec elle.<ul><li>L'adversaire la déplace de 3\" max (elle peut traverser et finir en mêlée de vos unités ; elle compte comme déplacée).</li><li>Un dé par figurine de votre unité à 3\" d'elle (+1 pour la <b>Cavalerie Mutilante</b>, <b>Crève-la-panse</b>) : chaque 3+ = 1 dégât mortel.</li><li>Puis votre unité peut faire un mouvement d'engagement, vers la cible si elle est encore en mêlée avec elle.</li></ul>",
+        "Destruction Furieuse": "Si Kragnos a chargé à cette phase, au choix :<ul><li>Chaque unité ennemie à 1\" : un dé, sur 2+ autant de dégâts mortels.</li><li>Un <b>Monstre</b> ennemi en mêlée avec lui : 2D6 ; sur 7, rien, sinon dé 1 × dé 2 dégâts mortels.</li></ul>",
+        "Le Glas des Empires": "Pour le restant du tour : +1 dé aux jets de charge des unités de la <b>Destruction</b> amies entièrement à 12\" de Kragnos (max 3 dés).",
+        "Charge Cataclysmique": "A chargé à ce tour, sans « Charge Buffle » à ce tour. <b>Cible :</b> une unité ennemie visible à 1\".<ul><li>D3 dégâts mortels.</li><li>Puis le Tyran du Givre se déplace de 2D6\" max, à travers la cible, et doit finir en mêlée.</li></ul>",
+        "Avalanche de Mastauroc": "A chargé à ce tour, sans « Charge Buffle » à ce tour. <b>Cible :</b> une unité ennemie en mêlée avec elle ou un terrain de faction ennemi à sa portée de mêlée. Sur 3+ : 3 dégâts mortels (6 sur un terrain de faction).",
+        "Rugissement Enragé": "Tyran du Givre endommagé : +1 Attaque aux armes de <b>Compagnon</b> des autres unités des <b>Hordegueules Ogors</b> amies à sa portée de mêlée.",
+        "Encornement": "<b>Cible :</b> une unité ennemie d'1 figurine au plus, en mêlée avec le Tyran du Givre et qui a chargé à ce tour. <b>Replacez</b>-la à 1\" de lui, puis D3 : sur 2+, autant de dégâts mortels.",
+        "Impact Sanglant": "A chargé à ce tour. <b>Cible :</b> une unité ennemie en mêlée avec elle. Sur 3+ : −1 aux jets de blessure de ses attaques pour le restant du tour.",
+        "Offensive à Glacer le Sang": "A chargé à ce tour. <b>Cible :</b> une unité ennemie en mêlée avec elle. Sur 4+ : −1 aux jets de touche de ses attaques pour le restant du tour.",
+        "Mangez-les Vivants": "<b>Utilisée par :</b> une unité d'<b>Ogors</b> amie qui a fait un <b>Corps à Corps</b> à ce tour contre une unité (ni Terrain de Faction ni Manifestation).<br/><b>Cible</b> (facultative) : une unité ennemie en mêlée avec elle, 1 fois par tour : D3 dégâts mortels.<br/>Puis 1 effet pour votre unité, pour le restant de la bataille (un seul à la fois, remplaçable) :<ul><li><b>Chair Fraîche et Saignante :</b> −1 Perf. aux attaques qui la ciblent.</li><li><b>Abats Exotiques :</b> −1 aux jets de protection contre ses attaques de mêlée (hors <b>Compagnon</b>).</li><li><b>Cervelles Fumantes :</b> +2 à sa caractéristique de Contrôle.</li><li><b>Os Croquants :</b> armes de mêlée Crit (2 Touches) ; si elles l'ont déjà, Crit (Mortel).</li><li><b>Tripes Gluantes :</b> peut charger après une <b>Course</b>.</li><li><b>Viande Mystérieuse :</b> −1 au niveau de puissance des ennemis en mêlée avec elle (min 0).</li></ul>",
+        "À la Graille !": "<b>Soignez (D3)</b> chaque unité des <b>Hordegueules Ogors</b> amie qui a utilisé « Mangez-les Vivants » à cette bataille."
+      },
+      "add_keywords": {
+        "Stigmates de Guerre": "Simple",
+        "Mâchoires de la Bête": "Simple",
+        "Rôdeurs Troglodytes": "Simple",
+        "Râtelier à Trophées": "Simple",
+        "Avatar de la Destruction": "Simple",
+        "Squelette de Pierre": "Simple",
+        "N'en Laissez pas une Miette": "Simple",
+        "Contre-attaque Vorace": "Simple",
+        "Bouillon de Bataille": "Simple",
+        "Le Bouclier Inviolé": "Simple",
+        "Refermer les Mâchoires": "Simple",
+        "Chasseurs Frénétiques": "Simple",
+        "Avancer dans la Trace": "Simple",
+        "Charge Buffle": "Simple",
+        "Destruction Furieuse": "Simple",
+        "Le Glas des Empires": "Simple",
+        "Charge Cataclysmique": "Simple",
+        "Avalanche de Mastauroc": "Simple",
+        "Rugissement Enragé": "Simple",
+        "Encornement": "Simple",
+        "Impact Sanglant": "Simple",
+        "Offensive à Glacer le Sang": "Simple",
+        "Mangez-les Vivants": "Simple",
+        "À la Graille !": "Simple"
+      },
+      "phase_overrides": {
+        "Contre-attaque Vorace": "Charge Phase"
+      },
+      "warscroll_order": [
+        "Kragnos, the End of Empires",
+        "Frostlord on Stonehorn",
+        "Gorger Mawpack",
+        "Maulbeast Cavalry",
+        "Thundertusk Beastriders",
+        "Stonehorn Beastriders",
+        "Great Mawpot"
+      ]
+    },
+    "Haldahir 188507489 - Pas content! Pas content!": {
+      "remove_abilities": [
+        "WRATHFUL DOMINANCE",
+        "Domination Rageuse",
+        "AR’GATH, THE KING OF BLADES",
+        "Ar'gath, la Reine des Lames"
+      ],
+      "keep_on_warscroll": [
+        "BEAST",
+        "Bête"
+      ],
+      "description_overrides": {
+        "Du Sang pour le Dieu du Sang": "<b>Effet :</b> +1 point de dîme de sang à chaque unité détruite (amie ou ennemie). Ils servent à déverrouiller les aptitudes de Dîme de Sang : seules celles déverrouillées sont utilisables, et une aptitude déverrouillée le reste sans repayer.",
+        "Des Crânes pour le Trône de Crânes": "<b>Effet :</b> Dépensez le coût (en haut à droite) d'une aptitude de Dîme de Sang non déverrouillée : elle est déverrouillée pour le restant de la bataille.",
+        "Trempés de Sang": "Après sa résolution, si vous avez déverrouillé une aptitude à ce tour :<br/><b>Cible :</b> une unité amie.<br/><b>Effet :</b> Pour le restant de la bataille, selon la cible :<ul><li><b>Brutalité Hallucinée</b> (toute cible) : ignorez les modificateurs positifs à ses jets de sauvegarde.</li><li><b>Brouillard de Sang</b> (Sang-liés : <b>Slaughterpriest</b>, <b>Claws of Karanak</b>, <b>Blood Warriors</b>) : ses armes à Soif de Sang ont Crit (Mortel).</li><li><b>Armes Meurtrières</b> (Démons non-Monstre : <b>Bloodletters</b>, <b>Skulltaker</b>, <b>Karanak</b>, <b>Flesh Hounds</b>) : +1 Perforation à ses armes à Soif de Sang, Compagnon compris.</li><li><b>Seigneurs du Sang Suprêmes</b> (Monstre : <b>Bloodthirster</b>) : +1 Dégâts à ses armes à Soif de Sang.</li></ul>",
+        "Soif de Meurtre": "Déverrouillée d'office.<br/><b>Effet :</b> Jetez un dé : vous pouvez remplacer un dé du jet de charge par ce résultat. Dans ce cas, D3 dégâts mortels à l'unité qui charge, une fois la charge résolue.",
+        "Mépris Divin": "<b>Cibles :</b> jusqu'à 3 Sorciers ou Prêtres ennemis à 6\" d'une unité amie.<br/><b>Effet :</b> 1 dé par cible : sur 3+, −1 niveau de puissance (minimum 0) jusqu'au début du prochain tour.",
+        "Punissez les Pacifistes": "<b>Cibles :</b> toutes les unités (amies et ennemies) et Manifestations ennemies hors de mêlée.<br/><b>Effet :</b> Jetez un dé. Sur 1-2 : 1 dégât mortel à chaque cible. Sur 3+ : 1 dégât mortel à chaque cible <b>ennemie</b> seulement.",
+        "Tuez les Mystiques": "<b>Prérequis :</b> Mépris Divin.<br/><b>Cibles :</b> jusqu'à 4 Manifestations ennemies.<br/><b>Effet :</b> Jet de bannissement de 2D6 par cible : s'il atteint sa valeur de Bannissement, D3 dégâts mortels à chaque unité ennemie à 3\" d'elle, puis elle est bannie.",
+        "Un Combat Glorieux ou Rien": "<b>Prérequis :</b> Mépris Divin <i>ou</i> Punissez les Pacifistes.<br/><b>Effet :</b> −1 touche aux attaques de tir qui ciblent les unités amies.",
+        "Euphorie du Combat": "<b>Prérequis :</b> Punissez les Pacifistes.<br/><b>Effet :</b> Les attaques de mêlée des unités ennemies qui ont chargé à ce tour et ciblent une unité amie perdent leurs aptitudes d'arme (sauf Compagnon).",
+        "Massacre Triomphal": "<b>Prérequis :</b> Un Combat Glorieux ou Rien <i>ou</i> Tuez les Mystiques.<br/><b>Effet :</b> +1 Attaque aux armes des unités amies qui ont chargé au même tour.",
+        "Tailladez le Sourire de Khorne": "<b>Prérequis :</b> Euphorie du Combat <i>ou</i> Un Combat Glorieux ou Rien.<br/><b>Effet :</b> +1 touche aux attaques de mêlée des unités amies.",
+        "Bouchers des Nations": "<b>Effet :</b> Juste après ce Corps à Corps, une unité Sang-liés amie (<b>Slaughterpriest</b>, <b>Claws of Karanak</b>, <b>Blood Warriors</b>) entièrement à 12\" de l'unité et qui n'a pas combattu à ce tour peut utiliser un Corps à Corps.",
+        "Contremaître Frénétique": "<b>Cible :</b> une unité d'Infanterie amie (<b>Bloodletters</b>, <b>Skulltaker</b>, <b>Slaughterpriest</b>, <b>Claws of Karanak</b>, <b>Blood Warriors</b>) à portée de mêlée du <b>Bloodthirster</b> et hors de mêlée.<br/><b>Effet :</b> Elle se déplace de D6\", sans finir en mêlée. Si elle finit à portée de mêlée du <b>Bloodthirster</b>, elle subit autant de dégâts mortels que le résultat du dé.",
+        "Vengeance de Khorne": "<b>Cible :</b> un Héros ennemi en mêlée avec le <b>Bloodthirster</b>.<br/><b>Effet :</b> Jetez 8 dés : 1 dégât mortel par 4+.",
+        "Commandant des Tyrans": "<b>Cible :</b> une unité amie de <b>Bloodletters</b> ou de <b>Flesh Hounds</b> (Démons non Uniques).<br/><b>Effet :</b> +1 Attaque à ses armes de mêlée pour le restant du tour.",
+        "Fléaux des Héros": "<b>Cible :</b> un Héros ennemi en mêlée avec le <b>Skulltaker</b>.<br/><b>Effet :</b> Pour le restant du tour, tant qu'elle est en mêlée avec lui, le <b>Skulltaker</b> a Frappe en Premier pour ses attaques de mêlée contre cette cible.",
+        "Le Duel Éternel": "<b>Effet :</b> Si un Héros ennemi qui a subi des dégâts des attaques de mêlée du <b>Skulltaker</b> à ce tour a été détruit à ce tour : <b>Soignez (X)</b> le Skulltaker, X = ses dégâts (soin complet).",
+        "Attiré par le Sang": "<b>Cible :</b> un Héros ennemi qui a utilisé un Corps à Corps à ce tour.<br/><b>Effet :</b> Retirez le <b>Skulltaker</b> et replacez-le en mêlée avec la cible seulement (aucune autre unité ennemie).",
+        "Premier de la Meute": "<ul><li>+2 aux jets de charge de <b>Karanak</b> tant qu'il est entièrement à 12\" des <b>Flesh Hounds</b>.</li><li>Les <b>Flesh Hounds</b> entièrement à 12\" de Karanak ignorent « Bête » (contrôle max 1).</li></ul>",
+        "Proie du Dieu du Sang": "<b>Effet :</b> Choisissez un Héros ennemi (même en réserve) comme proie de <b>Karanak</b>.",
+        "Traquer la Proie": "Si la proie de <b>Karanak</b> est sur le champ de bataille :<br/><b>Cibles :</b> <b>Karanak</b> et jusqu'à 1 unité de <b>Flesh Hounds</b>.<br/><b>Effet :</b> Retirez-les et replacez-les à plus de 6\" de la proie et à plus de 9\" des autres unités ennemies ; les <b>Flesh Hounds</b> à 12\" de Karanak.",
+        "L'Odeur du Sang": "<b>Effet :</b> Les <b>Claws of Karanak</b> peuvent faire un « Mouvement Normal » comme en phase de mouvement.",
+        "Chasseurs en Meute": "<b>Effet :</b> Tant que les <b>Claws of Karanak</b> sont entièrement à 12\" des <b>Flesh Hounds</b> ou de <b>Karanak</b> : touches critiques sur 5+ en mêlée.",
+        "Chasseurs de Mystiques": "<ul><li>Sorcier ennemi à 12\" des <b>Flesh Hounds</b> : son jet de lancement est un fiasco s'il contient au moins deux 1 ou 2.</li><li>Prêtre ennemi à 12\" : sur un jet de récitation non modifié de 2, la prière rate, et l'adversaire ne peut plus lui donner de point de rituel pour le restant de la phase.</li></ul>",
+        "Sacrifice de Sang": "<b>Cible :</b> une unité (amie ou ennemie) à portée de mêlée du <b>Slaughterpriest</b>.<br/><b>Effet :</b> Jetez un D3. Sur 2+ :<ul><li>autant de dégâts mortels à la cible que le résultat ;</li><li>le Slaughterpriest gagne 1 point de rituel.</li></ul>",
+        "Mépris de la Sorcellerie": "<b>Effet :</b> Le <b>Slaughterpriest</b> peut Dissiper comme un Sorcier (1).",
+        "Mots de Haine": "<b>Effet :</b> Tant que le <b>Slaughterpriest</b> est l'Invocateur de l'Autel :<ul><li>+1 à ses jets de récitation ;</li><li>il ne peut pas utiliser d'aptitudes de Mouvement ;</li><li>sa portée et sa visibilité se mesurent depuis l'Autel ;</li><li>les attaques qui le ciblent ciblent l'Autel à la place ;</li><li>Autel détruit : D3 dégâts mortels au Slaughterpriest, puis placez-le entièrement à 3\" de l'Autel et hors de mêlée (il n'est plus Invocateur) ; si c'est impossible, il est tué.</li></ul>",
+        "Gravir l'Autel": "Si l'Autel n'a pas d'Invocateur :<br/><b>Cible :</b> le <b>Slaughterpriest</b>, à 3\" de l'Autel et hors de mêlée.<br/><b>Effet :</b> Placez-le sur l'Autel : il devient l'Invocateur (voir « Mots de Haine »).",
+        "Haine de la Sorcellerie": "Si l'Autel a un Invocateur :<br/><b>Cibles :</b> jusqu'à D3 Sorts Persistants ennemis à 18\" de l'Autel.<br/><b>Effet :</b> Jet de bannissement de 2D6 pour chacun, résolu comme « Bannir une Manifestation ». Au moins un banni : +1 point de dîme de sang.",
+        "Descendre de l'Autel": "<b>Effet :</b> Si le <b>Slaughterpriest</b> est l'Invocateur et n'a pas été placé sur l'Autel à ce tour : placez-le entièrement à 6\" de l'Autel et hors de mêlée ; il n'est plus Invocateur.",
+        "Signe de Ruine": "<b>Cible :</b> une unité amie visible et entièrement à 8\" de l'Icône. Choisissez une aptitude de Dîme de Sang <b>passive</b> non déverrouillée : Un Combat Glorieux ou Rien (2), Euphorie du Combat (3), Massacre Triomphal (4), Tailladez le Sourire de Khorne (4).<br/><b>Effet :</b> Jetez un dé : s'il atteint son coût, ses effets s'appliquent à la cible jusqu'au début de votre prochain tour, comme si elle était déverrouillée.",
+        "Mangeurs de Sorts": "<b>Effet :</b> −1 au lancement d'un Sorcier (ami ou ennemi) pour chaque partie des Crânes à 8\" de lui.",
+        "Tranchant de Haine": "Si la Hache a chargé à ce tour :<br/><b>Cible :</b> une unité ennemie de taille de départ supérieure à 1, en mêlée avec elle.<br/><b>Effet :</b> Jetez 2D6 : sur 8+, 1 figurine de la cible est tuée.",
+        "Queues de Scorpion": "<b>Cible :</b> une unité ennemie en mêlée avec les <b>Bloodletters</b> à Queues de Scorpion (une seule des 2 unités).<br/><b>Effet :</b><ul><li>D3 dégâts mortels à la cible ;</li><li>si sa taille de départ était 1 : −1 blessure à ses attaques de mêlée pour le restant du tour.</li></ul>",
+        "Attirés par la Tuerie": "<b>Effet :</b> Ramenez 1 figurine tuée dans ces <b>Bloodletters</b>, ou 3 si l'unité qui utilise « Éruption de Fureur » est en mêlée avec eux.",
+        "Rage Incontrôlable": "<b>Cible :</b> une unité amie visible et entièrement à 18\" du <b>Slaughterpriest</b>.<br/><b>Effet :</b> Jusqu'au début de votre prochain tour, les effets de « Trempés de Sang » (selon son type, voir Début de tour) s'appliquent à la cible. Sur 8+ : ignorez aussi « Brutalité Hallucinée » pour elle.",
+        "Sang Bouillant": "<b>Cible :</b> une unité ennemie visible à 18\" du <b>Slaughterpriest</b>.<br/><b>Effet :</b> 1 dé par figurine de la cible : 1 dégât mortel par 5+. Sur 8+ : −1 blessure à ses attaques jusqu'à votre prochain tour.",
+        "Acte Final de Violence": "<b>Cible :</b> une unité amie visible et entièrement à 12\" du <b>Slaughterpriest</b>.<br/><b>Effet :</b> Jusqu'au début de votre prochain tour, pour chaque figurine de la cible tuée par une attaque d'une unité en mêlée avec elle : 1 dé (2 si récitation 8+) ; chaque 5+ = 1 dégât mortel à l'unité attaquante, après son Corps à Corps.",
+        "Convocation de Crânes Sorcevores": "<b>Effet :</b> Placez les Crânes Sorcevores (2 parties, à 8\" l'une de l'autre) visibles et entièrement à 12\" du <b>Slaughterpriest</b>, à plus de 9\" des unités ennemies.",
+        "Convocation de Hache de Rage": "<b>Effet :</b> Placez une Hache de Rage visible et entièrement à 12\" du <b>Slaughterpriest</b>, à plus de 9\" des unités ennemies.",
+        "Convocation d'Icône Sanglante": "<b>Effet :</b> Placez une Icône Sanglante visible et entièrement à 18\" du <b>Slaughterpriest</b>."
+      },
+      "add_keywords": {
+        "Du Sang pour le Dieu du Sang": "Simple",
+        "Des Crânes pour le Trône de Crânes": "Simple",
+        "Trempés de Sang": "Simple",
+        "Soif de Meurtre": "Simple",
+        "Mépris Divin": "Simple",
+        "Punissez les Pacifistes": "Simple",
+        "Tuez les Mystiques": "Simple",
+        "Un Combat Glorieux ou Rien": "Simple",
+        "Euphorie du Combat": "Simple",
+        "Massacre Triomphal": "Simple",
+        "Tailladez le Sourire de Khorne": "Simple",
+        "Bouchers des Nations": "Simple",
+        "Contremaître Frénétique": "Simple",
+        "Vengeance de Khorne": "Simple",
+        "Commandant des Tyrans": "Simple",
+        "Fléaux des Héros": "Simple",
+        "Le Duel Éternel": "Simple",
+        "Attiré par le Sang": "Simple",
+        "Premier de la Meute": "Simple",
+        "Proie du Dieu du Sang": "Simple",
+        "Traquer la Proie": "Simple",
+        "L'Odeur du Sang": "Simple",
+        "Chasseurs en Meute": "Simple",
+        "Chasseurs de Mystiques": "Simple",
+        "Sacrifice de Sang": "Simple",
+        "Mépris de la Sorcellerie": "Simple",
+        "Mots de Haine": "Simple",
+        "Gravir l'Autel": "Simple",
+        "Haine de la Sorcellerie": "Simple",
+        "Descendre de l'Autel": "Simple",
+        "Signe de Ruine": "Simple",
+        "Mangeurs de Sorts": "Simple",
+        "Tranchant de Haine": "Simple",
+        "Queues de Scorpion": "Simple",
+        "Attirés par la Tuerie": "Simple",
+        "Rage Incontrôlable": "Simple",
+        "Sang Bouillant": "Simple",
+        "Acte Final de Violence": "Simple",
+        "Convocation de Crânes Sorcevores": "Simple",
+        "Convocation de Hache de Rage": "Simple",
+        "Convocation d'Icône Sanglante": "Simple"
+      },
+      "section_order": {
+        "hero": [
+          "Skull Altar",
+          "Slaughterpriest"
+        ]
+      },
+      "units": {
+        "Wrath of Khorne Bloodthirster": {
+          "add_abilities": [
+            {
+              "name": "Tueur de Héros",
+              "condition": "Passive",
+              "ability_phase": "Combat Phase",
+              "keywords": "Simple",
+              "description": "<ul><li>+1 touche aux attaques du <b>Bloodthirster</b> qui ciblent un Héros ennemi.</li><li>Pas de jet de protection pour les Héros ennemis en mêlée avec lui.</li></ul>",
+              "note": "Domination Rageuse + Ar'gath, la Reine des Lames (artefact)"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "en": {
+    "all_lists": {
+      "base_rules_last": true
+    },
+    "lists": {
+      "Shadow 197693535 - Un cavalier ne parle pas aux fantassins": {
+        "units": {
+          "Varanguard": {
+            "add_abilities": [
+              {
+                "name": "Relentless Killers",
+                "condition": "Once Per Battle, Any Combat Phase",
+                "ability_phase": "Combat Phase",
+                "keywords": "Simple",
+                "description": "This unit can use 2 <b>Fight</b> abilities this phase. After the first, it has <b>Strike-last</b> for the rest of the turn, <b>unless</b> it is wholly within 12\" of Abraxia.<br/>Once per battle <b>for each</b> Varanguard unit.",
+                "note": "Relentless Killers + Warlord of the First Circle (Abraxia)"
+              }
+            ]
+          },
+          "Chaos Knights": {
+            "add_abilities": [
+              {
+                "name": "Champion",
+                "condition": "Passive",
+                "ability_phase": "Combat Phase",
+                "keywords": "Simple",
+                "description": "+1 Attack for the champion's weapons."
+              },
+              {
+                "name": "Standard Bearer",
+                "condition": "Passive",
+                "ability_phase": "End of Turn",
+                "keywords": "Simple",
+                "description": "+1 control score while the unit has a standard bearer."
+              }
+            ],
+            "description_overrides": {
+              "Pledged to Khorne": "<i>Applied</i>",
+              "The Banner of Rage": "<b>Pledged to Khorne</b>. +1 to wound for combat attacks while the unit has a standard bearer."
+            },
+            "weapons": {
+              "Cursed Lance": {
+                "attacks": "4"
+              }
+            }
+          },
+          "Darkoath Savagers": {
+            "add_abilities": [
+              {
+                "name": "Champion",
+                "condition": "Passive",
+                "ability_phase": "Combat Phase",
+                "keywords": "Simple",
+                "description": "+1 Attack for the champion's weapons."
+              }
+            ]
+          },
+          "Daemon Prince": {
+            "stats": {
+              "ward": "5+",
+              "move": "10\""
+            },
+            "description_overrides": {
+              "Pledged to Nurgle": "<i>Applied</i>",
+              "Airborne Horror": "<i>Applied</i>"
+            }
+          }
+        },
+        "remove_abilities": [
+          "The Mounted Skulls of the Fallen",
+          "Relentless Killers",
+          "Warlord of the First Circle",
+          "Champion",
+          "Standard Bearer"
+        ],
+        "keep_on_warscroll": [
+          "Airborne Horror",
+          "Pledged to Nurgle",
+          "Swift As The Wind",
+          "Uncanny Shot",
+          "Broken Nadja",
+          "Champion",
+          "Standard Bearer",
+          "The Banner of Rage",
+          "Pledged to Khorne"
+        ],
+        "add_keywords": {
+          "Airborne Horror": "Fly",
+          "Pledge to Chaos": "Simple",
+          "Gorbolga the Accurs'd": "Simple",
+          "Spite-Tongue Curse": "Simple",
+          "Binding Damnation": "Simple",
+          "Daemonic Speed": "Simple",
+          "Uncanny Shot": "Simple",
+          "Broken Nadja": "Simple",
+          "The Banner of Rage": "Simple"
+        },
+        "description_overrides": {
+          "Uncanny Shot": "Singri's Warbow: +1 Rend against a target within 6\" of a friendly Gunnar Brand.",
+          "Broken Nadja": "<b>Wizard (1)</b> while Broken Nadja is on the battlefield: the only caster in this list.",
+          "Pledge to Chaos": "<b>Declare:</b> Pick a friendly non-<b>Unique</b> unit with no Pledge to Chaos keyword: Varanguard, Darkoath Savagers or Mindstealer Sphiranx.<br/><br/><b>Effect:</b> It becomes <b>Pledged to Khorne</b>, <b>Tzeentch</b>, <b>Nurgle</b> or <b>Slaanesh</b> (your choice) for the rest of the battle.",
+          "Gorbolga the Accurs'd": "If this unit is in combat, roll a dice:<br/><ul><li><b>1</b>: allocate 1 damage point to Abraxia;</li><li><b>2</b>: no effect;</li><li><b>3-5</b>: Gorbolga +1 Damage this turn;</li><li><b>6</b>: Gorbolga +1 Damage and Crit (Mortal) this turn.</li></ul>",
+          "Spite-Tongue Curse": "<b>Caster:</b> The Oathsworn Kin (Nadja).<br/><b>Target:</b> a visible enemy unit within 12\" of the caster. If the casting roll fails or the spell is unbound: D3 mortal damage to the caster.<br/><br/><b>Effect:</b> Inflict 3 mortal damage on the target.",
+          "Binding Damnation": "<b>Caster:</b> The Oathsworn Kin (Nadja).<br/><b>Target:</b> a visible enemy unit within 12\" of the caster.<br/><br/><b>Effect:</b> The target has <b>Strike-last</b> until the start of your next turn.",
+          "Daemonic Speed": "<b>Caster:</b> The Oathsworn Kin (Nadja).<br/><b>Target:</b> a visible friendly <b>Slaves to Darkness</b> unit wholly within 12\" of the caster.<br/><br/><b>Effect:</b> For the rest of the turn, +1 dice to the target's charge rolls (maximum 3)."
+        }
+      },
+      "Hibou_2  188507690 - Le rat decheant": {
+        "unit_aliases": {
+          "Rich and Well-Equipped Warbringer": {
+            "unit": "Verminlord Warbringer",
+            "options": [
+              "Foulhide",
+              "Short-tempered"
+            ]
+          }
+        },
+        "units": {
+          "Thanquol on Boneripper": {
+            "add_abilities": [
+              {
+                "name": "Casting Roll",
+                "condition": "Passive",
+                "ability_phase": "Hero Phase",
+                "keywords": "Spell, Simple",
+                "before_spells": true,
+                "description": "+1 to Thanquol's casting rolls.<br/>+1 more until the start of your next turn if Skreech picked <i>Master of Dire Sorcery</i> (The Thirteen-headed One) and Thanquol is wholly within 13\" of him.",
+                "note": "Staff of the Horned Rat + The Thirteen-headed One (Master of Dire Sorcery)"
+              },
+              {
+                "name": "Heal (D3)",
+                "condition": "End of Any Turn",
+                "ability_phase": "End of Turn",
+                "keywords": "Simple",
+                "description": "<b>Effect:</b> Heal (D3) this unit.",
+                "note": "Warp-amulet (Thanquol), Foulhide (Rich and Well-Equipped Warbringer)"
+              }
+            ]
+          },
+          "Rich and Well-Equipped Warbringer": {
+            "add_abilities": [
+              {
+                "name": "Heal (D3)",
+                "condition": "End of Any Turn",
+                "ability_phase": "End of Turn",
+                "keywords": "Simple",
+                "description": "<b>Effect:</b> Heal (D3) this unit.",
+                "note": "Warp-amulet (Thanquol), Foulhide (Rich and Well-Equipped Warbringer)"
+              }
+            ]
+          }
+        },
+        "remove_abilities": [
+          "Tyrant of Battle",
+          "Overseers of the Enginecovens",
+          "Staff of the Horned Rat",
+          "Warp-amulet",
+          "Foulhide"
+        ],
+        "keep_on_warscroll": [
+          "Warp Lightning Blast"
+        ],
+        "description_overrides": {
+          "The Thirteen-headed One": "<b>Effect:</b> Pick 1 of the following effects to apply until the start of your next turn. You cannot pick the same effect more than once per battle.<br/><br/><i>Master of Dire Sorcery:</i> Add 1 to casting rolls for friendly <b>Masterclan Wizards</b> while they are wholly within 13\" of this unit (here: Thanquol and Skreech himself).<br/><br/><i>Commander of Vermin:</i> Add 1 to charge rolls for friendly <b>Verminus</b> units while they are wholly within 13\" of this unit.<br/><br/><i>Knower of Warp-tech:</i> Add 1 to hit rolls for shooting attacks made by friendly <b>Skryre</b> units while they are wholly within 13\" of this unit.<br/><br/><i>Master of Seeping Blades:</i> Add 1 to the Rend characteristic of melee weapons used by friendly <b>Eshin</b> units while they are wholly within 13\" of this unit.<br/><br/><i>Ultimate Flesh-shaper:</i> Heal (D3) each friendly <b>Moulder</b> unit wholly within 13\" of this unit (here: Skreech himself).",
+          "Shadowblood Cloak": "<b>Target:</b> the <b>Night Runners</b> (2 or more models), visible and wholly within 18\" of this unit.<br/><br/><b>Effect:</b> Roll a dice. On a 3+, remove this unit from the battlefield and set it up again wholly within 6\" of the target. This unit can be set up in combat.",
+          "The Endless Vermintide": "<b>Target:</b> the <b>Night Runners</b>, if they have been destroyed.<br/><br/><b>Effect:</b> Set up a replacement unit of 5 models (half of 10) wholly within 6\" of a friendly <b>Gnawhole</b> and more than 3\" from all enemy units.",
+          "Smoke Bombs": "<b>Effect:</b> As a <b>Fight</b> ability. Then, if this unit is still in combat, on a 3+: it can move up to its Move characteristic. It can pass through enemy combat ranges but can only end that move in combat with units it was in combat with at the start of the move (it does not have to end in combat).",
+          "Covering Fire": "<b>Declare:</b> Pick a friendly unit that did not use a Run ability this turn and that is not in combat to use this ability, then pick the closest enemy unit (to that unit) that can be picked as the target of shooting attacks to be the target. You cannot pick Manifestations or faction terrain features as the target of this ability.<br/><br/><b>Effect:</b> Resolve shooting attacks for the unit using this ability against the target. You must subtract 1 from the hit rolls for those attacks.<br/><br/><b>Arch-Warlock:</b> if the unit is <b>Skryre</b> and wholly within 13\" of the Arch-Warlock, no command points are spent."
+        },
+        "add_keywords": {
+          "The Thirteen-headed One": "Simple",
+          "Shadowblood Cloak": "Simple",
+          "The Endless Vermintide": "Simple",
+          "Smoke Bombs": "Simple"
+        }
+      },
+      "Pierrodactyl  n°188542842 ou n°197950119  je ne sais pas de quel numéro il s'agit ?": {
+        "remove_abilities": [
+          "NATURE’S TITANS",
+          "ASPECT OF HEARTWOOD",
+          "Budding Forests",
+          "Rousing Accompaniment"
+        ],
+        "add_keywords": {
+          "ENDLESS GROWTH": "Simple",
+          "THE CREEPING OVERGROWTH": "Simple",
+          "THE LAND AWAKENS": "Simple",
+          "DANCING MYSTIFLIES": "Simple"
+        },
+        "description_overrides": {
+          "ENDLESS GROWTH": "<b>Targets:</b> each friendly <b>Sylvaneth</b> unit wholly within the <b>creeping overgrowth</b>.<br/><br/><b>Effect:</b><ul><li><b>Monsters</b> (Alarielle, Belthanos, Drycha): <b>Heal (3)</b>.</li><li>Others: roll a D3, then <b>Heal (X)</b>, or return slain models with a combined Health characteristic of up to X.</li><li><b>Once per battle</b> (Aspect of Heartwood), if the <b>Kurnoth Hunters</b> are wholly within the <b>creeping overgrowth</b>, for each target wholly within 12\" of them: <b>Monsters</b> <b>Heal (6)</b>, others roll a D6 instead of a D3; <b>Kurnoth Hunters</b>: you can instead return 1 slain model.</li></ul><br/><font size=\"6\" color=\"#8a8a8a\">Endless Growth, Nature’s Titans, Aspect of Heartwood</font>",
+          "THE CREEPING OVERGROWTH": "<b>Effect:</b> The <b>creeping overgrowth</b> is measured from each terrain feature that has a friendly <b>overgrown token</b>. Its range depends on the number of friendly overgrown tokens on the battlefield:<br/><ul><li>0-2 tokens: 6\"</li><li>3-5 tokens: 9\"</li><li>6-8 tokens: 12\"</li><li>9+ tokens: the entire battlefield</li></ul>Each <b>Awakened Wyldwood</b> gets 1 token when it is set up.<br/><font size=\"6\" color=\"#8a8a8a\">The Creeping Overgrowth, Budding Forests</font>",
+          "THE LAND AWAKENS": "<b>Target:</b> a friendly <b>Gossamid Archers</b> or <b>Spite-Revenants</b> unit that has been destroyed.<br/><br/><b>Effect:</b> Set up a replacement unit with half the number of models from the target unit (rounding up) wholly within the <b>creeping overgrowth</b> and more than 9\" from all enemy units.",
+          "DANCING MYSTIFLIES": "<b>Effect:</b><ul><li>This unit can use the ‘Unbind’ ability as if it had <b>Wizard (1)</b>.</li><li>If it successfully unbinds the spell being reacted to and the caster is within the <b>creeping overgrowth</b>, inflict an amount of mortal damage on the caster equal to the difference between the casting roll and the unbinding roll, to a maximum of 6.</li></ul>"
+        },
+        "units": {
+          "Warsong Revenant": {
+            "add_abilities": [
+              {
+                "name": "Rousing Accompaniment",
+                "condition": "Once Per Turn (Army), Reaction: You made an unmodified chanting roll of 1 for this unit",
+                "ability_phase": "Hero Phase",
+                "keywords": "Simple",
+                "description": "<b>Effect:</b> Re-roll that chanting roll."
+              }
+            ]
+          }
+        }
+      },
+      "Cartoon 188602936 - Kroak & Croco": {
+        "units": {
+          "Saurus Warriors": {
+            "add_abilities": [
+              {
+                "name": "Champion",
+                "condition": "Passive",
+                "ability_phase": "Combat Phase",
+                "keywords": "Simple",
+                "description": "+1 Attack for the champion's weapons."
+              },
+              {
+                "name": "Standard Bearer",
+                "condition": "Passive",
+                "ability_phase": "End of Turn",
+                "keywords": "Simple",
+                "description": "+1 control score while the unit has a standard bearer."
+              }
+            ]
+          },
+          "Aggradon Lancers": {
+            "add_abilities": [
+              {
+                "name": "Champion",
+                "condition": "Passive",
+                "ability_phase": "Combat Phase",
+                "keywords": "Simple",
+                "description": "+1 Attack for the champion's weapons."
+              },
+              {
+                "name": "Standard Bearer",
+                "condition": "Passive",
+                "ability_phase": "End of Turn",
+                "keywords": "Simple",
+                "description": "+1 control score while the unit has a standard bearer."
+              }
+            ]
+          }
+        },
+        "remove_abilities": [
+          "ITZL THE TAMER",
+          "QUETZL THE PRESERVER",
+          "SOTEK THE DELIVERER",
+          "TEPOK THE SEER",
+          "Champion",
+          "Standard Bearer",
+          "Porte-Étendard"
+        ],
+        "keep_on_warscroll": [
+          "Champion",
+          "Standard Bearer",
+          "Porte-Étendard",
+          "Multiple Parts",
+          "Plusieurs Parties"
+        ],
+        "add_keywords": {
+          "The Great Plan": "Simple",
+          "Further the Great Plan": "Simple",
+          "Supreme Master of Order": "Simple",
+          "Dead for Innumerable Ages": "Simple",
+          "Arcane Vassal": "Simple",
+          "Vengeance of Azyr": "Simple",
+          "Fierce Guardians": "Simple",
+          "Armour Cruncher": "Simple",
+          "Primal Rage": "Simple"
+        },
+        "description_overrides": {
+          "The Great Plan": "<b>Effect:</b> Mandatory. Prophesy 1 Asterism: only that one is active (others are added via ‘Further the Great Plan’).<ul><li><b>Itzl the Tamer:</b> Companion weapons used by friendly <b>Seraphon</b> units have Crit (2 Hits).</li><li><b>Quetzl the Preserver:</b> −1 Rend for melee weapons for attacks that target friendly <b>Seraphon</b> units wholly within friendly territory.</li><li><b>Sotek the Deliverer:</b> +2 Move for friendly <b>Seraphon</b> units.</li><li><b>Tepok the Seer:</b> +1 to casting rolls for friendly <b>Seraphon</b> units.</li></ul>",
+          "Further the Great Plan": "<b>Effect:</b> Not in the first battle round. Pick a prophesied Asterism, never picked this way before, whose condition is met:<ul><li><b>Itzl:</b> 3 or more enemy units have been destroyed.</li><li><b>Quetzl:</b> no enemy units are wholly within friendly territory.</li><li><b>Sotek:</b> the enemy general is in combat or has been destroyed.</li><li><b>Tepok:</b> any friendly <b>Slann</b> on the battlefield, and no friendly <b>Slann</b> in combat or destroyed.</li></ul>Then prophesy a new Asterism: it adds to the previous ones.",
+          "Supreme Master of Order": "<b>Effect:</b> +2 to casting rolls, +1 to unbinding and banishment rolls.<br/>Unbind and Banish Manifestation: unlimited range (instead of 30\").",
+          "Dead for Innumerable Ages": "<b>Effect:</b> Mandatory each turn while damaged: roll 3D6 + damage points. On a 20+ it is destroyed, otherwise Heal (18).",
+          "Arcane Vassal": "<b>Target:</b> Skink Starpriest or Skink Oracle on Troglodon wholly within 18\".<br/><br/><b>Effect:</b> Kroak's next spell this phase measures range and visibility from the target, which is treated as the caster for other abilities and effects (Unbind, The Earth Trembles…).",
+          "Vengeance of Azyr": "<b>Declare:</b> Pick up to 3 friendly <b>Saurus</b> units that are in combat to be the targets.<br/><br/><b>Effect:</b> For each target:<ul><li>Make a pile-in move.</li><li>Then, pick an enemy unit in combat with the target and roll a D3. On a 2+, inflict an amount of mortal damage on that enemy unit equal to the roll.</li></ul>",
+          "Fierce Guardians": "<b>Effect:</b> +1 to hit for combat attacks by friendly <b>Saurus</b> units that target an enemy unit within 9\" of this terrain feature.",
+          "Armour Cruncher": "<b>Target:</b> an enemy unit in combat with this unit.<br/><br/><b>Effect:</b> The target has −1 to save rolls for the rest of the turn if:<ul><li>you spend 1 <b>rage dice</b> (if your opponent's <b>fury level</b> is lower than yours, they increase it by 1, max 7);</li><li>otherwise, on a dice roll ≥ the target's Save characteristic.</li></ul>",
+          "Primal Rage": "<b>Effect:</b> Mandatory each turn. Used a <b>Fight</b> ability this turn: +1 rage token (max 3). Otherwise: remove all its rage tokens.<br/>+1 Attack for its Companion weapons per rage token, until the end of the next turn."
+        }
+      },
+      "SoDarkSnow 195268327 - Ushoran tout en finesse": {
+        "units": {
+          "Abhorrant Ghoul King on Royal Terrorgheist": {
+            "add_abilities": [
+              {
+                "name": "Wicked Predator",
+                "condition": "Once Per Turn (Army), Any Combat Phase",
+                "ability_phase": "Combat Phase",
+                "keywords": "Simple",
+                "description": "<b>Target:</b> enemy unit in combat with this unit.<ul><li>+1 Attack for its Skeletal Talons per champion, standard bearer and musician in the target (max 10), rest of the phase.</li><li>Those extra attacks must target that unit.</li></ul>"
+              }
+            ],
+            "description_overrides": {
+              "Necromantic Limits": "Skeletal Talons: max 10 Attacks; 4 Attacks at 10+ damage points."
+            }
+          },
+          "Royal Terrorgheist": {
+            "add_abilities": [
+              {
+                "name": "Wicked Predator",
+                "condition": "Once Per Turn (Army), Any Combat Phase",
+                "ability_phase": "Combat Phase",
+                "keywords": "Simple",
+                "description": "<b>Target:</b> enemy unit in combat with this unit.<ul><li>+1 Attack for its Skeletal Talons per champion, standard bearer and musician in the target (max 10), rest of the phase.</li><li>Those extra attacks must target that unit.</li></ul>"
+              }
+            ],
+            "description_overrides": {
+              "Necromantic Limits": "Skeletal Talons: max 10 Attacks; 4 Attacks at 10+ damage points."
+            }
+          },
+          "Charnel Throne": {
+            "add_abilities": [
+              {
+                "name": "Steward of the Throne",
+                "condition": "Your Hero Phase",
+                "ability_phase": "Hero Phase",
+                "keywords": "Simple",
+                "note": "Reigning Champion + Steward of the Realm + Duty Calls + Ruler of All They Survey",
+                "description": "<b>Hero phase:</b> no Steward → the <b>Gorewarden</b> (within 3\", not in combat) can be <b>placed</b> on the throne = Steward.<br/><b>While Steward:</b><ul><li>No <b>Move</b> abilities.</li><li>Range, visibility and attacks: to the throne instead.</li><li>Throne destroyed: D3 mortal damage, set up within 3\", not in combat (else slain); no longer Steward.</li></ul><b>Movement phase:</b><ul><li><b>Ruler</b> (if Steward): visible friendly non-<b>Hero</b> <b>FEC</b> unit not in combat moves D3\" (D6\" if set up this turn), not into combat.</li><li><b>Duty Calls:</b> not placed this turn → set up wholly within 6\", not in combat; no longer Steward.</li></ul>"
+              }
+            ]
+          },
+          "Ushoran, Mortarch of Delusion": {
+            "description_overrides": {
+              "Battle Damaged": "10+ damage points: Monstrous Talons = 4 Attacks."
+            }
+          },
+          "Royal Zombie Dragon": {
+            "description_overrides": {
+              "Necromantic Limits": "Draconic Claws: max 10 Attacks; 5 Attacks at 10+ damage points."
+            }
+          }
+        },
+        "remove_abilities": [
+          "Muster Guard",
+          "Summon Loyal Subjects",
+          "Wicked Predator",
+          "Reigning Champion",
+          "Steward of the Realm",
+          "Duty Calls",
+          "Ruler of All They Survey"
+        ],
+        "add_keywords": {
+          "A Kingdom Deluded": "Simple",
+          "Epicentre of Delusion": "Simple",
+          "A Splendid Pageant": "Simple",
+          "A Glorious Banquet": "Simple",
+          "The One True King": "Simple",
+          "A Majestic Menagerie": "Simple",
+          "Defenders of the Kingdom": "Simple",
+          "Indulge, My Pretties": "Simple",
+          "Feeding Frenzy": "Simple",
+          "Glimpse of Delusion": "Simple",
+          "Miasma of Madness": "Simple",
+          "Summon Cadaverous Barricade": "Simple",
+          "Summon Corpsemare Stampede": "Simple",
+          "Summon Chalice of Ushoran": "Simple",
+          "Grasping Hands": "Simple",
+          "Trampled Underfoot": "Simple",
+          "Draughts of Delusion": "Simple",
+          "Shroudcage Fragment": "Simple",
+          "Ferocious Hunger": "Simple",
+          "The Grisly Pennant": "Simple",
+          "Stronger in Madness": "Simple",
+          "Shriek of Terror": "Simple",
+          "Soaring Terror": "Simple",
+          "On Rotten Wings": "Simple",
+          "Lord of the Marches": "Simple",
+          "Trespassers!": "Simple",
+          "Royal Blood": "Simple",
+          "Charnel Feast": "Simple",
+          "Deranged Transformation": "Simple",
+          "Set Up the Battlefield": "Simple",
+          "Deploy Faction Terrain": "Simple",
+          "Deploy Regiment": "Simple",
+          "Deploy Unit": "Simple",
+          "Raising the Heat": "Simple",
+          "Blazing Onslaught: Special Rule": "Simple"
+        },
+        "description_overrides": {
+          "A Kingdom Deluded": "<b>Mandatory</b>, start of each turn. You believe the picked <b>Delusion</b> for the rest of the turn.<ul><li><b>Turn 1:</b> pick any <b>Delusion</b>: battle traits, or warscroll of a friendly unit on the battlefield (exception: Defenders of the Kingdom).</li><li><b>Later turns</b>, make a delusion roll (D6):<br/>&#160;&#160;&#160;– <b>1-2:</b> a <b>different</b> one from last turn.<br/>&#160;&#160;&#160;– <b>3-4:</b> the <b>same</b> one as last turn (applies even if its unit was destroyed).<br/>&#160;&#160;&#160;– <b>5-6:</b> any one, as on turn 1.</li></ul>",
+          "Epicentre of Delusion": "±1 to delusion rolls.",
+          "A Splendid Pageant": "Run: friendly <b>FEC</b> unit wholly within 12\" of a friendly <b>FEC</b> <b>Hero</b>: a run roll of 1-3 counts as 4.",
+          "A Glorious Banquet": "+1 to hit for combat attacks of friendly <b>FEC</b> units that charged this turn, wholly within 12\" of a friendly <b>FEC</b> <b>Hero</b>.",
+          "The One True King": "<ul><li>+1 to run and charge rolls: friendly <b>FEC</b> units.</li><li>−1 to run and charge rolls: enemy units.</li></ul>",
+          "A Majestic Menagerie": "+1 Attack for Companion melee weapons of friendly <b>FEC</b> units wholly within 12\" of a friendly <b>FEC</b> <b>Hero</b>.",
+          "Defenders of the Kingdom": "<ul><li>Only while this unit is <b>on the battlefield</b>: +1 to charge rolls for friendly <b>FEC</b> units wholly within 12\" of a friendly <b>FEC Hero</b> (+2 if set up this turn).</li><li>Can be <b>picked</b> while this unit is patrolling the borders (no effect until it is set up).</li></ul>",
+          "Indulge, My Pretties": "Friendly non-<b>Hero</b> <b>FEC</b> <b>Monster</b> wholly within 12\" of a friendly <b>FEC</b> <b>Hero</b>:<ul><li>Can use a <b>Rampage</b> of its warscroll already used by another friendly <b>Monster</b> this turn.</li><li>Charged this turn with an unmodified charge roll of 9+: <b>Strike-first</b> for the rest of the turn.</li></ul>",
+          "Feeding Frenzy": "<b>Target:</b> friendly <b>FEC</b> <b>Hero</b> in combat.<ul><li>Rest of the turn: +1 Attack for melee weapons (Companion included) of friendly <b>FEC</b> units wholly within 12\" of it.</li></ul>",
+          "Glimpse of Delusion": "<b>Target:</b> visible enemy model within 18\".<br/><b>Victim:</b> enemy unit visible to the target and in its combat range (the target's own unit only if 2+ models).<ul><li>Pick 1 of the target's melee weapons: resolve its combat attacks against the victim.</li></ul>",
+          "Miasma of Madness": "<b>Target:</b> visible enemy unit within 18\".<ul><li>Until your next turn: each unmodified hit roll of 1 for its combat attacks = 1 mortal damage to it, after the <b>Fight</b>.</li></ul>",
+          "Summon Cadaverous Barricade": "Set up wholly within 18\" of the caster, visible to them.",
+          "Summon Corpsemare Stampede": "Set up wholly within 12\" of the caster, visible to them, more than 9\" from all enemy units.",
+          "Summon Chalice of Ushoran": "Set up wholly within 12\" of the caster, visible to them.",
+          "Grasping Hands": "Enemy units in its combat range:<ul><li>Cannot <b>Run</b> or <b>Retreat</b>.</li><li>Picked to use a <b>Move</b> ability: Move halved (rounding up) for the rest of the turn.</li></ul>",
+          "Trampled Underfoot": "Usable in combat. <b>Target:</b> a point on a battlefield edge.<br/><b>Stampede roll:</b> 2D6 +1D6 per battle round on the battlefield (2D6 when summoned, 3D6 next turn…).<ul><li>Moves up to the roll in a straight line toward the point, through enemy combat ranges. Ends in combat only within ½\" of a visible enemy = charged.</li><li>Each enemy unit passed across: D3, on 2+ that much mortal damage.</li><li>Charged: + stampede roll to Corpsemare Trample Attacks for the rest of the turn.</li></ul>",
+          "Draughts of Delusion": "<b>Target:</b> enemy unit within 6\". On 3+, opponent picks for the rest of the turn:<ul><li><b>Drink Deep:</b> its attacks' weapon abilities have no effect (except Companion).</li><li><b>Turn Aside:</b> combat attacks targeting it crit on unmodified 5+.</li></ul>",
+          "Shroudcage Fragment": "<b>Targets:</b> up to 3 enemy units in combat with this unit.<ul><li>A dice each: beats its Control = <b>Strike-last</b> for the rest of the turn.</li></ul>",
+          "Ferocious Hunger": "On 3+: +1 to hit for its Companion melee weapons, rest of the turn.",
+          "The Grisly Pennant": "Charged this turn. <b>Target:</b> enemy unit in combat with it. Dice > its Control, or a 6 — rest of the turn:<ul><li>−1 to hit for the target's combat attacks.</li><li>+1 to hit for friendly combat attacks targeting it.</li></ul>",
+          "Stronger in Madness": "<ul><li>Ignore the 1st damage point allocated to this unit each phase.</li><li>Combat attacks targeting it: no weapon abilities (except Companion).</li></ul>",
+          "Shriek of Terror": "<b>Target:</b> enemy <b>Infantry</b> unit in combat with this unit.<ul><li>A dice per model: each 6 = 1 mortal damage.</li><li>3+ damage points allocated: −1 to hit for its attacks, rest of the turn.</li></ul>",
+          "Soaring Terror": "Charged this turn. On 3+:<ul><li>Move 2D6\" through enemy combat ranges, must end in combat.</li><li>D3 mortal damage to 1 enemy unit passed across.</li></ul>",
+          "On Rotten Wings": "Set up again anywhere on the battlefield, more than 9\" from all enemy units.",
+          "Lord of the Marches": "<b>Targets:</b> this unit + up to 2 undeployed friendly <b>FEC</b> units of its regiment.<ul><li>Set up in reserve, patrolling the borders (= deployed).</li></ul>",
+          "Trespassers!": "If patrolling the borders. <b>Target:</b> an enemy unit.<ul><li><b>Set up</b> this unit more than 6\" from the target, more than 9\" from all other enemy units.</li><li>Then <b>set up</b> its patrolling units wholly within 12\" of it, more than 9\" from all enemy units.</li></ul>",
+          "Royal Blood": "Heal (D3) <b>Ushoran</b>, the <b>Gorewarden</b> and the <b>Ghoul King</b>.",
+          "Charnel Feast": "<b>Target:</b> visible enemy unit within 18\".<ul><li>D3 mortal damage.</li></ul>",
+          "Deranged Transformation": "<b>Target:</b> the <b>Gorewarden</b>, visible, wholly within 12\".<ul><li>Until your next turn: +2\" Move, +1 to wound for its combat attacks.</li></ul>",
+          "Set Up the Battlefield": "<b>1:</b> Roll off: winner chooses <b>attacker</b> / <b>defender</b>.<br/><b>2:</b> Defender sets up <b>objectives</b> (map), then <b>sets up</b> <b>terrain</b>: &gt;3\" from battlefield edge and objectives, &gt;6\" from other terrain.<br/><b>3:</b> Attacker picks their territory, and <b>begins deployment</b>.<br/><b>4:</b> Faction terrain first: the player who begins deployment, then the opponent.<br/><b>5:</b> Units: alternate Deploy abilities, starting with that player. One has none left: the other finishes.",
+          "Deploy Faction Terrain": "<b>Target:</b> undeployed friendly faction terrain.<ul><li><b>Set up</b> wholly within friendly territory, &gt;3\" from objectives and other terrain.</li></ul>",
+          "Deploy Regiment": "<b>Target:</b> a regiment with no unit deployed.<ul><li>Deploy all its units in a row, no alternating.</li><li>Cannot <b>set up</b> units of another regiment (battlefield or reserve) meanwhile.</li></ul>",
+          "Deploy Unit": "<b>Target:</b> an undeployed unit.<ul><li><b>Set up</b> wholly within friendly territory, &gt;9\" from enemy territory.</li></ul>",
+          "Raising the Heat": "Fury level: attacker <b>1</b>, defender <b>2</b>.",
+          "Blazing Onslaught: Special Rule": "After deployment, before choosing who goes first: opponent picks 1 non-<b>Faction Terrain</b> terrain feature in their territory = <b>hideout</b> (can never be removed)."
+        },
+        "phase_overrides": {
+          "A Splendid Pageant": "Movement Phase",
+          "The One True King": [
+            "Movement Phase",
+            "Charge Phase"
+          ]
+        }
+      }
+    }
+  }
+}

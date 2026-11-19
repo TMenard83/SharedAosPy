@@ -1,4 +1,4 @@
-"""Chargement de `data/faction_rules_fr.json` — vérbatim français des règles
+"""Chargement de `data/json/faction_rules_fr.json` — vérbatim français des règles
 de faction (Traits de Bataille / Formations / Traits Héroïques et Artefacts
 de Pouvoir / Domaines de Sorts / Domaines de Manifestations) et des aptitudes
 propres à chaque unité, transcrites à la main depuis un battletome (« BT »),
@@ -82,14 +82,19 @@ anglaise Wahapedia."""
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import dataclass, field
 from dataclasses import replace as _dc_replace
 from pathlib import Path
 
 from ..warscroll_card import tag_ability_origin
-from .wahapedia_lookup import AbilityEntry
+from .wahapedia_lookup import AbilityEntry, _normalize, _sanitize_glyphs
 
-DEFAULT_FACTION_RULES_FR_FILE = Path("data") / "faction_rules_fr.json"
+DEFAULT_FACTION_RULES_FR_FILE = Path("data") / "json" / "faction_rules_fr.json"
+#: même schéma, textes officiels anglais relevés dans l'app Warhammer Age of
+#: Sigmar (mode `en-split-simple`, badge d'origine « GW App ») — priment sur
+#: Wahapedia en cas de différence
+DEFAULT_APP_RULES_EN_FILE = Path("data") / "json" / "app_rules_en.json"
 
 
 @dataclass(frozen=True)
@@ -103,7 +108,10 @@ def load_faction_rules_fr(path: str | Path = DEFAULT_FACTION_RULES_FR_FILE) -> F
     p = Path(path)
     if not p.exists():
         return FactionRulesFr()
-    data = json.loads(p.read_text(encoding="utf-8"))
+    # même assainissement que les CSV Wahapedia : le texte de l'App contient
+    # des tirets insécables (« FLESH‑EATER », U+2011) que Helvetica dessine
+    # en carré noir
+    data = json.loads(_sanitize_glyphs(p.read_text(encoding="utf-8")))
     return FactionRulesFr(factions=data.get("factions", {}))
 
 
@@ -119,12 +127,47 @@ def get_faction_category_overrides(
     rows = frf.factions.get(faction_name, {}).get("rules", {}).get(category, [])
     if scope is None:
         return rows
-    target = scope.split("(", 1)[0].strip().lower()
-    return [r for r in rows if (r.get("scope") or "").split("(", 1)[0].strip().lower() == target]
+    target = _scope_key(scope)
+    return [r for r in rows if _scope_key(r.get("scope") or "") == target]
 
 
-def get_unit_ability_overrides(frf: FactionRulesFr, faction_name: str, unit_name: str) -> list[dict]:
-    return frf.factions.get(faction_name, {}).get("units", {}).get(unit_name, {}).get("abilities", [])
+def _scope_key(scope: str) -> str:
+    """Clé de rapprochement d'un `scope` : sans suffixe « (N Points) », et
+    lettres doublées réduites — l'App et Wahapedia écrivent « Blood
+    Blesssings of Khorne » (3 s), le battletome « Blessings »."""
+    return re.sub(r"(.)\1+", r"\1", ability_join_key(scope.split("(", 1)[0]))
+
+
+def get_unit_ability_overrides(frf: FactionRulesFr, faction_name: str, *unit_names: str) -> list[dict]:
+    """Aptitudes curées d'une unité, cherchées sous chacun de `unit_names` dans
+    l'ordre (typiquement le nom tel qu'exporté par l'App, puis le nom du
+    warscroll Wahapedia résolu). Rapprochement via `wahapedia_lookup._normalize`
+    (apostrophes typographiques, « : » d'un préfixe saisonnier, casse,
+    accents) : une clé curée sous « Scourge of Aqshy: X » répond aussi à
+    « Scourge of Aqshy X », et inversement."""
+    return _unit_entry(frf, faction_name, *unit_names).get("abilities", [])
+
+
+def get_unit_display_overrides(frf: FactionRulesFr, faction_name: str, *unit_names: str) -> dict:
+    """Traduction de l'affichage d'une unité, même recherche que
+    `get_unit_ability_overrides` : `name_fr` (remplace le nom de la carte —
+    manifestations, absentes de l'export de liste), `subtitle_fr` (nom
+    français en petit sous le nom anglais — unités, que l'App exporte en
+    anglais), `keywords_fr` (mots-clés en pied de carte) et `weapons`
+    (`wahapedia_name` → `name`/`abilities` d'un profil d'arme). Chaque clé
+    est optionnelle ; `{}` si rien n'est curé."""
+    entry = _unit_entry(frf, faction_name, *unit_names)
+    return {k: entry[k] for k in ("name_fr", "subtitle_fr", "keywords_fr", "weapons") if k in entry}
+
+
+def _unit_entry(frf: FactionRulesFr, faction_name: str, *unit_names: str) -> dict:
+    units = frf.factions.get(faction_name, {}).get("units", {})
+    by_key = {_normalize(k): v for k, v in units.items()}
+    for unit_name in unit_names:
+        entry = units.get(unit_name) or by_key.get(_normalize(unit_name))
+        if entry:
+            return entry
+    return {}
 
 
 def get_regiment_of_renown_overrides(frf: FactionRulesFr, faction_name: str, regiment_wahapedia_name: str) -> list[dict]:
@@ -162,8 +205,24 @@ def get_renown_army_overrides(
     return frf.factions.get(faction_name, {}).get("renown_armies", {}).get(renown_name, {}).get(category, [])
 
 
+#: Pseudo-faction sous laquelle sont curés les domaines et manifestations
+#: génériques (Wahapedia `faction_id == "EnS"`, nom "Endless Spells") —
+#: partagés par toutes les factions, donc curés une seule fois.
+GENERIC_LORES_FACTION = "Endless Spells"
+
+
+def ability_join_key(name: str | None) -> str:
+    """Clé de rapprochement `wahapedia_name` <-> nom d'aptitude Wahapedia :
+    majuscules, espaces de bord retirés, et apostrophes typographiques
+    (`’`/`‘`, systématiques dans les CSV Wahapedia — « BASH ’EM LADZ! ») ramenées
+    à l'apostrophe droite qu'on tape naturellement en curant le JSON — sans
+    quoi un correctif silencieusement non apparié devient une addition nette,
+    et la carte affiche l'anglais *et* le français côte à côte."""
+    return (name or "").replace("\u2019", "'").replace("\u2018", "'").strip().upper()
+
+
 def apply_fr_overrides(entries: list[AbilityEntry], overrides: list[dict]) -> list[AbilityEntry]:
-    """Applique `overrides` (lignes `data/faction_rules_fr.json`, cf. le
+    """Applique `overrides` (lignes `data/json/faction_rules_fr.json`, cf. le
     docstring de module) à `entries` (pool déjà résolu via Wahapedia,
     éventuellement vide) : une entrée dont `wahapedia_name` correspond au nom
     d'une aptitude déjà présente la corrige sur place (nom + description,
@@ -184,11 +243,32 @@ def apply_fr_overrides(entries: list[AbilityEntry], overrides: list[dict]) -> li
     corresponde au nouveau timing plutôt qu'à l'ancien."""
     if not overrides:
         return entries
-    by_name = {e.name.strip().upper(): i for i, e in enumerate(entries)}
+    # Une charte Wahapedia peut porter deux aptitudes homonymes (ex. les deux
+    # "Putrescent Piety" des Pesticrates Putrides Fléau d'Aqshy) ou une
+    # aptitude sans nom (champ vide, ex. le "Stigmates de Guerre" de Festus) :
+    # chaque ligne de correctif consomme donc, dans l'ordre, la prochaine
+    # entrée de ce nom pas encore corrigée, et une clé `wahapedia_name`
+    # présente mais vide ("") apparie le nom vide plutôt que de devenir une
+    # addition nette (réservée aux lignes *sans* clé `wahapedia_name`).
+    by_name: dict[str, list[int]] = {}
+    for i, e in enumerate(entries):
+        by_name.setdefault(ability_join_key(e.name), []).append(i)
     result = list(entries)
     for row in overrides:
-        wh_name = (row.get("wahapedia_name") or "").strip().upper()
-        idx = by_name.get(wh_name) if wh_name else None
+        idx = None
+        if "wahapedia_name" in row:
+            queue = by_name.get(ability_join_key(row.get("wahapedia_name")))
+            if queue and row.get("wahapedia_type"):
+                # homonyme de catégorie différente (ex. BoK « FRENZIED
+                # TASKMASTER » Trait Héroïque vs Mutation d'Airain) : ne
+                # corriger que l'entrée Wahapedia de la catégorie visée
+                typed = [i for i in queue if result[i].wahapedia_type == row["wahapedia_type"]]
+                if typed:
+                    idx = typed[0]
+                    if len(queue) > 1:
+                        queue.remove(idx)
+            elif queue:
+                idx = queue.pop(0) if len(queue) > 1 else queue[0]
         if idx is not None:
             changes = {"name": row["name"], "description": row["description"]}
             if "condition" in row:
