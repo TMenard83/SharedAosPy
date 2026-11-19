@@ -18,8 +18,8 @@ from ..domain.models import (
     Weapon,
 )
 
-DEFAULT_DATA_FILE = Path("data") / "armies.json"
-DEFAULT_COMPOSITIONS_FILE = Path("data") / "compositions.json"
+DEFAULT_DATA_FILE = Path("data") / "json" / "armies.json"
+DEFAULT_COMPOSITIONS_FILE = Path("data") / "json" / "compositions.json"
 
 
 def load_armies_from_json(

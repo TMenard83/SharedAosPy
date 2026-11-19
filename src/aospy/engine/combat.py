@@ -86,6 +86,19 @@ def _parse_crit(abilities: Optional[str]) -> str:
     return "none"
 
 
+_CRIT_ON_RE = re.compile(r"\bcrits? on (?:unmodified )?([2-5])\+")
+
+
+def _crit_chance(abilities: Optional[str], p_hit: float) -> float:
+    """Probabilité d'une touche critique : jet naturel de 6, ou de X+ si le texte d'aptitudes
+    porte « Crits on X+ » (ex. Chasseurs en Meute des Claws of Karanak : critique sur 5+).
+    Un jet qui cause un critique est toujours une touche, mais jamais au-delà de `p_hit`
+    plus les jets de crit qui ne touchent pas normalement (le 6 naturel touche toujours)."""
+    m = _CRIT_ON_RE.search(_normalize_abilities(abilities).lower()) if abilities else None
+    threshold = int(m[1]) if m else 6
+    return (7 - threshold) / 6.0 if m else min(p_hit, 1.0 / 6.0)
+
+
 def weapon_crit_type(abilities: Optional[str]) -> str:
     """Alias public de `_parse_crit`, pour un usage hors de ce module (ex. le
     vecteur de caractéristiques du modèle de coût, `analysis/features.py`)."""
@@ -186,7 +199,8 @@ def expected_weapon_damage(
     hit_mod = (1 if modifiers.attacker_all_out_attack else 0) + bonus.hit
     p_hit = _prob_x_plus(weapon.hit, hit_mod)
     # un 6 naturel est toujours une touche et toujours un crit
-    p_crit = min(p_hit, 1.0 / 6.0)
+    p_crit = _crit_chance(weapon.abilities, p_hit)
+    p_hit = max(p_hit, p_crit)
     p_normal_hit = max(0.0, p_hit - p_crit)
 
     p_wound = _prob_x_plus(weapon.wound, bonus.wound)
@@ -340,7 +354,8 @@ def weapon_damage_moments(
 
     hit_mod = (1 if modifiers.attacker_all_out_attack else 0) + bonus.hit
     p_hit = _prob_x_plus(weapon.hit, hit_mod)
-    p_crit = min(p_hit, 1.0 / 6.0)
+    p_crit = _crit_chance(weapon.abilities, p_hit)
+    p_hit = max(p_hit, p_crit)
     p_normal_hit = max(0.0, p_hit - p_crit)
 
     p_wound = _prob_x_plus(weapon.wound, bonus.wound)
@@ -518,7 +533,8 @@ def weapon_damage_distribution(
 
     hit_mod = (1 if modifiers.attacker_all_out_attack else 0) + bonus.hit
     p_hit = _prob_x_plus(weapon.hit, hit_mod)
-    p_crit = min(p_hit, 1.0 / 6.0)
+    p_crit = _crit_chance(weapon.abilities, p_hit)
+    p_hit = max(p_hit, p_crit)
     p_normal_hit = max(0.0, p_hit - p_crit)
 
     p_wound = _prob_x_plus(weapon.wound, bonus.wound)

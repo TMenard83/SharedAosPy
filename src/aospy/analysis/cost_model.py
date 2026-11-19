@@ -85,6 +85,12 @@ from .features import UnitFeatures, all_features
 #: `unit_type`/`is_unique` comme candidats individuellement peu coûteux, mais les retirer
 #: ensemble dégrade le R² ajusté de -0.0010 : leur contribution, faible, n'est pas nulle une
 #: fois les vrais doublons partis — gardés. Cf. `analysis/experiments/backward_elimination.py`.
+#: ``control`` est remplacé par son écart à la règle tacite de GW (`features.expected_control`) :
+#: le contrôle *attendu* d'un profil (1 pour l'infanterie légère, 2 pour un héros, 5 pour un
+#: monstre…) ne se paie pas (p≈0.1, non significatif), seul le *bonus* au-dessus (figurines
+#: épiques, leaders nommés, ≈+15 pts/point, p<0.001) et le *déficit* en dessous (héros montés,
+#: ≈−7 pts/point) entrent dans le prix. Le contrôle brut confondait les deux avec le type et la
+#: taille des figurines — cf. `analysis/experiments/control_profile.py`.
 MODEL_FEATURES: tuple[str, ...] = (
     "unit_size",
     "unit_size_sq",
@@ -93,7 +99,8 @@ MODEL_FEATURES: tuple[str, ...] = (
     "dmg_vs_save2_sq",
     "charge_bonus_save2",
     "effective_wounds",
-    "control",
+    "control_bonus",
+    "control_deficit",
     "wizard_level",
     "priest_level",
 )
@@ -172,6 +179,13 @@ class CostModelResult:
     adj_r_squared: float
     n_obs: int
     residuals: list[UnitResidual] = field(default_factory=list)
+    #: Objet `statsmodels` ajusté (``RegressionResultsWrapper``), conservé pour
+    #: `predict_one` — permet de prédire une ligne hors-DB (ex. unité modifiée par
+    #: un bonus dans `bonus_simulator/`) sans ré-implémenter l'encodage patsy des
+    #: catégorielles à la main. `None` si non peuplé par l'appelant (tous les
+    #: usages existants — `cost_unites.py`/`cost_heros.py`/`best_*.py` — ignorent
+    #: ce champ). Non sérialisable, ne pas exposer tel quel côté PDF/JSON.
+    model: object | None = None
 
     def undercosted(self, n: int = 20, *, min_predicted: float = 40.0) -> list[UnitResidual]:
         """Unités les plus sous-cotées : résidu relatif le plus négatif.
@@ -265,6 +279,7 @@ def fit_cost_model(
         adj_r_squared=float(model.rsquared_adj),
         n_obs=int(model.nobs),
         residuals=residuals,
+        model=model,
     )
 
 
@@ -338,7 +353,23 @@ def fit_cost_model_factorial(
         adj_r_squared=float(model.rsquared_adj),
         n_obs=int(model.nobs),
         residuals=residuals,
+        model=model,
     )
+
+
+def predict_one(result: CostModelResult, features: UnitFeatures) -> float:
+    """Prédit le coût en points d'une `UnitFeatures` hors-DB (ex. unité modifiée
+    par un bonus, cf. `orchestration/whatif.py`) à partir d'un `CostModelResult`
+    ajusté par `fit_cost_model_factorial` (nécessite un modèle ajusté via la
+    formula API `statsmodels`/patsy — `result.model` — pour que l'encodage des
+    catégorielles reste cohérent avec l'entraînement).
+    """
+    import pandas as pd
+
+    if result.model is None:
+        raise ValueError("predict_one nécessite un CostModelResult avec `model` peuplé")
+    row = pd.DataFrame([vars(features)])
+    return float(result.model.predict(row).iloc[0])
 
 
 def fit_segmented(

@@ -67,6 +67,55 @@ def _unit_type(keywords: frozenset[str]) -> str:
             return t
     return "OTHER"
 
+#: Héros porte-étendard / porte-icône : contrôle 5 quel que soit leur profil (reconnus par
+#: le nom faute de mot-clé dédié en base — à compléter quand un nouveau battletome en ajoute).
+_BANNER_NAME_RE = re.compile(r"Vexillor|secrator|Bannerblade|Astrolith|banna|Battlesmith")
+#: Unités assimilées à un monstre pour le contrôle sans en porter le mot-clé (gabarit du socle).
+_MONSTER_LIKE_NAMES: frozenset[str] = frozenset({"Loonboss on Giant Cave Squig"})
+
+
+def expected_control(unit: Unit) -> int:
+    """Contrôle « tacite » d'un profil, selon la règle de conception reconstruite de GW.
+
+    Validée avec l'utilisateur (2026-11-19) puis par régression : ce contrôle attendu ne se
+    paie PAS (non significatif), seul l'écart à cette règle se paie — cf.
+    `UnitFeatures.control_bonus`/`control_deficit` et `analysis/experiments/control_profile.py`.
+
+    * plusieurs figurines : 1 sous 5 PV/figurine, 2 jusqu'à 6, 3 à 7, 5 au-delà ; Ogors : 2 dès
+      4 PV ; équipe de héros : 2 au minimum (machines multi-figurines comprises, même règle) ;
+    * une figurine : mot-clé BEAST → 1 (héros : 2) ; MONSTER (ou assimilé) → 5, Gargant non
+      LITTLE et monstre Ogor → 10 ; porte-étendard → 5 ; héros Ogor à pied → 3 ; WAR MACHINE →
+      2 sous 12 PV, 5 au-delà ; autre héros → 2 sous 10 PV, 5 au-delà ; autre → 2 sous 12 PV, 5.
+
+    Les héros montés/sur char à 10-12 PV et contrôle 2 restent volontairement en *déficit*
+    (meilleur ajustement qu'une exception dédiée). Bonus restants attendus : figurines
+    épiques (10-15) et quelques personnages nommés « leaders » du lore.
+    """
+    kw, hp, hero = unit.keywords, unit.health, unit.is_hero
+    ogor = "OGOR MAWTRIBES" in kw
+    if unit.models > 1:
+        if ogor and 4 <= hp < 7:
+            ctl = 2
+        else:
+            ctl = 1 if hp < 5 else 2 if hp < 7 else 3 if hp < 8 else 5
+        return max(ctl, 2) if hero else ctl
+    if "BEAST" in kw:
+        return 2 if hero else 1
+    if "MONSTER" in kw or unit.name in _MONSTER_LIKE_NAMES:
+        if ogor or ("SONS OF BEHEMAT" in kw and "LITTLE" not in kw):
+            return 10
+        return 5
+    if hero and _BANNER_NAME_RE.search(unit.name):
+        return 5
+    if hero and ogor and "INFANTRY" in kw:
+        return 3
+    if "WAR MACHINE" in kw:
+        return 2 if hp < 12 else 5
+    if hero:
+        return 2 if hp < 10 else 5
+    return 2 if hp < 12 else 5
+
+
 #: Défenseurs synthétiques pour la sonde offensive. Save 6+ = pire sauvegarde native
 #: existant réellement en AoS4 — il n'y a pas de "aucune save" comme stat native du jeu
 #: (le save 7 utilisé auparavant ici, convention empruntée à StatHammer, ne correspond à
@@ -144,6 +193,9 @@ class UnitFeatures:
 
     move: int
     control: int
+    control_expected: int  # contrôle « tacite » du profil (`expected_control`) — ne se paie pas
+    control_bonus: int     # max(0, control − attendu) : figurines épiques, leaders nommés — se paie
+    control_deficit: int   # max(0, attendu − control) : héros montés/sur char, Celestant-Prime…
     unit_size: int  # models
     unit_size_sq: int  # unit_size² — terme quadratique : rendement croissant sur la taille
     # d'unité, symétrique de `dmg_vs_save2_sq` sur le pool perçant. Une fois ce terme ajouté,
@@ -283,6 +335,9 @@ def compute_features(unit: Unit) -> UnitFeatures:
         effective_wounds=_effective_wounds(wounds_total, save_num, ward_num),
         move=unit.move,
         control=unit.control,
+        control_expected=(ctl_exp := expected_control(unit)),
+        control_bonus=max(0, unit.control - ctl_exp),
+        control_deficit=max(0, ctl_exp - unit.control),
         unit_size=unit.models,
         unit_size_sq=unit.models**2,
         grand_alliance="",

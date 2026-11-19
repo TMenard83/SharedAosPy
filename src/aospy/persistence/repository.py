@@ -659,3 +659,397 @@ def clear_benchmark_results(con: duckdb.DuckDBPyConnection) -> int:
     count = int(row[0]) if row else 0
     con.execute("DELETE FROM unit_benchmark")
     return count
+
+
+#: Même agrégation que `reports/aggregate.py::QUERY` (scénario sans charge
+#: déclarée, attaquant lu au plancher pessimiste 66%, défenseur à l'espérance),
+#: mais lue *live* depuis `unit_benchmark` plutôt que depuis son export JSON
+#: (`scratch/per_unit_nocharge_floor66_TM.json`) — utilisée par
+#: `orchestration/whatif.py` pour situer une unité hypothétique dans le même
+#: pool que `reports/best_unites.py`/`best_heros.py::compute_ranked()` sans
+#: dépendre d'un fichier généré séparément.
+_RANKING_POOL_QUERY = """
+with agg as (
+    select
+        u.id as unit_id,
+        u.name as name,
+        a.name as army,
+        a.grand_alliance as grand_alliance,
+        u.points as points,
+        u.is_hero as is_hero,
+        avg(b.roi) * 100.0 as avg_roi_pct,
+        avg(b.pts_net) as avg_pts_net,
+        quantile_cont(b.roi, 0.05) * 100.0 as roi_floor95_pct,
+        quantile_cont(b.roi, 0.34) * 100.0 as roi_floor66_pct,
+        quantile_cont(b.roi, 0.80) * 100.0 as roi_floor20_pct
+    from unit_benchmark b
+    join unit u on u.id = b.attacker_id
+    join army a on a.id = u.army_id
+    where b.attacker_charged = false and b.defender_charged = false
+      and b.attacker_mode = 'floor66' and b.defender_mode = 'mean'
+    group by u.id, u.name, a.name, a.grand_alliance, u.points, u.is_hero
+)
+select *, (roi_floor95_pct + roi_floor66_pct + roi_floor20_pct) / 3.0 as avg_floor_roi_pct
+from agg
+"""
+
+
+def get_ranking_pool(con: duckdb.DuckDBPyConnection) -> list[dict]:
+    """Une ligne par unité attaquante déjà benchmarkée (`unit_benchmark`), avec
+    les mêmes colonnes que `reports/aggregate.py`'s export JSON — dont
+    `avg_floor_roi_pct`, moyenne des quantiles 5e/34e/80e du ROI entre duels.
+    Nécessite `aospy unit benchmark-all --charge none --attacker-mode floor66
+    --defender-mode mean --include-heroes` (ou équivalent) pour être peuplée.
+    """
+    cols = [
+        "unit_id", "name", "army", "grand_alliance", "points", "is_hero",
+        "avg_roi_pct", "avg_pts_net",
+        "roi_floor95_pct", "roi_floor66_pct", "roi_floor20_pct", "avg_floor_roi_pct",
+    ]
+    rows = con.execute(_RANKING_POOL_QUERY).fetchall()
+    return [dict(zip(cols, r)) for r in rows]
+
+
+# ----- Analyse des aptitudes (src/aospy/abilities/) ---------------------------
+
+ABILITY_COLS = (
+    "uid", "name", "source_kind", "group_name", "faction_id", "faction_name", "condition_text",
+    "phase", "wahapedia_type", "is_reaction", "ability_keywords", "cost_type", "cost_value",
+    "declare_text", "effect_text", "frequency", "turn_side", "scope", "range_inches",
+    "wholly_within", "activation_prob", "variance", "scales_with_size", "target_keywords",
+    "conditions", "ease", "power", "reliability", "interaction", "verdict", "rationale",
+    "understood", "overridden", "analyzer_version", "analyzed_at",
+    "resource_cost", "available_round", "friendly_target", "excludes_self",
+)
+ABILITY_OWNER_COLS = ("ability_uid", "faction_id", "faction_name", "owner_kind", "owner_name", "warscroll_id")
+ABILITY_TAG_COLS = ("ability_uid", "tag")
+ABILITY_EFFECT_COLS = ("ability_uid", "seq", "kind", "stat", "value", "dice", "side", "detail",
+                       "weapon_scope", "weapon_name", "includes_companion", "target_keywords",
+                       "target_condition", "requires", "duration")
+_ABILITY_TABLES = ("ability_effect", "ability_tag", "ability_owner", "ability")
+
+
+def _sql_literal(v: object) -> str:
+    if v is None:
+        return "NULL"
+    if isinstance(v, bool):
+        return "TRUE" if v else "FALSE"
+    if isinstance(v, (int, float)):
+        return repr(v)
+    if isinstance(v, datetime):
+        return f"TIMESTAMP '{v.isoformat(sep=' ')}'"
+    return "'" + str(v).replace("'", "''") + "'"
+
+
+def _insert_rows(con: duckdb.DuckDBPyConnection, table: str, cols: tuple[str, ...],
+                 rows: list[tuple], chunk: int = 500) -> None:
+    """INSERT VALUES inliné par paquets (cf. save_benchmark_results_many : executemany est lent)."""
+    for i in range(0, len(rows), chunk):
+        values = ",".join(
+            "(" + ",".join(_sql_literal(v) for v in row) + ")" for row in rows[i:i + chunk]
+        )
+        con.execute(f"INSERT INTO {table} ({','.join(cols)}) VALUES {values}")
+
+
+def replace_ability_analyses(
+    con: duckdb.DuckDBPyConnection,
+    abilities: list[tuple],
+    owners: list[tuple],
+    tags: list[tuple],
+    effects: list[tuple],
+) -> None:
+    """Remplace tout le contenu des tables `ability*` (une transaction).
+
+    Les tuples suivent `ABILITY_COLS`/`ABILITY_OWNER_COLS`/`ABILITY_TAG_COLS`/
+    `ABILITY_EFFECT_COLS` ; la conversion depuis `AbilityAnalysis` vit dans
+    `abilities/pipeline.py::to_rows` (la persistance ne connaît pas ce modèle).
+    """
+    con.execute("BEGIN TRANSACTION")
+    try:
+        for table in _ABILITY_TABLES:
+            con.execute(f"DELETE FROM {table}")
+        _insert_rows(con, "ability", ABILITY_COLS, abilities)
+        _insert_rows(con, "ability_owner", ABILITY_OWNER_COLS, owners)
+        _insert_rows(con, "ability_tag", ABILITY_TAG_COLS, tags)
+        _insert_rows(con, "ability_effect", ABILITY_EFFECT_COLS, effects)
+        con.execute("COMMIT")
+    except Exception:
+        con.execute("ROLLBACK")
+        raise
+
+
+def search_abilities(
+    con: duckdb.DuckDBPyConnection,
+    *,
+    name: Optional[str] = None,
+    faction: Optional[str] = None,
+    owner: Optional[str] = None,
+    tags: Iterable[str] = (),
+    verdict: Optional[str] = None,
+    source_kind: Optional[str] = None,
+    order_by: str = "power",
+    limit: int = 50,
+) -> list[dict]:
+    """Aptitudes filtrées (tous les tags demandés doivent être présents), triées décroissant.
+
+    `faction`/`owner`/`name` : sous-chaîne insensible à la casse ; `faction` et
+    `owner` portent sur n'importe quel porteur (une aptitude partagée apparaît une fois).
+    """
+    if order_by not in ("power", "ease", "reliability", "interaction", "name"):
+        raise ValueError(f"tri inconnu : {order_by}")
+    where, params = ["TRUE"], []
+    if name:
+        where.append("lower(a.name) LIKE ?")
+        params.append(f"%{name.lower()}%")
+    if verdict:
+        where.append("a.verdict = ?")
+        params.append(verdict)
+    if source_kind:
+        where.append("a.source_kind = ?")
+        params.append(source_kind)
+    if faction or owner:
+        sub, sp = ["o.ability_uid = a.uid"], []
+        if faction:
+            sub.append("(lower(o.faction_name) LIKE ? OR lower(o.faction_id) = ?)")
+            sp += [f"%{faction.lower()}%", faction.lower()]
+        if owner:
+            sub.append("lower(o.owner_name) LIKE ?")
+            sp.append(f"%{owner.lower()}%")
+        where.append(f"EXISTS (SELECT 1 FROM ability_owner o WHERE {' AND '.join(sub)})")
+        params += sp
+    for tag in tags:
+        where.append("EXISTS (SELECT 1 FROM ability_tag t WHERE t.ability_uid = a.uid AND t.tag = ?)")
+        params.append(tag)
+    order = "a.name" if order_by == "name" else f"a.{order_by} DESC, a.name"
+    rows = con.execute(
+        f"""
+        SELECT a.*,
+               (SELECT string_agg(tag, ',' ORDER BY tag) FROM ability_tag t WHERE t.ability_uid = a.uid) AS tags,
+               (SELECT string_agg(DISTINCT owner_name, ' ; ') FROM ability_owner o WHERE o.ability_uid = a.uid) AS owners
+        FROM ability a
+        WHERE {' AND '.join(where)}
+        ORDER BY {order}
+        LIMIT ?
+        """,
+        params + [limit],
+    )
+    cols = [d[0] for d in rows.description]
+    return [dict(zip(cols, r)) for r in rows.fetchall()]
+
+
+def ability_stats(con: duckdb.DuckDBPyConnection) -> dict[str, list[tuple]]:
+    """Décomptes pour piloter la qualité de l'analyse (verdicts, origines, tags)."""
+    q = {
+        "verdict": "SELECT verdict, count(*) FROM ability GROUP BY 1 ORDER BY 2 DESC",
+        "source_kind": "SELECT source_kind, count(*), count(*) FILTER (WHERE NOT understood) "
+                       "FROM ability GROUP BY 1 ORDER BY 2 DESC",
+        "tag": "SELECT tag, count(*) FROM ability_tag GROUP BY 1 ORDER BY 2 DESC",
+        "version": "SELECT analyzer_version, max(analyzed_at), count(*) FROM ability GROUP BY 1",
+    }
+    return {k: con.execute(sql).fetchall() for k, sql in q.items()}
+
+
+def get_ability_effects(con: duckdb.DuckDBPyConnection, ability_uid: str) -> list[dict]:
+    """Effets chiffrés d'une aptitude, avec leur périmètre, dans l'ordre d'extraction."""
+    rows = con.execute(
+        f"SELECT {','.join(ABILITY_EFFECT_COLS)} FROM ability_effect WHERE ability_uid = ? ORDER BY seq",
+        [ability_uid],
+    ).fetchall()
+    return [dict(zip(ABILITY_EFFECT_COLS, r)) for r in rows]
+
+
+#: Familles de cas suspects à revoir avec l'utilisateur (`aospy ability review`) : clé →
+#: (libellé, condition SQL sur `a` = ability). L'ordre est celui de la revue.
+ABILITY_REVIEW_CATEGORIES: dict[str, tuple[str, str]] = {
+    "contresens": ("effet ami sur une cible ennemie (sens mal lu ?)",
+                   "a.scope = 'one_enemy' AND EXISTS (SELECT 1 FROM ability_effect e WHERE e.ability_uid = a.uid "
+                   # un buff offensif de « this unit » contre la cible qu'elle désigne est le cas normal
+                   "AND e.kind = 'stat_mod' AND e.side = 'friendly' "
+                   "AND coalesce(e.detail, '') NOT IN ('marquage', 'offensif'))"),
+    "malus": ("malus détecté (vraie contrepartie ou contresens ?)",
+              "EXISTS (SELECT 1 FROM ability_effect e WHERE e.ability_uid = a.uid AND e.detail = 'malus')"),
+    "duree": ("buff ami dont la durée n'est pas écrite",
+              "EXISTS (SELECT 1 FROM ability_effect e WHERE e.ability_uid = a.uid AND e.kind = 'stat_mod' "
+              "AND e.side = 'friendly' AND e.duration = 'non précisée')"),
+    "portee": ("effet reconnu mais portée inconnue", "a.scope = 'unknown' AND a.understood"),
+    "a-revoir": ("aucun effet reconnu", "a.verdict = 'a-revoir'"),
+}
+
+
+def ability_review_queue(con: duckdb.DuckDBPyConnection, category: str,
+                         exclude_uids: Iterable[str] = (), limit: int = 15) -> tuple[int, list[dict]]:
+    """(nombre restant, lot d'aptitudes) d'une famille de cas suspects, hors uids déjà revus."""
+    if category not in ABILITY_REVIEW_CATEGORIES:
+        raise ValueError(f"famille inconnue : {category} ({', '.join(ABILITY_REVIEW_CATEGORIES)})")
+    where = ABILITY_REVIEW_CATEGORIES[category][1]
+    excluded = list(exclude_uids)
+    not_in = f" AND a.uid NOT IN (SELECT unnest(?::VARCHAR[]))" if excluded else ""
+    params = [excluded] if excluded else []
+    total = con.execute(f"SELECT count(*) FROM ability a WHERE {where}{not_in}", params).fetchone()[0]
+    rows = con.execute(
+        f"SELECT a.uid, a.name, a.faction_id, a.verdict, a.condition_text, a.declare_text, a.effect_text "
+        f"FROM ability a WHERE {where}{not_in} ORDER BY a.faction_id, a.name LIMIT ?", params + [limit])
+    cols = [d[0] for d in rows.description]
+    return total, [dict(zip(cols, r)) for r in rows.fetchall()]
+
+
+# ----- Châssis (analysis/chassis.py) -------------------------------------------
+
+CHASSIS_COLS = (
+    "unit_id", "name", "army_id", "points", "is_hero", "unit_type", "models", "health", "save", "ward",
+    "move", "is_flying", "dmg_melee", "dmg_ranged", "effective_wounds", "dmg_per_100", "ewounds_per_100",
+    "attacks_total", "share_melee", "share_damage1", "share_companion", "crit_type", "dmg_pct_rank",
+    "ewounds_pct_rank", "cost_residual_pct", "duel_roi_pct", "built_at",
+)
+
+
+def duel_roi_by_unit(con: duckdb.DuckDBPyConnection) -> dict[int, float]:
+    """avg_floor_roi_pct par unité attaquante (même lecture que reports/aggregate.py)."""
+    rows = con.execute(
+        """
+        SELECT attacker_id,
+               100.0 * (quantile_cont(roi, 0.05) + quantile_cont(roi, 0.34) + quantile_cont(roi, 0.80)) / 3.0
+        FROM unit_benchmark
+        WHERE NOT attacker_charged AND NOT defender_charged
+          AND attacker_mode = 'floor66' AND defender_mode = 'mean'
+        GROUP BY attacker_id
+        """
+    ).fetchall()
+    return {int(uid): float(v) for uid, v in rows}
+
+
+def replace_chassis(con: duckdb.DuckDBPyConnection, rows: list[tuple]) -> None:
+    """Remplace tout le contenu de `unit_chassis` (tuples dans l'ordre de `CHASSIS_COLS`)."""
+    con.execute("BEGIN TRANSACTION")
+    try:
+        con.execute("DELETE FROM unit_chassis")
+        _insert_rows(con, "unit_chassis", CHASSIS_COLS, rows)
+        con.execute("COMMIT")
+    except Exception:
+        con.execute("ROLLBACK")
+        raise
+
+
+def list_chassis(
+    con: duckdb.DuckDBPyConnection, *, army: Optional[str] = None, hero: Optional[bool] = None,
+    name: Optional[str] = None, order_by: str = "dmg_per_100", ascending: bool = False, limit: int = 30,
+) -> list[dict]:
+    """Châssis filtrés (armée = sous-chaîne, héros/troupes) et triés."""
+    allowed = {"dmg_per_100", "ewounds_per_100", "dmg_pct_rank", "ewounds_pct_rank", "cost_residual_pct",
+               "duel_roi_pct", "points", "share_damage1", "share_companion", "name"}
+    if order_by not in allowed:
+        raise ValueError(f"tri inconnu : {order_by} ({', '.join(sorted(allowed))})")
+    where, params = ["TRUE"], []
+    if army:
+        where.append("lower(ar.name) LIKE ?")
+        params.append(f"%{army.lower()}%")
+    if hero is not None:
+        where.append("c.is_hero = ?")
+        params.append(hero)
+    if name:
+        where.append("lower(c.name) LIKE ?")
+        params.append(f"%{name.lower()}%")
+    direction = "ASC" if ascending else "DESC"
+    rows = con.execute(
+        f"""SELECT c.*, ar.name AS army_name FROM unit_chassis c JOIN army ar ON ar.id = c.army_id
+            WHERE {' AND '.join(where)} ORDER BY c.{order_by} {direction} NULLS LAST, c.name LIMIT ?""",
+        params + [limit],
+    )
+    cols = [d[0] for d in rows.description]
+    return [dict(zip(cols, r)) for r in rows.fetchall()]
+
+
+# ----- Couche 3 : rencontre aptitude × châssis (analysis/encounter.py) ----------
+
+def replace_encounters(con: duckdb.DuckDBPyConnection, rows: list[tuple]) -> None:
+    """Remplace tout le contenu de `ability_encounter` (tuples dans l'ordre de `encounter.ENCOUNTER_COLS`)."""
+    from ..analysis.encounter import ENCOUNTER_COLS
+
+    con.execute("BEGIN TRANSACTION")
+    try:
+        con.execute("DELETE FROM ability_encounter")
+        _insert_rows(con, "ability_encounter", ENCOUNTER_COLS, rows)
+        con.execute("COMMIT")
+    except Exception:
+        con.execute("ROLLBACK")
+        raise
+
+
+def list_encounters(
+    con: duckdb.DuckDBPyConnection, *, unit: Optional[str] = None, ability: Optional[str] = None,
+    relation: Optional[str] = None, order_by: str = "gain", limit: int = 30,
+) -> list[dict]:
+    """Rencontres filtrées (unité / aptitude = sous-chaîne), triées par gain décroissant.
+
+    `gain` = le plus grand des deux gains en % (offense, défense)."""
+    where, params = ["TRUE"], []
+    if unit:
+        where.append("lower(u.name) LIKE ?")
+        params.append(f"%{unit.lower()}%")
+    if ability:
+        where.append("lower(a.name) LIKE ?")
+        params.append(f"%{ability.lower()}%")
+    if relation:
+        where.append("e.relation = ?")
+        params.append(relation)
+    order = {"gain": "greatest(coalesce(e.off_gain_pct, 0), coalesce(e.def_gain_pct, 0))",
+             "off_per_100": "e.off_gain_per_100", "def_per_100": "e.def_gain_per_100"}[order_by]
+    cur = con.execute(
+        f"""SELECT e.*, a.name AS ability_name, a.verdict, a.activation_prob, a.frequency,
+                   ef.kind, ef.stat, ef.value, ef.weapon_scope, ef.weapon_name,
+                   u.name AS unit_name, u.points, ar.name AS army_name
+            FROM ability_encounter e
+            JOIN ability a ON a.uid = e.ability_uid
+            JOIN ability_effect ef ON ef.ability_uid = e.ability_uid AND ef.seq = e.seq
+            JOIN unit u ON u.id = e.unit_id JOIN army ar ON ar.id = u.army_id
+            WHERE {' AND '.join(where)}
+            ORDER BY {order} DESC NULLS LAST, a.name, u.name LIMIT ?""",
+        [*params, limit],
+    )
+    cols = [d[0] for d in cur.description]
+    return [dict(zip(cols, r)) for r in cur.fetchall()]
+
+
+def replace_realized(con: duckdb.DuckDBPyConnection, rows: list[tuple]) -> None:
+    """Remplace tout le contenu de `unit_realized` (tuples dans l'ordre de `realized.REALIZED_COLS`)."""
+    from ..analysis.realized import REALIZED_COLS
+
+    con.execute("BEGIN TRANSACTION")
+    try:
+        con.execute("DELETE FROM unit_realized")
+        _insert_rows(con, "unit_realized", REALIZED_COLS, rows)
+        con.execute("COMMIT")
+    except Exception:
+        con.execute("ROLLBACK")
+        raise
+
+
+def list_realized(
+    con: duckdb.DuckDBPyConnection, *, army: Optional[str] = None, hero: Optional[bool] = None,
+    name: Optional[str] = None, order_by: str = "off_realized_per_100", limit: int = 30,
+) -> list[dict]:
+    """Valeur réalisée par unité, filtrée (armée/nom = sous-chaîne, héros/troupes) et triée décroissante."""
+    allowed = {"off_realized_per_100", "def_realized_per_100", "off_good_per_100", "def_good_per_100",
+               "off_gain", "def_gain"}
+    if order_by not in allowed:
+        raise ValueError(f"tri inconnu : {order_by}")
+    order = {"off_gain": "r.off_realized / nullif(r.off_chassis, 0)",
+             "def_gain": "r.def_realized / nullif(r.def_chassis, 0)"}.get(order_by, f"r.{order_by}")
+    where, params = ["TRUE"], []
+    if army:
+        where.append("lower(ar.name) LIKE ?")
+        params.append(f"%{army.lower()}%")
+    if hero is not None:
+        where.append("u.is_hero = ?")
+        params.append(hero)
+    if name:
+        where.append("lower(u.name) LIKE ?")
+        params.append(f"%{name.lower()}%")
+    cur = con.execute(
+        f"""SELECT r.*, u.name, u.points, u.is_hero, ar.name AS army_name
+            FROM unit_realized r JOIN unit u ON u.id = r.unit_id JOIN army ar ON ar.id = u.army_id
+            WHERE {' AND '.join(where)} ORDER BY {order} DESC NULLS LAST, u.name LIMIT ?""",
+        [*params, limit],
+    )
+    cols = [d[0] for d in cur.description]
+    return [dict(zip(cols, r)) for r in cur.fetchall()]

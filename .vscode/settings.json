@@ -4,7 +4,8 @@
         "*.parquet": "duckdb.dataFileViewer",
         "*.csv": "duckdb.dataFileViewer",
         "*.tsv": "duckdb.dataFileViewer",
-        "*.xlsx": "duckdb.dataFileViewer"
+        "*.xlsx": "duckdb.dataFileViewer",
+        "*.md": "vscode.markdown.preview.editor"
     },
     "duckdb.databases": [
         {

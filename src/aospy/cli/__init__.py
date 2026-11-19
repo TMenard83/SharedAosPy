@@ -14,7 +14,7 @@ def _add_init_reset_subparsers(sub: argparse._SubParsersAction) -> None:
     """Sous-commandes `init` et `reset` (gestion du fichier DuckDB)."""
     p = sub.add_parser("init", help="Initialise la DB et seed les données JSON.")
     p.add_argument("--no-compositions", action="store_true",
-                   help="Ne charge pas data/compositions.json.")
+                   help="Ne charge pas data/json/compositions.json.")
     p.set_defaults(func=cmd.cmd_init)
 
     p = sub.add_parser("reset", help="Supprime la base existante.")
@@ -138,7 +138,7 @@ def _add_unit_subparser(sub: argparse._SubParsersAction) -> None:
     p.set_defaults(func=cmd.cmd_unit_benchmark_all)
 
     p = su.add_parser(
-        "stats", help="Moyenne / écart-type / plancher de dégâts 95% contre 3 cibles standard.",
+        "stats", help="Moyenne / écart-type / plancher de dégâts 95%% contre 3 cibles standard.",
     )
     p.add_argument("--attacker", required=True, help="Nom de l'unité.")
     p.add_argument("--attacker-army", help="Armée de l'unité (si ambigu).")
@@ -237,6 +237,30 @@ def _add_import_subparser(sub: argparse._SubParsersAction) -> None:
         func=cmd.cmd_import_wahapedia_list)
 
 
+def _add_roster_subparser(sub: argparse._SubParsersAction) -> None:
+    """Sous-commande `roster` : compile une liste + ses profils d'unité en PDF
+    (nécessite l'extra `[roster]`)."""
+    p_roster = sub.add_parser("roster", help="Kit de tournoi (liste + profils d'unité) en PDF.")
+    sr = p_roster.add_subparsers(dest="action", required=True)
+    p = sr.add_parser("pdf", help="Compile une liste (export brut de l'App) en PDF.")
+    p.add_argument("--list", dest="list", required=True,
+                   help="Chemin du fichier de liste (export texte de Warhammer Age of Sigmar: The App).")
+    p.add_argument("--out", help="Chemin du PDF de sortie (défaut : scratch/output/roster/<équipe>/<liste>/<liste> (<mode>).pdf, "
+                                  "<équipe> = sous-dossier de data/Proposition de listes/, "
+                                  "<mode> = 'defaut' pour --mode hybrid).")
+    p.add_argument("--mode", choices=["hybrid", "en", "fr", "fr-extended", "fr-split", "fr-split-simple", "en-split-simple"],
+                   default="hybrid",
+                   help="hybrid (défaut, FR/EN historique) / en (Wahapedia uniquement) / "
+                        "fr (vérbatim français intégral, repli Wahapedia) / "
+                        "fr-extended (fr + aptitudes génériques MdG) / "
+                        "fr-split (fr-extended, aptitudes de toute l'armée en 2 cartes Mon tour / "
+                        "Tour adverse par phase, warscrolls réduits aux profils) / "
+                        "fr-split-simple (fr-split + simplifications propres à la liste) / "
+                        "en-split-simple (même mise en page, en anglais : Wahapedia, Core Rules GW, "
+                        "simplifications de la section « en »).")
+    p.set_defaults(func=cmd.cmd_roster_pdf)
+
+
 def _add_cost_subparser(sub: argparse._SubParsersAction) -> None:
     """Sous-commande `cost` : fit/residuals (nécessite l'extra `[analysis]`)."""
     p_cost = sub.add_parser("cost", help="Modèle de coût (points ~ caractéristiques).")
@@ -250,6 +274,87 @@ def _add_cost_subparser(sub: argparse._SubParsersAction) -> None:
     p.add_argument("--direction", choices=["under", "over"], default="under",
                    help="Sous-cotées (under, défaut) ou sur-cotées (over).")
     p.set_defaults(func=cmd.cmd_cost_residuals)
+
+
+def _add_ability_subparser(sub: argparse._SubParsersAction) -> None:
+    """Sous-commande `ability` : analyse hors contexte de toutes les aptitudes (src/aospy/abilities/)."""
+    p_ab = sub.add_parser("ability", help="Analyse des aptitudes (plan / pari / anecdotique, tags).")
+    sab = p_ab.add_subparsers(dest="action", required=True)
+    p = sab.add_parser("analyze", help="(Re)construit les tables ability* depuis les CSV Wahapedia.")
+    p.add_argument("--data-dir", type=Path, default=None, help="Dossier des CSV (défaut: data/wahapedia).")
+    p.set_defaults(func=cmd.cmd_ability_analyze)
+    p = sab.add_parser("search", help="Cherche des aptitudes par tag/faction/porteur/verdict.")
+    p.add_argument("--name", help="Sous-chaîne du nom de l'aptitude.")
+    p.add_argument("--faction", help="Sous-chaîne du nom de faction, ou son code (SE, StD…).")
+    p.add_argument("--owner", help="Sous-chaîne du porteur (warscroll ou groupe de règle).")
+    p.add_argument("--tag", action="append", default=[], help="Tag exigé (répétable : tous requis).")
+    p.add_argument("--verdict", choices=["plan", "correct", "pari", "bonus", "anecdotique", "a-revoir"])
+    p.add_argument("--kind", help="Origine : warscroll, battle_trait, spell, prayer…")
+    p.add_argument("--sort", default="power", choices=["power", "ease", "reliability", "interaction", "name"])
+    p.add_argument("--limit", type=int, default=30)
+    p.add_argument("--text", action="store_true", help="Affiche aussi le texte de l'effet.")
+    p.set_defaults(func=cmd.cmd_ability_search)
+    p = sab.add_parser("show", help="Fiche complète (texte, axes, justification) d'une aptitude.")
+    p.add_argument("name", help="Nom (sous-chaîne) ou uid.")
+    p.add_argument("--faction", help="Restreint à une faction.")
+    p.set_defaults(func=cmd.cmd_ability_show)
+    p = sab.add_parser("stats", help="Décomptes (verdicts, origines non comprises, tags).")
+    p.set_defaults(func=cmd.cmd_ability_stats)
+    p = sab.add_parser("review", help="File des cas suspects à revoir (hors aptitudes déjà corrigées).")
+    p.add_argument("category", nargs="?", help="Famille (sans argument : liste des familles et décomptes).")
+    p.add_argument("--limit", type=int, default=15)
+    p.set_defaults(func=cmd.cmd_ability_review)
+    p = sab.add_parser("tags", help="Vocabulaire des tags.")
+    p.set_defaults(func=cmd.cmd_ability_tags)
+
+
+def _add_chassis_subparser(sub: argparse._SubParsersAction) -> None:
+    """Sous-commande `chassis` : couche 2, la charte nue (analysis/chassis.py)."""
+    p_ch = sub.add_parser("chassis", help="Châssis des unités : la charte nue, sans aptitudes.")
+    sch = p_ch.add_subparsers(dest="action", required=True)
+    p = sch.add_parser("build", help="(Re)construit la table unit_chassis.")
+    p.set_defaults(func=cmd.cmd_chassis_build)
+    p = sch.add_parser("list", help="Liste les châssis filtrés et triés.")
+    p.add_argument("--army", help="Sous-chaîne du nom d'armée.")
+    seg = p.add_mutually_exclusive_group()
+    seg.add_argument("--heroes", action="store_true", help="Héros seulement.")
+    seg.add_argument("--troops", action="store_true", help="Troupes seulement.")
+    p.add_argument("--sort", default="dmg_per_100",
+                   choices=["dmg_per_100", "ewounds_per_100", "cost_residual_pct", "duel_roi_pct",
+                            "share_damage1", "share_companion", "points", "name"])
+    p.add_argument("--asc", action="store_true", help="Tri croissant (ex. résidu le plus négatif).")
+    p.add_argument("--limit", type=int, default=30)
+    p.set_defaults(func=cmd.cmd_chassis_list)
+    p = sch.add_parser("show", help="Fiche de châssis d'une unité.")
+    p.add_argument("name", help="Nom (sous-chaîne).")
+    p.set_defaults(func=cmd.cmd_chassis_show)
+
+
+def _add_encounter_subparser(sub: argparse._SubParsersAction) -> None:
+    """Sous-commande `encounter` : couche 3, rencontre aptitude × châssis (analysis/encounter.py)."""
+    p_en = sub.add_parser("encounter", help="Rencontre aptitude × châssis : gain réel d'un effet sur une charte.")
+    sen = p_en.add_subparsers(dest="action", required=True)
+    p = sen.add_parser("build", help="(Re)construit la table ability_encounter (après `ability analyze`).")
+    p.set_defaults(func=cmd.cmd_encounter_build)
+    p = sen.add_parser("list", help="Rencontres filtrées, triées par gain.")
+    p.add_argument("--unit", help="Receveur (sous-chaîne).")
+    p.add_argument("--ability", help="Aptitude (sous-chaîne).")
+    p.add_argument("--own", action="store_true", help="Seulement les aptitudes de la charte elle-même.")
+    p.add_argument("--sort", default="gain", choices=["gain", "off_per_100", "def_per_100"])
+    p.add_argument("--limit", type=int, default=30)
+    p.set_defaults(func=cmd.cmd_encounter_list)
+    p = sen.add_parser("best", help="Meilleures unités : châssis + aptitudes propres réalisées, pour 100 pts.")
+    p.add_argument("--army", help="Sous-chaîne du nom d'armée.")
+    p.add_argument("--name", help="Sous-chaîne du nom d'unité.")
+    seg = p.add_mutually_exclusive_group()
+    seg.add_argument("--heroes", action="store_true", help="Héros seulement.")
+    seg.add_argument("--troops", action="store_true", help="Troupes seulement.")
+    p.add_argument("--sort", default="off_realized_per_100",
+                   choices=["off_realized_per_100", "def_realized_per_100", "off_good_per_100", "def_good_per_100",
+                            "off_gain", "def_gain"])
+    p.add_argument("--detail", action="store_true", help="Liste les aptitudes prises en compte.")
+    p.add_argument("--limit", type=int, default=30)
+    p.set_defaults(func=cmd.cmd_encounter_best)
 
 
 def _build_parser() -> argparse.ArgumentParser:
@@ -270,6 +375,10 @@ def _build_parser() -> argparse.ArgumentParser:
     _add_battle_subparser(sub)
     _add_import_subparser(sub)
     _add_cost_subparser(sub)
+    _add_roster_subparser(sub)
+    _add_ability_subparser(sub)
+    _add_chassis_subparser(sub)
+    _add_encounter_subparser(sub)
 
     return parser
 

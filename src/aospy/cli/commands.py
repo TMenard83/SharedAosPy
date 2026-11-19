@@ -474,6 +474,42 @@ def cmd_cost_fit(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_roster_pdf(args: argparse.Namespace) -> int:
+    try:
+        from ..tournament_kit import pdf_builder
+    except ImportError:
+        print("Le kit de tournoi nécessite l'extra [roster] : pip install -e '.[roster]'")
+        return 1
+
+    result = pdf_builder.build_roster_pdf(args.list, out_path=args.out, mode=args.mode)
+    print(f"PDF généré : {result.output_path}")
+    if result.scenario_output_path is not None:
+        print(f"PDF avec scénarios : {result.scenario_output_path}")
+    if result.absent_references:
+        print("  À vérifier (aptitude qui cite une unité absente de la liste) :")
+        for ref in result.absent_references:
+            print(f"    - {ref.ability} ({ref.owner}) -> {ref.unit}")
+    if result.absent_keywords:
+        print("  À vérifier (aptitude qui vise un type d'unité amie absent de la liste) :")
+        for ref in result.absent_keywords:
+            print(f"    - {ref.ability} ({ref.owner}) -> {ref.unit}")
+    print(f"  {len(result.units_matched)} profil(s) trouvé(s).")
+    print(f"  {len(result.rules_included)} section(s) de règles incluse(s).")
+    if result.units_unmatched:
+        print(f"  {len(result.units_unmatched)} profil(s) non trouvé(s) dans l'index :")
+        for name in result.units_unmatched:
+            print(f"    - {name}")
+    if result.rules_unmatched:
+        print(f"  {len(result.rules_unmatched)} règle(s) non trouvée(s) dans l'index :")
+        for name in result.rules_unmatched:
+            print(f"    - {name}")
+    if result.wahapedia_used:
+        print(f"  {len(result.wahapedia_used)} élément(s) complété(s) en anglais via Wahapedia (voir annexe) :")
+        for name in result.wahapedia_used:
+            print(f"    - {name}")
+    return 0
+
+
 def cmd_cost_residuals(args: argparse.Namespace) -> int:
     con = _connect(args)
     from ..analysis import cost_model
@@ -492,4 +528,291 @@ def cmd_cost_residuals(args: argparse.Namespace) -> int:
         print(f"  {r.name:<28} [{armies.get(r.army_id, '?'):<20}]  pts={r.points:<5} "
               f"prédit={r.predicted:7.1f}  résidu={r.residual:+7.1f} ({r.residual_pct:+.0f}%)")
     con.close()
+    return 0
+
+
+# ----- ability -----------------------------------------------------------------
+
+_VERDICT_FR = {"plan": "PLAN", "correct": "correct", "pari": "PARI", "bonus": "BONUS", "anecdotique": "anecdotique", "a-revoir": "à revoir"}
+
+
+def cmd_ability_analyze(args: argparse.Namespace) -> int:
+    from ..abilities.pipeline import ANALYZER_VERSION, analyze_all, to_rows
+    from ..abilities.source import DEFAULT_DATA_DIR
+
+    analyses, orphans = analyze_all(args.data_dir or DEFAULT_DATA_DIR)
+    con = _connect(args)
+    repository.replace_ability_analyses(con, *to_rows(analyses))
+    stats = repository.ability_stats(con)
+    con.close()
+    print(f"{len(analyses)} aptitudes analysées (analyseur v{ANALYZER_VERSION}).")
+    print("  " + ", ".join(f"{_VERDICT_FR.get(v, v)} {n}" for v, n in stats["verdict"]))
+    if orphans:
+        print(f"⚠ {len(orphans)} correction(s) manuelle(s) orpheline(s) (texte modifié ?) : {', '.join(orphans)}")
+    return 0
+
+
+def _ability_line(r: dict, with_text: bool) -> str:
+    axes = f"P{r['power']:.1f} F{r['reliability']:.1f} M{r['ease']:.1f} I{r['interaction']:.1f}"
+    head = (f"{_VERDICT_FR.get(r['verdict'], r['verdict']):<11} {axes}  {r['name']}"
+            f"  [{r['faction_id']}] {r['owners'] or ''}"[:160])
+    out = head + f"\n            {r['tags']}"
+    if with_text:
+        out += f"\n            {(r['effect_text'] or '')[:300]}"
+    return out
+
+
+def cmd_ability_search(args: argparse.Namespace) -> int:
+    con = _connect(args)
+    rows = repository.search_abilities(
+        con, name=args.name, faction=args.faction, owner=args.owner, tags=args.tag,
+        verdict=args.verdict, source_kind=args.kind, order_by=args.sort, limit=args.limit)
+    con.close()
+    if not rows:
+        print("Aucune aptitude (lancez `aospy ability analyze` si les tables sont vides).")
+        return 1
+    print("P=puissance F=fiabilité M=mise en place I=interaction (0-3)")
+    for r in rows:
+        print(_ability_line(r, args.text))
+    return 0
+
+
+def cmd_ability_show(args: argparse.Namespace) -> int:
+    con = _connect(args)
+    rows = [r for r in repository.search_abilities(con, faction=args.faction, limit=5000, order_by="name")
+            if r["uid"] == args.name or args.name.lower() in r["name"].lower()]
+    if not rows:
+        con.close()
+        print(f"Aucune aptitude ne correspond à {args.name!r}.")
+        return 1
+    for r in rows[:5]:
+        print(f"=== {r['name']} — {r['source_kind']} [{r['faction_name']}] uid={r['uid']}")
+        print(f"Porteurs : {r['owners']}")
+        cost = f" | coût {r['cost_type']} {r['cost_value']}" if r["cost_type"] else ""
+        print(f"Timing : {r['condition_text']}{cost}")
+        if r["declare_text"]:
+            print(f"Annonce : {r['declare_text']}")
+        print(f"Effet : {r['effect_text']}")
+        print(f"Verdict : {_VERDICT_FR.get(r['verdict'], r['verdict'])}"
+              f"{' (corrigé à la main)' if r['overridden'] else ''}")
+        print(r["rationale"])
+        print(f"Tags : {r['tags']}")
+        effects = repository.get_ability_effects(con, r["uid"])
+        if effects:
+            print("Effets :")
+        for e in effects:
+            what = f"{e['kind']}{' ' + e['stat'] if e['stat'] else ''}"
+            if e["kind"] == "stat_mod":
+                what += f" {e['value']:+g}"
+            elif e["dice"]:
+                what += f" {e['dice']}"
+            elif e["value"]:
+                what += f" {e['value']:g}"
+            scope = e["weapon_scope"] or ""
+            if e["weapon_name"]:
+                scope += f" « {e['weapon_name']} »"
+            if e["includes_companion"]:
+                scope += " (Compagnon incluses)"
+            bits = [b for b in (f"{e['side']}" if e["side"] else "", f"armes : {scope}" if scope else "",
+                                f"cible : {e['target_keywords']}" if e["target_keywords"] else "",
+                                e["target_condition"] or "", f"si : {e['requires']}" if e["requires"] else "",
+                                f"durée : {e['duration']}" if e["duration"] else "") if b]
+            print(f"  - {what} — {', '.join(bits)}")
+        print()
+    con.close()
+    if len(rows) > 5:
+        print(f"… {len(rows) - 5} autre(s) ; affinez avec --faction.")
+    return 0
+
+
+def cmd_ability_stats(args: argparse.Namespace) -> int:
+    con = _connect(args)
+    st = repository.ability_stats(con)
+    con.close()
+    print("Verdicts : " + ", ".join(f"{_VERDICT_FR.get(v, v)} {n}" for v, n in st["verdict"]))
+    print("Origine (total / non comprises) :")
+    for kind, n, unknown in st["source_kind"]:
+        print(f"  {kind:<16} {n:>5} {unknown:>5}")
+    print("Tags : " + ", ".join(f"{t} {n}" for t, n in st["tag"]))
+    for version, when, n in st["version"]:
+        print(f"Analyseur v{version} — {n} lignes, {when:%Y-%m-%d %H:%M}")
+    return 0
+
+
+def cmd_ability_review(args: argparse.Namespace) -> int:
+    from ..abilities.overrides import load_overrides
+
+    reviewed = list(load_overrides())
+    con = _connect(args)
+    if not args.category:
+        print("Familles de cas suspects (hors aptitudes déjà tranchées dans ability_overrides.json) :")
+        for key, (label, _sql) in repository.ABILITY_REVIEW_CATEGORIES.items():
+            total, _ = repository.ability_review_queue(con, key, reviewed, limit=1)
+            print(f"  {key:<11} {total:>4}  {label}")
+        con.close()
+        return 0
+    total, rows = repository.ability_review_queue(con, args.category, reviewed, limit=args.limit)
+    con.close()
+    label = repository.ABILITY_REVIEW_CATEGORIES[args.category][0]
+    print(f"{args.category} — {label} : {total} restant(s), {len(rows)} affiché(s)")
+    for i, r in enumerate(rows, 1):
+        print(f"\n{i}. {r['name']} [{r['faction_id']}] — {_VERDICT_FR.get(r['verdict'], r['verdict'])} — uid {r['uid']}")
+        print(f"   Timing : {r['condition_text']}")
+        if r["declare_text"]:
+            print(f"   Annonce : {r['declare_text'][:220]}")
+        print(f"   Effet : {(r['effect_text'] or '')[:320]}")
+    return 0
+
+
+def cmd_ability_tags(args: argparse.Namespace) -> int:
+    from ..abilities.tags import ALL_TAGS
+
+    for tag, desc in ALL_TAGS.items():
+        print(f"{tag:<22} {desc}")
+    return 0
+
+
+# ----- chassis -------------------------------------------------------------------
+
+def cmd_chassis_build(args: argparse.Namespace) -> int:
+    from ..analysis.chassis import build_chassis_rows
+
+    con = _connect(args)
+    rows, notes = build_chassis_rows(con)
+    repository.replace_chassis(con, rows)
+    con.close()
+    print(f"{len(rows)} châssis construits.")
+    for n in notes:
+        print(f"⚠ {n}")
+    return 0
+
+
+def _pct(v) -> str:
+    return "  -  " if v is None else f"{v:+5.0f}%"
+
+
+def cmd_chassis_list(args: argparse.Namespace) -> int:
+    con = _connect(args)
+    hero = True if args.heroes else False if args.troops else None
+    rows = repository.list_chassis(con, army=args.army, hero=hero, order_by=args.sort,
+                                   ascending=args.asc, limit=args.limit)
+    con.close()
+    if not rows:
+        print("Aucun châssis (lancez `aospy chassis build`).")
+        return 1
+    print("dég/100 = dégâts moyens d'un round vs save 4+ pour 100 pts ; dur/100 = coups à porter pour tuer, "
+          "pour 100 pts ; rang = centile dans le segment ; résidu < 0 = moins cher que prédit ; "
+          "%D1/%Comp = part des dégâts d'armes à 1 dégât / Compagnon")
+    print(f"{'unité':<38}{'armée':<22}{'pts':>5}{'dég/100':>8}{'rang':>6}{'dur/100':>8}{'rang':>6}"
+          f"{'résidu':>8}{'duel':>7}{'%D1':>5}{'%Comp':>6}")
+    for r in rows:
+        print(f"{r['name'][:37]:<38}{r['army_name'][:21]:<22}{r['points']:>5}{r['dmg_per_100']:>8.1f}"
+              f"{r['dmg_pct_rank']:>6.2f}{r['ewounds_per_100']:>8.1f}{r['ewounds_pct_rank']:>6.2f}"
+              f"{_pct(r['cost_residual_pct']):>8}{_pct(r['duel_roi_pct']):>7}"
+              f"{r['share_damage1']:>5.0%}{r['share_companion']:>6.0%}")
+    return 0
+
+
+def cmd_chassis_show(args: argparse.Namespace) -> int:
+    con = _connect(args)
+    rows = repository.list_chassis(con, name=args.name, order_by="name", ascending=True, limit=5)
+    con.close()
+    if not rows:
+        print(f"Aucun châssis ne correspond à {args.name!r}.")
+        return 1
+    for r in rows:
+        seg = "héros" if r["is_hero"] else "troupes"
+        ward = f", protection {r['ward']}+" if r["ward"] else ""
+        print(f"=== {r['name']} [{r['army_name']}] — {r['points']} pts, {r['unit_type']}, {seg}")
+        print(f"Profil : {r['models']} fig. × {r['health']} PV, sauvegarde {r['save']}+{ward}, "
+              f"mouvement {r['move']}\"{' (vol)' if r['is_flying'] else ''}")
+        print(f"Attaque : {r['dmg_melee']:.1f} en mêlée + {r['dmg_ranged']:.1f} au tir (vs save 4+), "
+              f"{r['attacks_total']:.0f} attaques — {r['dmg_per_100']:.1f} pour 100 pts (centile {r['dmg_pct_rank']:.0%})")
+        print(f"Défense : {r['effective_wounds']:.0f} coups à porter — {r['ewounds_per_100']:.1f} pour 100 pts "
+              f"(centile {r['ewounds_pct_rank']:.0%})")
+        print(f"Compatibilité : {r['share_melee']:.0%} des dégâts en mêlée, {r['share_damage1']:.0%} d'armes à 1 dégât, "
+              f"{r['share_companion']:.0%} d'armes Compagnon, critique dominant {r['crit_type']}")
+        print(f"Prix : résidu {_pct(r['cost_residual_pct']).strip()} ; duel : {_pct(r['duel_roi_pct']).strip()}\n")
+    return 0
+
+
+# ----- encounter (couche 3) ------------------------------------------------------
+
+def cmd_encounter_build(args: argparse.Namespace) -> int:
+    from ..analysis.encounter import build_encounter_rows
+
+    con = _connect(args)
+    from ..analysis.realized import build_realized_rows
+
+    rows, stats = build_encounter_rows(con)
+    repository.replace_encounters(con, rows)
+    realized = build_realized_rows(con)
+    repository.replace_realized(con, realized)
+    con.close()
+    print(f"{len(realized)} valeurs réalisées (châssis + aptitudes propres pondérées).")
+    print(f"{stats['rencontres']} rencontres aptitude × châssis ({stats['traduits']} effets amis traduits "
+          f"sur {stats['effets']} ; {stats['sans_arme']} paires sans arme concernée).")
+    return 0
+
+
+def _effect_label(r: dict) -> str:
+    if r["kind"] == "stat_mod":
+        lab = f"{r['value']:+g} {r['stat']}"
+    elif r["kind"] == "ward":
+        lab = f"protection {r['value']:g}+"
+    else:
+        lab = r["kind"]
+    scope = r["weapon_name"] or r["weapon_scope"]
+    return f"{lab} ({scope})" if scope else lab
+
+
+def cmd_encounter_list(args: argparse.Namespace) -> int:
+    con = _connect(args)
+    rows = repository.list_encounters(con, unit=args.unit, ability=args.ability,
+                                      relation="porteur" if args.own else None, order_by=args.sort,
+                                      limit=args.limit)
+    con.close()
+    if not rows:
+        print("Aucune rencontre (lancez `aospy encounter build`).")
+        return 1
+    print("gain = sur CE châssis, si l'effet s'applique (dégâts d'un round vs save 4+ / coups à porter) ; "
+          "/100 = pour 100 pts du receveur ; P = probabilité de déclenchement (couche 1)")
+    print(f"{'unité':<30}{'aptitude':<32}{'effet':<26}{'rel.':<8}{'off':>7}{'déf':>7}{'off/100':>8}"
+          f"{'P':>5}  {'verdict':<11}conditions / durée")
+    for r in rows:
+        off = "" if r["off_gain_pct"] is None or not r["off_gain_pct"] else f"{r['off_gain_pct']:+.0f}%"
+        dfn = "" if not r["def_gain_pct"] else f"{r['def_gain_pct']:+.0f}%"
+        cond = " ; ".join(x for x in (r["conditions"], r["duration"]) if x)
+        print(f"{r['unit_name'][:29]:<30}{r['ability_name'][:31]:<32}{_effect_label(r)[:25]:<26}"
+              f"{r['relation']:<8}{off:>7}{dfn:>7}{r['off_gain_per_100']:>8.2f}{r['activation_prob']:>5.0%}  "
+              f"{(r['verdict'] or '')[:10]:<11}{cond}")
+    return 0
+
+
+def _gain(after: float, before: float) -> str:
+    return "   -  " if not before else f"{100 * (after - before) / before:+5.0f}%"
+
+
+def cmd_encounter_best(args: argparse.Namespace) -> int:
+    con = _connect(args)
+    hero = True if args.heroes else False if args.troops else None
+    rows = repository.list_realized(con, army=args.army, hero=hero, name=args.name, order_by=args.sort,
+                                    limit=args.limit)
+    con.close()
+    if not rows:
+        print("Aucune valeur réalisée (lancez `aospy encounter build`).")
+        return 1
+    print("Châssis + aptitudes propres qui boostent l'unité, pondérées (rounds 2-3 = 1, 1/4/5 = 1/3 ; "
+          "1/bataille courte = 1/2 ; × P(déclenchement)).\n"
+          "dég = dégâts d'un round vs save 4+ ; dur = coups à porter ; /100 = pour 100 pts ; "
+          "+% = gain sur le châssis nu ; bon cas = avec les effets conditionnels (a chargé, vs HERO…)")
+    print(f"{'unité':<36}{'armée':<20}{'pts':>5}{'dég/100':>8}{'+%':>7}{'bon cas':>8}{'dur/100':>8}{'+%':>7}"
+          f"{'bon cas':>8}{'rg dég':>7}{'rg dur':>7}")
+    for r in rows:
+        print(f"{r['name'][:35]:<36}{r['army_name'][:19]:<20}{r['points']:>5}{r['off_realized_per_100']:>8.1f}"
+              f"{_gain(r['off_realized'], r['off_chassis']):>7}{r['off_good_per_100']:>8.1f}"
+              f"{r['def_realized_per_100']:>8.1f}{_gain(r['def_realized'], r['def_chassis']):>7}"
+              f"{r['def_good_per_100']:>8.1f}{r['off_pct_rank']:>7.2f}{r['def_pct_rank']:>7.2f}")
+        if args.detail and r["abilities"]:
+            print(f"    aptitudes : {r['abilities']}")
     return 0

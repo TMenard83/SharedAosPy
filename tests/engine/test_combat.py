@@ -563,3 +563,11 @@ def test_ranged_double_moments_double_mean_and_variance_not_variance_times_4():
     )
     assert mean2 == pytest.approx(RANGED_DOUBLE_MULT * mean)
     assert var2 == pytest.approx(RANGED_DOUBLE_MULT * var)
+
+
+def test_crit_on_5_plus_tag():
+    """« Crits on 5+ » (ex. Chasseurs en Meute) : critique sur 5+ au lieu du 6 naturel."""
+    from aospy.engine.combat import _crit_chance
+    assert _crit_chance("Crit (Mortal), Crits on 5+", 0.5) == 2 / 6
+    assert _crit_chance("Crit (Mortal)", 0.5) == 1 / 6
+    assert _crit_chance(None, 0.5) == 1 / 6

@@ -53,7 +53,7 @@ def test_add_unit_with_weapons(con):
 
 
 def test_load_armies_from_json(con):
-    ids = seed.load_armies_from_json(con)  # utilise data/armies.json par défaut
+    ids = seed.load_armies_from_json(con)  # utilise data/json/armies.json par défaut
     assert "Stormcast Eternals" in ids
     assert "Skaven" in ids
 

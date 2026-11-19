@@ -198,3 +198,45 @@ def test_crit_type_picks_the_highest_damage_weapon_profile():
                   wielders=5, abilities="Crit (Mortal)")
     unit = _unit(weapons=[side, main])
     assert compute_features(unit).crit_type == "mortal"
+
+
+# ----- contrôle tacite (expected_control) -----------------------------------
+
+import pytest as _pytest
+
+from aospy.analysis.features import compute_features, expected_control
+from aospy.domain.models import Unit as _Unit
+
+
+def _u(name="U", models=1, health=5, control=2, hero=False, kw=()):
+    return _Unit(name=name, army_id=1, move=5, save=4, health=health, control=control,
+                 models=models, points=100, is_hero=hero, keywords=frozenset(kw))
+
+
+@_pytest.mark.parametrize("unit,expected", [
+    (_u(models=10, health=1, kw=("INFANTRY",)), 1),                              # infanterie légère
+    (_u(models=3, health=5, kw=("INFANTRY",)), 2),                               # grosse infanterie (5 PV)
+    (_u(models=3, health=4, kw=("INFANTRY", "OGOR MAWTRIBES")), 2),              # Ogors : 2 dès 4 PV
+    (_u(models=3, health=3, hero=True, kw=("INFANTRY", "HERO")), 2),             # équipe de héros
+    (_u(health=8, kw=("BEAST",)), 1),                                            # bête
+    (_u(health=8, kw=("MONSTER",)), 5),                                          # monstre, même léger
+    (_u(health=14, kw=("MONSTER", "OGOR MAWTRIBES")), 10),                       # monstre Ogor
+    (_u(health=12, kw=("MONSTER", "SONS OF BEHEMAT", "LITTLE")), 5),             # petit Gargant
+    (_u(health=25, kw=("MONSTER", "SONS OF BEHEMAT", "BIG")), 10),               # Mega-Gargant
+    (_u(name="Knight-Vexillor", health=6, hero=True, kw=("INFANTRY", "HERO")), 5),  # porte-étendard
+    (_u(health=8, hero=True, kw=("INFANTRY", "HERO", "OGOR MAWTRIBES")), 3),     # héros Ogor à pied
+    (_u(health=10, kw=("WAR MACHINE",)), 2),                                     # char / artillerie
+    (_u(health=12, kw=("WAR MACHINE",)), 5),                                     # autel / grosse machine
+    (_u(health=9, hero=True, kw=("INFANTRY", "HERO")), 2),
+    (_u(health=10, hero=True, kw=("CAVALRY", "HERO")), 5),                       # héros monté : 2 = déficit voulu
+    (_u(name="Loonboss on Giant Cave Squig", health=6, hero=True, kw=("CAVALRY", "HERO")), 5),
+])
+def test_expected_control_rule(unit, expected):
+    assert expected_control(unit) == expected
+
+
+def test_control_bonus_and_deficit_features():
+    epic = compute_features(_u(health=25, control=10, kw=("MONSTER",)))
+    assert (epic.control_expected, epic.control_bonus, epic.control_deficit) == (5, 5, 0)
+    mounted = compute_features(_u(health=10, control=2, hero=True, kw=("CAVALRY", "HERO")))
+    assert (mounted.control_bonus, mounted.control_deficit) == (0, 3)

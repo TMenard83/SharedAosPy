@@ -1,0 +1,8 @@
+[
+  {
+    "army": "Stormcast Eternals",
+    "name": "Heure de Gloire",
+    "description": "+1 pour blesser et +1 pour sauvegarder.",
+    "delta": {"wound": 1, "save": 1}
+  }
+]

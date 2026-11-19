@@ -24,6 +24,7 @@ def _uf(i: int, **overrides) -> UnitFeatures:
         dmg_ranged_vs_save6=0.0, dmg_melee_vs_save2=1.0, dmg_ranged_vs_save2=0.0,
         dmg_pen=0.33, dmg_cv_vs_save4=0.5, charge_bonus_save2=0.0,
         wounds_total=10, save_num=4, ward_num=7, effective_wounds=20.0, move=5, control=1,
+        control_expected=1, control_bonus=0, control_deficit=0,
         unit_size=5, unit_size_sq=25,
         grand_alliance="Order", army_name="TestArmy", weapon_mix="melee",
         unit_type="INFANTRY", is_flying=False, wizard_level=0, priest_level=0, is_unique=False,
