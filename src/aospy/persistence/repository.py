@@ -720,6 +720,7 @@ ABILITY_COLS = (
     "conditions", "ease", "power", "reliability", "interaction", "verdict", "rationale",
     "understood", "overridden", "analyzer_version", "analyzed_at",
     "resource_cost", "available_round", "friendly_target", "excludes_self", "family",
+    "bearer_restriction",
 )
 ABILITY_OWNER_COLS = ("ability_uid", "faction_id", "faction_name", "owner_kind", "owner_name", "warscroll_id")
 ABILITY_TAG_COLS = ("ability_uid", "tag")

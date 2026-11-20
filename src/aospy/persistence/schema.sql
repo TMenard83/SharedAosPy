@@ -264,6 +264,7 @@ ALTER TABLE ability_effect ADD COLUMN IF NOT EXISTS duration VARCHAR;           
 -- famille fonctionnelle (abilities/families.py) : base du mariage châssis × aptitude (couche 3)
 ALTER TABLE ability_effect ADD COLUMN IF NOT EXISTS family VARCHAR;
 ALTER TABLE ability ADD COLUMN IF NOT EXISTS family VARCHAR;                     -- famille principale
+ALTER TABLE ability ADD COLUMN IF NOT EXISTS bearer_restriction VARCHAR;         -- optimisations : à qui la donner (« HERO only »…)
 
 -- Couche 2 — châssis (analysis/chassis.py, `aospy chassis build`) : la charte nue, sans aptitudes.
 -- Reconstruite en entier à chaque build (DELETE + INSERT). `*_pct_rank` : rang centile (0-1)
