@@ -677,3 +677,32 @@ def test_target_keyword_after_article_and_enemy():
     ex, _ = extract(_raw("Double the Damage characteristic of this unit's melee weapons for attacks that target an "
                          "enemy HERO."))
     assert any(e.target_keywords == "HERO" for e in ex.effects)
+
+
+def test_rerolls_one_effect_per_roll():
+    """v25 : une relance par jet relancé, partielle = 0,5 ; « cannot be re-rolled » n'est pas une relance."""
+    ex, _ = extract(_raw("You can re-roll run rolls and charge rolls for friendly NAMARTI units."))
+    assert sorted((e.stat, e.value) for e in ex.effects if e.kind == "reroll") == [("charge", 1.0), ("run", 1.0)]
+    ex, _ = extract(_raw("Until the start of your next turn, you can re roll charge rolls for friendly units."))
+    assert [e.stat for e in ex.effects if e.kind == "reroll"] == ["charge"]
+    ex, _ = extract(_raw("You can re-roll 1 hit roll, 1 wound roll and 1 save roll for this unit."))
+    assert sorted((e.stat, e.value) for e in ex.effects if e.kind == "reroll") == [
+        ("hit", 0.5), ("save", 0.5), ("wound", 0.5)]
+    ex, _ = extract(_raw("Roll 3D6 instead of 2D6. This roll cannot be re-rolled or modified."))
+    assert not [e for e in ex.effects if e.kind == "reroll"]
+    ex, _ = extract(_raw("The charge roll is 5 or less (after any re-rolls)."))
+    assert not [e for e in ex.effects if e.kind == "reroll"]
+
+
+def test_reroll_charge_family_is_mobility():
+    from aospy.abilities.families import effect_family
+    ex, _ = extract(_raw("You can re-roll charge rolls for this unit."))
+    e = next(e for e in ex.effects if e.kind == "reroll")
+    assert effect_family(e, "self") == "mobilite"
+
+
+def test_destiny_dice_are_fixed_rolls():
+    """v25 : dés du destin (Tzeentch) = jet remplacé par une valeur choisie."""
+    ex, _ = extract(_raw("Instead of rolling the dice for 1 of the rolls from the list below, you can pick one of "
+                         "your destiny dice and use it as the roll."))
+    assert any(e.kind == "fixed_roll" for e in ex.effects)

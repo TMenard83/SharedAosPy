@@ -110,6 +110,12 @@ def effect_family(e: Effect, scope: str) -> str:
         return "debuff"
     if k in _MOBILITY_KINDS:
         return "debuff" if side == "enemy" else "mobilite"
+    if k == "reroll" and st in _MOVE_STATS:      # v25 : relance de course/charge
+        return "mobilite"
+    if k == "reroll" and st in ("save", "ward"):
+        return _buff(scope, offensive=False)
+    if k == "reroll" and st in ("cast", "chant", "unbind"):
+        return "magie-ressource"
     if k in _OFF_KINDS:
         return _buff(scope, offensive=True)
     if k in _DEF_KINDS:

@@ -605,7 +605,8 @@ QUALITATIVE_RULES: list[tuple[str, str, str]] = [
     (r"can use (?:a|another) ?'?SHOOT'? abilit|shoot (?:again|a second time)|"
      r"can (?:immediately )?use (?:a|the) '?SHOOT'? ability as if", "extra_shoot", ""),
     # v21 : jet remplacé par une valeur fixe (« use a value of 6 for the roll that cannot be modified »)
-    (r"(?:you )?can use a value of \d+ (?:for (?:the|it|that)|instead)", "fixed_roll", ""),
+    (r"(?:you )?can use a value of \d+ (?:for (?:the|it|that)|instead)|"
+     r"use it as the roll|replaced with the roll on the destiny dice", "fixed_roll", ""),   # v25 : dés du destin
     # v21 : relances de ralliement supplémentaires (« make 3 additional rally rolls of D6 »)
     (r"(?:make|makes?) (?:\d+|D\d|an?) additional rally rolls?|additional rally roll", "rally", ""),
     # v21 : sort hors phase des héros (« can use a SPELL ability as if it were your hero phase »)
@@ -613,7 +614,6 @@ QUALITATIVE_RULES: list[tuple[str, str, str]] = [
     (r"Shoot in Combat", "shoot_in_combat", ""),
     (r"(?:score )?critical hits? on (?:unmodified )?hit rolls? of \d\+|Crit \((?:2 Hits|Auto-wound|Mortal)\)|"
      r"score critical hits", "crit", ""),
-    (r"(?i)\bre-?roll", "reroll", ""),
     (r"(?:gain|receive) (?:\d|D3|an extra|1 extra|one extra|an additional) (?:extra )?command points?|"
      r"command points? (?:is|are) (?:gained|received)|gain a command point|no command points are spent|"
      r"without spending (?:a |any )?command points?", "cp_gain", ""),
@@ -649,6 +649,35 @@ QUALITATIVE_RULES: list[tuple[str, str, str]] = [
 ]
 
 
+#: Relances (analyseur v25) : verbe « re-roll » seul — « cannot be re-rolled », « after any re-rolls »,
+#: « each hit roll that is re-rolled » ne sont pas des relances accordées. « re roll » (sans tiret) existe.
+_REROLL_RE = re.compile(r"\b[Rr]e[- ]?roll\b(?![- ]?(?:ed|s)\b)([^.:\n]*)")
+_REROLL_STATS = (("charge", r"charge rolls?"), ("run", r"run rolls?"), ("hit", r"hit rolls?"),
+                 ("wound", r"wound rolls?"), ("save", r"save rolls?"), ("cast", r"casting rolls?"),
+                 ("chant", r"chanting rolls?"), ("unbind", r"unbinding rolls?"), ("ward", r"ward rolls?"))
+#: Relance partielle (validé utilisateur : moitié d'une relance complète) : 1 seul jet, 1 seul dé, les 1.
+_REROLL_PARTIAL = re.compile(r"^\s*(?:\d+|a|one) (?:of the )?(?:dice|[a-z']+ rolls?)\b|\brolls? of 1\b")
+
+
+def rerolls_of(full: str) -> list[tuple[Effect, int]]:
+    """Une relance par jet relancé (« re-roll run rolls and charge rolls » = 2 effets), stat '' si le
+    jet n'est pas nommé (« re-roll the dice »). `value` = 1 (complète) ou 0,5 (partielle)."""
+    found: dict[str, tuple[Effect, int]] = {}
+    for m in _REROLL_RE.finditer(full):
+        if re.search(r"(?:casting|chanting) roll was \d+\+[^.]*$", full[max(0, m.start() - 160):m.start()]):
+            continue   # bonus sur un jet élevé : pas acquis (v21)
+        clause = m.group(1)
+        # « re-roll 1 hit roll, or 1 wound roll » : chaque jet de l'énumération est partiel
+        partial = bool(_REROLL_PARTIAL.search(clause))
+        stats = [st for st, pat in _REROLL_STATS if re.search(r"\b" + pat + r"\b", clause)] or [""]
+        for st in stats:
+            e = Effect("reroll", st, 0.5 if partial else 1.0, "", "friendly",
+                       "relance partielle" if partial else "relance")
+            if st not in found or e.value > found[st][0].value:
+                found[st] = (e, m.start())
+    return list(found.values())
+
+
 _OFFENSIVE_STATS = ("hit", "wound", "attacks", "rend", "damage")
 #: effets qualitatifs qui portent sur des attaques (périmètre d'armes pertinent)
 _WEAPON_KINDS = {"crit", "anti", "charge_bonus", "reroll", "no_crit", "no_weapon_abilities", "stat_set"}
@@ -657,7 +686,8 @@ _WEAPON_KINDS = {"crit", "anti", "charge_bonus", "reroll", "no_crit", "no_weapon
 def _annotate(e: Effect, sentence: str, text: str, passive: bool, enemy_target: bool = False,
               condition: str = "") -> Effect:
     """Ajoute le périmètre (armes, cible, prérequis, durée) lu dans la phrase source."""
-    offensive = (e.kind == "stat_mod" and e.stat in _OFFENSIVE_STATS) or e.kind in _WEAPON_KINDS
+    offensive = (e.kind == "stat_mod" and e.stat in _OFFENSIVE_STATS) or (
+        e.kind in _WEAPON_KINDS and not (e.kind == "reroll" and e.stat not in ("hit", "wound", "")))
     return dataclasses.replace(e, **perimeter_of(sentence, text, passive, offensive, e.kind, enemy_target,
                                                   condition))
 
@@ -727,6 +757,8 @@ def effects_of(declare: str, effect: str, scope: Scope, passive: bool = False, c
 
     target_kw: list[str] = []
     full = f"{declare} {effect}"
+    for e, pos in rerolls_of(full):
+        add(e, full, pos)
     for pat, kind, stat in QUALITATIVE_RULES:
         for m in re.finditer(pat, full):
             if kind == "anti":
@@ -745,7 +777,7 @@ def effects_of(declare: str, effect: str, scope: Scope, passive: bool = False, c
             if kind in ("strike_last", "restriction", "lockout", "move_debuff", "untargetable"):
                 side = "enemy" if re.search(r"target|enemy", full[max(0, m.start() - 80):m.start()]) else "friendly"
             if kind in ("strike_first", "run_and_charge", "run_and_shoot", "redeploy", "extra_fight", "fight_twice",
-                        "extra_shoot", "fly", "cp_gain", "reroll", "crit", "shoot_in_combat", "charge_bonus",
+                        "extra_shoot", "fly", "cp_gain", "crit", "shoot_in_combat", "charge_bonus",
                         "summon", "anti_magic", "control", "pile_in", "damage_redirect", "anti", "extra_move",
                         "deep_strike", "stat_set", "negate_attack", "keyword_gain", "damage_ignore",
                         "resource", "extra_use", "battle_damaged", "free_retreat", "fixed_roll", "rally"):

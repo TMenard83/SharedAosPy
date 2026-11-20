@@ -68,6 +68,13 @@ EFFECT_WEIGHTS: dict[str, float] = {
     "battle_damaged": 0.0, "free_retreat": 1.0, "fixed_roll": 1.5, "rally": 1.0, "no_buff": 1.0,
 }
 
+#: Relance complète d'un type de jet (analyseur v25, validé utilisateur 2026-11-20) : relancer une charge
+#: à 9" (28 % → 48 %) vaut mieux qu'un +1 charge (42 %). Relance partielle (1 jet, 1 dé, les 1) = moitié.
+REROLL_WEIGHTS: dict[str, float] = {
+    "hit": 1.5, "wound": 1.5, "save": 1.5, "charge": 1.5, "ward": 1.0, "run": 0.5,
+    "cast": 1.0, "chant": 1.0, "unbind": 0.75, "": 1.0,
+}
+
 _WARD_WEIGHTS = {6: 1.0, 5: 2.0, 4: 2.5, 3: 3.0, 2: 3.0}
 #: Protection perdue au premier jet de sauvegarde de 1 (jeton type Gryph-hound) : P(tenir
 #: n dés) = (5/6)^n, elle disparaît en général dès la première attaque sérieuse.
@@ -128,6 +135,9 @@ def _effect_weight(e: Effect) -> tuple[float, str]:
         if e.side == "enemy":
             return 0.5, "déplace une unité ennemie"
         return (1.75 if e.value >= 6 else 1.5), f"mouvement {e.dice or (int(e.value) if e.value else '')}\""
+    if e.kind == "reroll":
+        w = REROLL_WEIGHTS.get(e.stat, 1.0) * (0.5 if e.value < 1 else 1.0)
+        return w, f"{e.detail} {_FR_STAT.get(e.stat, e.stat) or 'de dés'}".strip()
     if e.kind == "battle_damaged":
         return 0.0, ""
     if e.kind in ("strike_last", "restriction", "lockout", "move_debuff", "untargetable"):
