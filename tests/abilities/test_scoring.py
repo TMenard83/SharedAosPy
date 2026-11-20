@@ -172,3 +172,14 @@ def test_marked_enemy_target_is_an_offensive_bubble():
     e = next(e for e in a.extraction.effects if e.kind == "stat_mod")
     assert (e.stat, e.side, e.detail, e.weapon_scope) == ("rend", "friendly", "marquage", "melee")
     assert {"marquage", "buff-offensif"} <= set(a.tags) and a.score.interaction == 2.0
+
+
+def test_v28_dice_count_weights():
+    from aospy.abilities.models import Effect
+    from aospy.abilities.scoring import DICE_ENEMY_WEIGHTS, REROLL_WEIGHTS, _effect_weight
+    keep = _effect_weight(Effect("dice_count", "charge", 1.0, "", "friendly", "garder"))[0]
+    summed = _effect_weight(Effect("dice_count", "charge", 1.0, "", "friendly", "somme"))[0]
+    assert keep == REROLL_WEIGHTS["charge"]          # 3 dés, on en retire un ≈ une relance de charge
+    assert summed > keep                              # 3D6 : 9" à 74 %
+    assert _effect_weight(Effect("dice_count", "charge", -1.0, "", "enemy", "somme"))[0] == DICE_ENEMY_WEIGHTS["charge"]
+    assert _effect_weight(Effect("dice_count", "charge", -1.0, "", "friendly", "somme"))[0] == 0.0   # contrepartie

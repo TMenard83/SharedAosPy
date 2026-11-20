@@ -770,3 +770,112 @@ def test_characteristic_condition_and_battle_damage_are_not_stat_set():
     assert ("stat_set", "enemy") not in ks and ("stat_set", "friendly") not in ks
     ks, _ = _kinds("While this unit has 10 or more damage points:\n- The Attacks characteristic of its Feet is 3.")
     assert {k for k, _ in ks} == {"battle_damaged"}
+
+
+# --- analyseur v28 (revue « a-revoir » : Skaven, Kruleboyz, StD, OM, FEC, SE, Seraphon, BoK, OB) ---
+
+def _kinds28(effect: str, declare: str = "", condition: str = "Passive") -> dict[str, list]:
+    ex, _ = extract(_raw(effect, declare, condition))
+    out: dict[str, list] = {}
+    for e in ex.effects:
+        out.setdefault(e.kind, []).append(e)
+    return out
+
+
+def test_v28_fix_typos_keeps_text_readable():
+    from aospy.abilities.text import fix_typos
+    assert fix_typos("If it is on the battleeld, inict D3 mortal damage") == \
+        "If it is on the battlefield, inflict D3 mortal damage"
+    assert fix_typos("Ignore negative modiers. Add I to hit rolls.") == "Ignore negative modifiers. Add 1 to hit rolls."
+    assert fix_typos("roll l additional dice; add 3 the Attacks characteristic") == \
+        "roll 1 additional dice; add 3 to the Attacks characteristic"
+
+
+@pytest.mark.parametrize("text,stat,value,keep,side", [
+    ("Add 1 to the number of dice rolled when making charge rolls for this unit, to a maximum of 3.",
+     "charge", 1.0, "somme", "friendly"),
+    ("When making charge rolls for this unit, add 1 to the number of dice rolled, to a maximum of 3, then remove 1 "
+     "dice of your choice and use the remaining dice as the charge roll.", "charge", 1.0, "garder", "friendly"),
+    ("For the rest of the turn, when making charge rolls for friendly PLEDGED TO SLAANESH units, you can roll 1 "
+     "additional dice (to a maximum of 3), but if you do, you must discard 1 dice of your choice.",
+     "charge", 1.0, "garder", "friendly"),
+    ("This unit uses the 'Unbind' ability but the unbinding roll is 3D6 instead of 2D6.", "unbind", 1.0, "somme",
+     "friendly"),
+    ("Until the start of your next turn, subtract 1 from the number of dice rolled when making charge rolls for the "
+     "target, to a minimum of 1.", "charge", -1.0, "somme", "enemy"),
+])
+def test_v28_dice_count(text, stat, value, keep, side):
+    k = _kinds28(text)
+    assert "stat_mod" not in k            # plus un simple ±1 à la charge
+    (e,) = k["dice_count"]
+    assert (e.stat, e.value, e.detail, e.side) == (stat, value, keep, side)
+
+
+def test_v28_dice_count_own_drawback_and_high_roll_bonus():
+    k = _kinds28("Each friendly GOLLOP unit can immediately use a CHARGE ability as if it were your charge phase, but "
+               "subtract 1 from the number of dice rolled when making the charge roll for that unit.")
+    assert k["dice_count"][0].side == "friendly" and k["dice_count"][0].value == -1
+    assert "extra_move" in k              # charge hors phase
+    k = _kinds28("Add 1 to charge rolls for the target. In addition, if the chanting roll was 8+, add 1 to the number "
+               "of dice rolled when making charge rolls for the target, to a maximum of 3.")
+    assert "dice_count" not in k          # bonus sur jet élevé : pas acquis (v21)
+
+
+@pytest.mark.parametrize("text,kind,side", [
+    ("Ward rolls cannot be made for the target for the rest of the turn.", "no_ward", "enemy"),
+    ("Roll a dice. On a 5+, that command has no effect, it still counts as having been used.", "lockout", "enemy"),
+    ("If this unit was picked to be the target of that spell, roll a dice. On a 3+, ignore the effect of that spell "
+     "on this unit.", "anti_magic", "friendly"),
+    ("This unit can use the 'Bull Charge' ability even if another friendly unit has used it this turn.",
+     "extra_use", "friendly"),
+    ("The targets can each use the 'All-out Attack' or 'All-out Defence' command this phase even if that command has "
+     "been used by a friendly unit this phase.", "extra_use", "friendly"),
+    ("For the rest of the turn, this unit can ignore the effects of the 'Guarded Hero' ability when picking targets "
+     "for its shooting attacks.", "snipe", "friendly"),
+    ("Enemy units within 12\" of this unit cannot be healed and cannot have slain models returned to them.",
+     "anti_heal", "enemy"),
+    ("Models cannot be returned to enemy units within 12\" of this unit.", "anti_heal", "enemy"),
+    ("Friendly units in this Regiment of Renown can use RUN abilities and still use SHOOT abilities later in the turn.",
+     "run_and_shoot", "friendly"),
+    ("Set the Attacks characteristic of the target's Warpvolt Scourgers to 10 for the rest of the turn.",
+     "stat_set", "friendly"),
+    ("Your general's Ratling Pistol has an Attacks characteristic of 2D6 instead of D6.", "stat_set", "friendly"),
+    ("Remove this unit from the battlefield and set up it again on the battlefield more than 9\" from all enemy units.",
+     "redeploy", "friendly"),
+    ("Set up a replacement unit with half the number of models from the target unit more than 9\" from all enemy "
+     "units.", "summon", "friendly"),
+    ("Gain D6 raw ingredients.", "resource", "friendly"),
+    ("If a friendly HERO is destroyed, give this unit 8 Dark Apotheosis points.", "resource", "friendly"),
+    ("This unit has PRIEST (1).", "keyword_gain", "friendly"),
+])
+def test_v28_generic_wordings(text, kind, side):
+    k = _kinds28(text)
+    assert kind in k and k[kind][0].side == side
+
+
+def test_v28_guards():
+    # « If the casting roll is 13 » : une condition, pas un jet fixé ; le 3D6 reste lu
+    k = _kinds28("The next time you make a casting roll for this unit this phase, roll 3D6 instead of 2D6. "
+               "If the casting roll is 13, the spell cannot be unbound.")
+    assert "fixed_roll" not in k and k["dice_count"][0].stat == "cast"
+    assert "fixed_roll" in _kinds28("Instead of making a casting roll for that spell, the casting roll is 9.")
+    # « as if it had WIZARD (1) » ne donne que la dissipation, pas le mot-clé
+    k = _kinds28("This unit can use UNBIND abilities as if it had WIZARD (1).")
+    assert "keyword_gain" not in k and "anti_magic" in k
+    # deux règles du même effet ne le doublent pas
+    assert len(_kinds28("Gain 1 fate point.").get("resource", [])) == 1
+    # « +1 Control characteristic » est un bonus de contrôle
+    (e,) = _kinds28("Add 1 to the Control characteristic of friendly MEATFIST units while they are in combat.")["stat_mod"]
+    assert e.stat == "control" and e.value == 1
+    # « make a D6" move »
+    (e,) = _kinds28("If this unit is not in combat, it can immediately make a D6\" move and can end that move in "
+                  "combat.")["move"]
+    assert e.value == 3.5
+
+
+def test_v28_manifestation_summon_and_spell_relay():
+    assert "summon" in _kinds28("Set up the first part of the Warp Lightning Vortex within 18\" of the caster.")
+    assert "summon" in _kinds28("Set up the MANIFESTATION you picked wholly within 12\" of the caster,")
+    (e,) = _kinds28("Measure the range and visibility of the next SPELL ability used by this unit from the target "
+                    "instead of from this unit.")["range_bonus"]
+    assert e.stat == "spell"

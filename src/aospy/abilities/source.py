@@ -23,7 +23,7 @@ from ..importers.corrections import (DEFAULT_CORRECTIONS_PATH, ability_correctio
                                      load_corrections)
 from ..importers.wahapedia import _canonical_ids, _legends_warscroll_ids
 from .models import AbilityOwner, RawAbility, SourceKind
-from .text import clean, split_declare_effect
+from .text import clean, fix_typos, split_declare_effect
 
 DEFAULT_DATA_DIR = Path("data") / "wahapedia"
 
@@ -158,8 +158,10 @@ def load_raw_abilities(data_dir: str | Path = DEFAULT_DATA_DIR,
                                         or restrictions.get(("type", row.get("type_id") or "")) or "")
         add(fields, _rule_kind(type_name, subtype), subtype or type_name, owner)
 
+    # fautes de l'export corrigées après l'uid (v28) : l'uid, clé des overrides, ne bouge pas
     out = [
-        RawAbility(**{k: v for k, v in e.items() if k != "owners"}, owners=tuple(e["owners"]))
+        RawAbility(**{k: (fix_typos(v) if k in ("declare", "effect") else v)
+                      for k, v in e.items() if k != "owners"}, owners=tuple(e["owners"]))
         for e in merged.values()
         if e["name"]
     ]

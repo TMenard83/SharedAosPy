@@ -167,6 +167,163 @@
   "e616707d27b5": {
    "name": "Crest of Horns",
    "note": "lecture juste : BM à l'ennemi qui a chargé + sauvegarde +1 de cette unité contre ses attaques (revue malus lot 2, 2026-11-20)"
+  },
+  "b1c6d2b04d3a": {
+   "name": "Shock Gauntlets",
+   "verdict": "plan",
+   "power": 2.0,
+   "add_tags": [
+    "critique"
+   ],
+   "note": "critique = D6 touches au lieu d'1 (≈ Crit (2 Hits) renforcé), passif ; revue a-revoir v28, cas isolé jugé sur le texte (2026-11-20)"
+  },
+  "776c6cc40b33": {
+   "name": "LEAD THE SEETHING HORDE",
+   "verdict": "correct",
+   "power": 1.5,
+   "add_tags": [
+    "mobilite"
+   ],
+   "note": "l'unité de remplacement de « Call for Reinforcements » arrive à 13\" du héros, hors combat ; revue a-revoir v28, cas isolé jugé sur le texte (2026-11-20)"
+  },
+  "7b7404c520e5": {
+   "name": "EGOMANIAK",
+   "verdict": "pari",
+   "power": 1.5,
+   "add_tags": [
+    "buff-defensif",
+    "aleatoire"
+   ],
+   "remove_tags": [
+    "fiable"
+   ],
+   "note": "chaque point de dégât du général renvoyé sur une unité amie proche sur 4+ ; revue a-revoir v28, cas isolé jugé sur le texte (2026-11-20)"
+  },
+  "57960c0d76cd": {
+   "name": "DARKFLAME PENDANT",
+   "verdict": "plan",
+   "power": 2.25,
+   "add_tags": [
+    "buff-defensif"
+   ],
+   "note": "Dégâts max 1 pour les armes qui ciblent le porteur : énorme contre les gros profils, passif ; revue a-revoir v28, cas isolé jugé sur le texte (2026-11-20)"
+  },
+  "82070352d9b0": {
+   "name": "Swift As The Wind",
+   "verdict": "plan",
+   "power": 2.25,
+   "add_tags": [
+    "buff-defensif",
+    "anti-tir"
+   ],
+   "note": "seuls les critiques touchent au tir contre cette unité (≈ touche sur 6+), passif ; revue a-revoir v28, cas isolé jugé sur le texte (2026-11-20)"
+  },
+  "2354527af0bc": {
+   "name": "FELL RITUALIST",
+   "verdict": "correct",
+   "power": 1.3,
+   "note": "une carte de tactique de bataille piochée en plus (choix), tant que le général est en jeu ; revue a-revoir v28, cas isolé jugé sur le texte (2026-11-20)"
+  },
+  "3d275a0ec3bf": {
+   "name": "The Eye of Sheerian",
+   "verdict": "pari",
+   "power": 1.5,
+   "reliability": 1.5,
+   "add_tags": [
+    "aleatoire"
+   ],
+   "remove_tags": [
+    "fiable"
+   ],
+   "note": "remplace le jet de priorité du round suivant par un D6 (4+ : vous jouez en premier), 1/bataille ; revue a-revoir v28, cas isolé jugé sur le texte (2026-11-20)"
+  },
+  "5bb128c06321": {
+   "name": "Ravenous Counter-Attack",
+   "verdict": "correct",
+   "power": 1.25,
+   "add_tags": [
+    "debuff"
+   ],
+   "note": "les ennemis au contact ne comptent plus comme ayant chargé (bonus de charge annulés), passif ; revue a-revoir v28, cas isolé jugé sur le texte (2026-11-20)"
+  },
+  "d2fa6fae1503": {
+   "name": "Snow Plough",
+   "verdict": "correct",
+   "power": 1.5,
+   "add_tags": [
+    "mobilite",
+    "charge"
+   ],
+   "note": "peut charger même en combat (charge de 2 ou moins = ne compte pas comme ayant chargé) ; revue a-revoir v28, cas isolé jugé sur le texte (2026-11-20)"
+  },
+  "af5117d7fe06": {
+   "name": "SNOTT, GNOBLAR THIEF",
+   "verdict": "pari",
+   "power": 1.5,
+   "reliability": 1.5,
+   "add_tags": [
+    "debuff",
+    "aleatoire"
+   ],
+   "remove_tags": [
+    "fiable"
+   ],
+   "note": "retire les artefacts d'un héros ennemi sur D6 ≤ numéro du round (≈ 50 % sur la partie) ; revue a-revoir v28, cas isolé jugé sur le texte (2026-11-20)"
+  },
+  "a8cadb960f14": {
+   "name": "BANNER OF SIGMAR",
+   "verdict": "correct",
+   "power": 1.5,
+   "add_tags": [
+    "controle"
+   ],
+   "note": "objectif collant : l'adversaire ne peut le contrôler sans unité dessus, 1/bataille ; revue a-revoir v28, cas isolé jugé sur le texte (2026-11-20)"
+  },
+  "3aa5bb0f3387": {
+   "name": "BRASS FLESH",
+   "verdict": "plan",
+   "power": 2.0,
+   "add_tags": [
+    "buff-defensif"
+   ],
+   "note": "sauvegarde non modifiée de 5+ toujours réussie (ignore la perforation sur 1/3 des jets), passif ; revue a-revoir v28, cas isolé jugé sur le texte (2026-11-20)"
+  },
+  "880373aca832": {
+   "name": "Voice of Nagash",
+   "verdict": "plan",
+   "power": 2.0,
+   "add_tags": [
+    "debuff",
+    "anti-deathstar"
+   ],
+   "note": "au tour adverse, la cible ne profite plus des aptitudes non-CORE des autres unités ennemies (auras, ordres de héros) : coupe les buffs d'une Death-Star ; revue a-revoir v28, cas isolé jugé sur le texte (2026-11-20)"
+  },
+  "d1c3ddafd28d": {
+   "name": "The Doom of Traitors",
+   "verdict": "correct",
+   "power": 1.5,
+   "add_tags": [
+    "buff-offensif"
+   ],
+   "note": "après une charge, +D3 (2+) Attaques aux griffes contre la cible désignée, qui doit être visée ; revue a-revoir v28, cas isolé jugé sur le texte (2026-11-20)"
+  },
+  "feea28a588f0": {
+   "name": "Dispersed Formation",
+   "verdict": "anecdotique",
+   "power": 0.5,
+   "note": "cohésion à 2\" : confort de placement ; revue a-revoir v28, cas isolé jugé sur le texte (2026-11-20)"
+  },
+  "0166e3d8f0ac": {
+   "name": "DARK HUNT",
+   "verdict": "anecdotique",
+   "power": 0.3,
+   "note": "contrainte : l'unité doit charger si elle le peut ; revue a-revoir v28, cas isolé jugé sur le texte (2026-11-20)"
+  },
+  "1b8e06626d08": {
+   "name": "FRENZIED TASKMASTER",
+   "verdict": "anecdotique",
+   "power": 0.75,
+   "note": "« Eruption of Fury » : 3 BM fixes au lieu de D3 par 6 non modifié ; revue a-revoir v28, cas isolé jugé sur le texte (2026-11-20)"
   }
  }
 }

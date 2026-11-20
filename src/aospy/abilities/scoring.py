@@ -68,7 +68,16 @@ EFFECT_WEIGHTS: dict[str, float] = {
     "battle_damaged": 0.0, "free_retreat": 1.0, "fixed_roll": 1.5, "rally": 1.0, "no_buff": 1.0,
     # v27, validés par l'utilisateur (2026-11-20) : +N" de portée de tir, ignorer les malus, provocation
     "range_bonus": 1.0, "ignore_debuff": 0.5, "taunt": 1.0,
+    # v28, validés par l'utilisateur (2026-11-20) : tir sur un héros protégé (« Guarded Hero » ignoré) = 1,0,
+    # soins/retours de figurines interdits à l'ennemi = 1,0 (l'utilisateur a choisi plus haut que ma proposition 0,75)
+    "snipe": 1.0, "anti_heal": 1.0,
 }
+
+#: Dé en plus / en moins sur un jet (analyseur v28, validé par l'utilisateur 2026-11-20). « garder » (3 dés, on en retire 1) ≈ une relance du jet
+#: (charge à 9" : 28 % → 52 %, relance 48 %) ; « somme » (3D6) = plus fort (9" : 74 %, ×5/3). Un dé de moins
+#: à la charge ENNEMIE (1D6) rend toute charge de plus de 6" impossible : dissuasion forte.
+DICE_SUM_MULT = 5 / 3
+DICE_ENEMY_WEIGHTS: dict[str, float] = {"charge": 2.0, "cast": 1.5, "unbind": 1.0, "run": 0.5, "": 1.0}
 
 #: Relance complète d'un type de jet (analyseur v25, validé utilisateur 2026-11-20) : relancer une charge
 #: à 9" (28 % → 48 %) vaut mieux qu'un +1 charge (42 %). Relance partielle (1 jet, 1 dé, les 1) = moitié.
@@ -99,7 +108,7 @@ _FREQ_MULT = {"once_per_battle": 0.6, "once_per_battle_army": 0.6,
 _FR_STAT = {"hit": "touche", "wound": "blessure", "save": "sauvegarde", "ward": "protection",
             "attacks": "Attaques", "rend": "Perforation", "damage": "Dégâts", "charge": "charge",
             "run": "course", "cast": "lancement", "chant": "psalmodie", "unbind": "dissipation",
-            "banish": "bannissement", "control": "contrôle", "health": "PV", "move": "Mouvement",
+            "banish": "bannissement", "redeploy": "Redeploy", "control": "contrôle", "health": "PV", "move": "Mouvement",
             "power_level": "niveau de puissance"}
 
 
@@ -142,6 +151,15 @@ def _effect_weight(e: Effect) -> tuple[float, str]:
         return w, f"{e.detail} {_FR_STAT.get(e.stat, e.stat) or 'de dés'}".strip()
     if e.kind == "battle_damaged":
         return 0.0, ""
+    if e.kind == "dice_count":
+        name = _FR_STAT.get(e.stat, e.stat) or "jet"
+        if e.side == "enemy":
+            return DICE_ENEMY_WEIGHTS.get(e.stat, 1.0), f"un dé de moins ({name}, ennemi)"
+        if e.value < 0:
+            return 0.0, ""   # contrepartie sur sa propre unité
+        base = 0.5 if e.stat == "redeploy" else REROLL_WEIGHTS.get(e.stat, 1.0)   # Redeploy ≈ course
+        w = base * (DICE_SUM_MULT if e.detail == "somme" else 1.0)
+        return w, f"un dé de plus ({name}, {'tous comptent' if e.detail == 'somme' else 'on en retire un'})"
     if e.kind in ("strike_last", "restriction", "lockout", "move_debuff", "untargetable"):
         if e.kind == "untargetable" and e.side == "friendly":
             return 2.0, "inciblable"

@@ -130,6 +130,7 @@ def tags_for(raw: RawAbility, ex: Extraction, sc: Score) -> list[str]:
         "deep_strike": "teleportation", "no_ward": "debuff", "slay": "degats", "negate_attack": "buff-defensif",
         "damage_ignore": "buff-defensif", "no_weapon_abilities": "debuff", "resource": "ressource-faction",
         "battle_damaged": "profil-degrade", "range_bonus": "tir", "taunt": "debuff",
+        "snipe": "tir", "anti_heal": "debuff",   # v28
     }
     for k, tag in mapping.items():
         if k in kinds:
@@ -145,6 +146,12 @@ def tags_for(raw: RawAbility, ex: Extraction, sc: Score) -> list[str]:
             t |= {"restriction", "debuff"}
         if e.kind == "untargetable" and e.side == "friendly":
             t.add("protection")
+        if e.kind == "dice_count":   # v28 : dé en plus (ami) / en moins (ennemi)
+            if e.side == "enemy":
+                t.add("debuff")
+            elif e.value > 0:
+                t.add("charge" if e.stat == "charge" else "magie" if e.stat in ("cast", "unbind", "banish")
+                      else "mobilite" if e.stat == "run" else "relance")
     if raw.wahapedia_type == "Shooting" or raw.phase == "Shooting Phase":
         t.add("tir")
     if raw.cost_type == "Spell" or raw.source_kind in ("spell", "manifestation"):

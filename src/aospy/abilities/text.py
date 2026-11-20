@@ -30,6 +30,24 @@ def clean(raw: str) -> str:
     return t.strip()
 
 
+#: Fautes de l'export Wahapedia (analyseur v28) : ligatures « fi »/« fl »/« ff » perdues (« battleeld »,
+#: « inict », « modiers », « eect »), « I »/« l » à la place du chiffre 1, « to » oublié.
+_TYPOS = [
+    (re.compile(r"\bbattleeld"), "battlefield"), (re.compile(r"\binict"), "inflict"),
+    (re.compile(r"\bmodier"), "modifier"), (re.compile(r"\beect"), "effect"),
+    (re.compile(r"\b([Aa]dd|[Ss]ubtract) I (to|from)\b"), r"\1 1 \2"),
+    (re.compile(r"\broll l additional\b"), "roll 1 additional"),
+    (re.compile(r"\b([Aa]dd \d+) the (\w+ characteristic)\b"), r"\1 to the \2"),
+]
+
+
+def fix_typos(t: str) -> str:
+    """Corrige les fautes récurrentes de l'export, APRÈS le calcul de l'uid (qui reste stable)."""
+    for pat, rep in _TYPOS:
+        t = pat.sub(rep, t)
+    return t
+
+
 def split_declare_effect(text: str) -> tuple[str, str]:
     """Sépare « Declare: … Effect: … » ; note de concepteur retirée.
 
