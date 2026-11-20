@@ -37,6 +37,8 @@ ALL_TAGS: dict[str, str] = {
     "critique": "modifie les critiques",
     "relance": "accorde une relance",
     "anti-cible": "bonus contre un mot-clé (Anti-X)",
+    "anti-tir": "protection limitée aux attaques de tir ennemies (concept de liste anti-tir)",
+    "anti-melee": "protection limitée aux attaques de mêlée ennemies",
     "anti-deathstar": "neutralise l'offensive d'une unité ennemie (Death-Star : unité surboostée)",
     "coordination": "exige que le porteur et une unité amie restent au contact",
     "marquage": "désigne une cible ennemie : toute attaque amie qui la vise est boostée",
@@ -89,6 +91,10 @@ def tags_for(raw: RawAbility, ex: Extraction, sc: Score) -> list[str]:
                 t.add("buff-defensif")
             elif e.side == "enemy" and e.detail == "defensif":
                 t.add("buff-defensif")
+                if e.weapon_scope == "ranged":
+                    t.add("anti-tir")
+                elif e.weapon_scope == "melee":
+                    t.add("anti-melee")
             elif e.side == "enemy" and e.detail == "debuff":
                 t.add("debuff")
             if e.stat in ("charge",) and e.value > 0:

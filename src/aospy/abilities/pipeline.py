@@ -8,6 +8,7 @@ from datetime import datetime
 from pathlib import Path
 
 from .extract import extract, p_2d6
+from .families import effect_family, main_family
 from .models import AbilityAnalysis, Extraction, RawAbility
 from .overrides import DEFAULT_OVERRIDES_PATH, apply_override, load_overrides
 from .scoring import score
@@ -16,7 +17,7 @@ from .tags import tags_for
 
 #: Incrémenter à chaque changement des règles d'extraction/notation : stocké en
 #: base (`ability.analyzer_version`) pour savoir quelle version a produit une ligne.
-ANALYZER_VERSION = 12
+ANALYZER_VERSION = 19
 
 
 #: Gain réaliste (validé par l'utilisateur) d'une ressource de faction qui s'accumule
@@ -154,6 +155,7 @@ def to_rows(analyses: list[AbilityAnalysis], analyzed_at: datetime | None = None
             sc.ease, sc.power, sc.reliability, sc.interaction, sc.verdict,
             "\n".join(sc.rationale), a.understood, a.overridden, ANALYZER_VERSION, when,
             ex.resource_cost, ex.available_round, ex.friendly_target or None, ex.excludes_self,
+            main_family(effect_family(e, ex.scope) for e in ex.effects),
         ))
         seen = set()
         for o in r.owners:
@@ -165,7 +167,7 @@ def to_rows(analyses: list[AbilityAnalysis], analyzed_at: datetime | None = None
         effects.extend(
             (r.uid, i, e.kind, e.stat or None, float(e.value), e.dice or None, e.side or None, e.detail or None,
              e.weapon_scope or None, e.weapon_name or None, e.includes_companion, e.target_keywords or None,
-             e.target_condition or None, e.requires or None, e.duration or None)
+             e.target_condition or None, e.requires or None, e.duration or None, effect_family(e, ex.scope))
             for i, e in enumerate(ex.effects)
         )
     return abilities, owners, tags, effects

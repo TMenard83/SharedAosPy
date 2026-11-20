@@ -114,6 +114,20 @@ def _canonical_ids(warscrolls: list[dict[str, str]]) -> set[str]:
     return canonical
 
 
+def keyword_variants(row: dict[str, str]) -> set[str]:
+    """Mot-clé d'une ligne `Warscrolls_keywords.csv`, plus sa forme paramétrée pour les lanceurs.
+
+    Wahapedia range le niveau d'un sorcier/prêtre dans la colonne `parameter` (`WIZARD` + `2`) : on
+    garde `WIZARD` (ciblages « friendly WIZARD ») **et** `WIZARD (2)`, la forme que BSData capture et
+    que lit `analysis.features._CASTER_RE`. Sans elle, tous les niveaux de lanceur étaient perdus."""
+    kw = (row.get("keyword") or "").upper()
+    out = {kw}
+    param = (row.get("parameter") or "").strip()
+    if kw in ("WIZARD", "PRIEST") and param.isdigit():
+        out.add(f"{kw} ({param})")
+    return out
+
+
 def _parse_unit(
     row: dict[str, str], army_id: int, weapon_rows: list[dict[str, str]], keywords: set[str],
 ) -> Unit:
@@ -173,7 +187,7 @@ def import_faction(
 
     keywords_by_id: dict[str, set[str]] = {}
     for k in _read_csv(data_dir / "Warscrolls_keywords.csv"):
-        keywords_by_id.setdefault(k["warscroll_id"], set()).add((k.get("keyword") or "").upper())
+        keywords_by_id.setdefault(k["warscroll_id"], set()).update(keyword_variants(k))
 
     weapons_by_id: dict[str, list[dict[str, str]]] = {}
     for w in _read_csv(data_dir / "Warscrolls_weapons.csv"):

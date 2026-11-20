@@ -32,7 +32,11 @@ _NOT_A_WEAPON = {"Companion", "Attacks", "Damage", "Rend", "Health", "Move", "Sa
 _COMPANION_IN = re.compile(r"including[^.]*Companion", re.I)
 
 _TARGET_KW = re.compile(
-    r"(?:that target|targeting|if the target is an?|against) (?:an? |enemy |the )?"
+    # « If this unit is in combat with any enemy HEROES, it can use 2 FIGHT abilities » (Engine of
+    # Domination) : condition sur la cible, comme « against HEROES » (analyseur v16).
+    r"(?:that target|targeting|if the target is an?|against|"
+    r"(?:[Ii]f|[Ww]hile) (?:this unit|it|this model) is in combat with (?:any|an?|one or more)? ?enemy) "
+    r"(?:an? |enemy |the )?"
     r"((?:[A-Z][A-Z'-]{2,}(?: [A-Z][A-Z'-]{2,})*)(?:,? (?:or|and) [A-Z][A-Z'-]{2,}(?: [A-Z][A-Z'-]{2,})*)*)")
 _SINGULAR = {"HEROES": "HERO", "MONSTERS": "MONSTER", "WIZARDS": "WIZARD", "PRIESTS": "PRIEST",
              "MANIFESTATIONS": "MANIFESTATION", "WAR MACHINES": "WAR MACHINE"}
@@ -83,17 +87,33 @@ def charge_subjects(text: str, enemy_target: bool) -> set[str]:
     return out
 
 
+#: Sujet d'une condition de position portant sur le porteur (« while/if this unit is … », « while each
+#: model in this unit is … ») — analyseur v16 : « If », « each model », objectif qualifié (questmarked).
+_SUBJ = r"(?:while|if) (?:it is|they are|this unit is|each model in this unit is|all models in this unit are)"
 _REQUIRES: list[tuple[str, str]] = [
     (r"did not use a MOVE|has not (?:used a MOVE|moved)|if (?:it|they) (?:did not|has not) move", "sans mouvement"),
-    (r"while (?:it is|they are|this unit is) contesting an objective", "sur objectif"),
-    (r"while (?:it is|they are|this unit is) in combat", "au combat"),
-    (r"while (?:it is|they are|this unit is) (?:wholly )?within (?:friendly|enemy) territory", "en territoire"),
+    # « While this unit is in combat and has not charged this turn » (Warriors of the Woods) : joue hors
+    # tour de charge — combat prolongé ou tour adverse (analyseur v18).
+    (r"(?:has|have|had|did) not charged", "sans charge"),
+    (_SUBJ + r" contesting (?:an?|any)(?: [\w-]+)? objective", "sur objectif"),
+    (_SUBJ + r" in combat", "au combat"),
+    (_SUBJ + r" (?:wholly )?within (?:friendly|enemy) territory", "en territoire"),
     (r"(?:has|have) (?:\d+|any)(?: or more)? damage points?|while (?:it|this unit) is damaged", "porteur blessé"),
-    (r"while (?:it is|they are|this unit is) (?:wholly )?within [^.:]*?\bof (?:a|any|another) (?:visible )?friendly",
+    (_SUBJ + r" (?:wholly )?within [^.:]*?\bof (?:a|any|another) (?:visible )?(?:damaged )?friendly",
      "près d'une unité amie"),
+    # « within the combat ranges of any damaged friendly FYRESLAYERS HEROES » ; « while this unit's
+    # soul-bonded charge is within this unit's combat range » (héros lié, Questor Soulsworn)
+    (_SUBJ + r" (?:wholly )?within the combat ranges? of [^.:]*?\bfriendly|"
+     r"while this unit's [\w' -]+ is (?:wholly )?within", "près d'une unité amie"),
 ]
 #: Prérequis « dépense une ressource de faction » (pondéré par la couche 3, pas une condition de jeu).
 SPENDS_RESOURCE = "dépense une ressource"
+#: Effet proportionnel à une ressource possédée (« For each daemonic power point this unit has: +1
+#: Attacks ») : la valeur dépend de l'allocation entre unités, décidée au niveau de la liste (couche 4).
+#: Pondéré comme une ressource au rythme inconnu (analyseur v16).
+RESOURCE_SCALED = "selon ressource allouée"
+_PER_RESOURCE = re.compile(r"\bfor each [\w' -]{0,40}?\bpoints? (?:this unit|it|that unit|this model) has\b|"
+                           r"\bnumber of [\w' -]{0,40}?\bpoints? this unit has\b", re.I)
 _SPEND = re.compile(r"\b[Ss]pend (?:a number of |\d+ |up to \d+ |any number of )?[\w' -]{0,40}?\bpoints?\b")
 #: Protection (ou réduction) limitée à une source de dégâts : ne joue pas contre les attaques d'armes.
 _DAMAGE_SOURCES: list[tuple[str, str]] = [
@@ -102,17 +122,38 @@ _DAMAGE_SOURCES: list[tuple[str, str]] = [
     (r"against mortal damage\b", "vs blessures mortelles"),
 ]
 _DURATIONS: list[tuple[str, str]] = [
-    (r"for the rest of the battle round|until the end of the battle round", "round"),
+    (r"for the rest of the battle round|until the end of the battle round|"
+     r"until the start of the next battle round", "round"),
     (r"for the rest of the battle", "bataille"),
     (r"until the start of (?:your|the) next turn", "jusqu'au prochain tour"),
-    (r"for the rest of the turn|until the end of the turn|this turn\b", "tour"),
-    (r"for the rest of the phase|this phase\b", "phase"),
+    (r"for the rest of (?:the )?turn|until the end of the turn|this turn\b", "tour"),
+    (r"for the rest of the phase|until the end of (?:the|that) phase|this phase\b", "phase"),
 ]
+
+
+def _implicit_duration(scope_text: str, text: str, condition: str) -> str:
+    """Durée sans formule explicite (analyseur v19, revue « duree »).
+
+    * « action » : réaction qui modifie le jet/l'aptitude déclencheurs (dure le temps de l'action) ;
+    * « bataille » : choix fait au déploiement ou au début du 1er round (serment, pari, cible
+      désignée) et sans autre limite ;
+    * « conditionnelle » : effet d'état (« While … ») actif tant que la condition tient ;
+    * sinon « non précisée ».
+    """
+    if "reaction" in condition.lower() and _TRIGGER_ROLL.search(text):
+        return "action"
+    if _SETUP_CONDITION.search(condition):
+        return "bataille"
+    if re.search(r"\bWhile\b", scope_text) or re.search(r"\bWhile\b", text):
+        return "conditionnelle"
+    return "non précisée"
 
 
 def sentence_at(text: str, pos: int) -> str:
     """Phrase (ou puce de liste) de `text` contenant la position `pos`."""
-    start = max(text.rfind(". ", 0, pos) + 2, text.rfind("\n", 0, pos) + 1, 0)
+    dot = text.rfind(". ", 0, pos)
+    # (sans « . » avant pos, rfind vaut -1 : ne pas sauter la 1re lettre du texte, « While » → « hile »)
+    start = max(dot + 2 if dot != -1 else 0, text.rfind("\n", 0, pos) + 1)
     ends = [i for i in (text.find(". ", pos), text.find("\n", pos)) if i != -1]
     return text[start:min(ends) + 1 if ends else len(text)].strip()
 
@@ -134,8 +175,18 @@ INSTANT_KINDS = {"mortal_damage", "heal", "return_models", "move", "summon", "re
                  "extra_fight", "fight_twice", "extra_shoot", "extra_move", "pile_in", "slay", "cp_gain", "resource"}
 
 
+#: Réaction qui modifie le jet ou l'aptitude déclencheurs (« add 1 to the casting roll for that
+#: spell », « attacks made as part of that FIGHT ability ») : dure le temps de cette action.
+_TRIGGER_ROLL = re.compile(
+    r"\bthat (?:spell|prayer|roll|ability|[A-Z]+ ability)\b|\bthe (?:casting|chanting|unbinding|charge|run) roll\b|"
+    r"\b(?:casting|chanting|unbinding|charge|run) roll for that\b|\bas part of that\b|\bthat (?:casting|chanting|"
+    r"unbinding|charge|run) roll\b", re.I)
+#: Choix fait une fois pour toutes avant la bataille (serment, pari, cible désignée au déploiement).
+_SETUP_CONDITION = re.compile(r"deployment phase|start of the first battle round", re.I)
+
+
 def perimeter_of(sentence: str, text: str, passive: bool, offensive: bool, kind: str = "",
-                 enemy_target: bool = False) -> dict:
+                 enemy_target: bool = False, condition: str = "") -> dict:
     """Champs de périmètre (`Effect.weapon_scope` … `Effect.duration`) pour un effet."""
     out: dict = {}
     if offensive or _MELEE.search(sentence) or _RANGED.search(sentence):
@@ -181,6 +232,8 @@ def perimeter_of(sentence: str, text: str, passive: bool, offensive: bool, kind:
         # coût en ressource de faction (points de discipline, d'oath…) ; la Dîme de Sang a son propre
         # calcul de disponibilité (`pipeline.RESOURCE_RATES` → `available_round`).
         reqs.append(SPENDS_RESOURCE)
+    if _PER_RESOURCE.search(req_text):
+        reqs.append(RESOURCE_SCALED)
     if reqs:
         out["requires"] = " | ".join(reqs)
 
@@ -188,5 +241,5 @@ def perimeter_of(sentence: str, text: str, passive: bool, offensive: bool, kind:
     out["duration"] = next((label for pat, label in _DURATIONS if re.search(pat, scope_text, re.I)),
                            next((label for pat, label in _DURATIONS if re.search(pat, text, re.I)),
                                 "permanent" if passive else "immédiat" if kind in INSTANT_KINDS
-                                else "non précisée"))
+                                else _implicit_duration(scope_text, text, condition)))
     return out

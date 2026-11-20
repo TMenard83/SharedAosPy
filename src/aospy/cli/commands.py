@@ -327,6 +327,16 @@ def cmd_battle_simulate(args: argparse.Namespace) -> int:
     return 0
 
 
+def _apply_source_corrections(con) -> None:
+    """Corrections d'erreurs de source (`data/json/source_corrections.json`) : elles l'emportent
+    sur l'import, quelle que soit la source."""
+    from ..importers.corrections import apply_unit_corrections
+
+    missing = apply_unit_corrections(con)
+    for m in missing:
+        print(f"  correction de source sans unité en base : {m}")
+
+
 def cmd_import_bsdata(args: argparse.Namespace) -> int:
     con = _connect(args)
     cutoff = datetime.now()
@@ -367,6 +377,7 @@ def cmd_import_bsdata(args: argparse.Namespace) -> int:
             army = repository.get_army_by_name(con, args.army)
             removed = repository.delete_units_imported_before(con, cutoff, army_id=army.id if army else None)
             print(f"Nettoyage : {removed} unités non retouchées supprimées.")
+    _apply_source_corrections(con)
     con.close()
     return 0
 
@@ -416,7 +427,28 @@ def cmd_import_wahapedia(args: argparse.Namespace) -> int:
             army = repository.get_army_by_name(con, args.faction)
             removed = repository.delete_units_imported_before(con, cutoff, army_id=army.id if army else None)
             print(f"Nettoyage : {removed} unités non retouchées supprimées.")
+    _apply_source_corrections(con)
     con.close()
+    return 0
+
+
+def cmd_import_verify(args: argparse.Namespace) -> int:
+    from ..importers.verify import verify_faction
+
+    con = _connect(args)
+    try:
+        diffs = verify_faction(con, args.faction, args.bsdata_dir)
+    except (FileNotFoundError, ValueError) as exc:
+        print(exc)
+        con.close()
+        return 1
+    con.close()
+    if not diffs:
+        print(f"{args.faction} : aucun écart Wahapedia × BSData.")
+        return 0
+    print(f"{args.faction} : {len(diffs)} écarts Wahapedia × BSData (à trancher sur le scan) :")
+    for d in diffs:
+        print(f"  {d.unit:<40} {d.field:<28} Wahapedia={d.wahapedia:<14} BSData={d.bsdata}")
     return 0
 
 
@@ -748,10 +780,37 @@ def cmd_encounter_build(args: argparse.Namespace) -> int:
     repository.replace_encounters(con, rows)
     realized = build_realized_rows(con)
     repository.replace_realized(con, realized)
+    from ..analysis.marriage import build_marriage_rows
+
+    marriage = build_marriage_rows(con)
+    repository.replace_ability_marriage(con, marriage)
     con.close()
     print(f"{len(realized)} valeurs réalisées (châssis + aptitudes propres pondérées).")
+    print(f"{len(marriage)} mariages aptitude × porteur (déclenchement × survie).")
     print(f"{stats['rencontres']} rencontres aptitude × châssis ({stats['traduits']} effets amis traduits "
           f"sur {stats['effets']} ; {stats['sans_arme']} paires sans arme concernée).")
+    return 0
+
+
+def cmd_encounter_marriage(args: argparse.Namespace) -> int:
+    con = _connect(args)
+    rows = repository.list_marriage(con, ability=args.ability, unit=args.unit, family=args.family,
+                                    worst=args.worst, limit=args.limit)
+    con.close()
+    if not rows:
+        print("Aucun mariage (lancez `aospy encounter build`).")
+        return 1
+    print("Mariage = D × S. D = P(conditions tenues par le porteur : charge, territoire, objectif…) × rounds "
+          "encore possibles ; S = part des rounds où il survit pour tenir l'effet, à l'exposition imposée "
+          "(contact ≤3\", courte ≤9\", longue derrière un écran) face à une unité ennemie moyenne.\n"
+          "Hypothèses (marriage.py) à challenger. « bon cas » : conditions tenues par d'autres (couche 4/matchups).")
+    print(f"{'aptitude':<28}{'porteur':<30}{'pts':>5}{'mv':>4}{'PV':>4}{'sv':>4}{'fam.':>20}{'P':>6}"
+          f"{'expo':>9}{'rnd':>4}{'vie':>6}{'S':>6}{'mariage':>8}  bon cas")
+    for r in rows:
+        sv = f"{r['save']}+" + (f"/{r['ward']}+" if r['ward'] else "")
+        print(f"{r['ability_name'][:27]:<28}{r['unit_name'][:29]:<30}{r['points']:>5}{r['move']:>4}{r['hp']:>4}"
+              f"{sv:>7}{(r['family'] or '')[:19]:>17}{r['p_trigger']:>6.2f}{r['exposure']:>9}{r['start_round']:>4}"
+              f"{r['rounds_alive']:>6.1f}{r['survival']:>6.2f}{r['marriage']:>8.2f}  {r['good_case_conditions'] or ''}")
     return 0
 
 
@@ -793,26 +852,40 @@ def _gain(after: float, before: float) -> str:
     return "   -  " if not before else f"{100 * (after - before) / before:+5.0f}%"
 
 
+def _num(v) -> str:
+    return "—" if v is None else f"{v:.1f}"
+
+
+def _print_best(rows: list[dict], detail: bool) -> None:
+    print(f"{'#':>3} {'unité':<36}{'armée':<20}{'pts':>5}{'comb.':>7}{'rang':>6}{'dég/100':>8}{'+%':>7}"
+          f"{'bon cas':>8}{'dur/100':>8}{'+%':>7}{'bon cas':>8}  │{'ch.dég':>7}{'ch.dur':>7}{'ch.comb':>8}")
+    for i, r in enumerate(rows, 1):
+        print(f"{i:>3} {r['name'][:35]:<36}{r['army_name'][:19]:<20}{r['points']:>5}{r['combined_per_100']:>7.1f}"
+              f"{r['combined_pct_rank']:>6.2f}{r['off_realized_per_100']:>8.1f}"
+              f"{_gain(r['off_realized'], r['off_chassis']):>7}{r['off_good_per_100']:>8.1f}"
+              f"{r['def_realized_per_100']:>8.1f}{_gain(r['def_realized'], r['def_chassis']):>7}"
+              f"{r['def_good_per_100']:>8.1f}  │{_num(r.get('off_fit_per_100')):>7}{_num(r.get('def_fit_per_100')):>7}"
+              f"{_num(r.get('combined_fit_per_100')):>8}")
+        if detail and r["abilities"]:
+            print(f"      aptitudes : {r['abilities']}")
+
+
 def cmd_encounter_best(args: argparse.Namespace) -> int:
     con = _connect(args)
-    hero = True if args.heroes else False if args.troops else None
-    rows = repository.list_realized(con, army=args.army, hero=hero, name=args.name, order_by=args.sort,
-                                    limit=args.limit)
+    segments = [True] if args.heroes else [False] if args.troops else [False, True]
+    results = {hero: repository.list_realized(con, army=args.army, hero=hero, name=args.name,
+                                              order_by=args.sort, limit=args.limit) for hero in segments}
     con.close()
-    if not rows:
+    if not any(results.values()):
         print("Aucune valeur réalisée (lancez `aospy encounter build`).")
         return 1
     print("Châssis + aptitudes propres qui boostent l'unité, pondérées (rounds 2-3 = 1, 1/4/5 = 1/3 ; "
           "1/bataille courte = 1/2 ; × P(déclenchement)).\n"
-          "dég = dégâts d'un round vs save 4+ ; dur = coups à porter ; /100 = pour 100 pts ; "
-          "+% = gain sur le châssis nu ; bon cas = avec les effets conditionnels (a chargé, vs HERO…)")
-    print(f"{'unité':<36}{'armée':<20}{'pts':>5}{'dég/100':>8}{'+%':>7}{'bon cas':>8}{'dur/100':>8}{'+%':>7}"
-          f"{'bon cas':>8}{'rg dég':>7}{'rg dur':>7}")
-    for r in rows:
-        print(f"{r['name'][:35]:<36}{r['army_name'][:19]:<20}{r['points']:>5}{r['off_realized_per_100']:>8.1f}"
-              f"{_gain(r['off_realized'], r['off_chassis']):>7}{r['off_good_per_100']:>8.1f}"
-              f"{r['def_realized_per_100']:>8.1f}{_gain(r['def_realized'], r['def_chassis']):>7}"
-              f"{r['def_good_per_100']:>8.1f}{r['off_pct_rank']:>7.2f}{r['def_pct_rank']:>7.2f}")
-        if args.detail and r["abilities"]:
-            print(f"    aptitudes : {r['abilities']}")
+          "comb. = √(dég/100 × dur/100) ; rang = centile dans le segment ; dég = dégâts d'un round vs save 4+ ; "
+          "dur = coups à porter ; +% = gain sur le châssis nu ; bon cas = avec les effets conditionnels ;\n"
+          "ch. = selon châssis : conditions du porteur (charge, territoire, objectif…) × P(ce châssis les remplit)")
+    for hero in segments:
+        if results[hero]:
+            print(f"\n== {'Héros' if hero else 'Troupes'} ==")
+            _print_best(results[hero], args.detail)
     return 0

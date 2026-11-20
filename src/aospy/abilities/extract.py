@@ -176,6 +176,14 @@ _FRIENDLY_AURA = re.compile(
     r"friendly\b[^.]*?\bunits\b[^.]*?(wholly )?within (\d+)\"|while they are (wholly )?within (\d+)\"", re.I)
 _ENEMY_AURA = re.compile(
     r"(?:each|all|any) enemy units? (?:that are |that is |while they are )?(wholly )?within (\d+)\"", re.I)
+#: « Friendly SKAVEN INFANTRY HEROES have WARD (5+) while they are within this unit's combat range » :
+#: bulle autour du porteur pour des unités amies désignées par mot-clé au pluriel, sans le mot « units »
+#: (analyseur v16 — lu jusque-là `self`, Elite Bodyguard donnait la protection aux Stormvermin).
+#: Forme stricte : le groupe au pluriel est le SUJET (« Friendly X HEROES have/are/can … ») — un nom de
+#: faction finissant par S (FYRESLAYERS) ne suffit pas.
+_FRIENDLY_KW_AURA = re.compile(
+    r"(?:^|\. )[Ff]riendly (?:[A-Z][A-Z'-]+ )*[A-Z][A-Z'-]+S (?:have|are|can|gain|count)\b[^.]*?"
+    r"(?:(wholly )?within (\d+)\"|within (?:this unit's|this model's|its) combat range)")
 _ARMY_WIDE = re.compile(r"\bfriendly [A-Z][A-Z' -]+ units\b|\bfriendly units\b")
 _COMBAT_RANGE = re.compile(r"combat range|in combat with|within 1\" ", re.I)
 _PLACEMENT_RE = re.compile(r"(?:and )?more than \d+\" from all enemy units", re.I)
@@ -195,6 +203,23 @@ def _target_clause(declare: str) -> str:
     return m.group(0) if m else ""
 
 
+def _enemy_first(seg: str) -> bool:
+    """La cible est ennemie : « enemy » cité AVANT « friendly » dans la clause de cible.
+
+    « Pick a friendly BONESPLITTERZ unit in combat with an enemy MONSTER to be the target » : la
+    cible est l'unité amie, « in combat with an enemy … » ne fait que la qualifier (analyseur v15).
+    """
+    # « Pick a friendly WIZARD to cast this spell, pick a visible enemy unit … to be the target » :
+    # seul le dernier « pick … to be the target(s) » désigne la cible.
+    picks = re.findall(r"\b[Pp]ick ((?:(?!\b[Pp]ick\b)[^.;])*?)\bto be the targets?\b", seg)
+    if picks:
+        seg = picks[-1]
+    if re.search(r"friendly (?:and|or) enemy|enemy (?:and|or) friendly", seg):
+        return True   # « each unit (friendly and enemy) within 3" » : effet indiscriminé, lu côté ennemi
+    e, f = re.search(r"\benemy\b", seg), re.search(r"\bfriendly\b", seg)
+    return bool(e) and (not f or e.start() < f.start())
+
+
 def scope_of(declare: str, effect: str) -> tuple[Scope, Optional[int], bool]:
     """Qui reçoit l'effet, rayon principal, « wholly within » ou non."""
     # « more than 9" from all enemy units » est une contrainte de placement, pas une cible
@@ -212,7 +237,7 @@ def scope_of(declare: str, effect: str) -> tuple[Scope, Optional[int], bool]:
         rng = int(rm.group(1)) if rm else (1 if _COMBAT_RANGE.search(seg) else None)
         wholly = bool(_WHOLLY_RE.search(seg))
         multi = bool(_MULTI.search(seg))
-        if re.search(r"\benemy\b", seg):
+        if _enemy_first(seg):
             return ("enemy_aura" if multi else "one_enemy"), rng, wholly
         if re.search(r"\bfriendly\b|unit in this|units in this", seg):
             return ("friendly_aura" if multi and rng else "one_friendly"), rng, wholly
@@ -222,6 +247,9 @@ def scope_of(declare: str, effect: str) -> tuple[Scope, Optional[int], bool]:
     if m:
         wholly, rng = (m.group(1), m.group(2)) if m.group(2) else (m.group(3), m.group(4))
         return "friendly_aura", int(rng), bool(wholly)
+    m = _FRIENDLY_KW_AURA.search(effect)
+    if m:
+        return "friendly_aura", int(m.group(2)) if m.group(2) else 1, bool(m.group(1))
     if _SELF_SUBJECT.match(effect):
         return "self", None, False
     m = _ENEMY_AURA.search(full)
@@ -231,7 +259,7 @@ def scope_of(declare: str, effect: str) -> tuple[Scope, Optional[int], bool]:
         return "all_enemies", None, False
     if _ARMY_WIDE.search(full) or re.search(r"\b(?:your|friendly) units\b", full):
         return "army", None, False
-    if re.search(r"\benemy\b", seg or "") or re.search(r"\bthe target\b", effect) and "enemy" in declare:
+    if _enemy_first(seg or "") or re.search(r"\bthe target\b", effect) and _enemy_first(declare):
         return "one_enemy", None, False
     if re.search(r"\b(?:this|that) (?:unit|model|HERO)\b|\bit\b|your general", full):
         return "self", None, False
@@ -340,9 +368,10 @@ _STAT_NAMES = [
     (r"Move characteristics?", ("move",)), (r"control scores?", ("control",)),
     (r"power level", ("power_level",)),
 ]
-_MOD_RE = re.compile(r"\b(Add|Subtract|add|subtract) (\d)\"? (?:to|from) ([^.;]*)")
+_MOD_RE = re.compile(r"\b(Add|Subtract|add|subtract) (\d{1,2})\"? (?:to|from) ([^.;]*)")
 _ENEMY_ACTOR = re.compile(
-    r"made by (?:enemy|that enemy|each enemy|an enemy|the enemy)|for (?:enemy units?|each enemy|that enemy)\b|"
+    r"(?:made|used) by (?:enemy|that enemy|each enemy|an enemy|the enemy|those enemy)|"
+    r"for (?:visible )?(?:enemy|each enemy|that enemy|those enemy|friendly and enemy)\b|"
     r"of (?:enemy|that enemy|each enemy)\b|enemy units?'s?", re.I)
 #: « la cible » : ennemie ou amie selon la clause de cible de l'aptitude (default_side).
 _TARGET_ACTOR = re.compile(
@@ -352,8 +381,31 @@ _TARGET_ACTOR = re.compile(
 #: être lui-même, une unité amie ou ennemie (défini par l'Annonce). « against this unit » = les
 #: attaques ennemies qui visent l'utilisateur.
 _TARGETS_US = re.compile(
-    r"that target (?:this unit|friendly|that friendly|it\b|units? (?:that are )?wholly within|"
-    r"the target\b(?=[^.]*friendly)|units? in this)|\bagainst (?:this unit|friendly)\b", re.I)
+    r"that target (?:this unit|(?:other |another |a |any |visible )*friendly|that friendly|it\b|your general|"
+    r"the caster\b|the chanter\b|this general\b|them\b|that (?:TWIN|HERO)\b|those TWINS\b|"
+    r"units? (?:that are )?wholly within|the target\b(?=[^.]*friendly)|units? in this)|"
+    r"\bagainst (?:this unit|friendly)\b", re.I)
+#: Lanceurs sans « friendly » (« for WIZARDS within 12" », « for that WIZARD ») : jet ennemi (v15).
+_CASTER_ACTOR = re.compile(r"\bfor (?:that |each |any )?(?:WIZARDS?|PRIESTS?)\b")
+_CASTER_STATS = ("cast", "chant", "unbind", "power_level", "banish")
+#: « ward/save rolls for damage points inflicted by attacks made with this unit's X » : le jet est
+#: celui de l'ennemi qui encaisse NOS attaques → buff offensif, pas malus (v15).
+_OUR_ATTACKS_DEFENCE = re.compile(
+    r"(?:inflicted by|for) (?:combat |shooting )?attacks made (?:by|with|as part of) (?:this unit|this model|"
+    r"friendly|that (?:SHOOT|FIGHT))|inflicted by (?:this unit's|its) (?:combat |shooting )?attacks|"
+    r"inflicted by abilities used by this unit", re.I)
+#: « the target unit's » dans une phrase d'attaque = l'unité visée par l'attaque, donc ennemie (v15).
+_ATTACK_TARGET = re.compile(
+    r"\b(?:an?|each|the) (?:shooting |combat )?attack (?:made|that|scores)[^.]*\bthe target unit's\b")
+#: Sous-aptitude qui (re)désigne une unité (« Prophecy of Exile: Pick a visible enemy WIZARD… »,
+#: « If you picked an enemy unit: ») : le sens des phrases suivantes en dépend (v15).
+_LOCAL_ENEMY = re.compile(r"\b[Pp]ick (?:a|an|one|up to \d+|\d+)? ?(?:other )?(?:visible )?enemy\b|"
+                          r"\bIf you picked (?:an )?enemy\b|\bIf the target is an enemy\b|"
+                          r"\b(?:If|While|Each time) (?:an|any|that) enemy unit\b|\ban enemy unit (?:is|becomes)\b|"
+                          r"\ballocated to (?:an|any) enemy units?\b|\bthe target unit becomes\b")
+_LOCAL_FRIENDLY = re.compile(r"\b[Pp]ick (?:a|an|one|up to \d+|\d+)? ?(?:other )?(?:visible )?friendly\b|"
+                             r"\bIf you picked (?:a )?friendly\b|\bIf you picked this unit\b|"
+                             r"\bIf the target is a friendly\b")
 #: « attaques qui ciblent la cible / cette unité » quand la cible est amie
 _TARGETS_TARGET = re.compile(r"that target (?:the target|that unit|that friendly unit|each target)\b", re.I)
 
@@ -366,10 +418,11 @@ _MARKED_TARGET = re.compile(
 _SELF_ATTACKER = re.compile(r"\bthis (?:unit|model)\b|\bits\b|\b(?:his|her)\b")
 
 
-def _stat_mods(sentence: str, default_side: str) -> list[Effect]:
+def _stat_mods(sentence: str, default_side: str, declared_side: str = "") -> list[Effect]:
     out = []
     for m in _MOD_RE.finditer(sentence):
         verb, n, rest = m.group(1).lower(), int(m.group(2)), m.group(3)
+        rest = re.split(r"\band (?:add|subtract)\b", rest)[0]
         # la caractéristique visée est la PREMIÈRE citée après « to/from » (pas la première de la liste)
         stats: tuple[str, ...] = ()
         best = None
@@ -383,7 +436,16 @@ def _stat_mods(sentence: str, default_side: str) -> list[Effect]:
             continue
         target_actor = bool(_TARGET_ACTOR.search(rest))
         enemy_actor = bool(_ENEMY_ACTOR.search(rest)) or (
-            default_side == "enemy" and (target_actor or not re.search(r"friendly|this unit", rest)))
+            default_side == "enemy" and (target_actor or not re.search(
+                r"friendly|this unit|the caster|the chanter|units? you picked|in this Regiment", rest)))
+        # « the target's … » suit la cible DÉCLARÉE, même si la phrase cite une unité ennemie avant
+        # (« if damage was allocated to an enemy unit by the target's attacks … the target's weapons »)
+        if declared_side == "friendly" and target_actor and not _ENEMY_ACTOR.search(rest) \
+                and re.search(r"\b(?:the target|each target|target)(?:'s|s')|(?:for|by) the target\b", rest):
+            enemy_actor = False
+        enemy_actor = enemy_actor or bool(_ATTACK_TARGET.search(sentence)) or (
+            any(st in _CASTER_STATS for st in stats) and bool(_CASTER_ACTOR.search(rest))
+            and not re.search(r"\bfriendly\b", rest))
         targets_us = bool(_TARGETS_US.search(rest)) or (
             default_side == "friendly" and bool(_TARGETS_TARGET.search(rest)))
         marks_target = False
@@ -397,6 +459,14 @@ def _stat_mods(sentence: str, default_side: str) -> list[Effect]:
             if marks_target and stat in ("hit", "wound", "attacks", "rend", "damage"):
                 # « marquage » : bonus pour TOUTE attaque amie qui vise la cible ennemie désignée
                 out.append(Effect("stat_mod", stat, sign * n, "", "friendly", "marquage"))
+                continue
+            if stat in ("save", "ward") and sign > 0 and targets_us:
+                # « add 1 to save rolls for attacks made by that enemy unit that target this unit »
+                out.append(Effect("stat_mod", stat, sign * n, "", "friendly", "defensif"))
+                continue
+            if stat in ("save", "ward") and sign < 0 and _OUR_ATTACKS_DEFENCE.search(rest):
+                # protection/sauvegarde de l'ennemi contre nos attaques : buff offensif
+                out.append(Effect("stat_mod", stat, sign * n, "", "enemy", "debuff"))
                 continue
             if stat in ("hit", "wound", "attacks", "rend", "damage") and (enemy_actor or targets_us):
                 # le jet est celui de l'ennemi : le diminuer protège nos unités
@@ -484,7 +554,9 @@ QUALITATIVE_RULES: list[tuple[str, str, str]] = [
      "summon", ""),
     (r"control score|contest objectives|\bcontrol (?:that|the) objective|gain control", "control", ""),
     (r"Anti-([A-Za-z -]+?) \(\+1 (\w+)\)", "anti", ""),
-    (r"Charge \(\+1 (?:Damage|Rend|Attacks)\)", "charge_bonus", ""),
+    # « ignore the effect of the Charge (+1 Damage) ability for … enemy units » (Anticipated Strike) :
+    # c'est l'anti-charge d'un bonus ENNEMI, pas un bonus de charge pour nous (analyseur v18).
+    (r"(?<!effect of the )Charge \(\+1 (?:Damage|Rend|Attacks)\)", "charge_bonus", ""),
     (r"pile-in move|pile in", "pile_in", ""),
     (r"[Ss]ubtract \d+ from the number of (?:wounds|damage points)|damage points? (?:to|on) [^.]*?is reduced|"
      r"allocate[^.]*? to (?:this|that|another) unit instead", "damage_redirect", ""),
@@ -496,13 +568,15 @@ _OFFENSIVE_STATS = ("hit", "wound", "attacks", "rend", "damage")
 _WEAPON_KINDS = {"crit", "anti", "charge_bonus", "reroll", "no_crit", "no_weapon_abilities", "stat_set"}
 
 
-def _annotate(e: Effect, sentence: str, text: str, passive: bool, enemy_target: bool = False) -> Effect:
+def _annotate(e: Effect, sentence: str, text: str, passive: bool, enemy_target: bool = False,
+              condition: str = "") -> Effect:
     """Ajoute le périmètre (armes, cible, prérequis, durée) lu dans la phrase source."""
     offensive = (e.kind == "stat_mod" and e.stat in _OFFENSIVE_STATS) or e.kind in _WEAPON_KINDS
-    return dataclasses.replace(e, **perimeter_of(sentence, text, passive, offensive, e.kind, enemy_target))
+    return dataclasses.replace(e, **perimeter_of(sentence, text, passive, offensive, e.kind, enemy_target,
+                                                  condition))
 
 
-def effects_of(declare: str, effect: str, scope: Scope, passive: bool = False
+def effects_of(declare: str, effect: str, scope: Scope, passive: bool = False, condition: str = ""
                ) -> tuple[list[Effect], list[str], bool]:
     """Effets reconnus (avec leur périmètre), mots-clés ciblés (Anti-X), dépendance à l'effectif."""
     default_side = "enemy" if scope in ("one_enemy", "enemy_aura", "all_enemies") else "friendly"
@@ -511,11 +585,20 @@ def effects_of(declare: str, effect: str, scope: Scope, passive: bool = False
     enemy_target = default_side == "enemy"
 
     def add(e: Effect, text: str, pos: int) -> None:
-        out.append(_annotate(e, sentence_at(text, pos), text, passive, enemy_target))
+        out.append(_annotate(e, sentence_at(text, pos), text, passive, enemy_target, condition))
 
+    local_side = default_side
+    # cible déclarée explicitement amie (pas « amie ou ennemie au choix », scope inconnu)
+    declared = "friendly" if scope in ("self", "one_friendly", "friendly_aura", "army") else ""
     for sentence in re.split(r"(?<=[.:])\s+|\n", effect):
-        out.extend(_annotate(e, sentence, effect, passive, enemy_target)
-                   for e in _stat_mods(sentence, default_side))
+        if _LOCAL_ENEMY.search(sentence):
+            local_side = "enemy"
+            if re.search(r"\b[Pp]ick\b|\bIf you picked\b|\bIf the target is\b", sentence):
+                declared = ""   # re-désignation explicite : « the target » est désormais ennemie
+        elif _LOCAL_FRIENDLY.search(sentence):
+            local_side = "friendly"
+        out.extend(_annotate(e, sentence, effect, passive, local_side == "enemy", condition)
+                   for e in _stat_mods(sentence, local_side, declared))
 
     seen_mortal = False
     for m in _MORTAL_PER_ROLL.finditer(effect):
@@ -612,7 +695,7 @@ def friendly_target_of(declare: str, effect: str) -> str:
     """
     seg = _target_clause(declare) or (_target_clause(effect) if _TARGET_PHRASE.search(effect) else "")
     for text in (seg, declare, effect):
-        for m in re.finditer(r"\bfriendly\b", text):
+        for m in re.finditer(r"\b[Ff]riendly\b", text):
             words = text[m.end():].split()
             out: list[str] = []
             for w in words[:12]:
@@ -645,7 +728,8 @@ def extract(raw: RawAbility) -> tuple[Extraction, float]:
                        if c not in conditions]
     p, notes, variance = activation_of(raw, raw.effect)
     effects, target_kw, scales = effects_of(raw.declare, raw.effect, scope,
-                                            passive=raw.condition.lower().startswith("passive"))
+                                            passive=raw.condition.lower().startswith("passive"),
+                                            condition=raw.condition)
     ex = Extraction(
         frequency=frequency_of(raw.condition),
         turn=turn_of(raw.condition, raw.phase),

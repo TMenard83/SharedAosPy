@@ -37,3 +37,11 @@ def test_durability_counts_ward_and_points():
 def test_pct_rank_ties_and_bounds():
     assert _pct_rank([1.0, 3.0, 2.0]) == [0.0, 1.0, 0.5]
     assert _pct_rank([2.0, 2.0]) == [0.5, 0.5]
+
+
+def test_attacks_total_follows_loadout_description():
+    pistol = Weapon("Pistol", "ranged", attacks=2, hit=4, wound=4, damage=1, range_in=9)
+    heavy = Weapon("Heavy Gun", "ranged", attacks=2, hit=4, wound=3, damage=2, range_in=12)
+    u = _unit([pistol, heavy], models=10,
+              description="Each model is armed with a Pistol. 2/10 models can replace their Pistol with a Heavy Gun.")
+    assert chassis_profile(u).attacks_total == 2 * 8 + 2 * 2

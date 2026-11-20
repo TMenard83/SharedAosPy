@@ -36,9 +36,10 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Optional
 
-from ..abilities.perimeter import SPENDS_RESOURCE
+from ..abilities.perimeter import RESOURCE_SCALED, SPENDS_RESOURCE
 from ..domain.models import Unit
 from ..engine.combat import CombatModifiers
+from .marriage import trigger
 from .encounter import (FRIENDLY_SCOPES, EffectSpec, _defense, _offense, _probe, apply_effect,
                         is_translatable, matches_friendly_target)
 
@@ -86,14 +87,16 @@ class OwnEffect:
 
     @property
     def weight(self) -> float:
-        spends = self.uses_resource or SPENDS_RESOURCE in self.spec.requires
+        spends = (self.uses_resource or SPENDS_RESOURCE in self.spec.requires
+                  or RESOURCE_SCALED in self.spec.requires)
         return coverage(self.frequency, self.spec.duration, self.available_round, spends) * self.activation_prob
 
     @property
     def conditional(self) -> bool:
         # Un bonus « Charge (+N) » n'existe que si quelqu'un a chargé (nous, ou l'ennemi pour un
         # anti-charge) : conditionnel par nature, même quand le texte ne l'écrit pas comme prérequis.
-        conds = [c for c in self.spec.conditions.split(" | ") if c and c != SPENDS_RESOURCE]
+        conds = [c for c in self.spec.conditions.split(" | ")
+                 if c and c not in (SPENDS_RESOURCE, RESOURCE_SCALED)]
         return bool(conds) or self.spec.kind == "charge_bonus"
 
 
@@ -107,6 +110,10 @@ class Realized:
     def_good_case: float
     n_effects: int
     n_conditional: int
+    #: « selon châssis » (couche 3, mariage) : réalisé + effets dont les conditions tiennent au porteur,
+    #: pondérés par la probabilité que CE châssis les remplisse (`marriage.trigger`).
+    off_fit: float = 0.0
+    def_fit: float = 0.0
 
 
 def _measure(unit: Unit, effects: list[OwnEffect]) -> tuple[float, float]:
@@ -115,7 +122,21 @@ def _measure(unit: Unit, effects: list[OwnEffect]) -> tuple[float, float]:
     return _offense(unit, probe, mods), _defense(unit)
 
 
-def realize(unit: Unit, effects: list[OwnEffect]) -> Realized:
+def _start_share(start: int, frequency: str, duration: str) -> float:
+    """Part de la couverture conservée si l'effet n'est possible qu'à partir du round `start`."""
+    if start <= 1:
+        return 1.0
+    once = (frequency or "").startswith("once_per_battle")
+    if once and duration not in _LASTING:
+        return 1.0 if start <= 3 else 0.5          # joué au kairos : rounds 2-3 encore possibles
+    base_start = 2 if once else 1                    # une fois par bataille durable : activé au round 2
+    if start <= base_start:
+        return 1.0
+    total = sum(ROUND_WEIGHTS[base_start - 1:])
+    return sum(ROUND_WEIGHTS[min(start, 6) - 1:]) / total if start <= 5 else 0.0
+
+
+def realize(unit: Unit, effects: list[OwnEffect], share_melee: float = 1.0) -> Realized:
     """Valeur réalisée (et « dans le bon cas ») d'une unité avec ses propres effets."""
     off0, def0 = _measure(unit, [])
     base = [e for e in effects if not e.conditional and e.weight >= 0.999]
@@ -124,27 +145,37 @@ def realize(unit: Unit, effects: list[OwnEffect]) -> Realized:
         boosted = apply_effect(boosted, e.spec) or boosted
     off_b, def_b = _measure(boosted, base)
 
-    def weighted(pool: list[OwnEffect]) -> tuple[float, float]:
+    def weighted(pool: list[OwnEffect], factors: Optional[list[float]] = None) -> tuple[float, float]:
         d_off = d_def = 0.0
-        for e in pool:
+        for k, e in enumerate(pool):
+            f = factors[k] if factors is not None else 1.0
+            if f <= 0:
+                continue
             mods = CombatModifiers(attacker_charged="a chargé" in e.spec.requires or e.spec.kind == "charge_bonus")
             probe = _probe(e.spec)
             after = apply_effect(boosted, e.spec, probe, mods)
             if after is None:
                 continue
-            d_off += e.weight * (_offense(after, probe, mods) - _offense(boosted, probe, mods))
-            d_def += e.weight * (_defense(after) - def_b)
+            d_off += f * e.weight * (_offense(after, probe, mods) - _offense(boosted, probe, mods))
+            d_def += f * e.weight * (_defense(after) - def_b)
         return d_off, d_def
 
     rest = [e for e in effects if not e.conditional and e.weight < 0.999]
     cond = [e for e in effects if e.conditional]
     r_off, r_def = weighted(rest)
     c_off, c_def = weighted(cond)
+    fit = []
+    for e in cond:
+        t = trigger(unit, e.spec.requires, e.spec.conditions, share_melee,
+                    melee_effect=e.spec.weapon_scope == "melee", kind=e.spec.kind)
+        fit.append(t.p * _start_share(t.start, e.frequency, e.spec.duration) if t.bearer_only else 0.0)
+    f_off, f_def = weighted(cond, fit)
     return Realized(
         off_chassis=off0, def_chassis=def0,
         off_realized=off_b + r_off, def_realized=def_b + r_def,
         off_good_case=off_b + r_off + c_off, def_good_case=def_b + r_def + c_def,
         n_effects=len(effects), n_conditional=len(cond),
+        off_fit=off_b + r_off + f_off, def_fit=def_b + r_def + f_def,
     )
 
 
@@ -207,7 +238,16 @@ REALIZED_COLS = (
     "unit_id", "off_chassis", "def_chassis", "off_realized", "def_realized", "off_good_case", "def_good_case",
     "off_realized_per_100", "def_realized_per_100", "off_good_per_100", "def_good_per_100",
     "off_pct_rank", "def_pct_rank", "n_effects", "n_conditional", "abilities",
+    "combined_per_100", "combined_pct_rank",
+    "off_fit", "def_fit", "off_fit_per_100", "def_fit_per_100", "combined_fit_per_100", "combined_fit_pct_rank",
 )
+
+
+def combined(off_per_100: float, def_per_100: float) -> float:
+    """Indicateur combiné (validé par l'utilisateur, 2026-11-19) : moyenne géométrique des dégâts et de
+    la durabilité pour 100 pts — logique de Lanchester, ce qu'une unité inflige sur sa durée de vie
+    dépend des deux ; un canon de verre (gros dégâts, aucune durabilité) ne domine plus."""
+    return (max(off_per_100, 0.0) * max(def_per_100, 0.0)) ** 0.5
 
 
 def build_realized_rows(con) -> list[tuple]:
@@ -220,20 +260,25 @@ def build_realized_rows(con) -> list[tuple]:
     units = [(army_names[aid], u) for aid, us in units_by_army.items() for u in us if u.points > 0]
     vocab = frozenset(k for _f, u in units for k in u.keywords)
     effects = own_effects(con)
+    share_melee = dict(con.execute("SELECT unit_id, coalesce(share_melee, 1.0) FROM unit_chassis").fetchall())
 
     results = []
     for fac, u in units:
         effs = applicable(u, effects.get((fac, u.name.lower()), []), vocab)
-        results.append((u, realize(u, effs), sorted({e.ability for e in effs})))
+        results.append((u, realize(u, effs, share_melee.get(u.id, 1.0)), sorted({e.ability for e in effs})))
 
     rows: list[tuple] = []
-    ranks: dict[int, tuple[float, float]] = {}
+    ranks: dict[int, tuple[float, float, float, float]] = {}
     for hero in (True, False):
         idx = [i for i, (u, _r, _a) in enumerate(results) if u.is_hero == hero]
-        orank = _pct_rank([results[i][1].off_realized * 100 / results[i][0].points for i in idx])
-        drank = _pct_rank([results[i][1].def_realized * 100 / results[i][0].points for i in idx])
+        offs = [results[i][1].off_realized * 100 / results[i][0].points for i in idx]
+        defs = [results[i][1].def_realized * 100 / results[i][0].points for i in idx]
+        orank, drank = _pct_rank(offs), _pct_rank(defs)
+        crank = _pct_rank([combined(o, d) for o, d in zip(offs, defs)])
+        frank = _pct_rank([combined(results[i][1].off_fit * 100 / results[i][0].points,
+                                    results[i][1].def_fit * 100 / results[i][0].points) for i in idx])
         for k, i in enumerate(idx):
-            ranks[i] = (orank[k], drank[k])
+            ranks[i] = (orank[k], drank[k], crank[k], frank[k])
     for i, (u, r, names) in enumerate(results):
         per = 100.0 / u.points
         rows.append((
@@ -242,5 +287,8 @@ def build_realized_rows(con) -> list[tuple]:
             round(r.off_realized * per, 3), round(r.def_realized * per, 3), round(r.off_good_case * per, 3),
             round(r.def_good_case * per, 3), ranks[i][0], ranks[i][1], r.n_effects, r.n_conditional,
             " | ".join(names) or None,
+            round(combined(r.off_realized * per, r.def_realized * per), 3), ranks[i][2],
+            round(r.off_fit, 3), round(r.def_fit, 2), round(r.off_fit * per, 3), round(r.def_fit * per, 3),
+            round(combined(r.off_fit * per, r.def_fit * per), 3), ranks[i][3],
         ))
     return rows

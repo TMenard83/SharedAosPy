@@ -556,6 +556,9 @@ DIRECT_OVERRIDES = {
     # Kragnos : le joueur choisit l'option (pas de moyenne des deux). D6 par ennemi à 1" (2+ ->
     # le jet) ou, contre un MONSTRE, produit des 2D6 sauf sur 7 : (441 − 56) / 36 = 10,7.
     "Rampaging Destruction": {"amount": 10 / 3, "frequency": 1.0, "vs_keyword": ("MONSTER", 385 / 36)},
+    # Annihilators : seulement le tour où l'unité arrive par Scions of the Storm, donc une fois
+    # par partie en pratique (validé par l'utilisateur, 2026-11-20) — pas à chaque round.
+    "Blazing Impact": {"frequency": 0.25},
 }
 
 

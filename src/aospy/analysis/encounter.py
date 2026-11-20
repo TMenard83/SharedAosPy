@@ -185,7 +185,8 @@ def _defensive_transform(eff: EffectSpec) -> Optional[Callable[[Unit], Unit]]:
         # Protection N+ accordée : les protections ne se cumulent pas, on garde la meilleure.
         n = int(eff.value)
         return lambda u: dataclasses.replace(u, ward=min(u.ward or _NO_WARD, n))
-    if eff.kind == "stat_mod" and eff.stat == "health":
+    if eff.kind == "stat_mod" and eff.stat == "health" and eff.value > 0:
+        # Un « −1 Health » ami est une erreur de lecture (ex. COLOSSAL SLAM : malus au jet de rampage).
         v = int(round(eff.value))
         return lambda u: dataclasses.replace(u, health=max(1, u.health + v))
     return None

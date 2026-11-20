@@ -79,6 +79,7 @@ def test_untranslated_effects():
     assert not is_translatable(EffectSpec("extra_fight", detail="can be picked to use a FIGHT ability"))
     assert not is_translatable(EffectSpec("stat_mod", "hit", -1.0, side="enemy"))
     assert not is_translatable(EffectSpec("reroll", detail="re-roll"))
+    assert not is_translatable(EffectSpec("stat_mod", "health", -1.0))   # faux effet ami (COLOSSAL SLAM)
 
 
 VOCAB = frozenset({"HERO", "INFANTRY", "CAVALRY", "WARRIORS OF CHAOS", "SLAVES TO DARKNESS", "CHAOS"})

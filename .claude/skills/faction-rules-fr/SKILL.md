@@ -197,7 +197,25 @@ cette catégorie.
    fois pour tout le projet — ajouter la faction sous `factions.<nom>` sans
    toucher aux autres factions déjà curées).
 
-5. **Valider** :
+5. **Vérifier et compléter les données des chartes** (demande de l'utilisateur, 2026-11-20). On a
+   trois sources : Wahapedia (en base), BattleScribe (BSData) et les scans. Pendant que les pages sont
+   rendues, comparer chaque charte de la faction à ce que la base contient : caractéristiques,
+   mots-clés (**niveau de Sorcier/Prêtre** compris), profils d'arme, et textes d'aptitude tronqués
+   (`aospy ability show <nom>` ; un verdict `a-revoir` est souvent un texte coupé).
+   ```bash
+   aospy import verify --faction "<nom>"   # Wahapedia × BSData (.cat déposés dans data/bsdata/)
+   ```
+   Pas de réseau dans le shell : demander à l'utilisateur de déposer « <Faction> - Library.cat »
+   (github.com/BSData/age-of-sigmar-4th) dans `data/bsdata/`.
+   **Hiérarchie** : mise à jour de règles la plus récente > scan du battletome > Wahapedia / BSData.
+   Le scan seul peut être périmé (Skreech : Sorcier (1) au BT, Sorcier (2) d'après la mise à jour de
+   règles FR p. 33, ce que Wahapedia avait déjà). Chaque écart tranché va dans
+   `data/json/source_corrections.json` (`importers/corrections.py`), avec la page en `source`. Ces
+   corrections l'emportent sur tout : unités réappliquées après chaque import, textes d'aptitude
+   remplacés avant l'analyse (en anglais, l'extracteur lit l'anglais ; une traduction d'un scan FR le
+   dit dans `source`). Ensuite : `aospy ability analyze`, `aospy chassis build`, `aospy encounter build`.
+
+6. **Valider** :
    ```bash
    python3 -c "import json; json.load(open('data/json/faction_rules_fr.json'))"
    ```

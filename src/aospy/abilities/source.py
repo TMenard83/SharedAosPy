@@ -18,6 +18,8 @@ import hashlib
 from pathlib import Path
 
 from ..importers.bsdata import _is_expired_variant
+from ..importers.corrections import (DEFAULT_CORRECTIONS_PATH, ability_correction, correct_ability_fields,
+                                     load_corrections)
 from ..importers.wahapedia import _canonical_ids, _legends_warscroll_ids
 from .models import AbilityOwner, RawAbility, SourceKind
 from .text import clean, split_declare_effect
@@ -73,9 +75,14 @@ def _base_fields(row: dict[str, str]) -> dict:
     }
 
 
-def load_raw_abilities(data_dir: str | Path = DEFAULT_DATA_DIR) -> list[RawAbility]:
-    """Toutes les aptitudes du jeu, dédoublonnées, triées par (faction, nom)."""
+def load_raw_abilities(data_dir: str | Path = DEFAULT_DATA_DIR,
+                       corrections_path: str | Path = DEFAULT_CORRECTIONS_PATH) -> list[RawAbility]:
+    """Toutes les aptitudes du jeu, dédoublonnées, triées par (faction, nom).
+
+    Les corrections d'erreurs de source (`importers.corrections`) remplacent les textes Wahapedia
+    tronqués ou faux avant le calcul de l'uid."""
     data_dir = Path(data_dir)
+    fixes = load_corrections(corrections_path)["abilities"]
     factions = {f["id"]: f["name"] for f in _read_csv(data_dir / "Factions.csv")}
     warscrolls = _read_csv(data_dir / "Warscrolls.csv")
     legends = _legends_warscroll_ids(data_dir)
@@ -89,6 +96,7 @@ def load_raw_abilities(data_dir: str | Path = DEFAULT_DATA_DIR) -> list[RawAbili
     merged: dict[str, dict] = {}
 
     def add(fields: dict, kind: SourceKind, group: str, owner: AbilityOwner) -> None:
+        fields = correct_ability_fields(fields, ability_correction(fixes, owner.faction_name, fields["name"]))
         uid = _uid(fields["name"], fields["condition"], fields["declare"], fields["effect"])
         entry = merged.get(uid)
         if entry is None:

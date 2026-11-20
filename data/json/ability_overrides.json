@@ -1,1 +1,172 @@
-{"overrides": {}}
+{
+ "overrides": {
+  "18d941fbe792": {
+   "name": "LOYAL SQUIRES",
+   "note": "la cible ennemie ne fait qu'imposer la destination de la charge ; lecture juste (revue contresens, validé par l'utilisateur 2026-11-20)"
+  },
+  "df5667e558be": {
+   "name": "Arcane Seductor",
+   "verdict": "pari",
+   "reliability": 1.75,
+   "power": 1.55,
+   "add_tags": [
+    "aleatoire"
+   ],
+   "remove_tags": [
+    "fiable"
+   ],
+   "note": "jet D6 > niveau de puissance de la cible (~50-67 %) non lu par l'analyseur ; effet d'un seul round (validé par l'utilisateur 2026-11-20)"
+  },
+  "6ca749e31ae3": {
+   "name": "Dark Temptations",
+   "power": 1.8,
+   "note": "choix cornélien d'UN musc : bonus + malus dans la même option (+1 touche ennemie / −1 perforation = contreparties) ; puissance = meilleur musc, contrepartie déduite (validé par l'utilisateur 2026-11-20)"
+  },
+  "d8ebe401b2f8": {
+   "name": "Corpse Candles",
+   "verdict": "correct",
+   "power": 1.3,
+   "reliability": 2.75,
+   "add_tags": [
+    "fiable",
+    "correct"
+   ],
+   "remove_tags": [
+    "aleatoire"
+   ],
+   "note": "+1 lancement compté deux fois par l'analyseur ; l'option « cette unité » est sûre → fiabilisateur de lancement (validé par l'utilisateur 2026-11-20)"
+  },
+  "c5eb3d0ea576": {
+   "name": "Kill-Kill! Scurry-Flee!",
+   "verdict": "bonus",
+   "interaction": 3.0,
+   "add_tags": [
+    "armee"
+   ],
+   "note": "arrive tard (héros ennemi détruit), +2\" à toutes les unités ESHIN : plus fun que fort (validé par l'utilisateur 2026-11-20)"
+  },
+  "39b3da1a34d3": {
+   "name": "COLOSSAL SLAM",
+   "verdict": "correct",
+   "power": 1.75,
+   "reliability": 2.25,
+   "note": "le « −1 PV » lu par l'analyseur est le malus au jet de rampage (cible avec plus de PV), pas un effet ; jet 3+ sauf 2 unités BIG/LITTLE au contact ; texte Wahapedia tronqué après « inflict D3 » (validé par l'utilisateur 2026-11-20)"
+  },
+  "0298694b6be6": {
+   "name": "Immortal Conqueror",
+   "interaction": 1.5,
+   "ease": 2.5,
+   "add_tags": [
+    "bulle-courte",
+    "requiert-objectif"
+   ],
+   "remove_tags": [
+    "une-cible-ennemie"
+   ],
+   "note": "aucune cible ennemie : bulle de 6\" autour d'un objectif/décor en territoire ennemi, à chacune de vos phases des héros ; bon sur un objectif, bof sur un décor (validé par l'utilisateur 2026-11-20)"
+  },
+  "02f9ecc41ee6": {
+   "name": "SIGMAR'S JUSTICE",
+   "verdict": "correct",
+   "power": 1.5,
+   "interaction": 1.5,
+   "note": "marquage restreint au Régiment de Renom : +1 blessure en mêlée contre l'unité marquée, toute la bataille (revue malus, validé par l'utilisateur 2026-11-20)"
+  },
+  "8750e2f1e261": {
+   "name": "BRISTLING ATTITUDE",
+   "verdict": "pari",
+   "power": 1.5,
+   "reliability": 1.75,
+   "add_tags": [
+    "aleatoire"
+   ],
+   "remove_tags": [
+    "fiable"
+   ],
+   "note": "−1 au jet de charge ADVERSE par 3+ sur les dés de rage dépensés (réaction à une charge ennemie à 12\") : débuff, pas malus (validé par l'utilisateur 2026-11-20)"
+  },
+  "f22553bb65fd": {
+   "name": "CLOSE-QUARTERS DRILL",
+   "verdict": "correct",
+   "power": 1.4,
+   "interaction": 3.0,
+   "add_tags": [
+    "armee"
+   ],
+   "note": "vrai malus = contrepartie : tir en mêlée pour toute l'armée, −1 touche au contact (validé par l'utilisateur 2026-11-20)"
+  },
+  "3dd299850653": {
+   "name": "Fire Lofted Shots!",
+   "verdict": "correct",
+   "power": 1.3,
+   "note": "vrai malus = contrepartie : +6\" de portée aux Auralan Bows (non lu, l'analyseur ne gère pas la portée) contre −1 touche (validé par l'utilisateur 2026-11-20)"
+  },
+  "5d1f59c296ac": {
+   "name": "PERFECTION MADE MANIFEST",
+   "power": 2.5,
+   "note": "plan : on prend Sigvald pour aller chercher les petites unités à 1 PV, D3 BM → ~+4 Attaques ; puissance 3,0 → 2,5 car le gain dépend des figurines tuées (validé par l'utilisateur 2026-11-20)"
+  },
+  "8e1ded0def34": {
+   "name": "Battle Damaged (DoT)",
+   "note": "profil dégradé par les dégâts : vraie contrepartie, lecture juste (revue malus lot 2, 2026-11-20)"
+  },
+  "2211e1e1e649": {
+   "name": "Battle Damaged (SG)",
+   "note": "profil dégradé par les dégâts : vraie contrepartie, lecture juste (revue malus lot 2, 2026-11-20)"
+  },
+  "685882079077": {
+   "name": "FOOL'S CAP",
+   "note": "piège : le +1 charge offert à l'ennemi l'oblige à finir sa charge au contact de ce héros, qui le débuffe ; vraie contrepartie, lecture juste (revue malus lot 2, 2026-11-20)"
+  },
+  "54b4afadb99b": {
+   "name": "THE SUMMERKING'S COLOURS",
+   "note": "+10 contrôle tant que les porte-étendards vivent, −5 ensuite : vraie contrepartie, lecture juste (revue malus lot 2, 2026-11-20)"
+  },
+  "a218ba7c722f": {
+   "name": "Shoddy Wing-Like Gizmos",
+   "note": "relance des touches au prix de −1 perforation par relance : vraie contrepartie, lecture juste (revue malus lot 2, 2026-11-20)"
+  },
+  "544b826162ec": {
+   "name": "Fickle Motives",
+   "note": "+1 Attaques en tête aux PV, −3 contrôle derrière : vraie contrepartie, lecture juste (revue malus lot 2, 2026-11-20)"
+  },
+  "57594ed62f67": {
+   "name": "Frenzied Momentum",
+   "note": "+2 course/charge au prix de −1 contrôle : vraie contrepartie, lecture juste (revue malus lot 2, 2026-11-20)"
+  },
+  "5594ff14b23c": {
+   "name": "SCÁTHSCALE",
+   "note": "texte Wahapedia tronqué ; le 2e −1 blessure (8+) est une protection, pas un malus (revue malus lot 2, 2026-11-20)"
+  },
+  "fec756891f03": {
+   "name": "You First, I Insist...",
+   "note": "texte Wahapedia tronqué ; le +1 Dégâts lu « ennemi » est celui de cette unité si l'adversaire refuse le défi (revue malus lot 2, 2026-11-20)"
+  },
+  "e62060e2ce55": {
+   "name": "Merciless Hunters",
+   "power": 1.0,
+   "note": "−1 protection / bonus de sauvegarde ignorés pour l'unité ennemie visée par le tir : débuff, pas malus (revue malus lot 2, 2026-11-20)"
+  },
+  "d45c7ed37fac": {
+   "name": "MAWPITS OF GHUR",
+   "note": "les unités « vulnérables aux Mawpits » sont ennemies : −3 contrôle = débuff (revue malus lot 2, 2026-11-20)"
+  },
+  "6e545bc67a3a": {
+   "name": "Ancient Barrow Curse",
+   "verdict": "correct",
+   "power": 1.5,
+   "add_tags": [
+    "debuff"
+   ],
+   "note": "critique de l'arme → l'unité ennemie est maudite toute la bataille, −1 sauvegarde : débuff durable (revue malus lot 2, 2026-11-20)"
+  },
+  "f1d5e25ba8b8": {
+   "name": "Seething Blight",
+   "note": "cible amie OU ennemie au choix : +1 Attaques sur une amie, anti-soin/anti-retour sur une ennemie (revue malus lot 2, 2026-11-20)"
+  },
+  "e616707d27b5": {
+   "name": "Crest of Horns",
+   "note": "lecture juste : BM à l'ennemi qui a chargé + sauvegarde +1 de cette unité contre ses attaques (revue malus lot 2, 2026-11-20)"
+  }
+ }
+}

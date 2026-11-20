@@ -92,3 +92,11 @@ def test_spending_a_resource_halves_weight_but_is_not_a_condition():
     assert not e.conditional and e.weight == 0.5
     r = realize(u, [e])
     assert r.off_realized == pytest.approx(r.off_chassis * 1.5)
+
+
+def test_combined_penalises_glass_cannons():
+    from aospy.analysis.realized import combined
+
+    assert combined(10.0, 4.5) < combined(5.0, 20.0)
+    assert combined(4.0, 9.0) == pytest.approx(6.0)
+    assert combined(0.0, 30.0) == 0.0

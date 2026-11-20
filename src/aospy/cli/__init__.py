@@ -235,6 +235,12 @@ def _add_import_subparser(sub: argparse._SubParsersAction) -> None:
     si.add_parser("wahapedia-list",
                   help="Liste les factions disponibles à l'import Wahapedia.").set_defaults(
         func=cmd.cmd_import_wahapedia_list)
+    p = si.add_parser("verify", help="Compare Wahapedia (en base) et BSData (.cat local) pour une faction : "
+                                     "écarts à trancher sur le scan, puis à consigner dans "
+                                     "data/json/source_corrections.json.")
+    p.add_argument("--faction", required=True)
+    p.add_argument("--bsdata-dir", default="data/bsdata", help="Dossier des .cat BSData (défaut data/bsdata).")
+    p.set_defaults(func=cmd.cmd_import_verify)
 
 
 def _add_roster_subparser(sub: argparse._SubParsersAction) -> None:
@@ -343,18 +349,28 @@ def _add_encounter_subparser(sub: argparse._SubParsersAction) -> None:
     p.add_argument("--sort", default="gain", choices=["gain", "off_per_100", "def_per_100"])
     p.add_argument("--limit", type=int, default=30)
     p.set_defaults(func=cmd.cmd_encounter_list)
-    p = sen.add_parser("best", help="Meilleures unités : châssis + aptitudes propres réalisées, pour 100 pts.")
+    p = sen.add_parser("best", help="Meilleures unités (troupes et héros séparés) : châssis + aptitudes propres, "
+                                    "indicateur combiné dégâts × durabilité pour 100 pts.")
     p.add_argument("--army", help="Sous-chaîne du nom d'armée.")
     p.add_argument("--name", help="Sous-chaîne du nom d'unité.")
     seg = p.add_mutually_exclusive_group()
     seg.add_argument("--heroes", action="store_true", help="Héros seulement.")
     seg.add_argument("--troops", action="store_true", help="Troupes seulement.")
-    p.add_argument("--sort", default="off_realized_per_100",
-                   choices=["off_realized_per_100", "def_realized_per_100", "off_good_per_100", "def_good_per_100",
-                            "off_gain", "def_gain"])
+    p.add_argument("--sort", default="combined_per_100",
+                   choices=["combined_per_100", "combined_fit_per_100", "off_fit_per_100", "def_fit_per_100", "off_realized_per_100", "def_realized_per_100", "off_good_per_100",
+                            "def_good_per_100", "off_gain", "def_gain"])
     p.add_argument("--detail", action="store_true", help="Liste les aptitudes prises en compte.")
     p.add_argument("--limit", type=int, default=30)
     p.set_defaults(func=cmd.cmd_encounter_best)
+    p = sen.add_parser("marriage", help="Mariage châssis × aptitude : le porteur déclenche-t-il l'effet et "
+                                        "survit-il pour le tenir ? (bons porteurs d'une aptitude, aptitudes "
+                                        "mal mariées d'une unité)")
+    p.add_argument("--ability", help="Sous-chaîne du nom d'aptitude.")
+    p.add_argument("--unit", help="Sous-chaîne du nom du porteur.")
+    p.add_argument("--family", help="Famille (buff-donne, debuff, buff-perso-offensif…).")
+    p.add_argument("--worst", action="store_true", help="Pires mariages d'abord.")
+    p.add_argument("--limit", type=int, default=30)
+    p.set_defaults(func=cmd.cmd_encounter_marriage)
 
 
 def _build_parser() -> argparse.ArgumentParser:

@@ -261,6 +261,9 @@ ALTER TABLE ability_effect ADD COLUMN IF NOT EXISTS target_keywords VARCHAR;    
 ALTER TABLE ability_effect ADD COLUMN IF NOT EXISTS target_condition VARCHAR;
 ALTER TABLE ability_effect ADD COLUMN IF NOT EXISTS requires VARCHAR;           -- prérequis propre à l'effet
 ALTER TABLE ability_effect ADD COLUMN IF NOT EXISTS duration VARCHAR;           -- permanent/tour/phase/round/bataille…
+-- famille fonctionnelle (abilities/families.py) : base du mariage châssis × aptitude (couche 3)
+ALTER TABLE ability_effect ADD COLUMN IF NOT EXISTS family VARCHAR;
+ALTER TABLE ability ADD COLUMN IF NOT EXISTS family VARCHAR;                     -- famille principale
 
 -- Couche 2 — châssis (analysis/chassis.py, `aospy chassis build`) : la charte nue, sans aptitudes.
 -- Reconstruite en entier à chaque build (DELETE + INSERT). `*_pct_rank` : rang centile (0-1)
@@ -341,4 +344,35 @@ CREATE TABLE IF NOT EXISTS unit_realized (
     n_effects             INTEGER,
     n_conditional         INTEGER,
     abilities             VARCHAR      -- aptitudes propres prises en compte, séparées par ' | '
+);
+-- Indicateur combiné (√(dégâts/100 × durabilité/100), Lanchester) et son centile par segment.
+-- Table reconstruite à chaque build : ADD COLUMN IF NOT EXISTS sans danger.
+ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS combined_per_100 DOUBLE;
+ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS combined_pct_rank DOUBLE;
+-- « selon châssis » (analysis/marriage.py) : effets dont les conditions tiennent au porteur, × P(châssis)
+ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS off_fit DOUBLE;
+ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS def_fit DOUBLE;
+ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS off_fit_per_100 DOUBLE;
+ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS def_fit_per_100 DOUBLE;
+ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS combined_fit_per_100 DOUBLE;
+ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS combined_fit_pct_rank DOUBLE;
+
+-- Couche 3 — mariage châssis × aptitude (analysis/marriage.py, `aospy encounter build`) : chaque aptitude de
+-- charte jugée sur le châssis de chacun de ses porteurs. marriage = D (P(conditions du porteur) × rounds encore
+-- possibles) × S (part des rounds où le porteur survit pour tenir l'effet). Reconstruite à chaque build.
+CREATE TABLE IF NOT EXISTS ability_marriage (
+    unit_id              INTEGER NOT NULL,
+    ability_uid          VARCHAR NOT NULL,
+    ability_name         VARCHAR,
+    family               VARCHAR,
+    power                DOUBLE,      -- puissance couche 1 (hors contexte)
+    verdict              VARCHAR,
+    exposure             VARCHAR,     -- contact / courte / longue
+    p_trigger            DOUBLE,      -- D : P(conditions tenues par le porteur)
+    start_round          INTEGER,     -- premier round possible (territoire ennemi…)
+    bearer_only          BOOLEAN,     -- FALSE : une condition dépend d'un allié/de l'adversaire
+    rounds_alive         DOUBLE,      -- rounds de survie face à une unité ennemie moyenne, à cette exposition
+    survival             DOUBLE,      -- S
+    marriage             DOUBLE,      -- D × S
+    good_case_conditions VARCHAR      -- conditions non chiffrées (allié, adversaire, ressource)
 );

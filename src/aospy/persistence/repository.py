@@ -719,13 +719,13 @@ ABILITY_COLS = (
     "wholly_within", "activation_prob", "variance", "scales_with_size", "target_keywords",
     "conditions", "ease", "power", "reliability", "interaction", "verdict", "rationale",
     "understood", "overridden", "analyzer_version", "analyzed_at",
-    "resource_cost", "available_round", "friendly_target", "excludes_self",
+    "resource_cost", "available_round", "friendly_target", "excludes_self", "family",
 )
 ABILITY_OWNER_COLS = ("ability_uid", "faction_id", "faction_name", "owner_kind", "owner_name", "warscroll_id")
 ABILITY_TAG_COLS = ("ability_uid", "tag")
 ABILITY_EFFECT_COLS = ("ability_uid", "seq", "kind", "stat", "value", "dice", "side", "detail",
                        "weapon_scope", "weapon_name", "includes_companion", "target_keywords",
-                       "target_condition", "requires", "duration")
+                       "target_condition", "requires", "duration", "family")
 _ABILITY_TABLES = ("ability_effect", "ability_tag", "ability_owner", "ability")
 
 
@@ -1024,13 +1024,49 @@ def replace_realized(con: duckdb.DuckDBPyConnection, rows: list[tuple]) -> None:
         raise
 
 
+def replace_ability_marriage(con: duckdb.DuckDBPyConnection, rows: list[tuple]) -> None:
+    """Remplace tout le contenu de `ability_marriage` (tuples dans l'ordre de `marriage.MARRIAGE_COLS`)."""
+    from ..analysis.marriage import MARRIAGE_COLS
+
+    con.execute("DELETE FROM ability_marriage")
+    _insert_rows(con, "ability_marriage", MARRIAGE_COLS, rows)
+
+
+def list_marriage(
+    con: duckdb.DuckDBPyConnection, *, ability: Optional[str] = None, unit: Optional[str] = None,
+    family: Optional[str] = None, worst: bool = False, limit: int = 30,
+) -> list[dict]:
+    """Mariages aptitude × porteur, filtrés (sous-chaînes), triés par mariage décroissant (ou croissant)."""
+    where, params = ["TRUE"], []
+    if ability:
+        where.append("lower(m.ability_name) LIKE ?")
+        params.append(f"%{ability.lower()}%")
+    if unit:
+        where.append("lower(u.name) LIKE ?")
+        params.append(f"%{unit.lower()}%")
+    if family:
+        where.append("m.family = ?")
+        params.append(family)
+    cur = con.execute(
+        f"""SELECT m.*, u.name AS unit_name, u.points, u.move, u.health * u.models AS hp, u.save, u.ward,
+                   ar.name AS army_name
+            FROM ability_marriage m JOIN unit u ON u.id = m.unit_id JOIN army ar ON ar.id = u.army_id
+            WHERE {' AND '.join(where)}
+            ORDER BY m.marriage {'ASC' if worst else 'DESC'}, m.power DESC NULLS LAST, u.name LIMIT ?""",
+        [*params, limit],
+    )
+    cols = [d[0] for d in cur.description]
+    return [dict(zip(cols, r)) for r in cur.fetchall()]
+
+
 def list_realized(
     con: duckdb.DuckDBPyConnection, *, army: Optional[str] = None, hero: Optional[bool] = None,
-    name: Optional[str] = None, order_by: str = "off_realized_per_100", limit: int = 30,
+    name: Optional[str] = None, order_by: str = "combined_per_100", limit: int = 30,
 ) -> list[dict]:
     """Valeur réalisée par unité, filtrée (armée/nom = sous-chaîne, héros/troupes) et triée décroissante."""
-    allowed = {"off_realized_per_100", "def_realized_per_100", "off_good_per_100", "def_good_per_100",
-               "off_gain", "def_gain"}
+    allowed = {"combined_per_100", "off_realized_per_100", "def_realized_per_100", "off_good_per_100",
+               "def_good_per_100", "off_gain", "def_gain", "combined_fit_per_100", "off_fit_per_100",
+               "def_fit_per_100"}
     if order_by not in allowed:
         raise ValueError(f"tri inconnu : {order_by}")
     order = {"off_gain": "r.off_realized / nullif(r.off_chassis, 0)",

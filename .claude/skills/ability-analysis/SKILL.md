@@ -38,6 +38,7 @@ Table `ability_encounter` : gain **conditionnel** (« si l'effet s'applique ») 
 conditions/durée. Receveurs filtrés par `ability.friendly_target` (restriction de cible amie, analyseur v6).
 `fight_twice` (« can use 2 FIGHT abilities », vrai double combat) = mêlée ×2. Non traduits : `extra_fight` (= combattre juste après, tempo), débuffs ennemis, relances.
 Meilleures unités (`unit_realized`) : `aospy encounter best [--troops|--heroes] [--sort off_gain] [--detail]` —
+indicateur combiné √(dég/100 × dur/100), troupes et héros classés séparément ;
 châssis + aptitudes propres qui boostent l'unité. Poids validés : rounds 2-3 = 1, 1/4/5 = 1/3 ; passif ou
 réutilisable chaque tour = 1 (« 1/tour armée » = anti-spam, compte en liste) ; 1/bataille courte = 1/2 (kairos),
 1/bataille pour le reste de la bataille = 8/9 ; × P(déclenchement) (prières : points rituels stockés) ;

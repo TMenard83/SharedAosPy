@@ -69,11 +69,12 @@ def _damage(unit: Unit, weapons: list[Weapon]) -> float:
 
 
 def _attacks_total(unit: Unit) -> float:
-    total = 0.0
-    for w in unit.weapons:
-        carriers = w.wielders if w.wielders else unit.models
-        total += w.attacks * carriers
-    return total
+    """Attaques totales, avec la même répartition des armes par figurine que le moteur
+    (`combat._effective_counts` : `wielders` BSData, sinon description Wahapedia via `loadout`)."""
+    from ..engine.loadout import model_counts
+
+    counts, _notes = model_counts(unit, unit.weapons)
+    return float(sum(w.attacks * n for w, n in zip(unit.weapons, counts)))
 
 
 def chassis_profile(unit: Unit) -> ChassisProfile:

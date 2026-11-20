@@ -155,7 +155,13 @@ def power_of(ex: Extraction, effect_text: str) -> tuple[float, list[str]]:
                                   or (e.kind == "stat_mod" and e.detail == "defensif")))
     factor = OFFENSE_STACK_FACTOR if offense_debuffs >= 2 and ex.scope == "one_enemy" else STACK_FACTOR
     raw = weights[0][0] + factor * sum(w for w, _ in weights[1:])
-    mult = _SCOPE_MULT.get(ex.scope, 1.0) * _FREQ_MULT.get(ex.frequency, 1.0)
+    lasting = "rest of the battle" in effect_text and "rest of the battle round" not in effect_text
+    # « Once Per Battle » + effet « for the rest of the battle » : la limite n'est qu'un déclencheur
+    # (garde-fou anti-cumul, cf. deux Warqueen dans la même armée), l'effet est permanent une
+    # fois lancé → ni pénalité de fréquence ni bonus de durée, comme une passive (avis utilisateur).
+    once_lasting = lasting and ex.frequency.startswith("once_per_battle")
+    freq = 1.0 if once_lasting else _FREQ_MULT.get(ex.frequency, 1.0)
+    mult = _SCOPE_MULT.get(ex.scope, 1.0) * freq
     notes = [f"effets : {', '.join(lbl for _, lbl in weights[:4] if lbl)}"]
     if any(e.detail == "marquage" for e in ex.effects):
         mult *= MARK_MULT
@@ -163,10 +169,12 @@ def power_of(ex: Extraction, effect_text: str) -> tuple[float, list[str]]:
     if ex.turn == "any" and ex.frequency not in ("passive", "once_per_battle", "once_per_battle_army"):
         mult *= BOTH_TURNS_MULT
         notes.append("utilisable aux deux tours")
-    if "rest of the battle" in effect_text:
+    if once_lasting:
+        notes.append("une fois par bataille = déclencheur, effet jusqu'à la fin de la bataille")
+    elif lasting:   # « rest of the battle round » ne dure qu'un round : pas de bonus
         mult *= 1.3
         notes.append("durable (reste de la bataille)")
-    if ex.frequency.startswith("once_per_battle"):
+    elif ex.frequency.startswith("once_per_battle"):
         notes.append("une fois par bataille")
     return round(min(3.0, raw * mult), 2), notes
 
