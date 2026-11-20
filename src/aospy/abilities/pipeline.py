@@ -17,7 +17,7 @@ from .tags import tags_for
 
 #: Incrémenter à chaque changement des règles d'extraction/notation : stocké en
 #: base (`ability.analyzer_version`) pour savoir quelle version a produit une ligne.
-ANALYZER_VERSION = 19
+ANALYZER_VERSION = 20
 
 
 #: Gain réaliste (validé par l'utilisateur) d'une ressource de faction qui s'accumule

@@ -580,3 +580,28 @@ def test_implicit_durations(text, condition, duration):
     ex, _ = extract(_raw(text, condition=condition, is_reaction=condition.startswith("Reaction")))
     e = next(e for e in ex.effects if e.kind == "stat_mod")
     assert e.duration == duration
+
+
+@pytest.mark.parametrize("declare, effect, scope", [
+    ("", "Friendly BONESPLITTERZ CAVALRY units have Anti-charge (+1 Rend).", "army"),
+    ("", "Friendly FLESH-EATER COURTS HEROES have WARD (5+) if they have destroyed a unit this battle.", "army"),
+    ("", "Heal (3) each friendly DRACONITH SKYWING unit wholly within 12\" of this unit.", "friendly_aura"),
+    ("", "While any friendly SLANN units are within this unit's combat range, both this unit and those SLANN units "
+         "have WARD (5+).", "friendly_aura"),
+    ("Pick a friendly DAUGHTERS OF KHAINE PRIEST to chant this prayer, pick a visible friendly DAUGHTERS OF KHAINE "
+     "AELF INFANTRY unit wholly within 12\" of them and that has not been picked to be the target of this ability "
+     "this turn to be the target, then make a chanting roll of D6.", "The target can move up to 6\".", "one_friendly"),
+    ("Pick a friendly ROVING MAW WIZARD to cast this spell, then make a casting roll of 2D6.",
+     "Add 2 to the Rend characteristic of the caster's melee weapons until the start of your next turn.", "self"),
+    ("Pick a friendly WIZARD to cast this spell, then make a casting roll of 2D6.",
+     "Set up a Bladewind wholly within 12\" of the caster, visible to them.", "unknown"),   # repère, pas bénéficiaire
+    ("", "The friendly Volturnos has STRIKE-FIRST.", "self"),
+    ("", "Subtract 1 from charge rolls for enemy units.", "all_enemies"),
+    ("", "Each time a unit is destroyed during the battle, you receive 1 blood tithe point.", "army"),
+    ("", "When the unit in this Regiment of Renown is destroyed, inflict 3 mortal damage on each unit (friendly and "
+         "enemy) within its combat range.", "self"),
+])
+def test_scope_readings_v20(declare, effect, scope):
+    """Revue « portee » (analyseur v20) : bénéficiaire lu sans clause de cible classique."""
+    from aospy.abilities.extract import scope_of
+    assert scope_of(declare, effect)[0] == scope
