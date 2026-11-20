@@ -17,7 +17,7 @@ from .tags import tags_for
 
 #: Incrémenter à chaque changement des règles d'extraction/notation : stocké en
 #: base (`ability.analyzer_version`) pour savoir quelle version a produit une ligne.
-ANALYZER_VERSION = 21
+ANALYZER_VERSION = 22
 
 
 #: Gain réaliste (validé par l'utilisateur) d'une ressource de faction qui s'accumule
@@ -155,7 +155,7 @@ def to_rows(analyses: list[AbilityAnalysis], analyzed_at: datetime | None = None
             sc.ease, sc.power, sc.reliability, sc.interaction, sc.verdict,
             "\n".join(sc.rationale), a.understood, a.overridden, ANALYZER_VERSION, when,
             ex.resource_cost, ex.available_round, ex.friendly_target or None, ex.excludes_self,
-            main_family(effect_family(e, ex.scope) for e in ex.effects),
+            main_family(effect_family(e, ex.scope) for e in ex.effects), r.bearer_restriction or None,
         ))
         seen = set()
         for o in r.owners:

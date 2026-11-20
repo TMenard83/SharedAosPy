@@ -421,7 +421,10 @@ _STAT_NAMES = [
     (r"Move characteristics?", ("move",)), (r"control scores?", ("control",)),
     (r"power level", ("power_level",)),
 ]
-_MOD_RE = re.compile(r"\b(Add|Subtract|add|subtract) (\d{1,2})\"? (?:to|from) ([^.;]*)")
+_MOD_RE = re.compile(r"\b(Add|Subtract|add|subtract) (\d{1,2}|X|D3|D6)\"? (?:to|from) ([^.;]*)")
+#: Valeur retenue pour un modificateur variable (v22) : « X » (nombre d'unités, de dés dépensés…) = 1
+#: par prudence, dés = leur moyenne.
+_VAR_MOD = {"X": 1.0, "D3": 2.0, "D6": 3.5}
 _ENEMY_ACTOR = re.compile(
     r"(?:made|used) by (?:enemy|that enemy|each enemy|an enemy|the enemy|those enemy)|"
     r"for (?:visible )?(?:enemy|each enemy|that enemy|those enemy|friendly and enemy)\b|"
@@ -474,7 +477,8 @@ _SELF_ATTACKER = re.compile(r"\bthis (?:unit|model)\b|\bits\b|\b(?:his|her)\b")
 def _stat_mods(sentence: str, default_side: str, declared_side: str = "") -> list[Effect]:
     out = []
     for m in _MOD_RE.finditer(sentence):
-        verb, n, rest = m.group(1).lower(), int(m.group(2)), m.group(3)
+        verb, rest = m.group(1).lower(), m.group(3)
+        n = _VAR_MOD[m.group(2)] if m.group(2) in _VAR_MOD else int(m.group(2))
         rest = re.split(r"\band (?:add|subtract)\b", rest)[0]
         # la caractéristique visée est la PREMIÈRE citée après « to/from » (pas la première de la liste)
         stats: tuple[str, ...] = ()
@@ -535,7 +539,10 @@ def _stat_mods(sentence: str, default_side: str, declared_side: str = "") -> lis
                         else "defensif" if stat in ("save", "ward", "health") else "utilitaire")
                 if sign < 0:
                     role = "malus"
-            out.append(Effect("stat_mod", stat, sign * n, "", side, role))
+            value = sign * n
+            if side == "enemy" and re.search(r"\bCompanion (?:melee |ranged )?weapons\b", rest):
+                value /= 2   # débuff limité aux armes Compagnon : peu de poids dans un profil (v22)
+            out.append(Effect("stat_mod", stat, value, "", side, role))
     return out
 
 
@@ -571,6 +578,7 @@ QUALITATIVE_RULES: list[tuple[str, str, str]] = [
     (r"can use (?:the )?'?(?:Normal Move|Run|Retreat)'? ability|can use a (?:RUN|MOVE) ability|"
      r"as if it (?:were|was) your movement phase|use a (?:RETREAT|RUN|MOVE) ability", "extra_move", ""),
     (r"[Ss]et up (?:that|the target|this|the) unit (?:on the battlefield )?(?:again )?wholly within|"
+     r"[Ss]et (?:up )?(?:the targets?|those units|that unit|this unit|it|them) (?:up )?on the battlefield|"
      r"[Ss]et up [^.]*?\bin reserve\b|in reserve[^.]*?can be set up", "deep_strike", ""),
     (r"(?i)ignore (?:negative )?modifiers to (?:save|ward)|ignore the first damage point|"
      r"ignore (?:the first )?\d+ damage points?", "damage_ignore", ""),
@@ -725,6 +733,9 @@ def effects_of(declare: str, effect: str, scope: Scope, passive: bool = False, c
                 target_kw.append(m.group(1).upper())
             if re.search(r"(?:casting|chanting) roll was \d+\+[^.]*$", full[max(0, m.start() - 160):m.start()]):
                 continue   # bonus sur un jet élevé (« If the chanting roll was 8+, in addition … ») : pas acquis
+            if kind == "no_weapon_abilities" and re.search(r"The Companion weapon ability has no effect on",
+                                                            full[max(0, m.start() - 40):m.end() + 5]):
+                continue   # contrainte sur nos propres unités (Monstrous Entourage), pas un débuff
             if kind == "fly" and "FLY" not in m.group(0) \
                     and any(e.kind in ("move", "extra_move", "redeploy", "deep_strike") for e in out):
                 continue   # « It can move through the combat ranges » : modalité du mouvement, pas un effet en plus

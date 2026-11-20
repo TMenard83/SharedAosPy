@@ -57,7 +57,7 @@ _DEF_KINDS = {"ward", "damage_ignore", "negate_attack", "untargetable", "damage_
 _DEBUFF_KINDS = {"strike_last", "restriction", "lockout", "move_debuff", "no_crit", "no_ward",
                  "no_weapon_abilities"}
 _MOBILITY_KINDS = {"move", "redeploy", "deep_strike", "run_and_charge", "run_and_shoot", "fly",
-                   "extra_move", "pile_in"}
+                   "extra_move", "pile_in", "free_retreat"}
 _MAGIC_KINDS = {"anti_magic", "cp_gain", "resource", "summon", "extra_use"}
 
 #: Départage de la famille principale à égalité d'effets (ordre d'importance pour le mariage).
@@ -100,7 +100,9 @@ def effect_family(e: Effect, scope: str) -> str:
         return "degats-directs" if side == "enemy" else "autre"
     if k == "slay":
         return "degats-directs"
-    if k in ("heal", "return_models"):
+    if k == "no_buff":                       # v21 : ignorer les modificateurs positifs de la cible
+        return "debuff"
+    if k in ("heal", "return_models", "rally"):
         return "soin"
     if k == "control":
         return "controle"

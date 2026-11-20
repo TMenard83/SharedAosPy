@@ -71,6 +71,9 @@ class RawAbility:
     declare: str                  # texte « Declare: » nettoyé
     effect: str                   # texte « Effect: » nettoyé (sans note de concepteur)
     owners: tuple[AbilityOwner, ...] = ()
+    #: Optimisations : à qui elle peut être donnée, tel qu'écrit dans l'export (« HERO only », « can be given
+    #: to non-Hero Slaves to Darkness Infantry units »…) ; '' sinon. Résolu en couche 3 (`analysis/bearers.py`).
+    bearer_restriction: str = ""
 
 
 @dataclass(frozen=True)

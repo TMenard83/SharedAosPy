@@ -14,6 +14,7 @@ donne qu'une `RawAbility`, avec la liste de tous ses porteurs dans `owners`.
 from __future__ import annotations
 
 import csv
+import re
 import hashlib
 from pathlib import Path
 
@@ -75,6 +76,27 @@ def _base_fields(row: dict[str, str]) -> dict:
     }
 
 
+def bearer_restriction_of(text: str) -> str:
+    """Restriction de porteur lisible dans la description d'un groupe/type d'optimisations, '' sinon.
+
+    « HERO only », « (HERO only excluding Cannonade Cogfort and Conqueror Cogfort) », « Brazen Mutations are
+    unique enhancements that can be given to non-Hero Blades of Khorne Infantry or Cavalry units »,
+    « Give your general 1 of the following enhancements »."""
+    txt = re.sub(r"<[^>]+>", " ", text or "")
+    txt = re.sub(r"\$\d+", " ", txt)
+    txt = re.sub(r"\s+", " ", txt).strip()
+    if not txt:
+        return ""
+    m = re.search(r"[^.]*?\bcan (?:only )?be given to [^.]+", txt, re.I)
+    if m:
+        return m.group(0).strip()
+    m = re.search(r"\(?\s*(?:[Nn]on-)?\(?[A-Z][A-Z' -]*\)?\s+[Oo]n[l]?y\b[^.()]*\)?", txt)
+    if m:
+        return m.group(0).strip(" ()")
+    m = re.search(r"Give your general [^.]+", txt)
+    return m.group(0).strip() if m else ""
+
+
 def load_raw_abilities(data_dir: str | Path = DEFAULT_DATA_DIR,
                        corrections_path: str | Path = DEFAULT_CORRECTIONS_PATH) -> list[RawAbility]:
     """Toutes les aptitudes du jeu, dédoublonnées, triées par (faction, nom).
@@ -94,6 +116,14 @@ def load_raw_abilities(data_dir: str | Path = DEFAULT_DATA_DIR,
     }
 
     merged: dict[str, dict] = {}
+    restrictions: dict[tuple[str, str], str] = {}
+    for f_name, key in (("Faction_ability_types.csv", "type"), ("Faction_ability_subtypes.csv", "subtype")):
+        path = data_dir / f_name
+        if path.exists():
+            for row in _read_csv(path):
+                r = bearer_restriction_of(row.get("description") or "")
+                if r:
+                    restrictions[(key, row.get("id") or "")] = r
 
     def add(fields: dict, kind: SourceKind, group: str, owner: AbilityOwner) -> None:
         fields = correct_ability_fields(fields, ability_correction(fixes, owner.faction_name, fields["name"]))
@@ -122,7 +152,11 @@ def load_raw_abilities(data_dir: str | Path = DEFAULT_DATA_DIR,
             continue
         group = f"{type_name} › {subtype}" if subtype and subtype != "_1" else type_name
         owner = AbilityOwner(fid, factions.get(fid, fid), "faction_rule", group)
-        add(_base_fields(row), _rule_kind(type_name, subtype), subtype or type_name, owner)
+        fields = _base_fields(row)
+        # le groupe (sous-type) est plus précis que le type : « HERO only » vs « Brazen Mutations are … »
+        fields["bearer_restriction"] = (restrictions.get(("subtype", row.get("subtype_id") or ""))
+                                        or restrictions.get(("type", row.get("type_id") or "")) or "")
+        add(fields, _rule_kind(type_name, subtype), subtype or type_name, owner)
 
     out = [
         RawAbility(**{k: v for k, v in e.items() if k != "owners"}, owners=tuple(e["owners"]))

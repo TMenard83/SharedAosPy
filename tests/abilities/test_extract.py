@@ -643,3 +643,22 @@ def test_charge_weapon_ability_negated_is_not_a_charge_bonus():
                          "combat attacks that target the target.", condition="Your Hero Phase"))
     kinds = {e.kind for e in ex.effects}
     assert "charge_bonus" not in kinds and "no_weapon_abilities" in kinds
+
+
+def test_variable_modifiers_v22():
+    """« add X / D3 to … » : modificateur variable lu (X = 1 par prudence, dé = moyenne)."""
+    ex, _ = extract(_raw("Add X to charge rolls for friendly BLADES OF KHORNE units, where X is the number of friendly "
+                         "units that have already charged this phase.", condition="Your Charge Phase"))
+    assert _effect(ex, "charge").value == 1
+    ex, _ = extract(_raw("For the rest of the turn, subtract D3 from the Attacks characteristic of the target's "
+                         "Companion weapons while it is in combat with this unit.",
+                         declare="Pick an enemy unit in combat with this unit to be the target.",
+                         condition="Any Combat Phase"))
+    e = _effect(ex, "attacks")
+    assert e.side == "enemy" and e.value == -1   # −D3 (moy. 2) divisé par 2 : armes Compagnon seules
+
+
+def test_set_up_targets_on_the_battlefield_is_a_deep_strike():
+    ex, _ = extract(_raw("Set up the targets on the battlefield wholly within 7\" of the battlefield edge and more "
+                         "than 9\" from all enemy units.", condition="Your Movement Phase"))
+    assert "deep_strike" in {e.kind for e in ex.effects}
