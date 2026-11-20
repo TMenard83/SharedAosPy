@@ -830,6 +830,12 @@ def extract(raw: RawAbility) -> tuple[Extraction, float]:
     effects, target_kw, scales = effects_of(raw.declare, raw.effect, scope,
                                             passive=raw.condition.lower().startswith("passive"),
                                             condition=raw.condition)
+    # condition de charge portée par l'Annonce (« Pick up to 3 friendly Verminus units that charged this
+    # turn ») : elle vaut pour tous les effets amis, pas seulement pour la phrase qui les porte (v23)
+    if "nous" in charge_subjects(raw.declare, enemy_target):
+        effects = [e if e.side != "friendly" or "a chargé" in (e.requires or "")
+                   else dataclasses.replace(e, requires=" | ".join(filter(None, ["a chargé", e.requires])))
+                   for e in effects]
     ex = Extraction(
         frequency=frequency_of(raw.condition),
         turn=turn_of(raw.condition, raw.phase),

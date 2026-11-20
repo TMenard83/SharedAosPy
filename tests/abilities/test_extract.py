@@ -662,3 +662,11 @@ def test_set_up_targets_on_the_battlefield_is_a_deep_strike():
     ex, _ = extract(_raw("Set up the targets on the battlefield wholly within 7\" of the battlefield edge and more "
                          "than 9\" from all enemy units.", condition="Your Movement Phase"))
     assert "deep_strike" in {e.kind for e in ex.effects}
+
+
+def test_declare_charge_condition_reaches_effects():
+    """« Pick up to 3 friendly Verminus units that charged this turn » : requires « a chargé » sur l'effet (v23)."""
+    ex, _ = extract(_raw("Add 1 to the Rend characteristic of the targets' melee weapons for the rest of the turn.",
+                         declare="Pick up to 3 friendly Verminus units that charged this turn to be the targets.",
+                         condition="Your Combat Phase"))
+    assert "a chargé" in _effect(ex, "rend").requires
