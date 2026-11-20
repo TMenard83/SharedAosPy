@@ -670,3 +670,10 @@ def test_declare_charge_condition_reaches_effects():
                          declare="Pick up to 3 friendly Verminus units that charged this turn to be the targets.",
                          condition="Your Combat Phase"))
     assert "a chargé" in _effect(ex, "rend").requires
+
+
+def test_target_keyword_after_article_and_enemy():
+    """v24 : « for attacks that target an enemy HERO » (Master of Assassins, Deathmaster Crixxit)."""
+    ex, _ = extract(_raw("Double the Damage characteristic of this unit's melee weapons for attacks that target an "
+                         "enemy HERO."))
+    assert any(e.target_keywords == "HERO" for e in ex.effects)

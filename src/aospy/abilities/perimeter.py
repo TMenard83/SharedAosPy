@@ -36,7 +36,8 @@ _TARGET_KW = re.compile(
     # Domination) : condition sur la cible, comme « against HEROES » (analyseur v16).
     r"(?:that target|targeting|if the target is an?|against|"
     r"(?:[Ii]f|[Ww]hile) (?:this unit|it|this model) is in combat with (?:any|an?|one or more)? ?enemy) "
-    r"(?:an? |enemy |the )?"
+    # « attacks that target an enemy HERO » (Master of Assassins) : article ET « enemy » (analyseur v24)
+    r"(?:an? |the )?(?:enemy )?"
     r"((?:[A-Z][A-Z'-]{2,}(?: [A-Z][A-Z'-]{2,})*)(?:,? (?:or|and) [A-Z][A-Z'-]{2,}(?: [A-Z][A-Z'-]{2,})*)*)")
 _SINGULAR = {"HEROES": "HERO", "MONSTERS": "MONSTER", "WIZARDS": "WIZARD", "PRIESTS": "PRIEST",
              "MANIFESTATIONS": "MANIFESTATION", "WAR MACHINES": "WAR MACHINE"}
