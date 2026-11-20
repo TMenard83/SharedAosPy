@@ -706,3 +706,23 @@ def test_destiny_dice_are_fixed_rolls():
     ex, _ = extract(_raw("Instead of rolling the dice for 1 of the rolls from the list below, you can pick one of "
                          "your destiny dice and use it as the roll."))
     assert any(e.kind == "fixed_roll" for e in ex.effects)
+
+
+def test_friendly_target_per_option():
+    """v26 : chaque option d'une aptitude à choix porte sa propre cible amie (The Thirteen-headed One)."""
+    raw = _raw("Pick 1 of the following effects to apply until the start of your next turn.\n"
+               "Master of Dire Sorcery: Add 1 to casting rolls for friendly MASTERCLAN WIZARDS while they are "
+               "wholly within 13\" of this unit.\n"
+               "Commander of Vermin: Add 1 to charge rolls for friendly VERMINUS units while they are wholly "
+               "within 13\" of this unit.")
+    ex, _ = extract(raw)
+    by_stat = {e.stat: e.friendly_target or ex.friendly_target for e in ex.effects if e.kind == "stat_mod"}
+    assert by_stat == {"cast": "MASTERCLAN WIZARDS", "charge": "VERMINUS"}
+
+
+def test_friendly_landmark_is_not_a_receiver():
+    """v26 : « within 12\" of any friendly KRULEBOYZ units » est un repère, la cible reste celle de l'Annonce."""
+    ex, _ = extract(_raw("If the target is an IRONJAWZ unit, add 3 to the target's control score while it is "
+                         "wholly within 12\" of any friendly KRULEBOYZ units.",
+                         declare="Pick a visible friendly BIG WAAAGH! INFANTRY unit to be the target."))
+    assert all(e.friendly_target == "" for e in ex.effects)

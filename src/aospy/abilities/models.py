@@ -94,6 +94,9 @@ class Effect:
     target_condition: str = ""    # autre condition sur la cible (« ≥10 figurines », « sur objectif »…)
     requires: str = ""            # prérequis propre à l'effet (« a chargé », « sans mouvement »…)
     duration: str = ""            # permanent / tour / phase / jusqu'au prochain tour / round / bataille / immédiat
+    # restriction de cible amie lue dans la phrase de l'effet (aptitude à options : chaque option vise ses
+    # propres unités) ; '' = celle de l'aptitude (`Extraction.friendly_target`) s'applique (analyseur v26)
+    friendly_target: str = ""
 
 
 @dataclass

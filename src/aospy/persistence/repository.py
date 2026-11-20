@@ -726,7 +726,7 @@ ABILITY_OWNER_COLS = ("ability_uid", "faction_id", "faction_name", "owner_kind",
 ABILITY_TAG_COLS = ("ability_uid", "tag")
 ABILITY_EFFECT_COLS = ("ability_uid", "seq", "kind", "stat", "value", "dice", "side", "detail",
                        "weapon_scope", "weapon_name", "includes_companion", "target_keywords",
-                       "target_condition", "requires", "duration", "family")
+                       "target_condition", "requires", "duration", "family", "friendly_target")
 _ABILITY_TABLES = ("ability_effect", "ability_tag", "ability_owner", "ability")
 
 

@@ -688,8 +688,9 @@ def _annotate(e: Effect, sentence: str, text: str, passive: bool, enemy_target: 
     """Ajoute le périmètre (armes, cible, prérequis, durée) lu dans la phrase source."""
     offensive = (e.kind == "stat_mod" and e.stat in _OFFENSIVE_STATS) or (
         e.kind in _WEAPON_KINDS and not (e.kind == "reroll" and e.stat not in ("hit", "wound", "")))
-    return dataclasses.replace(e, **perimeter_of(sentence, text, passive, offensive, e.kind, enemy_target,
-                                                  condition))
+    ft = effect_friendly_target(sentence, text) if e.side == "friendly" else ""
+    return dataclasses.replace(e, friendly_target=ft, **perimeter_of(sentence, text, passive, offensive, e.kind,
+                                                                      enemy_target, condition))
 
 
 def effects_of(declare: str, effect: str, scope: Scope, passive: bool = False, condition: str = ""
@@ -848,6 +849,36 @@ def friendly_target_of(declare: str, effect: str) -> str:
     return ""
 
 
+#: Ligne d'option (« Commander of Vermin: Add 1 … ») ou de puce (« - You can … ») d'une aptitude à choix.
+_OPTION_LINE = re.compile(r"^(?:- |[A-Z][^:\n.]{2,45}: )")
+#: « within 12" of a friendly Gnawhole », « of the friendly Sigvald » : repère de position, pas un receveur.
+_FRIENDLY_LANDMARK = re.compile(r"\b(?:of|from|by|with|near) (?:an?|the|any|each|another|that|this|\d+) $")
+
+
+def _line_of(sentence: str, text: str) -> str:
+    i = text.find(sentence[:40])
+    if i < 0:
+        return sentence
+    start = text.rfind("\n", 0, i) + 1
+    end = text.find("\n", i)
+    return text[start:end if end >= 0 else len(text)]
+
+
+def effect_friendly_target(sentence: str, text: str) -> str:
+    """Cible amie propre à un effet (analyseur v26) : « friendly X » de sa phrase, hors repères de position.
+    Marquée « option: » quand la phrase est une ligne d'option/puce, pour que `extract` sache si elle
+    doit l'emporter sur la cible de l'aptitude."""
+    kept = sentence
+    for m in re.finditer(r"\b[Ff]riendly\b", kept):
+        if _FRIENDLY_LANDMARK.search(kept[max(0, m.start() - 20):m.start()]):
+            continue
+        ft = friendly_target_of("", kept[m.start():])
+        if ft:
+            return ("option:" if _OPTION_LINE.match(_line_of(sentence, text)) else "") + ft
+        return ""
+    return ""
+
+
 def extract(raw: RawAbility) -> tuple[Extraction, float]:
     """Extraction complète + pénalité de mise en place cumulée (utilisée par scoring)."""
     main, secondary = split_main_secondary(raw.effect)
@@ -868,6 +899,14 @@ def extract(raw: RawAbility) -> tuple[Extraction, float]:
         effects = [e if e.side != "friendly" or "a chargé" in (e.requires or "")
                    else dataclasses.replace(e, requires=" | ".join(filter(None, ["a chargé", e.requires])))
                    for e in effects]
+    # cible amie par effet (v26) : une ligne d'option l'emporte ; ailleurs, seulement si l'aptitude n'en a pas
+    ability_ft = friendly_target_of(raw.declare, raw.effect)
+    effects = [dataclasses.replace(e, friendly_target=(
+        e.friendly_target[7:] if e.friendly_target.startswith("option:")
+        else ("" if ability_ft else e.friendly_target)))
+        for e in effects]
+    effects = [e if e.friendly_target != ability_ft else dataclasses.replace(e, friendly_target="")
+               for e in effects]
     ex = Extraction(
         frequency=frequency_of(raw.condition),
         turn=turn_of(raw.condition, raw.phase),

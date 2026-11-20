@@ -263,6 +263,8 @@ ALTER TABLE ability_effect ADD COLUMN IF NOT EXISTS requires VARCHAR;           
 ALTER TABLE ability_effect ADD COLUMN IF NOT EXISTS duration VARCHAR;           -- permanent/tour/phase/round/bataille…
 -- famille fonctionnelle (abilities/families.py) : base du mariage châssis × aptitude (couche 3)
 ALTER TABLE ability_effect ADD COLUMN IF NOT EXISTS family VARCHAR;
+-- cible amie propre à l'effet (option d'une aptitude à choix) ; NULL = ability.friendly_target (analyseur v26)
+ALTER TABLE ability_effect ADD COLUMN IF NOT EXISTS friendly_target VARCHAR;
 ALTER TABLE ability ADD COLUMN IF NOT EXISTS family VARCHAR;                     -- famille principale
 ALTER TABLE ability ADD COLUMN IF NOT EXISTS bearer_restriction VARCHAR;         -- optimisations : à qui la donner (« HERO only »…)
 
