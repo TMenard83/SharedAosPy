@@ -552,10 +552,12 @@ _MOVE_RE = re.compile(r"can (?:immediately )?move (?:up to |a distance (?:in inc
 QUALITATIVE_RULES: list[tuple[str, str, str]] = [
     (r"STRIKE-FIRST", "strike_first", ""),
     (r"STRIKE-LAST", "strike_last", ""),
-    (r"can (?:still )?use (?:a )?(?:'?CHARGE'? abilities|charge)[^.]*(?:after|even though)[^.]*(?:run|retreat)|"
+    (r"can (?:still )?use (?:a )?(?:'?(?:SHOOT and/or )?CHARGE'? abilities|charge)[^.]*(?:after|even though|even if)"
+     r"[^.]*(?:[Rr]un|RUN|[Rr]etreat|RETREAT)|"
      r"can still use CHARGE|can use CHARGE abilities[^.]*(?:run|retreat)|can still charge",
      "run_and_charge", ""),
-    (r"can (?:still )?use (?:'?SHOOT'? abilities|shoot)[^.]*(?:run|retreat)|can still use SHOOT",
+    (r"can (?:still )?use (?:'?SHOOT(?: and/or CHARGE)?'? abilities|shoot)[^.]*(?:[Rr]un|RUN|[Rr]etreat|RETREAT)|"
+     r"can still use SHOOT",
      "run_and_shoot", ""),
     (r"[Rr]emove (?:this|that|the target|it)[^.]*?from the battlefield[^.]*?set (?:it|them|that unit|this unit) up again|"
      r"set (?:it|this unit|that unit|them) up again|set up again", "redeploy", ""),
@@ -565,43 +567,65 @@ QUALITATIVE_RULES: list[tuple[str, str, str]] = [
     (r"(?i)\bcan use (?:2|two) FIGHT abilities", "fight_twice", ""),
     (r"can (?:immediately )?use (?:a|another) ?'?FIGHT'? abilit|fight (?:again|immediately|a second time)|"
      r"can be picked to use a FIGHT ability|(?:immediately )?resolve (?:combat|shooting) attacks|"
-     r"immediately (?:make|resolve) [^.]*attacks", "extra_fight", ""),
+     r"immediately (?:make|resolve) [^.]*attacks|\bResolve combat attacks for this unit against", "extra_fight", ""),
     (r"can use (?:the )?'?(?:Normal Move|Run|Retreat)'? ability|can use a (?:RUN|MOVE) ability|"
      r"as if it (?:were|was) your movement phase|use a (?:RETREAT|RUN|MOVE) ability", "extra_move", ""),
     (r"[Ss]et up (?:that|the target|this|the) unit (?:on the battlefield )?(?:again )?wholly within|"
      r"[Ss]et up [^.]*?\bin reserve\b|in reserve[^.]*?can be set up", "deep_strike", ""),
     (r"(?i)ignore (?:negative )?modifiers to (?:save|ward)|ignore the first damage point|"
      r"ignore (?:the first )?\d+ damage points?", "damage_ignore", ""),
-    (r"weapon abilities [^.]*?have no effect|cannot (?:use|benefit from) [^.]*?weapon abilities",
-     "no_weapon_abilities", ""),
+    (r"weapon abilities [^.]*?have no effect|cannot (?:use|benefit from) [^.]*?weapon abilities|"
+     r"weapon ability has no effect", "no_weapon_abilities", ""),
+    # v21 : « ignore positive modifiers to save rolls for the target » (anti-buff ennemi)
+    (r"[Ii]gnore positive modifiers to (?:save|ward|hit|wound) rolls for (?:the target|that unit|those units|"
+     r"enemy|each target)", "no_buff", ""),
     (r"(?i)\b(?:gain|receive|generate) (?:\d+|d3|an?|one|1 extra) (?:extra |additional )?"
      r"(?:fate points?|chords?|rage dice|momentum points?|tokens?|ritual points?|blood tithe points?|"
      r"[a-z]+ points?)", "resource", ""),
-    (r"twice per (?:turn|phase)|additional target|does not count towards", "extra_use", ""),
+    (r"twice per (?:turn|phase)|additional target|does not count towards|be a second target|"
+     r"pick (?:2|two) [^.]*? instead of (?:1|one)\b", "extra_use", ""),
     (r"While this unit has \d+ or more damage points, the [^.]*?(?:characteristic|keyword) [^.]*?is \d",
      "battle_damaged", ""),
     (r"cannot score critical hits", "no_crit", ""),
     (r"ward rolls cannot be made for (?!(?:that|those|the) damage point)", "no_ward", ""),
-    (r"(?:automatically|immediately) (?:destroyed|slain)|\bis slain\b(?=[^.]*target)", "slay", ""),
+    (r"(?:automatically|immediately) (?:destroyed|slain)|\bis slain\b(?=[^.]*target)|"
+     r"\bmodels? in the target unit (?:is|are) slain", "slay", ""),
     (r"[Dd]ouble the (?:Attacks|Damage|Rend|Move)|characteristic of [^.]*?(?:is|of) \d+ instead|"
      r"has a (?:Health|Move|Save|Control) characteristic of \d+", "stat_set", ""),
     (r"the attack fails|attack sequence ends", "negate_attack", ""),
     (r"(?:has|gains?) the [A-Z][A-Z -]+ keyword", "keyword_gain", ""),
-    (r"can use (?:a|another) ?'?SHOOT'? abilit|shoot (?:again|a second time)", "extra_shoot", ""),
+    (r"can use (?:a|another) ?'?SHOOT'? abilit|shoot (?:again|a second time)|"
+     r"can (?:immediately )?use (?:a|the) '?SHOOT'? ability as if", "extra_shoot", ""),
+    # v21 : jet remplacé par une valeur fixe (« use a value of 6 for the roll that cannot be modified »)
+    (r"(?:you )?can use a value of \d+ (?:for (?:the|it|that)|instead)", "fixed_roll", ""),
+    # v21 : relances de ralliement supplémentaires (« make 3 additional rally rolls of D6 »)
+    (r"(?:make|makes?) (?:\d+|D\d|an?) additional rally rolls?|additional rally roll", "rally", ""),
+    # v21 : sort hors phase des héros (« can use a SPELL ability as if it were your hero phase »)
+    (r"can use (?:a|another) (?:non-SUMMON )?(?:SPELL|PRAYER) ability as if", "extra_use", ""),
     (r"Shoot in Combat", "shoot_in_combat", ""),
     (r"(?:score )?critical hits? on (?:unmodified )?hit rolls? of \d\+|Crit \((?:2 Hits|Auto-wound|Mortal)\)|"
      r"score critical hits", "crit", ""),
     (r"(?i)\bre-?roll", "reroll", ""),
     (r"(?:gain|receive) (?:\d|D3|an extra|1 extra|one extra|an additional) (?:extra )?command points?|"
-     r"command points? (?:is|are) (?:gained|received)|gain a command point", "cp_gain", ""),
-    (r"\bcan(?:not)? use (?:the )?'?(?:Unbind|Banish)'?|\bunbind\b|\bbanish\b", "anti_magic", ""),
+     r"command points? (?:is|are) (?:gained|received)|gain a command point|no command points are spent|"
+     r"without spending (?:a |any )?command points?", "cp_gain", ""),
+    (r"\bcan(?:not)? use (?:the )?'?(?:Unbind|Banish)'?|\bunbind\b|\bbanish\b|spell is unbound",
+     "anti_magic", ""),
     (r"cannot (?:use|be picked to use) (?:commands|any commands|SPELL|PRAYER|abilities)|"
-     r"cannot issue commands|cannot receive commands", "lockout", ""),
+     r"cannot issue commands|cannot receive commands|cannot use the '[^']+' command|"
+     r"unless your opponent spends \d+ (?:additional|extra) command point", "lockout", ""),
     (r"cannot (?:use )?(?:CHARGE|charge|RUN|run|RETREAT|retreat|SHOOT|shoot|move|be set up|contest)",
      "restriction", ""),
-    (r"cannot be (?:picked as the )?target|not visible to|is not visible", "untargetable", ""),
-    (r"\bFLY\b", "fly", ""),
-    (r"[Hh]alve (?:the|its|their) Move|subtract \d\" from[^.]*Move", "move_debuff", ""),
+    # « cannot be picked to be the target of this ability again » est une limite d'usage, pas un effet
+    (r"cannot be (?:picked as the )?target(?! of this)|cannot be picked to be the target of (?:attacks|shooting|"
+     r"combat|SPELL|PRAYER|BANISH|abilities used by enemy|enemy)|not visible to|is not visible",
+     "untargetable", ""),
+    (r"\bFLY\b|can pass through (?:models|the combat ranges)|can move through (?:the combat ranges|models|terrain)",
+     "fly", ""),
+    # v21 (revue « a-revoir ») : retraite sans blessures mortelles
+    (r"[Nn]o mortal damage is inflicted on [^.]*?(?:RETREAT|Retreat)|(?:RETREAT|Retreat) abilit[^.]*?no mortal damage",
+     "free_retreat", ""),
+    (r"[Hh]alve (?:the|its|their) Move|subtract \d\" from[^.]*Move|[Hh]alve (?:run|charge) rolls", "move_debuff", ""),
     (r"[Ss]et up (?:a|an|one|\d+|up to \d+)? ?(?:new |replacement )?[^.]*?(?:unit|manifestation|ENDLESS SPELL)"
      r"[^.]*?(?:wholly within|within|on the battlefield)|[Ss]et up (?:a|an) [A-Z][^.]*?within \d+\" of the (?:caster|chanter)",
      "summon", ""),
@@ -609,7 +633,8 @@ QUALITATIVE_RULES: list[tuple[str, str, str]] = [
     (r"Anti-([A-Za-z -]+?) \(\+1 (\w+)\)", "anti", ""),
     # « ignore the effect of the Charge (+1 Damage) ability for … enemy units » (Anticipated Strike) :
     # c'est l'anti-charge d'un bonus ENNEMI, pas un bonus de charge pour nous (analyseur v18).
-    (r"(?<!effect of the )Charge \(\+1 (?:Damage|Rend|Attacks)\)", "charge_bonus", ""),
+    (r"(?<!effect of the )Charge \(\+1 (?:Damage|Rend|Attacks)\)(?! weapon ability has no effect)",
+     "charge_bonus", ""),
     (r"pile-in move|pile in", "pile_in", ""),
     (r"[Ss]ubtract \d+ from the number of (?:wounds|damage points)|damage points? (?:to|on) [^.]*?is reduced|"
      r"allocate[^.]*? to (?:this|that|another) unit instead", "damage_redirect", ""),
@@ -666,6 +691,12 @@ def effects_of(declare: str, effect: str, scope: Scope, passive: bool = False, c
         add(Effect("mortal_damage", "", mean or 0.0, expr if "D" in expr else "",
                    "friendly" if target_us else "enemy",
                    "auto-infligé" if target_us else ("variable" if mean is None else "")), effect, m.start())
+    for m in re.finditer(r"[Aa]llocate (\d+|D\d(?:\+\d)?|a number of) damage points? to (?:the target|each target|"
+                         r"that enemy unit|each enemy unit|the enemy unit)\b", effect):
+        expr = m.group(1)
+        mean = dice_mean(expr) if expr != "a number of" else None
+        add(Effect("mortal_damage", "", mean or 0.0, expr if "D" in expr else "", "enemy",
+                   "variable" if mean is None else ""), effect, m.start())
     fragile = bool(re.search(r"unmodified save roll of 1[^.]*remove", effect))
     for m in _WARD_RE.finditer(effect):
         side = "enemy" if re.search(r"target[^.]*enemy|enemy units have", effect) and default_side == "enemy" else "friendly"
@@ -692,8 +723,13 @@ def effects_of(declare: str, effect: str, scope: Scope, passive: bool = False, c
         for m in re.finditer(pat, full):
             if kind == "anti":
                 target_kw.append(m.group(1).upper())
+            if re.search(r"(?:casting|chanting) roll was \d+\+[^.]*$", full[max(0, m.start() - 160):m.start()]):
+                continue   # bonus sur un jet élevé (« If the chanting roll was 8+, in addition … ») : pas acquis
+            if kind == "fly" and "FLY" not in m.group(0) \
+                    and any(e.kind in ("move", "extra_move", "redeploy", "deep_strike") for e in out):
+                continue   # « It can move through the combat ranges » : modalité du mouvement, pas un effet en plus
             side = default_side
-            if kind in ("no_ward", "slay", "no_weapon_abilities", "no_crit"):
+            if kind in ("no_ward", "slay", "no_weapon_abilities", "no_crit", "no_buff"):
                 side = "enemy"
             if kind in ("strike_last", "restriction", "lockout", "move_debuff", "untargetable"):
                 side = "enemy" if re.search(r"target|enemy", full[max(0, m.start() - 80):m.start()]) else "friendly"
@@ -701,7 +737,7 @@ def effects_of(declare: str, effect: str, scope: Scope, passive: bool = False, c
                         "extra_shoot", "fly", "cp_gain", "reroll", "crit", "shoot_in_combat", "charge_bonus",
                         "summon", "anti_magic", "control", "pile_in", "damage_redirect", "anti", "extra_move",
                         "deep_strike", "stat_set", "negate_attack", "keyword_gain", "damage_ignore",
-                        "resource", "extra_use", "battle_damaged"):
+                        "resource", "extra_use", "battle_damaged", "free_retreat", "fixed_roll", "rally"):
                 side = "friendly"
             add(Effect(kind, stat, 0.0, "", side, m.group(0)[:80]), full, m.start())
             break  # un même effet qualitatif compte une fois

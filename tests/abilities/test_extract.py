@@ -605,3 +605,41 @@ def test_scope_readings_v20(declare, effect, scope):
     """Revue « portee » (analyseur v20) : bénéficiaire lu sans clause de cible classique."""
     from aospy.abilities.extract import scope_of
     assert scope_of(declare, effect)[0] == scope
+
+
+@pytest.mark.parametrize("text, kind", [
+    ("For the rest of the turn, the targets can use CHARGE abilities even if they used a RETREAT ability in the same "
+     "turn.", "run_and_charge"),
+    ("No mortal damage is inflicted on friendly units when they use RETREAT abilities.", "free_retreat"),
+    ("Each time a friendly unit wholly within 12\" of this unit uses the 'All-out Attack' command, no command points "
+     "are spent.", "cp_gain"),
+    ("Roll a dice. On a 2+, the target cannot use the 'All-out Defence' command in the following combat phase.",
+     "lockout"),
+    ("When this unit moves, it can pass through models in enemy INFANTRY units.", "fly"),
+    ("Instead of making a casting roll for the next SPELL ability used by this unit this turn, you can use a value "
+     "of 12 for the roll that cannot be modified.", "fixed_roll"),
+    ("If this unit uses the 'Rally' command, you can make 3 additional rally rolls of D6.", "rally"),
+    ("This unit can immediately use a SHOOT ability as if it were your shooting phase.", "extra_shoot"),
+    ("Until the start of your next turn, ignore positive modifiers to save rolls for the target.", "no_buff"),
+])
+def test_qualitative_rules_v21(text, kind):
+    """Revue « a-revoir » (analyseur v21) : mécaniques qualitatives jusque-là non lues."""
+    ex, _ = extract(_raw(text, condition="Your Hero Phase"))
+    assert kind in {e.kind for e in ex.effects}
+
+
+def test_roll_gated_bonus_is_not_counted():
+    """« If the chanting roll was 7+, in addition … » : bonus sur jet élevé, pas un effet acquis."""
+    ex, _ = extract(_raw("Add 1 to charge rolls for the target for the rest of the turn. If the chanting roll was 7+, "
+                         "in addition, the target can use CHARGE abilities even if it used a RUN ability.",
+                         declare="Pick a friendly PRIEST to chant this prayer, pick a visible friendly unit wholly "
+                                 "within 12\" of them to be the target, then make a chanting roll of D6.",
+                         condition="Your Hero Phase"))
+    assert "run_and_charge" not in {e.kind for e in ex.effects}
+
+
+def test_charge_weapon_ability_negated_is_not_a_charge_bonus():
+    ex, _ = extract(_raw("Until the start of your next turn, the Charge (+1 Damage) weapon ability has no effect on "
+                         "combat attacks that target the target.", condition="Your Hero Phase"))
+    kinds = {e.kind for e in ex.effects}
+    assert "charge_bonus" not in kinds and "no_weapon_abilities" in kinds

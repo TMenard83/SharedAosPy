@@ -172,7 +172,8 @@ def _list_header(text: str, sentence: str) -> str:
 
 #: Effets ponctuels par nature : sans formule de durée, ils sont « immédiats ».
 INSTANT_KINDS = {"mortal_damage", "heal", "return_models", "move", "summon", "redeploy", "deep_strike",
-                 "extra_fight", "fight_twice", "extra_shoot", "extra_move", "pile_in", "slay", "cp_gain", "resource"}
+                 "extra_fight", "fight_twice", "extra_shoot", "extra_move", "pile_in", "slay", "cp_gain", "resource",
+                 "rally", "fixed_roll"}
 
 
 #: Réaction qui modifie le jet ou l'aptitude déclencheurs (« add 1 to the casting roll for that

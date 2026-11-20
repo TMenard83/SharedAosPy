@@ -123,7 +123,7 @@ def tags_for(raw: RawAbility, ex: Extraction, sc: Score) -> list[str]:
             t.add("debuff")
     mapping = {
         "strike_first": "frappe-en-premier", "redeploy": "teleportation", "run_and_charge": "charge",
-        "run_and_shoot": "tir", "extra_fight": "combat-supplementaire", "fight_twice": "combat-supplementaire", "extra_shoot": "combat-supplementaire",
+        "run_and_shoot": "tir", "free_retreat": "mobilite", "fixed_roll": "relance", "rally": "resurrection", "no_buff": "debuff", "extra_fight": "combat-supplementaire", "fight_twice": "combat-supplementaire", "extra_shoot": "combat-supplementaire",
         "shoot_in_combat": "tir", "crit": "critique", "reroll": "relance", "cp_gain": "commandement",
         "anti_magic": "magie", "summon": "invocation", "control": "controle", "anti": "anti-cible",
         "charge_bonus": "charge", "fly": "mobilite", "extra_move": "mobilite",

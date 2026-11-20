@@ -65,7 +65,7 @@ EFFECT_WEIGHTS: dict[str, float] = {
     "extra_move": 1.5, "deep_strike": 2.0, "no_ward": 2.0, "slay": 2.0, "stat_set": 1.5,
     "negate_attack": 2.0, "keyword_gain": 0.5,
     "damage_ignore": 1.5, "no_weapon_abilities": 1.5, "resource": 1.0, "extra_use": 1.0,
-    "battle_damaged": 0.0,
+    "battle_damaged": 0.0, "free_retreat": 1.0, "fixed_roll": 1.5, "rally": 1.0, "no_buff": 1.0,
 }
 
 _WARD_WEIGHTS = {6: 1.0, 5: 2.0, 4: 2.5, 3: 3.0, 2: 3.0}
