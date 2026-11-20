@@ -726,3 +726,47 @@ def test_friendly_landmark_is_not_a_receiver():
                          "wholly within 12\" of any friendly KRULEBOYZ units.",
                          declare="Pick a visible friendly BIG WAAAGH! INFANTRY unit to be the target."))
     assert all(e.friendly_target == "" for e in ex.effects)
+
+
+def _kinds(effect, declare="", condition="Passive"):
+    ex, _ = extract(_raw(effect, declare=declare, condition=condition))
+    return {(e.kind, e.side) for e in ex.effects}, ex
+
+
+def test_v27_generic_mechanics():
+    """v27 (revue a-revoir LRL) : caractéristique fixée, portée, anti-malus, provocation, capacité annulée."""
+    assert ("stat_set", "friendly") in _kinds("The Rend characteristic of your general's melee weapons is 2.")[0]
+    assert ("stat_set", "friendly") in _kinds("While you have 2 runes, this unit's Save characteristic is 3+.")[0]
+    assert ("range_bonus", "friendly") in _kinds("Add 6\" to the Range characteristic of this unit's Bows.")[0]
+    assert ("ignore_debuff", "friendly") in _kinds("Ignore negative modifiers to hit rolls for this unit's attacks.")[0]
+    assert ("taunt", "enemy") in _kinds("Roll a dice. On a 3+, all attacks made by that enemy unit must target "
+                                        "this unit.", declare="Pick an enemy unit to be the target.")[0]
+    assert ("restriction", "enemy") in _kinds("Each time it uses a MOVE ability, roll a dice. On a 1-3, that MOVE "
+                                              "ability has no effect.")[0]
+    assert ("lockout", "enemy") in _kinds("Roll a dice. On a 3+, that command or RAMPAGE ability has no effect.")[0]
+    assert ("no_buff", "enemy") in _kinds("Ignore the effect of the Charge (+1 Damage) ability for combat attacks "
+                                          "made by enemy units that target this unit.")[0]
+    ks, ex = _kinds("Inflict D3+X mortal damage on the target.", declare="Pick an enemy unit to be the target.")
+    assert any(e.kind == "mortal_damage" and e.value == 3.0 for e in ex.effects)
+
+
+def test_this_ability_has_no_effect_is_not_an_effect():
+    ks, _ = _kinds("If you do not meet the condition below, this ability has no effect.")
+    assert not ks
+
+
+def test_option_line_any_friendly_unit_is_star():
+    """v27 : « for friendly units » sur une ligne d'option = toute unité amie ('*'), distinct du repli ''."""
+    ex, _ = extract(_raw("If there are any friendly WIZARDS within 3\" of this MANIFESTATION, pick 1 of the "
+                         "following effects:\nIncrease Time Flow: Until the start of your next turn, you can re roll "
+                         "charge rolls for friendly units while they are wholly within 12\" of this MANIFESTATION."))
+    assert [e.friendly_target for e in ex.effects if e.kind == "reroll"] == ["*"]
+
+
+def test_characteristic_condition_and_battle_damage_are_not_stat_set():
+    """v27 : « If the target's Save characteristic is 3+ » = condition ; profil dégradé = battle_damaged."""
+    ks, _ = _kinds("If the target's Save characteristic is 3+ or better, subtract 1 from charge rolls for the target.",
+                   declare="Pick an enemy unit to be the target.")
+    assert ("stat_set", "enemy") not in ks and ("stat_set", "friendly") not in ks
+    ks, _ = _kinds("While this unit has 10 or more damage points:\n- The Attacks characteristic of its Feet is 3.")
+    assert {k for k, _ in ks} == {"battle_damaged"}

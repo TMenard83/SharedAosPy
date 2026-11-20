@@ -66,6 +66,8 @@ EFFECT_WEIGHTS: dict[str, float] = {
     "negate_attack": 2.0, "keyword_gain": 0.5,
     "damage_ignore": 1.5, "no_weapon_abilities": 1.5, "resource": 1.0, "extra_use": 1.0,
     "battle_damaged": 0.0, "free_retreat": 1.0, "fixed_roll": 1.5, "rally": 1.0, "no_buff": 1.0,
+    # v27, validés par l'utilisateur (2026-11-20) : +N" de portée de tir, ignorer les malus, provocation
+    "range_bonus": 1.0, "ignore_debuff": 0.5, "taunt": 1.0,
 }
 
 #: Relance complète d'un type de jet (analyseur v25, validé utilisateur 2026-11-20) : relancer une charge

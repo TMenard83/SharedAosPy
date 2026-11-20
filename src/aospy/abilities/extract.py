@@ -547,7 +547,7 @@ def _stat_mods(sentence: str, default_side: str, declared_side: str = "") -> lis
 
 
 _MORTAL_RE = re.compile(
-    r"[Ii]nflict (\d+|\d?D[36](?:\+\d)?|an amount of|a number of|that many|X)?\s*mortal damage")
+    r"[Ii]nflict (\d+|\d?D[36](?:\+[\dX])?|an amount of|a number of|that many|X)?\s*mortal damage")
 _MORTAL_PER_ROLL = re.compile(r"[Ff]or each (?:\d\+|roll[^,]*|dice[^,]*),[^.]*?inflict (\d+) mortal damage")
 _WARD_RE = re.compile(r"WARD \((\d)\+\)", re.I)
 _HEAL_RE = re.compile(r"\b[Hh]eal \(?(\d+|\d?D[36](?:\+\d)?|X)\)?")
@@ -592,8 +592,7 @@ QUALITATIVE_RULES: list[tuple[str, str, str]] = [
      r"[a-z]+ points?)", "resource", ""),
     (r"twice per (?:turn|phase)|additional target|does not count towards|be a second target|"
      r"pick (?:2|two) [^.]*? instead of (?:1|one)\b", "extra_use", ""),
-    (r"While this unit has \d+ or more damage points, the [^.]*?(?:characteristic|keyword) [^.]*?is \d",
-     "battle_damaged", ""),
+    (r"While this unit has \d+ or more damage points\b", "battle_damaged", ""),   # v27 : toute forme
     (r"cannot score critical hits", "no_crit", ""),
     (r"ward rolls cannot be made for (?!(?:that|those|the) damage point)", "no_ward", ""),
     (r"(?:automatically|immediately) (?:destroyed|slain)|\bis slain\b(?=[^.]*target)|"
@@ -612,6 +611,22 @@ QUALITATIVE_RULES: list[tuple[str, str, str]] = [
     # v21 : sort hors phase des héros (« can use a SPELL ability as if it were your hero phase »)
     (r"can use (?:a|another) (?:non-SUMMON )?(?:SPELL|PRAYER) ability as if", "extra_use", ""),
     (r"Shoot in Combat", "shoot_in_combat", ""),
+    # --- v27 (revue « a-revoir » par faction, LRL) ---
+    # « The Rend characteristic of your general's melee weapons is 2 », « this unit's Save characteristic is 3+ »
+    (r"(?:Attacks|Damage|Rend|Save|Health|Control|Move) characteristic (?:of [^.]*? )?is (?:\d?D\d|\d+\+?)",
+     "stat_set", ""),
+    (r"[Aa]dd \d+\" to the Range characteristic", "range_bonus", ""),          # validé : +6" = 1,0
+    (r"[Ii]gnore (?:all )?negative modifiers", "ignore_debuff", ""),           # validé : 0,5
+    (r"must target this unit", "taunt", ""),                                    # validé : 1,0
+    # « that MOVE ability has no effect » : capacité ENNEMIE annulée (sur un jet, via le déclenchement)
+    (r"(?:FIGHT|MOVE|CHARGE|MOVE or CHARGE) ability has no effect", "restriction", ""),
+    (r"(?:command|RAMPAGE|command or RAMPAGE) ability has no effect|"
+     r"picked to use an ability, roll[^.]*\. On a \d\+, that ability has no effect", "lockout", ""),
+    (r"SPELL ability has no effect", "anti_magic", ""),
+    (r"that ability has no effect on (?:this|that) unit", "negate_attack", ""),
+    (r"cast that spell a second time|can (?:use|issue) the '(?!Rally')[^']+' command[^.]*even if", "extra_use", ""),
+    (r"use the 'Rally' command even if", "rally", ""),
+    (r"[Ii]gnore the effect of the Charge \(\+1 \w+\) ability", "no_buff", ""),
     (r"(?:score )?critical hits? on (?:unmodified )?hit rolls? of \d\+|Crit \((?:2 Hits|Auto-wound|Mortal)\)|"
      r"score critical hits", "crit", ""),
     (r"(?:gain|receive) (?:\d|D3|an extra|1 extra|one extra|an additional) (?:extra )?command points?|"
@@ -725,7 +740,7 @@ def effects_of(declare: str, effect: str, scope: Scope, passive: bool = False, c
         expr = m.group(1) or ""
         if seen_mortal and not expr[:1].isdigit() and "D" not in expr:
             continue
-        mean = dice_mean(expr) if expr else None
+        mean = dice_mean(expr.replace("+X", "+1")) if expr else None   # « D3+X » : X = 1 (v27)
         target_us = bool(re.search(r"mortal damage on (?:this unit|it|that friendly)", effect[m.start():m.end() + 40]))
         add(Effect("mortal_damage", "", mean or 0.0, expr if "D" in expr else "",
                    "friendly" if target_us else "enemy",
@@ -769,6 +784,12 @@ def effects_of(declare: str, effect: str, scope: Scope, passive: bool = False, c
             if kind == "no_weapon_abilities" and re.search(r"The Companion weapon ability has no effect on",
                                                             full[max(0, m.start() - 40):m.end() + 5]):
                 continue   # contrainte sur nos propres unités (Monstrous Entourage), pas un débuff
+            if kind == "stat_set" and re.search(r"(?:has|have) \d+ or more damage points|[Bb]attle [Dd]amaged",
+                                                 full[max(0, m.start() - 200):m.start()]):
+                continue   # profil dégradé (v27) : une perte, déjà lue par battle_damaged
+            if kind == "stat_set" and re.search(r"\b(?:[Ii]f|[Ww]hile|whose|[Uu]nless)\b[^.,:]*$",
+                                                 full[max(0, m.start() - 60):m.start()]):
+                continue   # « If the target's Save characteristic is 3+ » : condition, pas un effet (v27)
             if kind == "fly" and "FLY" not in m.group(0) \
                     and any(e.kind in ("move", "extra_move", "redeploy", "deep_strike") for e in out):
                 continue   # « It can move through the combat ranges » : modalité du mouvement, pas un effet en plus
@@ -777,11 +798,16 @@ def effects_of(declare: str, effect: str, scope: Scope, passive: bool = False, c
                 side = "enemy"
             if kind in ("strike_last", "restriction", "lockout", "move_debuff", "untargetable"):
                 side = "enemy" if re.search(r"target|enemy", full[max(0, m.start() - 80):m.start()]) else "friendly"
+                if "has no effect" in m.group(0):
+                    side = "enemy"   # v27 : on annule une capacité adverse
+            if kind == "taunt":
+                side = "enemy"
             if kind in ("strike_first", "run_and_charge", "run_and_shoot", "redeploy", "extra_fight", "fight_twice",
                         "extra_shoot", "fly", "cp_gain", "crit", "shoot_in_combat", "charge_bonus",
                         "summon", "anti_magic", "control", "pile_in", "damage_redirect", "anti", "extra_move",
                         "deep_strike", "stat_set", "negate_attack", "keyword_gain", "damage_ignore",
-                        "resource", "extra_use", "battle_damaged", "free_retreat", "fixed_roll", "rally"):
+                        "resource", "extra_use", "battle_damaged", "free_retreat", "fixed_roll", "rally",
+                        "range_bonus", "ignore_debuff"):
                 side = "friendly"
             add(Effect(kind, stat, 0.0, "", side, m.group(0)[:80]), full, m.start())
             break  # un même effet qualitatif compte une fois
@@ -873,8 +899,11 @@ def effect_friendly_target(sentence: str, text: str) -> str:
         if _FRIENDLY_LANDMARK.search(kept[max(0, m.start() - 20):m.start()]):
             continue
         ft = friendly_target_of("", kept[m.start():])
+        option = bool(_OPTION_LINE.match(_line_of(sentence, text)))
+        if not ft and option and re.match(r"friendly units?\b", kept[m.start():], re.I):
+            ft = "*"   # v27 : « for friendly units » sur une ligne d'option = toute unité amie (≠ repli)
         if ft:
-            return ("option:" if _OPTION_LINE.match(_line_of(sentence, text)) else "") + ft
+            return ("option:" if option else "") + ft
         return ""
     return ""
 

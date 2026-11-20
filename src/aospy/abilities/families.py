@@ -52,10 +52,10 @@ _MOVE_STATS = {"move", "run", "charge"}
 _MAGIC_STATS = {"cast", "chant", "unbind", "banish", "power_level"}
 
 _OFF_KINDS = {"crit", "anti", "charge_bonus", "reroll", "strike_first", "extra_fight", "fight_twice",
-              "extra_shoot", "shoot_in_combat", "stat_set", "keyword_gain"}
+              "extra_shoot", "shoot_in_combat", "stat_set", "keyword_gain", "range_bonus", "ignore_debuff"}
 _DEF_KINDS = {"ward", "damage_ignore", "negate_attack", "untargetable", "damage_redirect"}
 _DEBUFF_KINDS = {"strike_last", "restriction", "lockout", "move_debuff", "no_crit", "no_ward",
-                 "no_weapon_abilities"}
+                 "no_weapon_abilities", "taunt"}
 _MOBILITY_KINDS = {"move", "redeploy", "deep_strike", "run_and_charge", "run_and_shoot", "fly",
                    "extra_move", "pile_in", "free_retreat"}
 _MAGIC_KINDS = {"anti_magic", "cp_gain", "resource", "summon", "extra_use"}
