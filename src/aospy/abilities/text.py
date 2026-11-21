@@ -37,6 +37,7 @@ _TYPOS = [
     (re.compile(r"\bmodier"), "modifier"), (re.compile(r"\beect"), "effect"),
     (re.compile(r"\b([Aa]dd|[Ss]ubtract) I (to|from)\b"), r"\1 1 \2"),
     (re.compile(r"\broll l additional\b"), "roll 1 additional"),
+    (re.compile(r"\bAAdd\b"), "Add"),
     (re.compile(r"\b([Aa]dd \d+) the (\w+ characteristic)\b"), r"\1 to the \2"),
 ]
 

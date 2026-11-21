@@ -879,3 +879,80 @@ def test_v28_manifestation_summon_and_spell_relay():
     (e,) = _kinds28("Measure the range and visibility of the next SPELL ability used by this unit from the target "
                     "instead of from this unit.")["range_bonus"]
     assert e.stat == "spell"
+
+
+# --- analyseur v29 (revue « a-revoir » : DoT, CoS, SY, SG, IJ, MoN, HS, KO, SoB, DoK, ID, HoH, NT…) ---
+
+@pytest.mark.parametrize("text,kind,side", [
+    ("Halve the target's Move characteristic until the start of your next turn.", "move_debuff", "enemy"),
+    ("The target can immediately use a SPELL ability from the Lore of Change or the Lore of Fate.", "extra_use",
+     "friendly"),
+    ("Change the casting roll for that spell to a value of 12 that cannot be modified.", "fixed_roll", "friendly"),
+    ("Until the start of your next turn, ignore the effects of enemy SPELL abilities on units within 6\" of the "
+     "target.", "anti_magic", "friendly"),
+    ("If the roll equals or exceeds the banishment value, it is banished and removed from play.", "anti_magic",
+     "friendly"),
+    ("This unit can use CHARGE abilities even if it is in combat.", "extra_move", "friendly"),
+    ("Set up the substitute wholly within 6\" of the target and not in combat.", "deep_strike", "friendly"),
+    ("Remove the targets from the battlefield and set them up in reserve masked by illusion.", "deep_strike",
+     "friendly"),
+    ("You control the target objective.", "control", "friendly"),
+    ("Set up a Hand of Nagash wholly within 12\" of and visible to the caster and more than 9\" from all enemy units.",
+     "summon", "friendly"),
+    ("Melee weapons used by friendly ZOGGROK'S IRONMONGERZ units have ANTI-WAR MACHINE (+1 REND).", "anti", "friendly"),
+    ("For the rest of the battle round, friendly BIG WAAAGH! units' melee weapons have CRIT (2 HITS).", "crit",
+     "friendly"),
+    ("Enemy MONSTERS cannot use RAMPAGE abilities while they are in combat with this unit.", "lockout", "enemy"),
+    ("For the rest of the turn, the target can only use CORE abilities.", "lockout", "enemy"),
+    ("Enemy units cannot end a charge move within 1/2\" of a friendly Argent Shard.", "restriction", "enemy"),
+    ("On a 3+, the target's weapons cannot be affected by weapon abilities other than the Companion weapon ability.",
+     "no_weapon_abilities", "enemy"),
+    ("Ignore all modifiers to save rolls for friendly units (positive and negative).", "damage_ignore", "friendly"),
+    ("No command point is spent the second time that command is used.", "cp_gain", "friendly"),
+    ("Pick a visible friendly FYRESLAYERS PRIEST. Give that PRIEST D3 ritual points.", "resource", "friendly"),
+    ("Roll a dice. On a 3+, it can use the 'Shoot' ability as if it were your shooting phase.", "extra_shoot",
+     "friendly"),
+    ("Inflict D3 damage on the target.", "mortal_damage", "enemy"),
+    ("Each time this unit uses a FIGHT ability, pick either the Calamitous Sweep or Crushing Blow weapon "
+     "characteristics for all the attacks it makes with its Menhir Club.", "profile_choice", "friendly"),
+    ("Instead of discarding that card, return it face down to the bottom of your battle tactic deck.", "tactic_cards",
+     "friendly"),
+    ("This unit has a coherency range of 2\".", "coherency", "friendly"),
+])
+def test_v29_generic_wordings(text, kind, side):
+    k = _kinds28(text, declare="Pick a visible enemy unit to be the target." if "the target" in text
+                 and "friendly" not in text and kind not in ("deep_strike", "extra_use") else "")
+    assert kind in k and k[kind][0].side == side
+
+
+@pytest.mark.parametrize("text,declare,side", [
+    # contrepartie sur sa propre unité après une téléportation (« They cannot use MOVE abilities »)
+    ("Remove your general and set them up again more than 6\" from all enemy units. They cannot use MOVE abilities "
+     "in the following movement phase.", "", "friendly"),
+    # pronom dont l'antécédent ennemi est dans la phrase
+    ("If the target is a friendly unit, it has STRIKE-FIRST. If the target is an enemy unit, it has STRIKE-LAST "
+     "for the rest of the turn.", "Pick a visible unit to be the target.", "enemy"),
+    # pronom sous une cible ennemie déclarée
+    ("While the target is tongue-tied:\n- It cannot use RUN abilities.", "Pick a visible enemy unit to be the target.",
+     "enemy"),
+    # « The target » amie : contrepartie
+    ("Until the start of your next turn:\n- The target has STRIKE-FIRST.\n- The target cannot use commands.",
+     "Pick a visible friendly unit to be the target.", "friendly"),
+])
+def test_v29_restriction_subject(text, declare, side):
+    k = _kinds28(text, declare=declare)
+    (e,) = [e for kind in ("restriction", "strike_last", "lockout") for e in k.get(kind, [])]
+    assert e.side == side
+
+
+def test_v29_dice_match_and_battle_round():
+    (e,) = _kinds28("You can change the lowest D6 in the charge roll to match the highest D6.")["dice_count"]
+    assert (e.stat, e.value, e.detail, e.side) == ("charge", 1.0, "max", "friendly")
+    (e,) = _kinds28("Each time your opponent makes a charge roll for the target, they must change the highest D6 to "
+                    "match the lowest D6.")["dice_count"]
+    assert (e.stat, e.value, e.detail, e.side) == ("charge", -1.0, "min", "enemy")
+    (e,) = _kinds28("Add the current battle round number to the Move characteristic of friendly GRUNTA STAMPEDE "
+                    "units.")["stat_mod"]
+    assert (e.stat, e.value) == ("move", 3.0)
+    assert "untargetable" not in _kinds28("Units in this Regiment of Renown cannot be picked to be the target of "
+                                          "RAMPAGE abilities used by enemy units.")

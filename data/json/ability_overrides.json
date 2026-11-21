@@ -218,12 +218,6 @@
    ],
    "note": "seuls les critiques touchent au tir contre cette unité (≈ touche sur 6+), passif ; revue a-revoir v28, cas isolé jugé sur le texte (2026-11-20)"
   },
-  "2354527af0bc": {
-   "name": "FELL RITUALIST",
-   "verdict": "correct",
-   "power": 1.3,
-   "note": "une carte de tactique de bataille piochée en plus (choix), tant que le général est en jeu ; revue a-revoir v28, cas isolé jugé sur le texte (2026-11-20)"
-  },
   "3d275a0ec3bf": {
    "name": "The Eye of Sheerian",
    "verdict": "pari",
@@ -307,12 +301,6 @@
    ],
    "note": "après une charge, +D3 (2+) Attaques aux griffes contre la cible désignée, qui doit être visée ; revue a-revoir v28, cas isolé jugé sur le texte (2026-11-20)"
   },
-  "feea28a588f0": {
-   "name": "Dispersed Formation",
-   "verdict": "anecdotique",
-   "power": 0.5,
-   "note": "cohésion à 2\" : confort de placement ; revue a-revoir v28, cas isolé jugé sur le texte (2026-11-20)"
-  },
   "0166e3d8f0ac": {
    "name": "DARK HUNT",
    "verdict": "anecdotique",
@@ -324,6 +312,213 @@
    "verdict": "anecdotique",
    "power": 0.75,
    "note": "« Eruption of Fury » : 3 BM fixes au lieu de D3 par 6 non modifié ; revue a-revoir v28, cas isolé jugé sur le texte (2026-11-20)"
+  },
+  "1b56d9e63bda": {
+   "name": "GRIMNIR'S DEFIANCE",
+   "verdict": "correct",
+   "power": 1.0,
+   "add_tags": [
+    "buff-defensif"
+   ],
+   "remove_tags": [],
+   "note": "immunité aux seuls RAMPAGE ennemis : étroite ; revue a-revoir v29, cas isolé jugé sur le texte (2026-11-21)"
+  },
+  "c308f5c0677c": {
+   "name": "MIND FLARE",
+   "verdict": "plan",
+   "power": 2.0,
+   "add_tags": [
+    "debuff",
+    "anti-deathstar"
+   ],
+   "remove_tags": [],
+   "note": "une unité ennemie au contact du général ne touche que sur 6 non modifié pendant la phase, 1/bataille ; revue a-revoir v29, cas isolé jugé sur le texte (2026-11-21)"
+  },
+  "c8745ac1c355": {
+   "name": "CLOAKED IN SHADOW",
+   "verdict": "plan",
+   "power": 2.0,
+   "add_tags": [
+    "buff-defensif"
+   ],
+   "remove_tags": [],
+   "note": "une seule unité ennemie par phase peut attaquer le général, passif ; revue a-revoir v29, cas isolé jugé sur le texte (2026-11-21)"
+  },
+  "9d5c1bf5bc2a": {
+   "name": "LORD OF THE ARCANE AEGIS",
+   "verdict": "correct",
+   "power": 1.75,
+   "add_tags": [
+    "buff-defensif"
+   ],
+   "remove_tags": [],
+   "note": "sauvegarde non modifiée de 4+ toujours réussie contre le type d'unité choisi au déploiement ; revue a-revoir v29, cas isolé jugé sur le texte (2026-11-21)"
+  },
+  "4e7744bf8be1": {
+   "name": "Monster Grapple",
+   "verdict": "pari",
+   "power": 1.5,
+   "add_tags": [
+    "debuff",
+    "aleatoire"
+   ],
+   "remove_tags": [
+    "fiable"
+   ],
+   "note": "3+ : Attaques d'une arme (Compagnon d'abord) d'un MONSTRE ennemi divisées par 2 ; revue a-revoir v29, cas isolé jugé sur le texte (2026-11-21)",
+   "reliability": 2.0
+  },
+  "fa38b3b74958": {
+   "name": "Delightful Defeatism",
+   "verdict": "correct",
+   "power": 1.0,
+   "add_tags": [
+    "debuff"
+   ],
+   "remove_tags": [],
+   "note": "un ennemi à 18\" fait 3 jets de ralliement de moins ; revue a-revoir v29, cas isolé jugé sur le texte (2026-11-21)"
+  },
+  "fae2d18931c0": {
+   "name": "Champions of the Gilded Throne",
+   "verdict": "correct",
+   "power": 1.5,
+   "add_tags": [
+    "combat-supplementaire"
+   ],
+   "remove_tags": [],
+   "note": "deux unités activées d'un coup au combat (démon + sybarite) : tempo ; revue a-revoir v29, cas isolé jugé sur le texte (2026-11-21)"
+  },
+  "0fbba6af56f2": {
+   "name": "Split Again",
+   "verdict": "correct",
+   "power": 1.5,
+   "add_tags": [
+    "resurrection"
+   ],
+   "remove_tags": [],
+   "note": "3+ par Blue Horror tué : une figurine Brimstone revient ; revue a-revoir v29, cas isolé jugé sur le texte (2026-11-21)"
+  },
+  "d20554cec42b": {
+   "name": "THRALL DRAIN",
+   "verdict": "correct",
+   "power": 1.5,
+   "add_tags": [
+    "soin"
+   ],
+   "remove_tags": [],
+   "note": "sacrifie D3 figurines amies pour soigner entièrement le lanceur ; revue a-revoir v29, cas isolé jugé sur le texte (2026-11-21)"
+  },
+  "27490341d651": {
+   "name": "'BREAK THEM, ONE AND ALL...'",
+   "verdict": "correct",
+   "power": 1.0,
+   "add_tags": [],
+   "remove_tags": [],
+   "note": "'Power Through' utilisable par autant d'unités ZIGGURAT STAMPEDE qu'on veut chaque tour ; revue a-revoir v29, cas isolé jugé sur le texte (2026-11-21)"
+  },
+  "8de74f7e4d68": {
+   "name": "TALES OF HORROR",
+   "verdict": "correct",
+   "power": 1.0,
+   "add_tags": [
+    "debuff"
+   ],
+   "remove_tags": [],
+   "note": "renforts adverses de la cible réduits de moitié pour la bataille, 1/bataille ; revue a-revoir v29, cas isolé jugé sur le texte (2026-11-21)"
+  },
+  "b9eaf51481a0": {
+   "name": "SHIELD BASH",
+   "verdict": "pari",
+   "power": 1.5,
+   "add_tags": [
+    "debuff",
+    "aleatoire"
+   ],
+   "remove_tags": [
+    "fiable"
+   ],
+   "note": "3+ : la cible au contact du général doit faire une retraite ; revue a-revoir v29, cas isolé jugé sur le texte (2026-11-21)",
+   "reliability": 2.0
+  },
+  "518771399db8": {
+   "name": "The Verminous Court",
+   "verdict": "pari",
+   "power": 1.5,
+   "add_tags": [
+    "debuff",
+    "aleatoire"
+   ],
+   "remove_tags": [
+    "fiable"
+   ],
+   "note": "3+ : la cible perd un artefact (comme SNOTT) ; revue a-revoir v29, cas isolé jugé sur le texte (2026-11-21)",
+   "reliability": 2.0
+  },
+  "f4d0ed69ef7a": {
+   "name": "WHAT'S YOURS IS MINE",
+   "verdict": "pari",
+   "power": 1.0,
+   "add_tags": [
+    "debuff",
+    "aleatoire"
+   ],
+   "remove_tags": [
+    "fiable"
+   ],
+   "note": "6+ (+1 par unité du régiment au contact) : la cible perd un artefact ; revue a-revoir v29, cas isolé jugé sur le texte (2026-11-21)",
+   "reliability": 1.0
+  },
+  "c0c3014e8b2d": {
+   "name": "CRAFTY CREEPERS",
+   "verdict": "pari",
+   "power": 1.5,
+   "add_tags": [
+    "debuff",
+    "aleatoire"
+   ],
+   "remove_tags": [
+    "fiable"
+   ],
+   "note": "3+ : le héros ennemi perd son artefact (comme SNOTT) ; revue a-revoir v29, cas isolé jugé sur le texte (2026-11-21)",
+   "reliability": 2.0
+  },
+  "e62733f10039": {
+   "name": "FIENDS OF THE WILDS",
+   "verdict": "anecdotique",
+   "power": 0.75,
+   "add_tags": [
+    "charge"
+   ],
+   "remove_tags": [],
+   "note": "un dé de charge passe à 4 (gain moyen +0,5) ; revue a-revoir v29, cas isolé jugé sur le texte (2026-11-21)"
+  },
+  "4745661fbba5": {
+   "name": "FILTH-LADEN DAEMONIC BLOOMS",
+   "verdict": "anecdotique",
+   "power": 0.5,
+   "add_tags": [
+    "mobilite"
+   ],
+   "remove_tags": [],
+   "note": "jet de course fixé à 4 ; revue a-revoir v29, cas isolé jugé sur le texte (2026-11-21)"
+  },
+  "72cd571b4c55": {
+   "name": "AQSHIAN ORDER OF MERIT",
+   "verdict": "anecdotique",
+   "power": 0.5,
+   "add_tags": [
+    "debuff"
+   ],
+   "remove_tags": [],
+   "note": "annule les BM supplémentaires de l'« Eruption of Fury » adverse ; revue a-revoir v29, cas isolé jugé sur le texte (2026-11-21)"
+  },
+  "b27a93623673": {
+   "name": "DOMINION HEXES",
+   "verdict": "anecdotique",
+   "power": 0.75,
+   "add_tags": [],
+   "remove_tags": [],
+   "note": "PV doublés pour le seul 'Power Through' ; revue a-revoir v29, cas isolé jugé sur le texte (2026-11-21)"
   }
  }
 }

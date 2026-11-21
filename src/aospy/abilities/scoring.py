@@ -71,6 +71,9 @@ EFFECT_WEIGHTS: dict[str, float] = {
     # v28, validés par l'utilisateur (2026-11-20) : tir sur un héros protégé (« Guarded Hero » ignoré) = 1,0,
     # soins/retours de figurines interdits à l'ennemi = 1,0 (l'utilisateur a choisi plus haut que ma proposition 0,75)
     "snipe": 1.0, "anti_heal": 1.0,
+    # v29, validés par l'utilisateur (2026-11-21) : choix de profil d'arme = règle de profil (0), cartes de tactique
+    # 1,5 (plus haut que ma proposition 1,0 : le scoring décide la partie), cohésion 2" 0,25 (plus bas que 0,5)
+    "profile_choice": 0.0, "tactic_cards": 1.5, "coherency": 0.25,
 }
 
 #: Dé en plus / en moins sur un jet (analyseur v28, validé par l'utilisateur 2026-11-20). « garder » (3 dés, on en retire 1) ≈ une relance du jet
@@ -158,8 +161,9 @@ def _effect_weight(e: Effect) -> tuple[float, str]:
         if e.value < 0:
             return 0.0, ""   # contrepartie sur sa propre unité
         base = 0.5 if e.stat == "redeploy" else REROLL_WEIGHTS.get(e.stat, 1.0)   # Redeploy ≈ course
-        w = base * (DICE_SUM_MULT if e.detail == "somme" else 1.0)
-        return w, f"un dé de plus ({name}, {'tous comptent' if e.detail == 'somme' else 'on en retire un'})"
+        w = base * (DICE_SUM_MULT if e.detail == "somme" else 1.0)   # « max » (dé bas = dé haut) ≈ « garder »
+        how = {"somme": "tous comptent", "max": "le plus bas devient le plus haut"}.get(e.detail, "on en retire un")
+        return w, f"un dé de plus ({name}, {how})"
     if e.kind in ("strike_last", "restriction", "lockout", "move_debuff", "untargetable"):
         if e.kind == "untargetable" and e.side == "friendly":
             return 2.0, "inciblable"

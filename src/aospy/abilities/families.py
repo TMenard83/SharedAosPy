@@ -59,7 +59,7 @@ _DEBUFF_KINDS = {"strike_last", "restriction", "lockout", "move_debuff", "no_cri
                  "no_weapon_abilities", "taunt", "anti_heal"}
 _MOBILITY_KINDS = {"move", "redeploy", "deep_strike", "run_and_charge", "run_and_shoot", "fly",
                    "extra_move", "pile_in", "free_retreat"}
-_MAGIC_KINDS = {"anti_magic", "cp_gain", "resource", "summon", "extra_use"}
+_MAGIC_KINDS = {"anti_magic", "cp_gain", "resource", "summon", "extra_use", "tactic_cards"}
 
 #: Départage de la famille principale à égalité d'effets (ordre d'importance pour le mariage).
 _PRIORITY = ("buff-donne", "debuff", "degats-directs", "buff-perso-offensif", "buff-perso-defensif",
