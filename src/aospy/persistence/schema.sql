@@ -381,6 +381,10 @@ ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS action_channel VARCHAR;
 ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS off_support DOUBLE;
 ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS def_support DOUBLE;
 ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS support_abilities VARCHAR;
+-- Dégâts directs (variante B, étape 2, analysis/layers/mortals.py) : blessures mortelles des aptitudes de charte,
+-- espérées contre une cible type, pondérées par la frise ; ajoutées aux dégâts dans score_per_100 (troupes comprises).
+ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS off_direct DOUBLE;
+ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS direct_abilities VARCHAR;
 
 -- Couche 3 — mariage châssis × aptitude (analysis/marriage.py, `aospy encounter build`) : chaque aptitude de
 -- charte jugée sur le châssis de chacun de ses porteurs. marriage = D (P(conditions du porteur) × rounds encore

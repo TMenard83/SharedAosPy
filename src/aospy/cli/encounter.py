@@ -170,7 +170,7 @@ def _print_best(rows: list[dict], detail: bool) -> None:
     print(
         f"{'#':>3} {'unité':<36}{'armée':<20}{'pts':>5}{'score':>7}{'rang':>6}{'comb.':>7}{'action':>7}"
         f"{'canal':>8}{'mob.':>6}{'dég/100':>8}{'+%':>7}{'bon cas':>8}{'dur/100':>8}{'+%':>7}{'bon cas':>8}"
-        f"{'s.dég':>7}{'s.dur':>7}  │{'ch.dég':>7}{'ch.dur':>7}{'ch.score':>9}"
+        f"{'direct':>7}{'s.dég':>7}{'s.dur':>7}  │{'ch.dég':>7}{'ch.dur':>7}{'ch.score':>9}"
     )
     for i, r in enumerate(rows, 1):
         print(
@@ -179,13 +179,16 @@ def _print_best(rows: list[dict], detail: bool) -> None:
             f"{(r.get('action_channel') or '—')[:7]:>8}{_num(r.get('mobility'), 2):>6}{r['off_realized_per_100']:>8.1f}"
             f"{_gain(r['off_realized'], r['off_chassis']):>7}{r['off_good_per_100']:>8.1f}"
             f"{r['def_realized_per_100']:>8.1f}{_gain(r['def_realized'], r['def_chassis']):>7}"
-            f"{r['def_good_per_100']:>8.1f}{_per100(r.get('off_support'), r['points']):>7}"
+            f"{r['def_good_per_100']:>8.1f}{_per100(r.get('off_direct'), r['points']):>7}"
+            f"{_per100(r.get('off_support'), r['points']):>7}"
             f"{_per100(r.get('def_support'), r['points']):>7}"
             f"  │{_num(r.get('off_fit_per_100')):>7}{_num(r.get('def_fit_per_100')):>7}"
             f"{_num(r.get('score_fit_per_100')):>9}"
         )
         if detail and r["abilities"]:
             print(f"      aptitudes : {r['abilities']}")
+        if detail and r.get("direct_abilities"):
+            print(f"      dégâts directs : {r['direct_abilities']}")
         if detail and r.get("support_abilities"):
             print(f"      soutien : {r['support_abilities']}")
 
@@ -208,12 +211,14 @@ def cmd_encounter_best(args: argparse.Namespace) -> int:
         "1/bataille courte = 1/2 ; × P(déclenchement)).\n"
         "score = comb. × mob. ; comb. = √(dég/100 × dur/100) ; mob. = (action / action médiane)^0,35 ;\n"
         "action = portée d'action (pouces/tour) : la plus grande parmi les canaux significatifs (canal) — score "
-        "(mouvement + course), mêlée (+ charge 7\"), tir (+ arme ≥ 20 % des dégâts), sort / prière / ordre / aura "
+        '(mouvement + course), mêlée (+ charge 7"), tir (+ arme ≥ 20 % des dégâts), sort / prière / ordre / aura '
         "(+ portée de l'aptitude non anecdotique) ;\n"
         "rang = centile du score dans le segment ; dég = dégâts d'un round vs save 4+ (plancher 75 %) ; "
         "dur = coups à porter ; +% = gain sur le châssis nu ; bon cas = avec les effets conditionnels ;\n"
+        "direct = blessures mortelles des aptitudes de charte (pour 100 pts, cible type 5 × 2 PV, plancher 75 %, "
+        "× frise ; « a chargé » → ch.) ;\n"
         "s.dég / s.dur = soutien d'un héros (pour 100 pts) : ses buffs de charte sur d'autres unités amies, au "
-        "meilleur quart des receveurs × 1 ciblage / 2 bulle ≤ 12\" / 3 au-delà ou armée — compté dans le score, "
+        'meilleur quart des receveurs × 1 ciblage / 2 bulle ≤ 12" / 3 au-delà ou armée — compté dans le score, '
         "avec la portée de l'aptitude ;\n"
         "ch. = selon châssis : conditions du porteur (charge, territoire, objectif…) × P(ce châssis les remplit)"
     )

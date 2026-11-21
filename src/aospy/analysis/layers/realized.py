@@ -530,6 +530,96 @@ def support_values(con, share_melee: dict[int, float]) -> dict[tuple[str, str], 
     return out
 
 
+def direct_damage(con) -> dict[tuple[str, str], list[tuple]]:
+    """Aptitudes de charte qui infligent des blessures mortelles à l'ennemi (étape 2 de la variante B), par
+    (faction, charte en minuscules) : [(aptitude, canal, portée, texte, portée d'aptitude, fréquence,
+    P(déclenchement), round dispo, ressource, côté du tour, conditionnelle)]. L'espérance se lit dans
+    `mortals.mortal_pmf` (le montant de la couche 1 n'est pas fiable pour ces textes)."""
+    rows = con.execute(
+        """SELECT o.faction_name, lower(o.owner_name), a.name, a.cost_type, a.scope, a.range_inches, a.effect_text,
+                  a.frequency, coalesce(a.activation_prob, 1.0), a.available_round, a.turn_side,
+                  string_agg(DISTINCT coalesce(e.requires, ''), ' | '), coalesce(a.conditions, '')
+           FROM ability_owner o JOIN ability a ON a.uid = o.ability_uid
+           JOIN ability_effect e ON e.ability_uid = a.uid
+           WHERE o.owner_kind = 'warscroll' AND a.source_kind = 'warscroll' AND a.verdict <> 'anecdotique'
+             AND e.kind = 'mortal_damage' AND e.side = 'enemy'
+           GROUP BY ALL"""
+    ).fetchall()
+    from .mortals import CHARGED_RE
+
+    resource = {SPENDS_RESOURCE, RESOURCE_SCALED}
+    out: dict[tuple[str, str], list[tuple]] = {}
+    for fac, owner, name, cost, scope, rng, text, freq, prob, avail, tside, reqs, aconds in rows:
+        tokens = {r.strip() for r in (reqs or "").split("|") if r.strip()}
+        setup = {c.strip() for c in aconds.split("|") if c.strip()}
+        if "doit avoir chargé" in setup or CHARGED_RE.match(" ".join((text or "").split())):
+            tokens.add("a chargé")
+        tokens |= {c for c in setup if c in _INTERACTION_CONDITIONS}
+        out.setdefault((fac, owner), []).append(
+            (
+                name,
+                _channel(cost, scope or ""),
+                float(rng or 0),
+                text or "",
+                scope or "",
+                freq or "",
+                prob,
+                avail,
+                bool(tokens & resource),
+                tside or "any",
+                " | ".join(sorted(tokens - resource)),
+            )
+        )
+    return out
+
+
+#: Conditions de mise en place (couche 1, `ability.conditions`) qui sont des interactions — carte, adversaire,
+#: pertes — et non une contrainte de jeu : elles sortent l'effet du chiffre réalisé, comme les autres conditions.
+_INTERACTION_CONDITIONS = {
+    "dépend d'une charge ennemie",
+    "déclenché par une mort",
+    "dépend d'un kill préalable",
+    "doit avoir subi des dégâts",
+    "position (objectif/territoire/décor)",
+    "unité en réserve",
+}
+
+
+def unit_direct_damage(unit: Unit, entries: list, share_melee: float = 1.0) -> tuple[list[Support], float]:
+    """Dégâts directs pondérés d'une unité : (effets sans condition — un `Support` côté dégâts, à la portée de
+    l'aptitude —, apport « selon châssis » des effets qui demandent une charge, × P(ce châssis charge),
+    `marriage.trigger`). Les autres conditions ne comptent pas, comme pour les effets propres."""
+    from . import encounter
+    from .mortals import enemy_targets, mean, mortal_pmf
+
+    out: list[Support] = []
+    fit = 0.0
+    for name, chan, rng, text, scope, freq, prob, avail, spends, tside, conds in entries:
+        p_fit = 1.0
+        if conds:
+            if conds != "a chargé":
+                continue
+            p_fit = trigger(unit, "a chargé", "a chargé", share_melee, melee_effect=True).p
+            tside = "yours"
+        q = mortal_pmf(text, unit.models)
+        if q is None:
+            continue
+        # lu au même plancher que les dégâts d'armes (`encounter.FLOOR_COVERAGE`) : une rafale aléatoire
+        # (« D3, sur 2+ ») vaut moins que sa moyenne
+        cov = encounter.FLOOR_COVERAGE
+        e = mean(q) if cov is None else encounter.smooth_floor(q, cov)
+        if e <= 0:
+            continue
+        w = coverage(freq, "", avail, spends, tside, "off", share_melee) * prob
+        if w <= 0:
+            continue
+        if conds:
+            fit += p_fit * e * enemy_targets(scope) * w
+        else:
+            out.append(Support(name, chan, rng, e * enemy_targets(scope) * w, 0.0))
+    return out, fit
+
+
 def hero_mobility(
     own_off: float,
     own_def: float,
@@ -586,9 +676,12 @@ def build_realized_rows(con) -> list[tuple]:
     moves = mobility_effects(con)
     own_actions, lores = action_abilities(con)
     supports = support_values(con, share_melee)
+    directs = direct_damage(con)
     results = []
     reaches = []
     sups: list[list[Support]] = []
+    dirs: list[list[Support]] = []
+    dir_fit: list[float] = []
     actions: list[tuple[float, str]] = []
     for fac, u in units:
         effs = applicable(u, effects.get((fac, u.name.lower()), []), vocab)
@@ -597,6 +690,9 @@ def build_realized_rows(con) -> list[tuple]:
         wch = weapon_channels(u)
         actions.append(action_reach(reaches[-1], wch, unit_action_abilities(u, fac, own_actions, lores)))
         sups.append(supports.get((fac, u.name.lower()), []) if u.is_hero else [])
+        ds, dfit = unit_direct_damage(u, directs.get((fac, u.name.lower()), []), share_melee.get(u.id, 1.0))
+        dirs.append(ds)
+        dir_fit.append(dfit)
     # Le facteur du score lit la **portée d'action** (`reach_in` reste la portée de déplacement, lue par le mariage) :
     # troupes, variante A (le plus long canal significatif) ; héros, variante B (canaux pondérés par leur apport).
     med = median_reach([a for a, _c in actions]) if actions else 0.0
@@ -604,10 +700,16 @@ def build_realized_rows(con) -> list[tuple]:
     for i, (a, _c) in enumerate(actions):
         u, r, _n = results[i]
         if u.is_hero:
-            mob.append(hero_mobility(r.off_realized, r.def_realized, mobility_factor(a, med), reaches[i], sups[i], med))
+            mob.append(
+                hero_mobility(
+                    r.off_realized, r.def_realized, mobility_factor(a, med), reaches[i], sups[i] + dirs[i], med
+                )
+            )
         else:
             mob.append(mobility_factor(a, med))
-    sup_off = [sum(s.off for s in ss) for ss in sups]
+    direct = [sum(d.off for d in ds) for ds in dirs]
+    # dégâts directs : propres à l'unité (troupes comprises), comptés avec le soutien dans le score
+    sup_off = [sum(s.off for s in ss) + direct[i] for i, ss in enumerate(sups)]
     sup_def = [sum(s.def_ for s in ss) for ss in sups]
 
     rows: list[tuple] = []
@@ -668,13 +770,17 @@ def build_realized_rows(con) -> list[tuple]:
                 round(mob[i], 3),
                 round(combined((r.off_realized + sup_off[i]) * per, (r.def_realized + sup_def[i]) * per) * mob[i], 3),
                 ranks[i][4],
-                round(combined((r.off_fit + sup_off[i]) * per, (r.def_fit + sup_def[i]) * per) * mob[i], 3),
+                round(
+                    combined((r.off_fit + sup_off[i] + dir_fit[i]) * per, (r.def_fit + sup_def[i]) * per) * mob[i], 3
+                ),
                 round(actions[i][0], 2),
                 actions[i][1],
-                round(sup_off[i], 3),
+                round(sup_off[i] - direct[i], 3),
                 round(sup_def[i], 2),
                 " | ".join(f"{s.ability} ({s.channel})" for s in sorted(sups[i], key=lambda s: -(s.off + s.def_)))
                 or None,
+                round(direct[i], 3),
+                " | ".join(f"{d.ability} ({d.off:.2f})" for d in sorted(dirs[i], key=lambda d: -d.off)) or None,
             )
         )
     return rows

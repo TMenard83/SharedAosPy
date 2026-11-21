@@ -59,6 +59,8 @@ REALIZED_COLS = (
     "off_support",
     "def_support",
     "support_abilities",
+    "off_direct",
+    "direct_abilities",
 )
 
 
