@@ -1,0 +1,821 @@
+pages: 7
+pages_scenario: None
+units_matched: ['Abraxia, Spear of the Everchosen', 'Varanguard', 'Daemon Prince', 'Chaos Furies', 'Gunnar Brand', 'Singri Brand', 'The Oathsworn Kin']
+units_unmatched: []
+rules_included: ['Règles de Saison 2026-27', 'Traits de Bataille', 'Formation — Despoilers', 'Domaine de Sorts — Lore of the Damned', 'Domaine de Manifestations — Twilit Sorceries', 'Blazing Onslaught', 'Burning for Vengeance', 'Artefact de Pouvoir : DARKFLAME PENDANT → Daemon Prince', 'Trait Héroïque : RADIANCE OF DARK GLORY → Daemon Prince', 'Trait de Bataille : PLEDGED TO NURGLE → Daemon Prince']
+rules_unmatched: []
+wahapedia_used: []
+absent_references: []
+absent_keywords: []
+===== page 1 =====
+STD - L3 Cavalerie 2000/2000 pts
+Slaves to Darkness · Despoilers · Drops : 3 · Domaine de sorts : Lore of the Damned · Domaine de manifestations : Twilit
+Sorceries
+Battle Tactic Cards : Blazing Onslaught, Burning for Vengeance
+General's Regiment
+ Abraxia, Spear of the Everchosen — 250 pts
+General
+Varanguard — 300 pts
+Varanguard — 300 pts
+Varanguard — 300 pts
+Varanguard — 300 pts
+Regiment 1
+ Daemon Prince — 250 pts
+Darkflame Pendant, Radiance of Dark Glory - (20) Points, 1x Pledged to Nurgle, 1x Wings
+Chaos Furies — 120 pts
+Regiment 2
+ Gunnar Brand — 180 pts
+Singri Brand — 0 pts
+The Oathsworn Kin — 0 pts
+Généré le <horodatage> — aospy roster pdf
+Légende des pictos
+ 7+
+Aptitude : valeur de lancement. Warscroll : niveau de Sorcier ; manifestation : valeur de lancement de sa convocation.
++2
+Dés de rage : « +N » gagnés, sinon nombre dépensé
++2
+Niveau de fureur : « +N » augmenté, sinon diminué
+MDG
+Source du texte : MDG (Manuel du Général), BT (battletome), FP (faction pack), AQSHY,
+WAHAPEDIA (anglais). Traits de Bataille, Formation : catégorie de règles d'armée.
+SIMPLE
+Texte adapté, pas le verbatim : en cas de litige, revenir à la règle d'origine.
+BASE
+SAISON
+Aptitude de base du jeu (Core) ; règle de la saison en cours (MdG 2026-27).
+×1 / TOUR (ARMÉE)
+PASSIF
+Fréquence — (ARMÉE) : une seule fois pour toute l'armée ; passif : toujours actif, rien à déclarer.
+RÉACTION
+Réaction : utilisée en réponse à l'aptitude indiquée.
+TIR
+CHARGE
+Mot-clé d'aptitude, à la couleur de sa phase (Mouvement, Tir, Charge, Corps à Corps).
+ATTAQUE
+SACCAGE
+Mot-clé d'aptitude valable dans plusieurs phases.
+SORT
+PRIÈRE
+Magie (sort, manifestation, bannissement…) ; prière. Illimité : utilisable plusieurs fois par tour.
+TACTIQUE
+MOT-CLÉ
+Autre mot-clé d'aptitude (Tactique : règle spéciale d'une carte de tactique) ; bordeaux : propre à la
+faction.
+1 / 7
+
+===== page 2 =====
+Abraxia, Spear of the Everchosen
+ MV
+10"
+ CT
+ 5
+ SV
+3+
+ WD
+5+
+ HP
+14
+1 model
+ 230 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+The Thanatorg’s Claws and Fangs
+Companion
+ 6
+ 4+
+ 3+
+ 1
+ 2
+Gorbolga
+Anti-HERO (+1 Rend), Charge (+1 Damage)
+ 5
+ 3+
+ 3+
+ 2
+ 2
+PHASE DE MÊLÉE
+Warlord of the First Circle
+PASSIF
+WAHAPEDIA
+Effect: If a friendly Varanguard unit uses the ‘Relentless Killers’
+ability while it is wholly within 12" of this unit, that unit does not have
+STRIKE-LAST as a result of that ability.
+Roar of Domination
+×1 / TOUR (ARMÉE)
+LES 2 PHASES
+RAMPAGE
+WAHAPEDIA
+Declare: Pick an enemy HERO in combat with this unit to be the
+target.
+Effect: Roll a dice. On a 3+, subtract 1 from the Attacks
+characteristic of the target’s melee weapons for the rest of the turn.
+Gorbolga the Accurs’d
+LES 2 PHASES
+WAHAPEDIA
+Effect: If this unit is in combat, roll a dice and apply the
+corresponding effect:
+1 - Uncontrollable Power: Allocate 1 damage point to this unit.
+2 - The Spear Slumbers: No effect.
+3-5 - White-hot Varanite: Add 1 to the Damage characteristic of this
+unit’s Gorbolga for the rest of the turn.
+6 - Rampant Mutation: The effect of ‘White-hot Varanite’ applies
+and this unit’s Gorbolga has Crit (Mortal) for the rest of the turn.
+Blood of Molten Varanite
+PASSIF
+WAHAPEDIA
+Effect: Roll a dice each time a damage point inflicted by a combat
+attack is allocated to this unit. On a 4+, inflict 1 mortal damage on the
+attacking unit after the FIGHT ability has been resolved.
+N'IMPORTE QUELLE PHASE
+Battle Damaged
+PASSIF
+WAHAPEDIA
+Effect: While this unit has 10 or more damage points, the Attacks
+characteristic of the Thanatorg’s Claws and Fangs is 4.
+CHAOS · SLAVES TO DARKNESS · WARRIORS OF CHAOS · HERO ·
+MONSTER · UNIQUE · WARD
+ Wahapedia (EN)
+ Daemon Prince
+ MV
+8"
+ CT
+ 5
+ SV
+3+
+ WD
+6+
+ HP
+10
+1 model
+ 230+20 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Hellforged Weapons
+Crit (Mortal)
+ 6
+ 3+
+ 3+
+ 1
+ 3
+PHASE DES HÉROS
+RADIANCE OF DARK
+GLORY
+LES 2 PHASES
+TRAIT HÉROÏQUE
+WAHAPEDIA
+Declare: Pick each damaged friendly unit wholly within 12" of this
+unit to be the targets.
+Effect: Roll a dice for each target. On a 3+, Heal (1) the target. Heal
+(3) the target instead if it is a MONSTER.
+PHASE DE MOUVEMENT
+Airborne Horror
+PASSIF
+WAHAPEDIA
+Effect: If this unit has Wings, it has a Move characteristic of 10" and
+has FLY.
+PHASE DE MÊLÉE
+The Mounted Skulls of the
+Fallen
+PASSIF
+WAHAPEDIA
+Effect: If this unit has a Trophy Rack, its Hellforged Weapons also
+have Anti-HERO (+1 Rend).
+Immortal Champion
+LES 2 PHASES
+WAHAPEDIA
+Effect: Roll a dice. On a 4+, this unit has STRIKE-FIRST for the rest
+of the turn.
+N'IMPORTE QUELLE PHASE
+DARKFLAME PENDANT
+PASSIF
+WAHAPEDIA
+ARTEFACT DE POUVOIR
+Effect: Weapons used for attacks that target this unit have a
+maximum Damage characteristic of 1.
+PLEDGED TO NURGLE
+PASSIF
+WAHAPEDIA
+TRAIT DE BATAILLE
+Effect: Friendly PLEDGED TO NURGLE units have WARD (6+). If a
+unit already has WARD (6+), it has WARD (5+) instead.
+CHAOS · DAEMON · SLAVES TO DARKNESS · HERO · INFANTRY ·
+WARD
+ Wahapedia (EN)
+2 / 7
+
+===== page 3 =====
+Gunnar Brand
+ MV
+5"
+ CT
+ 2
+ SV
+5+
+ WD
+—
+ HP
+ 6
+1 model
+ 180 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Dual Axes
+Crit (Mortal)
+ 10
+ 4+
+ 3+
+ 1
+ 1
+PHASE DE MÊLÉE
+Carve a Path To Glory
+LES 2 PHASES
+WAHAPEDIA
+Declare: This unit can only use this ability if it is in combat with an
+enemy HERO.
+Effect: This unit can use 2 FIGHT abilities this phase. After the first
+is used, however, this unit has STRIKE-LAST for the rest of the turn.
+When using the second FIGHT ability, this unit must pick an enemy
+HERO to be the target of all of its attacks.
+FIN DE TOUR
+Oath of Bloodshed
+×1 / BATAILLE
+LES 2 PHASES
+WAHAPEDIA
+Declare: This unit can only use this ability if any enemy HEROES
+were slain by this unit’s combat attacks this turn.
+Effect: Friendly GUNNAR’S OATHSWORN units have WARD (4+)
+for the rest of the battle.
+CHAOS · DARKOATH · GUNNAR’S OATHSWORN · SLAVES TO
+DARKNESS · HERO · INFANTRY · UNIQUE
+ Wahapedia (EN)
+The Oathsworn Kin
+ MV
+5"
+ CT
+ 1
+ SV
+5+
+ WD
+—
+ HP
+ 3
+3 models
+ 0 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Gnarled Staff
+ 3
+ 4+
+ 4+
+ -
+ D3
+Heavy Darkoath Weapon
+Crit (Mortal)
+ 4
+ 4+
+ 3+
+ -
+ 2
+PHASE DES HÉROS
+APTITUDES
+Broken Nadja
+PASSIF
+WAHAPEDIA
+Effect: While this unit’s Broken Nadja is on the battlefield, it has
+WIZARD (1).
+SORTS
+Withering Death
+5+
+MA PHASE
+WAHAPEDIA
+Declare: Pick a visible enemy HERO within 18" of this unit to be
+the target, then make a casting roll of 2D6.
+Effect: Inflict 1 mortal damage on the target and subtract 1 from
+the Attacks characteristic of the target’s melee weapons until the
+start of your next turn.
+CHAOS · DARKOATH · GUNNAR’S OATHSWORN · SLAVES TO
+DARKNESS · INFANTRY · UNIQUE
+ Wahapedia (EN)
+ Singri Brand
+ MV
+12"
+ CT
+ 2
+ SV
+5+
+ WD
+—
+ HP
+ 4
+1 model
+ 0 pts
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Singri’s Warbow
+Crit (Auto-wound)
+ 18"
+ 2
+ 3+
+ 3+
+ 1
+ D3
+Warsteed’s Hooves
+Companion
+ 2
+ 5+
+ 3+
+ -
+ 1
+Brand Ancestral Knife
+ 3
+ 4+
+ 3+
+ 1
+ 1
+PHASE DE TIR
+Swift As The Wind
+PASSIF
+WAHAPEDIA
+Effect: Only critical hits score successful hits for shooting attacks
+that target this unit.
+Uncanny Shot
+PASSIF
+WAHAPEDIA
+Effect: Add 1 to the Rend characteristic of this unit’s Singri’s
+Warbow for attacks that target enemy units that are within 6" of a
+friendly Gunnar Brand.
+CHAOS · DARKOATH · GUNNAR’S OATHSWORN · SLAVES TO
+DARKNESS · CAVALRY · HERO · UNIQUE
+ Wahapedia (EN)
+Chaos Furies
+ MV
+12"
+ CT
+ 1
+ SV
+6+
+ WD
+6+
+ HP
+ 1
+6 models
+ 100 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Razor-sharp Dagger and Claws
+ 3
+ 4+
+ 4+
+ 1
+ 1
+PHASE DE MÊLÉE
+Sneaky Little Devils
+LES 2 PHASES
+WAHAPEDIA
+Effect: If this unit is in combat, roll a dice. On a 3+, this unit can
+immediately use the ‘Retreat’ ability as if it were your movement
+phase without any mortal damage being inflicted on it.
+CHAOS · DAEMON · SLAVES TO DARKNESS · FLY · INFANTRY ·
+WARD
+ Wahapedia (EN)
+Varanguard
+ MV
+10"
+ CT
+ 2
+ SV
+3+
+ WD
+—
+ HP
+ 5
+3 models
+ 290 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Daemonforged Blades
+Crit (Mortal), Charge (+1 Damage)
+ 3
+ 3+
+ 3+
+ 2
+ 2
+Steed’s Tearing Fangs
+Companion
+ 3
+ 4+
+ 3+
+ 1
+ 1
+PHASE DE MÊLÉE
+Relentless Killers
+×1 / BATAILLE
+LES 2 PHASES
+WAHAPEDIA
+Effect: This unit can use 2 FIGHT abilities this phase. After the first
+is used, however, this unit has STRIKE-LAST for the rest of the turn.
+CHAOS · SLAVES TO DARKNESS · WARRIORS OF CHAOS ·
+CAVALRY
+ Wahapedia (EN)
+3 / 7
+
+===== page 4 =====
+Geminids of Uhl-Gysh
+7+
+ MV
+8"
+ CT
+ 6
+ SV
+6+
+ WD
+6+
+ HP
+ 8
+2 models
+ Invoquée
+ Entièrement à 12" et visible du lanceur
+ À plus de 9" de l'ennemi
+ 2 parties à 9" l'une de l'autre
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Tendrils of Light and Shadow
+ 4
+ 4+
+ 3+
+ 1
+ D3
+N'IMPORTE QUELLE PHASE
+Multiple Parts
+PASSIF
+WAHAPEDIA
+Effect: When a number of damage points equal to this
+MANIFESTATION’s Health characteristic are allocated to it, this
+MANIFESTATION is destroyed and both its parts are removed from
+play.
+Each time this MANIFESTATION moves, both its parts must end
+within 9" of each other.
+Each part of this MANIFESTATION is armed with Tendrils of Light
+and Shadow.
+Tendrils of Shadow and
+Light
+PASSIF
+WAHAPEDIA
+Effect: Enemy units cannot use commands while they are within 3"
+of either part of this MANIFESTATION.
+ENDLESS SPELL · FLY · MANIFESTATION · WARD
+ Wahapedia (EN)
+ Prismatic Palisade
+7+
+ MV
+ -
+ CT
+ 7
+ SV
+6+
+ WD
+6+
+ HP
+ 8
+1 model
+ Invoquée
+ Entièrement à 18" et visible du lanceur
+PHASE DE TIR
+Blinding Light
+PASSIF
+WAHAPEDIA
+Effect: This MANIFESTATION cannot be targeted by shooting
+attacks. In addition, a unit cannot be targeted by shooting attacks if it
+is impossible to draw a straight line from a model in the attacking unit
+to a model in the target unit without that line passing across this
+MANIFESTATION.
+ENDLESS SPELL · MANIFESTATION · WARD
+ Wahapedia (EN)
+Umbral Spellportal
+7+
+ MV
+ -
+ CT
+ 6
+ SV
+6+
+ WD
+6+
+ HP
+ 8
+2 models
+ Invoquée
+ Entièrement à 18" et visible du lanceur
+ 2 parties à 9" l'une de l'autre
+PHASE DES HÉROS
+Arcane Passage
+MA PHASE
+WAHAPEDIA
+Declare: Pick a friendly WIZARD within 3" of this MANIFESTATION
+to be the target.
+Effect: The next time the target uses a non-SUMMON SPELL ability
+this phase, add 1 to the casting value of that spell. When picking
+targets for that spell, you can measure range and visibility from either
+part of this MANIFESTATION instead of from the caster, and your
+opponent can measure range and visibility to either part of this
+MANIFESTATION instead of to the caster for the purposes of the
+‘Unbind’ ability.
+N'IMPORTE QUELLE PHASE
+Multiple Parts
+PASSIF
+WAHAPEDIA
+Effect: When a number of damage points equal to this
+MANIFESTATION’s Health characteristic are allocated to it, this
+MANIFESTATION is destroyed and both its parts are removed from
+play.
+ENDLESS SPELL · MANIFESTATION · WARD
+ Wahapedia (EN)
+4 / 7
+
+===== page 5 =====
+Aptitudes
+Slaves to Darkness
+DÉPLOIEMENT
+DÉPLOIEMENT
+ RÈGLES DE BASE
+Souffler sur les Braises
+×1 / BATAILLE (ARMÉE)
+SAISON
+MDG
+Effet : Si vous êtes l’attaquant, réglez votre niveau de fureur sur 1. Si vous êtes le défenseur, réglez votre niveau de fureur sur 2.
+Assaut Flamboyant : Règle Spéciale
+TACTIQUE
+MDG
+Au début de la bataille, après avoir utilisé toutes les aptitudes de Phase de Déploiement mais avant de déterminer le joueur qui a le premier tour,
+votre adversaire doit choisir 1 élément de terrain autre qu’un TERRAIN DE FACTION dans son territoire qui sera son repaire. Le repaire ne peut pas
+être retiré du champ de bataille au cours de cette bataille.
+Vengeance Ardente : Règle Spéciale
+TACTIQUE
+MDG
+Au début de la bataille, après avoir utilisé toutes les aptitudes de Phase de Déploiement mais avant de déterminer le joueur qui a le premier tour,
+choisissez un HÉROS ennemi qui est sur le champ de bataille ou en réserve, qui sera le fugitif pour le restant de la bataille.
+N'IMPORTE QUELLE PHASE
+N'IMPORTE QUELLE PHASE
+ RÈGLES DE BASE
+Braver la Douleur
+X
+X
+PASSIF
+SAISON
+MDG
+Effet : Avant d’allouer des dégâts à une unité amie, vous pouvez dépenser n’importe quel nombre de dés de rage. Pour chaque dé de rage dépensé,
+réduisez votre niveau de fureur de 1, jusqu’à un minimum de 0, puis jetez un dé. Sur 3+, retirez 1 dégât de la réserve de dégâts de l’unité.
+RÈGLES D'ARMÉE
+PLEDGED TO NURGLE
+PASSIF
+TRAITS DE BATAILLE
+WAHAPEDIA
+Effect: Friendly PLEDGED TO NURGLE units have WARD (6+). If a unit already has WARD (6+), it has WARD (5+) instead.
+DÉBUT DE ROUND
+DÉBUT DE ROUND
+ RÈGLES DE BASE
+Rage Bouillonnante
+×1 / TOUR (ARMÉE)
+SAISON
+MDG
+Annonce : Vous devez utiliser cette aptitude.
+Effet : Gagnez autant de dés de rage que votre niveau de fureur. À la fin du round de bataille, tous les dés de rage non dépensés sont perdus.
+PHASE DES HÉROS
+PHASE DES HÉROS
+ RÈGLES D'ARMÉE
+PLEDGE TO CHAOS
+×1 / TOUR (ARMÉE)
+MA PHASE
+TRAITS DE BATAILLE
+WAHAPEDIA
+Declare: Pick a friendly non- UNIQUE SLAVES TO DARKNESS unit that does not already have one of the keywords below to be the target. Effect: Pick 1
+of the following Pledge to Chaos keywords:  PLEDGED TO KHORNE  PLEDGED TO TZEENTCH  PLEDGED TO NURGLE /l
+SORTS
+SPITE-TONGUE
+CURSE
+5+
+MA PHASE
+ILLIMITÉ
+WAHAPEDIA
+Declare: Pick a friendly SLAVES TO DARKNESS
+WIZARD to cast this spell, pick a visible enemy unit
+within 12" of them to be the target, then make a casting
+roll of 2D6. If the casting attempt is unsuccessful or if
+the spell is unbound, inflict D3 mortal damage on the
+caster.
+Effect: Inflict 3 mortal damage on the target.
+BINDING
+DAMNATION
+7+
+MA PHASE
+WAHAPEDIA
+Declare: Pick a friendly SLAVES TO
+DARKNESS WIZARD to cast this spell,
+pick a visible enemy unit within 12" of
+them to be the target, then make a
+casting roll of 2D6.
+Effect: The target has STRIKE-LAST
+until the start of your next turn.
+DAEMONIC SPEED
+7+
+MA PHASE
+WAHAPEDIA
+Declare: Pick a friendly SLAVES TO
+DARKNESS WIZARD to cast this spell, pick a
+visible friendly SLAVES TO DARKNESS unit
+wholly within 12" of them to be the target, then
+make a casting roll of 2D6.
+Effect: For the rest of the turn, add 1 to the
+number of dice rolled when making charge rolls
+for the target, to a maximum of 3.
+MANIFESTATIONS
+SUMMON GEMINIDS
+OF UHL-GYSH
+7+
+MA PHASE
+MANIFESTATION
+WAHAPEDIA
+Declare: If there is not a friendly Geminids of Uhl-Gysh
+endless spell on the battlefield, pick a friendly WIZARD
+to cast this spell, then make a casting roll of 2D6.
+Effect: Set up a Geminids of Uhl-Gysh endless spell
+wholly within 12" of the caster, visible to them and more
+than 9" from all enemy units. A Geminids of Uhl-Gysh
+endless spell has 2 parts that must be set up within 9" of
+each other.
+SUMMON
+PRISMATIC
+PALISADE
+7+
+MA PHASE
+MANIFESTATION
+WAHAPEDIA
+Declare: If there is not a friendly
+Prismatic Palisade on the battlefield,
+pick a friendly WIZARD to cast this
+spell, then make a casting roll of 2D6.
+Effect: Set up a Prismatic Palisade
+wholly within 18" of the caster and
+visible to them.
+SUMMON
+UMBRAL
+SPELLPORTAL
+7+
+MA PHASE
+MANIFESTATION
+WAHAPEDIA
+Declare: If there is not a friendly Umbral
+Spellportal on the battlefield, pick a friendly
+WIZARD to cast this spell, then make a casting
+roll of 2D6.
+Effect: Set up an Umbral Spellportal wholly
+within 18" of the caster and visible to them. An
+Umbral Spellportal has 2 parts that must be set
+up within 9" of each other.
+5 / 7
+
+===== page 6 =====
+PHASE DE MOUVEMENT
+PHASE DE MOUVEMENT
+ RÈGLES D'ARMÉE
+PLEDGED TO TZEENTCH
+×1 / TOUR (ARMÉE)
+MA PHASE
+TRAITS DE BATAILLE
+WAHAPEDIA
+Declare: Pick a friendly PLEDGED TO TZEENTCH unit to be the target.
+Effect: Roll 2D6. Then pick a point within a number of inches of the target equal to the roll. Remove the target from the battlefield and set it up again on
+the battlefield wholly within 6" of that point and more than 9" from all enemy units.
+PHASE DE CHARGE
+PHASE DE CHARGE
+ RÈGLES D'ARMÉE
+PLEDGED TO SLAANESH
+MA PHASE
+TRAITS DE BATAILLE
+WAHAPEDIA
+Effect: For the rest of the turn, when making charge rolls for friendly PLEDGED TO SLAANESH units, you can roll 1 additional dice (to a maximum of
+3), but if you do, you must discard 1 dice of your choice.
+PHASE DE MÊLÉE
+PHASE DE MÊLÉE
+ RÈGLES D'ARMÉE
+PLEDGED TO KHORNE
+PASSIF
+TRAITS DE BATAILLE
+WAHAPEDIA
+Effect: Add 1 to the Attacks characteristic of melee weapons used by friendly PLEDGED TO KHORNE units.
+FIN DE TOUR
+FIN DE TOUR
+ RÈGLES DE BASE
+Éruption de Fureur
+1-3
+×1 / TOUR (ARMÉE)
+LES 2 PHASES
+ATTAQUE
+MDG
+CORPS À CORPS
+SAISON
+Annonce : Choisissez une unité amie pour qu’elle utilise cette aptitude, puis choisissez comme cible une unité ennemie en mêlée avec cette unité
+amie.
+Effet : Choisissez 1 des armes de mêlée de l’unité qui utilise cette aptitude. Puis dépensez 3 dés de rage maximum.
+Résolvez autant d’attaques de mêlée contre la cible en utilisant l’arme de mêlée choisie que le nombre de dés de rage que vous avez dépensés.
+Ces attaques ne peuvent pas causer de touches critiques. À la place, pour chaque jet de touche non modifié de 6 obtenu pour ces attaques :
+ Infligez D3 dégâts mortels supplémentaires à chaque unité ennemie en mêlée avec l’unité qui utilise cette aptitude.
+ Votre adversaire doit augmenter son niveau de fureur de 1, jusqu’à un maximum de 7.
+Pour chaque jet de touche non modifié de 1 pour ces attaques, allouez D3 dégâts mortels à l’unité qui utilise cette aptitude une fois la séquence de
+dégâts résolue (on ne peut tenter aucun jet de protection contre ces dégâts).
+Note des Concepteurs : Les dés de rage ne s’ajoutent pas à la caractéristique d’Attaques de l’arme que vous choisissez ; si vous dépensez 3 dés de
+rage pour utiliser cette aptitude, vous faites seulement 3 attaques de mêlée.
+RÈGLES D'ARMÉE
+FERAL RUIN
+×1 / TOUR (ARMÉE)
+MA PHASE
+FORMATION : DESPOILERS
+WAHAPEDIA
+Declare: Pick a friendly Daemon Prince to use this ability. Then, pick a visible friendly non-DAEMON non-UNIQUE SLAVES TO DARKNESS unit that
+does not have an Ensorcelled Banner wholly within 12" of this unit to be the target.
+Effect: Remove any Pledge to Chaos keywords the target has. Then, the target gains any Pledge to Chaos keywords this unit has.
+6 / 7
+
+===== page 7 =====
+Assaut Flamboyant
+CARTE DE TACTIQUE 1 · Blazing Onslaught
+RÈGLE SPÉCIALE
+Au début de la bataille, après avoir utilisé toutes les aptitudes de Phase de Déploiement mais avant de déterminer le joueur qui a le premier tour, votre
+adversaire doit choisir 1 élément de terrain autre qu’un TERRAIN DE FACTION dans son territoire qui sera son repaire. Le repaire ne peut pas être retiré du
+champ de bataille au cours de cette bataille.
+ÉCHAUFFOURÉE
+Maître d’Armes
+Vous exécutez cette tactique de bataille à la fin de votre tour si la même unité ennemie a reçu au moins 1 dégât lors de 3 phases
+différentes à ce tour.
+ 5
+ PTS DE
+VICTOIRE
+FRAPPE
+Brisez Leurs Défenses
+Vous exécutez cette tactique de bataille à la fin de votre tour si vous contrôlez le repaire ennemi.
+ 5
+ PTS DE
+VICTOIRE
+DOMINATION
+Pas de Survivants
+Vous exécutez cette tactique de bataille à la fin de votre tour si au moins 2 unités ennemies ont été détruites à ce tour et si vous contrôlez
+le repaire ennemi.
+ 5
+ PTS DE
+VICTOIRE
+Vengeance Ardente
+CARTE DE TACTIQUE 5 · Burning for Vengeance
+RÈGLE SPÉCIALE
+Au début de la bataille, après avoir utilisé toutes les aptitudes de Phase de Déploiement mais avant de déterminer le joueur qui a le premier tour, choisissez
+un HÉROS ennemi qui est sur le champ de bataille ou en réserve, qui sera le fugitif pour le restant de la bataille.
+ÉCHAUFFOURÉE
+Fouillez Chaque Recoin
+Vous exécutez cette tactique de bataille à la fin de votre tour s’il y a une unité amie différente qui est entièrement dans chaque grand
+quart du champ de bataille, à plus de 9" du centre du champ de bataille, et si pas plus d’une de ces unités amies n’a été placée à ce tour.
+ 5
+ PTS DE
+VICTOIRE
+FRAPPE
+Poursuite Effrénée
+Vous exécutez cette tactique de bataille à la fin de votre tour si 1 des critères suivants est vrai :
+ Il y a au moins 3 unités amies qui sont hors de mêlée et qui sont à 12" du fugitif ennemi.
+ Il n’y a pas de fugitif ennemi sur le champ de bataille.
+ 5
+ PTS DE
+VICTOIRE
+DOMINATION
+Ramenez-le !
+Vous exécutez cette tactique de bataille à la fin de votre tour si 1 des critères suivants est vrai :
+ Il y a au moins 3 unités amies qui sont en mêlée avec le fugitif ennemi.
+ Il n’y a pas de fugitif ennemi sur le champ de bataille et au moins 3 unités amies contestent le même objectif situé entièrement hors du
+territoire ami.
+ 5
+ PTS DE
+VICTOIRE
+7 / 7
+

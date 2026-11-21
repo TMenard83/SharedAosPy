@@ -1,0 +1,1490 @@
+pages: 17
+pages_scenario: 20
+units_matched: ["Be'lakor, the Dark Master", 'Legion of the First Prince Bloodletters', 'Legion of the First Prince Screamers of Tzeentch', 'Eternus, Blade of the First Prince', 'Varanguard', 'Nexus Chaotica']
+units_unmatched: []
+rules_included: ['Règles de Saison 2026-27', 'Aptitudes Génériques — MdG26-27', 'Domaine de Manifestations — Primal Energy (10 Points)', 'Siege of Ashes', 'Flanking Firestorm', 'Legion of the First Prince — Army of Renown Rules']
+rules_unmatched: []
+wahapedia_used: ['Legion of the First Prince — Army of Renown Rules (EN, Wahapedia)']
+absent_references: [AbsentReference(ability='Network of Spies', owner='Eternus, Blade of the First Prince', unit='Chaos Legionnaires'), AbsentReference(ability='Network of Spies', owner='Eternus, Blade of the First Prince', unit='Chaos Furies'), AbsentReference(ability='DARK APOTHEOSIS', owner='Battle Traits', unit='Daemon Prince')]
+absent_keywords: [AbsentReference(ability='SUMMON BURNING HEAD', owner='Primal Energy', unit='WIZARD'), AbsentReference(ability='SUMMON EMERALD LIFESWARM', owner='Primal Energy', unit='WIZARD'), AbsentReference(ability='SUMMON RAVENAK’S GNASHING JAWS', owner='Primal Energy', unit='WIZARD')]
+===== page 1 =====
+STD - L3 - First Prince 1980/2000 pts
+Slaves to Darkness | Legion of the First Prince · Army of Renown · Drops: 2 · Spell lore: Legion of the First Prince Spell
+Lore · Manifestation lore: Primal Energy (10 Points)
+Battle Tactic Cards: Siege of Ashes, Flanking Firestorm
+General's Regiment
+ Be'lakor, the Dark Master — 450 pts
+General
+Legion of the First Prince Bloodletters — 340 pts
+Reinforced
+Legion of the First Prince Bloodletters — 170 pts
+Legion of the First Prince Bloodletters — 170 pts
+Legion of the First Prince Screamers of Tzeentch — 80 pts
+Regiment 1
+ Eternus, Blade of the First Prince — 160 pts
+Varanguard — 300 pts
+Varanguard — 300 pts
+Faction Terrain
+Nexus Chaotica
+■ Completed from Wahapedia (see appendix at the end of the document): Legion of the First Prince — Army of Renown Rules (EN,
+Wahapedia)
+Generated on <horodatage> — aospy roster pdf
+Icon legend
+ 7+
+Ability: casting value. Warscroll: Wizard level; manifestation: casting value of its summoning.
+1
+Command: command point cost
++2
+Rage dice: “+N” gained, otherwise number spent
++2
+Fury level: “+N” increased, otherwise decreased
+GHB
+Text source: GW APP (official Warhammer Age of Sigmar app), CORE RULES (GW Core
+Rules), GHB (General's Handbook), BT (battletome), FP (faction pack), AQSHY, WAHAPEDIA.
+Battle Traits, Formation: army rule category.
+SIMPLE
+Adapted text, not verbatim: in case of dispute, refer to the original rule.
+CORE
+SEASON
+Core ability; current season rule (General's Handbook 2026-27).
+×1 / TURN (ARMY)
+PASSIVE
+Frequency — (ARMY): once for the whole army; passive: always active, nothing to declare.
+REACTION
+Reaction: used in response to the stated ability.
+SHOOT
+CHARGE
+Ability keyword, in the colour of its phase (Move, Shoot, Charge, Fight).
+ATTACK
+RAMPAGE
+Ability keyword used in several phases.
+SPELL
+PRAYER
+Magic (spell, manifestation, banishment…); prayer. Unlimited: can be used several times per turn.
+UNIT NAME
+Unit that has the ability (for a signature spell: its caster).
+1 / 17
+
+===== page 2 =====
+Be’lakor, the Dark Master
+2
+ MV
+14"
+ CT
+10
+ SV
+4+
+ WD
+6+
+ HP
+14
+1 model
+ 450 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Fell Claw and Spearing Tail
+Charge (+1 Damage)
+ 2
+ 2+
+ 2+
+ 2
+ 2
+Blade of Shadows
+Crit (Auto-wound)
+ 8
+ 3+
+ 3+
+ 2
+ 2
+ANY PHASE
+Battle Damaged
+PASSIVE
+WAHAPEDIA
+Effect: While this unit has 10 or more damage points, the Attacks
+characteristic of its Blade of Shadows is 6.
+CHAOS · DAEMON · SLAVES TO DARKNESS · FLY · HERO ·
+MONSTER · UNIQUE · WARD · WARMASTER
+ Wahapedia (EN)
+Varanguard
+ MV
+10"
+ CT
+ 2
+ SV
+3+
+ WD
+—
+ HP
+ 5
+3 models
+ 290 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Daemonforged Blades
+Crit (Mortal), Charge (+1 Damage)
+ 3
+ 3+
+ 3+
+ 2
+ 2
+Steed’s Tearing Fangs
+Companion
+ 3
+ 4+
+ 3+
+ 1
+ 1
+CHAOS · SLAVES TO DARKNESS · WARRIORS OF CHAOS ·
+CAVALRY
+ Wahapedia (EN)
+Nexus Chaotica
+ MV
+ -
+ CT
+ 0
+ SV
+4+
+ WD
+—
+ HP
+12
+1 model
+ 0 pts
+CHAOS · SLAVES TO DARKNESS · FACTION TERRAIN
+ Wahapedia (EN)
+ Eternus, Blade of the First Prince
+ MV
+9"
+ CT
+ 2
+ SV
+3+
+ WD
+—
+ HP
+ 9
+1 model
+ 160 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Drakocephalus’s Fangs
+Companion
+ 3
+ 4+
+ 3+
+ -
+ 1
+Death Glaive and Skull Flail
+Charge (+1 Damage)
+ 6
+ 3+
+ 3+
+ 1
+ 2
+CHAOS · SLAVES TO DARKNESS · CAVALRY · HERO · UNIQUE
+ Wahapedia (EN)
+Bloodletters
+ MV
+5"
+ CT
+ 1
+ SV
+5+
+ WD
+6+
+ HP
+ 2
+10 models
+ 170 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Hellblade
+Crit (Mortal)
+ 2
+ 3+
+ 3+
+ 1
+ 1
+CHAOS · DAEMON · LEGION OF THE FIRST PRINCE · SLAVES TO
+DARKNESS · CHAMPION · INFANTRY · MUSICIAN · STANDARD
+BEARER · WARD
+ Wahapedia (EN)
+Screamers of Tzeentch
+ MV
+14"
+ CT
+ 1
+ SV
+5+
+ WD
+6+
+ HP
+ 3
+3 models
+ 70 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Lamprey Bite
+Anti-MONSTER (+1 Rend), Companion
+ 3
+ 4+
+ 3+
+ 1
+ 1
+CHAOS · DAEMON · LEGION OF THE FIRST PRINCE · SLAVES TO
+DARKNESS · BEAST · FLY · WARD
+ Wahapedia (EN)
+2 / 17
+
+===== page 3 =====
+The Burning Head
+5+
+ MV
+8"
+ CT
+ 6
+ SV
+6+
+ WD
+6+
+ HP
+ 6
+1 model
+ Summoned
+ Wholly within 12" and visible to the caster
+ More than 9" from the enemy
+ Rng
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Burning Breath
+Shoot in Combat, Anti-WAR
+MACHINE (+1 Rend)
+ 10"
+ D6
+ 4+
+ 3+
+ 2
+ 1
+Flaming Maw
+Anti-WAR MACHINE (+1 Rend)
+ 2D6
+ 4+
+ 3+
+ 2
+ 1
+ENDLESS SPELL · FLY · MANIFESTATION · WARD
+ Wahapedia (EN)
+ Emerald Lifeswarm
+6+
+ MV
+8"
+ CT
+ 7
+ SV
+6+
+ WD
+6+
+ HP
+ 5
+1 model
+ Summoned
+ Wholly within 12" and visible to the caster
+ More than 9" from the enemy
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Swarming Bites
+Anti-INFANTRY (+1 Rend)
+ 2D6
+ 4+
+ 4+
+ -
+ 1
+ENDLESS SPELL · FLY · MANIFESTATION · WARD
+ Wahapedia (EN)
+Ravenak’s Gnashing Jaws
+7+
+ MV
+3D6"
+ CT
+ 7
+ SV
+6+
+ WD
+6+
+ HP
+10
+1 model
+ Summoned
+ Wholly within 12" and visible to the caster
+ More than 9" from the enemy
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Gnashing Jaws
+Charge (+1 Damage)
+ 10
+ 4+
+ 2+
+ 1
+ 1
+ENDLESS SPELL · MANIFESTATION · WARD
+ Wahapedia (EN)
+3 / 17
+
+===== page 4 =====
+Deployment
+Slaves to Darkness
+DEPLOYMENT
+DEPLOYMENT
+ CORE RULES
+Set Up the Battlefield
+SIMPLE
+1: The players roll off. The winner chooses which player is the attacker and which is the defender.
+2: The defender sets up objectives in the locations indicated on the battlefield map. Then, the defender sets up terrain features. Each terrain feature
+must be set up more than 3" from the battlefield edge, more than 3" from all objectives and more than 6" from all other terrain features.
+3: After objectives and terrain features have been set up, the attacker picks which territory is their territory. The other territory is the defender’s
+territory. The players then resolve the deployment phase. The attacker begins deployment.
+4: Deploy Faction Terrain Features. Some factions have faction terrain features, which have their own warscrolls and are set up using Deploy
+Terrain abilities. The player who begins deployment must use Deploy Terrain abilities first, followed by their opponent.
+5: Deploy Armies. Unless otherwise specified in the battleplan, the players alternate using Deploy abilities to deploy their units, starting with the player
+who begins deployment. Once one player has no more Deploy abilities to use, their opponent must continue to use Deploy abilities until they also have
+no more to use.
+Deploy Faction Terrain
+CORE RULES
+Declare: Pick a friendly faction terrain feature that has not been deployed to be the target.
+Effect: Set up the target faction terrain feature wholly within friendly territory, more than 3" from all objectives and other terrain features. After you have
+done so, it has been deployed.
+Deploy Regiment
+CORE RULES
+Declare: Pick a regiment from your army roster to be the target. No units in that regiment can have already been deployed.
+Effect: Keep using Deploy abilities without alternating until all units in that regiment have been deployed. You cannot set up units that are not in that
+regiment on the battlefield or in reserve as part of any of those Deploy abilities.
+Deploy Unit
+CORE RULES
+Declare: Pick a unit from your army roster that has not been deployed to be the target.
+Effect: Set up the target unit wholly within friendly territory and more than 9" from enemy territory. After you have done so, it has been deployed.
+Raising the Heat
+×1 / BATTLE (ARMY)
+SEASON
+GHB
+Effect: If you are the attacker, set your fury level to 1. If you are the defender, set your fury level to 2.
+Any phase
+Slaves to Darkness
+ANY PHASE
+ANY PHASE
+ BE’LAKOR, THE DARK MASTER
+Shadow Form
+PASSIVE
+WAHAPEDIA
+Effect: Ignore modifiers to save rolls for this unit (positive and negative).
+CORE RULES
+All-out Attack
+1
+GHB
+Reaction: You declared an Attack ability
+Used By: The unit using that Attack ability.
+Effect: Add 1 to hit rolls for attacks made as part of
+that Attack ability. This also affects weapons that
+have the Companion weapon ability. For the rest of
+the turn, subtract 1 from save rolls for the unit using
+this ability.
+All-out
+Defence
+1
+GHB
+Reaction: Opponent declared an
+Attack ability
+Used By: A unit targeted by that
+Attack ability.
+Effect: Add 1 to save rolls for that
+unit until that Attack ability has
+been resolved.
+Fight Through the
+Pain
+X
+X
+PASSIVE
+SEASON
+GHB
+Effect: Before allocating damage to a friendly unit, you
+can spend any number of rage dice. For each rage
+dice spent, reduce your fury level by 1, to a minimum
+of 0, then roll a dice. On a 3+, remove 1 damage point
+from that unit’s damage pool.
+Terrain
+PASSIVE
+GHB
+Cover: Subtract 1 from hit rolls for attacks that target a unit that is behind or wholly on this terrain feature, unless that unit charged this turn or has the
+Fly keyword.
+Impassable: Models cannot move across, be set up on or end moves on any part of this terrain feature.
+Obscuring: While every model in a non-Monster non-War Machine unit that does not have the Fly keyword is within 1" of this terrain feature, the
+following apply:
+ That unit is only visible to enemy units that are within its combat range.
+ The Range characteristic of that unit’s ranged weapons is halved (rounding down to the nearest inch).
+Place of Power: Heroes within 3" of this terrain feature can use the ‘Activate Place of Power’ ability.
+Unstable: Models can move across but cannot be set up on or end any type of move on any part of this terrain feature that is more than 1" tall.
+4 / 17
+
+===== page 5 =====
+MY TURN
+My turn
+Slaves to Darkness
+START OF BATTLE ROUND
+START OF BATTLE ROUND
+ CORE RULES
+Start of Battle Round
+CORE RULES
+1: Determine the Active Player:
+ If it is the first battle round, the player who finished setting up their army first decides who will take the first turn (unless otherwise specified in the
+battlepack or battleplan).
+ If it is not the first battle round, the players make a roll-off called the priority roll and the winner decides who will take the first turn. If the roll-off is a
+tie, the player who took the first turn in the previous battle round decides who will take the first turn in the current battle round.
+2: Determine the Underdog: Whichever player has the fewest victory points is the underdog for the battle round. If the players are tied (e.g. in the first
+battle round), then there is no underdog, unless otherwise specified.
+Simmering Rage
+×1 / TURN (ARMY)
+SEASON
+GHB
+Declare: You must use this ability.
+Effect: Gain a number of rage dice equal to your fury level. At the end of the battle round, any unspent rage dice are lost.
+START OF TURN
+START OF TURN
+ ETERNUS, BLADE OF THE FIRST PRINCE
+Network of Spies
+WAHAPEDIA
+Reaction: Opponent declared a command for a unit within 12" of this unit
+Effect: Roll a dice. Add 1 to the roll if the enemy unit is in combat with a friendly Chaos Legionnaires or Chaos Furies unit. On a 5+, that command
+has no effect. The command still counts as having been used and the command points spent to use the command are still lost.
+CORE RULES
+Activate Place of Power
++2
++2
+×1 / TURN (ARMY)
+CORE
+SEASON
+GHB
+Declare: Pick a friendly Hero within 3" of any Places of Power to use this ability.
+Effect: Roll a dice. On a 1, inflict D3 mortal damage on that Hero. On a 2+, pick 1 of the following effects:
+ Ignite Fury: Gain 2 rage dice, then increase your fury level by 2, to a maximum of 7.
+ Channel Wrath: If that Hero is a Wizard or Priest, add 1 to casting rolls or chanting rolls for that Hero for the rest of the turn.
+ Dizzying Rage: For the rest of the turn, if that Hero is not a Wizard or Priest, they can use the ‘Unbind’ or ‘Banish Manifestation’ ability as if they had
+Wizard (1).
+5 / 17
+
+===== page 6 =====
+MY TURN
+HERO PHASE
+HERO PHASE
+ SPELLS
+Enfeeble Foe
+BE’LAKOR, THE DARK MASTER
+6+
+WAHAPEDIA
+Declare: Pick a visible enemy unit within 18" of this unit to be the target, then make a casting roll of 2D6.
+Effect: Until the start of your next turn:
+ Subtract 1 from hit rolls from the target’s combat attacks.
+ The target’s combat attacks cannot score critical hits (treat them as regular hits instead).
+MANIFESTATIONS
+SUMMON
+BURNING HEAD
+5+
+MANIFESTATION
+WAHAPEDIA
+Declare: If there is not a friendly The
+Burning Head on the battlefield, pick a
+friendly WIZARD to cast this spell, then
+make a casting roll of 2D6.
+Effect: Set up The Burning Head wholly
+within 12" of the caster, visible to them and
+more than 9" from all enemy units.
+SUMMON
+EMERALD
+LIFESWARM
+6+
+WAHAPEDIA
+MANIFESTATION
+Declare: If there is not a friendly Emerald
+Lifeswarm on the battlefield, pick a friendly
+WIZARD to cast this spell, then make a casting
+roll of 2D6.
+Effect: Set up an Emerald Lifeswarm wholly
+within 12" of the caster, visible to them and
+more than 9" from all enemy units.
+SUMMON
+RAVENAK’S
+GNASHING JAWS
+7+
+WAHAPEDIA
+MANIFESTATION
+Declare: If there is not a friendly Ravenak’s
+Gnashing Jaws endless spell on the battlefield,
+pick a friendly WIZARD to cast this spell, then
+make a casting roll of 2D6.
+Effect: Set up a Ravenak’s Gnashing Jaws
+endless spell wholly within 12" of the caster, visible
+to them and more than 9" from all enemy units.
+NEXUS CHAOTICA
+Draw Power
+GW APP
+Effect: Roll a dice. Give a
+number of power points to this
+terrain feature equal to the roll.
+This terrain feature can have a
+maximum of 12 power points at
+once.
+Infernal Sorcery
+GW APP
+Declare: If this terrain feature has 3 or more
+power points, pick a friendly SLAVES TO
+DARKNESS WIZARD within 3" of this terrain
+feature to be the target.
+Effect: Remove 3 power points from this
+terrain feature, then add 1 to casting rolls for
+the target for the rest of the turn.
+Corrupt The Realms
+GW APP
+Declare: If this terrain feature has 9 or more power points, pick
+an objective or terrain feature within 24" of this terrain feature to
+be the source. Then, pick any number of enemy units within 3"
+of the source to be the targets.
+Effect: Remove 9 power points from this terrain feature, then
+roll a D3 for each target. On a 2+, inflict an amount of mortal
+damage on the target equal to the roll.
+CORE RULES
+Rally
+1
+CORE RULES
+Declare: Pick a friendly unit that is not in combat to use this ability.
+Effect: Make 6 rally rolls of D6. For each 4+, you receive 1 rally point. Rally points can be spent in the following
+ways:
+ For each rally point spent, Heal (1) that unit.
+ You can spend a number of rally points equal to the Health characteristic of that unit to return a slain model to
+that unit.
+You can spend the rally points in any combination of the above. Unspent rally points are then lost.
+Musician
+PASSIVE
+CORE RULES
+Effect: While this unit contains any
+musicians, if it uses the ‘Rally’
+command, you can make one
+additional rally roll of D6.
+Banish Manifestation
+BANISH
+GHB
+Declare: Pick a friendly Wizard or Priest to use this ability, pick a Manifestation
+within 30" of them that was not summoned this turn to be the target, then make a
+banishment roll of 2D6. Add 1 to the banishment roll for each additional enemy
+Manifestation on the battlefield after the first. You cannot pick the same
+Manifestation to be the target of this ability more than once per turn.
+Effect: If the banishment roll equals or exceeds the banishment value listed on the
+Manifestation’s warscroll, it is banished and removed from play.
+Unbind
+UNBIND
+CORE RULES
+Reaction: Opponent declared a Spell ability
+Used By: A friendly Wizard within 30" of the enemy Wizard
+casting the spell.
+Effect: Make an unbinding roll of 2D6. If the roll exceeds the
+casting roll for the spell, then the spell is unbound and its effect
+is not resolved. This reaction cannot be used more than once
+per casting roll.
+6 / 17
+
+===== page 7 =====
+MY TURN
+MOVEMENT PHASE
+MOVEMENT PHASE
+ ETERNUS, BLADE OF THE FIRST PRINCE
+Veins of Black Lightning
+CORE
+WAHAPEDIA
+Declare: This unit can use this ability if it has been destroyed.
+Effect: Roll 2D6. Add 1 to the roll if a friendly Be’lakor is on the battlefield. On an 8+, set up a replacement unit on the battlefield more than 9" from all
+enemy units.
+SCREAMERS OF TZEENTCH
+Slashing Fins
+WAHAPEDIA
+Declare: Pick an enemy unit that this unit passed across this phase to be the target.
+Effect: Roll a dice for each model in this unit that passed across the target. For each 4+, inflict 1 mortal damage on the target.
+EMERALD LIFESWARM
+Bounteous Healing
+MANIFESTATION
+WAHAPEDIA
+Declare: Pick a friendly unit within 3" of this MANIFESTATION to be the target.
+Effect: Heal (3) the target.
+CORE RULES
+Normal Move
+CORE
+MOVE
+CORE RULES
+Declare: Pick a friendly unit that is
+not in combat to use this ability.
+Effect: That unit can move a
+distance up to its Move
+characteristic. That unit cannot
+move into combat during any part of
+that move.
+Run
+CORE
+MOVE
+RUN
+CORE RULES
+Declare: Pick a friendly unit that is not in
+combat to use this ability.
+Effect: Make a run roll of D6. That unit can
+move a distance up to its Move characteristic
+added to the run roll. That unit cannot move into
+combat during any part of that move.
+Retreat
+CORE
+MOVE
+RETREAT
+CORE RULES
+Declare: Pick a friendly unit that is in combat to use this
+ability.
+Effect: Inflict D3 mortal damage on that unit. That unit
+can move a distance up to its Move characteristic. That
+unit can move through the combat ranges of any enemy
+units but cannot end that move within an enemy unit’s
+combat range.
+At the Double
+1
+CORE RULES
+Reaction: You declared a Run ability
+Used By: The unit using that Run ability.
+Effect: Do not make a run roll as part of that Run ability. Instead, add 6" to that unit’s Move characteristic to determine the distance each model in that
+unit can move as part of that Run ability.
+SHOOTING PHASE
+SHOOTING PHASE
+ THE BURNING HEAD
+Burning Up
+PASSIVE
+MANIFESTATION
+WAHAPEDIA
+Effect: Each time this MANIFESTATION uses a SHOOT ability, after that ability has been resolved, allocate 1 damage point to this MANIFESTATION
+(ward rolls cannot be made for that damage point).
+CORE RULES
+Shoot
+CORE
+ATTACK
+SHOOT
+CORE RULES
+Declare: Pick a friendly unit that has not used a Run or Retreat
+ability this turn to use this ability. Then, pick one or more enemy
+units as the target(s) of that unit’s attacks (see 16.0).
+Effect: Resolve shooting attacks against the target unit(s).
+Guarded Hero
+PASSIVE
+CORE RULES
+Effect: If this Hero is within the combat range of a friendly unit that is not a
+Hero:
+ Subtract 1 from hit rolls for shooting attacks that target this Hero.
+ If this Hero is Infantry, they cannot be picked as the target of shooting
+attacks made by models more than 12" from them.
+CHARGE PHASE
+CHARGE PHASE
+ RAVENAK’S GNASHING JAWS
+Ravening Hunger
+MANIFESTATION
+WAHAPEDIA
+Declare: If this MANIFESTATION charged this turn, pick an enemy unit within 1" of it to be the target.
+Effect: Roll 10 dice. For each 5+, inflict 1 mortal damage on the target.
+CORE RULES
+Charge
+CORE
+MOVE
+CHARGE
+CORE RULES
+Declare: Pick a friendly unit that is not in combat and has not used a Run or Retreat ability this turn to use
+this ability. Then, make a charge roll of 2D6.
+Effect: That unit can move a distance up to the value of the charge roll. That unit can move through the
+combat ranges of any enemy units and must end that move within ½" of a visible enemy unit. If it does so,
+the unit using this ability has charged.
+Forward to
+Victory
+1
+CORE RULES
+Reaction: You declared a Charge
+ability
+Used By: The unit using that Charge
+ability.
+Effect: You can re-roll the charge roll.
+7 / 17
+
+===== page 8 =====
+MY TURN
+COMBAT PHASE
+COMBAT PHASE
+ VARANGUARD
+Relentless Killers
+×1 / BATTLE
+GW APP
+Effect: This unit can use 2 FIGHT abilities this phase. After the first is used, however, this unit has STRIKE-LAST for the rest of the turn.
+CORE RULES
+Fight
+CORE
+ATTACK
+FIGHT
+CORE RULES
+Declare: Pick a friendly unit that is in combat or that
+charged this turn to use this ability. That unit can make
+a pile-in move (see 15.3). Then, if that unit is in
+combat, you must pick one or more enemy units as the
+target(s) of that unit’s attacks (see 16.0).
+Effect: Resolve combat attacks against the target
+unit(s).
+Strike-first and Strike-last
+PASSIVE
+CORE RULES
+Strike-first: If there are any Strike-first units in combat after any non-Fight combat phase
+abilities have been used, other units cannot be picked to use a Fight ability until those units
+have been picked to use a Fight ability. After all those Strike-first units have fought, the
+active player picks the next unit to fight.
+Strike-last: If there are any Strike-last units in combat, they cannot be picked to use a
+Fight ability if there are any units in combat that do not have Strike-last and have not yet
+used a Fight ability.
+Both: If a unit has Strike-first and Strike-last, treat it as if it had neither.
+Champion
+PASSIVE
+CORE RULES
+Effect: Add 1 to the Attacks characteristic of weapons used by champions in this unit.
+END OF TURN
+END OF TURN
+ BLOODLETTERS
+THE THINNING VEIL
+WAHAPEDIA
+Effect: If this unit is in combat, you can return D3 slain models to this unit.
+SCREAMERS OF TZEENTCH
+Beast
+PASSIVE
+WAHAPEDIA
+Effect: This unit has a maximum control score of 1.
+EMERALD LIFESWARM
+Restored Vigour
+MANIFESTATION
+WAHAPEDIA
+Effect: Heal (3) this MANIFESTATION.
+CORE RULES
+Standard
+Bearer
+PASSIVE
+CORE RULES
+Effect: While this unit contains
+any standard bearers, add 1 to
+this unit’s control score.
+Power Through
+1
+MOVE
+CORE RULES
+Declare: Pick a friendly unit that charged this turn to use this ability, then you must pick an enemy unit in combat
+with it to be the target. The target must have a lower Health characteristic than the unit using this ability.
+Effect: Inflict D3 mortal damage on the target. Then, the unit using this ability can move a distance up to its Move
+characteristic. It can pass through and end that move within the combat ranges of enemy units that were in
+combat with it at the start of the move, but not those of other enemy units. It does not have to end the move in
+combat.
+Eruption of Fury
+1-3
+×1 / TURN (ARMY)
+ATTACK
+FIGHT
+SEASON
+GHB
+Declare: Pick a friendly unit to use this ability, then pick an enemy unit in combat with that friendly unit to be the target.
+Effect: Pick 1 of the melee weapons that the unit using this ability is armed with. Then, spend up to 3 rage dice.
+Resolve a number of combat attacks against the target using the melee weapon you picked equal to the number of rage dice you spent.
+Those attacks cannot score critical hits. Instead, for each unmodified hit roll of 6 for those attacks:
+ Inflict an additional D3 mortal damage on each enemy unit in combat with the unit using this ability.
+ Your opponent must increase their fury level by 1, to a maximum of 7.
+For each unmodified hit roll of 1 for those attacks, allocate D3 mortal damage to this unit after the damage sequence has been resolved (ward rolls
+cannot be made for those damage points).
+Designer’s Note: Rage dice do not add to the Attacks characteristic of the weapon you pick; if you spend 3 rage dice to use this ability, you only make
+3 combat attacks.
+8 / 17
+
+===== page 9 =====
+MY TURN
+Siege of Ashes
+BATTLE TACTIC CARD 2
+AFFRAY
+Form a Wall
+You complete this battle tactic at the end of your turn if 2 or more friendly units are wholly outside friendly territory, wholly within 6" of
+friendly territory and within 3" of each other.
+ 5
+ VICTORY
+ POINTS
+STRIKE
+Outpost Resupply
+You complete this battle tactic at the end of your turn if you control an objective within enemy territory and that objective is contested by:
+ At least 1 friendly unit that did not use a Move ability this turn
+ At least 1 other friendly unit that charged this turn.
+ 5
+ VICTORY
+ POINTS
+DOMINATION
+Repel the Attackers
+You complete this battle tactic at the end of your turn if there are 3 or more friendly units within 3" of the centre of the battlefield that are
+not in combat.
+ 5
+ VICTORY
+ POINTS
+Flanking Firestorm
+BATTLE TACTIC CARD 3
+AFFRAY
+Ambuscade
+You complete this battle tactic at the end of your turn if 2 or more objectives or non-FACTION TERRAIN terrain features that you control,
+in any combination, are each contested by a different friendly unit that is more than 6" from friendly territory and was not set up this turn.
+ 5
+ VICTORY
+ POINTS
+STRIKE
+Surround the Enemy
+You complete this battle tactic at the end of your turn if 2 or more friendly units that were not set up this turn are each within 9" of a
+different corner of the battlefield and wholly outside friendly territory.
+ 5
+ VICTORY
+ POINTS
+DOMINATION
+Claim What's Yours
+You complete this battle tactic at the end of your turn if there are more friendly units within enemy territory than enemy units and there is
+at least 1 friendly HERO wholly within enemy territory.
+ 5
+ VICTORY
+ POINTS
+9 / 17
+
+===== page 10 =====
+
+===== page 11 =====
+Be’lakor, the Dark Master
+2
+ MV
+14"
+ CT
+10
+ SV
+4+
+ WD
+6+
+ HP
+14
+1 model
+ 450 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Fell Claw and Spearing Tail
+Charge (+1 Damage)
+ 2
+ 2+
+ 2+
+ 2
+ 2
+Blade of Shadows
+Crit (Auto-wound)
+ 8
+ 3+
+ 3+
+ 2
+ 2
+ANY PHASE
+Battle Damaged
+PASSIVE
+WAHAPEDIA
+Effect: While this unit has 10 or more damage points, the Attacks
+characteristic of its Blade of Shadows is 6.
+CHAOS · DAEMON · SLAVES TO DARKNESS · FLY · HERO ·
+MONSTER · UNIQUE · WARD · WARMASTER
+ Wahapedia (EN)
+Varanguard
+ MV
+10"
+ CT
+ 2
+ SV
+3+
+ WD
+—
+ HP
+ 5
+3 models
+ 290 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Daemonforged Blades
+Crit (Mortal), Charge (+1 Damage)
+ 3
+ 3+
+ 3+
+ 2
+ 2
+Steed’s Tearing Fangs
+Companion
+ 3
+ 4+
+ 3+
+ 1
+ 1
+CHAOS · SLAVES TO DARKNESS · WARRIORS OF CHAOS ·
+CAVALRY
+ Wahapedia (EN)
+Nexus Chaotica
+ MV
+ -
+ CT
+ 0
+ SV
+4+
+ WD
+—
+ HP
+12
+1 model
+ 0 pts
+CHAOS · SLAVES TO DARKNESS · FACTION TERRAIN
+ Wahapedia (EN)
+ Eternus, Blade of the First Prince
+ MV
+9"
+ CT
+ 2
+ SV
+3+
+ WD
+—
+ HP
+ 9
+1 model
+ 160 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Drakocephalus’s Fangs
+Companion
+ 3
+ 4+
+ 3+
+ -
+ 1
+Death Glaive and Skull Flail
+Charge (+1 Damage)
+ 6
+ 3+
+ 3+
+ 1
+ 2
+CHAOS · SLAVES TO DARKNESS · CAVALRY · HERO · UNIQUE
+ Wahapedia (EN)
+Bloodletters
+ MV
+5"
+ CT
+ 1
+ SV
+5+
+ WD
+6+
+ HP
+ 2
+10 models
+ 170 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Hellblade
+Crit (Mortal)
+ 2
+ 3+
+ 3+
+ 1
+ 1
+CHAOS · DAEMON · LEGION OF THE FIRST PRINCE · SLAVES TO
+DARKNESS · CHAMPION · INFANTRY · MUSICIAN · STANDARD
+BEARER · WARD
+ Wahapedia (EN)
+Screamers of Tzeentch
+ MV
+14"
+ CT
+ 1
+ SV
+5+
+ WD
+6+
+ HP
+ 3
+3 models
+ 70 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Lamprey Bite
+Anti-MONSTER (+1 Rend), Companion
+ 3
+ 4+
+ 3+
+ 1
+ 1
+CHAOS · DAEMON · LEGION OF THE FIRST PRINCE · SLAVES TO
+DARKNESS · BEAST · FLY · WARD
+ Wahapedia (EN)
+11 / 17
+
+===== page 12 =====
+The Burning Head
+5+
+ MV
+8"
+ CT
+ 6
+ SV
+6+
+ WD
+6+
+ HP
+ 6
+1 model
+ Summoned
+ Wholly within 12" and visible to the caster
+ More than 9" from the enemy
+ Rng
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Burning Breath
+Shoot in Combat, Anti-WAR
+MACHINE (+1 Rend)
+ 10"
+ D6
+ 4+
+ 3+
+ 2
+ 1
+Flaming Maw
+Anti-WAR MACHINE (+1 Rend)
+ 2D6
+ 4+
+ 3+
+ 2
+ 1
+ENDLESS SPELL · FLY · MANIFESTATION · WARD
+ Wahapedia (EN)
+ Emerald Lifeswarm
+6+
+ MV
+8"
+ CT
+ 7
+ SV
+6+
+ WD
+6+
+ HP
+ 5
+1 model
+ Summoned
+ Wholly within 12" and visible to the caster
+ More than 9" from the enemy
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Swarming Bites
+Anti-INFANTRY (+1 Rend)
+ 2D6
+ 4+
+ 4+
+ -
+ 1
+ENDLESS SPELL · FLY · MANIFESTATION · WARD
+ Wahapedia (EN)
+Ravenak’s Gnashing Jaws
+7+
+ MV
+3D6"
+ CT
+ 7
+ SV
+6+
+ WD
+6+
+ HP
+10
+1 model
+ Summoned
+ Wholly within 12" and visible to the caster
+ More than 9" from the enemy
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Gnashing Jaws
+Charge (+1 Damage)
+ 10
+ 4+
+ 2+
+ 1
+ 1
+ENDLESS SPELL · MANIFESTATION · WARD
+ Wahapedia (EN)
+12 / 17
+
+===== page 13 =====
+OPPONENT'S TURN
+Opponent's turn
+Slaves to Darkness
+START OF BATTLE ROUND
+START OF BATTLE ROUND
+ CORE RULES
+Start of Battle Round
+CORE RULES
+1: Determine the Active Player:
+ If it is the first battle round, the player who finished setting up their army first decides who will take the first turn (unless otherwise specified in the
+battlepack or battleplan).
+ If it is not the first battle round, the players make a roll-off called the priority roll and the winner decides who will take the first turn. If the roll-off is a
+tie, the player who took the first turn in the previous battle round decides who will take the first turn in the current battle round.
+2: Determine the Underdog: Whichever player has the fewest victory points is the underdog for the battle round. If the players are tied (e.g. in the first
+battle round), then there is no underdog, unless otherwise specified.
+Simmering Rage
+×1 / TURN (ARMY)
+SEASON
+GHB
+Declare: You must use this ability.
+Effect: Gain a number of rage dice equal to your fury level. At the end of the battle round, any unspent rage dice are lost.
+START OF TURN
+START OF TURN
+ ETERNUS, BLADE OF THE FIRST PRINCE
+Network of Spies
+WAHAPEDIA
+Reaction: Opponent declared a command for a unit within 12" of this unit
+Effect: Roll a dice. Add 1 to the roll if the enemy unit is in combat with a friendly Chaos Legionnaires or Chaos Furies unit. On a 5+, that command
+has no effect. The command still counts as having been used and the command points spent to use the command are still lost.
+CORE RULES
+Activate Place of Power
++2
++2
+×1 / TURN (ARMY)
+CORE
+SEASON
+GHB
+Declare: Pick a friendly Hero within 3" of any Places of Power to use this ability.
+Effect: Roll a dice. On a 1, inflict D3 mortal damage on that Hero. On a 2+, pick 1 of the following effects:
+ Ignite Fury: Gain 2 rage dice, then increase your fury level by 2, to a maximum of 7.
+ Channel Wrath: If that Hero is a Wizard or Priest, add 1 to casting rolls or chanting rolls for that Hero for the rest of the turn.
+ Dizzying Rage: For the rest of the turn, if that Hero is not a Wizard or Priest, they can use the ‘Unbind’ or ‘Banish Manifestation’ ability as if they had
+Wizard (1).
+HERO PHASE
+HERO PHASE
+ BE’LAKOR, THE DARK MASTER
+The Dark Master
+×1 / BATTLE
+WAHAPEDIA
+Declare: Pick a visible enemy unit to be the target.
+Effect: Until the start of your next turn, each time the target is picked to use an ability, roll a dice as a reaction. On a 3+, that ability has no effect.
+CORE RULES
+Rally
+1
+CORE RULES
+Declare: Pick a friendly unit that is not in combat to use this ability.
+Effect: Make 6 rally rolls of D6. For each 4+, you receive 1 rally point. Rally points can be spent in the following
+ways:
+ For each rally point spent, Heal (1) that unit.
+ You can spend a number of rally points equal to the Health characteristic of that unit to return a slain model to
+that unit.
+You can spend the rally points in any combination of the above. Unspent rally points are then lost.
+Musician
+PASSIVE
+CORE RULES
+Effect: While this unit contains any
+musicians, if it uses the ‘Rally’
+command, you can make one
+additional rally roll of D6.
+Unbind
+UNBIND
+CORE RULES
+Reaction: Opponent declared a Spell ability
+Used By: A friendly Wizard within 30" of the enemy Wizard casting the spell.
+Effect: Make an unbinding roll of 2D6. If the roll exceeds the casting roll for the spell, then
+the spell is unbound and its effect is not resolved. This reaction cannot be used more than
+once per casting roll.
+Magical Intervention
+1
+GHB
+Declare: Pick a friendly Wizard or Priest to use this
+ability.
+Effect: That friendly unit can use a Spell, Prayer or
+Banish ability (as appropriate) as if it were your hero
+phase. If you do so, subtract 1 from casting rolls or
+chanting rolls made as part of that ability.
+13 / 17
+
+===== page 14 =====
+OPPONENT'S TURN
+MOVEMENT PHASE
+MOVEMENT PHASE
+ ETERNUS, BLADE OF THE FIRST PRINCE
+Veins of Black Lightning
+CORE
+WAHAPEDIA
+Declare: This unit can use this ability if it has been destroyed.
+Effect: Roll 2D6. Add 1 to the roll if a friendly Be’lakor is on the battlefield. On an 8+, set up a replacement unit on the battlefield more than 9" from all
+enemy units.
+CORE RULES
+Redeploy
+1
+MOVE
+RUN
+CORE RULES
+Declare: Pick a friendly unit that is not in combat to use this ability.
+Effect: Each model in that unit can move up to D6". That move cannot pass through or end within the combat range of an enemy unit.
+SHOOTING PHASE
+SHOOTING PHASE
+ THE BURNING HEAD
+Burning Up
+PASSIVE
+MANIFESTATION
+WAHAPEDIA
+Effect: Each time this MANIFESTATION uses a SHOOT ability, after that ability has been resolved, allocate 1 damage point to this MANIFESTATION
+(ward rolls cannot be made for that damage point).
+CORE RULES
+Covering Fire
+1
+ATTACK
+SHOOT
+CORE RULES
+Declare: Pick a friendly unit that did not use a Run ability this turn and that is not in combat
+to use this ability, then pick the closest enemy unit (to that unit) that can be picked as the
+target of shooting attacks to be the target. You cannot pick Manifestations or faction terrain
+features as the target of this ability.
+Effect: Resolve shooting attacks for the unit using this ability against the target. You must
+subtract 1 from the hit rolls for those attacks.
+Guarded Hero
+PASSIVE
+CORE RULES
+Effect: If this Hero is within the combat range of a
+friendly unit that is not a Hero:
+ Subtract 1 from hit rolls for shooting attacks that target
+this Hero.
+ If this Hero is Infantry, they cannot be picked as the
+target of shooting attacks made by models more than
+12" from them.
+CHARGE PHASE
+CHARGE PHASE
+ RAVENAK’S GNASHING JAWS
+Ravening Hunger
+MANIFESTATION
+WAHAPEDIA
+Declare: If this MANIFESTATION charged this turn, pick an enemy unit within 1" of it to be the target.
+Effect: Roll 10 dice. For each 5+, inflict 1 mortal damage on the target.
+CORE RULES
+Counter-charge
+2
+CORE RULES
+Declare: Pick a friendly unit that is not in combat to use this ability.
+Effect: That unit can use a Charge ability as if it were your charge phase.
+COMBAT PHASE
+COMBAT PHASE
+ BE’LAKOR, THE DARK MASTER
+Deadly Trap
+×1 / TURN (ARMY)
+RAMPAGE
+WAHAPEDIA
+Declare: Pick this unit and up to 2 friendly SLAVES TO DARKNESS units within this unit’s combat range to be the targets.
+Effect: Roll a dice for each target. On a 4+, that target has STRIKE-FIRST for the rest of the turn.
+VARANGUARD
+Relentless Killers
+×1 / BATTLE
+GW APP
+Effect: This unit can use 2 FIGHT abilities this phase. After the first is used, however, this unit has STRIKE-LAST for the rest of the turn.
+CORE RULES
+Fight
+CORE
+ATTACK
+FIGHT
+CORE RULES
+Declare: Pick a friendly unit that is in combat or that
+charged this turn to use this ability. That unit can make
+a pile-in move (see 15.3). Then, if that unit is in
+combat, you must pick one or more enemy units as the
+target(s) of that unit’s attacks (see 16.0).
+Effect: Resolve combat attacks against the target
+unit(s).
+Strike-first and Strike-last
+PASSIVE
+CORE RULES
+Strike-first: If there are any Strike-first units in combat after any non-Fight combat phase
+abilities have been used, other units cannot be picked to use a Fight ability until those units
+have been picked to use a Fight ability. After all those Strike-first units have fought, the
+active player picks the next unit to fight.
+Strike-last: If there are any Strike-last units in combat, they cannot be picked to use a
+Fight ability if there are any units in combat that do not have Strike-last and have not yet
+used a Fight ability.
+Both: If a unit has Strike-first and Strike-last, treat it as if it had neither.
+Champion
+PASSIVE
+CORE RULES
+Effect: Add 1 to the Attacks characteristic of weapons used by champions in this unit.
+14 / 17
+
+===== page 15 =====
+OPPONENT'S TURN
+END OF TURN
+END OF TURN
+ BLOODLETTERS
+THE THINNING VEIL
+WAHAPEDIA
+Effect: If this unit is in combat, you can return D3 slain models to this unit.
+SCREAMERS OF TZEENTCH
+Beast
+PASSIVE
+WAHAPEDIA
+Effect: This unit has a maximum control score of 1.
+EMERALD LIFESWARM
+Restored Vigour
+MANIFESTATION
+WAHAPEDIA
+Effect: Heal (3) this MANIFESTATION.
+CORE RULES
+Standard
+Bearer
+PASSIVE
+CORE RULES
+Effect: While this unit contains
+any standard bearers, add 1 to
+this unit’s control score.
+Power Through
+1
+MOVE
+CORE RULES
+Declare: Pick a friendly unit that charged this turn to use this ability, then you must pick an enemy unit in combat
+with it to be the target. The target must have a lower Health characteristic than the unit using this ability.
+Effect: Inflict D3 mortal damage on the target. Then, the unit using this ability can move a distance up to its Move
+characteristic. It can pass through and end that move within the combat ranges of enemy units that were in
+combat with it at the start of the move, but not those of other enemy units. It does not have to end the move in
+combat.
+Eruption of Fury
+1-3
+×1 / TURN (ARMY)
+ATTACK
+FIGHT
+SEASON
+GHB
+Declare: Pick a friendly unit to use this ability, then pick an enemy unit in combat with that friendly unit to be the target.
+Effect: Pick 1 of the melee weapons that the unit using this ability is armed with. Then, spend up to 3 rage dice.
+Resolve a number of combat attacks against the target using the melee weapon you picked equal to the number of rage dice you spent.
+Those attacks cannot score critical hits. Instead, for each unmodified hit roll of 6 for those attacks:
+ Inflict an additional D3 mortal damage on each enemy unit in combat with the unit using this ability.
+ Your opponent must increase their fury level by 1, to a maximum of 7.
+For each unmodified hit roll of 1 for those attacks, allocate D3 mortal damage to this unit after the damage sequence has been resolved (ward rolls
+cannot be made for those damage points).
+Designer’s Note: Rage dice do not add to the Attacks characteristic of the weapon you pick; if you spend 3 rage dice to use this ability, you only make
+3 combat attacks.
+15 / 17
+
+===== page 16 =====
+APPENDIX — WAHAPEDIA CONTENT
+Generic spell/manifestation lores, Army of Renown rules and Regiments of Renown not covered elsewhere, taken as-is
+from data/wahapedia/ (Wahapedia).
+Legion of the First Prince — Army of Renown Rules
+Artefacts of Power
+BLACK RITUAL DAGGER
+Dark tendrils of chaotic magic coil around this obsidian blade. The bearer’s mind is filled with promises of arcane power if its thirst for
+blood is quenched.
+Effect: Allocate 1 damage point to this unit. Then, you can re-roll the casting roll.
+Battle Traits
+FIRST-DAMNED PRINCE
+Be’lakor courts the favour of all of the Chaos Gods to crush his foes. In battle, he surrounds himself with their lesser daemons to do his
+bidding.
+Effect: While a friendly Be’lakor is within the combat range of any friendly non-HERO LEGION OF THE FIRST PRINCE
+DAEMON units:
+That friendly Be’lakor has WARD (4+).
+In addition, each time you make a successful ward roll for that friendly Be’lakor, allocate 1 damage point to a friendly non-
+STORM OF BLACKENED BLADES
+Eternus commands the mortal legions sworn to Be’lakor to bring ruin to all who dare oppose the First Prince.
+Declare: Pick a friendly Eternus that is in combat and up to 2 friendly non-HERO non-DAEMON LEGION OF THE FIRST
+PRINCE units wholly within 12" of that Eternus to be the targets.
+Effect: Add 1 to the Attacks characteristic of the targets’ melee weapons for the rest of the turn.
+DAEMONIC REINFORCEMENTS
+Lesser daemons bound to the Dark Master’s will are summoned forth from the Realm of Chaos to swell Be’lakor’s ranks.
+Declare: Pick a friendly non-non-HERO LEGION OF THE FIRST PRINCE DAEMON INFANTRY or CAVALRY unit
+that has been destroyed to be the target.
+Effect: Set up a replacement unit with half the number of models from the target unit (rounding up) wholly within 12" of a
+friendly Be’lakor and more than 9" from all enemy units.
+BESTOW FAVOUR
+The Great Game plays out in the blackened skies above the First Prince’s legions as oaths are sworn, enemies are crushed, and dark
+rewards are granted.
+Declare: If a friendly Be’lakor is on the battlefield, pick a non-HERO LEGION OF THE FIRST PRINCE unit to be the
+target.
+Effect: Until the start of your next turn:
+ Add 5 to the target’s control score.
+ If the target is a DAEMON unit, add 1 to save rolls for the target.
+ If the target is a non-DAEMON unit, it ha
+Heroic Traits
+DREAD MARSHAL
+This mighty warrior has proved their devotion to Be’lakor above all, and their loyalty has been rewarded with a host of warriors to
+command.
+Declare: Pick up to 3 friendly units wholly within 12" of this unit to be targets.
+Effect: Add 1 to charge rolls for the targets for the rest of the turn.
+Manifestation Lore
+SUMMON EIGHTFOLD DOOM-SIGIL
+Eightfold Doom-Sigils are icons of Chaos in all its glory, blazing symbols of pure ruin. To fall in the presence of such a sorcerous
+construct is to be damned, for these lingering spells hungrily suck souls into the Realm of Chaos for the gods to feast upon.
+16 / 17
+
+===== page 17 =====
+Declare: If there is not a friendly Eightfold Doom-Sigil on the battlefield, pick a friendly LEGION OF THE FIRST PRINCE
+WIZARD to cast this spell, then make a casting roll of 2D6.
+Effect: Set up an Eightfold Doom-Sigil wholly within 12" of the caster and visible to them.
+Spell Lore
+DARK CANTRIP
+Uttering blasphemous words in the Dark Tongue, the sorcerer calls forth bolts of black chaotic energy that strike the foe, searing flesh,
+melting armour and leaving them as a bubbling mass of tentacles.
+Declare: Pick a friendly LEGION OF THE FIRST PRINCE WIZARD to cast this spell, pick up to 3 visible enemy units
+within 18" of them to be the targets, then make a casting roll of 2D6.
+Effect: Inflict 1 mortal damage on each target.
+SHROUD IN DARKNESS
+At the sorcerer’s bidding, unnatural shadows fall upon Be’lakor’s warriors, allowing them to move unseen.
+Declare: Pick a friendly LEGION OF THE FIRST PRINCE WIZARD to cast this spell, pick a visible friendly LEGION OF
+THE FIRST PRINCE unit that is not in combat and is wholly within 12" of them to be the target, then make a casting roll of
+2D6.
+Effect: The target can move D6". It cannot end that move in combat. In addition, until the start of your next turn, the target is not
+visible to enemy units while they are more than 12" away.
+17 / 17
+

@@ -10,6 +10,8 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
     "pytest>=8.0.0",
+    "ruff>=0.6",
+    "import-linter>=2.0",
 ]
 analysis = [
     "pandas>=2.0.0",
@@ -46,3 +48,46 @@ where = ["src"]
 [tool.setuptools.package-data]
 "aospy.persistence" = ["*.sql"]
 "aospy.tournament_kit" = ["assets/*.ttf", "assets/*.jpg"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = [
+    # statsmodels (OLS du modèle de coût) : divisions par zéro / degrés de liberté nuls
+    # sur les petits échantillons des tests, sans effet sur les assertions
+    "ignore::RuntimeWarning:statsmodels.*",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[tool.importlinter]
+root_package = "aospy"
+
+[[tool.importlinter.contracts]]
+name = "Couches aospy (ordre visé, cf. docs/refactor-plan.md)"
+type = "layers"
+layers = [
+    "aospy.cli",
+    "aospy.tournament_kit | aospy.bonus_simulator | aospy.reports",
+    "aospy.analysis",
+    "aospy.abilities",
+    "aospy.orchestration",
+    "aospy.importers",
+    "aospy.engine",
+    "aospy.persistence",
+    "aospy.domain",
+]
+ignore_imports = [
+    # lot 3 : définitions des colonnes des tables d'analyse à déplacer dans persistence/
+    "aospy.persistence.repository -> aospy.analysis.encounter",
+    "aospy.persistence.repository -> aospy.analysis.realized",
+    "aospy.persistence.repository -> aospy.analysis.marriage",
+    "aospy.persistence.repository -> aospy.analysis.bearers",
+    # lot 6 : combined_score (reports/cost_common.py) à descendre sous les deux paquets
+    "aospy.bonus_simulator.whatif -> aospy.reports.cost_common",
+]

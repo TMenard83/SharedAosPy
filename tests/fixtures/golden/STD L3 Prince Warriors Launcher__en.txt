@@ -1,0 +1,782 @@
+pages: 6
+pages_scenario: None
+units_matched: ['Daemon Prince', 'Chaos Warriors', 'Ogroid Myrmidon', 'Ogroid Theridons', 'Gaunt Summoner', 'Chaos Furies', 'Gunnar Brand', 'Singri Brand', 'The Oathsworn Kin', 'Skarbrand', 'Nexus Chaotica']
+units_unmatched: []
+rules_included: ['Règles de Saison 2026-27', 'Traits de Bataille', 'Formation — Despoilers', 'Domaine de Sorts — Lore of the Damned', 'Artefact de Pouvoir : DARKFLAME PENDANT → Daemon Prince', 'Bannière Ensorcelée : THE BANNER OF RAGE → Chaos Warriors', 'Marque des Dieux Sombres : BRAND OF APOPLEXY → Chaos Warriors', 'Trait de Bataille : PLEDGED TO NURGLE → Daemon Prince', 'Trait de Bataille : PLEDGED TO KHORNE → Chaos Warriors', 'Regiment of Renown : The Exiled One']
+rules_unmatched: []
+wahapedia_used: ['Regiment of Renown : The Exiled One (EN, Wahapedia)']
+absent_references: []
+absent_keywords: []
+===== page 1 =====
+STD - L3 Prince & Warriors Launcher
+1990/2000 pts
+Slaves to Darkness · Despoilers · Drops : 4 · Domaine de sorts : Lore of the Damned
+General's Regiment
+ Daemon Prince — 230 pts
+General, Darkflame Pendant, 1x Wings, 1x Pledged to Nurgle
+Chaos Warriors — 370 pts
+Reinforced, The Banner of Rage, Brand of Apoplexy - (10) Points
+Ogroid Myrmidon — 120 pts
+Ogroid Theridons — 300 pts
+Reinforced
+Regiment 1
+ Gaunt Summoner — 160 pts
+Chaos Furies — 120 pts
+Chaos Furies — 120 pts
+Regiment 2
+ Gunnar Brand — 180 pts
+Singri Brand — 0 pts
+The Oathsworn Kin — 0 pts
+Regiments of Renown
+ The Exiled One — 390 pts
+Skarbrand
+Faction Terrain
+Nexus Chaotica
+■ Complété en anglais via Wahapedia (voir annexe en fin de document) : Regiment of Renown : The Exiled One (EN, Wahapedia)
+Généré le <horodatage> — aospy roster pdf
+Légende des pictos
+ 7+
+Aptitude : valeur de lancement. Warscroll : niveau de Sorcier ; manifestation : valeur de lancement de sa convocation.
++2
+Dés de rage : « +N » gagnés, sinon nombre dépensé
++2
+Niveau de fureur : « +N » augmenté, sinon diminué
+MDG
+Source du texte : MDG (Manuel du Général), BT (battletome), FP (faction pack), AQSHY,
+WAHAPEDIA (anglais). Traits de Bataille, Formation : catégorie de règles d'armée.
+SIMPLE
+Texte adapté, pas le verbatim : en cas de litige, revenir à la règle d'origine.
+BASE
+SAISON
+Aptitude de base du jeu (Core) ; règle de la saison en cours (MdG 2026-27).
+×1 / TOUR (ARMÉE)
+PASSIF
+Fréquence — (ARMÉE) : une seule fois pour toute l'armée ; passif : toujours actif, rien à déclarer.
+RÉACTION
+Réaction : utilisée en réponse à l'aptitude indiquée.
+TIR
+CHARGE
+Mot-clé d'aptitude, à la couleur de sa phase (Mouvement, Tir, Charge, Corps à Corps).
+ATTAQUE
+SACCAGE
+Mot-clé d'aptitude valable dans plusieurs phases.
+SORT
+PRIÈRE
+Magie (sort, manifestation, bannissement…) ; prière. Illimité : utilisable plusieurs fois par tour.
+TACTIQUE
+MOT-CLÉ
+Autre mot-clé d'aptitude (Tactique : règle spéciale d'une carte de tactique) ; bordeaux : propre à la
+faction.
+1 / 6
+
+===== page 2 =====
+Daemon Prince
+ MV
+8"
+ CT
+ 5
+ SV
+3+
+ WD
+6+
+ HP
+10
+1 model
+ 230 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Hellforged Weapons
+Crit (Mortal)
+ 6
+ 3+
+ 3+
+ 1
+ 3
+PHASE DE MOUVEMENT
+Airborne Horror
+PASSIF
+WAHAPEDIA
+Effect: If this unit has Wings, it has a Move characteristic of 10" and
+has FLY.
+PHASE DE MÊLÉE
+The Mounted Skulls of the
+Fallen
+PASSIF
+WAHAPEDIA
+Effect: If this unit has a Trophy Rack, its Hellforged Weapons also
+have Anti-HERO (+1 Rend).
+Immortal Champion
+LES 2 PHASES
+WAHAPEDIA
+Effect: Roll a dice. On a 4+, this unit has STRIKE-FIRST for the rest
+of the turn.
+N'IMPORTE QUELLE PHASE
+DARKFLAME PENDANT
+PASSIF
+WAHAPEDIA
+ARTEFACT DE POUVOIR
+Effect: Weapons used for attacks that target this unit have a
+maximum Damage characteristic of 1.
+PLEDGED TO NURGLE
+PASSIF
+WAHAPEDIA
+TRAIT DE BATAILLE
+Effect: Friendly PLEDGED TO NURGLE units have WARD (6+). If a
+unit already has WARD (6+), it has WARD (5+) instead.
+CHAOS · DAEMON · SLAVES TO DARKNESS · HERO · INFANTRY ·
+WARD
+ Wahapedia (EN)
+Singri Brand
+ MV
+12"
+ CT
+ 2
+ SV
+5+
+ WD
+—
+ HP
+ 4
+1 model
+ 0 pts
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Singri’s Warbow
+Crit (Auto-wound)
+ 18"
+ 2
+ 3+
+ 3+
+ 1
+ D3
+Warsteed’s Hooves
+Companion
+ 2
+ 5+
+ 3+
+ -
+ 1
+Brand Ancestral Knife
+ 3
+ 4+
+ 3+
+ 1
+ 1
+PHASE DE TIR
+Swift As The Wind
+PASSIF
+WAHAPEDIA
+Effect: Only critical hits score successful hits for shooting attacks
+that target this unit.
+Uncanny Shot
+PASSIF
+WAHAPEDIA
+Effect: Add 1 to the Rend characteristic of this unit’s Singri’s
+Warbow for attacks that target enemy units that are within 6" of a
+friendly Gunnar Brand.
+CHAOS · DARKOATH · GUNNAR’S OATHSWORN · SLAVES TO
+DARKNESS · CAVALRY · HERO · UNIQUE
+ Wahapedia (EN)
+ Ogroid Myrmidon
+ MV
+6"
+ CT
+ 2
+ SV
+4+
+ WD
+—
+ HP
+ 8
+1 model
+ 120 pts
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Gladiator Spear
+ 10"
+ 1
+ 3+
+ 3+
+ 1
+ D3
+Gladiator Spear
+Anti-MONSTER (+1 Rend)
+ 6
+ 3+
+ 2+
+ 1
+ 3
+PHASE DE MÊLÉE
+Pit Master
+Réaction : Vous avez annoncé
+une aptitude de Corps à Corps
+pour cette unité
+WAHAPEDIA
+Effect: Pick a friendly Ogroid Theridons unit that has not used a
+FIGHT ability this turn and is within this unit’s combat range to be the
+target. The target can be picked to use a FIGHT ability immediately
+after the FIGHT ability used by this unit has been resolved. If it is
+picked to do so, add 1 to hit rolls for the target’s attacks for the rest of
+the turn.
+Myrmidon Rage
+PASSIF
+WAHAPEDIA
+Effect: While this unit is damaged, add 2 to the Attacks characteristic
+of its melee weapons.
+CHAOS · SLAVES TO DARKNESS · HERO · INFANTRY
+ Wahapedia (EN)
+Gaunt Summoner
+2
+ MV
+5"
+ CT
+ 2
+ SV
+5+
+ WD
+5+
+ HP
+ 5
+1 model
+ 160 pts
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Changestaff
+Crit (Mortal)
+ 12"
+ 3
+ 4+
+ 3+
+ 1
+ D3
+Warptongue Blade
+ 3
+ 3+
+ 3+
+ 1
+ 2
+DÉPLOIEMENT
+Minions of the Silver Tower
+WAHAPEDIA
+Declare: Pick a friendly unit that has not been deployed to be the
+target.
+Effect: The target is set up in reserve in a Silver Tower. It has now
+been deployed.
+PHASE DES HÉROS
+Divert Realmgate
+7+
+MA PHASE
+WAHAPEDIA
+Declare: Make a casting roll of 2D6.
+Effect: Units set up this turn using this unit’s ‘Book of Profane
+Secrets’ ability can be set up wholly within 18" of this unit and more
+than 7" from all enemy units instead of the distances in the ability.
+PHASE DE MOUVEMENT
+Book of Profane Secrets
+MA PHASE
+WAHAPEDIA
+Declare: Pick a friendly unit in a Silver Tower to be the target.
+Effect: Set up the target on the battlefield wholly within 12" of this
+unit and more than 9" from all enemy units.
+CHAOS · DAEMON · SLAVES TO DARKNESS · HERO · INFANTRY ·
+PLEDGED TO TZEENTCH · WARD
+ Wahapedia (EN)
+2 / 6
+
+===== page 3 =====
+Gunnar Brand
+ MV
+5"
+ CT
+ 2
+ SV
+5+
+ WD
+—
+ HP
+ 6
+1 model
+ 180 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Dual Axes
+Crit (Mortal)
+ 10
+ 4+
+ 3+
+ 1
+ 1
+PHASE DE MÊLÉE
+Carve a Path To Glory
+LES 2 PHASES
+WAHAPEDIA
+Declare: This unit can only use this ability if it is in combat with an
+enemy HERO.
+Effect: This unit can use 2 FIGHT abilities this phase. After the first
+is used, however, this unit has STRIKE-LAST for the rest of the turn.
+When using the second FIGHT ability, this unit must pick an enemy
+HERO to be the target of all of its attacks.
+FIN DE TOUR
+Oath of Bloodshed
+×1 / BATAILLE
+LES 2 PHASES
+WAHAPEDIA
+Declare: This unit can only use this ability if any enemy HEROES
+were slain by this unit’s combat attacks this turn.
+Effect: Friendly GUNNAR’S OATHSWORN units have WARD (4+)
+for the rest of the battle.
+CHAOS · DARKOATH · GUNNAR’S OATHSWORN · SLAVES TO
+DARKNESS · HERO · INFANTRY · UNIQUE
+ Wahapedia (EN)
+Chaos Warriors
+ MV
+5"
+ CT
+ 1
+ SV
+3+
+ WD
+—
+ HP
+ 2
+10 models
+ 180+10 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Rune-etched Weapons
+Crit (Auto-wound)
+ 2
+ 3+
+ 3+
+ 1
+ 1
+PHASE DE MÊLÉE
+Bringers of Desolation
+PASSIF
+WAHAPEDIA
+Effect: Add 1 to the Attacks characteristic of this unit’s Rune-etched
+Weapons while it is contesting an objective you control.
+THE BANNER OF RAGE
+PASSIF
+WAHAPEDIA
+BANNIÈRE ENSORCELÉE
+Effect: This unit has the PLEDGED TO KHORNE keyword.
+In addition, while this unit includes any standard bearers, add 1 to
+wound rolls for this unit’s combat attacks.
+BRAND OF APOPLEXY
+PASSIF
+WAHAPEDIA
+MARQUE DES DIEUX SOMBRES
+Effect: While your fury level is 7, add 1 to the Damage characteristic
+of this unit’s weapons.
+PLEDGED TO KHORNE
+PASSIF
+WAHAPEDIA
+TRAIT DE BATAILLE
+Effect: Add 1 to the Attacks characteristic of melee weapons used by
+friendly PLEDGED TO KHORNE units.
+CHAOS · SLAVES TO DARKNESS · WARRIORS OF CHAOS ·
+CHAMPION · INFANTRY · MUSICIAN · STANDARD BEARER
+ Wahapedia (EN)
+ Skarbrand
+ MV
+8"
+ CT
+ 5
+ SV
+4+
+ WD
+5+
+ HP
+16
+1 model
+ 430 pts
+Regiment of Renown — The Exiled One
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Slaughter
+Blood-hungry
+ 4
+ 3+
+ 2+
+ 2
+ 4
+Carnage
+Crit (Mortal)
+ 2
+ 3+
+ 2+
+ 2
+ 8
+PHASE DE CHARGE
+Inescapable Wrath
+PASSIF
+WAHAPEDIA
+Effect: Add 1 to the number of dice rolled when making charge rolls
+for this unit, to a maximum of 3.
+PHASE DE MÊLÉE
+Roar of Total Rage
+×1 / TOUR (ARMÉE)
+LES 2 PHASES
+RAMPAGE
+WAHAPEDIA
+Declare: Pick an enemy unit in combat with this unit to be the target.
+Effect: Roll either 3 dice or a number of dice equal to the number of
+damage points this unit has. For each 4+, inflict 1 mortal damage on
+the target.
+HATRED FOR ALL
+LES 2 PHASES
+WAHAPEDIA
+Declare: You must use this ability if this unit is not in combat and
+there are any other visible friendly units within this unit’s combat
+range. You must pick 1 of those friendly units to be the target.
+Effect: Resolve combat attacks for this unit against the target.
+N'IMPORTE QUELLE PHASE
+Skarbrand’s Rage
+PASSIF
+WAHAPEDIA
+Effect: While this unit has 10 or more damage points, or if it did not
+use a FIGHT ability last turn, the effects of the ’Blood-drenched’
+ability apply to this unit.
+BLADES OF KHORNE · CHAOS · DAEMON · HERO · MONSTER ·
+UNIQUE · WARD
+ Wahapedia (EN)
+Ogroid Theridons
+ MV
+6"
+ CT
+ 2
+ SV
+4+
+ WD
+—
+ HP
+ 5
+3 models
+ 150 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Goroan Weapons
+Anti-INFANTRY (+1 Rend)
+ 4
+ 4+
+ 2+
+ 1
+ 2
+PHASE DE MÊLÉE
+Unleashed Savagery
+×1 / BATAILLE
+LES 2 PHASES
+WAHAPEDIA
+Effect: Add 1 to the Damage characteristic of this unit’s melee
+weapons for the rest of the turn.
+CHAOS · SLAVES TO DARKNESS · CHAMPION · INFANTRY ·
+MUSICIAN · STANDARD BEARER
+ Wahapedia (EN)
+3 / 6
+
+===== page 4 =====
+Chaos Furies
+ MV
+12"
+ CT
+ 1
+ SV
+6+
+ WD
+6+
+ HP
+ 1
+6 models
+ 100 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Razor-sharp Dagger and Claws
+ 3
+ 4+
+ 4+
+ 1
+ 1
+PHASE DE MÊLÉE
+Sneaky Little Devils
+LES 2 PHASES
+WAHAPEDIA
+Effect: If this unit is in combat, roll a dice. On a 3+, this unit can
+immediately use the ‘Retreat’ ability as if it were your movement
+phase without any mortal damage being inflicted on it.
+CHAOS · DAEMON · SLAVES TO DARKNESS · FLY · INFANTRY ·
+WARD
+ Wahapedia (EN)
+Nexus Chaotica
+ MV
+ -
+ CT
+ 0
+ SV
+4+
+ WD
+—
+ HP
+12
+1 model
+ 0 pts
+PHASE DES HÉROS
+Draw Power
+MA PHASE
+WAHAPEDIA
+Effect: Roll a dice. Give a number of power points to this terrain
+feature equal to the roll. This terrain feature can have a maximum of
+12 power points at once.
+Infernal Sorcery
+MA PHASE
+WAHAPEDIA
+Declare: If this terrain feature has 3 or more power points, pick a
+friendly SLAVES TO DARKNESS WIZARD within 3" of this terrain
+feature to be the target.
+Effect: Remove 3 power points from this terrain feature, then add 1
+to casting rolls for the target for the rest of the turn.
+Corrupt The Realms
+MA PHASE
+WAHAPEDIA
+Declare: If this terrain feature has 9 or more power points, pick an
+objective or terrain feature within 24" of this terrain feature to be the
+source. Then, pick any number of enemy units within 3" of the source
+to be the targets.
+Effect: Remove 9 power points from this terrain feature, then roll a
+D3 for each target. On a 2+, inflict an amount of mortal damage on
+the target equal to the roll.
+CHAOS · SLAVES TO DARKNESS · FACTION TERRAIN
+ Wahapedia (EN)
+ The Oathsworn Kin
+ MV
+5"
+ CT
+ 1
+ SV
+5+
+ WD
+—
+ HP
+ 3
+3 models
+ 0 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Gnarled Staff
+ 3
+ 4+
+ 4+
+ -
+ D3
+Heavy Darkoath Weapon
+Crit (Mortal)
+ 4
+ 4+
+ 3+
+ -
+ 2
+PHASE DES HÉROS
+APTITUDES
+Broken Nadja
+PASSIF
+WAHAPEDIA
+Effect: While this unit’s Broken Nadja is on the battlefield, it has
+WIZARD (1).
+SORTS
+Withering Death
+5+
+MA PHASE
+WAHAPEDIA
+Declare: Pick a visible enemy HERO within 18" of this unit to be
+the target, then make a casting roll of 2D6.
+Effect: Inflict 1 mortal damage on the target and subtract 1 from
+the Attacks characteristic of the target’s melee weapons until the
+start of your next turn.
+CHAOS · DARKOATH · GUNNAR’S OATHSWORN · SLAVES TO
+DARKNESS · INFANTRY · UNIQUE
+ Wahapedia (EN)
+4 / 6
+
+===== page 5 =====
+Aptitudes
+Slaves to Darkness
+DÉPLOIEMENT
+DÉPLOIEMENT
+ RÈGLES DE BASE
+Souffler sur les Braises
+×1 / BATAILLE (ARMÉE)
+SAISON
+MDG
+Effet : Si vous êtes l’attaquant, réglez votre niveau de fureur sur 1. Si vous êtes le défenseur, réglez votre niveau de fureur sur 2.
+N'IMPORTE QUELLE PHASE
+N'IMPORTE QUELLE PHASE
+ RÈGLES DE BASE
+Braver la Douleur
+X
+X
+PASSIF
+SAISON
+MDG
+Effet : Avant d’allouer des dégâts à une unité amie, vous pouvez dépenser n’importe quel nombre de dés de rage. Pour chaque dé de rage dépensé,
+réduisez votre niveau de fureur de 1, jusqu’à un minimum de 0, puis jetez un dé. Sur 3+, retirez 1 dégât de la réserve de dégâts de l’unité.
+RÈGLES D'ARMÉE
+PLEDGED TO NURGLE
+PASSIF
+TRAITS DE BATAILLE
+WAHAPEDIA
+Effect: Friendly PLEDGED TO NURGLE units have WARD (6+). If a unit already has WARD (6+), it has WARD (5+) instead.
+DÉBUT DE ROUND
+DÉBUT DE ROUND
+ RÈGLES DE BASE
+Rage Bouillonnante
+×1 / TOUR (ARMÉE)
+SAISON
+MDG
+Annonce : Vous devez utiliser cette aptitude.
+Effet : Gagnez autant de dés de rage que votre niveau de fureur. À la fin du round de bataille, tous les dés de rage non dépensés sont perdus.
+PHASE DES HÉROS
+PHASE DES HÉROS
+ RÈGLES D'ARMÉE
+PLEDGE TO CHAOS
+×1 / TOUR (ARMÉE)
+MA PHASE
+TRAITS DE BATAILLE
+WAHAPEDIA
+Declare: Pick a friendly non- UNIQUE SLAVES TO DARKNESS unit that does not already have one of the keywords below to be the target. Effect: Pick
+1 of the following Pledge to Chaos keywords:  PLEDGED TO KHORNE  PLEDGED TO TZEENTCH  PLEDGED TO NURGLE /l
+SORTS
+SPITE-TONGUE
+CURSE
+5+
+MA PHASE
+ILLIMITÉ
+WAHAPEDIA
+Declare: Pick a friendly SLAVES TO DARKNESS
+WIZARD to cast this spell, pick a visible enemy unit
+within 12" of them to be the target, then make a
+casting roll of 2D6. If the casting attempt is
+unsuccessful or if the spell is unbound, inflict D3
+mortal damage on the caster.
+Effect: Inflict 3 mortal damage on the target.
+BINDING
+DAMNATION
+7+
+MA PHASE
+WAHAPEDIA
+Declare: Pick a friendly SLAVES TO
+DARKNESS WIZARD to cast this
+spell, pick a visible enemy unit within
+12" of them to be the target, then make
+a casting roll of 2D6.
+Effect: The target has STRIKE-LAST
+until the start of your next turn.
+DAEMONIC
+SPEED
+7+
+MA PHASE
+WAHAPEDIA
+Declare: Pick a friendly SLAVES TO
+DARKNESS WIZARD to cast this spell, pick a
+visible friendly SLAVES TO DARKNESS unit
+wholly within 12" of them to be the target, then
+make a casting roll of 2D6.
+Effect: For the rest of the turn, add 1 to the
+number of dice rolled when making charge rolls
+for the target, to a maximum of 3.
+PHASE DE MOUVEMENT
+PHASE DE MOUVEMENT
+ RÈGLES D'ARMÉE
+PLEDGED TO TZEENTCH
+×1 / TOUR (ARMÉE)
+MA PHASE
+TRAITS DE BATAILLE
+WAHAPEDIA
+Declare: Pick a friendly PLEDGED TO TZEENTCH unit to be the target.
+Effect: Roll 2D6. Then pick a point within a number of inches of the target equal to the roll. Remove the target from the battlefield and set it up again on
+the battlefield wholly within 6" of that point and more than 9" from all enemy units.
+PHASE DE CHARGE
+PHASE DE CHARGE
+ RÈGLES D'ARMÉE
+PLEDGED TO SLAANESH
+MA PHASE
+TRAITS DE BATAILLE
+WAHAPEDIA
+Effect: For the rest of the turn, when making charge rolls for friendly PLEDGED TO SLAANESH units, you can roll 1 additional dice (to a maximum of
+3), but if you do, you must discard 1 dice of your choice.
+5 / 6
+
+===== page 6 =====
+PHASE DE MÊLÉE
+PHASE DE MÊLÉE
+ RÈGLES D'ARMÉE
+PLEDGED TO KHORNE
+PASSIF
+TRAITS DE BATAILLE
+WAHAPEDIA
+Effect: Add 1 to the Attacks characteristic of melee weapons used by friendly PLEDGED TO KHORNE units.
+FIN DE TOUR
+FIN DE TOUR
+ RÈGLES DE BASE
+Éruption de Fureur
+1-3
+×1 / TOUR (ARMÉE)
+LES 2 PHASES
+ATTAQUE
+MDG
+CORPS À CORPS
+SAISON
+Annonce : Choisissez une unité amie pour qu’elle utilise cette aptitude, puis choisissez comme cible une unité ennemie en mêlée avec cette unité
+amie.
+Effet : Choisissez 1 des armes de mêlée de l’unité qui utilise cette aptitude. Puis dépensez 3 dés de rage maximum.
+Résolvez autant d’attaques de mêlée contre la cible en utilisant l’arme de mêlée choisie que le nombre de dés de rage que vous avez dépensés.
+Ces attaques ne peuvent pas causer de touches critiques. À la place, pour chaque jet de touche non modifié de 6 obtenu pour ces attaques :
+ Infligez D3 dégâts mortels supplémentaires à chaque unité ennemie en mêlée avec l’unité qui utilise cette aptitude.
+ Votre adversaire doit augmenter son niveau de fureur de 1, jusqu’à un maximum de 7.
+Pour chaque jet de touche non modifié de 1 pour ces attaques, allouez D3 dégâts mortels à l’unité qui utilise cette aptitude une fois la séquence de
+dégâts résolue (on ne peut tenter aucun jet de protection contre ces dégâts).
+Note des Concepteurs : Les dés de rage ne s’ajoutent pas à la caractéristique d’Attaques de l’arme que vous choisissez ; si vous dépensez 3 dés de
+rage pour utiliser cette aptitude, vous faites seulement 3 attaques de mêlée.
+RÈGLES D'ARMÉE
+FERAL RUIN
+×1 / TOUR (ARMÉE)
+MA PHASE
+FORMATION : DESPOILERS
+WAHAPEDIA
+Declare: Pick a friendly Daemon Prince to use this ability. Then, pick a visible friendly non-DAEMON non-UNIQUE SLAVES TO DARKNESS unit that
+does not have an Ensorcelled Banner wholly within 12" of this unit to be the target.
+Effect: Remove any Pledge to Chaos keywords the target has. Then, the target gains any Pledge to Chaos keywords this unit has.
+6 / 6
+

@@ -159,7 +159,7 @@ Le test golden du lot 0 est le juge. Le relancer après chaque étape.
 
 | Lot | État | Date | Notes pour la suite |
 |---|---|---|---|
-| 0 | à faire | | |
+| 0 | fait | 2026-11-21 | Branche `refactor/lot-0`, partie du commit WIP de `feature/cost-model-and-stats` (travail d'aospy-81 committé avec l'accord de l'utilisateur). **`pytest` : 707 passed, ~105 s** (658 + 49 golden ; le golden seul ≈ 73 s, `-k "not golden"` pour aller vite). Golden : 7 listes × 7 modes, `tests/fixtures/golden/*.txt` (1,9 Mo), texte par page + pages (+ variante scénarios) + champs de `RosterPdfResult` ; horodatage de couverture neutralisé par regex. **Piège** : `build_roster_pdf` laisse les drapeaux de module de `warscroll_card` positionnés → le test golden les sauvegarde/restaure (fixture autouse) ; sans ça, 3 tests de `test_warscroll_card.py` cassaient. Le lot 4a peut supprimer cette fixture. `lint-imports` : contrat vert avec 5 `ignore_imports` (4 `persistence.repository → analysis.*` pour le lot 3, **+1 non prévue** : `bonus_simulator.whatif → reports.cost_common` (`combined_score`), notée « lot 6 »). `ruff check` (E, F, I, ligne 120) : **359 avertissements** sur tout le dépôt (211 dans `src/`) — 277 E501, 46 I001, 18 F401, 5 E402, 4 E731… non corrigés. ruff/import-linter installés dans `.venv` via `uv pip install`. |
 | 1 | à faire | | |
 | 2 | à faire | | |
 | 3 | à faire | | |

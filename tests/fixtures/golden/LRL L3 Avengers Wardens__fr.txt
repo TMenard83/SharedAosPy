@@ -1,0 +1,983 @@
+pages: 8
+pages_scenario: None
+units_matched: ['Ellania and Ellathor, Eclipsian Warsages', 'Vanari Auralan Wardens', 'Vanari Lord Regent', 'Ydrilan Riverblades', 'Lyrior Uthralle, Warden of Ymetrica', 'The Light of Eltharion', 'Sevireth, Lord of the Seventh Wind', 'Hurakan Windmage', 'Shrine Luminor']
+units_unmatched: []
+rules_included: ['Règles de Saison 2026-27', 'Traits de Bataille', 'Formation — Warhost of Duality', 'Domaine de Sorts — Lore of Hysh', 'Domaine de Manifestations — Manifestations of Hysh', 'Burning for Vengeance', 'Flanking Firestorm', 'Trait Héroïque : Commandant Sublime → Vanari Lord Regent', 'Artefact de Pouvoir : Pierre du Phénix → Hurakan Windmage']
+rules_unmatched: []
+wahapedia_used: []
+absent_references: []
+absent_keywords: []
+===== page 1 =====
+LRL - L3 Avengers & Wardens 2000/2000
+pts
+Lumineth Realm-lords · Warhost of Duality (20 Points) · Drops : 4 · Domaine de sorts : Lore of Hysh · Domaine de
+manifestations : Manifestations of Hysh
+Battle Tactic Cards : Burning for Vengeance, Flanking Firestorm
+General's Regiment
+ Ellania and Ellathor, Eclipsian Warsages — 310 pts
+General
+Vanari Auralan Wardens — 240 pts
+Reinforced
+Vanari Auralan Wardens — 120 pts
+Vanari Lord Regent — 110 pts
+Flawless Commander
+Ydrilan Riverblades — 150 pts
+Regiment 1
+ Lyrior Uthralle, Warden of Ymetrica — 260 pts
+The Light of Eltharion — 300 pts
+Regiment 2
+ Sevireth, Lord of the Seventh Wind — 350 pts
+Regiment 3
+ Hurakan Windmage — 140 pts
+Phoenix Stone
+Faction Terrain
+Shrine Luminor
+Généré le <horodatage> — aospy roster pdf
+Légende des pictos
+ 7+
+Aptitude : valeur de lancement. Warscroll : niveau de Sorcier ; manifestation : valeur de lancement de sa convocation.
+1
+Ordre : coût en points d’ordre
++2
+Dés de rage : « +N » gagnés, sinon nombre dépensé
++2
+Niveau de fureur : « +N » augmenté, sinon diminué
+MDG
+Source du texte : MDG (Manuel du Général), BT (battletome), FP (faction pack), AQSHY,
+WAHAPEDIA (anglais). Traits de Bataille, Formation : catégorie de règles d'armée.
+SIMPLE
+Texte adapté, pas le verbatim : en cas de litige, revenir à la règle d'origine.
+BASE
+SAISON
+Aptitude de base du jeu (Core) ; règle de la saison en cours (MdG 2026-27).
+×1 / TOUR (ARMÉE)
+PASSIF
+Fréquence — (ARMÉE) : une seule fois pour toute l'armée ; passif : toujours actif, rien à déclarer.
+RÉACTION
+Réaction : utilisée en réponse à l'aptitude indiquée.
+TIR
+CHARGE
+Mot-clé d'aptitude, à la couleur de sa phase (Mouvement, Tir, Charge, Corps à Corps).
+ATTAQUE
+SACCAGE
+Mot-clé d'aptitude valable dans plusieurs phases.
+SORT
+PRIÈRE
+Magie (sort, manifestation, bannissement…) ; prière. Illimité : utilisable plusieurs fois par tour.
+TACTIQUE
+MOT-CLÉ
+Autre mot-clé d'aptitude (Tactique : règle spéciale d'une carte de tactique) ; bordeaux : propre à la
+faction.
+1 / 8
+
+===== page 2 =====
+Ellania and Ellathor, Eclipsian
+Warsages
+1
+ MV
+6"
+ CT
+ 4
+ SV
+4+
+ WD
+5+
+ HP
+10
+1 model
+ 330 pts
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Blazing Sunbolt
+Crit (Blessure Auto)
+ 12"
+ 3
+ 3+
+ 3+
+ 1
+ D3
+Altairi
+ 5
+ 2+
+ 3+
+ 1
+ 2
+Dianaer
+ 2
+ 3+
+ 4+
+ 1
+ D3
+PHASE DES HÉROS
+APTITUDES
+Prodiges Égaux
+MA PHASE
+BT
+Annonce : Choisissez si Ellania dirige ou si Ellathor dirige.
+Effet : Si Ellania dirige, jusqu'au début de votre prochain tour,
+ajoutez 1 au niveau de puissance de cette unité et celle-ci a une
+Protection (4+).
+Si Ellathor dirige, jusqu'au début de votre prochain tour, ajoutez le
+numéro du round de bataille actuel à la caractéristique de Dégâts
+d'Altairi.
+SORTS
+Éclipse Totale
+8+
+MA PHASE
+BT
+Annonce : Faites un jet de lancement de 2D6.
+Effet : Jusqu'au début de votre prochain tour, la première fois
+qu'une unité ennemie à 18" de cette unité utilise un ordre, à
+moins que votre adversaire dépense 1 point d'ordre
+supplémentaire, l'ordre n'a aucun effet, il compte quand même
+comme ayant été utilisé et les points d'ordre dépensés pour
+l'utiliser sont perdus.
+FIN DE TOUR
+Téléportation Soudaine
+LES 2 PHASES
+BT
+Annonce : Cette unité peut utiliser cette aptitude seulement si une
+ou plusieurs figurines ennemies ont été tuées à ce tour par les
+attaques de mêlée de cette unité.
+Effet : Soignez (D6) cette unité. Puis retirez-la du champ de bataille
+et replacez-la sur le champ de bataille, à plus de 9" des unités
+ennemies.
+AELF · LUMINETH REALM-LORDS · ORDER · SCINARI · VANARI ·
+HERO · INFANTRY · UNIQUE · WARD
+ Wahapedia (EN)
+Vanari Auralan Wardens
+ MV
+6"
+ CT
+ 1
+ SV
+4+
+ WD
+—
+ HP
+ 1
+10 models
+ 120 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Warden Pike and Blade
+Anti-charge (+1 Perf.), Crit (Mortel)
+ 2
+ 3+
+ 4+
+ -
+ 1
+PHASE DE MÊLÉE
+Attaque Anticipée
+PASSIF
+BT
+Effet : Si cette unité n'a pas chargé à ce tour, ignorez l'effet de
+l'aptitude Charge (+1 Dégât) pour les attaques de mêlée des unités
+ennemies qui ciblent cette unité.
+AELF · LUMINETH REALM-LORDS · ORDER · VANARI · CHAMPION ·
+INFANTRY
+ Wahapedia (EN)
+ Vanari Lord Regent
+ MV
+6"
+ CT
+ 2
+ SV
+4+
+ WD
+—
+ HP
+ 5
+1 model
+ 120 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Regent’s Sword
+Crit (Mortel)
+ 5
+ 3+
+ 4+
+ 1
+ 2
+PHASE DES HÉROS
+Brillant Exemple
+PASSIF
+BT
+Effet : Chaque fois qu'une unité de Suzerains Lumineths amie
+entièrement à 12" de cette unité utilise l'ordre « Ralliement », vous
+pouvez faire 3 jets de ralliement supplémentaires d'un D6.
+PHASE DE MOUVEMENT
+Commandant Sublime
+PASSIF
+BT
+TRAIT HÉROÏQUE
+Annonce : Choisissez comme cibles jusqu'à 3 unités d'Infanterie
+des Suzerains Lumineths amies visibles et entièrement à 18" de ce
+Héros.
+Effet : Chaque cible peut utiliser l'aptitude « Mouvement Normal »
+comme si c'était votre phase de mouvement.
+PHASE DE MÊLÉE
+Mur de Lames
+×1 / TOUR (ARMÉE)
+BT
+LES 2 PHASES
+Annonce : Choisissez comme mur de boucliers une unité de Gardes
+Auraliens Vanari amie entièrement à 12" de cette unité. Choisissez
+ensuite comme cible une unité ennemie en mêlée avec le mur de
+boucliers.
+Effet : Jetez un dé pour chaque figurine du mur de boucliers qui est
+à 3" de la cible. Pour chaque jet de 5+, infligez 1 dégât mortel à la
+cible.
+AELF · LUMINETH REALM-LORDS · ORDER · VANARI · HERO ·
+INFANTRY
+ Wahapedia (EN)
+The Light of Eltharion
+ MV
+6"
+ CT
+ 2
+ SV
+3+
+ WD
+4+
+ HP
+ 7
+1 model
+ 300 pts
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Searing Darts of Light
+Tir en Mêlée
+ 12"
+ 3
+ 2+
+ 3+
+ 2
+ D3
+Fangsword of Eltharion
+Crit (2 Touches)
+ 5
+ 2+
+ 3+
+ 3
+ 3
+Celennari Blade
+Anti-HERO (+1 Perf.),
+Anti-MONSTER (+1 Perf.)
+ 2
+ 2+
+ 3+
+ 1
+ 3
+PHASE DE MÊLÉE
+Épéiste Suprême
+PASSIF
+BT
+Effet : Ignorez les modificateurs négatifs aux jets de touche et aux
+jets de blessure pour les attaques de mêlée de cette unité.
+Intervention Valeureuse
+1
+LES 2 PHASES
+BT
+Annonce : Cette unité ne peut pas utiliser cette aptitude si elle est
+en mêlée. Choisissez comme cible une unité de Suzerains
+Lumineths amie en mêlée.
+Effet : Retirez la Lumière d'Eltharion du champ de bataille et
+replacez-la à 1" de la cible, à 1" d'une unité ennemie, et en mêlée.
+La Lumière d'Eltharion a chargé.
+AELF · LUMINETH REALM-LORDS · ORDER · HERO · INFANTRY ·
+UNIQUE · WARD
+ Wahapedia (EN)
+2 / 8
+
+===== page 3 =====
+Lyrior Uthralle, Warden of
+Ymetrica
+1
+ MV
+14"
+ CT
+ 2
+ SV
+3+
+ WD
+—
+ HP
+ 7
+1 model
+ 260 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Daemonbane
+Anti-DAEMON (+1 Perf.), Charge (+1 Dégât)
+ 2
+ 2+
+ 3+
+ 1
+ 2
+Lyrior’s Sword
+Charge (+1 Dégât), Crit (Mortel)
+ 5
+ 2+
+ 3+
+ 1
+ 2
+Farael’s Horns and Claws
+Compagnon
+ 4
+ 4+
+ 3+
+ 1
+ 1
+PHASE DES HÉROS
+Fureur Concentrée
+5+
+MA PHASE
+BT
+Annonce : Faites un jet de lancement de 2D6. Ajoutez 2 au jet si
+cette unité est en mêlée.
+Effet : Cette unité a Frappe en Premier pour le restant du tour.
+N'IMPORTE QUELLE PHASE
+Champion du Seigneur
+Phénix
+PASSIF
+BT
+Effet : Tant qu'une unité Vanari amie est visible et entièrement à 12"
+de cette unité :
+ On considère que vous avez 1 occurrence supplémentaire de
+Varinor, la Rune de Force inscrite dans votre verset guerrier pour les
+besoins des aptitudes de la charte de l'unité.
+ Si l'unité est choisie comme cible de l'aptitude « Inscription de Rune
+», vous pouvez appliquer les effets améliorés de l'aptitude à l'unité
+comme si vous aviez une occurrence de Varinor, la Rune de Force
+inscrite dans votre verset guerrier.
+AELF · LUMINETH REALM-LORDS · ORDER · VANARI · CAVALRY ·
+HERO · UNIQUE
+ Wahapedia (EN)
+Ydrilan Riverblades
+ MV
+7"
+ CT
+ 1
+ SV
+5+
+ WD
+—
+ HP
+ 1
+10 models
+ 150 pts
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Ythara Darts
+Tir en Mêlée
+ 10"
+ 2
+ 3+
+ 4+
+ -
+ 1
+Ydrilan Blades
+ 2
+ 3+
+ 4+
+ 1
+ 1
+PHASE DE MOUVEMENT
+Emprunter les Voies
+Navigables
+×1 / TOUR (ARMÉE)
+BT
+MA PHASE
+Effet : Retirez cette unité du champ de bataille et replacez-la sur le
+champ de bataille entièrement à 6" d'un bord du champ de bataille et
+à plus de 9" des unités ennemies.
+Si vous avez choisi d'inscrire Ydriliqi, la Rune du Fleuve dans votre
+verset guerrier à ce round, vous pouvez placer cette unité n'importe
+où sur le champ de bataille, à plus de 9" des unités ennemies.
+PHASE DE MÊLÉE
+Aussi Implacable que le
+Courant
+×1 / TOUR (ARMÉE)
+BT
+LES 2 PHASES
+Effet : Si cette unité est en mêlée, elle peut se déplacer de 2D6".
+Elle peut traverser les figurines des unités ennemies, mais doit finir
+ce mouvement en mêlée.
+AELF · LUMINETH REALM-LORDS · ORDER · YDRILAN · CHAMPION
+· INFANTRY
+ Wahapedia (EN)
+ Sevireth, Lord of the Seventh Wind
+Sevireth, Seigneur du Septième Vent
+ MV
+18"
+ CT
+ 5
+ SV
+4+
+ WD
+5+
+ HP
+10
+1 model
+ 350 pts
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Enathraï, la Mort Hurlante
+Tir en Mêlée
+ 15"
+ 4
+ 2+
+ 3+
+ 3
+ 3
+Échardes Tournoyantes
+Crit (Mortel)
+ 6
+ 2+
+ 4+
+ -
+ 1
+PHASE DE TIR
+Esprit du Vent
+×1 / TOUR (ARMÉE)
+BT
+LES 2 PHASES
+MOUVEMENT
+Effet : Si cette unité a utilisé une aptitude de Tir à cette phase, elle
+peut se déplacer de D6". Ajoutez 2 au résultat pour chaque
+exemplaire d'Oreali, la Rune du Vent inscrit dans votre verset
+guerrier. Elle ne peut pas finir ce mouvement en mêlée.
+PHASE DE MÊLÉE
+Vents Ardents du Désert
+×1 / TOUR (ARMÉE)
+BT
+LES 2 PHASES
+SACCAGE
+Annonce : Choisissez comme cibles jusqu'à 3 unités ennemies
+visibles et à 6" de cette unité.
+Effet : Jetez un D3 pour chaque cible. Sur 2+, infligez à la cible
+autant de dégâts mortels que le résultat du jet et soustrayez 1 aux
+jets de blessure pour les attaques de la cible pour le restant du tour.
+N'IMPORTE QUELLE PHASE
+L'Appel des Vents
+PASSIF
+BT
+Effet : Tant qu'une unité Hurakaine amie est visible et entièrement à
+12" de cette unité :
+ On considère que vous avez 1 exemplaire supplémentaire d'Oreali,
+la Rune du Vent inscrite dans votre verset guerrier pour les besoins
+des aptitudes de la charte de l'unité.
+ Si l'unité est choisie comme cible de l'aptitude « Inscription de Rune
+», vous pouvez appliquer les effets améliorés de l'aptitude à l'unité
+comme si vous aviez un exemplaire d'Oreali, la Rune du Vent inscrit
+dans votre verset guerrier.
+HURAKAN · LUMINETH REALM-LORDS · ORDER · FLY · HERO ·
+MONSTER · UNIQUE · WARD
+ Wahapedia (EN)
+3 / 8
+
+===== page 4 =====
+Hurakan Windmage
+Mage du Vent Hurakain
+1
+ MV
+12"
+ CT
+ 2
+ SV
+5+
+ WD
+—
+ HP
+ 5
+1 model
+ 140 pts
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Souffle Tourbillonnant
+Tir en Mêlée
+ 12"
+ 1
+ 2+
+ 3+
+ 2
+ D3
+Aspiragillum
+ 3
+ 3+
+ 4+
+ 1
+ D3
+PHASE DES HÉROS
+Vortex Transporteur
+7+
+MA PHASE
+BT
+Annonce : Choisissez comme cible une unité de Suzerains
+Lumineths amie visible et entièrement à 12" de cette unité, et n'étant
+pas en mêlée, puis faites un jet de lancement de 2D6.
+Effet : Retirez la cible du champ de bataille et replacez-la sur le
+champ de bataille, à plus de 9" des unités ennemies.
+PHASE DE MOUVEMENT
+Bond du Vent
+×1 / BATAILLE (ARMÉE)
+MA PHASE
+BT
+Annonce : Choisissez comme cibles jusqu'à 3 unités Hurakaines
+amies visibles et entièrement à 12" de cette unité.
+Effet : Pour le restant du tour, chaque cible peut utiliser une aptitude
+de Course et quand même utiliser des aptitudes de Tir et/ou de
+Charge au même tour.
+N'IMPORTE QUELLE PHASE
+Pierre du Phénix
+PASSIF
+BT
+ARTEFACT DE POUVOIR
+Effet : La première fois que ce Héros est censé être détruit, avant de
+le retirer du jeu, jetez un dé. Sur 3+, il n'est pas détruit et tous les
+dégâts restants qui lui sont infligés n'ont pas d'effet. Ensuite,
+Soignez (D3) ce Héros.
+AELF · HURAKAN · LUMINETH REALM-LORDS · ORDER · FLY ·
+HERO · INFANTRY
+ Wahapedia (EN)
+ Shrine Luminor
+Sanctuaire Luminor
+ MV
+ -
+ CT
+ -
+ SV
+3+
+ WD
+—
+ HP
+12
+1 model
+ 0 pts
+PHASE DES HÉROS
+Rituels Purificateurs
+×1 / TOUR
+BT
+Réaction : Vous avez annoncé
+une aptitude de Sort pour une
+unité de Suzerains Lumineths
+entièrement à 12" de cet élément
+de terrain
+Effet : Tant que cet élément de terrain a un Gardien du Temple,
+vous pouvez relancer le jet de lancement pour ce sort.
+Entrer dans le Sanctuaire
+MA PHASE
+BT
+Annonce : Si cet élément de terrain n'a pas de Gardien du Temple,
+choisissez comme cible un Héros d'Infanterie Suzerain Lumineth
+ami qui est à 3" de cet élément de terrain, et qui n'est pas en mêlée.
+Effet : Placez la cible sur cet élément de terrain. La cible est à
+présent un Gardien du Temple (voir "Gardien du Temple").
+PHASE DE MOUVEMENT
+Sortir du Sanctuaire
+MA PHASE
+BT
+Effet : Si cet élément de terrain a un Gardien du Temple qui n'a pas
+été placé sur lui à ce tour, placez le Gardien du Temple sur le
+champ de bataille entièrement à 6" de cet élément de terrain et hors
+de mêlée. L'unité n'est plus un Gardien du Temple.
+N'IMPORTE QUELLE PHASE
+Gardien du Temple
+PASSIF
+BT
+Effet : Tant que cet élément de terrain a un Gardien du Temple :
+ Cet élément de terrain a une caractéristique de Mouvement de 6" et
+peut utiliser des aptitudes de Mouvement n'étant pas de Charge et
+autres que des ordres comme s'il était une unité. Il ne peut pas finir
+une aptitude de Mouvement à portée de mêlée d'une unité ennemie.
+ Le Gardien du Temple ne peut utiliser aucune aptitude de
+Mouvement et reste sur cet élément de terrain chaque fois qu'il se
+déplace.
+ Au lieu de mesurer la portée ou la visibilité depuis le Gardien du
+Temple, mesurez-les depuis cet élément de terrain.
+ Toutes les attaques censées cibler le Gardien du Temple ciblent
+cet élément de terrain à la place.
+Si cet élément de terrain est détruit, avant de le retirer du champ de
+bataille, infligez D3 dégâts mortels au Gardien du Temple. Puis,
+placez ce dernier sur le champ de bataille entièrement à 3" de cet
+élément de terrain et hors de mêlée. L'unité n'est plus un Gardien du
+Temple. S'il n'est pas possible de placer le Gardien du Temple, il est
+tué.
+LUMINETH REALM-LORDS · ORDER · FACTION TERRAIN · FLY
+ Wahapedia (EN)
+4 / 8
+
+===== page 5 =====
+Hyshian Twinstones
+6+
+ MV
+5"
+ CT
+ 7
+ SV
+4+
+ WD
+6+
+ HP
+ 5
+1 model
+ Invoquée
+ Entièrement à 18" et visible du lanceur
+ À plus de 9" de l'ennemi
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Crackling Energy
+ 2D6
+ 4+
+ 4+
+ -
+ 1
+PHASE DES HÉROS
+Réservoir de Pouvoir
+PASSIF
+BT
+Effet : Chaque fois qu'une unité (amie ou ennemie) réussit à lancer
+un sort en étant à 12" de cette Manifestation, donnez à cette
+Manifestation 1 point de charge mystique.
+Cette Manifestation peut avoir au maximum 6 points de charge
+mystique.
+Libération de Charge
+Mystique
+×1 / TOUR (ARMÉE)
+BT
+Réaction : Vous avez annoncé
+une aptitude de Sort ou de
+Dissipation pour un Sorcier
+Suzerain Lumineth à 3" de cette
+Manifestation
+Effet : Ajoutez les points de charge mystique de cette
+Manifestation au jet de lancement ou de dissipation. Puis, remettez
+à 0 les points de charge mystique de cette Manifestation.
+LUMINETH REALM-LORDS · ORDER · ENDLESS SPELL ·
+MANIFESTATION · WARD
+ Wahapedia (EN)
+ Rune of Petrification
+7+
+ MV
+ -
+ CT
+ 7
+ SV
+4+
+ WD
+6+
+ HP
+ 6
+1 model
+ Invoquée
+ Entièrement à 12" et visible du lanceur
+PHASE DES HÉROS
+Transmutation en Pierre
+LES 2 PHASES
+BT
+Effet : Jetez un D3 pour chaque unité ennemie qui est à 6" de cette
+Manifestation. Sur 2+, infligez à l'unité ennemie autant de dégâts
+mortels que le résultat du jet. Si une unité ennemie se voit infliger au
+moins 3 dégâts mortels par cette aptitude, elle a Frappe en Dernier
+pour le restant du tour.
+LUMINETH REALM-LORDS · ORDER · ENDLESS SPELL ·
+MANIFESTATION · WARD
+ Wahapedia (EN)
+Sanctum of Amyntok
+7+
+ MV
+ -
+ CT
+ 7
+ SV
+4+
+ WD
+6+
+ HP
+ 6
+3 models
+ Invoquée
+ Entièrement à 12" du lanceur
+ À plus de 3" de l'ennemi
+ 3 parties en contact, en cercle
+DÉBUT DE TOUR
+Plusieurs Parties
+BT
+Effet : Lorsque cette Manifestation s'est vu allouer autant de dégâts
+que sa caractéristique de Santé, elle est détruite et toutes ses parties
+sont retirées du jeu.
+N'IMPORTE QUELLE PHASE
+Signe d'Yngra
+PASSIF
+BT
+Effet : Tant qu'une unité amie ayant une caractéristique de Santé de
+10 ou moins est entièrement à l'intérieur de l'anneau formé par cette
+Manifestation :
+ L'unité n'est pas visible des unités ennemies hors de sa portée de
+mêlée.
+ Les aptitudes ennemies qui devraient cibler l'unité doivent cibler
+cette Manifestation à la place.
+LUMINETH REALM-LORDS · ORDER · ENDLESS SPELL ·
+MANIFESTATION · WARD
+ Wahapedia (EN)
+5 / 8
+
+===== page 6 =====
+Aptitudes
+Lumineth Realm-lords
+DÉPLOIEMENT
+DÉPLOIEMENT
+ RÈGLES DE BASE
+Souffler sur les Braises
+×1 / BATAILLE (ARMÉE)
+SAISON
+MDG
+Effet : Si vous êtes l’attaquant, réglez votre niveau de fureur sur 1. Si vous êtes le défenseur, réglez votre niveau de fureur sur 2.
+Vengeance Ardente : Règle Spéciale
+TACTIQUE
+MDG
+Au début de la bataille, après avoir utilisé toutes les aptitudes de Phase de Déploiement mais avant de déterminer le joueur qui a le premier tour,
+choisissez un HÉROS ennemi qui est sur le champ de bataille ou en réserve, qui sera le fugitif pour le restant de la bataille.
+N'IMPORTE QUELLE PHASE
+N'IMPORTE QUELLE PHASE
+ RÈGLES DE BASE
+Braver la Douleur
+X
+X
+PASSIF
+SAISON
+MDG
+Effet : Avant d’allouer des dégâts à une unité amie, vous pouvez dépenser n’importe quel nombre de dés de rage. Pour chaque dé de rage dépensé,
+réduisez votre niveau de fureur de 1, jusqu’à un minimum de 0, puis jetez un dé. Sur 3+, retirez 1 dégât de la réserve de dégâts de l’unité.
+DÉBUT DE ROUND
+DÉBUT DE ROUND
+ RÈGLES DE BASE
+Rage Bouillonnante
+×1 / TOUR (ARMÉE)
+SAISON
+MDG
+Annonce : Vous devez utiliser cette aptitude.
+Effet : Gagnez autant de dés de rage que votre niveau de fureur. À la fin du round de bataille, tous les dés de rage non dépensés sont perdus.
+RÈGLES D'ARMÉE
+Inscription de Rune
+×1 / ROUND (ARMÉE)
+BT
+TRAITS DE BATAILLE
+Effet : Choisissez 1 des runes suivantes à inscrire dans votre verset guerrier. L'effet et les effets conditionnels améliorés de cette rune durent pour le
+restant du round de bataille. Chaque rune reste dans votre verset guerrier pour le restant de la bataille ou jusqu'à ce qu'elle soit retirée ou remplacée
+par une autre aptitude.
+Varinor, la Rune de Force : Choisissez comme cibles jusqu'à 2 unités de Suzerains Lumineths amies pour chaque exemplaire de cette rune inscrit
+dans votre verset guerrier. Ajoutez 1 aux jets de course et de charge pour chaque cible. De plus, les effets améliorés suivants s'appliquent :
+ Tant qu'Ydriliqi, la Rune du Fleuve est inscrite dans votre verset guerrier, ajoutez 1 aux jets de blessure pour les attaques de mêlée de chaque
+cible.
+ Tant qu'Oreali, la Rune du Vent est inscrite dans votre verset guerrier, chaque cible peut utiliser des aptitudes de Tir et/ou de Charge même si elle
+a utilisé une aptitude de Repli au même tour.
+Alaithi, la Rune de la Montagne : Choisissez comme cibles jusqu'à 2 unités de Suzerains Lumineths amies pour chaque exemplaire de cette rune
+inscrit dans votre verset guerrier. Chaque cible a une Protection (5+). De plus, les effets améliorés suivants s'appliquent :
+ Tant que Varinor, la Rune de Force est inscrite dans votre verset guerrier, les armes de mêlée des cibles ont Anti-charge (+1 Perf.).
+ Tant qu'Ydriliqi, la Rune du Fleuve est inscrite dans votre verset guerrier, soustrayez 1 aux jets de blessure pour les attaques des unités ennemies
+tant qu'elles sont en mêlée avec une ou plusieurs des cibles.
+Ydriliqi, la Rune du Fleuve : Choisissez comme cibles jusqu'à 2 unités de Suzerains Lumineths amies pour chaque exemplaire de cette rune inscrit
+dans votre verset guerrier. Soustrayez 2 aux jets de charge pour les unités ennemies tant qu'elles sont à 12" d'une ou plusieurs des cibles. De plus,
+les effets améliorés suivants s'appliquent :
+ Tant qu'Alaithi, la Rune de la Montagne est inscrite dans votre verset guerrier, ignorez les modificateurs négatifs aux jets de touche et de blessure
+pour les attaques des cibles.
+ Si Oreali, la Rune du Vent est inscrite dans votre verset guerrier, chaque cible peut se déplacer immédiatement de 3" maximum. Chaque cible peut
+passer à portée de mêlée des unités ennemies et peut finir ce mouvement en mêlée.
+Oreali, la Rune du Vent : Choisissez comme cibles jusqu'à 2 unités de Suzerains Lumineths amies pour chaque exemplaire de cette rune inscrit
+dans votre verset guerrier. Soustrayez 1 aux jets de touche pour les attaques des unités ennemies tant qu'elles sont en mêlée avec une ou plusieurs
+des cibles. De plus, les effets améliorés suivants s'appliquent :
+ Tant que Varinor, la Rune de Force est inscrite dans votre verset guerrier, ajoutez 4" à la caractéristique de Mouvement de chaque cible.
+ Tant qu'Alaithi, la Rune de la Montagne est inscrite dans votre verset guerrier, ajoutez 5 au score de contrôle de chaque cible.
+Thalari, la Rune du Zénith : Ajoutez 2 aux jets de lancement pour les unités de Suzerains Lumineths amies. De plus, si vous avez au moins 4 runes
+uniques inscrites dans votre verset guerrier, ajoutez 4" à la caractéristique de Mouvement des unités de Suzerains Lumineths amies et les attaques
+de ces unités causent des touches critiques sur des jets non modifiés de 5+.
+6 / 8
+
+===== page 7 =====
+PHASE DES HÉROS
+PHASE DES HÉROS
+ SORTS
+Fanal de Hysh
+6+
+MA PHASE
+ILLIMITÉ
+BT
+Annonce : Choisissez un Sorcier Suzerain Lumineth ami pour lancer ce sort,
+choisissez comme cible une unité de Suzerains Lumineths amie autre qu'un
+Monstre, visible et entièrement à 12" de lui, puis faites un jet de lancement de 2D6.
+Effet : Jusqu'au début de votre prochain tour, si le jet de touche non modifié pour
+une attaque qui cible cette unité amie est 1-3, l'attaque échoue et la séquence
+d'attaque s'arrête.
+Réfraction Perforante
+7+
+MA PHASE
+BT
+Annonce : Choisissez un Sorcier Suzerain Lumineth ami
+pour lancer ce sort, choisissez comme cible une unité
+ennemie visible et à 18" de lui, puis faites un jet de
+lancement de 2D6.
+Effet : Jetez un dé pour chaque figurine de l'unité cible. Pour
+chaque jet de 5+, infligez 1 dégât mortel à la cible.
+Chaleur Écrasante
+7+
+MA PHASE
+BT
+Annonce : Choisissez un Sorcier Suzerain Lumineth ami pour lancer ce sort, choisissez comme cible une unité ennemie visible et à 18" de lui, puis
+faites un jet de lancement de 2D6.
+Effet : Divisez par deux la caractéristique de Mouvement de la cible jusqu'au début de votre prochain tour, puis jetez un dé. Si le résultat est supérieur
+ou égal à la caractéristique de Sauvegarde de la cible, infligez-lui D3 dégâts mortels.
+MANIFESTATIONS
+Convocation de Pierres
+Jumelles de Hysh
+6+
+MA PHASE
+BT
+MANIFESTATION
+Annonce : S'il n'y a pas de Pierres Jumelles de Hysh amies sur le champ de
+bataille, choisissez un Sorcier Suzerain Lumineth ami pour lancer ce sort, puis
+faites un jet de lancement de 2D6.
+Effet : Placez un sort persistant de Pierres Jumelles de Hysh visible et
+entièrement à 18" du lanceur, et à plus de 9" des unités ennemies.
+Convocation de Rune de
+Pétrification
+7+
+MA PHASE
+BT
+MANIFESTATION
+Annonce : S'il n'y a pas de Rune de Pétrification amie sur le
+champ de bataille, choisissez un Sorcier Suzerain Lumineth
+ami pour lancer ce sort, puis faites un jet de lancement de 2D6.
+Effet : Placez une Rune de Pétrification entièrement à 12" du
+lanceur et visible de lui.
+Convocation de Sanctuaire d'Amyntok
+7+
+MA PHASE
+BT
+MANIFESTATION
+Annonce : S'il n'y a pas de Sanctuaire d'Amyntok ami sur le champ de bataille, choisissez un Sorcier Suzerain Lumineth ami pour lancer ce sort,
+puis faites un jet de lancement de 2D6.
+Effet : Placez un Sanctuaire d'Amyntok entièrement à 12" du lanceur et à plus de 3" des unités ennemies. Un Sanctuaire d'Amyntok se compose
+de 3 parties qui doivent être placées en contact de sorte à former un cercle.
+PHASE DE MÊLÉE
+PHASE DE MÊLÉE
+ RÈGLES D'ARMÉE
+À l'Unisson
+PASSIF
+BT
+FORMATION : WARHOST OF DUALITY
+Effet : Quand les joueurs choisissent à tour de rôle des unités pour utiliser une aptitude de Corps à Corps, lorsque c'est à vous de choisir une unité,
+vous pouvez choisir 2 unités de Suzerains Lumineths amies au lieu d'une. Résolvez la deuxième aptitude de Corps à Corps juste après la première.
+FIN DE TOUR
+FIN DE TOUR
+ RÈGLES DE BASE
+Éruption de Fureur
+1-3
+×1 / TOUR (ARMÉE)
+LES 2 PHASES
+ATTAQUE
+MDG
+CORPS À CORPS
+SAISON
+Annonce : Choisissez une unité amie pour qu’elle utilise cette aptitude, puis choisissez comme cible une unité ennemie en mêlée avec cette unité
+amie.
+Effet : Choisissez 1 des armes de mêlée de l’unité qui utilise cette aptitude. Puis dépensez 3 dés de rage maximum.
+Résolvez autant d’attaques de mêlée contre la cible en utilisant l’arme de mêlée choisie que le nombre de dés de rage que vous avez dépensés.
+Ces attaques ne peuvent pas causer de touches critiques. À la place, pour chaque jet de touche non modifié de 6 obtenu pour ces attaques :
+ Infligez D3 dégâts mortels supplémentaires à chaque unité ennemie en mêlée avec l’unité qui utilise cette aptitude.
+ Votre adversaire doit augmenter son niveau de fureur de 1, jusqu’à un maximum de 7.
+Pour chaque jet de touche non modifié de 1 pour ces attaques, allouez D3 dégâts mortels à l’unité qui utilise cette aptitude une fois la séquence de
+dégâts résolue (on ne peut tenter aucun jet de protection contre ces dégâts).
+Note des Concepteurs : Les dés de rage ne s’ajoutent pas à la caractéristique d’Attaques de l’arme que vous choisissez ; si vous dépensez 3 dés de
+rage pour utiliser cette aptitude, vous faites seulement 3 attaques de mêlée.
+7 / 8
+
+===== page 8 =====
+Vengeance Ardente
+CARTE DE TACTIQUE 5 · Burning for Vengeance
+RÈGLE SPÉCIALE
+Au début de la bataille, après avoir utilisé toutes les aptitudes de Phase de Déploiement mais avant de déterminer le joueur qui a le premier tour, choisissez
+un HÉROS ennemi qui est sur le champ de bataille ou en réserve, qui sera le fugitif pour le restant de la bataille.
+ÉCHAUFFOURÉE
+Fouillez Chaque Recoin
+Vous exécutez cette tactique de bataille à la fin de votre tour s’il y a une unité amie différente qui est entièrement dans chaque grand
+quart du champ de bataille, à plus de 9" du centre du champ de bataille, et si pas plus d’une de ces unités amies n’a été placée à ce tour.
+ 5
+ PTS DE
+VICTOIRE
+FRAPPE
+Poursuite Effrénée
+Vous exécutez cette tactique de bataille à la fin de votre tour si 1 des critères suivants est vrai :
+ Il y a au moins 3 unités amies qui sont hors de mêlée et qui sont à 12" du fugitif ennemi.
+ Il n’y a pas de fugitif ennemi sur le champ de bataille.
+ 5
+ PTS DE
+VICTOIRE
+DOMINATION
+Ramenez-le !
+Vous exécutez cette tactique de bataille à la fin de votre tour si 1 des critères suivants est vrai :
+ Il y a au moins 3 unités amies qui sont en mêlée avec le fugitif ennemi.
+ Il n’y a pas de fugitif ennemi sur le champ de bataille et au moins 3 unités amies contestent le même objectif situé entièrement hors du
+territoire ami.
+ 5
+ PTS DE
+VICTOIRE
+Encerclés par le Feu
+CARTE DE TACTIQUE 3 · Flanking Firestorm
+ÉCHAUFFOURÉE
+Embuscade
+Vous exécutez cette tactique de bataille à la fin de votre tour si vous contrôlez une combinaison d’au moins 2 objectifs ou éléments de
+terrain autres que des Terrains de Faction, et si chacun d’eux est contesté par une unité amie différente située à plus de 6" du territoire
+ami et n’ayant pas été placée à ce tour.
+ 5
+ PTS DE
+VICTOIRE
+FRAPPE
+Cernez l’Ennemi
+Vous exécutez cette tactique de bataille à la fin de votre tour si au moins 2 unités amies qui n’ont pas été placées à ce tour sont chacune
+à 9" d’un coin différent du champ de bataille et entièrement hors du territoire ami.
+ 5
+ PTS DE
+VICTOIRE
+DOMINATION
+Prenez votre Dû
+Vous exécutez cette tactique de bataille à la fin de votre tour s’il y a plus d’unités amies que d’unités ennemies en territoire ennemi, et s’il
+y a au moins 1 HÉROS ami entièrement en territoire ennemi.
+ 5
+ PTS DE
+VICTOIRE
+8 / 8
+

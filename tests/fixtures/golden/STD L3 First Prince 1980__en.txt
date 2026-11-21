@@ -1,0 +1,712 @@
+pages: 8
+pages_scenario: None
+units_matched: ["Be'lakor, the Dark Master", 'Legion of the First Prince Bloodletters', 'Legion of the First Prince Screamers of Tzeentch', 'Eternus, Blade of the First Prince', 'Varanguard', 'Nexus Chaotica']
+units_unmatched: []
+rules_included: ['Règles de Saison 2026-27', 'Domaine de Manifestations — Primal Energy (10 Points)', 'Siege of Ashes', 'Flanking Firestorm', 'Legion of the First Prince — Army of Renown Rules']
+rules_unmatched: []
+wahapedia_used: ['Legion of the First Prince — Army of Renown Rules (EN, Wahapedia)']
+absent_references: []
+absent_keywords: []
+===== page 1 =====
+STD - L3 - First Prince 1980/2000 pts
+Slaves to Darkness | Legion of the First Prince · Army of Renown · Drops : 2 · Domaine de sorts : Legion of the First
+Prince Spell Lore · Domaine de manifestations : Primal Energy (10 Points)
+Battle Tactic Cards : Siege of Ashes, Flanking Firestorm
+General's Regiment
+ Be'lakor, the Dark Master — 450 pts
+General
+Legion of the First Prince Bloodletters — 340 pts
+Reinforced
+Legion of the First Prince Bloodletters — 170 pts
+Legion of the First Prince Bloodletters — 170 pts
+Legion of the First Prince Screamers of Tzeentch — 80 pts
+Regiment 1
+ Eternus, Blade of the First Prince — 160 pts
+Varanguard — 300 pts
+Varanguard — 300 pts
+Faction Terrain
+Nexus Chaotica
+■ Complété en anglais via Wahapedia (voir annexe en fin de document) : Legion of the First Prince — Army of Renown Rules (EN,
+Wahapedia)
+Généré le <horodatage> — aospy roster pdf
+Légende des pictos
+ 7+
+Aptitude : valeur de lancement. Warscroll : niveau de Sorcier ; manifestation : valeur de lancement de sa convocation.
++2
+Dés de rage : « +N » gagnés, sinon nombre dépensé
++2
+Niveau de fureur : « +N » augmenté, sinon diminué
+MDG
+Source du texte : MDG (Manuel du Général), BT (battletome), FP (faction pack), AQSHY,
+WAHAPEDIA (anglais). Traits de Bataille, Formation : catégorie de règles d'armée.
+SIMPLE
+Texte adapté, pas le verbatim : en cas de litige, revenir à la règle d'origine.
+BASE
+SAISON
+Aptitude de base du jeu (Core) ; règle de la saison en cours (MdG 2026-27).
+×1 / TOUR (ARMÉE)
+PASSIF
+Fréquence — (ARMÉE) : une seule fois pour toute l'armée ; passif : toujours actif, rien à déclarer.
+RÉACTION
+Réaction : utilisée en réponse à l'aptitude indiquée.
+TIR
+CHARGE
+Mot-clé d'aptitude, à la couleur de sa phase (Mouvement, Tir, Charge, Corps à Corps).
+ATTAQUE
+SACCAGE
+Mot-clé d'aptitude valable dans plusieurs phases.
+SORT
+PRIÈRE
+Magie (sort, manifestation, bannissement…) ; prière. Illimité : utilisable plusieurs fois par tour.
+1 / 8
+
+===== page 2 =====
+Be’lakor, the Dark Master
+2
+ MV
+14"
+ CT
+10
+ SV
+4+
+ WD
+6+
+ HP
+14
+1 model
+ 450 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Fell Claw and Spearing Tail
+Charge (+1 Damage)
+ 2
+ 2+
+ 2+
+ 2
+ 2
+Blade of Shadows
+Crit (Auto-wound)
+ 8
+ 3+
+ 3+
+ 2
+ 2
+PHASE DES HÉROS
+APTITUDES
+The Dark Master
+×1 / BATAILLE
+PHASE ENNEMI
+WAHAPEDIA
+Declare: Pick a visible enemy unit to be the target.
+Effect: Until the start of your next turn, each time the target is
+picked to use an ability, roll a dice as a reaction. On a 3+, that
+ability has no effect.
+SORTS
+Enfeeble Foe
+6+
+MA PHASE
+WAHAPEDIA
+Declare: Pick a visible enemy unit within 18" of this unit to be the
+target, then make a casting roll of 2D6.
+Effect: Until the start of your next turn:
+ Subtract 1 from hit rolls from the target’s combat attacks.
+ The target’s combat attacks cannot score critical hits (treat them
+as regular hits instead).
+PHASE DE MÊLÉE
+Deadly Trap
+×1 / TOUR (ARMÉE)
+PHASE ENNEMI
+RAMPAGE
+WAHAPEDIA
+Declare: Pick this unit and up to 2 friendly SLAVES TO DARKNESS
+units within this unit’s combat range to be the targets.
+Effect: Roll a dice for each target. On a 4+, that target has
+STRIKE-FIRST for the rest of the turn.
+N'IMPORTE QUELLE PHASE
+Battle Damaged
+PASSIF
+WAHAPEDIA
+Effect: While this unit has 10 or more damage points, the Attacks
+characteristic of its Blade of Shadows is 6.
+Shadow Form
+PASSIF
+WAHAPEDIA
+Effect: Ignore modifiers to save rolls for this unit (positive and
+negative).
+CHAOS · DAEMON · SLAVES TO DARKNESS · FLY · HERO ·
+MONSTER · UNIQUE · WARD · WARMASTER
+ Wahapedia (EN)
+ Eternus, Blade of the First Prince
+ MV
+9"
+ CT
+ 2
+ SV
+3+
+ WD
+—
+ HP
+ 9
+1 model
+ 160 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Drakocephalus’s Fangs
+Companion
+ 3
+ 4+
+ 3+
+ -
+ 1
+Death Glaive and Skull Flail
+Charge (+1 Damage)
+ 6
+ 3+
+ 3+
+ 1
+ 2
+DÉBUT DE TOUR
+Network of Spies
+Réaction : Opponent declared a
+command for a unit within 12" of
+this unit
+WAHAPEDIA
+Effect: Roll a dice. Add 1 to the roll if the enemy unit is in combat
+with a friendly Chaos Legionnaires or Chaos Furies unit. On a 5+,
+that command has no effect. The command still counts as having
+been used and the command points spent to use the command are
+still lost.
+PHASE DE MOUVEMENT
+Veins of Black Lightning
+LES 2 PHASES
+CORE
+WAHAPEDIA
+Declare: This unit can use this ability if it has been destroyed.
+Effect: Roll 2D6. Add 1 to the roll if a friendly Be’lakor is on the
+battlefield. On an 8+, set up a replacement unit on the battlefield
+more than 9" from all enemy units.
+CHAOS · SLAVES TO DARKNESS · CAVALRY · HERO · UNIQUE
+ Wahapedia (EN)
+Bloodletters
+ MV
+5"
+ CT
+ 1
+ SV
+5+
+ WD
+6+
+ HP
+ 2
+10 models
+ 170 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Hellblade
+Crit (Mortal)
+ 2
+ 3+
+ 3+
+ 1
+ 1
+FIN DE TOUR
+THE THINNING VEIL
+LES 2 PHASES
+WAHAPEDIA
+Effect: If this unit is in combat, you can return D3 slain models to this
+unit.
+CHAOS · DAEMON · LEGION OF THE FIRST PRINCE · SLAVES TO
+DARKNESS · CHAMPION · INFANTRY · MUSICIAN · STANDARD
+BEARER · WARD
+ Wahapedia (EN)
+2 / 8
+
+===== page 3 =====
+Varanguard
+ MV
+10"
+ CT
+ 2
+ SV
+3+
+ WD
+—
+ HP
+ 5
+3 models
+ 290 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Daemonforged Blades
+Crit (Mortal), Charge (+1 Damage)
+ 3
+ 3+
+ 3+
+ 2
+ 2
+Steed’s Tearing Fangs
+Companion
+ 3
+ 4+
+ 3+
+ 1
+ 1
+PHASE DE MÊLÉE
+Relentless Killers
+×1 / BATAILLE
+LES 2 PHASES
+WAHAPEDIA
+Effect: This unit can use 2 FIGHT abilities this phase. After the first
+is used, however, this unit has STRIKE-LAST for the rest of the turn.
+CHAOS · SLAVES TO DARKNESS · WARRIORS OF CHAOS ·
+CAVALRY
+ Wahapedia (EN)
+Nexus Chaotica
+ MV
+ -
+ CT
+ 0
+ SV
+4+
+ WD
+—
+ HP
+12
+1 model
+ 0 pts
+PHASE DES HÉROS
+Draw Power
+MA PHASE
+WAHAPEDIA
+Effect: Roll a dice. Give a number of power points to this terrain
+feature equal to the roll. This terrain feature can have a maximum of
+12 power points at once.
+Infernal Sorcery
+MA PHASE
+WAHAPEDIA
+Declare: If this terrain feature has 3 or more power points, pick a
+friendly SLAVES TO DARKNESS WIZARD within 3" of this terrain
+feature to be the target.
+Effect: Remove 3 power points from this terrain feature, then add 1
+to casting rolls for the target for the rest of the turn.
+Corrupt The Realms
+MA PHASE
+WAHAPEDIA
+Declare: If this terrain feature has 9 or more power points, pick an
+objective or terrain feature within 24" of this terrain feature to be the
+source. Then, pick any number of enemy units within 3" of the source
+to be the targets.
+Effect: Remove 9 power points from this terrain feature, then roll a
+D3 for each target. On a 2+, inflict an amount of mortal damage on
+the target equal to the roll.
+CHAOS · SLAVES TO DARKNESS · FACTION TERRAIN
+ Wahapedia (EN)
+ Screamers of Tzeentch
+ MV
+14"
+ CT
+ 1
+ SV
+5+
+ WD
+6+
+ HP
+ 3
+3 models
+ 70 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Lamprey Bite
+Anti-MONSTER (+1 Rend), Companion
+ 3
+ 4+
+ 3+
+ 1
+ 1
+PHASE DE MOUVEMENT
+Slashing Fins
+MA PHASE
+WAHAPEDIA
+Declare: Pick an enemy unit that this unit passed across this phase
+to be the target.
+Effect: Roll a dice for each model in this unit that passed across the
+target. For each 4+, inflict 1 mortal damage on the target.
+FIN DE TOUR
+Beast
+PASSIF
+WAHAPEDIA
+Effect: This unit has a maximum control score of 1.
+CHAOS · DAEMON · LEGION OF THE FIRST PRINCE · SLAVES TO
+DARKNESS · BEAST · FLY · WARD
+ Wahapedia (EN)
+3 / 8
+
+===== page 4 =====
+The Burning Head
+5+
+ MV
+8"
+ CT
+ 6
+ SV
+6+
+ WD
+6+
+ HP
+ 6
+1 model
+ Invoquée
+ Entièrement à 12" et visible du lanceur
+ À plus de 9" de l'ennemi
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Burning Breath
+Shoot in Combat, Anti-WAR
+MACHINE (+1 Rend)
+ 10"
+ D6
+ 4+
+ 3+
+ 2
+ 1
+Flaming Maw
+Anti-WAR MACHINE (+1 Rend)
+ 2D6
+ 4+
+ 3+
+ 2
+ 1
+PHASE DE TIR
+Burning Up
+PASSIF
+WAHAPEDIA
+Effect: Each time this MANIFESTATION uses a SHOOT ability, after
+that ability has been resolved, allocate 1 damage point to this
+MANIFESTATION (ward rolls cannot be made for that damage
+point).
+ENDLESS SPELL · FLY · MANIFESTATION · WARD
+ Wahapedia (EN)
+Ravenak’s Gnashing Jaws
+7+
+ MV
+3D6"
+ CT
+ 7
+ SV
+6+
+ WD
+6+
+ HP
+10
+1 model
+ Invoquée
+ Entièrement à 12" et visible du lanceur
+ À plus de 9" de l'ennemi
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Gnashing Jaws
+Charge (+1 Damage)
+ 10
+ 4+
+ 2+
+ 1
+ 1
+PHASE DE CHARGE
+Ravening Hunger
+LES 2 PHASES
+WAHAPEDIA
+Declare: If this MANIFESTATION charged this turn, pick an enemy
+unit within 1" of it to be the target.
+Effect: Roll 10 dice. For each 5+, inflict 1 mortal damage on the
+target.
+ENDLESS SPELL · MANIFESTATION · WARD
+ Wahapedia (EN)
+ Emerald Lifeswarm
+6+
+ MV
+8"
+ CT
+ 7
+ SV
+6+
+ WD
+6+
+ HP
+ 5
+1 model
+ Invoquée
+ Entièrement à 12" et visible du lanceur
+ À plus de 9" de l'ennemi
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Swarming Bites
+Anti-INFANTRY (+1 Rend)
+ 2D6
+ 4+
+ 4+
+ -
+ 1
+PHASE DE MOUVEMENT
+Bounteous Healing
+MA PHASE
+WAHAPEDIA
+Declare: Pick a friendly unit within 3" of this MANIFESTATION to be
+the target.
+Effect: Heal (3) the target.
+FIN DE TOUR
+Restored Vigour
+LES 2 PHASES
+WAHAPEDIA
+Effect: Heal (3) this MANIFESTATION.
+ENDLESS SPELL · FLY · MANIFESTATION · WARD
+ Wahapedia (EN)
+4 / 8
+
+===== page 5 =====
+Aptitudes
+Slaves to Darkness
+DÉPLOIEMENT
+DÉPLOIEMENT
+ RÈGLES DE BASE
+Souffler sur les Braises
+×1 / BATAILLE (ARMÉE)
+SAISON
+MDG
+Effet : Si vous êtes l’attaquant, réglez votre niveau de fureur sur 1. Si vous êtes le défenseur, réglez votre niveau de fureur sur 2.
+N'IMPORTE QUELLE PHASE
+N'IMPORTE QUELLE PHASE
+ RÈGLES DE BASE
+Braver la Douleur
+X
+X
+PASSIF
+SAISON
+MDG
+Effet : Avant d’allouer des dégâts à une unité amie, vous pouvez dépenser n’importe quel nombre de dés de rage. Pour chaque dé de rage dépensé,
+réduisez votre niveau de fureur de 1, jusqu’à un minimum de 0, puis jetez un dé. Sur 3+, retirez 1 dégât de la réserve de dégâts de l’unité.
+DÉBUT DE ROUND
+DÉBUT DE ROUND
+ RÈGLES DE BASE
+Rage Bouillonnante
+×1 / TOUR (ARMÉE)
+SAISON
+MDG
+Annonce : Vous devez utiliser cette aptitude.
+Effet : Gagnez autant de dés de rage que votre niveau de fureur. À la fin du round de bataille, tous les dés de rage non dépensés sont perdus.
+PHASE DES HÉROS
+PHASE DES HÉROS
+ MANIFESTATIONS
+SUMMON
+BURNING HEAD
+5+
+MA PHASE
+MANIFESTATION
+WAHAPEDIA
+Declare: If there is not a friendly The
+Burning Head on the battlefield, pick a
+friendly WIZARD to cast this spell, then make
+a casting roll of 2D6.
+Effect: Set up The Burning Head wholly
+within 12" of the caster, visible to them and
+more than 9" from all enemy units.
+SUMMON
+EMERALD
+LIFESWARM
+6+
+MA PHASE
+MANIFESTATION
+WAHAPEDIA
+Declare: If there is not a friendly Emerald
+Lifeswarm on the battlefield, pick a friendly
+WIZARD to cast this spell, then make a
+casting roll of 2D6.
+Effect: Set up an Emerald Lifeswarm wholly
+within 12" of the caster, visible to them and
+more than 9" from all enemy units.
+SUMMON
+RAVENAK’S
+GNASHING JAWS
+7+
+MA PHASE
+MANIFESTATION
+WAHAPEDIA
+Declare: If there is not a friendly Ravenak’s
+Gnashing Jaws endless spell on the battlefield,
+pick a friendly WIZARD to cast this spell, then
+make a casting roll of 2D6.
+Effect: Set up a Ravenak’s Gnashing Jaws
+endless spell wholly within 12" of the caster,
+visible to them and more than 9" from all enemy
+units.
+FIN DE TOUR
+FIN DE TOUR
+ RÈGLES DE BASE
+Éruption de Fureur
+1-3
+×1 / TOUR (ARMÉE)
+LES 2 PHASES
+ATTAQUE
+MDG
+CORPS À CORPS
+SAISON
+Annonce : Choisissez une unité amie pour qu’elle utilise cette aptitude, puis choisissez comme cible une unité ennemie en mêlée avec cette unité
+amie.
+Effet : Choisissez 1 des armes de mêlée de l’unité qui utilise cette aptitude. Puis dépensez 3 dés de rage maximum.
+Résolvez autant d’attaques de mêlée contre la cible en utilisant l’arme de mêlée choisie que le nombre de dés de rage que vous avez dépensés.
+Ces attaques ne peuvent pas causer de touches critiques. À la place, pour chaque jet de touche non modifié de 6 obtenu pour ces attaques :
+ Infligez D3 dégâts mortels supplémentaires à chaque unité ennemie en mêlée avec l’unité qui utilise cette aptitude.
+ Votre adversaire doit augmenter son niveau de fureur de 1, jusqu’à un maximum de 7.
+Pour chaque jet de touche non modifié de 1 pour ces attaques, allouez D3 dégâts mortels à l’unité qui utilise cette aptitude une fois la séquence de
+dégâts résolue (on ne peut tenter aucun jet de protection contre ces dégâts).
+Note des Concepteurs : Les dés de rage ne s’ajoutent pas à la caractéristique d’Attaques de l’arme que vous choisissez ; si vous dépensez 3 dés de
+rage pour utiliser cette aptitude, vous faites seulement 3 attaques de mêlée.
+5 / 8
+
+===== page 6 =====
+Siège de Cendres
+CARTE DE TACTIQUE 2 · Siege of Ashes
+ÉCHAUFFOURÉE
+Formez un Rempart
+Vous exécutez cette tactique de bataille à la fin de votre tour si au moins 2 unités amies sont entièrement hors du territoire ami,
+entièrement à 6" du territoire ami et à 3" l’une de l’autre.
+ 5
+ PTS DE
+VICTOIRE
+FRAPPE
+Ravitaillement
+Vous exécutez cette tactique de bataille à la fin de votre tour si vous contrôlez un objectif dans le territoire ennemi et si cet objectif est
+contesté par :
+ Au moins 1 unité amie qui n’a utilisé aucune aptitude de Mouvement à ce tour
+ Au moins 1 autre unité amie qui a chargé à ce tour.
+ 5
+ PTS DE
+VICTOIRE
+DOMINATION
+Repoussez les Assaillants
+Vous exécutez cette tactique de bataille à la fin de votre tour s’il y a au moins 3 unités amies à 3" du centre du champ de bataille qui ne
+sont pas en mêlée.
+ 5
+ PTS DE
+VICTOIRE
+Encerclés par le Feu
+CARTE DE TACTIQUE 3 · Flanking Firestorm
+ÉCHAUFFOURÉE
+Embuscade
+Vous exécutez cette tactique de bataille à la fin de votre tour si vous contrôlez une combinaison d’au moins 2 objectifs ou éléments de
+terrain autres que des Terrains de Faction, et si chacun d’eux est contesté par une unité amie différente située à plus de 6" du territoire
+ami et n’ayant pas été placée à ce tour.
+ 5
+ PTS DE
+VICTOIRE
+FRAPPE
+Cernez l’Ennemi
+Vous exécutez cette tactique de bataille à la fin de votre tour si au moins 2 unités amies qui n’ont pas été placées à ce tour sont chacune
+à 9" d’un coin différent du champ de bataille et entièrement hors du territoire ami.
+ 5
+ PTS DE
+VICTOIRE
+DOMINATION
+Prenez votre Dû
+Vous exécutez cette tactique de bataille à la fin de votre tour s’il y a plus d’unités amies que d’unités ennemies en territoire ennemi, et s’il
+y a au moins 1 HÉROS ami entièrement en territoire ennemi.
+ 5
+ PTS DE
+VICTOIRE
+6 / 8
+
+===== page 7 =====
+ANNEXE — CONTENU WAHAPEDIA (ANGLAIS)
+Ce qui suit n'existe dans aucun des PDF fournis (battletomes, Manuel du général) : domaines de sorts/manifestations
+génériques, règles d'armée de renom, Régiments de Renom. Repris tel quel depuis data/wahapedia/ (Wahapedia, en
+anglais) — non traduit pour éviter tout contresens sur des règles de jeu.
+Legion of the First Prince — Army of Renown Rules
+Artefacts of Power
+BLACK RITUAL DAGGER
+Dark tendrils of chaotic magic coil around this obsidian blade. The bearer’s mind is filled with promises of arcane power if its thirst for
+blood is quenched.
+Effect: Allocate 1 damage point to this unit. Then, you can re-roll the casting roll.
+Battle Traits
+FIRST-DAMNED PRINCE
+Be’lakor courts the favour of all of the Chaos Gods to crush his foes. In battle, he surrounds himself with their lesser daemons to do his
+bidding.
+Effect: While a friendly Be’lakor is within the combat range of any friendly non-HERO LEGION OF THE FIRST PRINCE
+DAEMON units:
+That friendly Be’lakor has WARD (4+).
+In addition, each time you make a successful ward roll for that friendly Be’lakor, allocate 1 damage point to a friendly non-
+STORM OF BLACKENED BLADES
+Eternus commands the mortal legions sworn to Be’lakor to bring ruin to all who dare oppose the First Prince.
+Declare: Pick a friendly Eternus that is in combat and up to 2 friendly non-HERO non-DAEMON LEGION OF THE FIRST
+PRINCE units wholly within 12" of that Eternus to be the targets.
+Effect: Add 1 to the Attacks characteristic of the targets’ melee weapons for the rest of the turn.
+DAEMONIC REINFORCEMENTS
+Lesser daemons bound to the Dark Master’s will are summoned forth from the Realm of Chaos to swell Be’lakor’s ranks.
+Declare: Pick a friendly non-non-HERO LEGION OF THE FIRST PRINCE DAEMON INFANTRY or CAVALRY unit
+that has been destroyed to be the target.
+Effect: Set up a replacement unit with half the number of models from the target unit (rounding up) wholly within 12" of a
+friendly Be’lakor and more than 9" from all enemy units.
+BESTOW FAVOUR
+The Great Game plays out in the blackened skies above the First Prince’s legions as oaths are sworn, enemies are crushed, and dark
+rewards are granted.
+Declare: If a friendly Be’lakor is on the battlefield, pick a non-HERO LEGION OF THE FIRST PRINCE unit to be the
+target.
+Effect: Until the start of your next turn:
+ Add 5 to the target’s control score.
+ If the target is a DAEMON unit, add 1 to save rolls for the target.
+ If the target is a non-DAEMON unit, it ha
+Heroic Traits
+DREAD MARSHAL
+This mighty warrior has proved their devotion to Be’lakor above all, and their loyalty has been rewarded with a host of warriors to
+command.
+Declare: Pick up to 3 friendly units wholly within 12" of this unit to be targets.
+Effect: Add 1 to charge rolls for the targets for the rest of the turn.
+Manifestation Lore
+SUMMON EIGHTFOLD DOOM-SIGIL
+Eightfold Doom-Sigils are icons of Chaos in all its glory, blazing symbols of pure ruin. To fall in the presence of such a sorcerous
+construct is to be damned, for these lingering spells hungrily suck souls into the Realm of Chaos for the gods to feast upon.
+7 / 8
+
+===== page 8 =====
+Declare: If there is not a friendly Eightfold Doom-Sigil on the battlefield, pick a friendly LEGION OF THE FIRST PRINCE
+WIZARD to cast this spell, then make a casting roll of 2D6.
+Effect: Set up an Eightfold Doom-Sigil wholly within 12" of the caster and visible to them.
+Spell Lore
+DARK CANTRIP
+Uttering blasphemous words in the Dark Tongue, the sorcerer calls forth bolts of black chaotic energy that strike the foe, searing flesh,
+melting armour and leaving them as a bubbling mass of tentacles.
+Declare: Pick a friendly LEGION OF THE FIRST PRINCE WIZARD to cast this spell, pick up to 3 visible enemy units
+within 18" of them to be the targets, then make a casting roll of 2D6.
+Effect: Inflict 1 mortal damage on each target.
+SHROUD IN DARKNESS
+At the sorcerer’s bidding, unnatural shadows fall upon Be’lakor’s warriors, allowing them to move unseen.
+Declare: Pick a friendly LEGION OF THE FIRST PRINCE WIZARD to cast this spell, pick a visible friendly LEGION OF
+THE FIRST PRINCE unit that is not in combat and is wholly within 12" of them to be the target, then make a casting roll of
+2D6.
+Effect: The target can move D6". It cannot end that move in combat. In addition, until the start of your next turn, the target is not
+visible to enemy units while they are more than 12" away.
+8 / 8
+

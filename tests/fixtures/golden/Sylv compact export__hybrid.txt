@@ -1,0 +1,992 @@
+pages: 10
+pages_scenario: None
+units_matched: ['Alarielle the Everqueen', 'Belthanos, First Thorn of Kurnoth', 'Drycha Hamadreth', 'Warsong Revenant', 'Kurnoth Hunters with Kurnoth Greatswords', 'Gossamid Archers', 'Spite-Revenants', 'Awakened Wyldwood']
+units_unmatched: []
+rules_included: ['Règles de Saison 2026-27', 'Traits de Bataille', 'Formation — Lords of the Clan', 'Domaine de Sorts — Lore of the Deepwood', 'Domaine de Prières — Lore of the Spirit-song', 'Domaine de Manifestations — Manifestations of the Deepwood', 'Blazing Onslaught', 'Flanking Firestorm', 'Trait Héroïque : REALMROOT GUIDE → Warsong Revenant', 'Artefact de Pouvoir : DANCING MYSTIFLIES → Warsong Revenant', 'Aspects of the Deepwoods : ASPECT OF HEARTWOOD → Kurnoth Hunters with Kurnoth Greatswords']
+rules_unmatched: []
+wahapedia_used: []
+absent_references: []
+absent_keywords: []
+===== page 1 =====
+Sylv compact export
+Sylvaneth · Lords of the Clan · Drops : 4 · Domaine de sorts : Lore of the Deepwood · Domaine de prières : Lore of the
+Spirit-song · Domaine de manifestations : Manifestations of the Deepwood
+Battle Tactic Cards : Blazing Onslaught, Flanking Firestorm
+General's Regiment
+ Alarielle the Everqueen — 620 pts
+General
+Regiment 1
+ Belthanos, First Thorn of Kurnoth — 290 pts
+Regiment 2
+ Drycha Hamadreth — 250 pts
+Regiment 3
+ Warsong Revenant — 190 pts
+Realmroot Guide, Dancing Mystiflies
+Kurnoth Hunters with Kurnoth Greatswords — 420 pts
+Reinforced, Aspect of Heartwood - (10) Points
+Gossamid Archers — 120 pts
+Spite-Revenants — 100 pts
+Faction Terrain
+Awakened Wyldwood
+Généré le <horodatage> — aospy roster pdf
+Légende des pictos
+ 7+
+Aptitude : valeur de lancement. Warscroll : niveau de Sorcier ; manifestation : valeur de lancement de sa convocation.
+4+
+Aptitude : valeur de récitation. Warscroll : niveau de Prêtre.
+1
+Ordre : coût en points d’ordre
++2
+Dés de rage : « +N » gagnés, sinon nombre dépensé
++2
+Niveau de fureur : « +N » augmenté, sinon diminué
+MDG
+Source du texte : MDG (Manuel du Général), BT (battletome), FP (faction pack), AQSHY,
+WAHAPEDIA (anglais). Traits de Bataille, Formation : catégorie de règles d'armée.
+SIMPLE
+Texte adapté, pas le verbatim : en cas de litige, revenir à la règle d'origine.
+BASE
+SAISON
+Aptitude de base du jeu (Core) ; règle de la saison en cours (MdG 2026-27).
+×1 / TOUR (ARMÉE)
+PASSIF
+Fréquence — (ARMÉE) : une seule fois pour toute l'armée ; passif : toujours actif, rien à déclarer.
+RÉACTION
+Réaction : utilisée en réponse à l'aptitude indiquée.
+TIR
+CHARGE
+Mot-clé d'aptitude, à la couleur de sa phase (Mouvement, Tir, Charge, Corps à Corps).
+ATTAQUE
+SACCAGE
+Mot-clé d'aptitude valable dans plusieurs phases.
+SORT
+PRIÈRE
+Magie (sort, manifestation, bannissement…) ; prière. Illimité : utilisable plusieurs fois par tour.
+TACTIQUE
+MOT-CLÉ
+Autre mot-clé d'aptitude (Tactique : règle spéciale d'une carte de tactique) ; bordeaux : propre à la
+faction.
+1 / 10
+
+===== page 2 =====
+Alarielle the Everqueen
+3
+ MV
+14"
+ CT
+10
+ SV
+4+
+ WD
+5+
+ HP
+16
+1 model
+ 620 pts
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Spear of Kurnoth
+ 12"
+ 1
+ 2+
+ 3+
+ 2
+ 4
+Spear of Kurnoth
+Charge (+1 Dégât)
+ 5
+ 3+
+ 3+
+ 2
+ 2
+Wardroth Beetle’s Antlers
+Compagnon
+ 6
+ 4+
+ 2+
+ 2
+ 4
+DÉBUT DE ROUND
+Seasons of War
+WAHAPEDIA
+Declare: You must use this ability.
+Effect: Pick 1 of the following effects to apply for the rest of the battle round. You cannot pick the effect that you picked in the previous battle round.
+The Burgeoning: Each time a friendly Awakened Wyldwood uses the ‘Ever Growing’ ability, you can pick any terrain feature your opponent does not
+control to be the target rather than the closest.
+The Reaping: Add 1 to casting rolls and chanting rolls for friendly SYLVANETH units while they are wholly within 12" of this unit.
+PHASE DES HÉROS
+APTITUDES
+Lifebloom
+×1 / TOUR (ARMÉE)
+LES 2 PHASES
+WAHAPEDIA
+Effect: Heal (2D6) this unit.
+SORTS
+Metamorphosis
+7+
+MA PHASE
+WAHAPEDIA
+Declare: Pick a visible enemy unit within 12" of this unit to be the target, then make a casting roll of 2D6.
+Effect: Inflict 2D3 mortal damage on the target. If the target would be destroyed by this spell, before removing any models, pick the closest terrain
+feature to the target that does not have a friendly overgrown token and give it a friendly overgrown token. If all terrain features on the battlefield
+already have a friendly overgrown token, inflict D3 mortal damage on each enemy unit within 6" of the target instead.
+PHASE DE MOUVEMENT
+The Goddess of Life
+2
+×1 / BATAILLE
+MA PHASE
+WAHAPEDIA
+Declare: This unit can use this ability even if it has been destroyed.
+Effect: Set up a replacement unit with 8 damage points allocated to it (ward rolls cannot be made for those damage points) wholly within the creeping
+overgrowth and more than 9" from all enemy units.
+PHASE DE CHARGE
+Living Battering Ram
+×1 / TOUR (ARMÉE)
+LES 2 PHASES
+RAMPAGE
+WAHAPEDIA
+Declare: If this unit charged this turn, pick a visible enemy unit within 1" of it to be the target.
+Effect: Roll a dice. On a 3+, inflict an amount of mortal damage on the target equal to the roll.
+N'IMPORTE QUELLE PHASE
+Battle Damaged
+PASSIF
+WAHAPEDIA
+Effect: While this unit has 10 or more damage points, the Attacks characteristic of its Wardroth Beetle’s Antlers is 4.
+ORDER · SYLVANETH · FLY · HERO · MONSTER · UNIQUE · WARD · WARMASTER
+ Wahapedia (EN)
+2 / 10
+
+===== page 3 =====
+Belthanos, First Thorn of Kurnoth
+ MV
+12"
+ CT
+ 5
+ SV
+3+
+ WD
+—
+ HP
+14
+1 model
+ 290 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Kurnoth Glaive
+Charge (+1 Dégât)
+ 5
+ 3+
+ 3+
+ 2
+ 2
+Carnelian Greatspite’s Mandibles
+Compagnon
+ 4
+ 4+
+ 2+
+ 2
+ 3
+PHASE DE MOUVEMENT
+Kurnothi War-horn
+PASSIF
+WAHAPEDIA
+Effect: Add 2" to the Move characteristic of friendly KURNOTHI units
+while they are wholly within 12" of this unit.
+PHASE DE MÊLÉE
+Rhythm of the Chase
+×1 / TOUR (ARMÉE)
+LES 2 PHASES
+RAMPAGE
+WAHAPEDIA
+Declare: Pick an enemy unit in combat with this unit to be the target.
+Effect: Roll a D3. On a 2+, inflict an amount of mortal damage on the
+target equal to the roll, then you can remove this unit from the
+battlefield and set it up again within 1" of the target.
+FIN DE TOUR
+Huntmaster’s Strike
+×1 / TOUR (ARMÉE)
+LES 2 PHASES
+WAHAPEDIA
+Effect: If this unit charged this turn, remove it from the battlefield and
+set it up again more than 6" from all enemy units and wholly within
+the creeping overgrowth.
+N'IMPORTE QUELLE PHASE
+Battle Damaged
+PASSIF
+WAHAPEDIA
+Effect: While this unit has 10 or more damage points, the Attacks
+characteristic of its Carnelian Greatspite’s Mandibles is 3.
+KURNOTHI · ORDER · SYLVANETH · FLY · HERO · MONSTER ·
+UNIQUE
+ Wahapedia (EN)
+ Drycha Hamadreth
+1
+ MV
+10"
+ CT
+ 5
+ SV
+3+
+ WD
+—
+ HP
+12
+1 model
+ 250 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Slashing Talons
+Crit (2 Touches)
+ 5
+ 3+
+ 2+
+ 2
+ 2
+Swarm of Spites
+Crit (Mortel), Compagnon
+ 20
+ 4+
+ 4+
+ -
+ 1
+PHASE DES HÉROS
+Enrage the Spites
+7+
+MA PHASE
+WAHAPEDIA
+Declare: Pick up to 3 enemy units that are visible to and within 12" of
+this unit or that are within the creeping overgrowth to be the
+targets, then make a casting roll of 2D6.
+Effect: Inflict D3 mortal damage on each target.
+PHASE DE MOUVEMENT
+Terror of the Deep Woods
+PASSIF
+WAHAPEDIA
+Effect: Enemy units cannot use RUN or RETREAT abilities while
+they are within 9" of this unit.
+PHASE DE CHARGE
+Merciless Ambush
+1
+MA PHASE
+CORE
+MOVE
+CHARGE
+RAMPAGE
+WAHAPEDIA
+Declare: If this unit is not in combat and has not used a RUN or
+RETREAT ability this turn, make a charge roll of 2D6.
+Effect: You can remove this unit from the battlefield and set it up
+again within ½" of an enemy unit and wholly within X" of a terrain
+feature that has a friendly overgrown token, where X is equal to the
+charge roll. If you do so, this unit has charged.
+FOREST ELDER · ORDER · SYLVANETH · HERO · MONSTER ·
+UNIQUE
+ Wahapedia (EN)
+Spite-Revenants
+ MV
+6"
+ CT
+ 1
+ SV
+5+
+ WD
+—
+ HP
+ 2
+5 models
+ 100 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Cruel Talons and Fangs
+Crit (Mortel)
+ 3
+ 3+
+ 4+
+ -
+ 1
+PHASE DE MOUVEMENT
+Shadowcreep
+×1 / TOUR (ARMÉE)
+MA PHASE
+WAHAPEDIA
+Effect: If this unit is wholly within the creeping overgrowth, remove
+this unit from the battlefield and set it up again wholly within 3" of a
+terrain feature and more than 9" from all enemy units. Then, add 1 to
+charge rolls for this unit for the rest of the turn.
+ORDER · REVENANT · SYLVANETH · CHAMPION · INFANTRY
+ Wahapedia (EN)
+3 / 10
+
+===== page 4 =====
+Warsong Revenant
+1
+ MV
+6"
+ CT
+ 2
+ SV
+5+
+ WD
+6+
+ HP
+ 7
+1 model
+ 190 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Spirit Falchion and Spearing
+Vines
+ 5
+ 3+
+ 3+
+ 1
+ D3
+PHASE DES HÉROS
+Rousing Accompaniment
+×1 / TOUR (ARMÉE)
+Réaction : You made an
+unmodified chanting roll of 1 for a
+SYLVANETH PRIEST wholly
+within 12" of this unit
+WAHAPEDIA
+Effect: Re-roll that chanting roll.
+DANCING MYSTIFLIES
+Réaction : Opponent declared a
+Spell ability for an unit within 30"
+of this unit
+ARTEFACT DE POUVOIR
+WAHAPEDIA
+Effect:
+ If this unit is not a WIZARD, it can use the ‘Unbind’ ability as if it had
+WIZARD (1). Otherwise, it can use the ‘Unbind’ ability an additional
+time each phase.
+ If this unit successfully unbinds the spell being reacted to and the
+caster is within the creeping overgrowth, inflict an amount of mortal
+damage on the caster equal to the difference between the casting roll
+and the unbinding roll, to a maximum of 6.
+PHASE DE MOUVEMENT
+REALMROOT GUIDE
+×1 / BATAILLE
+MA PHASE
+TRAIT HÉROÏQUE
+WAHAPEDIA
+Declare: This unit can only use this ability if it is wholly within the
+creeping overgrowth. Pick this unit and up to 1 other friendly
+SYLVANETH unit within this unit’s combat range to be the targets.
+Effect: Remove the targets from the battlefield and set them up
+again wholly within the creeping overgrowth and more than 9" from
+all enemy units.
+N'IMPORTE QUELLE PHASE
+Alarielle’s Song
+PASSIF
+WAHAPEDIA
+Effect: Friendly SYLVANETH units have WARD (6+) while they are
+wholly within 12" of this unit. Subtract 1 from ward rolls for enemy
+units while they are within 12" of this unit.
+ORDER · REVENANT · SYLVANETH · FLY · HERO · INFANTRY ·
+WARD
+ Wahapedia (EN)
+ Kurnoth Hunters with
+Greatswords
+ MV
+6"
+ CT
+ 2
+ SV
+4+
+ WD
+—
+ HP
+ 5
+3 models
+ 210+10 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Kurnoth Greatsword
+Crit (Mortel)
+ 4
+ 3+
+ 3+
+ 1
+ 2
+PHASE DE MÊLÉE
+Crashing Impact
+LES 2 PHASES
+WAHAPEDIA
+Declare: If this unit charged this turn, pick an enemy unit in combat
+with it to be the target.
+Effect: Roll a dice for each model in this unit that is in combat with
+the target. For each 3+, inflict 1 mortal damage on the target.
+FIN DE TOUR
+ASPECT OF HEARTWOOD
+×1 / BATAILLE
+Réaction : You declared the
+‘Endless Growth’ ability
+ASPECTS OF THE DEEPWOODS
+WAHAPEDIA
+Effect: If this unit is wholly within the creeping overgrowth, for each
+target of that ability that is wholly within 12" of this unit, you can pick
+1 of the following effects:
+ When resolving that ability, roll a D6 for the target instead of a D3.
+If, as a result of another ability, you would Heal (3) the target instead
+of rolling a dice, Heal (6) the target instead.
+ If the target is KURNOTHI, instead of rolling a D3 and picking 1 of
+the effects of that ability to apply to it, you can return 1 slain model to
+the target unit.
+N'IMPORTE QUELLE PHASE
+Hunter’s Endurance
+PASSIF
+WAHAPEDIA
+Effect: Subtract 1 from the Rend characteristic of weapons used for
+attacks that target this unit while it is wholly within the creeping
+overgrowth.
+KURNOTHI · ORDER · SYLVANETH · CHAMPION · INFANTRY
+ Wahapedia (EN)
+4 / 10
+
+===== page 5 =====
+Gossamid Archers
+ MV
+12"
+ CT
+ 1
+ SV
+5+
+ WD
+—
+ HP
+ 2
+5 models
+ 120 pts
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Gossamid Bow
+Crit (Blessure Auto), Tir en Mêlée
+ 12"
+ 2
+ 3+
+ 4+
+ 1
+ 1
+Cruel Talons
+ 1
+ 3+
+ 4+
+ -
+ 1
+PHASE DE TIR
+Zephyrspites
+Réaction : Vous avez annoncé
+une aptitude de Tir pour cette
+unité
+MOVE
+WAHAPEDIA
+Effect: After that SHOOT ability has been resolved, this unit can
+move up to D6". It cannot move into combat during any part of that
+move.
+N'IMPORTE QUELLE PHASE
+Forest Fighters
+PASSIF
+WAHAPEDIA
+Effect: This unit has a coherency range of 2".
+ORDER · REVENANT · SYLVANETH · CHAMPION · FLY · INFANTRY
+ Wahapedia (EN)
+ Awakened Wyldwood
+ MV
+ -
+ CT
+ -
+ SV
+4+
+ WD
+—
+ HP
+ 8
+1 model
+ Invoquée
+DÉBUT DE ROUND
+Ever Growing
+×1 / ROUND
+WAHAPEDIA
+Declare: Pick the closest terrain feature to this terrain feature that
+does not have a friendly overgrown token to be the target.
+Effect: If the target is not controlled by your opponent, give the target
+a friendly overgrown token.
+PHASE DE MÊLÉE
+Vengeful Forest Spirits
+×1 / TOUR (ARMÉE)
+LES 2 PHASES
+WAHAPEDIA
+Declare: Pick each enemy unit within 3" of this terrain feature to be
+the targets.
+Effect: Roll a D3 for each target. On a 2+, inflict an amount of mortal
+damage on the target equal to the roll.
+N'IMPORTE QUELLE PHASE
+Budding Forests
+PASSIF
+WAHAPEDIA
+Effect: When this terrain feature is set up, give it a friendly
+overgrown token.
+ORDER · SYLVANETH · FACTION TERRAIN
+ Wahapedia (EN)
+5 / 10
+
+===== page 6 =====
+Gladewyrm
+6+
+ MV
+8"
+ CT
+ 7
+ SV
+4+
+ WD
+6+
+ HP
+ 7
+1 model
+ Invoquée
+ Entièrement à 12" et visible du lanceur
+ À plus de 9" de l'ennemi
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Fearsome Mandibles and Bladed
+Carapace
+Anti-PRIEST (+1 Perf.), Anti-WIZARD (+1
+Perf.)
+ 6
+ 4+
+ 2+
+ 1
+ D3
+PHASE DES HÉROS
+Feed on Eldritch Energy
+PASSIF
+WAHAPEDIA
+Effect: Subtract 1 from casting rolls, unbinding rolls, chanting rolls
+and banishment rolls for enemy units while they are in combat with
+this MANIFESTATION.
+PHASE DE MOUVEMENT
+Eldritch Hunters
+MA PHASE
+CORE
+WAHAPEDIA
+Effect: If this MANIFESTATION is not in combat, remove it from the
+battlefield and set it up again on the battlefield more than 9" from all
+enemy non-WIZARD non-PRIEST units and more than 3" from all
+enemy WIZARDS and enemy PRIESTS.
+ORDER · SYLVANETH · ENDLESS SPELL · MANIFESTATION ·
+WARD
+ Wahapedia (EN)
+ Vengeful Skullroot
+6+
+ MV
+8"
+ CT
+ 7
+ SV
+4+
+ WD
+6+
+ HP
+ 8
+1 model
+ Invoquée
+ Entièrement à 12" et visible du lanceur
+ À plus de 9" de l'ennemi
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Writhing Roots
+ 3
+ 4+
+ 2+
+ 1
+ D3
+N'IMPORTE QUELLE PHASE
+Vengeful Terrors
+PASSIF
+WAHAPEDIA
+Effect: Subtract 1 from hit rolls for attacks made by enemy units
+while they are within 6" of this MANIFESTATION.
+ORDER · SYLVANETH · ENDLESS SPELL · FLY · MANIFESTATION ·
+WARD
+ Wahapedia (EN)
+Spiteswarm Hive
+6+
+ MV
+ -
+ CT
+ 7
+ SV
+6+
+ WD
+6+
+ HP
+ 6
+1 model
+ Invoquée
+ Entièrement à 12" et visible du lanceur
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Spiteswarm
+Crit (2 Touches)
+ 18"
+ 5
+ 4+
+ 3+
+ 1
+ 1
+Spiteswarm
+Crit (2 Touches)
+ 10
+ 4+
+ 3+
+ 1
+ 1
+PHASE DE TIR
+Anger the Hive
+MA PHASE
+WAHAPEDIA
+Effect: If this MANIFESTATION was not set up this turn, add 10 to
+the Attacks characteristic of this MANIFESTATION’s ranged
+weapons for the rest of the phase, but all of the shooting attacks it
+makes this phase must target an enemy unit within 9" of it.
+ORDER · SYLVANETH · ENDLESS SPELL · MANIFESTATION ·
+WARD
+ Wahapedia (EN)
+6 / 10
+
+===== page 7 =====
+Aptitudes
+Sylvaneth
+DÉPLOIEMENT
+DÉPLOIEMENT
+ RÈGLES DE BASE
+Souffler sur les Braises
+×1 / BATAILLE (ARMÉE)
+SAISON
+MDG
+Effet : Si vous êtes l’attaquant, réglez votre niveau de fureur sur 1. Si vous êtes le défenseur, réglez votre niveau de fureur sur 2.
+Assaut Flamboyant : Règle Spéciale
+TACTIQUE
+MDG
+Au début de la bataille, après avoir utilisé toutes les aptitudes de Phase de Déploiement mais avant de déterminer le joueur qui a le premier tour,
+votre adversaire doit choisir 1 élément de terrain autre qu’un TERRAIN DE FACTION dans son territoire qui sera son repaire. Le repaire ne peut pas
+être retiré du champ de bataille au cours de cette bataille.
+N'IMPORTE QUELLE PHASE
+N'IMPORTE QUELLE PHASE
+ RÈGLES DE BASE
+Braver la Douleur
+X
+X
+PASSIF
+SAISON
+MDG
+Effet : Avant d’allouer des dégâts à une unité amie, vous pouvez dépenser n’importe quel nombre de dés de rage. Pour chaque dé de rage dépensé,
+réduisez votre niveau de fureur de 1, jusqu’à un minimum de 0, puis jetez un dé. Sur 3+, retirez 1 dégât de la réserve de dégâts de l’unité.
+RÈGLES D'ARMÉE
+THE CREEPING OVERGROWTH
+PASSIF
+TRAITS DE BATAILLE
+WAHAPEDIA
+Effect: The creeping overgrowth is measured from each terrain feature that has a friendly overgrown token. The range of the creeping overgrowth
+is based on the number of friendly overgrown tokens on the battlefield as shown:
+Designer’s Note: Awakened Wyldwoods are your main way of generating overgrown tokens. Some unit abilities allow you to do so too.
+DÉBUT DE ROUND
+DÉBUT DE ROUND
+ RÈGLES DE BASE
+Rage Bouillonnante
+×1 / TOUR (ARMÉE)
+SAISON
+MDG
+Annonce : Vous devez utiliser cette aptitude.
+Effet : Gagnez autant de dés de rage que votre niveau de fureur. À la fin du round de bataille, tous les dés de rage non dépensés sont perdus.
+DÉBUT DE TOUR
+DÉBUT DE TOUR
+ RÈGLES D'ARMÉE
+CREEPING DREAD
+×1 / TOUR (ARMÉE)
+LES 2 PHASES
+TRAITS DE BATAILLE
+WAHAPEDIA
+Declare: Pick an enemy unit within the creeping overgrowth to be the target.
+Effect: For the rest of the turn, the first time your opponent declares a command for the target while it is not wholly within 12" of a HERO in their army,
+unless your opponent spends 1 additional command point to use that command, the command has no effect, it still counts as being used and the
+command points spent to use the command are still lost.
+7 / 10
+
+===== page 8 =====
+PHASE DES HÉROS
+PHASE DES HÉROS
+ RÈGLES D'ARMÉE
+RECLAIMED BY NATURE
+×1 / TOUR (ARMÉE)
+MA PHASE
+TRAITS DE BATAILLE
+WAHAPEDIA
+Effect: If there are fewer than 3 friendly Awakened Wyldwoods on the battlefield, you can set up an Awakened Wyldwood on the battlefield more
+than 3" from all objectives and enemy units, more than 12" from all other friendly Awakened Wyldwoods and more than 1" from all other terrain
+features.
+SORTS
+JADE THORNS
+6+
+MA PHASE
+ILLIMITÉ
+WAHAPEDIA
+Declare: Pick a friendly SYLVANETH WIZARD to cast
+this spell, pick a visible friendly SYLVANETH unit
+wholly within 12" of them to be the target, then make a
+casting roll of 2D6.
+Effect: Add 1 to wound rolls for the target’s combat
+attacks for the rest of the turn, including attacks made
+with Companion weapons.
+ZEPHYRSPITE
+RUSH
+6+
+MA PHASE
+WAHAPEDIA
+Declare: Pick a friendly SYLVANETH
+WIZARD to cast this spell, pick a visible
+friendly SYLVANETH unit wholly within 12"
+of them to be the target, then make a casting
+roll of 2D6.
+Effect: For the rest of the turn, the target can
+use CHARGE abilities even if it used a RUN
+ability in the same turn.
+GRASPING
+ROOTS
+5+
+MA PHASE
+WAHAPEDIA
+Declare: Pick a friendly SYLVANETH
+WIZARD to cast this spell, pick a visible
+enemy unit within 18" of them to be the
+target, then make a casting roll of 2D6.
+Effect: Until the start of your next turn:
+ The target cannot use RUN abilities.
+ Subtract 1 from charge rolls for the
+target.
+MANIFESTATIONS
+SUMMON
+GLADEWYRM
+6+
+MA PHASE
+MANIFESTATION
+WAHAPEDIA
+Declare: If there is not a friendly Gladewyrm on
+the battlefield, pick a friendly SYLVANETH
+WIZARD to cast this spell, then make a casting
+roll of 2D6.
+Effect: Set up a Gladewyrm wholly within 12" of
+the caster, visible to them and more than 9" from
+all enemy units.
+SUMMON
+VENGEFUL
+SKULLROOT
+6+
+MA PHASE
+MANIFESTATION
+WAHAPEDIA
+Declare: If there is not a friendly Vengeful
+Skullroot on the battlefield, pick a friendly
+SYLVANETH WIZARD to cast this spell, then
+make a casting roll of 2D6.
+Effect: Set up a Vengeful Skullroot wholly
+within 12" of the caster, visible to them and more
+than 9" from all enemy units.
+SUMMON
+SPITESWARM
+HIVE
+6+
+MA PHASE
+MANIFESTATION
+WAHAPEDIA
+Declare: If there is not a friendly
+Spiteswarm Hive on the battlefield, pick a
+friendly SYLVANETH WIZARD to cast this
+spell, then make a casting roll of 2D6.
+Effect: Set up a Spiteswarm Hive wholly
+within 12" of the caster and visible to them.
+PRIÈRES
+SONG OF THE LOST
+4+
+MA PHASE
+ILLIMITÉ
+WAHAPEDIA
+Declare: Pick a friendly SYLVANETH PRIEST to chant this prayer, pick a friendly SYLVANETH unit that is wholly within the creeping overgrowth or that
+is visible to them and wholly within 12" of them to be the target, then make a chanting roll of D6. Effect: Until the start of your next turn, subtract 1 from
+wound rolls for attacks that target that friendly unit. In addition, if the chanting roll was 8+:  If the target is a MONSTER ,
+SONG OF WAR
+5+
+MA PHASE
+WAHAPEDIA
+Declare: Pick a friendly SYLVANETH PRIEST to chant this prayer, pick a friendly SYLVANETH unit that is wholly within the creeping overgrowth or
+that is visible to them and wholly within 12" of them to be the target, then make a chanting roll of D6.
+Effect: If the chanting roll was 10+, you can pick another eligible unit to be a second target. Until the start of your next turn, add 1 to the Rend
+characteristic of the target(s) melee weapons.
+SONG OF DREAD
+4+
+MA PHASE
+WAHAPEDIA
+Declare: Pick a friendly SYLVANETH PRIEST to chant this prayer, pick an enemy unit that is wholly within the creeping overgrowth or that is visible
+to them and within 18" of them to be the target, then make a chanting roll of D6.
+Effect: If the chanting roll was 8+, you can pick another eligible unit to be a second target. Until the start of your next turn, each time a target uses a
+MOVE ability and ends that move within the creeping overgrowth, inflict D3 mortal damage on that target after that MOVE ability has been resolved.
+PHASE DE MÊLÉE
+PHASE DE MÊLÉE
+ RÈGLES D'ARMÉE
+FURY OF THE FOREST
+1
+PHASE ENNEMI
+TRAITS DE BATAILLE
+WAHAPEDIA
+Declare: Pick a friendly SYLVANETH unit wholly within the creeping overgrowth and that is in combat with only 1 enemy unit to use this ability.
+Effect: The unit using this ability has STRIKE-FIRST for the rest of the turn.
+8 / 10
+
+===== page 9 =====
+FIN DE TOUR
+FIN DE TOUR
+ RÈGLES DE BASE
+Éruption de Fureur
+1-3
+×1 / TOUR (ARMÉE)
+LES 2 PHASES
+ATTAQUE
+MDG
+CORPS À CORPS
+SAISON
+Annonce : Choisissez une unité amie pour qu’elle utilise cette aptitude, puis choisissez comme cible une unité ennemie en mêlée avec cette unité
+amie.
+Effet : Choisissez 1 des armes de mêlée de l’unité qui utilise cette aptitude. Puis dépensez 3 dés de rage maximum.
+Résolvez autant d’attaques de mêlée contre la cible en utilisant l’arme de mêlée choisie que le nombre de dés de rage que vous avez dépensés.
+Ces attaques ne peuvent pas causer de touches critiques. À la place, pour chaque jet de touche non modifié de 6 obtenu pour ces attaques :
+ Infligez D3 dégâts mortels supplémentaires à chaque unité ennemie en mêlée avec l’unité qui utilise cette aptitude.
+ Votre adversaire doit augmenter son niveau de fureur de 1, jusqu’à un maximum de 7.
+Pour chaque jet de touche non modifié de 1 pour ces attaques, allouez D3 dégâts mortels à l’unité qui utilise cette aptitude une fois la séquence de
+dégâts résolue (on ne peut tenter aucun jet de protection contre ces dégâts).
+Note des Concepteurs : Les dés de rage ne s’ajoutent pas à la caractéristique d’Attaques de l’arme que vous choisissez ; si vous dépensez 3 dés de
+rage pour utiliser cette aptitude, vous faites seulement 3 attaques de mêlée.
+RÈGLES D'ARMÉE
+THE LAND
+AWAKENS
+1
+MA PHASE
+TRAITS DE BATAILLE
+WAHAPEDIA
+Declare: Pick a friendly non-HERO REVENANT
+INFANTRY unit or friendly Dryads unit that has
+been destroyed to be the target.
+Effect: Set up a replacement unit with half the
+number of models from the target unit (rounding
+up) wholly within the creeping overgrowth and
+more than 9" from all enemy units.
+ENDLESS GROWTH
+×1 / TOUR (ARMÉE)
+LES 2 PHASES
+TRAITS DE BATAILLE
+WAHAPEDIA
+Declare: Pick each friendly SYLVANETH unit that is
+wholly within the creeping overgrowth to be the targets.
+Effect: For each target, roll a D3 and pick 1 of the
+following effects:
+ Heal (X) the target, where X is equal to the roll.
+ Return a number of slain models to it with a combined
+Health characteristic of up to the value of the roll.
+NATURE’S
+TITANS
+PASSIF
+FORMATION : LORDS OF THE CLAN
+WAHAPEDIA
+Effect: When using the ‘Endless
+Growth’ ability, do not roll a D3
+for MONSTER targets. Instead,
+Heal (3) each of those targets.
+9 / 10
+
+===== page 10 =====
+Assaut Flamboyant
+CARTE DE TACTIQUE 1 · Blazing Onslaught
+RÈGLE SPÉCIALE
+Au début de la bataille, après avoir utilisé toutes les aptitudes de Phase de Déploiement mais avant de déterminer le joueur qui a le premier tour, votre
+adversaire doit choisir 1 élément de terrain autre qu’un TERRAIN DE FACTION dans son territoire qui sera son repaire. Le repaire ne peut pas être retiré du
+champ de bataille au cours de cette bataille.
+ÉCHAUFFOURÉE
+Maître d’Armes
+Vous exécutez cette tactique de bataille à la fin de votre tour si la même unité ennemie a reçu au moins 1 dégât lors de 3 phases
+différentes à ce tour.
+ 5
+ PTS DE
+VICTOIRE
+FRAPPE
+Brisez Leurs Défenses
+Vous exécutez cette tactique de bataille à la fin de votre tour si vous contrôlez le repaire ennemi.
+ 5
+ PTS DE
+VICTOIRE
+DOMINATION
+Pas de Survivants
+Vous exécutez cette tactique de bataille à la fin de votre tour si au moins 2 unités ennemies ont été détruites à ce tour et si vous contrôlez
+le repaire ennemi.
+ 5
+ PTS DE
+VICTOIRE
+Encerclés par le Feu
+CARTE DE TACTIQUE 3 · Flanking Firestorm
+ÉCHAUFFOURÉE
+Embuscade
+Vous exécutez cette tactique de bataille à la fin de votre tour si vous contrôlez une combinaison d’au moins 2 objectifs ou éléments de
+terrain autres que des Terrains de Faction, et si chacun d’eux est contesté par une unité amie différente située à plus de 6" du territoire
+ami et n’ayant pas été placée à ce tour.
+ 5
+ PTS DE
+VICTOIRE
+FRAPPE
+Cernez l’Ennemi
+Vous exécutez cette tactique de bataille à la fin de votre tour si au moins 2 unités amies qui n’ont pas été placées à ce tour sont chacune
+à 9" d’un coin différent du champ de bataille et entièrement hors du territoire ami.
+ 5
+ PTS DE
+VICTOIRE
+DOMINATION
+Prenez votre Dû
+Vous exécutez cette tactique de bataille à la fin de votre tour s’il y a plus d’unités amies que d’unités ennemies en territoire ennemi, et s’il
+y a au moins 1 HÉROS ami entièrement en territoire ennemi.
+ 5
+ PTS DE
+VICTOIRE
+10 / 10
+

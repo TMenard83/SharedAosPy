@@ -1,0 +1,1476 @@
+pages: 15
+pages_scenario: 18
+units_matched: ["Be'lakor, the Dark Master", 'Legion of the First Prince Bloodletters', 'Legion of the First Prince Screamers of Tzeentch', 'Eternus, Blade of the First Prince', 'Varanguard', 'Nexus Chaotica']
+units_unmatched: []
+rules_included: ['Règles de Saison 2026-27', 'Aptitudes Génériques — MdG26-27', 'Armée de Renom — Legion of the First Prince', 'Domaine de Manifestations — Primal Energy (10 Points)', 'Siege of Ashes', 'Flanking Firestorm']
+rules_unmatched: []
+wahapedia_used: []
+absent_references: [AbsentReference(ability='Network of Spies', owner='Eternus, Blade of the First Prince', unit='Chaos Legionnaires'), AbsentReference(ability='Network of Spies', owner='Eternus, Blade of the First Prince', unit='Chaos Furies'), AbsentReference(ability='DARK APOTHEOSIS', owner='Battle Traits', unit='Daemon Prince')]
+absent_keywords: [AbsentReference(ability='SUMMON BURNING HEAD', owner='Primal Energy', unit='WIZARD'), AbsentReference(ability='SUMMON EMERALD LIFESWARM', owner='Primal Energy', unit='WIZARD'), AbsentReference(ability='SUMMON RAVENAK’S GNASHING JAWS', owner='Primal Energy', unit='WIZARD')]
+===== page 1 =====
+STD - L3 - First Prince 1980/2000 pts
+Slaves to Darkness | Legion of the First Prince · Army of Renown · Drops : 2 · Domaine de sorts : Legion of the First
+Prince Spell Lore · Domaine de manifestations : Primal Energy (10 Points)
+Battle Tactic Cards : Siege of Ashes, Flanking Firestorm
+General's Regiment
+ Be'lakor, the Dark Master — 450 pts
+General
+Legion of the First Prince Bloodletters — 340 pts
+Reinforced
+Legion of the First Prince Bloodletters — 170 pts
+Legion of the First Prince Bloodletters — 170 pts
+Legion of the First Prince Screamers of Tzeentch — 80 pts
+Regiment 1
+ Eternus, Blade of the First Prince — 160 pts
+Varanguard — 300 pts
+Varanguard — 300 pts
+Faction Terrain
+Nexus Chaotica
+Généré le <horodatage> — aospy roster pdf
+Légende des pictos
+ 7+
+Aptitude : valeur de lancement. Warscroll : niveau de Sorcier ; manifestation : valeur de lancement de sa convocation.
+1
+Ordre : coût en points d’ordre
++2
+Dés de rage : « +N » gagnés, sinon nombre dépensé
++2
+Niveau de fureur : « +N » augmenté, sinon diminué
+MDG
+Source du texte : MDG (Manuel du Général), BT (battletome), FP (faction pack), AQSHY,
+WAHAPEDIA (anglais). Traits de Bataille, Formation : catégorie de règles d'armée.
+SIMPLE
+Texte adapté, pas le verbatim : en cas de litige, revenir à la règle d'origine.
+BASE
+SAISON
+Aptitude de base du jeu (Core) ; règle de la saison en cours (MdG 2026-27).
+×1 / TOUR (ARMÉE)
+PASSIF
+Fréquence — (ARMÉE) : une seule fois pour toute l'armée ; passif : toujours actif, rien à déclarer.
+RÉACTION
+Réaction : utilisée en réponse à l'aptitude indiquée.
+TIR
+CHARGE
+Mot-clé d'aptitude, à la couleur de sa phase (Mouvement, Tir, Charge, Corps à Corps).
+ATTAQUE
+SACCAGE
+Mot-clé d'aptitude valable dans plusieurs phases.
+SORT
+PRIÈRE
+Magie (sort, manifestation, bannissement…) ; prière. Illimité : utilisable plusieurs fois par tour.
+NOM D'UNITÉ
+Unité qui porte l'aptitude (pour un sort signature : son lanceur).
+TACTIQUE
+MOT-CLÉ
+Autre mot-clé d'aptitude (Tactique : règle spéciale d'une carte de tactique) ; bordeaux : propre à la
+faction.
+1 / 15
+
+===== page 2 =====
+Be’lakor, the Dark Master
+2
+ MV
+14"
+ CT
+10
+ SV
+4+
+ WD
+6+
+ HP
+14
+1 model
+ 450 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Fell Claw and Spearing Tail
+Charge (+1 Dégât)
+ 2
+ 2+
+ 2+
+ 2
+ 2
+Blade of Shadows
+Crit (Blessure Auto)
+ 8
+ 3+
+ 3+
+ 2
+ 2
+N'IMPORTE QUELLE PHASE
+Stigmates de Guerre
+PASSIF
+BT
+Effet : Tant que cette unité a 10 dégâts ou plus, la caractéristique
+d'Attaques de sa Lame des Ombres est 6.
+CHAOS · DAEMON · SLAVES TO DARKNESS · FLY · HERO ·
+MONSTER · UNIQUE · WARD · WARMASTER
+ Wahapedia (EN)
+Varanguard
+ MV
+10"
+ CT
+ 2
+ SV
+3+
+ WD
+—
+ HP
+ 5
+3 models
+ 290 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Daemonforged Blades
+Crit (Mortel), Charge (+1 Dégât)
+ 3
+ 3+
+ 3+
+ 2
+ 2
+Steed’s Tearing Fangs
+Compagnon
+ 3
+ 4+
+ 3+
+ 1
+ 1
+CHAOS · SLAVES TO DARKNESS · WARRIORS OF CHAOS ·
+CAVALRY
+ Wahapedia (EN)
+Nexus Chaotica
+ MV
+ -
+ CT
+ 0
+ SV
+4+
+ WD
+—
+ HP
+12
+1 model
+ 0 pts
+CHAOS · SLAVES TO DARKNESS · FACTION TERRAIN
+ Wahapedia (EN)
+ Eternus, Blade of the First Prince
+ MV
+9"
+ CT
+ 2
+ SV
+3+
+ WD
+—
+ HP
+ 9
+1 model
+ 160 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Drakocephalus’s Fangs
+Compagnon
+ 3
+ 4+
+ 3+
+ -
+ 1
+Death Glaive and Skull Flail
+Charge (+1 Dégât)
+ 6
+ 3+
+ 3+
+ 1
+ 2
+CHAOS · SLAVES TO DARKNESS · CAVALRY · HERO · UNIQUE
+ Wahapedia (EN)
+Bloodletters
+ MV
+5"
+ CT
+ 1
+ SV
+5+
+ WD
+6+
+ HP
+ 2
+10 models
+ 170 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Hellblade
+Crit (Mortel)
+ 2
+ 3+
+ 3+
+ 1
+ 1
+CHAOS · DAEMON · LEGION OF THE FIRST PRINCE · SLAVES TO
+DARKNESS · CHAMPION · INFANTRY · MUSICIAN · STANDARD
+BEARER · WARD
+ Wahapedia (EN)
+Screamers of Tzeentch
+ MV
+14"
+ CT
+ 1
+ SV
+5+
+ WD
+6+
+ HP
+ 3
+3 models
+ 70 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Lamprey Bite
+Anti-MONSTER (+1 Perf.), Compagnon
+ 3
+ 4+
+ 3+
+ 1
+ 1
+CHAOS · DAEMON · LEGION OF THE FIRST PRINCE · SLAVES TO
+DARKNESS · BEAST · FLY · WARD
+ Wahapedia (EN)
+2 / 15
+
+===== page 3 =====
+Crâne Incandescent
+5+
+ MV
+8"
+ CT
+ 6
+ SV
+6+
+ WD
+6+
+ HP
+ 6
+1 model
+ Invoquée
+ Entièrement à 12" et visible du lanceur
+ À plus de 9" de l'ennemi
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Souffle Brûlant
+Tir en Mêlée, Anti-Machine de
+Guerre (+1 Perf.)
+ 10"
+ D6
+ 4+
+ 3+
+ 2
+ 1
+Mâchoire Enflammée
+Anti-Machine de Guerre (+1 Perf.)
+ 2D6
+ 4+
+ 3+
+ 2
+ 1
+MANIFESTATION · SORT PERSISTANT · VOL · PROTECTION (6+)
+ Wahapedia (EN)
+ Vifessaim Émeraude
+6+
+ MV
+8"
+ CT
+ 7
+ SV
+6+
+ WD
+6+
+ HP
+ 5
+1 model
+ Invoquée
+ Entièrement à 12" et visible du lanceur
+ À plus de 9" de l'ennemi
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Morsures Grouillantes
+Anti-Infanterie (+1 Perf.)
+ 2D6
+ 4+
+ 4+
+ -
+ 1
+MANIFESTATION · SORT PERSISTANT · VOL · PROTECTION (6+)
+ Wahapedia (EN)
+Mâchoires de Ravenak
+7+
+ MV
+3D6"
+ CT
+ 7
+ SV
+6+
+ WD
+6+
+ HP
+10
+1 model
+ Invoquée
+ Entièrement à 12" et visible du lanceur
+ À plus de 9" de l'ennemi
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Mâchoires Grinçantes
+Charge (+1 Dégât)
+ 10
+ 4+
+ 2+
+ 1
+ 1
+MANIFESTATION · SORT PERSISTANT · PROTECTION (6+)
+ Wahapedia (EN)
+3 / 15
+
+===== page 4 =====
+Déploiement
+Slaves to Darkness
+DÉPLOIEMENT
+DÉPLOIEMENT
+ RÈGLES DE BASE
+Placez le Champ de Bataille
+SIMPLE
+1 : Les joueurs tirent au dé. Le gagnant choisit quel joueur est l’attaquant et lequel est le défenseur.
+2 : Le défenseur place les objectifs et les éléments de terrain comme indiqué sur la carte du plan de bataille.
+3 : Après avoir placé les objectifs et le terrain, l’attaquant désigne quel territoire est le sien. L’autre territoire est celui du défenseur. Puis les joueurs
+résolvent la phase de déploiement. L’attaquant commence le déploiement.
+4 : Déployer les terrains de faction : celui qui commence le déploiement utilise d’abord ses aptitudes de Déploiement de Terrain, puis l’adversaire.
+5 : Déployer les armées : à tour de rôle, en commençant par celui qui a commencé le déploiement, chaque joueur utilise une aptitude de
+Déploiement de Régiment ou de Déploiement d’Unité. Quand un joueur n’en a plus, l’autre continue jusqu’à ce qu’il n’en ait plus.
+Déploiement de Terrain de Faction
+SIMPLE
+Effet : Placez un terrain de faction ami non déployé entièrement en territoire ami, à plus de 3" des objectifs et des autres terrains.
+Déploiement de Régiment
+SIMPLE
+Effet : Choisissez un régiment dont aucune unité n’est déployée : déployez-les toutes d’affilée, sans rendre la main.
+Déploiement d’Unité
+SIMPLE
+Effet : Placez une unité non déployée entièrement en territoire ami, à plus de 9" du territoire ennemi.
+Souffler sur les Braises
+×1 / BATAILLE (ARMÉE)
+SAISON
+MDG
+Effet : Si vous êtes l’attaquant, réglez votre niveau de fureur sur 1. Si vous êtes le défenseur, réglez votre niveau de fureur sur 2.
+N'importe quelle phase
+Slaves to Darkness
+N'IMPORTE QUELLE PHASE
+N'IMPORTE QUELLE PHASE
+ RÈGLES D'ARMÉE
+Prince Premier Damné
+PASSIF
+BT
+LEGION OF THE FIRST PRINCE
+Effet : Tant qu'un Be'lakor ami est à portée de mêlée d'une unité amie de Démons de la Légion du Premier Prince n'étant pas un Héros :
+ Le Be'lakor ami a une Protection (4+).
+ De plus, chaque fois que vous réussissez un jet de protection pour le Be'lakor ami, allouez 1 dégât à une unité amie de Démons de la Légion du
+Premier Prince n'étant pas un Héros à portée de mêlée de ce Be'lakor ami après que la séquence de dégâts a été résolue (on ne peut pas faire un
+jet de protection contre ce dégât).
+BE’LAKOR, THE DARK MASTER
+Silhouette d'Ombre
+PASSIF
+BT
+Effet : Ignorez les modificateurs aux jets de sauvegarde pour cette unité (positifs et négatifs).
+RÈGLES DE BASE
+Attaque en Règle
+1
+MDG
+Réaction : Vous avez annoncé une aptitude d’Attaque
+Utilisée par : L’unité qui utilise l’aptitude d’Attaque.
+Effet : Ajoutez 1 aux jets de touche pour les attaques
+faites dans le cadre de l’aptitude d’Attaque. Cela affecte
+également les armes de Compagnon. Pour le restant du
+tour, soustrayez 1 aux jets de sauvegarde pour l’unité qui
+utilise cette aptitude.
+Défense en Règle
+1
+MDG
+Réaction : L’adversaire a annoncé une
+aptitude d’Attaque
+Utilisée par : Une unité ciblée par l’aptitude
+d’Attaque.
+Effet : Ajoutez 1 aux jets de sauvegarde
+pour l’unité jusqu’à ce que l’aptitude
+d’Attaque ait été résolue.
+Braver la
+Douleur
+X
+X
+PASSIF
+SAISON
+SIMPLE
+Effet : Avant d’allouer des dégâts à
+une unité amie, dépensez N dés de
+rage (−1 niveau de fureur chacun,
+minimum 0). Jetez 1 dé par dé de
+rage : chaque 3+ retire 1 dégât.
+Terrain
+PASSIF
+SIMPLE
+Couvert : −1 touche contre une unité derrière ou entièrement sur le terrain, sauf si elle a chargé ce tour ou a Vol.
+Infranchissable : Les figurines ne peuvent pas se déplacer, être placées, ni finir un mouvement sur une partie de cet élément de terrain.
+Occultant : Tant que chaque figurine d’une unité non-Monstre, non-Machine de Guerre et non-Vol est à 1" : elle n’est visible que des ennemis à portée
+de mêlée, et la portée de ses armes de tir est divisée par 2.
+Site de Pouvoir : Les Héros à 3" de cet élément de terrain peuvent utiliser l’aptitude « Activation de Site de Pouvoir ».
+Instable : Interdit de placer une figurine ou de finir un mouvement sur une partie à plus de 1" de haut.
+4 / 15
+
+===== page 5 =====
+MON TOUR
+Mon tour
+Slaves to Darkness
+DÉBUT DE ROUND
+DÉBUT DE ROUND
+ RÈGLES DE BASE
+Début de Round de Bataille
+SIMPLE
+1 : Joueur actif. Au round 1, celui qui a fini de déployer en premier choisit qui commence. Pour les autres rounds, jet de priorité ; en cas d’égalité, celui
+qui a eu le premier tour au round précédent choisit.
+2 : Outsider : le joueur qui a le moins de points de victoire, pour tout le round (égalité : pas d’outsider).
+3 : Points d’ordre : chaque joueur reçoit 4 points d’ordre (5 pour l’outsider).
+Rage Bouillonnante
+×1 / TOUR (ARMÉE)
+SAISON
+SIMPLE
+Effet : Aptitude obligatoire. Gagnez autant de dés de rage que votre niveau de fureur ; ceux qui ne sont pas dépensés sont perdus en fin de round.
+DÉBUT DE TOUR
+DÉBUT DE TOUR
+ ETERNUS, BLADE OF THE FIRST PRINCE
+Réseau d'Espions
+BT
+Réaction : L'adversaire a annoncé un ordre pour une unité à 12" de cette unité
+Effet : Jetez un dé. Ajoutez 1 au jet si l'unité ennemie est en mêlée avec une unité de Légionnaires du Chaos amie ou de Furies du Chaos amie.
+Sur 5+, l'ordre n'a aucun effet. L'ordre compte quand même comme ayant été utilisé et les points d'ordre dépensés pour l'utiliser sont perdus.
+RÈGLES DE BASE
+Activation de Site de Pouvoir
++2
++2
+×1 / TOUR (ARMÉE)
+BASE
+SAISON
+SIMPLE
+Annonce : Choisissez un Héros ami à 3" d’un Site de Pouvoir.
+Effet : Jetez un dé. Sur 1, infligez D3 dégâts mortels à ce Héros. Sur 2+, choisissez 1 des effets suivants :
+ Fureur Ignée : Gagnez 2 dés de rage, puis augmentez votre niveau de fureur de 2, jusqu’à un maximum de 7.
+ Colère Canalisée : Sorcier/Prêtre : +1 au lancement/à la récitation de ce Héros ce tour.
+ Rage Étourdissante : peut Dissiper ou Bannir comme un Sorcier (1) ce tour (pas de Bannir via Intervention Magique).
+5 / 15
+
+===== page 6 =====
+MON TOUR
+PHASE DES HÉROS
+PHASE DES HÉROS
+ RÈGLES D'ARMÉE
+Dague de
+Sombre Rituel
+×1 / TOUR
+BT
+LEGION OF THE FIRST PRINCE
+Réaction : Vous avez annoncé une
+aptitude de Sort pour une unité amie
+entièrement à 12" de cette unité
+Effet : Allouez 1 dégât à cette unité.
+Ensuite, vous pouvez relancer le jet de
+lancement.
+Accorder une Faveur
+×1 / TOUR (ARMÉE)
+BT
+LEGION OF THE FIRST PRINCE
+Annonce : Si un Be'lakor ami est sur le champ de bataille, choisissez comme cible une unité de la
+Légion du Premier Prince amie qui n'est pas un Héros.
+Effet : Jusqu'au début de votre prochain tour :
+ Ajoutez 5 au score de contrôle de la cible.
+ Si la cible est une unité de Démons, ajoutez 1 à ses jets de sauvegarde.
+ Si la cible n'est pas une unité de Démons, elle a une Protection (6+).
+SORTS
+Convoquer le
+Sceau de
+Ruine Octuple
+7+
+SIMPLE
+CONVOCATION
+LEGION OF THE FIRST PRINCE
+Effet : Placez un Sceau de Ruine
+Octuple entièrement à 12" et visible
+du lanceur.
+Sombre
+Adjuration
+6+
+ILLIMITÉ
+LEGION OF THE FIRST PRINCE
+SIMPLE
+Cibles : jusqu'à 3 unités ennemies
+visibles et à 18" du lanceur.
+Effet : Infligez 1 dégât mortel à chaque
+cible.
+Voilé de Ténèbres
+7+
+SIMPLE
+LEGION OF THE FIRST PRINCE
+Cible : une unité de la Légion du Premier Prince amie visible,
+entièrement à 12" du lanceur et n'étant pas en mêlée.
+Effet : La cible peut faire un mouvement de D6" mais ne peut
+pas le terminer en mêlée. De plus, jusqu'au début de votre
+prochain tour, la cible n'est pas visible des unités ennemies
+tant qu'elle se trouve à plus de 12" d'elles.
+Affaiblissement de l'Ennemi
+BE’LAKOR, THE DARK MASTER
+6+
+SIMPLE
+Cible : une unité ennemie visible et à 18" de cette unité.
+Effet : Jusqu'au début de votre prochain tour :
+ Soustrayez 1 aux jets de touche pour les attaques de mêlée de la cible.
+ Les attaques de mêlée de la cible ne peuvent pas causer de touches critiques (traitez-les comme des touches normales).
+MANIFESTATIONS
+Convocation de
+Crâne
+Incandescent
+5+
+SIMPLE
+MANIFESTATION
+Effet : Placez le Crâne Incandescent
+entièrement à 12" et visible du lanceur, et à
+plus de 9" des unités ennemies.
+Convocation de
+Vifessaim
+Émeraude
+6+
+SIMPLE
+MANIFESTATION
+Effet : Placez un Vifessaim Émeraude
+entièrement à 12" et visible du lanceur, et à
+plus de 9" des unités ennemies.
+Convocation de
+Mâchoires de
+Ravenak
+7+
+SIMPLE
+MANIFESTATION
+Effet : Placez un sort persistant des Mâchoires de
+Ravenak entièrement à 12" du lanceur, visible de
+lui et à plus de 9" des unités ennemies.
+NEXUS CHAOTICA
+Puiser de l'Énergie
+BT
+Effet : Jetez un dé. Donnez autant de points de
+puissance à cet élément de terrain que le résultat du jet.
+Cet élément de terrain peut avoir un maximum de 12
+points de puissance à la fois.
+Sorcellerie Infernale
+BT
+Annonce : Si cet élément de terrain a au moins 3 points de puissance, choisissez
+comme cible un Sorcier Esclave des Ténèbres ami à 3" de cet élément de terrain.
+Effet : Retirez 3 points de puissance à cet élément de terrain, puis ajoutez 1 aux jets
+de lancement pour la cible pour le restant du tour.
+Corruption des Royaumes
+BT
+Annonce : Si cet élément de terrain a au moins 9 points de puissance, choisissez un objectif ou un élément de terrain à 24" de lui pour être la
+source. Puis choisissez comme cibles n'importe quel nombre d'unités ennemies à 3" de la source.
+Effet : Retirez 9 points de puissance à cet élément de terrain, puis jetez un D3 pour chaque cible. Sur 2+, infligez autant de dégâts mortels à la cible
+que le résultat du jet.
+RÈGLES DE BASE
+Ralliement
+1
+SIMPLE
+Utilisée par : Une unité amie qui n’est pas
+en mêlée.
+Effet : Faites 6 jets de ralliement (D6), +1
+jet si l’unité contient un musicien : chaque
+4+ donne 1 point de ralliement, à répartir
+librement entre :
+ 1 point : Soignez (1) l’unité.
+ X points = X Santé : ramenez 1 figurine
+tuée dans l’unité.
+Les points non dépensés sont perdus.
+Bannir une
+Manifestation
+BANNISSEMENT
+SIMPLE
+Utilisée par : Un Sorcier ou Prêtre ami.
+Cible : une Manifestation à 30" de lui
+ non convoquée à ce tour
+ une même Manifestation au plus 1 fois par tour
+ jet de bannissement de 2D6 (+1 par autre
+Manifestation ennemie)
+Effet : Si le jet de bannissement est supérieur ou
+égal à la valeur de bannissement de la
+manifestation, elle est bannie et retirée du jeu.
+Dissipation
+DISSIPATION
+SIMPLE
+Réaction : L’adversaire a annoncé une
+aptitude de Sort
+Utilisée par : Un Sorcier ami à 30" du
+lanceur ennemi.
+Effet : Si le jet de dissipation est supérieur
+au jet de lancement, le sort est dissipé et son
+effet n’est pas résolu. Une seule dissipation
+par jet de lancement.
+6 / 15
+
+===== page 7 =====
+MON TOUR
+PHASE DE MOUVEMENT
+PHASE DE MOUVEMENT
+ RÈGLES D'ARMÉE
+Renforts Démoniaques
+1
+×1 / TOUR (ARMÉE)
+LEGION OF THE FIRST PRINCE
+SIMPLE
+Cible : une unité de Démons de la Légion du Premier Prince d'Infanterie ou de Cavalerie amie, qui n'est pas un Héros, et qui a été détruite.
+Effet : Placez une unité de remplacement ayant la moitié du nombre de figurines de l'unité cible (arrondi au supérieur) entièrement à 12" d'un Be'lakor
+ami et à plus de 9" des unités ennemies.
+ETERNUS, BLADE OF THE FIRST PRINCE
+Tapisserie d'Éclairs Noirs
+BASE
+BT
+Annonce : Cette unité peut utiliser cette aptitude si elle a été détruite.
+Effet : Jetez 2D6. Ajoutez 1 au jet si un Be'lakor ami est sur le champ de bataille. Sur 8+, placez une unité de remplacement sur le champ de bataille,
+à plus de 9" des unités ennemies.
+SCREAMERS OF TZEENTCH
+Ailerons Acérés
+SIMPLE
+Cible : une unité ennemie que cette unité a survolée à cette phase.
+Effet : Jetez un dé pour chaque figurine de cette unité qui a survolé la cible. Pour chaque jet de 4+, infligez 1 dégât mortel à la cible.
+VIFESSAIM ÉMERAUDE
+Abondance de Soins
+SIMPLE
+MANIFESTATION
+Cible : une unité amie à 3" de cette Manifestation.
+Effet : Soignez (3) la cible.
+RÈGLES DE BASE
+Mouvement
+Normal
+BASE
+MOUVEMENT
+SIMPLE
+Utilisée par : Une unité amie qui n’est
+pas en mêlée.
+Effet : Se déplace de M", sans entrer en
+mêlée.
+Course
+BASE
+COURSE
+MOUVEMENT
+SIMPLE
+Utilisée par : Une unité amie qui n’est pas en
+mêlée.
+Effet : Se déplace de M + D6", sans entrer en
+mêlée.
+Repli
+BASE
+REPLI
+MOUVEMENT
+SIMPLE
+Utilisée par : Une unité amie qui est en mêlée.
+Effet : D3 dégâts mortels à l’unité, puis elle se
+déplace de M". Elle peut traverser la mêlée, mais
+pas y finir.
+Au Pas de Course
+1
+SIMPLE
+Réaction : Vous avez annoncé une aptitude de Course
+Utilisé par : L’unité qui utilise l’aptitude de Course.
+Effet : Pour l’aptitude de Course, pas de jet de course : +6" fixe.
+PHASE DE TIR
+PHASE DE TIR
+ CRÂNE INCANDESCENT
+Consumation
+PASSIF
+MDG
+MANIFESTATION
+Effet : Chaque fois que cette Manifestation utilise une aptitude de Tir, après avoir résolu cette aptitude, allouez 1 dégât à cette Manifestation (on ne
+peut pas tenter de jet de protection contre ce dégât).
+RÈGLES DE BASE
+Tir
+BASE
+ATTAQUE
+TIR
+SIMPLE
+Utilisée par : Une unité amie qui n’a pas utilisé une aptitude de Course ni de Repli à ce tour.
+Annonce : Choisissez une ou plusieurs unités ennemies comme cible(s) de ses attaques.
+Effet : Résolvez les attaques de tir contre la/les unité(s) cible(s).
+Héros Gardé
+PASSIF
+SIMPLE
+Effet : S’il est à portée de mêlée d’une unité amie
+non-Héros :
+ −1 touche aux tirs qui le ciblent ;
+ Infanterie : ne peut pas être ciblé par des tirs de
+figurines à plus de 12".
+7 / 15
+
+===== page 8 =====
+MON TOUR
+PHASE DE CHARGE
+PHASE DE CHARGE
+ RÈGLES D'ARMÉE
+Maréchal Terrifiant
+LEGION OF THE FIRST PRINCE
+SIMPLE
+Cibles : jusqu'à 3 autres unités amies entièrement à 12" de cette unité.
+Effet : Pour le restant du tour, ajoutez 1 aux jets de charge pour les cibles.
+MÂCHOIRES DE RAVENAK
+Faim Dévorante
+MDG
+MANIFESTATION
+Annonce : Si cette Manifestation a chargé à ce tour, choisissez comme cible une unité ennemie à 1" d'elle.
+Effet : Jetez 10 dés. Pour chaque jet de 5+, infligez 1 dégât mortel à la cible.
+RÈGLES DE BASE
+Charge
+BASE
+MOUVEMENT
+CHARGE
+SIMPLE
+Utilisée par : Une unité amie qui n’est pas en mêlée et qui n’a pas utilisé une aptitude de Course ni
+de Repli à ce tour.
+Annonce : Faites un jet de charge de 2D6.
+Effet : Déplacement jusqu’au résultat du jet. Elle peut traverser la mêlée et doit finir à ½" d’une
+unité ennemie visible ; si c’est le cas, elle a chargé.
+En Avant, vers la
+Victoire
+1
+MDG
+Réaction : Vous avez annoncé une aptitude
+de Charge
+Utilisé par : L’unité qui utilise l’aptitude de
+Charge.
+Effet : Vous pouvez relancer le jet de charge.
+PHASE DE MÊLÉE
+PHASE DE MÊLÉE
+ RÈGLES D'ARMÉE
+Tempête de Lames Noires
+×1 / BATAILLE (ARMÉE)
+BT
+LEGION OF THE FIRST PRINCE
+Annonce : Choisissez un Éternus ami en mêlée et choisissez comme cibles jusqu'à 2 unités de la Légion du Premier Prince amies, qui ne sont pas
+des Démons ni des Héros, et qui sont entièrement à 12" de cet Éternus.
+Effet : Ajoutez 1 à la caractéristique d'Attaques des armes de mêlée des cibles pour le restant du tour.
+VARANGUARD
+Tueurs Implacables
+×1 / BATAILLE
+BT
+Effet : Cette unité peut utiliser 2 aptitudes de Corps à Corps à cette phase. Toutefois, après que la première a été utilisée, elle a Frappe en Dernier
+pour le restant du tour.
+RÈGLES DE BASE
+Corps à Corps
+BASE
+ATTAQUE
+CORPS À CORPS
+SIMPLE
+Utilisée par : Une unité amie qui est en mêlée
+ou qui a chargé à ce tour.
+Annonce : Elle peut faire un mouvement
+d’engagement. Puis, si elle est en mêlée, vous
+devez choisir une ou plusieurs unités ennemies
+comme cible(s) de ses attaques.
+Effet : Résolvez les attaques de mêlée contre
+la/les unité(s) cible(s).
+Frappe en Premier et Frappe en
+Dernier
+PASSIF
+MDG
+Frappe en Premier : une fois utilisées les aptitudes de la phase de mêlée autres que de Corps à
+Corps, si des unités ayant Frappe en Premier sont en mêlée, les autres unités ne peuvent pas
+être choisies pour utiliser une aptitude de Corps à Corps avant elles. Une fois que toutes les
+unités ayant Frappe en Premier ont combattu, le joueur actif choisit la prochaine unité qui
+combat.
+Frappe en Dernier : une unité en mêlée ayant Frappe en Dernier ne peut pas être choisie pour
+utiliser une aptitude de Corps à Corps tant que d’autres unités en mêlée sans Frappe en
+Dernier peuvent encore en utiliser une et ne l’ont pas encore fait.
+Les deux : une unité ayant à la fois Frappe en Premier et Frappe en Dernier est traitée comme
+si elle n’avait ni l’un ni l’autre.
+Champion
+PASSIF
+MDG
+Effet : Ajoutez 1 à la caractéristique d’Attaques des armes utilisées par les champions de cette unité.
+8 / 15
+
+===== page 9 =====
+MON TOUR
+FIN DE TOUR
+FIN DE TOUR
+ BLOODLETTERS
+Le Voile s'Amincit
+BT
+Effet : Si cette unité est en mêlée, vous pouvez ramener D3 figurines tuées dans l'unité.
+SCREAMERS OF TZEENTCH
+Bête
+PASSIF
+BT
+Effet : Cette unité a un score de contrôle maximum de 1.
+VIFESSAIM ÉMERAUDE
+Vigueur Restaurée
+MDG
+MANIFESTATION
+Effet : Soignez (3) cette Manifestation.
+RÈGLES DE BASE
+Porte-
+Étendard
+PASSIF
+MDG
+Effet : Tant que cette unité
+contient un ou plusieurs
+porte-étendards, ajoutez 1 à son
+score de contrôle.
+Enfoncement
+1
+MOUVEMENT
+SIMPLE
+Utilisée par : Une unité amie qui a chargé à ce tour.
+Cible : une unité ennemie en mêlée avec elle, dont la caractéristique de Santé est inférieure à la sienne.
+Effet : D3 dégâts mortels à la cible, puis déplacement de M" maximum. Elle peut traverser ou finir dans la mêlée
+des seules unités avec lesquelles elle était déjà en mêlée, et n’est pas obligée de finir en mêlée.
+Éruption de Fureur
+1-3
+×1 / TOUR (ARMÉE)
+ATTAQUE
+CORPS À CORPS
+SAISON
+SIMPLE
+Cible : une unité ennemie en mêlée avec une unité amie.
+Effet : Avec 1 arme de mêlée de l’unité qui utilise cette aptitude :
+ dépensez 1 à 3 dés de rage : autant d’attaques de mêlée (et non les Attaques de l’arme) ;
+ pas de touches critiques ;
+ chaque 6 non modifié : D3 mortels à chaque unité ennemie en mêlée avec l’unité, et l’adversaire gagne +1 niveau de fureur (max 7) ;
+ chaque 1 non modifié : D3 mortels à l’unité après la séquence de dégâts, sans protection.
+Siège de Cendres
+CARTE DE TACTIQUE 2 · Siege of Ashes
+ÉCHAUFFOURÉE
+Formez un Rempart
+Fin de votre tour, si au moins 2 unités amies sont entièrement hors du territoire ami, entièrement à 6" du territoire ami et à 3" l’une de
+l’autre.
+ 5
+ PTS DE
+VICTOIRE
+FRAPPE
+Ravitaillement
+Fin de votre tour, si vous contrôlez un objectif dans le territoire ennemi et si cet objectif est contesté par :
+ Au moins 1 unité amie qui n’a utilisé aucune aptitude de Mouvement à ce tour
+ Au moins 1 autre unité amie qui a chargé à ce tour.
+ 5
+ PTS DE
+VICTOIRE
+DOMINATION
+Repoussez les Assaillants
+Fin de votre tour, s’il y a au moins 3 unités amies à 3" du centre du champ de bataille qui ne sont pas en mêlée.
+ 5
+ PTS DE
+VICTOIRE
+Encerclés par le Feu
+CARTE DE TACTIQUE 3 · Flanking Firestorm
+ÉCHAUFFOURÉE
+Embuscade
+Fin de votre tour, si vous contrôlez une combinaison d’au moins 2 objectifs ou éléments de terrain autres que des Terrains de Faction, et
+si chacun d’eux est contesté par une unité amie différente située à plus de 6" du territoire ami et n’ayant pas été placée à ce tour.
+ 5
+ PTS DE
+VICTOIRE
+FRAPPE
+Cernez l’Ennemi
+Fin de votre tour, si au moins 2 unités amies qui n’ont pas été placées à ce tour sont chacune à 9" d’un coin différent du champ de
+bataille et entièrement hors du territoire ami.
+ 5
+ PTS DE
+VICTOIRE
+DOMINATION
+Prenez votre Dû
+Fin de votre tour, s’il y a plus d’unités amies que d’unités ennemies en territoire ennemi, et s’il y a au moins 1 HÉROS ami entièrement en
+territoire ennemi.
+ 5
+ PTS DE
+VICTOIRE
+9 / 15
+
+===== page 10 =====
+
+===== page 11 =====
+Be’lakor, the Dark Master
+2
+ MV
+14"
+ CT
+10
+ SV
+4+
+ WD
+6+
+ HP
+14
+1 model
+ 450 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Fell Claw and Spearing Tail
+Charge (+1 Dégât)
+ 2
+ 2+
+ 2+
+ 2
+ 2
+Blade of Shadows
+Crit (Blessure Auto)
+ 8
+ 3+
+ 3+
+ 2
+ 2
+N'IMPORTE QUELLE PHASE
+Stigmates de Guerre
+PASSIF
+BT
+Effet : Tant que cette unité a 10 dégâts ou plus, la caractéristique
+d'Attaques de sa Lame des Ombres est 6.
+CHAOS · DAEMON · SLAVES TO DARKNESS · FLY · HERO ·
+MONSTER · UNIQUE · WARD · WARMASTER
+ Wahapedia (EN)
+Varanguard
+ MV
+10"
+ CT
+ 2
+ SV
+3+
+ WD
+—
+ HP
+ 5
+3 models
+ 290 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Daemonforged Blades
+Crit (Mortel), Charge (+1 Dégât)
+ 3
+ 3+
+ 3+
+ 2
+ 2
+Steed’s Tearing Fangs
+Compagnon
+ 3
+ 4+
+ 3+
+ 1
+ 1
+CHAOS · SLAVES TO DARKNESS · WARRIORS OF CHAOS ·
+CAVALRY
+ Wahapedia (EN)
+Nexus Chaotica
+ MV
+ -
+ CT
+ 0
+ SV
+4+
+ WD
+—
+ HP
+12
+1 model
+ 0 pts
+CHAOS · SLAVES TO DARKNESS · FACTION TERRAIN
+ Wahapedia (EN)
+ Eternus, Blade of the First Prince
+ MV
+9"
+ CT
+ 2
+ SV
+3+
+ WD
+—
+ HP
+ 9
+1 model
+ 160 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Drakocephalus’s Fangs
+Compagnon
+ 3
+ 4+
+ 3+
+ -
+ 1
+Death Glaive and Skull Flail
+Charge (+1 Dégât)
+ 6
+ 3+
+ 3+
+ 1
+ 2
+CHAOS · SLAVES TO DARKNESS · CAVALRY · HERO · UNIQUE
+ Wahapedia (EN)
+Bloodletters
+ MV
+5"
+ CT
+ 1
+ SV
+5+
+ WD
+6+
+ HP
+ 2
+10 models
+ 170 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Hellblade
+Crit (Mortel)
+ 2
+ 3+
+ 3+
+ 1
+ 1
+CHAOS · DAEMON · LEGION OF THE FIRST PRINCE · SLAVES TO
+DARKNESS · CHAMPION · INFANTRY · MUSICIAN · STANDARD
+BEARER · WARD
+ Wahapedia (EN)
+Screamers of Tzeentch
+ MV
+14"
+ CT
+ 1
+ SV
+5+
+ WD
+6+
+ HP
+ 3
+3 models
+ 70 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Lamprey Bite
+Anti-MONSTER (+1 Perf.), Compagnon
+ 3
+ 4+
+ 3+
+ 1
+ 1
+CHAOS · DAEMON · LEGION OF THE FIRST PRINCE · SLAVES TO
+DARKNESS · BEAST · FLY · WARD
+ Wahapedia (EN)
+11 / 15
+
+===== page 12 =====
+Crâne Incandescent
+5+
+ MV
+8"
+ CT
+ 6
+ SV
+6+
+ WD
+6+
+ HP
+ 6
+1 model
+ Invoquée
+ Entièrement à 12" et visible du lanceur
+ À plus de 9" de l'ennemi
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Souffle Brûlant
+Tir en Mêlée, Anti-Machine de
+Guerre (+1 Perf.)
+ 10"
+ D6
+ 4+
+ 3+
+ 2
+ 1
+Mâchoire Enflammée
+Anti-Machine de Guerre (+1 Perf.)
+ 2D6
+ 4+
+ 3+
+ 2
+ 1
+MANIFESTATION · SORT PERSISTANT · VOL · PROTECTION (6+)
+ Wahapedia (EN)
+ Vifessaim Émeraude
+6+
+ MV
+8"
+ CT
+ 7
+ SV
+6+
+ WD
+6+
+ HP
+ 5
+1 model
+ Invoquée
+ Entièrement à 12" et visible du lanceur
+ À plus de 9" de l'ennemi
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Morsures Grouillantes
+Anti-Infanterie (+1 Perf.)
+ 2D6
+ 4+
+ 4+
+ -
+ 1
+MANIFESTATION · SORT PERSISTANT · VOL · PROTECTION (6+)
+ Wahapedia (EN)
+Mâchoires de Ravenak
+7+
+ MV
+3D6"
+ CT
+ 7
+ SV
+6+
+ WD
+6+
+ HP
+10
+1 model
+ Invoquée
+ Entièrement à 12" et visible du lanceur
+ À plus de 9" de l'ennemi
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Mâchoires Grinçantes
+Charge (+1 Dégât)
+ 10
+ 4+
+ 2+
+ 1
+ 1
+MANIFESTATION · SORT PERSISTANT · PROTECTION (6+)
+ Wahapedia (EN)
+12 / 15
+
+===== page 13 =====
+TOUR DE L'ADVERSAIRE
+Tour adverse
+Slaves to Darkness
+DÉBUT DE ROUND
+DÉBUT DE ROUND
+ RÈGLES DE BASE
+Début de Round de Bataille
+SIMPLE
+1 : Joueur actif. Au round 1, celui qui a fini de déployer en premier choisit qui commence. Pour les autres rounds, jet de priorité ; en cas d’égalité, celui
+qui a eu le premier tour au round précédent choisit.
+2 : Outsider : le joueur qui a le moins de points de victoire, pour tout le round (égalité : pas d’outsider).
+3 : Points d’ordre : chaque joueur reçoit 4 points d’ordre (5 pour l’outsider).
+Rage Bouillonnante
+×1 / TOUR (ARMÉE)
+SAISON
+SIMPLE
+Effet : Aptitude obligatoire. Gagnez autant de dés de rage que votre niveau de fureur ; ceux qui ne sont pas dépensés sont perdus en fin de round.
+DÉBUT DE TOUR
+DÉBUT DE TOUR
+ ETERNUS, BLADE OF THE FIRST PRINCE
+Réseau d'Espions
+BT
+Réaction : L'adversaire a annoncé un ordre pour une unité à 12" de cette unité
+Effet : Jetez un dé. Ajoutez 1 au jet si l'unité ennemie est en mêlée avec une unité de Légionnaires du Chaos amie ou de Furies du Chaos amie.
+Sur 5+, l'ordre n'a aucun effet. L'ordre compte quand même comme ayant été utilisé et les points d'ordre dépensés pour l'utiliser sont perdus.
+RÈGLES DE BASE
+Activation de Site de Pouvoir
++2
++2
+×1 / TOUR (ARMÉE)
+BASE
+SAISON
+SIMPLE
+Annonce : Choisissez un Héros ami à 3" d’un Site de Pouvoir.
+Effet : Jetez un dé. Sur 1, infligez D3 dégâts mortels à ce Héros. Sur 2+, choisissez 1 des effets suivants :
+ Fureur Ignée : Gagnez 2 dés de rage, puis augmentez votre niveau de fureur de 2, jusqu’à un maximum de 7.
+ Colère Canalisée : Sorcier/Prêtre : +1 au lancement/à la récitation de ce Héros ce tour.
+ Rage Étourdissante : peut Dissiper ou Bannir comme un Sorcier (1) ce tour (pas de Bannir via Intervention Magique).
+PHASE DES HÉROS
+PHASE DES HÉROS
+ RÈGLES D'ARMÉE
+Dague de Sombre Rituel
+×1 / TOUR
+BT
+LEGION OF THE FIRST PRINCE
+Réaction : Vous avez annoncé une aptitude de Sort pour une unité amie entièrement à 12" de cette unité
+Effet : Allouez 1 dégât à cette unité. Ensuite, vous pouvez relancer le jet de lancement.
+BE’LAKOR, THE DARK MASTER
+Le Maître des Ténèbres
+×1 / BATAILLE
+SIMPLE
+Cible : une unité ennemie visible.
+Effet : Jusqu'au début de votre prochain tour, chaque fois que la cible est choisie pour utiliser une aptitude, jetez un dé en réaction. Sur 3+, l'aptitude
+n'a aucun effet.
+RÈGLES DE BASE
+Ralliement
+1
+SIMPLE
+Utilisée par : Une unité amie qui n’est pas en
+mêlée.
+Effet : Faites 6 jets de ralliement (D6), +1 jet si
+l’unité contient un musicien : chaque 4+ donne 1
+point de ralliement, à répartir librement entre :
+ 1 point : Soignez (1) l’unité.
+ X points = X Santé : ramenez 1 figurine tuée
+dans l’unité.
+Les points non dépensés sont perdus.
+Dissipation
+DISSIPATION
+SIMPLE
+Réaction : L’adversaire a annoncé une aptitude
+de Sort
+Utilisée par : Un Sorcier ami à 30" du lanceur
+ennemi.
+Effet : Si le jet de dissipation est supérieur au jet
+de lancement, le sort est dissipé et son effet n’est
+pas résolu. Une seule dissipation par jet de
+lancement.
+Intervention
+Magique
+1
+SIMPLE
+Utilisée par : Un Sorcier ou un Prêtre
+ami.
+Effet : L’unité amie peut utiliser une
+aptitude de Sort, de Prière ou de
+Bannissement (selon le cas approprié)
+comme si c’était votre phase des héros.
+Dans ce cas, soustrayez 1 aux jets de
+lancement ou de récitation faits dans le
+cadre de cette aptitude.
+13 / 15
+
+===== page 14 =====
+TOUR DE L'ADVERSAIRE
+PHASE DE MOUVEMENT
+PHASE DE MOUVEMENT
+ RÈGLES D'ARMÉE
+Renforts Démoniaques
+1
+×1 / TOUR (ARMÉE)
+LEGION OF THE FIRST PRINCE
+SIMPLE
+Cible : une unité de Démons de la Légion du Premier Prince d'Infanterie ou de Cavalerie amie, qui n'est pas un Héros, et qui a été détruite.
+Effet : Placez une unité de remplacement ayant la moitié du nombre de figurines de l'unité cible (arrondi au supérieur) entièrement à 12" d'un Be'lakor
+ami et à plus de 9" des unités ennemies.
+ETERNUS, BLADE OF THE FIRST PRINCE
+Tapisserie d'Éclairs Noirs
+BASE
+BT
+Annonce : Cette unité peut utiliser cette aptitude si elle a été détruite.
+Effet : Jetez 2D6. Ajoutez 1 au jet si un Be'lakor ami est sur le champ de bataille. Sur 8+, placez une unité de remplacement sur le champ de bataille,
+à plus de 9" des unités ennemies.
+RÈGLES DE BASE
+Redéploiement
+1
+MOUVEMENT
+COURSE
+SIMPLE
+Utilisée par : Une unité amie qui n’est pas en mêlée.
+Effet : D6" maximum, sans traverser ni finir à portée de mêlée d’un ennemi.
+PHASE DE TIR
+PHASE DE TIR
+ CRÂNE INCANDESCENT
+Consumation
+PASSIF
+MDG
+MANIFESTATION
+Effet : Chaque fois que cette Manifestation utilise une aptitude de Tir, après avoir résolu cette aptitude, allouez 1 dégât à cette Manifestation (on ne
+peut pas tenter de jet de protection contre ce dégât).
+RÈGLES DE BASE
+Tir de Couverture
+1
+ATTAQUE
+TIR
+SIMPLE
+Utilisée par : Une unité amie qui n’a utilisé aucune aptitude de Course à ce tour et qui n’est pas en
+mêlée.
+Cible : l’unité ennemie la plus proche qu’on peut cibler au tir (ni Manifestation, ni terrain de faction).
+Effet : Résolvez les attaques de tir de l’unité contre la cible, à −1 touche.
+Héros Gardé
+PASSIF
+SIMPLE
+Effet : S’il est à portée de mêlée d’une unité
+amie non-Héros :
+ −1 touche aux tirs qui le ciblent ;
+ Infanterie : ne peut pas être ciblé par des tirs
+de figurines à plus de 12".
+PHASE DE CHARGE
+PHASE DE CHARGE
+ RÈGLES D'ARMÉE
+Maréchal Terrifiant
+LEGION OF THE FIRST PRINCE
+SIMPLE
+Cibles : jusqu'à 3 autres unités amies entièrement à 12" de cette unité.
+Effet : Pour le restant du tour, ajoutez 1 aux jets de charge pour les cibles.
+MÂCHOIRES DE RAVENAK
+Faim Dévorante
+MDG
+MANIFESTATION
+Annonce : Si cette Manifestation a chargé à ce tour, choisissez comme cible une unité ennemie à 1" d'elle.
+Effet : Jetez 10 dés. Pour chaque jet de 5+, infligez 1 dégât mortel à la cible.
+RÈGLES DE BASE
+Contre-Charge
+2
+SIMPLE
+Utilisée par : Une unité amie qui n’est pas en mêlée.
+Effet : Cette unité peut utiliser une aptitude de Charge comme si c’était votre phase de charge.
+14 / 15
+
+===== page 15 =====
+TOUR DE L'ADVERSAIRE
+PHASE DE MÊLÉE
+PHASE DE MÊLÉE
+ BE’LAKOR, THE DARK MASTER
+Piège Mortel
+×1 / TOUR (ARMÉE)
+SACCAGE
+SIMPLE
+Cibles : cette unité et jusqu'à 2 unités d'Esclaves des Ténèbres amies à portée de mêlée de cette unité.
+Effet : Jetez un dé pour chaque cible. Sur 4+, elle a Frappe en Premier pour le restant du tour.
+VARANGUARD
+Tueurs Implacables
+×1 / BATAILLE
+BT
+Effet : Cette unité peut utiliser 2 aptitudes de Corps à Corps à cette phase. Toutefois, après que la première a été utilisée, elle a Frappe en Dernier
+pour le restant du tour.
+RÈGLES DE BASE
+Corps à Corps
+BASE
+ATTAQUE
+CORPS À CORPS
+SIMPLE
+Utilisée par : Une unité amie qui est en mêlée
+ou qui a chargé à ce tour.
+Annonce : Elle peut faire un mouvement
+d’engagement. Puis, si elle est en mêlée, vous
+devez choisir une ou plusieurs unités ennemies
+comme cible(s) de ses attaques.
+Effet : Résolvez les attaques de mêlée contre
+la/les unité(s) cible(s).
+Frappe en Premier et Frappe en
+Dernier
+PASSIF
+MDG
+Frappe en Premier : une fois utilisées les aptitudes de la phase de mêlée autres que de Corps à
+Corps, si des unités ayant Frappe en Premier sont en mêlée, les autres unités ne peuvent pas
+être choisies pour utiliser une aptitude de Corps à Corps avant elles. Une fois que toutes les
+unités ayant Frappe en Premier ont combattu, le joueur actif choisit la prochaine unité qui
+combat.
+Frappe en Dernier : une unité en mêlée ayant Frappe en Dernier ne peut pas être choisie pour
+utiliser une aptitude de Corps à Corps tant que d’autres unités en mêlée sans Frappe en
+Dernier peuvent encore en utiliser une et ne l’ont pas encore fait.
+Les deux : une unité ayant à la fois Frappe en Premier et Frappe en Dernier est traitée comme
+si elle n’avait ni l’un ni l’autre.
+Champion
+PASSIF
+MDG
+Effet : Ajoutez 1 à la caractéristique d’Attaques des armes utilisées par les champions de cette unité.
+FIN DE TOUR
+FIN DE TOUR
+ BLOODLETTERS
+Le Voile s'Amincit
+BT
+Effet : Si cette unité est en mêlée, vous pouvez ramener D3 figurines tuées dans l'unité.
+SCREAMERS OF TZEENTCH
+Bête
+PASSIF
+BT
+Effet : Cette unité a un score de contrôle maximum de 1.
+VIFESSAIM ÉMERAUDE
+Vigueur Restaurée
+MDG
+MANIFESTATION
+Effet : Soignez (3) cette Manifestation.
+RÈGLES DE BASE
+Porte-
+Étendard
+PASSIF
+MDG
+Effet : Tant que cette unité
+contient un ou plusieurs
+porte-étendards, ajoutez 1 à son
+score de contrôle.
+Enfoncement
+1
+MOUVEMENT
+SIMPLE
+Utilisée par : Une unité amie qui a chargé à ce tour.
+Cible : une unité ennemie en mêlée avec elle, dont la caractéristique de Santé est inférieure à la sienne.
+Effet : D3 dégâts mortels à la cible, puis déplacement de M" maximum. Elle peut traverser ou finir dans la mêlée
+des seules unités avec lesquelles elle était déjà en mêlée, et n’est pas obligée de finir en mêlée.
+Éruption de Fureur
+1-3
+×1 / TOUR (ARMÉE)
+ATTAQUE
+CORPS À CORPS
+SAISON
+SIMPLE
+Cible : une unité ennemie en mêlée avec une unité amie.
+Effet : Avec 1 arme de mêlée de l’unité qui utilise cette aptitude :
+ dépensez 1 à 3 dés de rage : autant d’attaques de mêlée (et non les Attaques de l’arme) ;
+ pas de touches critiques ;
+ chaque 6 non modifié : D3 mortels à chaque unité ennemie en mêlée avec l’unité, et l’adversaire gagne +1 niveau de fureur (max 7) ;
+ chaque 1 non modifié : D3 mortels à l’unité après la séquence de dégâts, sans protection.
+15 / 15
+

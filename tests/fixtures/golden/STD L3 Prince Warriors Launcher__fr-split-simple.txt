@@ -1,0 +1,1666 @@
+pages: 16
+pages_scenario: 19
+units_matched: ['Daemon Prince', 'Chaos Warriors', 'Ogroid Myrmidon', 'Ogroid Theridons', 'Gaunt Summoner', 'Chaos Furies', 'Gunnar Brand', 'Singri Brand', 'The Oathsworn Kin', 'Skarbrand', 'Nexus Chaotica']
+units_unmatched: []
+rules_included: ['Règles de Saison 2026-27', 'Aptitudes Génériques — MdG26-27', 'Traits de Bataille', 'Formation — Despoilers', 'Domaine de Sorts — Lore of the Damned', 'Artefact de Pouvoir : Pendentif de Sombreflamme → Daemon Prince', 'Bannière Ensorcelée : La Bannière de Rage → Chaos Warriors', "Marque des Dieux Sombres : Marque d'Apoplexie → Chaos Warriors", 'Trait de Bataille : Voué à Nurgle → Daemon Prince', 'Trait de Bataille : Voué à Khorne → Chaos Warriors', 'Régiment de Renom : The Exiled One (FR)']
+rules_unmatched: []
+wahapedia_used: []
+absent_references: []
+absent_keywords: []
+===== page 1 =====
+STD - L3 Prince & Warriors Launcher
+1990/2000 pts
+Slaves to Darkness · Despoilers · Drops : 4 · Domaine de sorts : Lore of the Damned
+General's Regiment
+ Daemon Prince — 230 pts
+General, Darkflame Pendant, 1x Wings, 1x Pledged to Nurgle
+Chaos Warriors — 370 pts
+Reinforced, The Banner of Rage, Brand of Apoplexy - (10) Points
+Ogroid Myrmidon — 120 pts
+Ogroid Theridons — 300 pts
+Reinforced
+Regiment 1
+ Gaunt Summoner — 160 pts
+Chaos Furies — 120 pts
+Chaos Furies — 120 pts
+Regiment 2
+ Gunnar Brand — 180 pts
+Singri Brand — 0 pts
+The Oathsworn Kin — 0 pts
+Regiments of Renown
+ The Exiled One — 390 pts
+Skarbrand
+Faction Terrain
+Nexus Chaotica
+Généré le <horodatage> — aospy roster pdf
+Légende des pictos
+ 7+
+Aptitude : valeur de lancement. Warscroll : niveau de Sorcier ; manifestation : valeur de lancement de sa convocation.
+1
+Ordre : coût en points d’ordre
++2
+Dés de rage : « +N » gagnés, sinon nombre dépensé
++2
+Niveau de fureur : « +N » augmenté, sinon diminué
+MDG
+Source du texte : MDG (Manuel du Général), BT (battletome), FP (faction pack), AQSHY,
+WAHAPEDIA (anglais). Traits de Bataille, Formation : catégorie de règles d'armée.
+SIMPLE
+Texte adapté, pas le verbatim : en cas de litige, revenir à la règle d'origine.
+BASE
+SAISON
+Aptitude de base du jeu (Core) ; règle de la saison en cours (MdG 2026-27).
+×1 / TOUR (ARMÉE)
+PASSIF
+Fréquence — (ARMÉE) : une seule fois pour toute l'armée ; passif : toujours actif, rien à déclarer.
+TIR
+CHARGE
+Mot-clé d'aptitude, à la couleur de sa phase (Mouvement, Tir, Charge, Corps à Corps).
+ATTAQUE
+SACCAGE
+Mot-clé d'aptitude valable dans plusieurs phases.
+SORT
+PRIÈRE
+Magie (sort, manifestation, bannissement…) ; prière. Illimité : utilisable plusieurs fois par tour.
+NOM D'UNITÉ
+Unité qui porte l'aptitude (pour un sort signature : son lanceur).
+TACTIQUE
+MOT-CLÉ
+Autre mot-clé d'aptitude (Tactique : règle spéciale d'une carte de tactique) ; bordeaux : propre à la
+faction.
+1 / 16
+
+===== page 2 =====
+Daemon Prince
+ MV
+8"
+ CT
+ 5
+ SV
+3+
+ WD
+6+
+ HP
+10
+1 model
+ 230 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Hellforged Weapons
+Crit (Mortel)
+ 6
+ 3+
+ 3+
+ 1
+ 3
+PHASE DE MOUVEMENT
+Horreur Ailée
+PASSIF
+BT
+Effet : Si cette unité a des Ailes, elle a une caractéristique de
+Mouvement de 10" et le mot-clé Vol.
+PHASE DE MÊLÉE
+Les Crânes des Vaincus
+PASSIF
+BT
+Effet : Si cette unité a un Râtelier à Trophées, ses Armes Infernales
+ont également Anti-Héros (+1 Perf.).
+N'IMPORTE QUELLE PHASE
+Pendentif de
+Sombreflamme
+PASSIF
+AQSHY
+ARTEFACT DE POUVOIR
+Effet : Les armes utilisées pour les attaques qui ciblent cette unité
+ont une caractéristique de Dégâts maximum de 1.
+CHAOS · DAEMON · SLAVES TO DARKNESS · HERO · INFANTRY ·
+WARD
+ Wahapedia (EN)
+Singri Brand
+ MV
+12"
+ CT
+ 2
+ SV
+5+
+ WD
+—
+ HP
+ 4
+1 model
+ 0 pts
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Singri’s Warbow
+Crit (Blessure Auto)
+ 18"
+ 2
+ 3+
+ 3+
+ 1
+ D3
+Warsteed’s Hooves
+Compagnon
+ 2
+ 5+
+ 3+
+ -
+ 1
+Brand Ancestral Knife
+ 3
+ 4+
+ 3+
+ 1
+ 1
+CHAOS · DARKOATH · GUNNAR’S OATHSWORN · SLAVES TO
+DARKNESS · CAVALRY · HERO · UNIQUE
+ Wahapedia (EN)
+Ogroid Theridons
+ MV
+6"
+ CT
+ 2
+ SV
+4+
+ WD
+—
+ HP
+ 5
+3 models
+ 150 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Goroan Weapons
+Anti-INFANTRY (+1 Perf.)
+ 4
+ 4+
+ 2+
+ 1
+ 2
+CHAOS · SLAVES TO DARKNESS · CHAMPION · INFANTRY ·
+MUSICIAN · STANDARD BEARER
+ Wahapedia (EN)
+ Ogroid Myrmidon
+ MV
+6"
+ CT
+ 2
+ SV
+4+
+ WD
+—
+ HP
+ 8
+1 model
+ 120 pts
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Gladiator Spear
+ 10"
+ 1
+ 3+
+ 3+
+ 1
+ D3
+Gladiator Spear
+Anti-MONSTER (+1 Perf.)
+ 6
+ 3+
+ 2+
+ 1
+ 3
+PHASE DE MÊLÉE
+Rage de Myrmidon
+PASSIF
+BT
+Effet : Tant que cette unité est endommagée, ajoutez 2 à la
+caractéristique d'Attaques de ses armes de mêlée.
+CHAOS · SLAVES TO DARKNESS · HERO · INFANTRY
+ Wahapedia (EN)
+Gaunt Summoner
+2
+ MV
+5"
+ CT
+ 2
+ SV
+5+
+ WD
+5+
+ HP
+ 5
+1 model
+ 160 pts
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Changestaff
+Crit (Mortel)
+ 12"
+ 3
+ 4+
+ 3+
+ 1
+ D3
+Warptongue Blade
+ 3
+ 3+
+ 3+
+ 1
+ 2
+CHAOS · DAEMON · SLAVES TO DARKNESS · HERO · INFANTRY ·
+PLEDGED TO TZEENTCH · WARD
+ Wahapedia (EN)
+Gunnar Brand
+ MV
+5"
+ CT
+ 2
+ SV
+5+
+ WD
+—
+ HP
+ 6
+1 model
+ 180 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Dual Axes
+Crit (Mortel)
+ 10
+ 4+
+ 3+
+ 1
+ 1
+CHAOS · DARKOATH · GUNNAR’S OATHSWORN · SLAVES TO
+DARKNESS · HERO · INFANTRY · UNIQUE
+ Wahapedia (EN)
+Skarbrand
+ MV
+8"
+ CT
+ 5
+ SV
+4+
+ WD
+5+
+ HP
+16
+1 model
+ 430 pts
+Regiment of Renown — The Exiled One
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Slaughter
+Blood-hungry
+ 4
+ 3+
+ 2+
+ 2
+ 4
+Carnage
+Crit (Mortel)
+ 2
+ 3+
+ 2+
+ 2
+ 8
+BLADES OF KHORNE · CHAOS · DAEMON · HERO · MONSTER ·
+UNIQUE · WARD
+ Wahapedia (EN)
+2 / 16
+
+===== page 3 =====
+Chaos Warriors
+ MV
+5"
+ CT
+ 1
+ SV
+3+
+ WD
+—
+ HP
+ 2
+10 models
+ 180+10 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Rune-etched Weapons
+Crit (Blessure Auto)
+ 2
+ 3+
+ 3+
+ 1
+ 1
+PHASE DE MÊLÉE
+Porteurs de Désolation
+PASSIF
+BT
+Effet : Ajoutez 1 à la caractéristique d'Attaques des Armes Runiques
+de cette unité tant qu'elle conteste un objectif que vous contrôlez.
+Marque d'Apoplexie
+PASSIF
+AQSHY
+MARQUE DES DIEUX SOMBRES
+Effet : Tant que votre niveau de fureur est 7, ajoutez 1 à la
+caractéristique de Dégâts des armes de cette unité.
+CHAOS · SLAVES TO DARKNESS · WARRIORS OF CHAOS ·
+CHAMPION · INFANTRY · MUSICIAN · STANDARD BEARER
+ Wahapedia (EN)
+Nexus Chaotica
+ MV
+ -
+ CT
+ 0
+ SV
+4+
+ WD
+—
+ HP
+12
+1 model
+ 0 pts
+CHAOS · SLAVES TO DARKNESS · FACTION TERRAIN
+ Wahapedia (EN)
+ Chaos Furies
+ MV
+12"
+ CT
+ 1
+ SV
+6+
+ WD
+6+
+ HP
+ 1
+6 models
+ 100 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Razor-sharp Dagger and Claws
+ 3
+ 4+
+ 4+
+ 1
+ 1
+CHAOS · DAEMON · SLAVES TO DARKNESS · FLY · INFANTRY ·
+WARD
+ Wahapedia (EN)
+The Oathsworn Kin
+ MV
+5"
+ CT
+ 1
+ SV
+5+
+ WD
+—
+ HP
+ 3
+3 models
+ 0 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Gnarled Staff
+ 3
+ 4+
+ 4+
+ -
+ D3
+Heavy Darkoath Weapon
+Crit (Mortel)
+ 4
+ 4+
+ 3+
+ -
+ 2
+CHAOS · DARKOATH · GUNNAR’S OATHSWORN · SLAVES TO
+DARKNESS · INFANTRY · UNIQUE
+ Wahapedia (EN)
+3 / 16
+
+===== page 4 =====
+Déploiement
+Slaves to Darkness
+DÉPLOIEMENT
+DÉPLOIEMENT
+ RÈGLES DE BASE
+Placez le Champ de Bataille
+SIMPLE
+1 : Les joueurs tirent au dé. Le gagnant choisit quel joueur est l’attaquant et lequel est le défenseur.
+2 : Le défenseur place les objectifs et les éléments de terrain comme indiqué sur la carte du plan de bataille.
+3 : Après avoir placé les objectifs et le terrain, l’attaquant désigne quel territoire est le sien. L’autre territoire est celui du défenseur. Puis les joueurs
+résolvent la phase de déploiement. L’attaquant commence le déploiement.
+4 : Déployer les terrains de faction : celui qui commence le déploiement utilise d’abord ses aptitudes de Déploiement de Terrain, puis l’adversaire.
+5 : Déployer les armées : à tour de rôle, en commençant par celui qui a commencé le déploiement, chaque joueur utilise une aptitude de
+Déploiement de Régiment ou de Déploiement d’Unité. Quand un joueur n’en a plus, l’autre continue jusqu’à ce qu’il n’en ait plus.
+Déploiement de Terrain de Faction
+SIMPLE
+Effet : Placez un terrain de faction ami non déployé entièrement en territoire ami, à plus de 3" des objectifs et des autres terrains.
+Déploiement de Régiment
+SIMPLE
+Effet : Choisissez un régiment dont aucune unité n’est déployée : déployez-les toutes d’affilée, sans rendre la main.
+Déploiement d’Unité
+SIMPLE
+Effet : Placez une unité non déployée entièrement en territoire ami, à plus de 9" du territoire ennemi.
+Souffler sur les Braises
+×1 / BATAILLE (ARMÉE)
+SAISON
+MDG
+Effet : Si vous êtes l’attaquant, réglez votre niveau de fureur sur 1. Si vous êtes le défenseur, réglez votre niveau de fureur sur 2.
+GAUNT SUMMONER
+Sbires de la Tour d'Argent
+SIMPLE
+Cible : une unité amie qui n'a pas été déployée.
+Effet : La cible est placée en réserve dans une Tour d'Argent. Elle a à présent été déployée.
+N'importe quelle phase
+Slaves to Darkness
+N'IMPORTE QUELLE PHASE
+N'IMPORTE QUELLE PHASE
+ RÈGLES D'ARMÉE
+Voué à Nurgle
+PASSIF
+BT
+TRAITS DE BATAILLE
+Effet : Les unités Vouées à Nurgle amies ont une Protection (6+). Si une unité a déjà une Protection (6+), elle a une Protection (5+) à la place.
+SKARBRAND
+La Rage de Skarbrand
+PASSIF
+BT
+Effet : Tant que cette unité a 10 dégâts ou plus, ou si elle n'a pas utilisé d'aptitude de Corps à Corps au dernier tour, les effets de l'aptitude « Trempés
+de Sang » s'appliquent à elle.
+RÈGLES DE BASE
+Attaque en Règle
+1
+MDG
+Réaction : Vous avez annoncé une aptitude d’Attaque
+Utilisée par : L’unité qui utilise l’aptitude d’Attaque.
+Effet : Ajoutez 1 aux jets de touche pour les attaques
+faites dans le cadre de l’aptitude d’Attaque. Cela affecte
+également les armes de Compagnon. Pour le restant du
+tour, soustrayez 1 aux jets de sauvegarde pour l’unité qui
+utilise cette aptitude.
+Défense en Règle
+1
+MDG
+Réaction : L’adversaire a annoncé une
+aptitude d’Attaque
+Utilisée par : Une unité ciblée par l’aptitude
+d’Attaque.
+Effet : Ajoutez 1 aux jets de sauvegarde
+pour l’unité jusqu’à ce que l’aptitude
+d’Attaque ait été résolue.
+Braver la
+Douleur
+X
+X
+PASSIF
+SAISON
+SIMPLE
+Effet : Avant d’allouer des dégâts à
+une unité amie, dépensez N dés de
+rage (−1 niveau de fureur chacun,
+minimum 0). Jetez 1 dé par dé de
+rage : chaque 3+ retire 1 dégât.
+Terrain
+PASSIF
+SIMPLE
+Couvert : −1 touche contre une unité derrière ou entièrement sur le terrain, sauf si elle a chargé ce tour ou a Vol.
+Infranchissable : Les figurines ne peuvent pas se déplacer, être placées, ni finir un mouvement sur une partie de cet élément de terrain.
+Occultant : Tant que chaque figurine d’une unité non-Monstre, non-Machine de Guerre et non-Vol est à 1" : elle n’est visible que des ennemis à portée
+de mêlée, et la portée de ses armes de tir est divisée par 2.
+Site de Pouvoir : Les Héros à 3" de cet élément de terrain peuvent utiliser l’aptitude « Activation de Site de Pouvoir ».
+Instable : Interdit de placer une figurine ou de finir un mouvement sur une partie à plus de 1" de haut.
+4 / 16
+
+===== page 5 =====
+MON TOUR
+Mon tour
+Slaves to Darkness
+DÉBUT DE ROUND
+DÉBUT DE ROUND
+ RÈGLES DE BASE
+Début de Round de Bataille
+SIMPLE
+1 : Joueur actif. Au round 1, celui qui a fini de déployer en premier choisit qui commence. Pour les autres rounds, jet de priorité ; en cas d’égalité, celui
+qui a eu le premier tour au round précédent choisit.
+2 : Outsider : le joueur qui a le moins de points de victoire, pour tout le round (égalité : pas d’outsider).
+3 : Points d’ordre : chaque joueur reçoit 4 points d’ordre (5 pour l’outsider).
+Rage Bouillonnante
+×1 / TOUR (ARMÉE)
+SAISON
+SIMPLE
+Effet : Aptitude obligatoire. Gagnez autant de dés de rage que votre niveau de fureur ; ceux qui ne sont pas dépensés sont perdus en fin de round.
+DÉBUT DE TOUR
+DÉBUT DE TOUR
+ RÈGLES DE BASE
+Activation de Site de Pouvoir
++2
++2
+×1 / TOUR (ARMÉE)
+BASE
+SAISON
+SIMPLE
+Annonce : Choisissez un Héros ami à 3" d’un Site de Pouvoir.
+Effet : Jetez un dé. Sur 1, infligez D3 dégâts mortels à ce Héros. Sur 2+, choisissez 1 des effets suivants :
+ Fureur Ignée : Gagnez 2 dés de rage, puis augmentez votre niveau de fureur de 2, jusqu’à un maximum de 7.
+ Colère Canalisée : Sorcier/Prêtre : +1 au lancement/à la récitation de ce Héros ce tour.
+ Rage Étourdissante : peut Dissiper ou Bannir comme un Sorcier (1) ce tour (pas de Bannir via Intervention Magique).
+5 / 16
+
+===== page 6 =====
+MON TOUR
+PHASE DES HÉROS
+PHASE DES HÉROS
+ VOCATION AU CHAOS
+Vocation au Chaos
+×1 / TOUR (ARMÉE)
+TRAITS DE BATAILLE
+SIMPLE
+Cible : une unité d'Esclaves des Ténèbres amie n'étant pas
+Unique et qui n'a aucun des mots-clés ci-dessous.
+Effet : Choisissez 1 des mots-clés de Vocation au Chaos
+parmi les suivants :
+ Voué à Khorne
+ Voué à Tzeentch
+ Voué à Nurgle
+ Voué à Slaanesh
+La cible a ce mot-clé pour le restant de la bataille.
+Voué à
+Khorne
+CHAOS
+WARRIORS
+PASSIF
+BT
+TRAITS DE BATAILLE
+Effet : Ajoutez 1 à la
+caractéristique d'Attaques des
+armes de mêlée des unités
+Vouées à Khorne amies.
+Voué à Tzeentch
+×1 / TOUR (ARMÉE)
+TRAITS DE BATAILLE
+SIMPLE
+Cible : une unité Vouée à Tzeentch amie.
+Effet : Jetez 2D6. Ensuite, choisissez un
+point situé à une distance de la cible
+inférieure ou égale au résultat, converti en
+pouces. Retirez la cible du champ de bataille
+et replacez-la entièrement à 6" du point
+choisi et à plus de 9" des unités ennemies.
+Voué à Nurgle
+DAEMON PRINCE
+PASSIF
+BT
+TRAITS DE BATAILLE
+Effet : Les unités Vouées à Nurgle amies ont une Protection (6+).
+Si une unité a déjà une Protection (6+), elle a une Protection (5+)
+à la place.
+Voué à Slaanesh
+BT
+TRAITS DE BATAILLE
+Effet : Pour le restant du tour, lorsque vous faites des jets de charge pour les
+unités Vouées à Slaanesh amies, vous pouvez jeter 1 dé supplémentaire
+(jusqu'à un maximum de 3), mais dans ce cas, vous devez défausser 1 dé de
+votre choix.
+SORTS
+Malédiction de
+Malelangue
+5+
+ILLIMITÉ
+SIMPLE
+Cible : une unité ennemie visible et à 12" du lanceur.
+Si la tentative de lancement est ratée ou si le sort est
+dissipé, infligez D3 dégâts mortels au lanceur.
+Effet : Infligez 3 dégâts mortels à la cible.
+Entraves de
+Damnation
+7+
+SIMPLE
+Cible : une unité ennemie visible et à
+12" du lanceur.
+Effet : La cible a Frappe en Dernier
+jusqu'au début de votre prochain tour.
+Vitesse
+Démoniaque
+7+
+SIMPLE
+Cible : une unité d'Esclaves des Ténèbres
+amie visible et entièrement à 12" du lanceur.
+Effet : Pour le restant du tour, ajoutez 1 au
+nombre de dés jetés en faisant des jets de
+charge pour la cible, jusqu'à un maximum de
+3.
+Détournement de Porte de
+Royaume
+GAUNT SUMMONER
+7+
+SIMPLE
+Effet : Les unités placées à ce tour grâce à l'aptitude « Livre des Secrets
+Profanes » de cette unité peuvent être placées entièrement à 18" de
+cette unité et à plus de 7" des unités ennemies au lieu des distances
+indiquées dans l'aptitude.
+Mort Flétrissante
+THE OATHSWORN KIN
+5+
+SIMPLE
+Cible : un Héros ennemi visible et à 18" de cette unité.
+Effet : Infligez 1 dégât mortel à la cible et soustrayez 1 à la
+caractéristique d'Attaques de ses armes de mêlée jusqu'à votre prochain
+tour.
+THE OATHSWORN KIN
+Nadja l'Éraillée
+PASSIF
+BT
+Effet : Tant que la Nadja l'Éraillée de cette unité est sur le champ de bataille, l'unité a Sorcier (1).
+NEXUS CHAOTICA
+Puiser de l'Énergie
+BT
+Effet : Jetez un dé. Donnez autant de points de
+puissance à cet élément de terrain que le résultat
+du jet. Cet élément de terrain peut avoir un
+maximum de 12 points de puissance à la fois.
+Sorcellerie Infernale
+BT
+Annonce : Si cet élément de terrain a au moins 3 points de puissance, choisissez comme
+cible un Sorcier Esclave des Ténèbres ami à 3" de cet élément de terrain.
+Effet : Retirez 3 points de puissance à cet élément de terrain, puis ajoutez 1 aux jets de
+lancement pour la cible pour le restant du tour.
+Corruption des Royaumes
+BT
+Annonce : Si cet élément de terrain a au moins 9 points de puissance, choisissez un objectif ou un élément de terrain à 24" de lui pour être la source.
+Puis choisissez comme cibles n'importe quel nombre d'unités ennemies à 3" de la source.
+Effet : Retirez 9 points de puissance à cet élément de terrain, puis jetez un D3 pour chaque cible. Sur 2+, infligez autant de dégâts mortels à la cible
+que le résultat du jet.
+RÈGLES DE BASE
+Ralliement
+1
+SIMPLE
+Utilisée par : Une unité amie qui n’est
+pas en mêlée.
+Effet : Faites 6 jets de ralliement (D6),
++1 jet si l’unité contient un musicien :
+chaque 4+ donne 1 point de ralliement, à
+répartir librement entre :
+ 1 point : Soignez (1) l’unité.
+ X points = X Santé : ramenez 1
+figurine tuée dans l’unité.
+Les points non dépensés sont perdus.
+Bannir une
+Manifestation
+BANNISSEMENT
+SIMPLE
+Utilisée par : Un Sorcier ou Prêtre ami.
+Cible : une Manifestation à 30" de lui
+ non convoquée à ce tour
+ une même Manifestation au plus 1 fois par tour
+ jet de bannissement de 2D6 (+1 par autre
+Manifestation ennemie)
+Effet : Si le jet de bannissement est supérieur ou égal
+à la valeur de bannissement de la manifestation, elle
+est bannie et retirée du jeu.
+Dissipation
+DISSIPATION
+SIMPLE
+Réaction : L’adversaire a annoncé une
+aptitude de Sort
+Utilisée par : Un Sorcier ami à 30" du lanceur
+ennemi.
+Effet : Si le jet de dissipation est supérieur au
+jet de lancement, le sort est dissipé et son
+effet n’est pas résolu. Une seule dissipation
+par jet de lancement.
+6 / 16
+
+===== page 7 =====
+MON TOUR
+PHASE DE MOUVEMENT
+PHASE DE MOUVEMENT
+ RÈGLES D'ARMÉE
+Voué à Tzeentch
+×1 / TOUR (ARMÉE)
+TRAITS DE BATAILLE
+SIMPLE
+Cible : une unité Vouée à Tzeentch amie.
+Effet : Jetez 2D6. Ensuite, choisissez un point situé à une distance de la cible inférieure ou égale au résultat, converti en pouces. Retirez la cible du
+champ de bataille et replacez-la entièrement à 6" du point choisi et à plus de 9" des unités ennemies.
+GAUNT SUMMONER
+Livre des Secrets Profanes
+SIMPLE
+Cible : une unité amie dans une Tour d'Argent.
+Effet : Placez la cible sur le champ de bataille, entièrement à 12" de cette unité et à plus de 9" des unités ennemies.
+RÈGLES DE BASE
+Mouvement
+Normal
+BASE
+MOUVEMENT
+SIMPLE
+Utilisée par : Une unité amie qui n’est
+pas en mêlée.
+Effet : Se déplace de M", sans entrer en
+mêlée.
+Course
+BASE
+COURSE
+MOUVEMENT
+SIMPLE
+Utilisée par : Une unité amie qui n’est pas en
+mêlée.
+Effet : Se déplace de M + D6", sans entrer en
+mêlée.
+Repli
+BASE
+REPLI
+MOUVEMENT
+SIMPLE
+Utilisée par : Une unité amie qui est en mêlée.
+Effet : D3 dégâts mortels à l’unité, puis elle se
+déplace de M". Elle peut traverser la mêlée, mais
+pas y finir.
+Au Pas de Course
+1
+SIMPLE
+Réaction : Vous avez annoncé une aptitude de Course
+Utilisé par : L’unité qui utilise l’aptitude de Course.
+Effet : Pour l’aptitude de Course, pas de jet de course : +6" fixe.
+PHASE DE TIR
+PHASE DE TIR
+ SINGRI BRAND
+Vive Comme le Vent
+PASSIF
+BT
+Effet : Seules les touches critiques causent des touches réussies pour les
+attaques de tir qui ciblent cette unité.
+Tir Extraordinaire
+PASSIF
+BT
+Effet : Ajoutez 1 à la caractéristique de Perforation de l'Arc de
+Guerre de Singri de cette unité pour les attaques qui ciblent des
+unités ennemies qui sont à 6" d'un Gunnar Brand ami.
+RÈGLES DE BASE
+Tir
+BASE
+ATTAQUE
+TIR
+SIMPLE
+Utilisée par : Une unité amie qui n’a pas utilisé une aptitude de Course ni de Repli à ce tour.
+Annonce : Choisissez une ou plusieurs unités ennemies comme cible(s) de ses attaques.
+Effet : Résolvez les attaques de tir contre la/les unité(s) cible(s).
+Héros Gardé
+PASSIF
+SIMPLE
+Effet : S’il est à portée de mêlée d’une unité amie
+non-Héros :
+ −1 touche aux tirs qui le ciblent ;
+ Infanterie : ne peut pas être ciblé par des tirs de
+figurines à plus de 12".
+PHASE DE CHARGE
+PHASE DE CHARGE
+ RÈGLES D'ARMÉE
+Voué à Slaanesh
+BT
+TRAITS DE BATAILLE
+Effet : Pour le restant du tour, lorsque vous faites des jets de charge pour les unités Vouées à Slaanesh amies, vous pouvez jeter 1 dé
+supplémentaire (jusqu'à un maximum de 3), mais dans ce cas, vous devez défausser 1 dé de votre choix.
+SKARBRAND
+Colère Inéluctable
+PASSIF
+BT
+Effet : Ajoutez 1 au nombre de dés jetés en faisant des jets de charge pour cette unité, jusqu'à un maximum de 3 dés.
+RÈGLES DE BASE
+Charge
+BASE
+MOUVEMENT
+CHARGE
+SIMPLE
+Utilisée par : Une unité amie qui n’est pas en mêlée et qui n’a pas utilisé une aptitude de Course ni
+de Repli à ce tour.
+Annonce : Faites un jet de charge de 2D6.
+Effet : Déplacement jusqu’au résultat du jet. Elle peut traverser la mêlée et doit finir à ½" d’une
+unité ennemie visible ; si c’est le cas, elle a chargé.
+En Avant, vers la
+Victoire
+1
+MDG
+Réaction : Vous avez annoncé une aptitude
+de Charge
+Utilisé par : L’unité qui utilise l’aptitude de
+Charge.
+Effet : Vous pouvez relancer le jet de charge.
+7 / 16
+
+===== page 8 =====
+MON TOUR
+PHASE DE MÊLÉE
+PHASE DE MÊLÉE
+ RÈGLES D'ARMÉE
+Voué à Khorne
+PASSIF
+BT
+TRAITS DE BATAILLE
+Effet : Ajoutez 1 à la caractéristique d'Attaques des armes de mêlée des unités Vouées à Khorne amies.
+DAEMON PRINCE
+Champion Immortel
+BT
+Effet : Jetez un dé. Sur 4+, cette unité a Frappe en Premier pour le restant du tour.
+OGROID MYRMIDON
+Maître des Fosses
+BT
+Réaction : Vous avez annoncé une aptitude de Corps à Corps pour cette unité
+Effet : Choisissez comme cible une unité de Théridons Ogroïdes amie qui n'a utilisé aucune aptitude de Corps à Corps à ce tour et qui est à portée de
+mêlée de cette unité. La cible peut être choisie pour utiliser une aptitude de Corps à Corps juste après que l'aptitude de Corps à Corps annoncée a été
+résolue. Dans ce cas, ajoutez 1 aux jets de touche pour les attaques de la cible pour le restant du tour.
+GUNNAR BRAND
+Tailler un Chemin Vers la Gloire
+BT
+Annonce : Cette unité peut utiliser cette aptitude seulement si elle est en mêlée avec un Héros ennemi.
+Effet : Cette unité peut utiliser 2 aptitudes de Corps à Corps à cette phase. Toutefois, après avoir utilisé la première, elle a Frappe en Dernier pour le
+restant du tour. Et lorsqu'elle utilise la seconde aptitude de Corps à Corps, elle doit choisir un Héros ennemi comme cible de toutes ses attaques.
+SKARBRAND
+Rugissement de Rage
+Totale
+×1 / TOUR (ARMÉE)
+SACCAGE
+SIMPLE
+Cible : une unité ennemie qui est en mêlée avec cette unité.
+Effet : Jetez 3 dés ou autant de dés que le nombre de dégâts qu'a
+cette unité. Pour chaque jet de 4+, infligez 1 dégât mortel à la cible.
+Haine de Tout
+WAHAPEDIA
+Annonce : Vous devez utiliser cette aptitude si ce Skarbrand n'est pas en
+mêlée et s'il y a une ou plusieurs autres unités amies visibles à portée de
+mêlée de lui. Vous devez choisir comme cible 1 de ces unités amies.
+Effet : Résolvez des attaques de mêlée pour ce Skarbrand contre la cible.
+CHAOS WARRIORS
+La Bannière de Rage
+PASSIF
+AQSHY
+BANNIÈRE ENSORCELÉE
+Effet : Cette unité a le mot-clé Voué à Khorne.
+De plus, tant que cette unité inclut un ou plusieurs porte-étendards, ajoutez 1 aux jets de blessure pour ses attaques de mêlée.
+OGROID THERIDONS
+Sauvagerie Débridée
+×1 / BATAILLE
+BT
+Effet : Ajoutez 1 à la caractéristique de Dégâts des armes de mêlée de cette unité pour le restant du tour.
+CHAOS FURIES
+Lutins Sournois
+BT
+Effet : Si cette unité est en mêlée, jetez un dé. Sur 3+, elle peut immédiatement utiliser l'aptitude « Repli », comme s'il s'agissait de votre phase de
+mouvement, sans subir de dégâts mortels.
+RÈGLES DE BASE
+Corps à Corps
+BASE
+ATTAQUE
+CORPS À CORPS
+SIMPLE
+Utilisée par : Une unité amie qui est en mêlée
+ou qui a chargé à ce tour.
+Annonce : Elle peut faire un mouvement
+d’engagement. Puis, si elle est en mêlée, vous
+devez choisir une ou plusieurs unités ennemies
+comme cible(s) de ses attaques.
+Effet : Résolvez les attaques de mêlée contre
+la/les unité(s) cible(s).
+Frappe en Premier et Frappe en
+Dernier
+PASSIF
+MDG
+Frappe en Premier : une fois utilisées les aptitudes de la phase de mêlée autres que de Corps à
+Corps, si des unités ayant Frappe en Premier sont en mêlée, les autres unités ne peuvent pas
+être choisies pour utiliser une aptitude de Corps à Corps avant elles. Une fois que toutes les
+unités ayant Frappe en Premier ont combattu, le joueur actif choisit la prochaine unité qui
+combat.
+Frappe en Dernier : une unité en mêlée ayant Frappe en Dernier ne peut pas être choisie pour
+utiliser une aptitude de Corps à Corps tant que d’autres unités en mêlée sans Frappe en
+Dernier peuvent encore en utiliser une et ne l’ont pas encore fait.
+Les deux : une unité ayant à la fois Frappe en Premier et Frappe en Dernier est traitée comme
+si elle n’avait ni l’un ni l’autre.
+Champion
+PASSIF
+MDG
+Effet : Ajoutez 1 à la caractéristique d’Attaques des armes utilisées par les champions de cette unité.
+8 / 16
+
+===== page 9 =====
+MON TOUR
+FIN DE TOUR
+FIN DE TOUR
+ RÈGLES D'ARMÉE
+Vous Allez Me Servir !
+×1 / TOUR (ARMÉE)
+BT
+FORMATION : DESPOILERS
+Annonce : Choisissez un Prince Démon ami pour utiliser cette aptitude. Puis choisissez comme cible une unité d'Esclaves des Ténèbres autre
+qu'un Démon et autre qu'Unique, qui n'a pas de Bannière Ensorcelée, et qui est visible et entièrement à 12" de cette unité.
+Effet : Retirez les mots-clés de Vocation au Chaos qu'a la cible. Puis la cible gagne les Vocations au Chaos qu'a ce Prince Démon.
+GUNNAR BRAND
+Serment du Bain de Sang
+×1 / BATAILLE
+BT
+Annonce : Cette unité peut utiliser cette aptitude seulement si un ou plusieurs Héros ennemis ont été tués par ses attaques de mêlée à ce tour.
+Effet : Les unités d'Assermentés de Gunnar amies ont une Protection (4+) pour le restant de la bataille.
+RÈGLES DE BASE
+Porte-
+Étendard
+PASSIF
+MDG
+Effet : Tant que cette unité
+contient un ou plusieurs
+porte-étendards, ajoutez 1 à son
+score de contrôle.
+Enfoncement
+1
+MOUVEMENT
+SIMPLE
+Utilisée par : Une unité amie qui a chargé à ce tour.
+Cible : une unité ennemie en mêlée avec elle, dont la caractéristique de Santé est inférieure à la sienne.
+Effet : D3 dégâts mortels à la cible, puis déplacement de M" maximum. Elle peut traverser ou finir dans la mêlée
+des seules unités avec lesquelles elle était déjà en mêlée, et n’est pas obligée de finir en mêlée.
+Éruption de Fureur
+1-3
+×1 / TOUR (ARMÉE)
+ATTAQUE
+CORPS À CORPS
+SAISON
+SIMPLE
+Cible : une unité ennemie en mêlée avec une unité amie.
+Effet : Avec 1 arme de mêlée de l’unité qui utilise cette aptitude :
+ dépensez 1 à 3 dés de rage : autant d’attaques de mêlée (et non les Attaques de l’arme) ;
+ pas de touches critiques ;
+ chaque 6 non modifié : D3 mortels à chaque unité ennemie en mêlée avec l’unité, et l’adversaire gagne +1 niveau de fureur (max 7) ;
+ chaque 1 non modifié : D3 mortels à l’unité après la séquence de dégâts, sans protection.
+9 / 16
+
+===== page 10 =====
+
+===== page 11 =====
+Daemon Prince
+ MV
+8"
+ CT
+ 5
+ SV
+3+
+ WD
+6+
+ HP
+10
+1 model
+ 230 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Hellforged Weapons
+Crit (Mortel)
+ 6
+ 3+
+ 3+
+ 1
+ 3
+PHASE DE MOUVEMENT
+Horreur Ailée
+PASSIF
+BT
+Effet : Si cette unité a des Ailes, elle a une caractéristique de
+Mouvement de 10" et le mot-clé Vol.
+PHASE DE MÊLÉE
+Les Crânes des Vaincus
+PASSIF
+BT
+Effet : Si cette unité a un Râtelier à Trophées, ses Armes Infernales
+ont également Anti-Héros (+1 Perf.).
+N'IMPORTE QUELLE PHASE
+Pendentif de
+Sombreflamme
+PASSIF
+AQSHY
+ARTEFACT DE POUVOIR
+Effet : Les armes utilisées pour les attaques qui ciblent cette unité
+ont une caractéristique de Dégâts maximum de 1.
+CHAOS · DAEMON · SLAVES TO DARKNESS · HERO · INFANTRY ·
+WARD
+ Wahapedia (EN)
+Singri Brand
+ MV
+12"
+ CT
+ 2
+ SV
+5+
+ WD
+—
+ HP
+ 4
+1 model
+ 0 pts
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Singri’s Warbow
+Crit (Blessure Auto)
+ 18"
+ 2
+ 3+
+ 3+
+ 1
+ D3
+Warsteed’s Hooves
+Compagnon
+ 2
+ 5+
+ 3+
+ -
+ 1
+Brand Ancestral Knife
+ 3
+ 4+
+ 3+
+ 1
+ 1
+CHAOS · DARKOATH · GUNNAR’S OATHSWORN · SLAVES TO
+DARKNESS · CAVALRY · HERO · UNIQUE
+ Wahapedia (EN)
+Ogroid Theridons
+ MV
+6"
+ CT
+ 2
+ SV
+4+
+ WD
+—
+ HP
+ 5
+3 models
+ 150 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Goroan Weapons
+Anti-INFANTRY (+1 Perf.)
+ 4
+ 4+
+ 2+
+ 1
+ 2
+CHAOS · SLAVES TO DARKNESS · CHAMPION · INFANTRY ·
+MUSICIAN · STANDARD BEARER
+ Wahapedia (EN)
+ Ogroid Myrmidon
+ MV
+6"
+ CT
+ 2
+ SV
+4+
+ WD
+—
+ HP
+ 8
+1 model
+ 120 pts
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Gladiator Spear
+ 10"
+ 1
+ 3+
+ 3+
+ 1
+ D3
+Gladiator Spear
+Anti-MONSTER (+1 Perf.)
+ 6
+ 3+
+ 2+
+ 1
+ 3
+PHASE DE MÊLÉE
+Rage de Myrmidon
+PASSIF
+BT
+Effet : Tant que cette unité est endommagée, ajoutez 2 à la
+caractéristique d'Attaques de ses armes de mêlée.
+CHAOS · SLAVES TO DARKNESS · HERO · INFANTRY
+ Wahapedia (EN)
+Gaunt Summoner
+2
+ MV
+5"
+ CT
+ 2
+ SV
+5+
+ WD
+5+
+ HP
+ 5
+1 model
+ 160 pts
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Changestaff
+Crit (Mortel)
+ 12"
+ 3
+ 4+
+ 3+
+ 1
+ D3
+Warptongue Blade
+ 3
+ 3+
+ 3+
+ 1
+ 2
+CHAOS · DAEMON · SLAVES TO DARKNESS · HERO · INFANTRY ·
+PLEDGED TO TZEENTCH · WARD
+ Wahapedia (EN)
+Gunnar Brand
+ MV
+5"
+ CT
+ 2
+ SV
+5+
+ WD
+—
+ HP
+ 6
+1 model
+ 180 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Dual Axes
+Crit (Mortel)
+ 10
+ 4+
+ 3+
+ 1
+ 1
+CHAOS · DARKOATH · GUNNAR’S OATHSWORN · SLAVES TO
+DARKNESS · HERO · INFANTRY · UNIQUE
+ Wahapedia (EN)
+Skarbrand
+ MV
+8"
+ CT
+ 5
+ SV
+4+
+ WD
+5+
+ HP
+16
+1 model
+ 430 pts
+Regiment of Renown — The Exiled One
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Slaughter
+Blood-hungry
+ 4
+ 3+
+ 2+
+ 2
+ 4
+Carnage
+Crit (Mortel)
+ 2
+ 3+
+ 2+
+ 2
+ 8
+BLADES OF KHORNE · CHAOS · DAEMON · HERO · MONSTER ·
+UNIQUE · WARD
+ Wahapedia (EN)
+11 / 16
+
+===== page 12 =====
+Chaos Warriors
+ MV
+5"
+ CT
+ 1
+ SV
+3+
+ WD
+—
+ HP
+ 2
+10 models
+ 180+10 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Rune-etched Weapons
+Crit (Blessure Auto)
+ 2
+ 3+
+ 3+
+ 1
+ 1
+PHASE DE MÊLÉE
+Porteurs de Désolation
+PASSIF
+BT
+Effet : Ajoutez 1 à la caractéristique d'Attaques des Armes Runiques
+de cette unité tant qu'elle conteste un objectif que vous contrôlez.
+Marque d'Apoplexie
+PASSIF
+AQSHY
+MARQUE DES DIEUX SOMBRES
+Effet : Tant que votre niveau de fureur est 7, ajoutez 1 à la
+caractéristique de Dégâts des armes de cette unité.
+CHAOS · SLAVES TO DARKNESS · WARRIORS OF CHAOS ·
+CHAMPION · INFANTRY · MUSICIAN · STANDARD BEARER
+ Wahapedia (EN)
+Nexus Chaotica
+ MV
+ -
+ CT
+ 0
+ SV
+4+
+ WD
+—
+ HP
+12
+1 model
+ 0 pts
+CHAOS · SLAVES TO DARKNESS · FACTION TERRAIN
+ Wahapedia (EN)
+ Chaos Furies
+ MV
+12"
+ CT
+ 1
+ SV
+6+
+ WD
+6+
+ HP
+ 1
+6 models
+ 100 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Razor-sharp Dagger and Claws
+ 3
+ 4+
+ 4+
+ 1
+ 1
+CHAOS · DAEMON · SLAVES TO DARKNESS · FLY · INFANTRY ·
+WARD
+ Wahapedia (EN)
+The Oathsworn Kin
+ MV
+5"
+ CT
+ 1
+ SV
+5+
+ WD
+—
+ HP
+ 3
+3 models
+ 0 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Gnarled Staff
+ 3
+ 4+
+ 4+
+ -
+ D3
+Heavy Darkoath Weapon
+Crit (Mortel)
+ 4
+ 4+
+ 3+
+ -
+ 2
+CHAOS · DARKOATH · GUNNAR’S OATHSWORN · SLAVES TO
+DARKNESS · INFANTRY · UNIQUE
+ Wahapedia (EN)
+12 / 16
+
+===== page 13 =====
+TOUR DE L'ADVERSAIRE
+Tour adverse
+Slaves to Darkness
+DÉBUT DE ROUND
+DÉBUT DE ROUND
+ RÈGLES DE BASE
+Début de Round de Bataille
+SIMPLE
+1 : Joueur actif. Au round 1, celui qui a fini de déployer en premier choisit qui commence. Pour les autres rounds, jet de priorité ; en cas d’égalité, celui
+qui a eu le premier tour au round précédent choisit.
+2 : Outsider : le joueur qui a le moins de points de victoire, pour tout le round (égalité : pas d’outsider).
+3 : Points d’ordre : chaque joueur reçoit 4 points d’ordre (5 pour l’outsider).
+Rage Bouillonnante
+×1 / TOUR (ARMÉE)
+SAISON
+SIMPLE
+Effet : Aptitude obligatoire. Gagnez autant de dés de rage que votre niveau de fureur ; ceux qui ne sont pas dépensés sont perdus en fin de round.
+DÉBUT DE TOUR
+DÉBUT DE TOUR
+ RÈGLES DE BASE
+Activation de Site de Pouvoir
++2
++2
+×1 / TOUR (ARMÉE)
+BASE
+SAISON
+SIMPLE
+Annonce : Choisissez un Héros ami à 3" d’un Site de Pouvoir.
+Effet : Jetez un dé. Sur 1, infligez D3 dégâts mortels à ce Héros. Sur 2+, choisissez 1 des effets suivants :
+ Fureur Ignée : Gagnez 2 dés de rage, puis augmentez votre niveau de fureur de 2, jusqu’à un maximum de 7.
+ Colère Canalisée : Sorcier/Prêtre : +1 au lancement/à la récitation de ce Héros ce tour.
+ Rage Étourdissante : peut Dissiper ou Bannir comme un Sorcier (1) ce tour (pas de Bannir via Intervention Magique).
+PHASE DES HÉROS
+PHASE DES HÉROS
+ THE OATHSWORN KIN
+Nadja l'Éraillée
+PASSIF
+BT
+Effet : Tant que la Nadja l'Éraillée de cette unité est sur le champ de bataille, l'unité a Sorcier (1).
+RÈGLES DE BASE
+Ralliement
+1
+SIMPLE
+Utilisée par : Une unité amie qui n’est pas en
+mêlée.
+Effet : Faites 6 jets de ralliement (D6), +1 jet si
+l’unité contient un musicien : chaque 4+ donne 1
+point de ralliement, à répartir librement entre :
+ 1 point : Soignez (1) l’unité.
+ X points = X Santé : ramenez 1 figurine tuée
+dans l’unité.
+Les points non dépensés sont perdus.
+Dissipation
+DISSIPATION
+SIMPLE
+Réaction : L’adversaire a annoncé une aptitude
+de Sort
+Utilisée par : Un Sorcier ami à 30" du lanceur
+ennemi.
+Effet : Si le jet de dissipation est supérieur au jet
+de lancement, le sort est dissipé et son effet n’est
+pas résolu. Une seule dissipation par jet de
+lancement.
+Intervention
+Magique
+1
+SIMPLE
+Utilisée par : Un Sorcier ou un Prêtre
+ami.
+Effet : L’unité amie peut utiliser une
+aptitude de Sort, de Prière ou de
+Bannissement (selon le cas approprié)
+comme si c’était votre phase des héros.
+Dans ce cas, soustrayez 1 aux jets de
+lancement ou de récitation faits dans le
+cadre de cette aptitude.
+PHASE DE MOUVEMENT
+PHASE DE MOUVEMENT
+ RÈGLES DE BASE
+Redéploiement
+1
+MOUVEMENT
+COURSE
+SIMPLE
+Utilisée par : Une unité amie qui n’est pas en mêlée.
+Effet : D6" maximum, sans traverser ni finir à portée de mêlée d’un ennemi.
+PHASE DE TIR
+PHASE DE TIR
+ SINGRI BRAND
+Vive Comme le Vent
+PASSIF
+BT
+Effet : Seules les touches critiques causent des touches réussies pour les
+attaques de tir qui ciblent cette unité.
+Tir Extraordinaire
+PASSIF
+BT
+Effet : Ajoutez 1 à la caractéristique de Perforation de l'Arc de
+Guerre de Singri de cette unité pour les attaques qui ciblent des
+unités ennemies qui sont à 6" d'un Gunnar Brand ami.
+RÈGLES DE BASE
+Tir de Couverture
+1
+ATTAQUE
+TIR
+SIMPLE
+Utilisée par : Une unité amie qui n’a utilisé aucune aptitude de Course à ce tour et qui n’est pas en
+mêlée.
+Cible : l’unité ennemie la plus proche qu’on peut cibler au tir (ni Manifestation, ni terrain de faction).
+Effet : Résolvez les attaques de tir de l’unité contre la cible, à −1 touche.
+Héros Gardé
+PASSIF
+SIMPLE
+Effet : S’il est à portée de mêlée d’une unité
+amie non-Héros :
+ −1 touche aux tirs qui le ciblent ;
+ Infanterie : ne peut pas être ciblé par des tirs
+de figurines à plus de 12".
+13 / 16
+
+===== page 14 =====
+TOUR DE L'ADVERSAIRE
+PHASE DE CHARGE
+PHASE DE CHARGE
+ SKARBRAND
+Colère Inéluctable
+PASSIF
+BT
+Effet : Ajoutez 1 au nombre de dés jetés en faisant des jets de charge pour cette unité, jusqu'à un maximum de 3 dés.
+RÈGLES DE BASE
+Contre-Charge
+2
+SIMPLE
+Utilisée par : Une unité amie qui n’est pas en mêlée.
+Effet : Cette unité peut utiliser une aptitude de Charge comme si c’était votre phase de charge.
+14 / 16
+
+===== page 15 =====
+TOUR DE L'ADVERSAIRE
+PHASE DE MÊLÉE
+PHASE DE MÊLÉE
+ RÈGLES D'ARMÉE
+Voué à Khorne
+PASSIF
+BT
+TRAITS DE BATAILLE
+Effet : Ajoutez 1 à la caractéristique d'Attaques des armes de mêlée des unités Vouées à Khorne amies.
+DAEMON PRINCE
+Champion Immortel
+BT
+Effet : Jetez un dé. Sur 4+, cette unité a Frappe en Premier pour le restant du tour.
+OGROID MYRMIDON
+Maître des Fosses
+BT
+Réaction : Vous avez annoncé une aptitude de Corps à Corps pour cette unité
+Effet : Choisissez comme cible une unité de Théridons Ogroïdes amie qui n'a utilisé aucune aptitude de Corps à Corps à ce tour et qui est à portée de
+mêlée de cette unité. La cible peut être choisie pour utiliser une aptitude de Corps à Corps juste après que l'aptitude de Corps à Corps annoncée a été
+résolue. Dans ce cas, ajoutez 1 aux jets de touche pour les attaques de la cible pour le restant du tour.
+GUNNAR BRAND
+Tailler un Chemin Vers la Gloire
+BT
+Annonce : Cette unité peut utiliser cette aptitude seulement si elle est en mêlée avec un Héros ennemi.
+Effet : Cette unité peut utiliser 2 aptitudes de Corps à Corps à cette phase. Toutefois, après avoir utilisé la première, elle a Frappe en Dernier pour le
+restant du tour. Et lorsqu'elle utilise la seconde aptitude de Corps à Corps, elle doit choisir un Héros ennemi comme cible de toutes ses attaques.
+SKARBRAND
+Rugissement de Rage
+Totale
+×1 / TOUR (ARMÉE)
+SACCAGE
+SIMPLE
+Cible : une unité ennemie qui est en mêlée avec cette unité.
+Effet : Jetez 3 dés ou autant de dés que le nombre de dégâts qu'a
+cette unité. Pour chaque jet de 4+, infligez 1 dégât mortel à la cible.
+Haine de Tout
+WAHAPEDIA
+Annonce : Vous devez utiliser cette aptitude si ce Skarbrand n'est pas en
+mêlée et s'il y a une ou plusieurs autres unités amies visibles à portée de
+mêlée de lui. Vous devez choisir comme cible 1 de ces unités amies.
+Effet : Résolvez des attaques de mêlée pour ce Skarbrand contre la cible.
+CHAOS WARRIORS
+La Bannière de Rage
+PASSIF
+AQSHY
+BANNIÈRE ENSORCELÉE
+Effet : Cette unité a le mot-clé Voué à Khorne.
+De plus, tant que cette unité inclut un ou plusieurs porte-étendards, ajoutez 1 aux jets de blessure pour ses attaques de mêlée.
+OGROID THERIDONS
+Sauvagerie Débridée
+×1 / BATAILLE
+BT
+Effet : Ajoutez 1 à la caractéristique de Dégâts des armes de mêlée de cette unité pour le restant du tour.
+CHAOS FURIES
+Lutins Sournois
+BT
+Effet : Si cette unité est en mêlée, jetez un dé. Sur 3+, elle peut immédiatement utiliser l'aptitude « Repli », comme s'il s'agissait de votre phase de
+mouvement, sans subir de dégâts mortels.
+RÈGLES DE BASE
+Corps à Corps
+BASE
+ATTAQUE
+CORPS À CORPS
+SIMPLE
+Utilisée par : Une unité amie qui est en mêlée
+ou qui a chargé à ce tour.
+Annonce : Elle peut faire un mouvement
+d’engagement. Puis, si elle est en mêlée, vous
+devez choisir une ou plusieurs unités ennemies
+comme cible(s) de ses attaques.
+Effet : Résolvez les attaques de mêlée contre
+la/les unité(s) cible(s).
+Frappe en Premier et Frappe en
+Dernier
+PASSIF
+MDG
+Frappe en Premier : une fois utilisées les aptitudes de la phase de mêlée autres que de Corps à
+Corps, si des unités ayant Frappe en Premier sont en mêlée, les autres unités ne peuvent pas
+être choisies pour utiliser une aptitude de Corps à Corps avant elles. Une fois que toutes les
+unités ayant Frappe en Premier ont combattu, le joueur actif choisit la prochaine unité qui
+combat.
+Frappe en Dernier : une unité en mêlée ayant Frappe en Dernier ne peut pas être choisie pour
+utiliser une aptitude de Corps à Corps tant que d’autres unités en mêlée sans Frappe en
+Dernier peuvent encore en utiliser une et ne l’ont pas encore fait.
+Les deux : une unité ayant à la fois Frappe en Premier et Frappe en Dernier est traitée comme
+si elle n’avait ni l’un ni l’autre.
+Champion
+PASSIF
+MDG
+Effet : Ajoutez 1 à la caractéristique d’Attaques des armes utilisées par les champions de cette unité.
+15 / 16
+
+===== page 16 =====
+TOUR DE L'ADVERSAIRE
+FIN DE TOUR
+FIN DE TOUR
+ GUNNAR BRAND
+Serment du Bain de Sang
+×1 / BATAILLE
+BT
+Annonce : Cette unité peut utiliser cette aptitude seulement si un ou plusieurs Héros ennemis ont été tués par ses attaques de mêlée à ce tour.
+Effet : Les unités d'Assermentés de Gunnar amies ont une Protection (4+) pour le restant de la bataille.
+RÈGLES DE BASE
+Porte-
+Étendard
+PASSIF
+MDG
+Effet : Tant que cette unité
+contient un ou plusieurs
+porte-étendards, ajoutez 1 à son
+score de contrôle.
+Enfoncement
+1
+MOUVEMENT
+SIMPLE
+Utilisée par : Une unité amie qui a chargé à ce tour.
+Cible : une unité ennemie en mêlée avec elle, dont la caractéristique de Santé est inférieure à la sienne.
+Effet : D3 dégâts mortels à la cible, puis déplacement de M" maximum. Elle peut traverser ou finir dans la mêlée
+des seules unités avec lesquelles elle était déjà en mêlée, et n’est pas obligée de finir en mêlée.
+Éruption de Fureur
+1-3
+×1 / TOUR (ARMÉE)
+ATTAQUE
+CORPS À CORPS
+SAISON
+SIMPLE
+Cible : une unité ennemie en mêlée avec une unité amie.
+Effet : Avec 1 arme de mêlée de l’unité qui utilise cette aptitude :
+ dépensez 1 à 3 dés de rage : autant d’attaques de mêlée (et non les Attaques de l’arme) ;
+ pas de touches critiques ;
+ chaque 6 non modifié : D3 mortels à chaque unité ennemie en mêlée avec l’unité, et l’adversaire gagne +1 niveau de fureur (max 7) ;
+ chaque 1 non modifié : D3 mortels à l’unité après la séquence de dégâts, sans protection.
+16 / 16
+

@@ -1,0 +1,849 @@
+pages: 8
+pages_scenario: None
+units_matched: ['Avalenor, The Stoneheart King', 'Alarith Spirit of the Mountain', 'Vanari Lord Regent', 'Ydrilan Riverblades', 'Hurakan Windmage', 'Hurakan Spirit of the Wind', 'Shrine Luminor']
+units_unmatched: []
+rules_included: ['Règles de Saison 2026-27', 'Traits de Bataille', 'Formation — Pilgrims of Haixiah', 'Domaine de Sorts — Lore of the Awakened Realms', 'Domaine de Manifestations — Twilit Sorceries', 'Legend of the Parch', 'Blazing Onslaught', 'Artefact de Pouvoir : SILVER WAND → Vanari Lord Regent', 'Trait Héroïque : ACOLYTE OF THE RUNES → Vanari Lord Regent']
+rules_unmatched: []
+wahapedia_used: []
+absent_references: []
+absent_keywords: []
+===== page 1 =====
+LRL - L3 - Montagne monstre 2 2000/2000
+pts
+Lumineth Realm-lords · Pilgrims of Haixiah · Drops : 3 · Domaine de sorts : Lore of the Awakened Realms · Domaine de
+manifestations : Twilit Sorceries
+Battle Tactic Cards : Legend of the Parch, Blazing Onslaught
+General's Regiment
+ Avalenor, The Stoneheart King — 400 pts
+General
+Alarith Spirit of the Mountain — 310 pts
+Alarith Spirit of the Mountain — 310 pts
+Alarith Spirit of the Mountain — 310 pts
+Regiment 1
+ Vanari Lord Regent — 110 pts
+Silver Wand, Acolyte of the Runes
+Ydrilan Riverblades — 150 pts
+Regiment 2
+ Hurakan Windmage — 140 pts
+Hurakan Spirit of the Wind — 270 pts
+Faction Terrain
+Shrine Luminor
+Généré le <horodatage> — aospy roster pdf
+Légende des pictos
+ 7+
+Aptitude : valeur de lancement. Warscroll : niveau de Sorcier ; manifestation : valeur de lancement de sa convocation.
++2
+Dés de rage : « +N » gagnés, sinon nombre dépensé
++2
+Niveau de fureur : « +N » augmenté, sinon diminué
+MDG
+Source du texte : MDG (Manuel du Général), BT (battletome), FP (faction pack), AQSHY,
+WAHAPEDIA (anglais). Traits de Bataille, Formation : catégorie de règles d'armée.
+SIMPLE
+Texte adapté, pas le verbatim : en cas de litige, revenir à la règle d'origine.
+BASE
+SAISON
+Aptitude de base du jeu (Core) ; règle de la saison en cours (MdG 2026-27).
+×1 / TOUR (ARMÉE)
+PASSIF
+Fréquence — (ARMÉE) : une seule fois pour toute l'armée ; passif : toujours actif, rien à déclarer.
+RÉACTION
+Réaction : utilisée en réponse à l'aptitude indiquée.
+TIR
+CHARGE
+Mot-clé d'aptitude, à la couleur de sa phase (Mouvement, Tir, Charge, Corps à Corps).
+ATTAQUE
+SACCAGE
+Mot-clé d'aptitude valable dans plusieurs phases.
+SORT
+PRIÈRE
+Magie (sort, manifestation, bannissement…) ; prière. Illimité : utilisable plusieurs fois par tour.
+TACTIQUE
+MOT-CLÉ
+Autre mot-clé d'aptitude (Tactique : règle spéciale d'une carte de tactique) ; bordeaux : propre à la
+faction.
+1 / 8
+
+===== page 2 =====
+Avalenor, The Stoneheart King
+Avalenor, le Roi Cœur de Pierre
+ MV
+6"
+ CT
+ 5
+ SV
+3+
+ WD
+—
+ HP
+16
+1 model
+ 390 pts
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Explosion Géomantique
+Tir en Mêlée
+ 12"
+ 1
+ 3+
+ 2+
+ 2
+ D6
+Marteaux Volefeu
+ 6
+ 4+
+ 2+
+ 2
+ 4
+PHASE DE MÊLÉE
+With the Force of a
+Landslide
+PASSIF
+WAHAPEDIA
+Effect: Add 1 to the Attacks characteristic of this unit’s Firestealer
+Hammers for each instance of Alaithi, Rune of the Mountain
+depicted on your battle scripture.
+Unbreakable Bulwark
+×1 / TOUR (ARMÉE)
+LES 2 PHASES
+RAMPAGE
+WAHAPEDIA
+Declare: If this unit did not charge this turn, pick an enemy unit in
+combat with it to be the target.
+Effect: Roll a dice. On a 3+, for the rest of the turn, while that enemy
+unit is in combat with this unit, all attacks made by models in that
+enemy unit within this unit’s combat range must target this unit.
+N'IMPORTE QUELLE PHASE
+Battle Damaged
+PASSIF
+WAHAPEDIA
+Effect: While this unit has 10 or more damage points, the Attacks
+characteristic of its Firestealer Hammers is 4.
+Call of the Mountains
+PASSIF
+WAHAPEDIA
+Effect: While a visible friendly ALARITH unit is wholly within 12" of
+this unit:
+ You are treated as having 1 additional instance of Alaithi, Rune of
+the Mountain depicted on your battle scripture for the purposes of
+the abilities on that unit’s warscroll.
+ If that unit is picked to be a target of the ‘Depict Rune’ ability, you
+can apply the enhanced effects of that ability to that unit as if you had
+an instance of Alaithi, Rune of the Mountain depicted on your
+battle scripture.
+LUMINETH REALM-LORDS · ORDER · ALARITH · HERO · MONSTER
+· UNIQUE
+ Wahapedia (EN)
+ Vanari Lord Regent
+ MV
+6"
+ CT
+ 2
+ SV
+4+
+ WD
+—
+ HP
+ 5
+1 model
+ 120 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Regent’s Sword
+Crit (Mortel)
+ 5
+ 3+
+ 4+
+ 1
+ 2
+DÉBUT DE ROUND
+ACOLYTE OF THE RUNES
+TRAIT HÉROÏQUE
+WAHAPEDIA
+Declare: Pick a friendly LUMINETH REALM-LORDS HERO wholly
+within 12" of this unit to be the target.
+Effect: That HERO can be picked as an additional target the next
+time you use the ‘Depict Rune’ ability.
+PHASE DES HÉROS
+Shining Example
+PASSIF
+WAHAPEDIA
+Effect: Each time a friendly LUMINETH REALM-LORDS unit wholly
+within 12" of this unit uses the ‘Rally’ command, you can make 3
+additional rally rolls of D6.
+SILVER WAND
+PASSIF
+WAHAPEDIA
+ARTEFACT DE POUVOIR
+Effect: If this unit is non-NOT A WIZARD, it can use the ‘Unbind’
+ability as if it had WIZARD (1). Otherwise, add 1 to casting rolls for
+this unit.
+PHASE DE MÊLÉE
+Wall of Blades
+×1 / TOUR (ARMÉE)
+LES 2 PHASES
+WAHAPEDIA
+Declare: Pick a friendly Vanari Auralan Wardens unit wholly within
+12" of this unit to be the wall of blades. Then, pick an enemy unit in
+combat with the wall of blades to be the target.
+Effect: Roll a dice for each model in the wall of blades that is within
+3" of the target. For each 5+, inflict 1 mortal damage on the target.
+AELF · LUMINETH REALM-LORDS · ORDER · VANARI · HERO ·
+INFANTRY
+ Wahapedia (EN)
+2 / 8
+
+===== page 3 =====
+Hurakan Windmage
+Mage du Vent Hurakain
+1
+ MV
+12"
+ CT
+ 2
+ SV
+5+
+ WD
+—
+ HP
+ 5
+1 model
+ 140 pts
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Souffle Tourbillonnant
+Tir en Mêlée
+ 12"
+ 1
+ 2+
+ 3+
+ 2
+ D3
+Aspiragillum
+ 3
+ 3+
+ 4+
+ 1
+ D3
+PHASE DES HÉROS
+Transporting Vortex
+7+
+MA PHASE
+WAHAPEDIA
+Declare: Pick a visible friendly LUMINETH REALM-LORDS unit
+wholly within 12" of this unit and not in combat to be the target, then
+make a casting roll of 2D6.
+Effect: Remove the target from the battlefield and set it up again on
+the battlefield more than 9" from all enemy units.
+PHASE DE MOUVEMENT
+Windleap
+×1 / BATAILLE (ARMÉE)
+MA PHASE
+WAHAPEDIA
+Declare: Pick up to 3 friendly HURAKAN unit wholly within 12" of
+this unit to be the targets.
+Effect: For the rest of the turn, each target can use a RUN ability and
+still use SHOOT and/or CHARGE abilities later in the turn.
+AELF · HURAKAN · LUMINETH REALM-LORDS · ORDER · FLY ·
+HERO · INFANTRY
+ Wahapedia (EN)
+ Ydrilan Riverblades
+ MV
+7"
+ CT
+ 1
+ SV
+5+
+ WD
+—
+ HP
+ 1
+10 models
+ 150 pts
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Ythara Darts
+Tir en Mêlée
+ 10"
+ 2
+ 3+
+ 4+
+ -
+ 1
+Ydrilan Blades
+ 2
+ 3+
+ 4+
+ 1
+ 1
+PHASE DE MOUVEMENT
+Travel The Waterways
+×1 / TOUR (ARMÉE)
+MA PHASE
+WAHAPEDIA
+Effect: Remove this unit from the battlefield and set it up again on
+the battlefield wholly within 6" of a battlefield edge and more than 9"
+from all enemy units.
+If you picked to depict Ydriliqi, Rune of the River on your battle
+scripture this battle round, you can instead set up this unit
+anywherecon the battlefield more than 9" from all enemy units.
+PHASE DE MÊLÉE
+Relentless as the Driving
+Current
+×1 / TOUR (ARMÉE)
+LES 2 PHASES
+WAHAPEDIA
+Effect: If this unit is in combat, it can move 2D6". It can pass through
+models in enemy units but must end that move in combat.
+AELF · LUMINETH REALM-LORDS · ORDER · YDRILAN · CHAMPION
+· INFANTRY
+ Wahapedia (EN)
+Hurakan Spirit of the Wind
+ MV
+18"
+ CT
+ 5
+ SV
+4+
+ WD
+5+
+ HP
+ 8
+1 model
+ 270 pts
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Bow of the Wind’s
+Vengeance
+Anti-MONSTER (+1 Perf.), Tir en
+Mêlée
+ 15"
+ 4
+ 2+
+ 3+
+ 2
+ 2
+Swirling Shards
+Crit (Mortel)
+ 6
+ 2+
+ 4+
+ -
+ 1
+PHASE DE TIR
+Hunters of Majestic Beasts
+PASSIF
+WAHAPEDIA
+Effect: The Damage characteristic of this unit’s Bow of the Wind’s
+Vengeance is 3 for attacks that target MONSTERS.
+Spirit of the Wind
+×1 / TOUR (ARMÉE)
+MOVE
+LES 2 PHASES
+WAHAPEDIA
+Effect: If this unit used a SHOOT ability this phase, this unit can
+move D6". Add 2 to the roll for each instance of Oreali, Rune of the
+Wind depicted on your battle scripture. It cannot end that move in
+combat.
+Hurricane Winds
+×1 / TOUR (ARMÉE)
+LES 2 PHASES
+RAMPAGE
+WAHAPEDIA
+Declare: Pick an enemy unit that had any damage points allocated
+to it this turn by this unit’s shooting attacks to be the target.
+Effect: Roll a dice. On a 3+, the target has STRIKE-LAST for the
+rest of the turn.
+HURAKAN · LUMINETH REALM-LORDS · ORDER · FLY · MONSTER ·
+WARD
+ Wahapedia (EN)
+3 / 8
+
+===== page 4 =====
+Alarith Spirit of the Mountain
+Esprit de la Montagne Alarithe
+ MV
+6"
+ CT
+ 5
+ SV
+3+
+ WD
+—
+ HP
+14
+1 model
+ 300 pts
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Explosion Géomantique
+Tir en Mêlée
+ 12"
+ 1
+ 3+
+ 2+
+ 2
+ D6
+Marteau-monde Cœur de
+Pierre
+ 4
+ 4+
+ 2+
+ 2
+ 5
+PHASE DE MÊLÉE
+With the Force of a
+Landslide
+PASSIF
+WAHAPEDIA
+Effect: Add 1 to the Attacks characteristic of this unit’s Stoneheart
+Worldhammer for each instance of Alaithi, Rune of the Mountain
+depicted on your battle scripture.
+Rain of Stone
+×1 / TOUR (ARMÉE)
+LES 2 PHASES
+RAMPAGE
+WAHAPEDIA
+Declare: Pick an enemy unit in combat with this unit to be the target.
+Effect: Roll a D3. Add 2 to the roll if the target charged this turn. On
+a 2+, inflict an amount of mortal damage on the target equal to the
+roll.
+N'IMPORTE QUELLE PHASE
+Battle Damaged
+PASSIF
+WAHAPEDIA
+Effect: While this unit has 10 or more damage points, the Attacks
+characteristic of its Stoneheart Worldhammer is 3.
+LUMINETH REALM-LORDS · ORDER · ALARITH · MONSTER
+ Wahapedia (EN)
+ Shrine Luminor
+Sanctuaire Luminor
+ MV
+ -
+ CT
+ -
+ SV
+3+
+ WD
+—
+ HP
+12
+1 model
+ 0 pts
+PHASE DES HÉROS
+Cleansing Rituals
+×1 / TOUR
+WAHAPEDIA
+Réaction : You declared a
+SPELL ability for a LUMINETH
+REALM-LORDS unit wholly
+within 12" of this terrain feature
+Effect: While this terrain feature has a Shrine Guardian, you can
+re-roll the casting roll for that spell.
+Enter the Shrine
+MA PHASE
+WAHAPEDIA
+Declare: If this terrain feature does not have a Shrine Guardian, pick
+a friendly LUMINETH REALM-LORDS INFANTRY HERO within 3"
+of it and not in combat to be the target.
+Effect: Place the target on this terrain feature. The target is now a
+Shrine Guardian (see ‘Shrine Guardian’).
+PHASE DE MOUVEMENT
+Exit the Shrine
+MA PHASE
+WAHAPEDIA
+Effect: If this terrain feature has a Shrine Guardian that was not
+placed on it this turn, set up the Shrine Guardian on the battlefield
+wholly within 6" of this terrain feature and not in combat. That unit is
+no longer a Shrine Guardian.
+N'IMPORTE QUELLE PHASE
+Shrine Guardian
+PASSIF
+WAHAPEDIA
+Effect: While this terrain feature has a Shrine Guardian:
+ This terrain feature has a Move characteristic of 6" and can use
+non-command non-CHARGE MOVE abilities as if it were a unit. It
+cannot end a MOVE ability within the combat range of an enemy unit.
+ The Shrine Guardian cannot use MOVE abilities and remains on
+this terrain feature each time it moves.
+ Instead of measuring range and visibility to the Shrine Guardian,
+measure to this terrain feature instead.
+ All attacks that would target the Shrine Guardian target this terrain
+feature instead.
+If this terrain feature is destroyed, before removing it from the
+battlefield,
+LUMINETH REALM-LORDS · ORDER · FACTION TERRAIN · FLY
+ Wahapedia (EN)
+4 / 8
+
+===== page 5 =====
+Géminides d’Uhl-Gysh
+7+
+ MV
+8"
+ CT
+ 6
+ SV
+6+
+ WD
+6+
+ HP
+ 8
+2 models
+ Invoquée
+ Entièrement à 12" et visible du lanceur
+ À plus de 9" de l'ennemi
+ 2 parties à 9" l'une de l'autre
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Vrilles d’Ombre et de Lumière
+ 4
+ 4+
+ 3+
+ 1
+ D3
+N'IMPORTE QUELLE PHASE
+Multiple Parts
+PASSIF
+WAHAPEDIA
+Effect: When a number of damage points equal to this
+MANIFESTATION’s Health characteristic are allocated to it, this
+MANIFESTATION is destroyed and both its parts are removed from
+play.
+Each time this MANIFESTATION moves, both its parts must end
+within 9" of each other.
+Each part of this MANIFESTATION is armed with Tendrils of Light
+and Shadow.
+Tendrils of Shadow and
+Light
+PASSIF
+WAHAPEDIA
+Effect: Enemy units cannot use commands while they are within 3"
+of either part of this MANIFESTATION.
+MANIFESTATION · SORT PERSISTANT · VOL · PROTECTION (6+)
+ Wahapedia (EN)
+ Palissade Prismatique
+7+
+ MV
+ -
+ CT
+ 7
+ SV
+6+
+ WD
+6+
+ HP
+ 8
+1 model
+ Invoquée
+ Entièrement à 18" et visible du lanceur
+PHASE DE TIR
+Blinding Light
+PASSIF
+WAHAPEDIA
+Effect: This MANIFESTATION cannot be targeted by shooting
+attacks. In addition, a unit cannot be targeted by shooting attacks if it
+is impossible to draw a straight line from a model in the attacking unit
+to a model in the target unit without that line passing across this
+MANIFESTATION.
+MANIFESTATION · SORT PERSISTANT · PROTECTION (6+)
+ Wahapedia (EN)
+Portail Pénombral
+7+
+ MV
+ -
+ CT
+ 6
+ SV
+6+
+ WD
+6+
+ HP
+ 8
+2 models
+ Invoquée
+ Entièrement à 18" et visible du lanceur
+ 2 parties à 9" l'une de l'autre
+PHASE DES HÉROS
+Arcane Passage
+MA PHASE
+WAHAPEDIA
+Declare: Pick a friendly WIZARD within 3" of this MANIFESTATION
+to be the target.
+Effect: The next time the target uses a non-SUMMON SPELL ability
+this phase, add 1 to the casting value of that spell. When picking
+targets for that spell, you can measure range and visibility from either
+part of this MANIFESTATION instead of from the caster, and your
+opponent can measure range and visibility to either part of this
+MANIFESTATION instead of to the caster for the purposes of the
+‘Unbind’ ability.
+N'IMPORTE QUELLE PHASE
+Multiple Parts
+PASSIF
+WAHAPEDIA
+Effect: When a number of damage points equal to this
+MANIFESTATION’s Health characteristic are allocated to it, this
+MANIFESTATION is destroyed and both its parts are removed from
+play.
+MANIFESTATION · SORT PERSISTANT · PROTECTION (6+)
+ Wahapedia (EN)
+5 / 8
+
+===== page 6 =====
+Aptitudes
+Lumineth Realm-lords
+DÉPLOIEMENT
+DÉPLOIEMENT
+ RÈGLES DE BASE
+Souffler sur les Braises
+×1 / BATAILLE (ARMÉE)
+SAISON
+MDG
+Effet : Si vous êtes l’attaquant, réglez votre niveau de fureur sur 1. Si vous êtes le défenseur, réglez votre niveau de fureur sur 2.
+Assaut Flamboyant : Règle Spéciale
+TACTIQUE
+MDG
+Au début de la bataille, après avoir utilisé toutes les aptitudes de Phase de Déploiement mais avant de déterminer le joueur qui a le premier tour,
+votre adversaire doit choisir 1 élément de terrain autre qu’un TERRAIN DE FACTION dans son territoire qui sera son repaire. Le repaire ne peut pas
+être retiré du champ de bataille au cours de cette bataille.
+N'IMPORTE QUELLE PHASE
+N'IMPORTE QUELLE PHASE
+ RÈGLES DE BASE
+Braver la Douleur
+X
+X
+PASSIF
+SAISON
+MDG
+Effet : Avant d’allouer des dégâts à une unité amie, vous pouvez dépenser n’importe quel nombre de dés de rage. Pour chaque dé de rage dépensé,
+réduisez votre niveau de fureur de 1, jusqu’à un minimum de 0, puis jetez un dé. Sur 3+, retirez 1 dégât de la réserve de dégâts de l’unité.
+DÉBUT DE ROUND
+DÉBUT DE ROUND
+ RÈGLES DE BASE
+Rage Bouillonnante
+×1 / TOUR (ARMÉE)
+SAISON
+MDG
+Annonce : Vous devez utiliser cette aptitude.
+Effet : Gagnez autant de dés de rage que votre niveau de fureur. À la fin du round de bataille, tous les dés de rage non dépensés sont perdus.
+RÈGLES D'ARMÉE
+INSCRIPTION DE RUNE
+×1 / ROUND (ARMÉE)
+TRAITS DE BATAILLE
+WAHAPEDIA
+Effet : Choisissez 1 des runes suivantes à inscrire dans votre verset guerrier. L'effet et les effets conditionnels améliorés de cette rune durent pour le
+restant du round de bataille. Chaque rune reste dans votre verset guerrier pour le restant de la bataille ou jusqu'à ce qu'elle soit retirée ou remplacée
+par une autre aptitude.
+Varinor, la Rune de la Force : Choisissez comme cibles jusqu'à 2 unités de SUZERAINS LUMINETHS amies pour chaque exemplaire de cette rune
+inscrit dans votre verset guerrier. Ajoutez 1 aux jets de course et de charge pour chaque cible. De plus, les effets améliorés suivants s'appliquent :
+ Tant qu'Ydriliqi, la Rune du Fleuve est inscrite dans votre verset guerrier, ajoutez 1 aux jets de blessure pour les attaques de mêlée de chaque cible.
+ Tant qu'Oreali, la Rune du Vent est inscrite dans votre verset guerrier, chaque cible peut utiliser des aptitudes de Tir et/ou de Charge même si elle a
+utilisé une aptitude de Repli au même tour.
+Alaithi, la Rune de la Montagne : Choisissez comme cibles jusqu'à 2 unités de SUZERAINS LUMINETHS amies pour chaque exemplaire de cette
+rune inscrit dans votre verset guerrier. Chaque cible a une Protection (5+). De plus, les effets améliorés suivants s'appliquent :
+ Tant que Varinor, la Rune de Force est inscrite dans votre verset guerrier, les armes de mêlée des cibles ont Anti-charge (+1 Perf.).
+ Tant qu'Ydriliqi, la Rune du Fleuve est inscrite dans votre verset guerrier, soustrayez 1 aux jets de blessure pour les attaques des unités ennemies
+tant qu'elles sont en mêlée avec une ou plusieurs des cibles.
+Ydriliqi, la Rune du Fleuve : Choisissez comme cibles jusqu'à 2 unités de SUZERAINS LUMINETHS amies pour chaque exemplaire de cette rune
+inscrit dans votre verset guerrier. Soustrayez 2 aux jets de charge pour les unités ennemies tant qu'elles sont à 12" d'une ou plusieurs de ces cibles.
+De plus, les effets améliorés suivants s'appliquent :
+ Tant qu'Alaithi, la Rune de la Montagne est inscrite dans votre verset guerrier, ignorez les modificateurs négatifs aux jets de touche et de blessure
+pour les attaques des cibles.
+ Si Oreali, la Rune du Vent est inscrite dans votre verset guerrier, chaque cible peut se déplacer immédiatement de 3" maximum. Chaque cible peut
+passer à portée de mêlée des unités ennemies et peut finir ce mouvement en mêlée.
+Oreali, la Rune du Vent : Choisissez comme cibles jusqu'à 2 unités de SUZERAINS LUMINETHS amies pour chaque exemplaire de cette rune inscrit
+dans votre verset guerrier. Soustrayez 1 aux jets de touche pour les attaques des unités ennemies tant qu'elles sont en mêlée avec une ou plusieurs
+des cibles. De plus, les effets améliorés suivants s'appliquent :
+ Tant que Varinor, la Rune de Force est inscrite dans votre verset guerrier, ajoutez 4" à la caractéristique de Mouvement de chaque cible.
+ Tant qu'Alaithi, la Rune de la Montagne est inscrite dans votre verset guerrier, ajoutez 5 au score de contrôle de chaque cible.
+Thalari, la Rune du Zénith : Ajoutez 2 aux jets de lancement pour les unités de SUZERAINS LUMINETHS amies. De plus, si vous avez au moins 4
+runes uniques inscrites dans votre verset guerrier, ajoutez 4" à la caractéristique de Mouvement des unités de SUZERAINS LUMINETHS amies et les
+attaques de ces unités causent des touches critiques sur les jets non modifiés de 5+.
+Note des Concepteurs : Nous recommandons de noter sur un papier les runes inscrites lors de chaque round de bataille pour garder la trace des
+runes inscrites actuellement dans votre verset guerrier. N'hésitez pas à les noter par type (Force, Fleuve, etc.), par initiale (chaque rune a une initiale
+différente) ou, si vous êtes particulièrement audacieux, vous pouvez essayer votre main à la calligraphie aelfique et apprendre à tracer chaque rune !
+6 / 8
+
+===== page 7 =====
+PHASE DES HÉROS
+PHASE DES HÉROS
+ SORTS
+FOCUSED EROSION
+6+
+MA PHASE
+ILLIMITÉ
+WAHAPEDIA
+Declare: Pick a friendly LUMINETH REALM-LORDS WIZARD to
+cast this spell, pick a visible enemy unit within 18" of them to be
+the target, then make a casting roll of 2D6.
+Effect: Subtract 1 from the Rend characteristic of the target’s
+weapons until the start of your next turn.
+ELEMENTAL PUSH
+6+
+MA PHASE
+WAHAPEDIA
+Declare: Pick a friendly LUMINETH REALM-LORDS WIZARD to cast this spell,
+pick a visible friendly LUMINETH REALM-LORDS unit wholly within 12" of them
+that was not set up this turn to be the target, then make a casting roll of 2D6.
+Subtract 1 from the roll if the target is in combat.
+Effect: The target can move up to 5". It can pass through the combat ranges of
+enemy units but cannot end that move in combat.
+REALMSHIELD
+7+
+MA PHASE
+WAHAPEDIA
+Declare: Pick a friendly LUMINETH REALM-LORDS WIZARD to cast this spell, then make a casting roll of 2D6.
+Effect: Until the start of your next turn, friendly LUMINETH REALM-LORDS units have WARD (5+) while they are wholly within 12" of the caster.
+MANIFESTATIONS
+SUMMON GEMINIDS
+OF UHL-GYSH
+7+
+MA PHASE
+MANIFESTATION
+WAHAPEDIA
+Declare: If there is not a friendly Geminids of
+Uhl-Gysh endless spell on the battlefield, pick a
+friendly WIZARD to cast this spell, then make a casting
+roll of 2D6.
+Effect: Set up a Geminids of Uhl-Gysh endless spell
+wholly within 12" of the caster, visible to them and
+more than 9" from all enemy units. A Geminids of
+Uhl-Gysh endless spell has 2 parts that must be set up
+within 9" of each other.
+SUMMON
+PRISMATIC
+PALISADE
+7+
+MA PHASE
+MANIFESTATION
+WAHAPEDIA
+Declare: If there is not a friendly
+Prismatic Palisade on the battlefield,
+pick a friendly WIZARD to cast this
+spell, then make a casting roll of 2D6.
+Effect: Set up a Prismatic Palisade
+wholly within 18" of the caster and
+visible to them.
+SUMMON
+UMBRAL
+SPELLPORTAL
+7+
+MA PHASE
+MANIFESTATION
+WAHAPEDIA
+Declare: If there is not a friendly Umbral
+Spellportal on the battlefield, pick a friendly
+WIZARD to cast this spell, then make a casting
+roll of 2D6.
+Effect: Set up an Umbral Spellportal wholly
+within 18" of the caster and visible to them. An
+Umbral Spellportal has 2 parts that must be set
+up within 9" of each other.
+FIN DE TOUR
+FIN DE TOUR
+ RÈGLES DE BASE
+Éruption de Fureur
+1-3
+×1 / TOUR (ARMÉE)
+LES 2 PHASES
+ATTAQUE
+MDG
+CORPS À CORPS
+SAISON
+Annonce : Choisissez une unité amie pour qu’elle utilise cette aptitude, puis choisissez comme cible une unité ennemie en mêlée avec cette unité
+amie.
+Effet : Choisissez 1 des armes de mêlée de l’unité qui utilise cette aptitude. Puis dépensez 3 dés de rage maximum.
+Résolvez autant d’attaques de mêlée contre la cible en utilisant l’arme de mêlée choisie que le nombre de dés de rage que vous avez dépensés.
+Ces attaques ne peuvent pas causer de touches critiques. À la place, pour chaque jet de touche non modifié de 6 obtenu pour ces attaques :
+ Infligez D3 dégâts mortels supplémentaires à chaque unité ennemie en mêlée avec l’unité qui utilise cette aptitude.
+ Votre adversaire doit augmenter son niveau de fureur de 1, jusqu’à un maximum de 7.
+Pour chaque jet de touche non modifié de 1 pour ces attaques, allouez D3 dégâts mortels à l’unité qui utilise cette aptitude une fois la séquence de
+dégâts résolue (on ne peut tenter aucun jet de protection contre ces dégâts).
+Note des Concepteurs : Les dés de rage ne s’ajoutent pas à la caractéristique d’Attaques de l’arme que vous choisissez ; si vous dépensez 3 dés de
+rage pour utiliser cette aptitude, vous faites seulement 3 attaques de mêlée.
+RÈGLES D'ARMÉE
+TRICK OF THE LIGHT
+PASSIF
+FORMATION : PILGRIMS OF HAIXIAH
+WAHAPEDIA
+Effect: Friendly LUMINETH REALM-LORDS units can use the ‘Power Through’ command even if they have not charged this turn.
+7 / 8
+
+===== page 8 =====
+Légende de l’Aride
+CARTE DE TACTIQUE 6 · Legend of the Parch
+ÉCHAUFFOURÉE
+Sauvetage Audacieux
+Vous exécutez cette tactique de bataille à la fin de votre tour si une unité ennemie qui était en mêlée au début du tour a été détruite par
+une attaque de mêlée faite par une unité amie qui a chargé à ce tour.
+ 5
+ PTS DE
+VICTOIRE
+FRAPPE
+Commander au Front
+Vous exécutez cette tactique de bataille à la fin de votre tour s’il y a au moins 2 HÉROS amis sur le champ de bataille, s’ils sont tous à 9"
+d’une unité ennemie visible, et si aucun d’eux n’a été tué à ce tour.
+ 5
+ PTS DE
+VICTOIRE
+DOMINATION
+Héros Légendaire
+Vous exécutez cette tactique de bataille à la fin de votre tour si vous contrôlez un objectif qui est entièrement hors de votre territoire, que
+vous ne contrôliez pas au début du tour, et qu’un HÉROS ami conteste.
+ 5
+ PTS DE
+VICTOIRE
+Assaut Flamboyant
+CARTE DE TACTIQUE 1 · Blazing Onslaught
+RÈGLE SPÉCIALE
+Au début de la bataille, après avoir utilisé toutes les aptitudes de Phase de Déploiement mais avant de déterminer le joueur qui a le premier tour, votre
+adversaire doit choisir 1 élément de terrain autre qu’un TERRAIN DE FACTION dans son territoire qui sera son repaire. Le repaire ne peut pas être retiré du
+champ de bataille au cours de cette bataille.
+ÉCHAUFFOURÉE
+Maître d’Armes
+Vous exécutez cette tactique de bataille à la fin de votre tour si la même unité ennemie a reçu au moins 1 dégât lors de 3 phases
+différentes à ce tour.
+ 5
+ PTS DE
+VICTOIRE
+FRAPPE
+Brisez Leurs Défenses
+Vous exécutez cette tactique de bataille à la fin de votre tour si vous contrôlez le repaire ennemi.
+ 5
+ PTS DE
+VICTOIRE
+DOMINATION
+Pas de Survivants
+Vous exécutez cette tactique de bataille à la fin de votre tour si au moins 2 unités ennemies ont été détruites à ce tour et si vous contrôlez
+le repaire ennemi.
+ 5
+ PTS DE
+VICTOIRE
+8 / 8
+

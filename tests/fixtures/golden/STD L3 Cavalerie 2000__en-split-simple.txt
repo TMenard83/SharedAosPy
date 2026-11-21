@@ -1,0 +1,1655 @@
+pages: 18
+pages_scenario: 21
+units_matched: ['Abraxia, Spear of the Everchosen', 'Varanguard', 'Daemon Prince', 'Chaos Furies', 'Gunnar Brand', 'Singri Brand', 'The Oathsworn Kin']
+units_unmatched: []
+rules_included: ['Règles de Saison 2026-27', 'Aptitudes Génériques — MdG26-27', 'Traits de Bataille', 'Formation — Despoilers', 'Domaine de Sorts — Lore of the Damned', 'Domaine de Manifestations — Twilit Sorceries', 'Blazing Onslaught', 'Burning for Vengeance', 'Artefact de Pouvoir : Darkflame Pendant → Daemon Prince', 'Trait Héroïque : Radiance of Dark Glory → Daemon Prince', 'Trait de Bataille : Pledged to Nurgle → Daemon Prince']
+rules_unmatched: []
+wahapedia_used: []
+absent_references: []
+absent_keywords: [AbsentReference(ability='SUMMON GEMINIDS OF UHL-GYSH', owner='Twilit Sorceries', unit='WIZARD'), AbsentReference(ability='SUMMON PRISMATIC PALISADE', owner='Twilit Sorceries', unit='WIZARD'), AbsentReference(ability='SUMMON UMBRAL SPELLPORTAL', owner='Twilit Sorceries', unit='WIZARD'), AbsentReference(ability='DAEMONIC SPEED', owner='Lore of the Damned', unit='WIZARD')]
+===== page 1 =====
+STD - L3 Cavalerie 2000/2000 pts
+Slaves to Darkness · Despoilers · Drops: 3 · Spell lore: Lore of the Damned · Manifestation lore: Twilit Sorceries
+Battle Tactic Cards: Blazing Onslaught, Burning for Vengeance
+General's Regiment
+ Abraxia, Spear of the Everchosen — 250 pts
+General
+Varanguard — 300 pts
+Varanguard — 300 pts
+Varanguard — 300 pts
+Varanguard — 300 pts
+Regiment 1
+ Daemon Prince — 250 pts
+Darkflame Pendant, Radiance of Dark Glory - (20) Points, 1x Pledged to Nurgle, 1x Wings
+Chaos Furies — 120 pts
+Regiment 2
+ Gunnar Brand — 180 pts
+Singri Brand — 0 pts
+The Oathsworn Kin — 0 pts
+Generated on <horodatage> — aospy roster pdf
+Icon legend
+ 7+
+Ability: casting value. Warscroll: Wizard level; manifestation: casting value of its summoning.
+1
+Command: command point cost
++2
+Rage dice: “+N” gained, otherwise number spent
++2
+Fury level: “+N” increased, otherwise decreased
+GHB
+Text source: GW APP (official Warhammer Age of Sigmar app), CORE RULES (GW Core
+Rules), GHB (General's Handbook), BT (battletome), FP (faction pack), AQSHY, WAHAPEDIA.
+Battle Traits, Formation: army rule category.
+SIMPLE
+Adapted text, not verbatim: in case of dispute, refer to the original rule.
+CORE
+SEASON
+Core ability; current season rule (General's Handbook 2026-27).
+×1 / TURN (ARMY)
+PASSIVE
+Frequency — (ARMY): once for the whole army; passive: always active, nothing to declare.
+REACTION
+Reaction: used in response to the stated ability.
+SHOOT
+CHARGE
+Ability keyword, in the colour of its phase (Move, Shoot, Charge, Fight).
+ATTACK
+RAMPAGE
+Ability keyword used in several phases.
+SPELL
+PRAYER
+Magic (spell, manifestation, banishment…); prayer. Unlimited: can be used several times per turn.
+UNIT NAME
+Unit that has the ability (for a signature spell: its caster).
+TACTIC
+KEYWORD
+Other ability keyword (Tactic: special rule of a battle tactic card); burgundy: faction-specific.
+1 / 18
+
+===== page 2 =====
+Abraxia, Spear of the Everchosen
+ MV
+10"
+ CT
+ 5
+ SV
+3+
+ WD
+5+
+ HP
+14
+1 model
+ 230 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+The Thanatorg’s Claws and Fangs
+Companion
+ 6
+ 4+
+ 3+
+ 1
+ 2
+Gorbolga
+Anti-HERO (+1 Rend), Charge (+1 Damage)
+ 5
+ 3+
+ 3+
+ 2
+ 2
+ANY PHASE
+Battle Damaged
+PASSIVE
+WAHAPEDIA
+Effect: While this unit has 10 or more damage points, the Attacks
+characteristic of the Thanatorg’s Claws and Fangs is 4.
+CHAOS · SLAVES TO DARKNESS · WARRIORS OF CHAOS · HERO ·
+MONSTER · UNIQUE · WARD
+ Wahapedia (EN)
+Gunnar Brand
+ MV
+5"
+ CT
+ 2
+ SV
+5+
+ WD
+—
+ HP
+ 6
+1 model
+ 180 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Dual Axes
+Crit (Mortal)
+ 10
+ 4+
+ 3+
+ 1
+ 1
+CHAOS · DARKOATH · GUNNAR’S OATHSWORN · SLAVES TO
+DARKNESS · HERO · INFANTRY · UNIQUE
+ Wahapedia (EN)
+Chaos Furies
+ MV
+12"
+ CT
+ 1
+ SV
+6+
+ WD
+6+
+ HP
+ 1
+6 models
+ 100 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Razor-sharp Dagger and Claws
+ 3
+ 4+
+ 4+
+ 1
+ 1
+CHAOS · DAEMON · SLAVES TO DARKNESS · FLY · INFANTRY ·
+WARD
+ Wahapedia (EN)
+The Oathsworn Kin
+ MV
+5"
+ CT
+ 1
+ SV
+5+
+ WD
+—
+ HP
+ 3
+3 models
+ 0 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Gnarled Staff
+ 3
+ 4+
+ 4+
+ -
+ D3
+Heavy Darkoath Weapon
+Crit (Mortal)
+ 4
+ 4+
+ 3+
+ -
+ 2
+CHAOS · DARKOATH · GUNNAR’S OATHSWORN · SLAVES TO
+DARKNESS · INFANTRY · UNIQUE
+ Wahapedia (EN)
+ Daemon Prince
+ MV
+8"
+ CT
+ 5
+ SV
+3+
+ WD
+6+
+ HP
+10
+1 model
+ 230+20 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Hellforged Weapons
+Crit (Mortal)
+ 6
+ 3+
+ 3+
+ 1
+ 3
+MOVEMENT PHASE
+Airborne Horror
+PASSIVE
+WAHAPEDIA
+Effect: If this unit has Wings, it has a Move characteristic of 10" and
+has FLY.
+COMBAT PHASE
+The Mounted Skulls of the
+Fallen
+PASSIVE
+WAHAPEDIA
+Effect: If this unit has a Trophy Rack, its Hellforged Weapons also
+have Anti-HERO (+1 Rend).
+ANY PHASE
+Darkflame Pendant
+PASSIVE
+GW APP
+ARTEFACT OF POWER
+Effect: Weapons used for attacks that target this unit have a
+maximum Damage characteristic of 1.
+CHAOS · DAEMON · SLAVES TO DARKNESS · HERO · INFANTRY ·
+WARD
+ Wahapedia (EN)
+Singri Brand
+ MV
+12"
+ CT
+ 2
+ SV
+5+
+ WD
+—
+ HP
+ 4
+1 model
+ 0 pts
+ Rng
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Singri’s Warbow
+Crit (Auto-wound)
+ 18"
+ 2
+ 3+
+ 3+
+ 1
+ D3
+Warsteed’s Hooves
+Companion
+ 2
+ 5+
+ 3+
+ -
+ 1
+Brand Ancestral Knife
+ 3
+ 4+
+ 3+
+ 1
+ 1
+CHAOS · DARKOATH · GUNNAR’S OATHSWORN · SLAVES TO
+DARKNESS · CAVALRY · HERO · UNIQUE
+ Wahapedia (EN)
+Varanguard
+ MV
+10"
+ CT
+ 2
+ SV
+3+
+ WD
+—
+ HP
+ 5
+3 models
+ 290 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Daemonforged Blades
+Crit (Mortal), Charge (+1 Damage)
+ 3
+ 3+
+ 3+
+ 2
+ 2
+Steed’s Tearing Fangs
+Companion
+ 3
+ 4+
+ 3+
+ 1
+ 1
+CHAOS · SLAVES TO DARKNESS · WARRIORS OF CHAOS ·
+CAVALRY
+ Wahapedia (EN)
+2 / 18
+
+===== page 3 =====
+Geminids of Uhl-Gysh
+7+
+ MV
+8"
+ CT
+ 6
+ SV
+6+
+ WD
+6+
+ HP
+ 8
+2 models
+ Summoned
+ Wholly within 12" and visible to the caster
+ More than 9" from the enemy
+ 2 parts within 9" of each other
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Tendrils of Light and Shadow
+ 4
+ 4+
+ 3+
+ 1
+ D3
+ANY PHASE
+Multiple Parts
+PASSIVE
+WAHAPEDIA
+Effect: When a number of damage points equal to this
+MANIFESTATION’s Health characteristic are allocated to it, this
+MANIFESTATION is destroyed and both its parts are removed from
+play.
+Each time this MANIFESTATION moves, both its parts must end
+within 9" of each other.
+Each part of this MANIFESTATION is armed with Tendrils of Light
+and Shadow.
+ENDLESS SPELL · FLY · MANIFESTATION · WARD
+ Wahapedia (EN)
+ Prismatic Palisade
+7+
+ MV
+ -
+ CT
+ 7
+ SV
+6+
+ WD
+6+
+ HP
+ 8
+1 model
+ Summoned
+ Wholly within 18" and visible to the caster
+ENDLESS SPELL · MANIFESTATION · WARD
+ Wahapedia (EN)
+Umbral Spellportal
+7+
+ MV
+ -
+ CT
+ 6
+ SV
+6+
+ WD
+6+
+ HP
+ 8
+2 models
+ Summoned
+ Wholly within 18" and visible to the caster
+ 2 parts within 9" of each other
+ENDLESS SPELL · MANIFESTATION · WARD
+ Wahapedia (EN)
+3 / 18
+
+===== page 4 =====
+Deployment
+Slaves to Darkness
+DEPLOYMENT
+DEPLOYMENT
+ CORE RULES
+Set Up the Battlefield
+SIMPLE
+1: The players roll off. The winner chooses which player is the attacker and which is the defender.
+2: The defender sets up objectives in the locations indicated on the battlefield map. Then, the defender sets up terrain features. Each terrain feature
+must be set up more than 3" from the battlefield edge, more than 3" from all objectives and more than 6" from all other terrain features.
+3: After objectives and terrain features have been set up, the attacker picks which territory is their territory. The other territory is the defender’s
+territory. The players then resolve the deployment phase. The attacker begins deployment.
+4: Deploy Faction Terrain Features. Some factions have faction terrain features, which have their own warscrolls and are set up using Deploy
+Terrain abilities. The player who begins deployment must use Deploy Terrain abilities first, followed by their opponent.
+5: Deploy Armies. Unless otherwise specified in the battleplan, the players alternate using Deploy abilities to deploy their units, starting with the player
+who begins deployment. Once one player has no more Deploy abilities to use, their opponent must continue to use Deploy abilities until they also have
+no more to use.
+Deploy Faction Terrain
+CORE RULES
+Declare: Pick a friendly faction terrain feature that has not been deployed to be the target.
+Effect: Set up the target faction terrain feature wholly within friendly territory, more than 3" from all objectives and other terrain features. After you have
+done so, it has been deployed.
+Deploy Regiment
+CORE RULES
+Declare: Pick a regiment from your army roster to be the target. No units in that regiment can have already been deployed.
+Effect: Keep using Deploy abilities without alternating until all units in that regiment have been deployed. You cannot set up units that are not in that
+regiment on the battlefield or in reserve as part of any of those Deploy abilities.
+Deploy Unit
+CORE RULES
+Declare: Pick a unit from your army roster that has not been deployed to be the target.
+Effect: Set up the target unit wholly within friendly territory and more than 9" from enemy territory. After you have done so, it has been deployed.
+Raising the Heat
+×1 / BATTLE (ARMY)
+SEASON
+GHB
+Effect: If you are the attacker, set your fury level to 1. If you are the defender, set your fury level to 2.
+Blazing Onslaught: Special Rule
+TACTIC
+GHB
+At the start of the battle, after using all Deployment Phase abilities but before determining which player will take the first turn, your opponent must pick
+1 non-FACTION TERRAIN terrain feature within their territory to be their hideout. The hideout cannot be removed from the battlefield at any point
+during the battle.
+Burning for Vengeance: Special Rule
+TACTIC
+GHB
+At the start of the battle, after using all Deployment Phase abilities but before determining which player will take the first turn, pick an enemy HERO on
+the battlefield or in reserve to be the fugitive for the rest of the battle.
+4 / 18
+
+===== page 5 =====
+Any phase
+Slaves to Darkness
+ANY PHASE
+ANY PHASE
+ ARMY RULES
+Pledged to Nurgle
+PASSIVE
+GW APP
+BATTLE TRAITS
+Effect: Friendly PLEDGED TO NURGLE units have WARD (6+). If a unit already has WARD (6+), it has WARD (5+) instead.
+GEMINIDS OF UHL-GYSH
+Tendrils of Shadow and Light
+PASSIVE
+MANIFESTATION
+WAHAPEDIA
+Effect: Enemy units cannot use commands while they are within 3" of either part of this MANIFESTATION.
+UMBRAL SPELLPORTAL
+Multiple Parts
+PASSIVE
+MANIFESTATION
+WAHAPEDIA
+Effect: When a number of damage points equal to this MANIFESTATION’s Health characteristic are allocated to it, this MANIFESTATION is destroyed
+and both its parts are removed from play.
+CORE RULES
+All-out Attack
+1
+GHB
+Reaction: You declared an Attack ability
+Used By: The unit using that Attack ability.
+Effect: Add 1 to hit rolls for attacks made as part of
+that Attack ability. This also affects weapons that
+have the Companion weapon ability. For the rest of
+the turn, subtract 1 from save rolls for the unit using
+this ability.
+All-out
+Defence
+1
+GHB
+Reaction: Opponent declared an
+Attack ability
+Used By: A unit targeted by that
+Attack ability.
+Effect: Add 1 to save rolls for that
+unit until that Attack ability has
+been resolved.
+Fight Through the
+Pain
+X
+X
+PASSIVE
+SEASON
+GHB
+Effect: Before allocating damage to a friendly unit, you
+can spend any number of rage dice. For each rage
+dice spent, reduce your fury level by 1, to a minimum
+of 0, then roll a dice. On a 3+, remove 1 damage point
+from that unit’s damage pool.
+Terrain
+PASSIVE
+GHB
+Cover: Subtract 1 from hit rolls for attacks that target a unit that is behind or wholly on this terrain feature, unless that unit charged this turn or has the
+Fly keyword.
+Impassable: Models cannot move across, be set up on or end moves on any part of this terrain feature.
+Obscuring: While every model in a non-Monster non-War Machine unit that does not have the Fly keyword is within 1" of this terrain feature, the
+following apply:
+ That unit is only visible to enemy units that are within its combat range.
+ The Range characteristic of that unit’s ranged weapons is halved (rounding down to the nearest inch).
+Place of Power: Heroes within 3" of this terrain feature can use the ‘Activate Place of Power’ ability.
+Unstable: Models can move across but cannot be set up on or end any type of move on any part of this terrain feature that is more than 1" tall.
+5 / 18
+
+===== page 6 =====
+MY TURN
+My turn
+Slaves to Darkness
+START OF BATTLE ROUND
+START OF BATTLE ROUND
+ CORE RULES
+Start of Battle Round
+CORE RULES
+1: Determine the Active Player:
+ If it is the first battle round, the player who finished setting up their army first decides who will take the first turn (unless otherwise specified in the
+battlepack or battleplan).
+ If it is not the first battle round, the players make a roll-off called the priority roll and the winner decides who will take the first turn. If the roll-off is a
+tie, the player who took the first turn in the previous battle round decides who will take the first turn in the current battle round.
+2: Determine the Underdog: Whichever player has the fewest victory points is the underdog for the battle round. If the players are tied (e.g. in the first
+battle round), then there is no underdog, unless otherwise specified.
+Simmering Rage
+×1 / TURN (ARMY)
+SEASON
+GHB
+Declare: You must use this ability.
+Effect: Gain a number of rage dice equal to your fury level. At the end of the battle round, any unspent rage dice are lost.
+START OF TURN
+START OF TURN
+ CORE RULES
+Activate Place of Power
++2
++2
+×1 / TURN (ARMY)
+CORE
+SEASON
+GHB
+Declare: Pick a friendly Hero within 3" of any Places of Power to use this ability.
+Effect: Roll a dice. On a 1, inflict D3 mortal damage on that Hero. On a 2+, pick 1 of the following effects:
+ Ignite Fury: Gain 2 rage dice, then increase your fury level by 2, to a maximum of 7.
+ Channel Wrath: If that Hero is a Wizard or Priest, add 1 to casting rolls or chanting rolls for that Hero for the rest of the turn.
+ Dizzying Rage: For the rest of the turn, if that Hero is not a Wizard or Priest, they can use the ‘Unbind’ or ‘Banish Manifestation’ ability as if they had
+Wizard (1).
+6 / 18
+
+===== page 7 =====
+MY TURN
+HERO PHASE
+HERO PHASE
+ PLEDGE TO CHAOS
+Pledge to Chaos
+×1 / TURN (ARMY)
+GW APP
+BATTLE TRAITS
+Declare: Pick a friendly non-UNIQUE SLAVES TO DARKNESS
+unit that does not already have one of the keywords below to be
+the target.
+Effect: Pick 1 of the following Pledge to Chaos keywords:
+ PLEDGED TO KHORNE
+ PLEDGED TO TZEENTCH
+ PLEDGED TO NURGLE
+ PLEDGED TO SLAANESH
+The target has that keyword for the rest of the battle.
+Pledged to
+Khorne
+PASSIVE
+GW APP
+BATTLE TRAITS
+Effect: Add 1 to the Attacks
+characteristic of melee weapons
+used by friendly PLEDGED TO
+KHORNE units.
+Pledged to
+Tzeentch
+×1 / TURN (ARMY)
+GW APP
+BATTLE TRAITS
+Declare: Pick a friendly PLEDGED TO
+TZEENTCH unit to be the target.
+Effect: Roll 2D6. Then pick a point within a
+number of inches of the target equal to the
+roll. Remove the target from the battlefield
+and set it up again on the battlefield wholly
+within 6" of that point and more than 9" from
+all enemy units.
+Pledged to Nurgle
+DAEMON PRINCE
+PASSIVE
+GW APP
+BATTLE TRAITS
+Effect: Friendly PLEDGED TO NURGLE units have WARD (6+). If a
+unit already has WARD (6+), it has WARD (5+) instead.
+Pledged to Slaanesh
+GW APP
+BATTLE TRAITS
+Effect: For the rest of the turn, when making charge rolls for friendly
+PLEDGED TO SLAANESH units, you can roll 1 additional dice (to a
+maximum of 3), but if you do, you must discard 1 dice of your choice.
+SPELLS
+Spite-tongue Curse
+5+
+UNLIMITED
+GW APP
+Declare: Pick a friendly SLAVES TO DARKNESS
+WIZARD to cast this spell, pick a visible enemy unit
+within 12" of them to be the target, then make a
+casting roll of 2D6. If the casting attempt is
+unsuccessful or if the spell is unbound, inflict D3
+mortal damage on the caster.
+Effect: Inflict 3 mortal damage on the target.
+Binding
+Damnation
+7+
+GW APP
+Declare: Pick a friendly SLAVES TO
+DARKNESS WIZARD to cast this spell,
+pick a visible enemy unit within 12" of
+them to be the target, then make a
+casting roll of 2D6.
+Effect: The target has STRIKE-LAST until
+the start of your next turn.
+Daemonic Speed
+7+
+GW APP
+Declare: Pick a friendly SLAVES TO
+DARKNESS WIZARD to cast this spell, pick a
+visible friendly SLAVES TO DARKNESS unit
+wholly within 12" of them to be the target, then
+make a casting roll of 2D6.
+Effect: For the rest of the turn, add 1 to the
+number of dice rolled when making charge
+rolls for the target, to a maximum of 3.
+Withering Death
+THE OATHSWORN KIN
+5+
+WAHAPEDIA
+Declare: Pick a visible enemy HERO within 18" of this unit to be the target, then make a casting roll of 2D6.
+Effect: Inflict 1 mortal damage on the target and subtract 1 from the Attacks characteristic of the target’s melee weapons until the start of your next
+turn.
+MANIFESTATIONS
+SUMMON GEMINIDS
+OF UHL-GYSH
+7+
+MANIFESTATION
+WAHAPEDIA
+Declare: If there is not a friendly Geminids of
+Uhl-Gysh endless spell on the battlefield, pick a
+friendly WIZARD to cast this spell, then make a casting
+roll of 2D6.
+Effect: Set up a Geminids of Uhl-Gysh endless spell
+wholly within 12" of the caster, visible to them and more
+than 9" from all enemy units. A Geminids of Uhl-Gysh
+endless spell has 2 parts that must be set up within 9"
+of each other.
+SUMMON
+PRISMATIC
+PALISADE
+7+
+MANIFESTATION
+WAHAPEDIA
+Declare: If there is not a friendly
+Prismatic Palisade on the battlefield,
+pick a friendly WIZARD to cast this
+spell, then make a casting roll of 2D6.
+Effect: Set up a Prismatic Palisade
+wholly within 18" of the caster and
+visible to them.
+SUMMON
+UMBRAL
+SPELLPORTAL
+7+
+WAHAPEDIA
+MANIFESTATION
+Declare: If there is not a friendly Umbral
+Spellportal on the battlefield, pick a friendly
+WIZARD to cast this spell, then make a casting
+roll of 2D6.
+Effect: Set up an Umbral Spellportal wholly
+within 18" of the caster and visible to them. An
+Umbral Spellportal has 2 parts that must be set
+up within 9" of each other.
+DAEMON PRINCE
+Radiance of Dark Glory
+GW APP
+HEROIC TRAIT
+Declare: Pick each damaged friendly unit wholly within 12" of this unit to be the targets.
+Effect: Roll a dice for each target. On a 3+, Heal (1) the target. Heal (3) the target instead if it is a MONSTER.
+THE OATHSWORN KIN
+Broken Nadja
+PASSIVE
+WAHAPEDIA
+Effect: While this unit’s Broken Nadja is on the battlefield, it has WIZARD (1).
+UMBRAL SPELLPORTAL
+Arcane Passage
+MANIFESTATION
+WAHAPEDIA
+Declare: Pick a friendly WIZARD within 3" of this MANIFESTATION to be the target.
+Effect: The next time the target uses a non-SUMMON SPELL ability this phase, add 1 to the casting value of that spell. When picking targets for that
+spell, you can measure range and visibility from either part of this MANIFESTATION instead of from the caster, and your opponent can measure range
+and visibility to either part of this MANIFESTATION instead of to the caster for the purposes of the ‘Unbind’ ability.
+7 / 18
+
+===== page 8 =====
+MY TURN
+HERO PHASE
+HERO PHASE (SUITE)
+ CORE RULES
+Rally
+1
+CORE RULES
+Declare: Pick a friendly unit that is not in combat to use this ability.
+Effect: Make 6 rally rolls of D6. For each 4+, you receive 1 rally point. Rally points can be spent in the following ways:
+ For each rally point spent, Heal (1) that unit.
+ You can spend a number of rally points equal to the Health characteristic of that unit to return a slain model to that unit.
+You can spend the rally points in any combination of the above. Unspent rally points are then lost.
+MOVEMENT PHASE
+MOVEMENT PHASE
+ ARMY RULES
+Pledged to Tzeentch
+×1 / TURN (ARMY)
+GW APP
+BATTLE TRAITS
+Declare: Pick a friendly PLEDGED TO TZEENTCH unit to be the target.
+Effect: Roll 2D6. Then pick a point within a number of inches of the target equal to the roll. Remove the target from the battlefield and set it up again
+on the battlefield wholly within 6" of that point and more than 9" from all enemy units.
+CORE RULES
+Normal Move
+CORE
+MOVE
+CORE RULES
+Declare: Pick a friendly unit that is
+not in combat to use this ability.
+Effect: That unit can move a
+distance up to its Move
+characteristic. That unit cannot
+move into combat during any part of
+that move.
+Run
+CORE
+MOVE
+RUN
+CORE RULES
+Declare: Pick a friendly unit that is not in
+combat to use this ability.
+Effect: Make a run roll of D6. That unit can
+move a distance up to its Move characteristic
+added to the run roll. That unit cannot move into
+combat during any part of that move.
+Retreat
+CORE
+MOVE
+RETREAT
+CORE RULES
+Declare: Pick a friendly unit that is in combat to use this
+ability.
+Effect: Inflict D3 mortal damage on that unit. That unit
+can move a distance up to its Move characteristic. That
+unit can move through the combat ranges of any enemy
+units but cannot end that move within an enemy unit’s
+combat range.
+At the Double
+1
+CORE RULES
+Reaction: You declared a Run ability
+Used By: The unit using that Run ability.
+Effect: Do not make a run roll as part of that Run ability. Instead, add 6" to that unit’s Move characteristic to determine the distance each model in that
+unit can move as part of that Run ability.
+SHOOTING PHASE
+SHOOTING PHASE
+ SINGRI BRAND
+Swift As The Wind
+PASSIVE
+WAHAPEDIA
+Effect: Only critical hits score successful hits for shooting
+attacks that target this unit.
+Uncanny Shot
+PASSIVE
+WAHAPEDIA
+Effect: Add 1 to the Rend characteristic of this unit’s Singri’s Warbow for attacks that
+target enemy units that are within 6" of a friendly Gunnar Brand.
+PRISMATIC PALISADE
+Blinding Light
+PASSIVE
+MANIFESTATION
+WAHAPEDIA
+Effect: This MANIFESTATION cannot be targeted by shooting attacks. In addition, a unit cannot be targeted by shooting attacks if it is impossible to
+draw a straight line from a model in the attacking unit to a model in the target unit without that line passing across this MANIFESTATION.
+CORE RULES
+Shoot
+CORE
+ATTACK
+SHOOT
+CORE RULES
+Declare: Pick a friendly unit that has not used a Run or Retreat
+ability this turn to use this ability. Then, pick one or more enemy
+units as the target(s) of that unit’s attacks (see 16.0).
+Effect: Resolve shooting attacks against the target unit(s).
+Guarded Hero
+PASSIVE
+CORE RULES
+Effect: If this Hero is within the combat range of a friendly unit that is not a
+Hero:
+ Subtract 1 from hit rolls for shooting attacks that target this Hero.
+ If this Hero is Infantry, they cannot be picked as the target of shooting
+attacks made by models more than 12" from them.
+8 / 18
+
+===== page 9 =====
+MY TURN
+CHARGE PHASE
+CHARGE PHASE
+ ARMY RULES
+Pledged to Slaanesh
+GW APP
+BATTLE TRAITS
+Effect: For the rest of the turn, when making charge rolls for friendly PLEDGED TO SLAANESH units, you can roll 1 additional dice (to a maximum of
+3), but if you do, you must discard 1 dice of your choice.
+CORE RULES
+Charge
+CORE
+MOVE
+CHARGE
+CORE RULES
+Declare: Pick a friendly unit that is not in combat and has not used a Run or Retreat ability this turn to use
+this ability. Then, make a charge roll of 2D6.
+Effect: That unit can move a distance up to the value of the charge roll. That unit can move through the
+combat ranges of any enemy units and must end that move within ½" of a visible enemy unit. If it does so,
+the unit using this ability has charged.
+Forward to
+Victory
+1
+CORE RULES
+Reaction: You declared a Charge
+ability
+Used By: The unit using that Charge
+ability.
+Effect: You can re-roll the charge roll.
+9 / 18
+
+===== page 10 =====
+MY TURN
+COMBAT PHASE
+COMBAT PHASE
+ ARMY RULES
+Pledged to Khorne
+PASSIVE
+GW APP
+BATTLE TRAITS
+Effect: Add 1 to the Attacks characteristic of melee weapons used by friendly PLEDGED TO KHORNE units.
+ABRAXIA, SPEAR OF THE EVERCHOSEN
+Warlord of the
+First Circle
+PASSIVE
+WAHAPEDIA
+Effect: If a friendly Varanguard unit
+uses the ‘Relentless Killers’ ability while
+it is wholly within 12" of this unit, that
+unit does not have STRIKE-LAST as a
+result of that ability.
+Roar of Domination
+×1 / TURN (ARMY)
+RAMPAGE
+WAHAPEDIA
+Declare: Pick an enemy HERO in combat with this unit
+to be the target.
+Effect: Roll a dice. On a 3+, subtract 1 from the
+Attacks characteristic of the target’s melee weapons
+for the rest of the turn.
+Blood of Molten
+Varanite
+PASSIVE
+WAHAPEDIA
+Effect: Roll a dice each time a damage point
+inflicted by a combat attack is allocated to this
+unit. On a 4+, inflict 1 mortal damage on the
+attacking unit after the FIGHT ability has been
+resolved.
+Gorbolga the Accurs’d
+WAHAPEDIA
+Effect: If this unit is in combat, roll a dice and apply the corresponding effect:
+1 - Uncontrollable Power: Allocate 1 damage point to this unit.
+2 - The Spear Slumbers: No effect.
+3-5 - White-hot Varanite: Add 1 to the Damage characteristic of this unit’s Gorbolga for the rest of the turn.
+6 - Rampant Mutation: The effect of ‘White-hot Varanite’ applies and this unit’s Gorbolga has Crit (Mortal) for the rest of the turn.
+DAEMON PRINCE
+Immortal Champion
+WAHAPEDIA
+Effect: Roll a dice. On a 4+, this unit has STRIKE-FIRST for the rest of the turn.
+GUNNAR BRAND
+Carve a Path To Glory
+WAHAPEDIA
+Declare: This unit can only use this ability if it is in combat with an enemy HERO.
+Effect: This unit can use 2 FIGHT abilities this phase. After the first is used, however, this unit has STRIKE-LAST for the rest of the turn. When using
+the second FIGHT ability, this unit must pick an enemy HERO to be the target of all of its attacks.
+CHAOS FURIES
+Sneaky Little Devils
+WAHAPEDIA
+Effect: If this unit is in combat, roll a dice. On a 3+, this unit can immediately use the ‘Retreat’ ability as if it were your movement phase without any
+mortal damage being inflicted on it.
+VARANGUARD
+Relentless Killers
+×1 / BATTLE
+GW APP
+Effect: This unit can use 2 FIGHT abilities this phase. After the first is used, however, this unit has STRIKE-LAST for the rest of the turn.
+CORE RULES
+Fight
+CORE
+ATTACK
+FIGHT
+CORE RULES
+Declare: Pick a friendly unit that is in combat or that
+charged this turn to use this ability. That unit can make
+a pile-in move (see 15.3). Then, if that unit is in
+combat, you must pick one or more enemy units as the
+target(s) of that unit’s attacks (see 16.0).
+Effect: Resolve combat attacks against the target
+unit(s).
+Strike-first and Strike-last
+PASSIVE
+CORE RULES
+Strike-first: If there are any Strike-first units in combat after any non-Fight combat phase
+abilities have been used, other units cannot be picked to use a Fight ability until those units
+have been picked to use a Fight ability. After all those Strike-first units have fought, the
+active player picks the next unit to fight.
+Strike-last: If there are any Strike-last units in combat, they cannot be picked to use a
+Fight ability if there are any units in combat that do not have Strike-last and have not yet
+used a Fight ability.
+Both: If a unit has Strike-first and Strike-last, treat it as if it had neither.
+10 / 18
+
+===== page 11 =====
+MY TURN
+END OF TURN
+END OF TURN
+ ARMY RULES
+FERAL RUIN
+×1 / TURN (ARMY)
+FORMATION: DESPOILERS
+WAHAPEDIA
+Declare: Pick a friendly Daemon Prince to use this ability. Then, pick a visible friendly non-DAEMON non-UNIQUE SLAVES TO DARKNESS unit that
+does not have an Ensorcelled Banner wholly within 12" of this unit to be the target.
+Effect: Remove any Pledge to Chaos keywords the target has. Then, the target gains any Pledge to Chaos keywords this unit has.
+GUNNAR BRAND
+Oath of Bloodshed
+×1 / BATTLE
+WAHAPEDIA
+Declare: This unit can only use this ability if any enemy HEROES were slain by this unit’s combat attacks this turn.
+Effect: Friendly GUNNAR’S OATHSWORN units have WARD (4+) for the rest of the battle.
+CORE RULES
+Power Through
+1
+MOVE
+CORE RULES
+Declare: Pick a friendly unit that charged this turn to use this ability, then you must pick an enemy unit in combat with it to be the target. The target
+must have a lower Health characteristic than the unit using this ability.
+Effect: Inflict D3 mortal damage on the target. Then, the unit using this ability can move a distance up to its Move characteristic. It can pass through
+and end that move within the combat ranges of enemy units that were in combat with it at the start of the move, but not those of other enemy units. It
+does not have to end the move in combat.
+Eruption of Fury
+1-3
+×1 / TURN (ARMY)
+ATTACK
+FIGHT
+SEASON
+GHB
+Declare: Pick a friendly unit to use this ability, then pick an enemy unit in combat with that friendly unit to be the target.
+Effect: Pick 1 of the melee weapons that the unit using this ability is armed with. Then, spend up to 3 rage dice.
+Resolve a number of combat attacks against the target using the melee weapon you picked equal to the number of rage dice you spent.
+Those attacks cannot score critical hits. Instead, for each unmodified hit roll of 6 for those attacks:
+ Inflict an additional D3 mortal damage on each enemy unit in combat with the unit using this ability.
+ Your opponent must increase their fury level by 1, to a maximum of 7.
+For each unmodified hit roll of 1 for those attacks, allocate D3 mortal damage to this unit after the damage sequence has been resolved (ward rolls
+cannot be made for those damage points).
+Designer’s Note: Rage dice do not add to the Attacks characteristic of the weapon you pick; if you spend 3 rage dice to use this ability, you only make
+3 combat attacks.
+11 / 18
+
+===== page 12 =====
+MY TURN
+Blazing Onslaught
+BATTLE TACTIC CARD 1
+SPECIAL RULE
+At the start of the battle, after using all Deployment Phase abilities but before determining which player will take the first turn, your opponent must pick 1
+non-FACTION TERRAIN terrain feature within their territory to be their hideout. The hideout cannot be removed from the battlefield at any point during the
+battle.
+AFFRAY
+Master of Arms
+You complete this battle tactic at the end of your turn if the same enemy unit had at least 1 damage point allocated to it in 3 different
+phases this turn.
+ 5
+ VICTORY
+ POINTS
+STRIKE
+Break Their Defences
+You complete this battle tactic at the end of your turn if you control the enemy hideout.
+ 5
+ VICTORY
+ POINTS
+DOMINATION
+No Survivors
+You complete this battle tactic at the end of your turn if 2 or more enemy units were destroyed this turn and you control the enemy
+hideout.
+ 5
+ VICTORY
+ POINTS
+Burning for Vengeance
+BATTLE TACTIC CARD 5
+SPECIAL RULE
+At the start of the battle, after using all Deployment Phase abilities but before determining which player will take the first turn, pick an enemy HERO on the
+battlefield or in reserve to be the fugitive for the rest of the battle.
+AFFRAY
+Search Every Inch
+You complete this battle tactic at the end of your turn if there is a different friendly unit wholly within each large quarter of the battlefield,
+those friendly units are more than 9" from the centre of the battlefield, and no more than 1 of those friendly units was set up this turn.
+ 5
+ VICTORY
+ POINTS
+STRIKE
+Quick Pursuit
+You complete this battle tactic at the end of your turn if 1 of the following is true:
+ There are 3 or more friendly units that are not in combat and are within 12" of the enemy fugitive.
+ There is no enemy fugitive on the battlefield.
+ 5
+ VICTORY
+ POINTS
+DOMINATION
+Bring Them In
+You complete this battle tactic at the end of your turn if 1 of the following is true:
+ There are 3 or more friendly units in combat with the enemy fugitive.
+ There is no enemy fugitive on the battlefield and 3 or more friendly units are contesting the same objective that is wholly outside friendly
+territory.
+ 5
+ VICTORY
+ POINTS
+12 / 18
+
+===== page 13 =====
+Abraxia, Spear of the Everchosen
+ MV
+10"
+ CT
+ 5
+ SV
+3+
+ WD
+5+
+ HP
+14
+1 model
+ 230 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+The Thanatorg’s Claws and Fangs
+Companion
+ 6
+ 4+
+ 3+
+ 1
+ 2
+Gorbolga
+Anti-HERO (+1 Rend), Charge (+1 Damage)
+ 5
+ 3+
+ 3+
+ 2
+ 2
+ANY PHASE
+Battle Damaged
+PASSIVE
+WAHAPEDIA
+Effect: While this unit has 10 or more damage points, the Attacks
+characteristic of the Thanatorg’s Claws and Fangs is 4.
+CHAOS · SLAVES TO DARKNESS · WARRIORS OF CHAOS · HERO ·
+MONSTER · UNIQUE · WARD
+ Wahapedia (EN)
+Gunnar Brand
+ MV
+5"
+ CT
+ 2
+ SV
+5+
+ WD
+—
+ HP
+ 6
+1 model
+ 180 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Dual Axes
+Crit (Mortal)
+ 10
+ 4+
+ 3+
+ 1
+ 1
+CHAOS · DARKOATH · GUNNAR’S OATHSWORN · SLAVES TO
+DARKNESS · HERO · INFANTRY · UNIQUE
+ Wahapedia (EN)
+Chaos Furies
+ MV
+12"
+ CT
+ 1
+ SV
+6+
+ WD
+6+
+ HP
+ 1
+6 models
+ 100 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Razor-sharp Dagger and Claws
+ 3
+ 4+
+ 4+
+ 1
+ 1
+CHAOS · DAEMON · SLAVES TO DARKNESS · FLY · INFANTRY ·
+WARD
+ Wahapedia (EN)
+The Oathsworn Kin
+ MV
+5"
+ CT
+ 1
+ SV
+5+
+ WD
+—
+ HP
+ 3
+3 models
+ 0 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Gnarled Staff
+ 3
+ 4+
+ 4+
+ -
+ D3
+Heavy Darkoath Weapon
+Crit (Mortal)
+ 4
+ 4+
+ 3+
+ -
+ 2
+CHAOS · DARKOATH · GUNNAR’S OATHSWORN · SLAVES TO
+DARKNESS · INFANTRY · UNIQUE
+ Wahapedia (EN)
+ Daemon Prince
+ MV
+8"
+ CT
+ 5
+ SV
+3+
+ WD
+6+
+ HP
+10
+1 model
+ 230+20 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Hellforged Weapons
+Crit (Mortal)
+ 6
+ 3+
+ 3+
+ 1
+ 3
+MOVEMENT PHASE
+Airborne Horror
+PASSIVE
+WAHAPEDIA
+Effect: If this unit has Wings, it has a Move characteristic of 10" and
+has FLY.
+COMBAT PHASE
+The Mounted Skulls of the
+Fallen
+PASSIVE
+WAHAPEDIA
+Effect: If this unit has a Trophy Rack, its Hellforged Weapons also
+have Anti-HERO (+1 Rend).
+ANY PHASE
+Darkflame Pendant
+PASSIVE
+GW APP
+ARTEFACT OF POWER
+Effect: Weapons used for attacks that target this unit have a
+maximum Damage characteristic of 1.
+CHAOS · DAEMON · SLAVES TO DARKNESS · HERO · INFANTRY ·
+WARD
+ Wahapedia (EN)
+Singri Brand
+ MV
+12"
+ CT
+ 2
+ SV
+5+
+ WD
+—
+ HP
+ 4
+1 model
+ 0 pts
+ Rng
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Singri’s Warbow
+Crit (Auto-wound)
+ 18"
+ 2
+ 3+
+ 3+
+ 1
+ D3
+Warsteed’s Hooves
+Companion
+ 2
+ 5+
+ 3+
+ -
+ 1
+Brand Ancestral Knife
+ 3
+ 4+
+ 3+
+ 1
+ 1
+CHAOS · DARKOATH · GUNNAR’S OATHSWORN · SLAVES TO
+DARKNESS · CAVALRY · HERO · UNIQUE
+ Wahapedia (EN)
+Varanguard
+ MV
+10"
+ CT
+ 2
+ SV
+3+
+ WD
+—
+ HP
+ 5
+3 models
+ 290 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Daemonforged Blades
+Crit (Mortal), Charge (+1 Damage)
+ 3
+ 3+
+ 3+
+ 2
+ 2
+Steed’s Tearing Fangs
+Companion
+ 3
+ 4+
+ 3+
+ 1
+ 1
+CHAOS · SLAVES TO DARKNESS · WARRIORS OF CHAOS ·
+CAVALRY
+ Wahapedia (EN)
+13 / 18
+
+===== page 14 =====
+Geminids of Uhl-Gysh
+7+
+ MV
+8"
+ CT
+ 6
+ SV
+6+
+ WD
+6+
+ HP
+ 8
+2 models
+ Summoned
+ Wholly within 12" and visible to the caster
+ More than 9" from the enemy
+ 2 parts within 9" of each other
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Tendrils of Light and Shadow
+ 4
+ 4+
+ 3+
+ 1
+ D3
+ANY PHASE
+Multiple Parts
+PASSIVE
+WAHAPEDIA
+Effect: When a number of damage points equal to this
+MANIFESTATION’s Health characteristic are allocated to it, this
+MANIFESTATION is destroyed and both its parts are removed from
+play.
+Each time this MANIFESTATION moves, both its parts must end
+within 9" of each other.
+Each part of this MANIFESTATION is armed with Tendrils of Light
+and Shadow.
+ENDLESS SPELL · FLY · MANIFESTATION · WARD
+ Wahapedia (EN)
+ Prismatic Palisade
+7+
+ MV
+ -
+ CT
+ 7
+ SV
+6+
+ WD
+6+
+ HP
+ 8
+1 model
+ Summoned
+ Wholly within 18" and visible to the caster
+ENDLESS SPELL · MANIFESTATION · WARD
+ Wahapedia (EN)
+Umbral Spellportal
+7+
+ MV
+ -
+ CT
+ 6
+ SV
+6+
+ WD
+6+
+ HP
+ 8
+2 models
+ Summoned
+ Wholly within 18" and visible to the caster
+ 2 parts within 9" of each other
+ENDLESS SPELL · MANIFESTATION · WARD
+ Wahapedia (EN)
+14 / 18
+
+===== page 15 =====
+OPPONENT'S TURN
+Opponent's turn
+Slaves to Darkness
+START OF BATTLE ROUND
+START OF BATTLE ROUND
+ CORE RULES
+Start of Battle Round
+CORE RULES
+1: Determine the Active Player:
+ If it is the first battle round, the player who finished setting up their army first decides who will take the first turn (unless otherwise specified in the
+battlepack or battleplan).
+ If it is not the first battle round, the players make a roll-off called the priority roll and the winner decides who will take the first turn. If the roll-off is a
+tie, the player who took the first turn in the previous battle round decides who will take the first turn in the current battle round.
+2: Determine the Underdog: Whichever player has the fewest victory points is the underdog for the battle round. If the players are tied (e.g. in the first
+battle round), then there is no underdog, unless otherwise specified.
+Simmering Rage
+×1 / TURN (ARMY)
+SEASON
+GHB
+Declare: You must use this ability.
+Effect: Gain a number of rage dice equal to your fury level. At the end of the battle round, any unspent rage dice are lost.
+START OF TURN
+START OF TURN
+ CORE RULES
+Activate Place of Power
++2
++2
+×1 / TURN (ARMY)
+CORE
+SEASON
+GHB
+Declare: Pick a friendly Hero within 3" of any Places of Power to use this ability.
+Effect: Roll a dice. On a 1, inflict D3 mortal damage on that Hero. On a 2+, pick 1 of the following effects:
+ Ignite Fury: Gain 2 rage dice, then increase your fury level by 2, to a maximum of 7.
+ Channel Wrath: If that Hero is a Wizard or Priest, add 1 to casting rolls or chanting rolls for that Hero for the rest of the turn.
+ Dizzying Rage: For the rest of the turn, if that Hero is not a Wizard or Priest, they can use the ‘Unbind’ or ‘Banish Manifestation’ ability as if they had
+Wizard (1).
+HERO PHASE
+HERO PHASE
+ DAEMON PRINCE
+Radiance of Dark Glory
+GW APP
+HEROIC TRAIT
+Declare: Pick each damaged friendly unit wholly within 12" of this unit to be the targets.
+Effect: Roll a dice for each target. On a 3+, Heal (1) the target. Heal (3) the target instead if it is a MONSTER.
+THE OATHSWORN KIN
+Broken Nadja
+PASSIVE
+WAHAPEDIA
+Effect: While this unit’s Broken Nadja is on the battlefield, it has WIZARD (1).
+CORE RULES
+Rally
+1
+CORE RULES
+Declare: Pick a friendly unit that is not in combat to use this ability.
+Effect: Make 6 rally rolls of D6. For each 4+, you receive 1 rally point. Rally points can be spent in the following ways:
+ For each rally point spent, Heal (1) that unit.
+ You can spend a number of rally points equal to the Health characteristic of that unit to return a slain model to that unit.
+You can spend the rally points in any combination of the above. Unspent rally points are then lost.
+MOVEMENT PHASE
+MOVEMENT PHASE
+ CORE RULES
+Redeploy
+1
+MOVE
+RUN
+CORE RULES
+Declare: Pick a friendly unit that is not in combat to use this ability.
+Effect: Each model in that unit can move up to D6". That move cannot pass through or end within the combat range of an enemy unit.
+15 / 18
+
+===== page 16 =====
+OPPONENT'S TURN
+SHOOTING PHASE
+SHOOTING PHASE
+ SINGRI BRAND
+Swift As The Wind
+PASSIVE
+WAHAPEDIA
+Effect: Only critical hits score successful hits for shooting
+attacks that target this unit.
+Uncanny Shot
+PASSIVE
+WAHAPEDIA
+Effect: Add 1 to the Rend characteristic of this unit’s Singri’s Warbow for attacks that
+target enemy units that are within 6" of a friendly Gunnar Brand.
+PRISMATIC PALISADE
+Blinding Light
+PASSIVE
+MANIFESTATION
+WAHAPEDIA
+Effect: This MANIFESTATION cannot be targeted by shooting attacks. In addition, a unit cannot be targeted by shooting attacks if it is impossible to
+draw a straight line from a model in the attacking unit to a model in the target unit without that line passing across this MANIFESTATION.
+CORE RULES
+Covering Fire
+1
+ATTACK
+SHOOT
+CORE RULES
+Declare: Pick a friendly unit that did not use a Run ability this turn and that is not in combat
+to use this ability, then pick the closest enemy unit (to that unit) that can be picked as the
+target of shooting attacks to be the target. You cannot pick Manifestations or faction terrain
+features as the target of this ability.
+Effect: Resolve shooting attacks for the unit using this ability against the target. You must
+subtract 1 from the hit rolls for those attacks.
+Guarded Hero
+PASSIVE
+CORE RULES
+Effect: If this Hero is within the combat range of a
+friendly unit that is not a Hero:
+ Subtract 1 from hit rolls for shooting attacks that target
+this Hero.
+ If this Hero is Infantry, they cannot be picked as the
+target of shooting attacks made by models more than
+12" from them.
+CHARGE PHASE
+CHARGE PHASE
+ CORE RULES
+Counter-charge
+2
+CORE RULES
+Declare: Pick a friendly unit that is not in combat to use this ability.
+Effect: That unit can use a Charge ability as if it were your charge phase.
+16 / 18
+
+===== page 17 =====
+OPPONENT'S TURN
+COMBAT PHASE
+COMBAT PHASE
+ ARMY RULES
+Pledged to Khorne
+PASSIVE
+GW APP
+BATTLE TRAITS
+Effect: Add 1 to the Attacks characteristic of melee weapons used by friendly PLEDGED TO KHORNE units.
+ABRAXIA, SPEAR OF THE EVERCHOSEN
+Warlord of the
+First Circle
+PASSIVE
+WAHAPEDIA
+Effect: If a friendly Varanguard unit
+uses the ‘Relentless Killers’ ability while
+it is wholly within 12" of this unit, that
+unit does not have STRIKE-LAST as a
+result of that ability.
+Roar of Domination
+×1 / TURN (ARMY)
+RAMPAGE
+WAHAPEDIA
+Declare: Pick an enemy HERO in combat with this unit
+to be the target.
+Effect: Roll a dice. On a 3+, subtract 1 from the
+Attacks characteristic of the target’s melee weapons
+for the rest of the turn.
+Blood of Molten
+Varanite
+PASSIVE
+WAHAPEDIA
+Effect: Roll a dice each time a damage point
+inflicted by a combat attack is allocated to this
+unit. On a 4+, inflict 1 mortal damage on the
+attacking unit after the FIGHT ability has been
+resolved.
+Gorbolga the Accurs’d
+WAHAPEDIA
+Effect: If this unit is in combat, roll a dice and apply the corresponding effect:
+1 - Uncontrollable Power: Allocate 1 damage point to this unit.
+2 - The Spear Slumbers: No effect.
+3-5 - White-hot Varanite: Add 1 to the Damage characteristic of this unit’s Gorbolga for the rest of the turn.
+6 - Rampant Mutation: The effect of ‘White-hot Varanite’ applies and this unit’s Gorbolga has Crit (Mortal) for the rest of the turn.
+DAEMON PRINCE
+Immortal Champion
+WAHAPEDIA
+Effect: Roll a dice. On a 4+, this unit has STRIKE-FIRST for the rest of the turn.
+GUNNAR BRAND
+Carve a Path To Glory
+WAHAPEDIA
+Declare: This unit can only use this ability if it is in combat with an enemy HERO.
+Effect: This unit can use 2 FIGHT abilities this phase. After the first is used, however, this unit has STRIKE-LAST for the rest of the turn. When using
+the second FIGHT ability, this unit must pick an enemy HERO to be the target of all of its attacks.
+CHAOS FURIES
+Sneaky Little Devils
+WAHAPEDIA
+Effect: If this unit is in combat, roll a dice. On a 3+, this unit can immediately use the ‘Retreat’ ability as if it were your movement phase without any
+mortal damage being inflicted on it.
+VARANGUARD
+Relentless Killers
+×1 / BATTLE
+GW APP
+Effect: This unit can use 2 FIGHT abilities this phase. After the first is used, however, this unit has STRIKE-LAST for the rest of the turn.
+CORE RULES
+Fight
+CORE
+ATTACK
+FIGHT
+CORE RULES
+Declare: Pick a friendly unit that is in combat or that
+charged this turn to use this ability. That unit can make
+a pile-in move (see 15.3). Then, if that unit is in
+combat, you must pick one or more enemy units as the
+target(s) of that unit’s attacks (see 16.0).
+Effect: Resolve combat attacks against the target
+unit(s).
+Strike-first and Strike-last
+PASSIVE
+CORE RULES
+Strike-first: If there are any Strike-first units in combat after any non-Fight combat phase
+abilities have been used, other units cannot be picked to use a Fight ability until those units
+have been picked to use a Fight ability. After all those Strike-first units have fought, the
+active player picks the next unit to fight.
+Strike-last: If there are any Strike-last units in combat, they cannot be picked to use a
+Fight ability if there are any units in combat that do not have Strike-last and have not yet
+used a Fight ability.
+Both: If a unit has Strike-first and Strike-last, treat it as if it had neither.
+17 / 18
+
+===== page 18 =====
+OPPONENT'S TURN
+END OF TURN
+END OF TURN
+ GUNNAR BRAND
+Oath of Bloodshed
+×1 / BATTLE
+WAHAPEDIA
+Declare: This unit can only use this ability if any enemy HEROES were slain by this unit’s combat attacks this turn.
+Effect: Friendly GUNNAR’S OATHSWORN units have WARD (4+) for the rest of the battle.
+CORE RULES
+Power Through
+1
+MOVE
+CORE RULES
+Declare: Pick a friendly unit that charged this turn to use this ability, then you must pick an enemy unit in combat with it to be the target. The target
+must have a lower Health characteristic than the unit using this ability.
+Effect: Inflict D3 mortal damage on the target. Then, the unit using this ability can move a distance up to its Move characteristic. It can pass through
+and end that move within the combat ranges of enemy units that were in combat with it at the start of the move, but not those of other enemy units. It
+does not have to end the move in combat.
+Eruption of Fury
+1-3
+×1 / TURN (ARMY)
+ATTACK
+FIGHT
+SEASON
+GHB
+Declare: Pick a friendly unit to use this ability, then pick an enemy unit in combat with that friendly unit to be the target.
+Effect: Pick 1 of the melee weapons that the unit using this ability is armed with. Then, spend up to 3 rage dice.
+Resolve a number of combat attacks against the target using the melee weapon you picked equal to the number of rage dice you spent.
+Those attacks cannot score critical hits. Instead, for each unmodified hit roll of 6 for those attacks:
+ Inflict an additional D3 mortal damage on each enemy unit in combat with the unit using this ability.
+ Your opponent must increase their fury level by 1, to a maximum of 7.
+For each unmodified hit roll of 1 for those attacks, allocate D3 mortal damage to this unit after the damage sequence has been resolved (ward rolls
+cannot be made for those damage points).
+Designer’s Note: Rage dice do not add to the Attacks characteristic of the weapon you pick; if you spend 3 rage dice to use this ability, you only make
+3 combat attacks.
+18 / 18
+

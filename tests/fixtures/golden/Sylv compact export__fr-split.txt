@@ -1,0 +1,1967 @@
+pages: 20
+pages_scenario: None
+units_matched: ['Alarielle the Everqueen', 'Belthanos, First Thorn of Kurnoth', 'Drycha Hamadreth', 'Warsong Revenant', 'Kurnoth Hunters with Kurnoth Greatswords', 'Gossamid Archers', 'Spite-Revenants', 'Awakened Wyldwood']
+units_unmatched: []
+rules_included: ['Règles de Saison 2026-27', 'Aptitudes Génériques — MdG26-27', 'Traits de Bataille', 'Formation — Lords of the Clan', 'Domaine de Sorts — Lore of the Deepwood', 'Domaine de Prières — Lore of the Spirit-song', 'Domaine de Manifestations — Manifestations of the Deepwood', 'Blazing Onslaught', 'Flanking Firestorm', 'Trait Héroïque : Guide des Racines des Royaumes → Warsong Revenant', 'Artefact de Pouvoir : Luciorbes Dansantes → Warsong Revenant', 'Aspects of the Deepwoods : Aspect de Cœurbois → Kurnoth Hunters with Kurnoth Greatswords']
+rules_unmatched: []
+wahapedia_used: []
+absent_references: []
+absent_keywords: []
+===== page 1 =====
+Sylv compact export
+Sylvaneth · Lords of the Clan · Drops : 4 · Domaine de sorts : Lore of the Deepwood · Domaine de prières : Lore of the
+Spirit-song · Domaine de manifestations : Manifestations of the Deepwood
+Battle Tactic Cards : Blazing Onslaught, Flanking Firestorm
+General's Regiment
+ Alarielle the Everqueen — 620 pts
+General
+Regiment 1
+ Belthanos, First Thorn of Kurnoth — 290 pts
+Regiment 2
+ Drycha Hamadreth — 250 pts
+Regiment 3
+ Warsong Revenant — 190 pts
+Realmroot Guide, Dancing Mystiflies
+Kurnoth Hunters with Kurnoth Greatswords — 420 pts
+Reinforced, Aspect of Heartwood - (10) Points
+Gossamid Archers — 120 pts
+Spite-Revenants — 100 pts
+Faction Terrain
+Awakened Wyldwood
+Généré le <horodatage> — aospy roster pdf
+Légende des pictos
+ 7+
+Aptitude : valeur de lancement. Warscroll : niveau de Sorcier ; manifestation : valeur de lancement de sa convocation.
+4+
+Aptitude : valeur de récitation. Warscroll : niveau de Prêtre.
+1
+Ordre : coût en points d’ordre
++2
+Dés de rage : « +N » gagnés, sinon nombre dépensé
++2
+Niveau de fureur : « +N » augmenté, sinon diminué
+MDG
+Source du texte : MDG (Manuel du Général), BT (battletome), FP (faction pack), AQSHY,
+WAHAPEDIA (anglais). Traits de Bataille, Formation : catégorie de règles d'armée.
+SIMPLE
+Texte adapté, pas le verbatim : en cas de litige, revenir à la règle d'origine.
+BASE
+SAISON
+Aptitude de base du jeu (Core) ; règle de la saison en cours (MdG 2026-27).
+×1 / TOUR (ARMÉE)
+PASSIF
+Fréquence — (ARMÉE) : une seule fois pour toute l'armée ; passif : toujours actif, rien à déclarer.
+RÉACTION
+Réaction : utilisée en réponse à l'aptitude indiquée.
+TIR
+CHARGE
+Mot-clé d'aptitude, à la couleur de sa phase (Mouvement, Tir, Charge, Corps à Corps).
+ATTAQUE
+SACCAGE
+Mot-clé d'aptitude valable dans plusieurs phases.
+SORT
+PRIÈRE
+Magie (sort, manifestation, bannissement…) ; prière. Illimité : utilisable plusieurs fois par tour.
+NOM D'UNITÉ
+Unité qui porte l'aptitude (pour un sort signature : son lanceur).
+TACTIQUE
+MOT-CLÉ
+Autre mot-clé d'aptitude (Tactique : règle spéciale d'une carte de tactique) ; bordeaux : propre à la
+faction.
+1 / 20
+
+===== page 2 =====
+Alarielle the Everqueen
+3
+ MV
+14"
+ CT
+10
+ SV
+4+
+ WD
+5+
+ HP
+16
+1 model
+ 620 pts
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Spear of Kurnoth
+ 12"
+ 1
+ 2+
+ 3+
+ 2
+ 4
+Spear of Kurnoth
+Charge (+1 Dégât)
+ 5
+ 3+
+ 3+
+ 2
+ 2
+Wardroth Beetle’s Antlers
+Compagnon
+ 6
+ 4+
+ 2+
+ 2
+ 4
+N'IMPORTE QUELLE PHASE
+Stigmates de Guerre
+PASSIF
+BT (TRAD.)
+Effet : Tant que cette unité a 10 dégâts ou plus, la caractéristique
+d'Attaques de ses Bois du Scarabée de Wardroth est 4.
+ORDER · SYLVANETH · FLY · HERO · MONSTER · UNIQUE · WARD ·
+WARMASTER
+ Wahapedia (EN)
+Warsong Revenant
+1
+ MV
+6"
+ CT
+ 2
+ SV
+5+
+ WD
+6+
+ HP
+ 7
+1 model
+ 190 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Spirit Falchion and Spearing
+Vines
+ 5
+ 3+
+ 3+
+ 1
+ D3
+ORDER · REVENANT · SYLVANETH · FLY · HERO · INFANTRY ·
+WARD
+ Wahapedia (EN)
+Kurnoth Hunters with
+Greatswords
+ MV
+6"
+ CT
+ 2
+ SV
+4+
+ WD
+—
+ HP
+ 5
+3 models
+ 210+10 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Kurnoth Greatsword
+Crit (Mortel)
+ 4
+ 3+
+ 3+
+ 1
+ 2
+N'IMPORTE QUELLE PHASE
+Endurance du Chasseur
+PASSIF
+BT
+Effet : Soustrayez 1 à la caractéristique de Perforation des armes
+utilisées pour les attaques qui ciblent cette unité tant qu'elle est
+entièrement dans l'invasion végétale.
+KURNOTHI · ORDER · SYLVANETH · CHAMPION · INFANTRY
+ Wahapedia (EN)
+Awakened Wyldwood
+ MV
+ -
+ CT
+ -
+ SV
+4+
+ WD
+—
+ HP
+ 8
+1 model
+ Invoquée
+ORDER · SYLVANETH · FACTION TERRAIN
+ Wahapedia (EN)
+ Belthanos, First Thorn of Kurnoth
+ MV
+12"
+ CT
+ 5
+ SV
+3+
+ WD
+—
+ HP
+14
+1 model
+ 290 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Kurnoth Glaive
+Charge (+1 Dégât)
+ 5
+ 3+
+ 3+
+ 2
+ 2
+Carnelian Greatspite’s Mandibles
+Compagnon
+ 4
+ 4+
+ 2+
+ 2
+ 3
+N'IMPORTE QUELLE PHASE
+Stigmates de Guerre
+PASSIF
+BT (TRAD.)
+Effet : Tant que cette unité a 10 dégâts ou plus, la caractéristique
+d'Attaques de ses Mandibules de Grand-fiel Cornaline est 3.
+KURNOTHI · ORDER · SYLVANETH · FLY · HERO · MONSTER ·
+UNIQUE
+ Wahapedia (EN)
+Drycha Hamadreth
+1
+ MV
+10"
+ CT
+ 5
+ SV
+3+
+ WD
+—
+ HP
+12
+1 model
+ 250 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Slashing Talons
+Crit (2 Touches)
+ 5
+ 3+
+ 2+
+ 2
+ 2
+Swarm of Spites
+Crit (Mortel), Compagnon
+ 20
+ 4+
+ 4+
+ -
+ 1
+FOREST ELDER · ORDER · SYLVANETH · HERO · MONSTER ·
+UNIQUE
+ Wahapedia (EN)
+Gossamid Archers
+ MV
+12"
+ CT
+ 1
+ SV
+5+
+ WD
+—
+ HP
+ 2
+5 models
+ 120 pts
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Gossamid Bow
+Crit (Blessure Auto), Tir en Mêlée
+ 12"
+ 2
+ 3+
+ 4+
+ 1
+ 1
+Cruel Talons
+ 1
+ 3+
+ 4+
+ -
+ 1
+ORDER · REVENANT · SYLVANETH · CHAMPION · FLY · INFANTRY
+ Wahapedia (EN)
+Spite-Revenants
+ MV
+6"
+ CT
+ 1
+ SV
+5+
+ WD
+—
+ HP
+ 2
+5 models
+ 100 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Cruel Talons and Fangs
+Crit (Mortel)
+ 3
+ 3+
+ 4+
+ -
+ 1
+ORDER · REVENANT · SYLVANETH · CHAMPION · INFANTRY
+ Wahapedia (EN)
+2 / 20
+
+===== page 3 =====
+Gladewyrm
+6+
+ MV
+8"
+ CT
+ 7
+ SV
+4+
+ WD
+6+
+ HP
+ 7
+1 model
+ Invoquée
+ Entièrement à 12" et visible du lanceur
+ À plus de 9" de l'ennemi
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Fearsome Mandibles and Bladed
+Carapace
+Anti-PRIEST (+1 Perf.), Anti-WIZARD (+1
+Perf.)
+ 6
+ 4+
+ 2+
+ 1
+ D3
+ORDER · SYLVANETH · ENDLESS SPELL · MANIFESTATION ·
+WARD
+ Wahapedia (EN)
+ Vengeful Skullroot
+6+
+ MV
+8"
+ CT
+ 7
+ SV
+4+
+ WD
+6+
+ HP
+ 8
+1 model
+ Invoquée
+ Entièrement à 12" et visible du lanceur
+ À plus de 9" de l'ennemi
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Writhing Roots
+ 3
+ 4+
+ 2+
+ 1
+ D3
+ORDER · SYLVANETH · ENDLESS SPELL · FLY · MANIFESTATION ·
+WARD
+ Wahapedia (EN)
+Spiteswarm Hive
+6+
+ MV
+ -
+ CT
+ 7
+ SV
+6+
+ WD
+6+
+ HP
+ 6
+1 model
+ Invoquée
+ Entièrement à 12" et visible du lanceur
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Spiteswarm
+Crit (2 Touches)
+ 18"
+ 5
+ 4+
+ 3+
+ 1
+ 1
+Spiteswarm
+Crit (2 Touches)
+ 10
+ 4+
+ 3+
+ 1
+ 1
+ORDER · SYLVANETH · ENDLESS SPELL · MANIFESTATION ·
+WARD
+ Wahapedia (EN)
+3 / 20
+
+===== page 4 =====
+Déploiement
+Sylvaneth
+DÉPLOIEMENT
+DÉPLOIEMENT
+ RÈGLES DE BASE
+Placez le Champ de Bataille
+SIMPLE
+1 : Les joueurs tirent au dé. Le gagnant choisit quel joueur est l’attaquant et lequel est le défenseur.
+2 : Le défenseur place des objectifs aux endroits indiqués par des orbes dorés sur la carte de champ de bataille. Le défenseur place ensuite des
+éléments de terrain. Chaque élément de terrain doit être placé à plus de 3" du bord du champ de bataille, à plus de 6" des autres éléments de terrain
+et à plus de 3" des objectifs.
+3 : Après avoir placé les objectifs et le terrain, l’attaquant désigne quel territoire est le sien. L’autre territoire est celui du défenseur. Puis les joueurs
+résolvent la phase de déploiement. L’attaquant commence le déploiement.
+4 : Déployer les terrains de faction. Certaines factions ont des éléments de terrain de faction, qui ont leurs propres chartes et sont placés grâce aux
+aptitudes de Déploiement de Terrain. Le joueur qui commence le déploiement doit utiliser des aptitudes de Déploiement de Terrain en premier, puis
+son adversaire peut en utiliser.
+5 : Déployer les armées. Sauf indication contraire du plan de bataille, les joueurs utilisent à tour de rôle des aptitudes de Déploiement pour déployer
+leurs unités, en commençant par celui qui a commencé le déploiement. Une fois qu’un joueur n’a plus d’aptitudes de Déploiement à utiliser, son
+adversaire doit continuer à utiliser des aptitudes de Déploiement jusqu’à ce qu’il n’en ait plus à utiliser.
+Déploiement de Terrain de Faction
+MDG
+Annonce : Choisissez comme cible un élément de terrain de faction ami qui n’est pas encore déployé.
+Effet : Placez l’élément de terrain de faction cible entièrement en territoire ami et à plus de 3" des objectifs et des autres éléments de terrain. Il est à
+présent déployé.
+Déploiement de Régiment
+MDG
+Annonce : Choisissez comme cible un régiment de votre feuille d’armée. Aucune unité du régiment ne doit être déjà déployée.
+Effet : Enchaînez l’utilisation d’aptitudes de Déploiement, sans passer la main à l’adversaire, jusqu’à ce que toutes les unités du régiment soient
+déployées. Vous ne pouvez pas choisir des unités qui n’appartiennent pas à ce régiment comme cibles de ces aptitudes de Déploiement.
+Déploiement d’Unité
+MDG
+Annonce : Choisissez comme cible une unité de votre feuille d’armée qui n’est pas encore déployée.
+Effet : Placez l’unité cible entièrement en territoire ami et à plus de 9" du territoire ennemi. Elle est à présent déployée.
+Souffler sur les Braises
+×1 / BATAILLE (ARMÉE)
+SAISON
+MDG
+Effet : Si vous êtes l’attaquant, réglez votre niveau de fureur sur 1. Si vous êtes le défenseur, réglez votre niveau de fureur sur 2.
+Assaut Flamboyant : Règle Spéciale
+TACTIQUE
+MDG
+Au début de la bataille, après avoir utilisé toutes les aptitudes de Phase de Déploiement mais avant de déterminer le joueur qui a le premier tour,
+votre adversaire doit choisir 1 élément de terrain autre qu’un TERRAIN DE FACTION dans son territoire qui sera son repaire. Le repaire ne peut pas
+être retiré du champ de bataille au cours de cette bataille.
+4 / 20
+
+===== page 5 =====
+N'importe quelle phase
+Sylvaneth
+N'IMPORTE QUELLE PHASE
+N'IMPORTE QUELLE PHASE
+ RÈGLES DE BASE
+Attaque en Règle
+1
+MDG
+Réaction : Vous avez annoncé une aptitude d’Attaque
+Utilisée par : L’unité qui utilise l’aptitude d’Attaque.
+Effet : Ajoutez 1 aux jets de touche pour les attaques
+faites dans le cadre de l’aptitude d’Attaque. Cela affecte
+également les armes de Compagnon. Pour le restant du
+tour, soustrayez 1 aux jets de sauvegarde pour l’unité
+qui utilise cette aptitude.
+Défense en
+Règle
+1
+MDG
+Réaction : L’adversaire a annoncé une
+aptitude d’Attaque
+Utilisée par : Une unité ciblée par
+l’aptitude d’Attaque.
+Effet : Ajoutez 1 aux jets de sauvegarde
+pour l’unité jusqu’à ce que l’aptitude
+d’Attaque ait été résolue.
+Braver la
+Douleur
+X
+X
+MDG
+PASSIF
+SAISON
+Effet : Avant d’allouer des dégâts à une
+unité amie, vous pouvez dépenser
+n’importe quel nombre de dés de rage.
+Pour chaque dé de rage dépensé,
+réduisez votre niveau de fureur de 1,
+jusqu’à un minimum de 0, puis jetez un dé.
+Sur 3+, retirez 1 dégât de la réserve de
+dégâts de l’unité.
+Terrain
+PASSIF
+SIMPLE
+Couvert : Soustrayez 1 aux jets de touche pour les attaques ciblant une unité qui est derrière ou entièrement sur cet élément de terrain, sauf si elle a
+chargé à ce tour, ou si elle a le mot-clé Vol.
+Infranchissable : Les figurines ne peuvent pas se déplacer, être placées, ni finir un mouvement sur une partie de cet élément de terrain.
+Occultant : Tant que chaque figurine d’une unité n’ayant pas les mots-clés Monstre, Machine de Guerre, ou Vol est à 1" de cet élément de terrain, les
+points suivants s’appliquent :
+ L’unité est visible seulement des unités ennemies qui sont à portée de mêlée.
+ La caractéristique de Portée des armes de tir de cette unité est divisée par deux (arrondissez au pouce le plus proche).
+Site de Pouvoir : Les Héros à 3" de cet élément de terrain peuvent utiliser l’aptitude « Activation de Site de Pouvoir ».
+Instable : Les figurines peuvent se déplacer sur cet élément de terrain mais ne peuvent pas être placées ni finir tout type de mouvement sur des
+parties de cet élément plus hautes que 1".
+RÈGLES D'ARMÉE
+L'Invasion Végétale
+PASSIF
+BT (TRAD.)
+TRAITS DE BATAILLE
+Effet : L'invasion végétale se mesure à partir de chaque élément de terrain qui a un pion d'invasion végétale ami. Sa portée dépend du nombre de
+pions d'invasion végétale amis sur le champ de bataille :
+ 0-2 pions : 6"
+ 3-5 pions : 9"
+ 6-8 pions : 12"
+ 9+ pions : tout le champ de bataille
+Note des Concepteurs : Les Bois Sauvages Éveillés sont votre principal moyen de générer des pions d'invasion végétale. Certaines aptitudes d'unité
+vous permettent aussi d'en générer.
+WARSONG REVENANT
+Chant d'Alarielle
+PASSIF
+BT (TRAD.)
+Effet : Les unités de Sylvaneths amies ont Protection (6+) tant qu'elles sont entièrement à 12" de cette unité. Soustrayez 1 aux jets de protection
+pour les unités ennemies tant qu'elles sont à 12" de cette unité.
+GOSSAMID ARCHERS
+Combattants des Forêts
+PASSIF
+BT
+Effet : Cette unité a une portée de cohésion de 2".
+AWAKENED WYLDWOOD
+Forêts Bourgeonnantes
+PASSIF
+BT (TRAD.)
+Effet : Quand cet élément de terrain est placé, donnez-lui un pion d'invasion végétale ami.
+VENGEFUL SKULLROOT
+Terreurs Vengeresses
+PASSIF
+BT (TRAD.)
+MANIFESTATION
+Effet : Soustrayez 1 aux jets de touche pour les attaques des unités ennemies tant qu'elles sont à 6" de cette Manifestation.
+5 / 20
+
+===== page 6 =====
+MON TOUR
+Mon tour
+Sylvaneth
+DÉBUT DE ROUND
+DÉBUT DE ROUND
+ RÈGLES DE BASE
+Début de Round de Bataille
+SIMPLE
+1 : Déterminez le Joueur Actif.
+ Si c’est le premier round de bataille, le joueur qui a fini de déployer son armée en premier choisit qui a le premier tour.
+ Si ce n’est pas le premier round, les joueurs font un tir au dé appelé jet de priorité et le gagnant choisit qui a le premier tour. Si le tir au dé est une
+égalité, le joueur qui a eu le premier tour au round précédent choisit qui a le premier tour du round de bataille en cours.
+2 : Déterminez l’Outsider. Si un joueur a moins de points de victoire, il est l’outsider pour la durée du round.
+Rage Bouillonnante
+×1 / TOUR (ARMÉE)
+SAISON
+MDG
+Annonce : Vous devez utiliser cette aptitude.
+Effet : Gagnez autant de dés de rage que votre niveau de fureur. À la fin du round de bataille, tous les dés de rage non dépensés sont perdus.
+ALARIELLE THE EVERQUEEN
+Saisons de Guerre
+BT (TRAD.)
+Annonce : Vous devez utiliser cette aptitude.
+Effet : Choisissez 1 des effets suivants, qui s'applique pour le restant du round de bataille. Vous ne pouvez pas choisir l'effet que vous avez choisi au
+round de bataille précédent.
+La Germinaison : Chaque fois qu'un Bois Sauvage Éveillé ami utilise l'aptitude « Croissance Incessante », vous pouvez choisir comme cible
+n'importe quel élément de terrain que votre adversaire ne contrôle pas, plutôt que le plus proche.
+La Moisson : Ajoutez 1 aux jets de lancement et de récitation pour les unités de Sylvaneths amies tant qu'elles sont entièrement à 12" de cette unité.
+Le Déclin : Les unités de Sylvaneths amies peuvent utiliser des aptitudes de Charge même si elles ont utilisé une aptitude de Repli au même tour.
+De plus, aucun dégât mortel n'est infligé à ces unités quand elles utilisent des aptitudes de Repli.
+Crépuscule : Chaque fois que vous utilisez l'aptitude « Effroi Rampant » à ce round de bataille, vous pouvez choisir jusqu'à 3 cibles au lieu de 1.
+AWAKENED WYLDWOOD
+Croissance Incessante
+×1 / ROUND
+BT (TRAD.)
+Annonce : Choisissez comme cible l'élément de terrain le plus proche de cet élément de terrain qui n'a pas de pion d'invasion végétale ami.
+Effet : Si la cible n'est pas contrôlée par votre adversaire, donnez à la cible un pion d'invasion végétale ami.
+DÉBUT DE TOUR
+DÉBUT DE TOUR
+ RÈGLES DE BASE
+Activation de Site de Pouvoir
++2
++2
+×1 / TOUR (ARMÉE)
+BASE
+SAISON
+MDG
+Annonce : Choisissez un Héros ami à 3" d’un ou plusieurs Sites de Pouvoir pour qu’il utilise l’aptitude.
+Effet : Jetez un dé. Sur 1, infligez D3 dégâts mortels à ce Héros. Sur 2+, choisissez 1 des effets suivants :
+ Fureur Ignée : Gagnez 2 dés de rage, puis augmentez votre niveau de fureur de 2, jusqu’à un maximum de 7.
+ Colère Canalisée : Si le Héros choisi est un Sorcier ou un Prêtre, ajoutez 1 aux jets de lancement ou de récitation pour ce Héros pour le restant du
+tour.
+ Rage Étourdissante : Pour le restant du tour, si le Héros choisi n’est pas un Sorcier ou un Prêtre, il peut utiliser l’aptitude « Dissipation » ou « Bannir
+une Manifestation » comme s’il avait le mot-clé Sorcier (1).
+RÈGLES D'ARMÉE
+Effroi Rampant
+×1 / TOUR (ARMÉE)
+BT (TRAD.)
+TRAITS DE BATAILLE
+Annonce : Choisissez comme cible une unité ennemie dans l'invasion végétale.
+Effet : Pour le restant du tour, la première fois que votre adversaire annonce un ordre pour la cible alors qu'elle n'est pas entièrement à 12" d'un Héros
+de son armée, à moins que votre adversaire ne dépense 1 point d'ordre supplémentaire pour utiliser cet ordre, l'ordre n'a aucun effet ; il compte quand
+même comme ayant été utilisé, et les points d'ordre dépensés pour l'utiliser sont tout de même perdus.
+6 / 20
+
+===== page 7 =====
+MON TOUR
+PHASE DES HÉROS
+PHASE DES HÉROS
+ RÈGLES DE BASE
+Ralliement
+1
+MDG
+Annonce : Choisissez une unité amie qui n’est pas en mêlée pour qu’elle utilise cette
+aptitude.
+Effet : Faites 6 jets de ralliement d’un D6. Pour chaque jet de 4+, vous recevez 1 point
+de ralliement. Les points de ralliement peuvent être dépensés comme ceci :
+ Pour chaque point de ralliement dépensé, Soignez (1) l’unité.
+ Vous pouvez dépenser autant de points de ralliement que la caractéristique de Santé
+de l’unité pour ramener une figurine tuée dans l’unité.
+Vous pouvez dépenser les points de ralliement selon n’importe quelle combinaison
+(Soigner et ramener). Les points non dépensés sont ensuite perdus.
+Dissipation
+DISSIPATION
+MDG
+Réaction : L’adversaire a annoncé une aptitude de Sort
+Utilisée par : Un Sorcier ami à 30" du Sorcier ennemi qui
+lance le sort.
+Effet : Faites un jet de dissipation de 2D6. Si le jet est
+supérieur au jet de lancement pour le sort, il est dissipé et
+son effet n’est pas résolu. Cette réaction ne peut pas être
+utilisée plus d’une fois pour chaque jet de lancement.
+Bannir une Manifestation
+BANNISSEMENT
+MDG
+Annonce : Choisissez un Sorcier ou Prêtre ami pour qu’il utilise cette aptitude, et choisissez comme cible une Manifestation à 30" de lui qui n’a pas été
+convoquée à ce tour, puis faites un jet de bannissement de 2D6. Ajoutez 1 au jet de bannissement pour chaque autre Manifestation ennemie sur le
+champ de bataille. Vous ne pouvez pas choisir la même Manifestation comme cible de cette aptitude plus d’une fois par tour.
+Effet : Si le jet de bannissement est supérieur ou égal à la valeur de bannissement indiquée sur la charte de la manifestation, elle est bannie et retirée
+du jeu.
+RÈGLES D'ARMÉE
+Reconquis par la Nature
+×1 / TOUR (ARMÉE)
+BT (TRAD.)
+TRAITS DE BATAILLE
+Effet : S'il y a moins de 3 Bois Sauvages Éveillés amis sur le champ de bataille, vous pouvez placer un Bois Sauvage Éveillé sur le champ de
+bataille à plus de 3" de tous les objectifs et de toutes les unités ennemies, à plus de 12" de tous les autres Bois Sauvages Éveillés amis et à plus de
+1" de tous les autres éléments de terrain.
+SORTS
+Épines de Jade
+6+
+ILLIMITÉ
+BT (TRAD.)
+Annonce : Choisissez un Sorcier Sylvaneth ami
+pour lancer ce sort, choisissez comme cible une
+unité de Sylvaneths amie visible et entièrement à
+12" de lui, puis faites un jet de lancement de 2D6.
+Effet : Ajoutez 1 aux jets de blessure pour les
+attaques de mêlée de la cible pour le restant du
+tour, y compris celles des armes de Compagnon.
+Ruée des
+Zéphrites
+6+
+BT (TRAD.)
+Annonce : Choisissez un Sorcier Sylvaneth
+ami pour lancer ce sort, choisissez comme
+cible une unité de Sylvaneths amie visible et
+entièrement à 12" de lui, puis faites un jet de
+lancement de 2D6.
+Effet : Pour le restant du tour, la cible peut
+utiliser des aptitudes de Charge même si elle
+a utilisé une aptitude de Course au même
+tour.
+Racines
+Agrippantes
+5+
+BT (TRAD.)
+Annonce : Choisissez un Sorcier Sylvaneth
+ami pour lancer ce sort, choisissez comme
+cible une unité ennemie visible à 18" de lui,
+puis faites un jet de lancement de 2D6.
+Effet : Jusqu'au début de votre prochain tour
+:
+ La cible ne peut pas utiliser d'aptitudes de
+Course.
+ Soustrayez 1 aux jets de charge pour la
+cible.
+Métamorphose
+ALARIELLE THE EVERQUEEN
+7+
+BT (TRAD.)
+Annonce : Choisissez comme cible une unité ennemie visible à 12" de cette unité, puis faites un
+jet de lancement de 2D6.
+Effet : Infligez 2D3 dégâts mortels à la cible. Si la cible est censée être détruite par ce sort,
+avant de retirer des figurines, choisissez l'élément de terrain le plus proche de la cible qui n'a
+pas de pion d'invasion végétale ami et donnez-lui un pion d'invasion végétale ami. Si tous
+les éléments de terrain du champ de bataille ont déjà un pion d'invasion végétale ami, infligez
+à la place D3 dégâts mortels à chaque unité ennemie à 6" de la cible.
+Exciter les
+Fiel-follets
+DRYCHA
+HAMADRETH
+7+
+BT (TRAD.)
+Annonce : Choisissez comme cibles jusqu'à 3
+unités ennemies qui sont visibles et à 12" de
+cette unité ou qui sont dans l'invasion végétale,
+puis faites un jet de lancement de 2D6.
+Effet : Infligez D3 dégâts mortels à chaque cible.
+MANIFESTATIONS
+Convocation du
+Ver des Clairières
+6+
+BT (TRAD.)
+MANIFESTATION
+Annonce : S'il n'y a pas de Ver des
+Clairières ami sur le champ de bataille,
+choisissez un Sorcier Sylvaneth ami pour
+lancer ce sort, puis faites un jet de lancement
+de 2D6.
+Effet : Placez un Ver des Clairières
+entièrement à 12" du lanceur, visible de lui et
+à plus de 9" des unités ennemies.
+Convocation de la
+Racine-crâne
+Vengeresse
+6+
+BT (TRAD.)
+MANIFESTATION
+Annonce : S'il n'y a pas de Racine-crâne
+Vengeresse amie sur le champ de bataille, choisissez
+un Sorcier Sylvaneth ami pour lancer ce sort, puis
+faites un jet de lancement de 2D6.
+Effet : Placez une Racine-crâne Vengeresse
+entièrement à 12" du lanceur, visible de lui et à plus de
+9" des unités ennemies.
+Convocation de
+la Ruche
+Fielleuse
+6+
+BT (TRAD.)
+MANIFESTATION
+Annonce : S'il n'y a pas de Ruche
+Fielleuse amie sur le champ de bataille,
+choisissez un Sorcier Sylvaneth ami
+pour lancer ce sort, puis faites un jet de
+lancement de 2D6.
+Effet : Placez une Ruche Fielleuse
+entièrement à 12" du lanceur et visible
+de lui.
+7 / 20
+
+===== page 8 =====
+MON TOUR
+PHASE DES HÉROS
+PHASE DES HÉROS (SUITE)
+ PRIÈRES
+Chant des Morts
+4+
+ILLIMITÉ
+BT (TRAD.)
+Annonce : Choisissez un Prêtre Sylvaneth ami pour réciter cette prière, choisissez comme cible
+une unité de Sylvaneths amie qui est entièrement dans l'invasion végétale ou qui est visible et
+entièrement à 12" de lui, puis faites un jet de récitation de D6.
+Effet : Jusqu'au début de votre prochain tour, soustrayez 1 aux jets de blessure pour les attaques
+qui ciblent cette unité amie. De plus, si le jet de récitation était de 8+, choisissez 1 des effets
+suivants :
+ Vous pouvez Soigner (3) la cible.
+ Si la cible n'est pas un Monstre, ignorez les modificateurs aux jets de sauvegarde pour la cible
+(positifs et négatifs) jusqu'au début de votre prochain tour.
+Rites Sacrés
+2+
+ILLIMITÉ
+MDG
+Annonce : Choisissez un Prêtre ami pour qu’il
+récite cette prière, puis faites un jet de récitation
+d’un D6. Sur un jet de récitation non modifié de
+1, retirez 1 point de rituel à ce Prêtre au lieu de
+D3.
+Effet : Donnez au Prêtre autant de points de
+rituel que le jet de récitation non modifié et ne
+remettez pas son total de points de rituel à 0.
+Chant de Guerre
+5+
+BT (TRAD.)
+Annonce : Choisissez un Prêtre Sylvaneth ami pour réciter cette prière, choisissez comme cible une unité de Sylvaneths amie qui est entièrement
+dans l'invasion végétale ou qui est visible et entièrement à 12" de lui, puis faites un jet de récitation de D6.
+Effet : Si le jet de récitation était de 10+, vous pouvez choisir une autre unité éligible comme seconde cible. Jusqu'au début de votre prochain tour,
+ajoutez 1 à la caractéristique de Perforation des armes de mêlée de la ou des cibles.
+Chant d'Effroi
+4+
+BT (TRAD.)
+Annonce : Choisissez un Prêtre Sylvaneth ami pour réciter cette prière, choisissez comme cible une unité ennemie qui est entièrement dans
+l'invasion végétale ou qui est visible et à 18" de lui, puis faites un jet de récitation de D6.
+Effet : Si le jet de récitation était de 8+, vous pouvez choisir une autre unité éligible comme seconde cible. Jusqu'au début de votre prochain tour,
+chaque fois qu'une cible utilise une aptitude de Mouvement et termine ce mouvement dans l'invasion végétale, infligez D3 dégâts mortels à cette
+cible après que l'aptitude de Mouvement a été résolue.
+ALARIELLE THE EVERQUEEN
+Floraison Vitale
+×1 / TOUR (ARMÉE)
+BT (TRAD.)
+Effet : Soignez (2D6) cette unité.
+WARSONG REVENANT
+Accompagne
+ment Exaltant
+×1 / TOUR
+(ARMÉE)
+BT (TRAD.)
+Réaction : Vous avez obtenu un 1
+non modifié sur un jet de récitation
+pour un Prêtre Sylvaneth
+entièrement à 12" de cette unité
+Effet : Relancez ce jet de récitation.
+Luciorbes Dansantes
+AQSHY
+ARTEFACT DE POUVOIR
+Réaction : L'adversaire a annoncé une aptitude de Sort pour une unité à 30" de cette unité
+Effet :
+ Si cette unité n'est pas un Sorcier, elle peut utiliser l'aptitude « Dissipation » comme si elle avait le mot-clé
+Sorcier (1). Sinon, elle peut utiliser l'aptitude « Dissipation » une fois supplémentaire à chaque phase.
+ Si cette unité réussit à dissiper le sort auquel elle a réagi et si le lanceur est dans l'invasion végétale,
+infligez au lanceur autant de dégâts mortels que la différence entre le jet de lancement et le jet de dissipation,
+jusqu'à un maximum de 6.
+GLADEWYRM
+Se Nourrir d'Énergie Ésotérique
+PASSIF
+BT (TRAD.)
+MANIFESTATION
+Effet : Soustrayez 1 aux jets de lancement, de dissipation, de récitation et de bannissement pour les unités ennemies tant qu'elles sont en mêlée avec
+cette Manifestation.
+8 / 20
+
+===== page 9 =====
+MON TOUR
+PHASE DE MOUVEMENT
+PHASE DE MOUVEMENT
+ RÈGLES DE BASE
+Mouvement
+Normal
+BASE
+MOUVEMENT
+MDG
+Annonce : Choisissez une unité
+amie qui n’est pas en mêlée pour
+qu’elle utilise cette aptitude.
+Effet : L’unité peut se déplacer
+d’une distance maximale égale à sa
+caractéristique de Mouvement. Elle
+ne peut entrer en mêlée à aucun
+moment de ce mouvement.
+Course
+BASE
+COURSE
+MOUVEMENT
+MDG
+Annonce : Choisissez une unité amie qui n’est
+pas en mêlée pour qu’elle utilise cette aptitude.
+Effet : Faites un jet de course d’un D6. L’unité
+peut se déplacer d’une distance maximale égale à
+sa caractéristique de Mouvement additionnée au
+jet de course. Elle ne peut entrer en mêlée à
+aucun moment de ce mouvement.
+Repli
+BASE
+REPLI
+MOUVEMENT
+MDG
+Annonce : Choisissez une unité amie qui est en
+mêlée pour qu’elle utilise cette aptitude.
+Effet : Infligez D3 dégâts mortels à l’unité. Elle peut se
+déplacer d’une distance maximale égale à sa
+caractéristique de Mouvement. Elle peut passer à
+portée de mêlée des unités ennemies au cours de ce
+mouvement, mais elle ne peut pas le finir à portée de
+mêlée des unités ennemies.
+Au Pas de Course
+1
+MDG
+Réaction : Vous avez annoncé une aptitude de Course
+Utilisé par : L’unité qui utilise l’aptitude de Course.
+Effet : Ne faites pas un jet de course pour l’aptitude de Course. Au lieu de cela, ajoutez 6" à la caractéristique de Mouvement de l’unité pour
+déterminer la distance que chaque figurine de l’unité peut parcourir dans le cadre de l’aptitude de Course.
+ALARIELLE THE EVERQUEEN
+La Déesse de la Vie
+2
+×1 / BATAILLE
+BT (TRAD.)
+Annonce : Cette unité peut utiliser cette aptitude même si elle a été détruite.
+Effet : Placez une unité de remplacement à laquelle sont alloués 8 dégâts (on ne peut faire aucun jet de protection contre ces dégâts), entièrement
+dans l'invasion végétale et à plus de 9" des unités ennemies.
+BELTHANOS, FIRST THORN OF KURNOTH
+Cor de Guerre Kurnothi
+PASSIF
+BT (TRAD.)
+Effet : Ajoutez 2" à la caractéristique de Mouvement des unités Kurnothi amies tant qu'elles sont entièrement à 12" de cette unité.
+DRYCHA HAMADRETH
+Terreur des Bois Profonds
+PASSIF
+BT (TRAD.)
+Effet : Les unités ennemies ne peuvent pas utiliser d'aptitudes de Course ni de Repli tant qu'elles sont à 9" de cette unité.
+WARSONG REVENANT
+Guide des Racines des Royaumes
+×1 / BATAILLE
+BT (TRAD.)
+TRAIT HÉROÏQUE
+Annonce : Cette unité ne peut utiliser cette aptitude que si elle est entièrement dans l'invasion végétale. Choisissez comme cibles cette unité et
+jusqu'à 1 autre unité de Sylvaneths amie à portée de mêlée de cette unité.
+Effet : Retirez les cibles du champ de bataille et replacez-les entièrement dans l'invasion végétale et à plus de 9" des unités ennemies.
+SPITE-REVENANTS
+Rampe-ombre
+×1 / TOUR (ARMÉE)
+BT (TRAD.)
+Effet : Si cette unité est entièrement dans l'invasion végétale, retirez-la du champ de bataille et replacez-la entièrement à 3" d'un élément de terrain
+et à plus de 9" des unités ennemies. Puis, ajoutez 1 aux jets de charge pour cette unité pour le restant du tour.
+GLADEWYRM
+Chasseurs Ésotériques
+BASE
+BT (TRAD.)
+MANIFESTATION
+Effet : Si cette Manifestation n'est pas en mêlée, retirez-la du champ de bataille et replacez-la sur le champ de bataille à plus de 9" des unités
+ennemies qui ne sont ni des Sorciers ni des Prêtres, et à plus de 3" des Sorciers et des Prêtres ennemis.
+9 / 20
+
+===== page 10 =====
+MON TOUR
+PHASE DE TIR
+PHASE DE TIR
+ RÈGLES DE BASE
+Tir
+BASE
+ATTAQUE
+TIR
+MDG
+Annonce : Choisissez une unité amie qui n’a pas utilisé une aptitude de Course ni
+de Repli à ce tour pour qu’elle utilise cette aptitude. Puis choisissez une ou plusieurs
+unités ennemies comme cible(s) des attaques de l’unité (voir 16.0).
+Effet : Résolvez les attaques de tir contre la/les unité(s) cible(s).
+Héros Gardé
+PASSIF
+MDG
+Effet : Si ce Héros est à portée de mêlée d’une unité amie qui
+n’est pas un Héros :
+ Soustrayez 1 aux jets de touche pour les attaques de tir
+ciblant ce Héros.
+ Si ce Héros a le mot-clé Infanterie, il ne peut pas être ciblé
+par des attaques de tir faites par des figurines situées à plus
+de 12" de lui.
+GOSSAMID ARCHERS
+Zéphrites
+MOUVEMENT
+BT
+Réaction : Vous avez annoncé une aptitude de Tir pour cette unité
+Effet : Après avoir résolu l'aptitude de Tir annoncée, cette unité peut se déplacer de D6" maximum. Elle ne peut pas entrer en mêlée en effectuant ce
+mouvement.
+SPITESWARM HIVE
+Courroucer la Ruche
+BT (TRAD.)
+MANIFESTATION
+Effet : Si cette Manifestation n'a pas été placée à ce tour, ajoutez 10 à la caractéristique d'Attaques de ses armes de tir pour le restant de la phase,
+mais toutes les attaques de tir qu'elle effectue à cette phase doivent cibler une unité ennemie à 9" d'elle.
+PHASE DE CHARGE
+PHASE DE CHARGE
+ RÈGLES DE BASE
+Charge
+BASE
+MOUVEMENT
+CHARGE
+MDG
+Annonce : Choisissez une unité amie qui n’est pas en mêlée et qui n’a pas utilisé une aptitude
+de Course ni de Repli à ce tour pour qu’elle utilise cette aptitude. Puis faites un jet de charge
+de 2D6.
+Effet : L’unité peut se déplacer d’une distance maximale égale au jet de charge. Elle peut
+passer à portée de mêlée des unités ennemies au cours de ce mouvement, et doit finir à ½"
+d’une unité ennemie visible. Si elle le fait, on dit de l’unité qui utilise cette aptitude qu’elle a
+chargé.
+En Avant, vers la
+Victoire
+1
+MDG
+Réaction : Vous avez annoncé une aptitude de
+Charge
+Utilisé par : L’unité qui utilise l’aptitude de Charge.
+Effet : Vous pouvez relancer le jet de charge.
+ALARIELLE THE EVERQUEEN
+Bélier Vivant
+×1 / TOUR (ARMÉE)
+SACCAGE
+BT (TRAD.)
+Annonce : Si cette unité a chargé à ce tour, choisissez comme cible une unité ennemie visible à 1" d'elle.
+Effet : Jetez un dé. Sur 3+, infligez à la cible autant de dégâts mortels que le résultat du jet.
+DRYCHA HAMADRETH
+Embuscade Sans Merci
+1
+BASE
+MOUVEMENT
+CHARGE
+SACCAGE
+BT
+Annonce : Si cette unité n'est pas en mêlée et n'a utilisé aucune aptitude de Course ni de Repli à ce tour, faites un jet de charge de 2D6.
+Effet : Vous pouvez retirer cette unité du champ de bataille et la replacer à ½" d'une unité ennemie et entièrement à X" d'un élément de terrain qui a
+un pion d'invasion végétale ami, où X est égal au jet de charge. Dans ce cas, cette unité a chargé.
+10 / 20
+
+===== page 11 =====
+MON TOUR
+PHASE DE MÊLÉE
+PHASE DE MÊLÉE
+ RÈGLES DE BASE
+Corps à Corps
+BASE
+ATTAQUE
+CORPS À CORPS
+MDG
+Annonce : Choisissez une unité amie qui est
+en mêlée ou qui a chargé à ce tour pour qu’elle
+utilise cette aptitude. Elle peut faire un
+mouvement d’engagement (voir 15.3). Puis, si
+elle est en mêlée, vous devez choisir une ou
+plusieurs unités ennemies comme cible(s) de
+ses attaques (voir 16.0).
+Effet : Résolvez les attaques de mêlée contre
+la/les unité(s) cible(s).
+Frappe en Premier et Frappe en
+Dernier
+PASSIF
+MDG
+Frappe en Premier : une fois utilisées les aptitudes de la phase de mêlée autres que de Corps à
+Corps, si des unités ayant Frappe en Premier sont en mêlée, les autres unités ne peuvent pas
+être choisies pour utiliser une aptitude de Corps à Corps avant elles. Une fois que toutes les
+unités ayant Frappe en Premier ont combattu, le joueur actif choisit la prochaine unité qui
+combat.
+Frappe en Dernier : une unité en mêlée ayant Frappe en Dernier ne peut pas être choisie pour
+utiliser une aptitude de Corps à Corps tant que d’autres unités en mêlée sans Frappe en Dernier
+peuvent encore en utiliser une et ne l’ont pas encore fait.
+Les deux : une unité ayant à la fois Frappe en Premier et Frappe en Dernier est traitée comme
+si elle n’avait ni l’un ni l’autre.
+Champion
+PASSIF
+MDG
+Effet : Ajoutez 1 à la caractéristique d’Attaques des armes utilisées par les champions de cette unité.
+BELTHANOS, FIRST THORN OF KURNOTH
+Rythme de la Traque
+×1 / TOUR (ARMÉE)
+SACCAGE
+BT (TRAD.)
+Annonce : Choisissez comme cible une unité ennemie en mêlée avec cette unité.
+Effet : Jetez un D3. Sur 2+, infligez à la cible autant de dégâts mortels que le résultat du jet, puis vous pouvez retirer cette unité du champ de bataille
+et la replacer à 1" de la cible.
+KURNOTH HUNTERS WITH GREATSWORDS
+Impact Fracassant
+BT (TRAD.)
+Annonce : Si cette unité a chargé à ce tour, choisissez comme cible une unité ennemie en mêlée avec elle.
+Effet : Jetez un dé pour chaque figurine de cette unité qui est en mêlée avec la cible. Pour chaque 3+, infligez 1 dégât mortel à la cible.
+AWAKENED WYLDWOOD
+Esprits Sylvestres Vengeurs
+×1 / TOUR (ARMÉE)
+BT (TRAD.)
+Annonce : Choisissez comme cibles chaque unité ennemie à 3" de cet élément de terrain.
+Effet : Jetez un D3 pour chaque cible. Sur 2+, infligez à la cible autant de dégâts mortels que le résultat du jet.
+11 / 20
+
+===== page 12 =====
+MON TOUR
+FIN DE TOUR
+FIN DE TOUR
+ RÈGLES DE BASE
+Enfoncement
+1
+MOUVEMENT
+MDG
+Annonce : Choisissez une unité amie qui a chargé à ce tour pour qu’elle utilise cette aptitude, puis vous devez choisir comme cible une unité ennemie
+qui est en mêlée avec elle. La cible doit avoir une caractéristique de Santé inférieure à celle de l’unité qui utilise cette aptitude.
+Effet : Infligez D3 dégâts mortels à la cible. Puis l’unité qui utilise cette aptitude peut se déplacer d’une distance inférieure ou égale à sa caractéristique
+de Mouvement. Ce mouvement peut traverser et finir dans les portées de mêlée des unités ennemies avec lesquelles elle était en mêlée au début du
+mouvement, mais pas dans celles d’autres unités ennemies. Ce mouvement n’est pas obligé de finir en mêlée.
+Éruption de Fureur
+1-3
+×1 / TOUR (ARMÉE)
+ATTAQUE
+CORPS À CORPS
+SAISON
+MDG
+Annonce : Choisissez une unité amie pour qu’elle utilise cette aptitude, puis choisissez comme cible une unité ennemie en mêlée avec cette unité
+amie.
+Effet : Choisissez 1 des armes de mêlée de l’unité qui utilise cette aptitude. Puis dépensez 3 dés de rage maximum.
+Résolvez autant d’attaques de mêlée contre la cible en utilisant l’arme de mêlée choisie que le nombre de dés de rage que vous avez dépensés.
+Ces attaques ne peuvent pas causer de touches critiques. À la place, pour chaque jet de touche non modifié de 6 obtenu pour ces attaques :
+ Infligez D3 dégâts mortels supplémentaires à chaque unité ennemie en mêlée avec l’unité qui utilise cette aptitude.
+ Votre adversaire doit augmenter son niveau de fureur de 1, jusqu’à un maximum de 7.
+Pour chaque jet de touche non modifié de 1 pour ces attaques, allouez D3 dégâts mortels à l’unité qui utilise cette aptitude une fois la séquence de
+dégâts résolue (on ne peut tenter aucun jet de protection contre ces dégâts).
+Note des Concepteurs : Les dés de rage ne s’ajoutent pas à la caractéristique d’Attaques de l’arme que vous choisissez ; si vous dépensez 3 dés de
+rage pour utiliser cette aptitude, vous faites seulement 3 attaques de mêlée.
+RÈGLES D'ARMÉE
+La Terre s'Éveille
+1
+BT (TRAD.)
+TRAITS DE BATAILLE
+Annonce : Choisissez comme cible une unité de
+Revenants d'Infanterie amie autre qu'un Héros,
+ou une unité de Dryades amie, qui a été détruite.
+Effet : Placez une unité de remplacement
+comportant la moitié des figurines de l'unité cible
+(arrondie au supérieur), entièrement dans
+l'invasion végétale et à plus de 9" des unités
+ennemies.
+Repousse Perpétuelle
+×1 / TOUR (ARMÉE)
+BT (TRAD.)
+TRAITS DE BATAILLE
+Annonce : Choisissez comme cibles chaque unité de
+Sylvaneths amie entièrement dans l'invasion
+végétale.
+Effet : Pour chaque cible, jetez un D3 et choisissez 1
+des effets suivants :
+ Soignez (X) la cible, où X est égal au jet.
+ Ramenez dans la cible des figurines tuées dont la
+caractéristique de Santé combinée ne dépasse pas la
+valeur du jet.
+Titans de la
+Nature
+PASSIF
+BT (TRAD.)
+FORMATION : LORDS OF THE CLAN
+Effet : Quand vous utilisez
+l'aptitude « Repousse Perpétuelle
+», ne jetez pas de D3 pour les
+cibles qui sont des Monstres. À la
+place, Soignez (3) chacune de
+ces cibles.
+BELTHANOS, FIRST THORN OF KURNOTH
+Frappe du Maître de Chasse
+×1 / TOUR (ARMÉE)
+BT (TRAD.)
+Effet : Si cette unité a chargé à ce tour, retirez-la du champ de bataille et replacez-la à plus de 6" des unités ennemies et entièrement dans l'invasion
+végétale.
+KURNOTH HUNTERS WITH GREATSWORDS
+Aspect de Cœurbois
+×1 / BATAILLE
+AQSHY
+ASPECTS OF THE DEEPWOODS
+Réaction : Vous avez annoncé l'aptitude « Repousse Perpétuelle »
+Effet : Si cette unité est entièrement dans l'invasion végétale, pour chaque cible de l'aptitude qui est entièrement à 12" de cette unité, vous pouvez
+choisir 1 des effets suivants :
+ Pour résoudre l'aptitude, jetez un D6 pour la cible au lieu d'un D3. Si, en raison d'une autre aptitude, vous êtes censé Soigner (3) la cible au lieu de
+jeter un dé, Soignez (6) la cible à la place.
+ Si la cible est Kurnothi, au lieu de jeter un D3 et de choisir 1 des effets de cette aptitude à lui appliquer, vous pouvez ramener 1 figurine tuée dans
+l'unité cible.
+12 / 20
+
+===== page 13 =====
+MON TOUR
+Assaut Flamboyant
+CARTE DE TACTIQUE 1 · Blazing Onslaught
+RÈGLE SPÉCIALE
+Au début de la bataille, après avoir utilisé toutes les aptitudes de Phase de Déploiement mais avant de déterminer le joueur qui a le premier tour, votre
+adversaire doit choisir 1 élément de terrain autre qu’un TERRAIN DE FACTION dans son territoire qui sera son repaire. Le repaire ne peut pas être retiré du
+champ de bataille au cours de cette bataille.
+ÉCHAUFFOURÉE
+Maître d’Armes
+Vous exécutez cette tactique de bataille à la fin de votre tour si la même unité ennemie a reçu au moins 1 dégât lors de 3 phases
+différentes à ce tour.
+ 5
+ PTS DE
+VICTOIRE
+FRAPPE
+Brisez Leurs Défenses
+Vous exécutez cette tactique de bataille à la fin de votre tour si vous contrôlez le repaire ennemi.
+ 5
+ PTS DE
+VICTOIRE
+DOMINATION
+Pas de Survivants
+Vous exécutez cette tactique de bataille à la fin de votre tour si au moins 2 unités ennemies ont été détruites à ce tour et si vous contrôlez
+le repaire ennemi.
+ 5
+ PTS DE
+VICTOIRE
+Encerclés par le Feu
+CARTE DE TACTIQUE 3 · Flanking Firestorm
+ÉCHAUFFOURÉE
+Embuscade
+Vous exécutez cette tactique de bataille à la fin de votre tour si vous contrôlez une combinaison d’au moins 2 objectifs ou éléments de
+terrain autres que des Terrains de Faction, et si chacun d’eux est contesté par une unité amie différente située à plus de 6" du territoire
+ami et n’ayant pas été placée à ce tour.
+ 5
+ PTS DE
+VICTOIRE
+FRAPPE
+Cernez l’Ennemi
+Vous exécutez cette tactique de bataille à la fin de votre tour si au moins 2 unités amies qui n’ont pas été placées à ce tour sont chacune
+à 9" d’un coin différent du champ de bataille et entièrement hors du territoire ami.
+ 5
+ PTS DE
+VICTOIRE
+DOMINATION
+Prenez votre Dû
+Vous exécutez cette tactique de bataille à la fin de votre tour s’il y a plus d’unités amies que d’unités ennemies en territoire ennemi, et s’il
+y a au moins 1 HÉROS ami entièrement en territoire ennemi.
+ 5
+ PTS DE
+VICTOIRE
+13 / 20
+
+===== page 14 =====
+
+===== page 15 =====
+Alarielle the Everqueen
+3
+ MV
+14"
+ CT
+10
+ SV
+4+
+ WD
+5+
+ HP
+16
+1 model
+ 620 pts
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Spear of Kurnoth
+ 12"
+ 1
+ 2+
+ 3+
+ 2
+ 4
+Spear of Kurnoth
+Charge (+1 Dégât)
+ 5
+ 3+
+ 3+
+ 2
+ 2
+Wardroth Beetle’s Antlers
+Compagnon
+ 6
+ 4+
+ 2+
+ 2
+ 4
+N'IMPORTE QUELLE PHASE
+Stigmates de Guerre
+PASSIF
+BT (TRAD.)
+Effet : Tant que cette unité a 10 dégâts ou plus, la caractéristique
+d'Attaques de ses Bois du Scarabée de Wardroth est 4.
+ORDER · SYLVANETH · FLY · HERO · MONSTER · UNIQUE · WARD ·
+WARMASTER
+ Wahapedia (EN)
+Warsong Revenant
+1
+ MV
+6"
+ CT
+ 2
+ SV
+5+
+ WD
+6+
+ HP
+ 7
+1 model
+ 190 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Spirit Falchion and Spearing
+Vines
+ 5
+ 3+
+ 3+
+ 1
+ D3
+ORDER · REVENANT · SYLVANETH · FLY · HERO · INFANTRY ·
+WARD
+ Wahapedia (EN)
+Kurnoth Hunters with
+Greatswords
+ MV
+6"
+ CT
+ 2
+ SV
+4+
+ WD
+—
+ HP
+ 5
+3 models
+ 210+10 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Kurnoth Greatsword
+Crit (Mortel)
+ 4
+ 3+
+ 3+
+ 1
+ 2
+N'IMPORTE QUELLE PHASE
+Endurance du Chasseur
+PASSIF
+BT
+Effet : Soustrayez 1 à la caractéristique de Perforation des armes
+utilisées pour les attaques qui ciblent cette unité tant qu'elle est
+entièrement dans l'invasion végétale.
+KURNOTHI · ORDER · SYLVANETH · CHAMPION · INFANTRY
+ Wahapedia (EN)
+Awakened Wyldwood
+ MV
+ -
+ CT
+ -
+ SV
+4+
+ WD
+—
+ HP
+ 8
+1 model
+ Invoquée
+ORDER · SYLVANETH · FACTION TERRAIN
+ Wahapedia (EN)
+ Belthanos, First Thorn of Kurnoth
+ MV
+12"
+ CT
+ 5
+ SV
+3+
+ WD
+—
+ HP
+14
+1 model
+ 290 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Kurnoth Glaive
+Charge (+1 Dégât)
+ 5
+ 3+
+ 3+
+ 2
+ 2
+Carnelian Greatspite’s Mandibles
+Compagnon
+ 4
+ 4+
+ 2+
+ 2
+ 3
+N'IMPORTE QUELLE PHASE
+Stigmates de Guerre
+PASSIF
+BT (TRAD.)
+Effet : Tant que cette unité a 10 dégâts ou plus, la caractéristique
+d'Attaques de ses Mandibules de Grand-fiel Cornaline est 3.
+KURNOTHI · ORDER · SYLVANETH · FLY · HERO · MONSTER ·
+UNIQUE
+ Wahapedia (EN)
+Drycha Hamadreth
+1
+ MV
+10"
+ CT
+ 5
+ SV
+3+
+ WD
+—
+ HP
+12
+1 model
+ 250 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Slashing Talons
+Crit (2 Touches)
+ 5
+ 3+
+ 2+
+ 2
+ 2
+Swarm of Spites
+Crit (Mortel), Compagnon
+ 20
+ 4+
+ 4+
+ -
+ 1
+FOREST ELDER · ORDER · SYLVANETH · HERO · MONSTER ·
+UNIQUE
+ Wahapedia (EN)
+Gossamid Archers
+ MV
+12"
+ CT
+ 1
+ SV
+5+
+ WD
+—
+ HP
+ 2
+5 models
+ 120 pts
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Gossamid Bow
+Crit (Blessure Auto), Tir en Mêlée
+ 12"
+ 2
+ 3+
+ 4+
+ 1
+ 1
+Cruel Talons
+ 1
+ 3+
+ 4+
+ -
+ 1
+ORDER · REVENANT · SYLVANETH · CHAMPION · FLY · INFANTRY
+ Wahapedia (EN)
+Spite-Revenants
+ MV
+6"
+ CT
+ 1
+ SV
+5+
+ WD
+—
+ HP
+ 2
+5 models
+ 100 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Cruel Talons and Fangs
+Crit (Mortel)
+ 3
+ 3+
+ 4+
+ -
+ 1
+ORDER · REVENANT · SYLVANETH · CHAMPION · INFANTRY
+ Wahapedia (EN)
+15 / 20
+
+===== page 16 =====
+Gladewyrm
+6+
+ MV
+8"
+ CT
+ 7
+ SV
+4+
+ WD
+6+
+ HP
+ 7
+1 model
+ Invoquée
+ Entièrement à 12" et visible du lanceur
+ À plus de 9" de l'ennemi
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Fearsome Mandibles and Bladed
+Carapace
+Anti-PRIEST (+1 Perf.), Anti-WIZARD (+1
+Perf.)
+ 6
+ 4+
+ 2+
+ 1
+ D3
+ORDER · SYLVANETH · ENDLESS SPELL · MANIFESTATION ·
+WARD
+ Wahapedia (EN)
+ Vengeful Skullroot
+6+
+ MV
+8"
+ CT
+ 7
+ SV
+4+
+ WD
+6+
+ HP
+ 8
+1 model
+ Invoquée
+ Entièrement à 12" et visible du lanceur
+ À plus de 9" de l'ennemi
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Writhing Roots
+ 3
+ 4+
+ 2+
+ 1
+ D3
+ORDER · SYLVANETH · ENDLESS SPELL · FLY · MANIFESTATION ·
+WARD
+ Wahapedia (EN)
+Spiteswarm Hive
+6+
+ MV
+ -
+ CT
+ 7
+ SV
+6+
+ WD
+6+
+ HP
+ 6
+1 model
+ Invoquée
+ Entièrement à 12" et visible du lanceur
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Spiteswarm
+Crit (2 Touches)
+ 18"
+ 5
+ 4+
+ 3+
+ 1
+ 1
+Spiteswarm
+Crit (2 Touches)
+ 10
+ 4+
+ 3+
+ 1
+ 1
+ORDER · SYLVANETH · ENDLESS SPELL · MANIFESTATION ·
+WARD
+ Wahapedia (EN)
+16 / 20
+
+===== page 17 =====
+TOUR DE L'ADVERSAIRE
+Tour adverse
+Sylvaneth
+DÉBUT DE ROUND
+DÉBUT DE ROUND
+ RÈGLES DE BASE
+Début de Round de Bataille
+SIMPLE
+1 : Déterminez le Joueur Actif.
+ Si c’est le premier round de bataille, le joueur qui a fini de déployer son armée en premier choisit qui a le premier tour.
+ Si ce n’est pas le premier round, les joueurs font un tir au dé appelé jet de priorité et le gagnant choisit qui a le premier tour. Si le tir au dé est une
+égalité, le joueur qui a eu le premier tour au round précédent choisit qui a le premier tour du round de bataille en cours.
+2 : Déterminez l’Outsider. Si un joueur a moins de points de victoire, il est l’outsider pour la durée du round.
+Rage Bouillonnante
+×1 / TOUR (ARMÉE)
+SAISON
+MDG
+Annonce : Vous devez utiliser cette aptitude.
+Effet : Gagnez autant de dés de rage que votre niveau de fureur. À la fin du round de bataille, tous les dés de rage non dépensés sont perdus.
+ALARIELLE THE EVERQUEEN
+Saisons de Guerre
+BT (TRAD.)
+Annonce : Vous devez utiliser cette aptitude.
+Effet : Choisissez 1 des effets suivants, qui s'applique pour le restant du round de bataille. Vous ne pouvez pas choisir l'effet que vous avez choisi au
+round de bataille précédent.
+La Germinaison : Chaque fois qu'un Bois Sauvage Éveillé ami utilise l'aptitude « Croissance Incessante », vous pouvez choisir comme cible
+n'importe quel élément de terrain que votre adversaire ne contrôle pas, plutôt que le plus proche.
+La Moisson : Ajoutez 1 aux jets de lancement et de récitation pour les unités de Sylvaneths amies tant qu'elles sont entièrement à 12" de cette unité.
+Le Déclin : Les unités de Sylvaneths amies peuvent utiliser des aptitudes de Charge même si elles ont utilisé une aptitude de Repli au même tour.
+De plus, aucun dégât mortel n'est infligé à ces unités quand elles utilisent des aptitudes de Repli.
+Crépuscule : Chaque fois que vous utilisez l'aptitude « Effroi Rampant » à ce round de bataille, vous pouvez choisir jusqu'à 3 cibles au lieu de 1.
+AWAKENED WYLDWOOD
+Croissance Incessante
+×1 / ROUND
+BT (TRAD.)
+Annonce : Choisissez comme cible l'élément de terrain le plus proche de cet élément de terrain qui n'a pas de pion d'invasion végétale ami.
+Effet : Si la cible n'est pas contrôlée par votre adversaire, donnez à la cible un pion d'invasion végétale ami.
+DÉBUT DE TOUR
+DÉBUT DE TOUR
+ RÈGLES DE BASE
+Activation de Site de Pouvoir
++2
++2
+×1 / TOUR (ARMÉE)
+BASE
+SAISON
+MDG
+Annonce : Choisissez un Héros ami à 3" d’un ou plusieurs Sites de Pouvoir pour qu’il utilise l’aptitude.
+Effet : Jetez un dé. Sur 1, infligez D3 dégâts mortels à ce Héros. Sur 2+, choisissez 1 des effets suivants :
+ Fureur Ignée : Gagnez 2 dés de rage, puis augmentez votre niveau de fureur de 2, jusqu’à un maximum de 7.
+ Colère Canalisée : Si le Héros choisi est un Sorcier ou un Prêtre, ajoutez 1 aux jets de lancement ou de récitation pour ce Héros pour le restant du
+tour.
+ Rage Étourdissante : Pour le restant du tour, si le Héros choisi n’est pas un Sorcier ou un Prêtre, il peut utiliser l’aptitude « Dissipation » ou « Bannir
+une Manifestation » comme s’il avait le mot-clé Sorcier (1).
+RÈGLES D'ARMÉE
+Effroi Rampant
+×1 / TOUR (ARMÉE)
+BT (TRAD.)
+TRAITS DE BATAILLE
+Annonce : Choisissez comme cible une unité ennemie dans l'invasion végétale.
+Effet : Pour le restant du tour, la première fois que votre adversaire annonce un ordre pour la cible alors qu'elle n'est pas entièrement à 12" d'un Héros
+de son armée, à moins que votre adversaire ne dépense 1 point d'ordre supplémentaire pour utiliser cet ordre, l'ordre n'a aucun effet ; il compte quand
+même comme ayant été utilisé, et les points d'ordre dépensés pour l'utiliser sont tout de même perdus.
+17 / 20
+
+===== page 18 =====
+TOUR DE L'ADVERSAIRE
+PHASE DES HÉROS
+PHASE DES HÉROS
+ RÈGLES DE BASE
+Ralliement
+1
+MDG
+Annonce : Choisissez une unité amie qui n’est pas en mêlée pour qu’elle utilise cette
+aptitude.
+Effet : Faites 6 jets de ralliement d’un D6. Pour chaque jet de 4+, vous recevez 1 point
+de ralliement. Les points de ralliement peuvent être dépensés comme ceci :
+ Pour chaque point de ralliement dépensé, Soignez (1) l’unité.
+ Vous pouvez dépenser autant de points de ralliement que la caractéristique de Santé
+de l’unité pour ramener une figurine tuée dans l’unité.
+Vous pouvez dépenser les points de ralliement selon n’importe quelle combinaison
+(Soigner et ramener). Les points non dépensés sont ensuite perdus.
+Dissipation
+DISSIPATION
+MDG
+Réaction : L’adversaire a annoncé une aptitude de Sort
+Utilisée par : Un Sorcier ami à 30" du Sorcier ennemi qui
+lance le sort.
+Effet : Faites un jet de dissipation de 2D6. Si le jet est
+supérieur au jet de lancement pour le sort, il est dissipé et
+son effet n’est pas résolu. Cette réaction ne peut pas être
+utilisée plus d’une fois pour chaque jet de lancement.
+Intervention Magique
+1
+MDG
+Annonce : Choisissez un Sorcier ou un Prêtre ami pour qu’il utilise cette aptitude.
+Effet : L’unité amie peut utiliser une aptitude de Sort, de Prière ou de Bannissement (selon le cas approprié) comme si c’était votre phase des héros.
+Dans ce cas, soustrayez 1 aux jets de lancement ou de récitation faits dans le cadre de cette aptitude.
+ALARIELLE THE EVERQUEEN
+Floraison Vitale
+×1 / TOUR (ARMÉE)
+BT (TRAD.)
+Effet : Soignez (2D6) cette unité.
+WARSONG REVENANT
+Accompagne
+ment Exaltant
+×1 / TOUR
+(ARMÉE)
+BT (TRAD.)
+Réaction : Vous avez obtenu un 1
+non modifié sur un jet de récitation
+pour un Prêtre Sylvaneth
+entièrement à 12" de cette unité
+Effet : Relancez ce jet de récitation.
+Luciorbes Dansantes
+AQSHY
+ARTEFACT DE POUVOIR
+Réaction : L'adversaire a annoncé une aptitude de Sort pour une unité à 30" de cette unité
+Effet :
+ Si cette unité n'est pas un Sorcier, elle peut utiliser l'aptitude « Dissipation » comme si elle avait le mot-clé
+Sorcier (1). Sinon, elle peut utiliser l'aptitude « Dissipation » une fois supplémentaire à chaque phase.
+ Si cette unité réussit à dissiper le sort auquel elle a réagi et si le lanceur est dans l'invasion végétale,
+infligez au lanceur autant de dégâts mortels que la différence entre le jet de lancement et le jet de dissipation,
+jusqu'à un maximum de 6.
+GLADEWYRM
+Se Nourrir d'Énergie Ésotérique
+PASSIF
+BT (TRAD.)
+MANIFESTATION
+Effet : Soustrayez 1 aux jets de lancement, de dissipation, de récitation et de bannissement pour les unités ennemies tant qu'elles sont en mêlée avec
+cette Manifestation.
+PHASE DE MOUVEMENT
+PHASE DE MOUVEMENT
+ RÈGLES DE BASE
+Redéploiement
+1
+MOUVEMENT
+COURSE
+MDG
+Annonce : Choisissez une unité amie qui n’est pas en mêlée pour qu’elle utilise cette aptitude.
+Effet : Toutes les figurines de l’unité peuvent se déplacer de D6" maximum. Ce mouvement ne peut pas traverser ni se terminer à portée de mêlée
+d’une unité ennemie.
+BELTHANOS, FIRST THORN OF KURNOTH
+Cor de Guerre Kurnothi
+PASSIF
+BT (TRAD.)
+Effet : Ajoutez 2" à la caractéristique de Mouvement des unités Kurnothi amies tant qu'elles sont entièrement à 12" de cette unité.
+DRYCHA HAMADRETH
+Terreur des Bois Profonds
+PASSIF
+BT (TRAD.)
+Effet : Les unités ennemies ne peuvent pas utiliser d'aptitudes de Course ni de Repli tant qu'elles sont à 9" de cette unité.
+18 / 20
+
+===== page 19 =====
+TOUR DE L'ADVERSAIRE
+PHASE DE TIR
+PHASE DE TIR
+ RÈGLES DE BASE
+Tir de Couverture
+1
+ATTAQUE
+TIR
+MDG
+Annonce : Choisissez une unité amie qui n’a utilisé aucune aptitude de Course à ce tour et qui
+n’est pas en mêlée pour qu’elle utilise cette aptitude, puis choisissez comme cible l’unité ennemie
+la plus proche (de l’unité amie) qui peut être choisie comme cible d’attaques de tir. Vous ne pouvez
+pas choisir des Manifestations ni des éléments de terrain de faction comme cibles de cette aptitude.
+Effet : Résolvez des attaques de tir de l’unité qui utilise cette aptitude, contre la cible. Vous devez
+soustraire 1 aux jets de touche pour ces attaques.
+Héros Gardé
+PASSIF
+MDG
+Effet : Si ce Héros est à portée de mêlée
+d’une unité amie qui n’est pas un Héros :
+ Soustrayez 1 aux jets de touche pour les
+attaques de tir ciblant ce Héros.
+ Si ce Héros a le mot-clé Infanterie, il ne peut
+pas être ciblé par des attaques de tir faites par
+des figurines situées à plus de 12" de lui.
+GOSSAMID ARCHERS
+Zéphrites
+MOUVEMENT
+BT
+Réaction : Vous avez annoncé une aptitude de Tir pour cette unité
+Effet : Après avoir résolu l'aptitude de Tir annoncée, cette unité peut se déplacer de D6" maximum. Elle ne peut pas entrer en mêlée en effectuant ce
+mouvement.
+PHASE DE CHARGE
+PHASE DE CHARGE
+ RÈGLES DE BASE
+Contre-Charge
+2
+MDG
+Annonce : Choisissez une unité amie qui n’est pas en mêlée pour qu’elle utilise cette aptitude.
+Effet : Cette unité peut utiliser une aptitude de Charge comme si c’était votre phase de charge.
+ALARIELLE THE EVERQUEEN
+Bélier Vivant
+×1 / TOUR (ARMÉE)
+SACCAGE
+BT (TRAD.)
+Annonce : Si cette unité a chargé à ce tour, choisissez comme cible une unité ennemie visible à 1" d'elle.
+Effet : Jetez un dé. Sur 3+, infligez à la cible autant de dégâts mortels que le résultat du jet.
+PHASE DE MÊLÉE
+PHASE DE MÊLÉE
+ RÈGLES DE BASE
+Corps à Corps
+BASE
+ATTAQUE
+CORPS À CORPS
+MDG
+Annonce : Choisissez une unité amie qui est en
+mêlée ou qui a chargé à ce tour pour qu’elle utilise
+cette aptitude. Elle peut faire un mouvement
+d’engagement (voir 15.3). Puis, si elle est en mêlée,
+vous devez choisir une ou plusieurs unités ennemies
+comme cible(s) de ses attaques (voir 16.0).
+Effet : Résolvez les attaques de mêlée contre la/les
+unité(s) cible(s).
+Frappe en Premier et Frappe en
+Dernier
+PASSIF
+MDG
+Frappe en Premier : une fois utilisées les aptitudes de la phase de mêlée autres que de Corps à
+Corps, si des unités ayant Frappe en Premier sont en mêlée, les autres unités ne peuvent pas
+être choisies pour utiliser une aptitude de Corps à Corps avant elles. Une fois que toutes les
+unités ayant Frappe en Premier ont combattu, le joueur actif choisit la prochaine unité qui combat.
+Frappe en Dernier : une unité en mêlée ayant Frappe en Dernier ne peut pas être choisie pour
+utiliser une aptitude de Corps à Corps tant que d’autres unités en mêlée sans Frappe en Dernier
+peuvent encore en utiliser une et ne l’ont pas encore fait.
+Les deux : une unité ayant à la fois Frappe en Premier et Frappe en Dernier est traitée comme
+si elle n’avait ni l’un ni l’autre.
+Champion
+PASSIF
+MDG
+Effet : Ajoutez 1 à la caractéristique d’Attaques des armes utilisées par les champions de cette unité.
+RÈGLES D'ARMÉE
+Fureur des Forêts
+1
+BT (TRAD.)
+TRAITS DE BATAILLE
+Annonce : Choisissez une unité de Sylvaneths amie entièrement dans l'invasion végétale et en mêlée avec une seule unité ennemie pour qu'elle utilise
+cette aptitude.
+Effet : L'unité qui utilise cette aptitude a Frappe en Premier pour le restant du tour.
+BELTHANOS, FIRST THORN OF KURNOTH
+Rythme de la Traque
+×1 / TOUR (ARMÉE)
+SACCAGE
+BT (TRAD.)
+Annonce : Choisissez comme cible une unité ennemie en mêlée avec cette unité.
+Effet : Jetez un D3. Sur 2+, infligez à la cible autant de dégâts mortels que le résultat du jet, puis vous pouvez retirer cette unité du champ de bataille et la
+replacer à 1" de la cible.
+KURNOTH HUNTERS WITH GREATSWORDS
+Impact Fracassant
+BT (TRAD.)
+Annonce : Si cette unité a chargé à ce tour, choisissez comme cible une unité ennemie en mêlée avec elle.
+Effet : Jetez un dé pour chaque figurine de cette unité qui est en mêlée avec la cible. Pour chaque 3+, infligez 1 dégât mortel à la cible.
+AWAKENED WYLDWOOD
+Esprits Sylvestres Vengeurs
+×1 / TOUR (ARMÉE)
+BT (TRAD.)
+Annonce : Choisissez comme cibles chaque unité ennemie à 3" de cet élément de terrain.
+Effet : Jetez un D3 pour chaque cible. Sur 2+, infligez à la cible autant de dégâts mortels que le résultat du jet.
+19 / 20
+
+===== page 20 =====
+TOUR DE L'ADVERSAIRE
+FIN DE TOUR
+FIN DE TOUR
+ RÈGLES DE BASE
+Enfoncement
+1
+MOUVEMENT
+MDG
+Annonce : Choisissez une unité amie qui a chargé à ce tour pour qu’elle utilise cette aptitude, puis vous devez choisir comme cible une unité ennemie
+qui est en mêlée avec elle. La cible doit avoir une caractéristique de Santé inférieure à celle de l’unité qui utilise cette aptitude.
+Effet : Infligez D3 dégâts mortels à la cible. Puis l’unité qui utilise cette aptitude peut se déplacer d’une distance inférieure ou égale à sa caractéristique
+de Mouvement. Ce mouvement peut traverser et finir dans les portées de mêlée des unités ennemies avec lesquelles elle était en mêlée au début du
+mouvement, mais pas dans celles d’autres unités ennemies. Ce mouvement n’est pas obligé de finir en mêlée.
+Éruption de Fureur
+1-3
+×1 / TOUR (ARMÉE)
+ATTAQUE
+CORPS À CORPS
+SAISON
+MDG
+Annonce : Choisissez une unité amie pour qu’elle utilise cette aptitude, puis choisissez comme cible une unité ennemie en mêlée avec cette unité
+amie.
+Effet : Choisissez 1 des armes de mêlée de l’unité qui utilise cette aptitude. Puis dépensez 3 dés de rage maximum.
+Résolvez autant d’attaques de mêlée contre la cible en utilisant l’arme de mêlée choisie que le nombre de dés de rage que vous avez dépensés.
+Ces attaques ne peuvent pas causer de touches critiques. À la place, pour chaque jet de touche non modifié de 6 obtenu pour ces attaques :
+ Infligez D3 dégâts mortels supplémentaires à chaque unité ennemie en mêlée avec l’unité qui utilise cette aptitude.
+ Votre adversaire doit augmenter son niveau de fureur de 1, jusqu’à un maximum de 7.
+Pour chaque jet de touche non modifié de 1 pour ces attaques, allouez D3 dégâts mortels à l’unité qui utilise cette aptitude une fois la séquence de
+dégâts résolue (on ne peut tenter aucun jet de protection contre ces dégâts).
+Note des Concepteurs : Les dés de rage ne s’ajoutent pas à la caractéristique d’Attaques de l’arme que vous choisissez ; si vous dépensez 3 dés de
+rage pour utiliser cette aptitude, vous faites seulement 3 attaques de mêlée.
+RÈGLES D'ARMÉE
+Repousse Perpétuelle
+×1 / TOUR (ARMÉE)
+BT (TRAD.)
+TRAITS DE BATAILLE
+Annonce : Choisissez comme cibles chaque unité de Sylvaneths amie entièrement dans l'invasion
+végétale.
+Effet : Pour chaque cible, jetez un D3 et choisissez 1 des effets suivants :
+ Soignez (X) la cible, où X est égal au jet.
+ Ramenez dans la cible des figurines tuées dont la caractéristique de Santé combinée ne dépasse
+pas la valeur du jet.
+Titans de la
+Nature
+PASSIF
+BT (TRAD.)
+FORMATION : LORDS OF THE CLAN
+Effet : Quand vous utilisez l'aptitude «
+Repousse Perpétuelle », ne jetez pas de D3
+pour les cibles qui sont des Monstres. À la
+place, Soignez (3) chacune de ces cibles.
+BELTHANOS, FIRST THORN OF KURNOTH
+Frappe du Maître de Chasse
+×1 / TOUR (ARMÉE)
+BT (TRAD.)
+Effet : Si cette unité a chargé à ce tour, retirez-la du champ de bataille et replacez-la à plus de 6" des unités ennemies et entièrement dans l'invasion
+végétale.
+KURNOTH HUNTERS WITH GREATSWORDS
+Aspect de Cœurbois
+×1 / BATAILLE
+AQSHY
+ASPECTS OF THE DEEPWOODS
+Réaction : Vous avez annoncé l'aptitude « Repousse Perpétuelle »
+Effet : Si cette unité est entièrement dans l'invasion végétale, pour chaque cible de l'aptitude qui est entièrement à 12" de cette unité, vous pouvez
+choisir 1 des effets suivants :
+ Pour résoudre l'aptitude, jetez un D6 pour la cible au lieu d'un D3. Si, en raison d'une autre aptitude, vous êtes censé Soigner (3) la cible au lieu de
+jeter un dé, Soignez (6) la cible à la place.
+ Si la cible est Kurnothi, au lieu de jeter un D3 et de choisir 1 des effets de cette aptitude à lui appliquer, vous pouvez ramener 1 figurine tuée dans
+l'unité cible.
+20 / 20
+

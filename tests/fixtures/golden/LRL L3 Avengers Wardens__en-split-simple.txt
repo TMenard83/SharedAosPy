@@ -1,0 +1,1913 @@
+pages: 19
+pages_scenario: 22
+units_matched: ['Ellania and Ellathor, Eclipsian Warsages', 'Vanari Auralan Wardens', 'Vanari Lord Regent', 'Ydrilan Riverblades', 'Lyrior Uthralle, Warden of Ymetrica', 'The Light of Eltharion', 'Sevireth, Lord of the Seventh Wind', 'Hurakan Windmage', 'Shrine Luminor']
+units_unmatched: []
+rules_included: ['Règles de Saison 2026-27', 'Aptitudes Génériques — MdG26-27', 'Traits de Bataille', 'Formation — Warhost of Duality', 'Domaine de Sorts — Lore of Hysh', 'Domaine de Manifestations — Manifestations of Hysh', 'Burning for Vengeance', 'Flanking Firestorm', 'Trait Héroïque : Flawless Commander → Vanari Lord Regent', 'Artefact de Pouvoir : Phoenix Stone → Hurakan Windmage']
+rules_unmatched: []
+wahapedia_used: []
+absent_references: []
+absent_keywords: []
+===== page 1 =====
+LRL - L3 Avengers & Wardens 2000/2000
+pts
+Lumineth Realm-lords · Warhost of Duality (20 Points) · Drops: 4 · Spell lore: Lore of Hysh · Manifestation lore:
+Manifestations of Hysh
+Battle Tactic Cards: Burning for Vengeance, Flanking Firestorm
+General's Regiment
+ Ellania and Ellathor, Eclipsian Warsages — 310 pts
+General
+Vanari Auralan Wardens — 240 pts
+Reinforced
+Vanari Auralan Wardens — 120 pts
+Vanari Lord Regent — 110 pts
+Flawless Commander
+Ydrilan Riverblades — 150 pts
+Regiment 1
+ Lyrior Uthralle, Warden of Ymetrica — 260 pts
+The Light of Eltharion — 300 pts
+Regiment 2
+ Sevireth, Lord of the Seventh Wind — 350 pts
+Regiment 3
+ Hurakan Windmage — 140 pts
+Phoenix Stone
+Faction Terrain
+Shrine Luminor
+Generated on <horodatage> — aospy roster pdf
+Icon legend
+ 7+
+Ability: casting value. Warscroll: Wizard level; manifestation: casting value of its summoning.
+1
+Command: command point cost
++2
+Rage dice: “+N” gained, otherwise number spent
++2
+Fury level: “+N” increased, otherwise decreased
+GHB
+Text source: GW APP (official Warhammer Age of Sigmar app), CORE RULES (GW Core
+Rules), GHB (General's Handbook), BT (battletome), FP (faction pack), AQSHY, WAHAPEDIA.
+Battle Traits, Formation: army rule category.
+SIMPLE
+Adapted text, not verbatim: in case of dispute, refer to the original rule.
+CORE
+SEASON
+Core ability; current season rule (General's Handbook 2026-27).
+×1 / TURN (ARMY)
+PASSIVE
+Frequency — (ARMY): once for the whole army; passive: always active, nothing to declare.
+REACTION
+Reaction: used in response to the stated ability.
+SHOOT
+CHARGE
+Ability keyword, in the colour of its phase (Move, Shoot, Charge, Fight).
+ATTACK
+RAMPAGE
+Ability keyword used in several phases.
+SPELL
+PRAYER
+Magic (spell, manifestation, banishment…); prayer. Unlimited: can be used several times per turn.
+UNIT NAME
+Unit that has the ability (for a signature spell: its caster).
+TACTIC
+KEYWORD
+Other ability keyword (Tactic: special rule of a battle tactic card); burgundy: faction-specific.
+1 / 19
+
+===== page 2 =====
+Ellania and Ellathor, Eclipsian
+Warsages
+1
+ MV
+6"
+ CT
+ 4
+ SV
+4+
+ WD
+5+
+ HP
+10
+1 model
+ 330 pts
+ Rng
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Blazing Sunbolt
+Crit (Auto-wound)
+ 12"
+ 3
+ 3+
+ 3+
+ 1
+ D3
+Altairi
+ 5
+ 2+
+ 3+
+ 1
+ 2
+Dianaer
+ 2
+ 3+
+ 4+
+ 1
+ D3
+AELF · LUMINETH REALM-LORDS · ORDER · SCINARI · VANARI ·
+HERO · INFANTRY · UNIQUE · WARD
+ Wahapedia (EN)
+The Light of Eltharion
+ MV
+6"
+ CT
+ 2
+ SV
+3+
+ WD
+4+
+ HP
+ 7
+1 model
+ 300 pts
+ Rng
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Searing Darts of Light
+Shoot in Combat
+ 12"
+ 3
+ 2+
+ 3+
+ 2
+ D3
+Fangsword of Eltharion
+Crit (2 Hits)
+ 5
+ 2+
+ 3+
+ 3
+ 3
+Celennari Blade
+Anti-HERO (+1 Rend),
+Anti-MONSTER (+1 Rend)
+ 2
+ 2+
+ 3+
+ 1
+ 3
+AELF · LUMINETH REALM-LORDS · ORDER · HERO · INFANTRY ·
+UNIQUE · WARD
+ Wahapedia (EN)
+Hurakan Windmage
+1
+ MV
+12"
+ CT
+ 2
+ SV
+5+
+ WD
+—
+ HP
+ 5
+1 model
+ 140 pts
+ Rng
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Windblast Vortex
+Shoot in Combat
+ 12"
+ 1
+ 2+
+ 3+
+ 2
+ D3
+Aspiragillum
+ 3
+ 3+
+ 4+
+ 1
+ D3
+AELF · HURAKAN · LUMINETH REALM-LORDS · ORDER · FLY ·
+HERO · INFANTRY
+ Wahapedia (EN)
+Ydrilan Riverblades
+ MV
+7"
+ CT
+ 1
+ SV
+5+
+ WD
+—
+ HP
+ 1
+10 models
+ 150 pts
+ Rng
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Ythara Darts
+Shoot in Combat
+ 10"
+ 2
+ 3+
+ 4+
+ -
+ 1
+Ydrilan Blades
+ 2
+ 3+
+ 4+
+ 1
+ 1
+AELF · LUMINETH REALM-LORDS · ORDER · YDRILAN · CHAMPION
+· INFANTRY
+ Wahapedia (EN)
+ Vanari Lord Regent
+ MV
+6"
+ CT
+ 2
+ SV
+4+
+ WD
+—
+ HP
+ 5
+1 model
+ 120 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Regent’s Sword
+Crit (Mortal)
+ 5
+ 3+
+ 4+
+ 1
+ 2
+AELF · LUMINETH REALM-LORDS · ORDER · VANARI · HERO ·
+INFANTRY
+ Wahapedia (EN)
+Lyrior Uthralle, Warden of
+Ymetrica
+1
+ MV
+14"
+ CT
+ 2
+ SV
+3+
+ WD
+—
+ HP
+ 7
+1 model
+ 260 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Daemonbane
+Anti-DAEMON (+1 Rend), Charge (+1
+Damage)
+ 2
+ 2+
+ 3+
+ 1
+ 2
+Lyrior’s Sword
+Charge (+1 Damage), Crit (Mortal)
+ 5
+ 2+
+ 3+
+ 1
+ 2
+Farael’s Horns and Claws
+Companion
+ 4
+ 4+
+ 3+
+ 1
+ 1
+AELF · LUMINETH REALM-LORDS · ORDER · VANARI · CAVALRY ·
+HERO · UNIQUE
+ Wahapedia (EN)
+Sevireth, Lord of the Seventh Wind
+ MV
+18"
+ CT
+ 5
+ SV
+4+
+ WD
+5+
+ HP
+10
+1 model
+ 350 pts
+ Rng
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Enathrai, the Howling
+Death
+Shoot in Combat
+ 15"
+ 4
+ 2+
+ 3+
+ 3
+ 3
+Swirling Shards
+Crit (Mortal)
+ 6
+ 2+
+ 4+
+ -
+ 1
+HURAKAN · LUMINETH REALM-LORDS · ORDER · FLY · HERO ·
+MONSTER · UNIQUE · WARD
+ Wahapedia (EN)
+Vanari Auralan Wardens
+ MV
+6"
+ CT
+ 1
+ SV
+4+
+ WD
+—
+ HP
+ 1
+10 models
+ 120 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Warden Pike and Blade
+Anti-charge (+1 Rend), Crit (Mortal)
+ 2
+ 3+
+ 4+
+ -
+ 1
+AELF · LUMINETH REALM-LORDS · ORDER · VANARI · CHAMPION ·
+INFANTRY
+ Wahapedia (EN)
+2 / 19
+
+===== page 3 =====
+Shrine Luminor
+ MV
+ -
+ CT
+ -
+ SV
+3+
+ WD
+—
+ HP
+12
+1 model
+ 0 pts
+LUMINETH REALM-LORDS · ORDER · FACTION TERRAIN · FLY
+ Wahapedia (EN)
+Rune of Petrification
+7+
+ MV
+ -
+ CT
+ 7
+ SV
+4+
+ WD
+6+
+ HP
+ 6
+1 model
+ Summoned
+ Wholly within 12" and visible to the caster
+LUMINETH REALM-LORDS · ORDER · ENDLESS SPELL ·
+MANIFESTATION · WARD
+ Wahapedia (EN)
+ Hyshian Twinstones
+6+
+ MV
+5"
+ CT
+ 7
+ SV
+4+
+ WD
+6+
+ HP
+ 5
+1 model
+ Summoned
+ Wholly within 18" and visible to the caster
+ More than 9" from the enemy
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Crackling Energy
+ 2D6
+ 4+
+ 4+
+ -
+ 1
+LUMINETH REALM-LORDS · ORDER · ENDLESS SPELL ·
+MANIFESTATION · WARD
+ Wahapedia (EN)
+Sanctum of Amyntok
+7+
+ MV
+ -
+ CT
+ 7
+ SV
+4+
+ WD
+6+
+ HP
+ 6
+3 models
+ Summoned
+ Wholly within 12" of the caster
+ More than 3" from the enemy
+ 3 parts touching, in a circle
+LUMINETH REALM-LORDS · ORDER · ENDLESS SPELL ·
+MANIFESTATION · WARD
+ Wahapedia (EN)
+3 / 19
+
+===== page 4 =====
+Deployment
+Lumineth Realm-lords
+DEPLOYMENT
+DEPLOYMENT
+ CORE RULES
+Set Up the Battlefield
+SIMPLE
+1: The players roll off. The winner chooses which player is the attacker and which is the defender.
+2: The defender sets up objectives in the locations indicated on the battlefield map. Then, the defender sets up terrain features. Each terrain feature
+must be set up more than 3" from the battlefield edge, more than 3" from all objectives and more than 6" from all other terrain features.
+3: After objectives and terrain features have been set up, the attacker picks which territory is their territory. The other territory is the defender’s
+territory. The players then resolve the deployment phase. The attacker begins deployment.
+4: Deploy Faction Terrain Features. Some factions have faction terrain features, which have their own warscrolls and are set up using Deploy
+Terrain abilities. The player who begins deployment must use Deploy Terrain abilities first, followed by their opponent.
+5: Deploy Armies. Unless otherwise specified in the battleplan, the players alternate using Deploy abilities to deploy their units, starting with the player
+who begins deployment. Once one player has no more Deploy abilities to use, their opponent must continue to use Deploy abilities until they also have
+no more to use.
+Deploy Faction Terrain
+CORE RULES
+Declare: Pick a friendly faction terrain feature that has not been deployed to be the target.
+Effect: Set up the target faction terrain feature wholly within friendly territory, more than 3" from all objectives and other terrain features. After you have
+done so, it has been deployed.
+Deploy Regiment
+CORE RULES
+Declare: Pick a regiment from your army roster to be the target. No units in that regiment can have already been deployed.
+Effect: Keep using Deploy abilities without alternating until all units in that regiment have been deployed. You cannot set up units that are not in that
+regiment on the battlefield or in reserve as part of any of those Deploy abilities.
+Deploy Unit
+CORE RULES
+Declare: Pick a unit from your army roster that has not been deployed to be the target.
+Effect: Set up the target unit wholly within friendly territory and more than 9" from enemy territory. After you have done so, it has been deployed.
+Raising the Heat
+×1 / BATTLE (ARMY)
+SEASON
+GHB
+Effect: If you are the attacker, set your fury level to 1. If you are the defender, set your fury level to 2.
+Burning for Vengeance: Special Rule
+TACTIC
+GHB
+At the start of the battle, after using all Deployment Phase abilities but before determining which player will take the first turn, pick an enemy HERO on
+the battlefield or in reserve to be the fugitive for the rest of the battle.
+4 / 19
+
+===== page 5 =====
+Any phase
+Lumineth Realm-lords
+ANY PHASE
+ANY PHASE
+ LYRIOR UTHRALLE, WARDEN OF YMETRICA
+Champion of the Lord Phoenix
+PASSIVE
+GW APP
+Effect: While a visible friendly VANARI unit is wholly within 12" of this unit:
+ You are treated as having 1 additional instance of Varinor, Rune of Strength depicted on your battle scripture for the purposes of the abilities on that
+unit’s warscroll.
+ If that unit is picked to be a target of the ‘Depict Rune’ ability, you can apply the enhanced effects of that ability to that unit as if you had an instance of
+Varinor, Rune of Strength depicted on your battle scripture.
+SEVIRETH, LORD OF THE SEVENTH WIND
+Call of the Winds
+PASSIVE
+GW APP
+Effect: While a visible friendly HURAKAN unit is wholly within 12" of this unit:
+ You are treated as having 1 additional instance of Oreali, Rune of the Wind depicted on your battle scripture for the purposes of the abilities on that
+unit’s warscroll.
+ If that unit is picked to be a target of the ‘Depict Rune’ ability, you can apply the enhanced effects of that ability to that unit as if you had an instance of
+Oreali, Rune of the Wind depicted on your battle scripture.
+HURAKAN WINDMAGE
+Phoenix Stone
+PASSIVE
+GW APP
+ARTEFACT OF POWER
+Effect: The first time this unit would be destroyed, before removing it from play, roll a dice. On a 3+, this unit is not destroyed and any remaining
+damage points inflicted on it have no effect. Then, Heal (D3) this unit.
+SHRINE LUMINOR
+Shrine Guardian
+PASSIVE
+GW APP
+Effect: While this terrain feature has a Shrine Guardian:
+ This terrain feature has a Move characteristic of 6" and can use non-command non-CHARGE MOVE abilities as if it were a unit. It cannot end a MOVE
+ability within the combat range of an enemy unit.
+ The Shrine Guardian cannot use MOVE abilities and remains on this terrain feature each time it moves.
+ Instead of measuring range and visibility to the Shrine Guardian, measure to this terrain feature instead.
+ All attacks that would target the Shrine Guardian target this terrain feature instead.
+If this terrain feature is destroyed, before removing it from the battlefield, inflict D3 mortal damage on the Shrine Guardian. Then, set up the Shrine
+Guardian on the battlefield wholly within 3" of this terrain feature and not in combat. That unit is no longer a Shrine Guardian. If it is not possible to set
+up the Shrine Guardian, it is slain.
+SANCTUM OF AMYNTOK
+Sigil of Yngra
+PASSIVE
+GW APP
+MANIFESTATION
+Effect: While a friendly unit with a Health characteristic of 10 or less is wholly
+inside the ring formed by this MANIFESTATION:
+ That unit is not visible to enemy units that are not within its combat range.
+ Enemy abilities that would target that unit must target this MANIFESTATION
+instead.
+Multiple Parts
+PASSIVE
+GW APP
+MANIFESTATION
+Effect: When a number of damage points equal to this
+MANIFESTATION’s Health characteristic are allocated to it, this
+MANIFESTATION is destroyed and all its parts are removed
+from play.
+CORE RULES
+All-out Attack
+1
+GHB
+Reaction: You declared an Attack ability
+Used By: The unit using that Attack ability.
+Effect: Add 1 to hit rolls for attacks made as part of
+that Attack ability. This also affects weapons that
+have the Companion weapon ability. For the rest of
+the turn, subtract 1 from save rolls for the unit using
+this ability.
+All-out
+Defence
+1
+GHB
+Reaction: Opponent declared an
+Attack ability
+Used By: A unit targeted by that
+Attack ability.
+Effect: Add 1 to save rolls for that
+unit until that Attack ability has
+been resolved.
+Fight Through the
+Pain
+X
+X
+PASSIVE
+SEASON
+GHB
+Effect: Before allocating damage to a friendly unit, you
+can spend any number of rage dice. For each rage
+dice spent, reduce your fury level by 1, to a minimum
+of 0, then roll a dice. On a 3+, remove 1 damage point
+from that unit’s damage pool.
+Terrain
+PASSIVE
+GHB
+Cover: Subtract 1 from hit rolls for attacks that target a unit that is behind or wholly on this terrain feature, unless that unit charged this turn or has the
+Fly keyword.
+Impassable: Models cannot move across, be set up on or end moves on any part of this terrain feature.
+Obscuring: While every model in a non-Monster non-War Machine unit that does not have the Fly keyword is within 1" of this terrain feature, the
+following apply:
+ That unit is only visible to enemy units that are within its combat range.
+ The Range characteristic of that unit’s ranged weapons is halved (rounding down to the nearest inch).
+Place of Power: Heroes within 3" of this terrain feature can use the ‘Activate Place of Power’ ability.
+Unstable: Models can move across but cannot be set up on or end any type of move on any part of this terrain feature that is more than 1" tall.
+5 / 19
+
+===== page 6 =====
+MY TURN
+My turn
+Lumineth Realm-lords
+START OF BATTLE ROUND
+START OF BATTLE ROUND
+ CORE RULES
+Start of Battle Round
+CORE RULES
+1: Determine the Active Player:
+ If it is the first battle round, the player who finished setting up their army first decides who will take the first turn (unless otherwise specified in the
+battlepack or battleplan).
+ If it is not the first battle round, the players make a roll-off called the priority roll and the winner decides who will take the first turn. If the roll-off is a
+tie, the player who took the first turn in the previous battle round decides who will take the first turn in the current battle round.
+2: Determine the Underdog: Whichever player has the fewest victory points is the underdog for the battle round. If the players are tied (e.g. in the first
+battle round), then there is no underdog, unless otherwise specified.
+Simmering Rage
+×1 / TURN (ARMY)
+SEASON
+GHB
+Declare: You must use this ability.
+Effect: Gain a number of rage dice equal to your fury level. At the end of the battle round, any unspent rage dice are lost.
+ARMY RULES
+Depict Rune
+×1 / ROUND (ARMY)
+GW APP
+BATTLE TRAITS
+Effect: Pick 1 of the following runes to depict on your battle scripture. The effect and conditional enhanced effects of that rune last for the rest of the
+battle round. Each rune remains on your battle scripture for the rest of the battle or until it is removed or replaced by another ability.
+Varinor, Rune of Strength: Pick up to 2 friendly LUMINETH REALM-LORDS units for each instance of this rune depicted on your battle scripture to be
+the targets. Add 1 to run rolls and charge rolls for each target. In addition, the following enhanced effects apply:
+ While Ydriliqi, Rune of the River is depicted on your battle scripture, add 1 to wound rolls for each target’s combat attacks.
+ While Oreali, Rune of the Wind is depicted on your battle scripture, each target can use SHOOT and/or CHARGE abilities even if it used a RETREAT
+ability in the same turn.
+Alaithi, Rune of the Mountain: Pick up to 2 friendly LUMINETH REALM-LORDS units for each instance of this rune depicted on your battle scripture
+to be the targets. Each target has WARD (5+). In addition, the following enhanced effects apply:
+ While Varinor, Rune of Strength is depicted on your battle scripture, the targets’ melee weapons have Anti-charge (+1 Rend).
+ While Ydriliqi, Rune of the River is depicted on your battle scripture, subtract 1 from wound rolls for attacks made by enemy units while they are in
+combat with any of the targets.
+Ydriliqi, Rune of the River: Pick up to 2 friendly LUMINETH REALM-LORDS units for each instance of this rune depicted on your battle scripture to be
+the targets. Subtract 2 from charge rolls for enemy units while they are within 12" of any of the targets. In addition, the following enhanced effects apply:
+ While Alaithi, Rune of the Mountain is depicted on your battle scripture, ignore negative modifiers to hit rolls and wound rolls for attacks made by the
+targets.
+ If Oreali, Rune of the Wind is depicted on your battle scripture, each target can immediately move up to 3". They can pass through the combat ranges
+of enemy units and can end that move in combat.
+Oreali, Rune of the Wind: Pick up to 2 friendly LUMINETH REALM-LORDS units for each instance of this rune depicted on your battle scripture to be
+the targets. Subtract 1 from hit rolls for attacks made by enemy units while they are in combat with any of the targets. In addition, the following
+enhanced effects apply:
+ While Varinor, Rune of Strength is depicted on your battle scripture, add 4" to each target’s Move characteristic.
+ While Alaithi, Rune of the Mountain is depicted on your battle scripture, add 5 to each target’s control score.
+Thalari, Rune of the Zenith: Add 2 to casting rolls for friendly LUMINETH REALM-LORDS units. In addition, if you have 4 or more unique runes
+depicted on your battle scripture, add 4" to the Move characteristic of friendly LUMINETH REALM-LORDS units and friendly LUMINETH
+REALM-LORDS units’ attacks score critical hits on unmodified hit rolls of 5+.
+Designer’s Note: We recommend noting the runes you have inscribed in each battle round on a piece of paper to keep track of which are currently
+depicted on your battle scripture. Feel free to note them by type (Strength, River, Mountain etc.), by initial (each has a different first letter) or, if you are
+feeling particularly adventurous, you can try your hand at aelven calligraphy and learn to draw each rune!
+START OF TURN
+START OF TURN
+ CORE RULES
+Activate Place of Power
++2
++2
+×1 / TURN (ARMY)
+CORE
+SEASON
+GHB
+Declare: Pick a friendly Hero within 3" of any Places of Power to use this ability.
+Effect: Roll a dice. On a 1, inflict D3 mortal damage on that Hero. On a 2+, pick 1 of the following effects:
+ Ignite Fury: Gain 2 rage dice, then increase your fury level by 2, to a maximum of 7.
+ Channel Wrath: If that Hero is a Wizard or Priest, add 1 to casting rolls or chanting rolls for that Hero for the rest of the turn.
+ Dizzying Rage: For the rest of the turn, if that Hero is not a Wizard or Priest, they can use the ‘Unbind’ or ‘Banish Manifestation’ ability as if they had
+Wizard (1).
+6 / 19
+
+===== page 7 =====
+MY TURN
+HERO PHASE
+HERO PHASE
+ SPELLS
+Beacon of Hysh
+6+
+UNLIMITED
+GW APP
+Declare: Pick a friendly LUMINETH REALM-LORDS
+WIZARD to cast this spell, pick a visible friendly
+non-MONSTER LUMINETH REALM-LORDS unit
+wholly with 12" of them to be the target, then make a
+casting roll of 2D6.
+Effect: Until the start of your next turn, if the
+unmodified hit roll for an attack that targets that friendly
+unit is 1-3, the attack fails and the attack sequence
+ends.
+Overwhelming
+Heat
+7+
+GW APP
+Declare: Pick a friendly LUMINETH
+REALM-LORDS WIZARD to cast this spell,
+pick a visible enemy unit within 18" of them to
+be the target, then make a casting roll of
+2D6.
+Effect: Halve the target’s Move characteristic
+until the start of your next turn, then roll a
+dice. If the roll equals or exceeds the target’s
+Save characteristic, inflict D3 mortal damage
+on it.
+Piercing
+Refraction
+7+
+GW APP
+Declare: Pick a friendly LUMINETH
+REALM-LORDS WIZARD to cast this
+spell, pick a visible enemy unit within 18"
+of them to be the target, then make a
+casting roll of 2D6.
+Effect: Roll a dice for each model in the
+target unit. For each 5+, inflict 1 mortal
+damage on the target.
+Total Eclipse
+ELLANIA AND
+ELLATHOR, ECLIPSIAN
+WARSAGES
+8+
+GW APP
+Declare: Make a casting roll of 2D6.
+Effect: Until the start of your next turn, the first time an
+enemy unit within 18" of this unit uses a command, unless
+your opponent spends 1 additional command point, the
+command has no effect, it still counts as having been used
+and the command points spent to use the command are
+still lost.
+Focused Fury
+LYRIOR
+UTHRALLE,
+WARDEN OF
+YMETRICA
+5+
+GW APP
+Declare: Make a casting roll of 2D6.
+Add 2 to the roll if this unit is in
+combat.
+Effect: This unit has STRIKE-FIRST
+for the rest of the turn.
+Transporting
+Vortex
+HURAKAN
+WINDMAGE
+7+
+GW APP
+Declare: Pick a visible friendly LUMINETH
+REALM-LORDS unit wholly within 12" of this
+unit and not in combat to be the target, then
+make a casting roll of 2D6.
+Effect: Remove the target from the battlefield
+and set it up again on the battlefield more
+than 9" from all enemy units.
+MANIFESTATIONS
+Summon Hyshian
+Twinstones
+6+
+GW APP
+MANIFESTATION
+Declare: If there is not a friendly Hyshian
+Twinstones endless spell on the battlefield, pick
+a friendly LUMINETH REALM-LORDS WIZARD
+to cast this spell, then make a casting roll of
+2D6.
+Effect: Set up a Hyshian Twinstones endless
+spell wholly within 18" of the caster, visible to
+them and more than 9" from all enemy units.
+Summon Rune
+of Petrification
+7+
+GW APP
+MANIFESTATION
+Declare: If there is not a friendly Rune
+of Petrification on the battlefield, pick a
+friendly LUMINETH REALM-LORDS
+WIZARD to cast this spell, then make a
+casting roll of 2D6.
+Effect: Set up a Rune of Petrification
+wholly within 12" of the caster and
+visible to them.
+Summon Sanctum of
+Amyntok
+7+
+GW APP
+MANIFESTATION
+Declare: If there is not a friendly Sanctum of
+Amyntok on the battlefield, pick a friendly LUMINETH
+REALM-LORDS WIZARD to cast this spell, then
+make a casting roll of 2D6.
+Effect: Set up a Sanctum of Amyntok wholly within
+12" of the caster and more than 3" from all enemy
+units. A Sanctum of Amyntok has 3 parts that must
+be set up touching each other so that they form a
+ring.
+ELLANIA AND ELLATHOR, ECLIPSIAN WARSAGES
+Equal Prodigies
+GW APP
+Declare: Pick whether Ellania will take the lead or Ellathor will take the lead.
+Effect: If Ellania takes the lead, until the start of your next turn, add 1 to this unit’s power level and it has WARD (4+).
+If Ellathor takes the lead, until the start of your next turn, add the current battle round number to the Damage characteristic of Altairi.
+VANARI LORD REGENT
+Shining Example
+PASSIVE
+GW APP
+Effect: Each time a friendly LUMINETH REALM-LORDS unit wholly within 12" of this unit uses the ‘Rally’ command, you can make 3 additional rally
+rolls of D6.
+SHRINE LUMINOR
+Cleansing Rituals
+×1 / TURN
+WAHAPEDIA
+Reaction: You declared a SPELL ability for a LUMINETH
+REALM-LORDS unit wholly within 12" of this terrain feature
+Effect: While this terrain feature has a Shrine Guardian, you
+can re-roll the casting roll for that spell.
+Enter the Shrine
+GW APP
+Declare: If this terrain feature does not have a Shrine Guardian, pick a friendly
+LUMINETH REALM-LORDS INFANTRY HERO within 3" of it and not in combat to
+be the target.
+Effect: Place the target on this terrain feature. The target is now a Shrine Guardian
+(see ‘Shrine Guardian’).
+7 / 19
+
+===== page 8 =====
+MY TURN
+HERO PHASE
+HERO PHASE (SUITE)
+ HYSHIAN TWINSTONES
+Reservoir of Power
+PASSIVE
+GW APP
+MANIFESTATION
+Effect: Each time a unit (friendly or enemy) successfully casts a spell
+while it is within 12" of this MANIFESTATION, give this MANIFESTATION
+1 arcane charge point.
+This MANIFESTATION can have a maximum of 6 arcane charge points.
+Release Arcane Charge
+×1 / TURN (ARMY)
+MANIFESTATION
+WAHAPEDIA
+Reaction: You declared a SPELL or UNBIND ability for a LUMINETH
+REALM-LORDS WIZARD within 3" of this MANIFESTATION
+Effect: Add this MANIFESTATION arcane charge points to the casting
+roll or unbinding roll. Then, reset this MANIFESTATION's arcane
+charge points to 0.
+RUNE OF PETRIFICATION
+Turn to Stone
+GW APP
+MANIFESTATION
+Effect: Roll a D3 for each enemy unit within 6" of this MANIFESTATION. On a 2+, inflict an amount of mortal damage on that enemy unit equal to the
+roll. If an enemy unit has at least 3 mortal damage inflicted on it by this ability this turn, it has STRIKE-LAST for the rest of the turn.
+CORE RULES
+Rally
+1
+CORE RULES
+Declare: Pick a friendly unit that is not in combat to use this ability.
+Effect: Make 6 rally rolls of D6. For each 4+, you receive 1 rally point. Rally points can
+be spent in the following ways:
+ For each rally point spent, Heal (1) that unit.
+ You can spend a number of rally points equal to the Health characteristic of that unit to
+return a slain model to that unit.
+You can spend the rally points in any combination of the above. Unspent rally points are
+then lost.
+Unbind
+UNBIND
+CORE RULES
+Reaction: Opponent declared a Spell ability
+Used By: A friendly Wizard within 30" of the enemy
+Wizard casting the spell.
+Effect: Make an unbinding roll of 2D6. If the roll exceeds
+the casting roll for the spell, then the spell is unbound and
+its effect is not resolved. This reaction cannot be used
+more than once per casting roll.
+Banish Manifestation
+BANISH
+GHB
+Declare: Pick a friendly Wizard or Priest to use this ability, pick a Manifestation within 30" of them that was not summoned this turn to be the target,
+then make a banishment roll of 2D6. Add 1 to the banishment roll for each additional enemy Manifestation on the battlefield after the first. You cannot
+pick the same Manifestation to be the target of this ability more than once per turn.
+Effect: If the banishment roll equals or exceeds the banishment value listed on the Manifestation’s warscroll, it is banished and removed from play.
+8 / 19
+
+===== page 9 =====
+MY TURN
+MOVEMENT PHASE
+MOVEMENT PHASE
+ VANARI LORD REGENT
+Flawless Commander
+GW APP
+HEROIC TRAIT
+Declare: Pick up to 3 visible friendly LUMINETH REALM-LORDS INFANTRY units wholly within 18" of this unit to be the targets.
+Effect: Each target can use the ‘Normal Move’ ability as if it were your movement phase.
+HURAKAN WINDMAGE
+Windleap
+×1 / BATTLE (ARMY)
+GW APP
+Declare: Pick up to 3 friendly HURAKAN unit wholly within 12" of this unit to be the targets.
+Effect: For the rest of the turn, each target can use a RUN ability and still use SHOOT and/or CHARGE abilities later in the turn.
+YDRILAN RIVERBLADES
+Travel The Waterways
+×1 / TURN (ARMY)
+GW APP
+Effect: Remove this unit from the battlefield and set it up again on the battlefield wholly within 6" of a battlefield edge and more than 9" from all enemy
+units.
+If you picked to depict Ydriliqi, Rune of the River on your battle scripture this battle round, you can instead set up this unit anywhere on the battlefield
+more than 9" from all enemy units.
+SHRINE LUMINOR
+Exit the Shrine
+GW APP
+Effect: If this terrain feature has a Shrine Guardian that was not placed on it this turn, set up the Shrine Guardian on the battlefield wholly within 6" of
+this terrain feature and not in combat. That unit is no longer a Shrine Guardian.
+CORE RULES
+Normal Move
+CORE
+MOVE
+CORE RULES
+Declare: Pick a friendly unit that is
+not in combat to use this ability.
+Effect: That unit can move a
+distance up to its Move
+characteristic. That unit cannot
+move into combat during any part of
+that move.
+Run
+CORE
+MOVE
+RUN
+CORE RULES
+Declare: Pick a friendly unit that is not in
+combat to use this ability.
+Effect: Make a run roll of D6. That unit can
+move a distance up to its Move characteristic
+added to the run roll. That unit cannot move into
+combat during any part of that move.
+Retreat
+CORE
+MOVE
+RETREAT
+CORE RULES
+Declare: Pick a friendly unit that is in combat to use this
+ability.
+Effect: Inflict D3 mortal damage on that unit. That unit
+can move a distance up to its Move characteristic. That
+unit can move through the combat ranges of any enemy
+units but cannot end that move within an enemy unit’s
+combat range.
+At the Double
+1
+CORE RULES
+Reaction: You declared a Run ability
+Used By: The unit using that Run ability.
+Effect: Do not make a run roll as part of that Run ability. Instead, add 6" to that unit’s Move characteristic to determine the distance each model in that
+unit can move as part of that Run ability.
+SHOOTING PHASE
+SHOOTING PHASE
+ SEVIRETH, LORD OF THE SEVENTH WIND
+Spirit of the Wind
+×1 / TURN (ARMY)
+MOVE
+GW APP
+Effect: If this unit used a SHOOT ability this phase, this unit can move D6". Add 2 to the roll for each instance of Oreali, Rune of the Wind depicted on
+your battle scripture. It cannot end that move in combat.
+CORE RULES
+Shoot
+CORE
+ATTACK
+SHOOT
+CORE RULES
+Declare: Pick a friendly unit that has not used a Run or Retreat
+ability this turn to use this ability. Then, pick one or more enemy
+units as the target(s) of that unit’s attacks (see 16.0).
+Effect: Resolve shooting attacks against the target unit(s).
+Guarded Hero
+PASSIVE
+CORE RULES
+Effect: If this Hero is within the combat range of a friendly unit that is not a
+Hero:
+ Subtract 1 from hit rolls for shooting attacks that target this Hero.
+ If this Hero is Infantry, they cannot be picked as the target of shooting
+attacks made by models more than 12" from them.
+9 / 19
+
+===== page 10 =====
+MY TURN
+CHARGE PHASE
+CHARGE PHASE
+ CORE RULES
+Charge
+CORE
+MOVE
+CHARGE
+CORE RULES
+Declare: Pick a friendly unit that is not in combat and has not used a Run or Retreat ability this turn to use
+this ability. Then, make a charge roll of 2D6.
+Effect: That unit can move a distance up to the value of the charge roll. That unit can move through the
+combat ranges of any enemy units and must end that move within ½" of a visible enemy unit. If it does so,
+the unit using this ability has charged.
+Forward to
+Victory
+1
+CORE RULES
+Reaction: You declared a Charge
+ability
+Used By: The unit using that Charge
+ability.
+Effect: You can re-roll the charge roll.
+COMBAT PHASE
+COMBAT PHASE
+ ARMY RULES
+Strike as One
+PASSIVE
+GW APP
+FORMATION: WARHOST OF DUALITY
+20 Points
+Effect: When players are alternating picking units to use a FIGHT ability, when it is your turn to pick a unit, you can pick 2 friendly LUMINETH
+REALM-LORDS units instead of 1. Resolve the second FIGHT ability immediately after the first.
+VANARI LORD REGENT
+Wall of Blades
+×1 / TURN (ARMY)
+GW APP
+Declare: Pick a friendly VANARI AURALAN WARDENS unit wholly within 12" of this unit to be the wall of blades. Then, pick an enemy unit in combat
+with the wall of blades to be the target.
+Effect: Roll a dice for each model in the wall of blades that is within 3" of the target. For each 5+, inflict 1 mortal damage on the target.
+THE LIGHT OF ELTHARION
+Supreme
+Swordmaster
+PASSIVE
+GW APP
+Effect: Ignore negative modifiers to hit
+rolls and wound rolls for this unit’s combat
+attacks.
+Valorous Intervention
+1
+GW APP
+Declare: This unit cannot use this ability if it is in combat. Pick a friendly LUMINETH REALM-LORDS
+unit that is in combat to be the target.
+Effect: Remove this unit from the battlefield and set it up again within 1" of the target, within 1" of an
+enemy unit and in combat. This unit has charged.
+SEVIRETH, LORD OF THE SEVENTH WIND
+Searing Desert Winds
+×1 / TURN (ARMY)
+RAMPAGE
+GW APP
+Declare: Pick up to 3 visible enemy units within 6" of this unit to be the targets.
+Effect: Roll a D3 for each target. On a 2+, inflict an amount of mortal damage on the target equal to the roll and subtract 1 from wound rolls for the
+target’s attacks for the rest of the turn.
+VANARI AURALAN WARDENS
+Anticipated Strike
+PASSIVE
+GW APP
+Effect: If this unit has not charged this turn, ignore the effect of the Charge (+1 Damage) ability for combat attacks made by enemy units that target this
+unit.
+YDRILAN RIVERBLADES
+Relentless as the Driving Current
+×1 / TURN (ARMY)
+GW APP
+Effect: If this unit is in combat, it can move 2D6". It can pass through models in enemy units but must end that move in combat.
+CORE RULES
+Fight
+CORE
+ATTACK
+FIGHT
+CORE RULES
+Declare: Pick a friendly unit that is in combat or that
+charged this turn to use this ability. That unit can make
+a pile-in move (see 15.3). Then, if that unit is in
+combat, you must pick one or more enemy units as the
+target(s) of that unit’s attacks (see 16.0).
+Effect: Resolve combat attacks against the target
+unit(s).
+Strike-first and Strike-last
+PASSIVE
+CORE RULES
+Strike-first: If there are any Strike-first units in combat after any non-Fight combat phase
+abilities have been used, other units cannot be picked to use a Fight ability until those units
+have been picked to use a Fight ability. After all those Strike-first units have fought, the
+active player picks the next unit to fight.
+Strike-last: If there are any Strike-last units in combat, they cannot be picked to use a
+Fight ability if there are any units in combat that do not have Strike-last and have not yet
+used a Fight ability.
+Both: If a unit has Strike-first and Strike-last, treat it as if it had neither.
+Champion
+PASSIVE
+CORE RULES
+Effect: Add 1 to the Attacks characteristic of weapons used by champions in this unit.
+10 / 19
+
+===== page 11 =====
+MY TURN
+END OF TURN
+END OF TURN
+ ELLANIA AND ELLATHOR, ECLIPSIAN WARSAGES
+Sudden Translocation
+GW APP
+Declare: This unit can only use this ability if any enemy models were slain this turn by this unit’s combat attacks.
+Effect: Heal (D6) this unit. Then, remove it from the battlefield and set it up again on the battlefield more than 9" from all enemy units.
+CORE RULES
+Power Through
+1
+MOVE
+CORE RULES
+Declare: Pick a friendly unit that charged this turn to use this ability, then you must pick an enemy unit in combat with it to be the target. The target
+must have a lower Health characteristic than the unit using this ability.
+Effect: Inflict D3 mortal damage on the target. Then, the unit using this ability can move a distance up to its Move characteristic. It can pass through
+and end that move within the combat ranges of enemy units that were in combat with it at the start of the move, but not those of other enemy units. It
+does not have to end the move in combat.
+Eruption of Fury
+1-3
+×1 / TURN (ARMY)
+ATTACK
+FIGHT
+SEASON
+GHB
+Declare: Pick a friendly unit to use this ability, then pick an enemy unit in combat with that friendly unit to be the target.
+Effect: Pick 1 of the melee weapons that the unit using this ability is armed with. Then, spend up to 3 rage dice.
+Resolve a number of combat attacks against the target using the melee weapon you picked equal to the number of rage dice you spent.
+Those attacks cannot score critical hits. Instead, for each unmodified hit roll of 6 for those attacks:
+ Inflict an additional D3 mortal damage on each enemy unit in combat with the unit using this ability.
+ Your opponent must increase their fury level by 1, to a maximum of 7.
+For each unmodified hit roll of 1 for those attacks, allocate D3 mortal damage to this unit after the damage sequence has been resolved (ward rolls
+cannot be made for those damage points).
+Designer’s Note: Rage dice do not add to the Attacks characteristic of the weapon you pick; if you spend 3 rage dice to use this ability, you only make
+3 combat attacks.
+Burning for Vengeance
+BATTLE TACTIC CARD 5
+SPECIAL RULE
+At the start of the battle, after using all Deployment Phase abilities but before determining which player will take the first turn, pick an enemy HERO on the
+battlefield or in reserve to be the fugitive for the rest of the battle.
+AFFRAY
+Search Every Inch
+You complete this battle tactic at the end of your turn if there is a different friendly unit wholly within each large quarter of the battlefield,
+those friendly units are more than 9" from the centre of the battlefield, and no more than 1 of those friendly units was set up this turn.
+ 5
+ VICTORY
+ POINTS
+STRIKE
+Quick Pursuit
+You complete this battle tactic at the end of your turn if 1 of the following is true:
+ There are 3 or more friendly units that are not in combat and are within 12" of the enemy fugitive.
+ There is no enemy fugitive on the battlefield.
+ 5
+ VICTORY
+ POINTS
+DOMINATION
+Bring Them In
+You complete this battle tactic at the end of your turn if 1 of the following is true:
+ There are 3 or more friendly units in combat with the enemy fugitive.
+ There is no enemy fugitive on the battlefield and 3 or more friendly units are contesting the same objective that is wholly outside friendly
+territory.
+ 5
+ VICTORY
+ POINTS
+Flanking Firestorm
+BATTLE TACTIC CARD 3
+AFFRAY
+Ambuscade
+You complete this battle tactic at the end of your turn if 2 or more objectives or non-FACTION TERRAIN terrain features that you control,
+in any combination, are each contested by a different friendly unit that is more than 6" from friendly territory and was not set up this turn.
+ 5
+ VICTORY
+ POINTS
+STRIKE
+Surround the Enemy
+You complete this battle tactic at the end of your turn if 2 or more friendly units that were not set up this turn are each within 9" of a
+different corner of the battlefield and wholly outside friendly territory.
+ 5
+ VICTORY
+ POINTS
+DOMINATION
+Claim What's Yours
+You complete this battle tactic at the end of your turn if there are more friendly units within enemy territory than enemy units and there is
+at least 1 friendly HERO wholly within enemy territory.
+ 5
+ VICTORY
+ POINTS
+11 / 19
+
+===== page 12 =====
+
+===== page 13 =====
+Ellania and Ellathor, Eclipsian
+Warsages
+1
+ MV
+6"
+ CT
+ 4
+ SV
+4+
+ WD
+5+
+ HP
+10
+1 model
+ 330 pts
+ Rng
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Blazing Sunbolt
+Crit (Auto-wound)
+ 12"
+ 3
+ 3+
+ 3+
+ 1
+ D3
+Altairi
+ 5
+ 2+
+ 3+
+ 1
+ 2
+Dianaer
+ 2
+ 3+
+ 4+
+ 1
+ D3
+AELF · LUMINETH REALM-LORDS · ORDER · SCINARI · VANARI ·
+HERO · INFANTRY · UNIQUE · WARD
+ Wahapedia (EN)
+The Light of Eltharion
+ MV
+6"
+ CT
+ 2
+ SV
+3+
+ WD
+4+
+ HP
+ 7
+1 model
+ 300 pts
+ Rng
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Searing Darts of Light
+Shoot in Combat
+ 12"
+ 3
+ 2+
+ 3+
+ 2
+ D3
+Fangsword of Eltharion
+Crit (2 Hits)
+ 5
+ 2+
+ 3+
+ 3
+ 3
+Celennari Blade
+Anti-HERO (+1 Rend),
+Anti-MONSTER (+1 Rend)
+ 2
+ 2+
+ 3+
+ 1
+ 3
+AELF · LUMINETH REALM-LORDS · ORDER · HERO · INFANTRY ·
+UNIQUE · WARD
+ Wahapedia (EN)
+Hurakan Windmage
+1
+ MV
+12"
+ CT
+ 2
+ SV
+5+
+ WD
+—
+ HP
+ 5
+1 model
+ 140 pts
+ Rng
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Windblast Vortex
+Shoot in Combat
+ 12"
+ 1
+ 2+
+ 3+
+ 2
+ D3
+Aspiragillum
+ 3
+ 3+
+ 4+
+ 1
+ D3
+AELF · HURAKAN · LUMINETH REALM-LORDS · ORDER · FLY ·
+HERO · INFANTRY
+ Wahapedia (EN)
+Ydrilan Riverblades
+ MV
+7"
+ CT
+ 1
+ SV
+5+
+ WD
+—
+ HP
+ 1
+10 models
+ 150 pts
+ Rng
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Ythara Darts
+Shoot in Combat
+ 10"
+ 2
+ 3+
+ 4+
+ -
+ 1
+Ydrilan Blades
+ 2
+ 3+
+ 4+
+ 1
+ 1
+AELF · LUMINETH REALM-LORDS · ORDER · YDRILAN · CHAMPION
+· INFANTRY
+ Wahapedia (EN)
+ Vanari Lord Regent
+ MV
+6"
+ CT
+ 2
+ SV
+4+
+ WD
+—
+ HP
+ 5
+1 model
+ 120 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Regent’s Sword
+Crit (Mortal)
+ 5
+ 3+
+ 4+
+ 1
+ 2
+AELF · LUMINETH REALM-LORDS · ORDER · VANARI · HERO ·
+INFANTRY
+ Wahapedia (EN)
+Lyrior Uthralle, Warden of
+Ymetrica
+1
+ MV
+14"
+ CT
+ 2
+ SV
+3+
+ WD
+—
+ HP
+ 7
+1 model
+ 260 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Daemonbane
+Anti-DAEMON (+1 Rend), Charge (+1
+Damage)
+ 2
+ 2+
+ 3+
+ 1
+ 2
+Lyrior’s Sword
+Charge (+1 Damage), Crit (Mortal)
+ 5
+ 2+
+ 3+
+ 1
+ 2
+Farael’s Horns and Claws
+Companion
+ 4
+ 4+
+ 3+
+ 1
+ 1
+AELF · LUMINETH REALM-LORDS · ORDER · VANARI · CAVALRY ·
+HERO · UNIQUE
+ Wahapedia (EN)
+Sevireth, Lord of the Seventh Wind
+ MV
+18"
+ CT
+ 5
+ SV
+4+
+ WD
+5+
+ HP
+10
+1 model
+ 350 pts
+ Rng
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Enathrai, the Howling
+Death
+Shoot in Combat
+ 15"
+ 4
+ 2+
+ 3+
+ 3
+ 3
+Swirling Shards
+Crit (Mortal)
+ 6
+ 2+
+ 4+
+ -
+ 1
+HURAKAN · LUMINETH REALM-LORDS · ORDER · FLY · HERO ·
+MONSTER · UNIQUE · WARD
+ Wahapedia (EN)
+Vanari Auralan Wardens
+ MV
+6"
+ CT
+ 1
+ SV
+4+
+ WD
+—
+ HP
+ 1
+10 models
+ 120 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Warden Pike and Blade
+Anti-charge (+1 Rend), Crit (Mortal)
+ 2
+ 3+
+ 4+
+ -
+ 1
+AELF · LUMINETH REALM-LORDS · ORDER · VANARI · CHAMPION ·
+INFANTRY
+ Wahapedia (EN)
+13 / 19
+
+===== page 14 =====
+Shrine Luminor
+ MV
+ -
+ CT
+ -
+ SV
+3+
+ WD
+—
+ HP
+12
+1 model
+ 0 pts
+LUMINETH REALM-LORDS · ORDER · FACTION TERRAIN · FLY
+ Wahapedia (EN)
+Rune of Petrification
+7+
+ MV
+ -
+ CT
+ 7
+ SV
+4+
+ WD
+6+
+ HP
+ 6
+1 model
+ Summoned
+ Wholly within 12" and visible to the caster
+LUMINETH REALM-LORDS · ORDER · ENDLESS SPELL ·
+MANIFESTATION · WARD
+ Wahapedia (EN)
+ Hyshian Twinstones
+6+
+ MV
+5"
+ CT
+ 7
+ SV
+4+
+ WD
+6+
+ HP
+ 5
+1 model
+ Summoned
+ Wholly within 18" and visible to the caster
+ More than 9" from the enemy
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Crackling Energy
+ 2D6
+ 4+
+ 4+
+ -
+ 1
+LUMINETH REALM-LORDS · ORDER · ENDLESS SPELL ·
+MANIFESTATION · WARD
+ Wahapedia (EN)
+Sanctum of Amyntok
+7+
+ MV
+ -
+ CT
+ 7
+ SV
+4+
+ WD
+6+
+ HP
+ 6
+3 models
+ Summoned
+ Wholly within 12" of the caster
+ More than 3" from the enemy
+ 3 parts touching, in a circle
+LUMINETH REALM-LORDS · ORDER · ENDLESS SPELL ·
+MANIFESTATION · WARD
+ Wahapedia (EN)
+14 / 19
+
+===== page 15 =====
+OPPONENT'S TURN
+Opponent's turn
+Lumineth Realm-lords
+START OF BATTLE ROUND
+START OF BATTLE ROUND
+ CORE RULES
+Start of Battle Round
+CORE RULES
+1: Determine the Active Player:
+ If it is the first battle round, the player who finished setting up their army first decides who will take the first turn (unless otherwise specified in the
+battlepack or battleplan).
+ If it is not the first battle round, the players make a roll-off called the priority roll and the winner decides who will take the first turn. If the roll-off is a
+tie, the player who took the first turn in the previous battle round decides who will take the first turn in the current battle round.
+2: Determine the Underdog: Whichever player has the fewest victory points is the underdog for the battle round. If the players are tied (e.g. in the first
+battle round), then there is no underdog, unless otherwise specified.
+Simmering Rage
+×1 / TURN (ARMY)
+SEASON
+GHB
+Declare: You must use this ability.
+Effect: Gain a number of rage dice equal to your fury level. At the end of the battle round, any unspent rage dice are lost.
+ARMY RULES
+Depict Rune
+×1 / ROUND (ARMY)
+GW APP
+BATTLE TRAITS
+Effect: Pick 1 of the following runes to depict on your battle scripture. The effect and conditional enhanced effects of that rune last for the rest of the
+battle round. Each rune remains on your battle scripture for the rest of the battle or until it is removed or replaced by another ability.
+Varinor, Rune of Strength: Pick up to 2 friendly LUMINETH REALM-LORDS units for each instance of this rune depicted on your battle scripture to be
+the targets. Add 1 to run rolls and charge rolls for each target. In addition, the following enhanced effects apply:
+ While Ydriliqi, Rune of the River is depicted on your battle scripture, add 1 to wound rolls for each target’s combat attacks.
+ While Oreali, Rune of the Wind is depicted on your battle scripture, each target can use SHOOT and/or CHARGE abilities even if it used a RETREAT
+ability in the same turn.
+Alaithi, Rune of the Mountain: Pick up to 2 friendly LUMINETH REALM-LORDS units for each instance of this rune depicted on your battle scripture
+to be the targets. Each target has WARD (5+). In addition, the following enhanced effects apply:
+ While Varinor, Rune of Strength is depicted on your battle scripture, the targets’ melee weapons have Anti-charge (+1 Rend).
+ While Ydriliqi, Rune of the River is depicted on your battle scripture, subtract 1 from wound rolls for attacks made by enemy units while they are in
+combat with any of the targets.
+Ydriliqi, Rune of the River: Pick up to 2 friendly LUMINETH REALM-LORDS units for each instance of this rune depicted on your battle scripture to be
+the targets. Subtract 2 from charge rolls for enemy units while they are within 12" of any of the targets. In addition, the following enhanced effects apply:
+ While Alaithi, Rune of the Mountain is depicted on your battle scripture, ignore negative modifiers to hit rolls and wound rolls for attacks made by the
+targets.
+ If Oreali, Rune of the Wind is depicted on your battle scripture, each target can immediately move up to 3". They can pass through the combat ranges
+of enemy units and can end that move in combat.
+Oreali, Rune of the Wind: Pick up to 2 friendly LUMINETH REALM-LORDS units for each instance of this rune depicted on your battle scripture to be
+the targets. Subtract 1 from hit rolls for attacks made by enemy units while they are in combat with any of the targets. In addition, the following
+enhanced effects apply:
+ While Varinor, Rune of Strength is depicted on your battle scripture, add 4" to each target’s Move characteristic.
+ While Alaithi, Rune of the Mountain is depicted on your battle scripture, add 5 to each target’s control score.
+Thalari, Rune of the Zenith: Add 2 to casting rolls for friendly LUMINETH REALM-LORDS units. In addition, if you have 4 or more unique runes
+depicted on your battle scripture, add 4" to the Move characteristic of friendly LUMINETH REALM-LORDS units and friendly LUMINETH
+REALM-LORDS units’ attacks score critical hits on unmodified hit rolls of 5+.
+Designer’s Note: We recommend noting the runes you have inscribed in each battle round on a piece of paper to keep track of which are currently
+depicted on your battle scripture. Feel free to note them by type (Strength, River, Mountain etc.), by initial (each has a different first letter) or, if you are
+feeling particularly adventurous, you can try your hand at aelven calligraphy and learn to draw each rune!
+START OF TURN
+START OF TURN
+ CORE RULES
+Activate Place of Power
++2
++2
+×1 / TURN (ARMY)
+CORE
+SEASON
+GHB
+Declare: Pick a friendly Hero within 3" of any Places of Power to use this ability.
+Effect: Roll a dice. On a 1, inflict D3 mortal damage on that Hero. On a 2+, pick 1 of the following effects:
+ Ignite Fury: Gain 2 rage dice, then increase your fury level by 2, to a maximum of 7.
+ Channel Wrath: If that Hero is a Wizard or Priest, add 1 to casting rolls or chanting rolls for that Hero for the rest of the turn.
+ Dizzying Rage: For the rest of the turn, if that Hero is not a Wizard or Priest, they can use the ‘Unbind’ or ‘Banish Manifestation’ ability as if they had
+Wizard (1).
+15 / 19
+
+===== page 16 =====
+OPPONENT'S TURN
+HERO PHASE
+HERO PHASE
+ VANARI LORD REGENT
+Shining Example
+PASSIVE
+GW APP
+Effect: Each time a friendly LUMINETH REALM-LORDS unit wholly within 12" of this unit uses the ‘Rally’ command, you can make 3 additional rally
+rolls of D6.
+SHRINE LUMINOR
+Cleansing Rituals
+×1 / TURN
+WAHAPEDIA
+Reaction: You declared a SPELL ability for a LUMINETH REALM-LORDS unit wholly within 12" of this terrain feature
+Effect: While this terrain feature has a Shrine Guardian, you can re-roll the casting roll for that spell.
+HYSHIAN TWINSTONES
+Reservoir of Power
+PASSIVE
+GW APP
+MANIFESTATION
+Effect: Each time a unit (friendly or enemy) successfully casts a spell
+while it is within 12" of this MANIFESTATION, give this MANIFESTATION
+1 arcane charge point.
+This MANIFESTATION can have a maximum of 6 arcane charge points.
+Release Arcane Charge
+×1 / TURN (ARMY)
+MANIFESTATION
+WAHAPEDIA
+Reaction: You declared a SPELL or UNBIND ability for a LUMINETH
+REALM-LORDS WIZARD within 3" of this MANIFESTATION
+Effect: Add this MANIFESTATION arcane charge points to the casting
+roll or unbinding roll. Then, reset this MANIFESTATION's arcane
+charge points to 0.
+RUNE OF PETRIFICATION
+Turn to Stone
+GW APP
+MANIFESTATION
+Effect: Roll a D3 for each enemy unit within 6" of this MANIFESTATION. On a 2+, inflict an amount of mortal damage on that enemy unit equal to the
+roll. If an enemy unit has at least 3 mortal damage inflicted on it by this ability this turn, it has STRIKE-LAST for the rest of the turn.
+CORE RULES
+Rally
+1
+CORE RULES
+Declare: Pick a friendly unit that is not in combat to use this ability.
+Effect: Make 6 rally rolls of D6. For each 4+, you receive 1 rally point. Rally points can
+be spent in the following ways:
+ For each rally point spent, Heal (1) that unit.
+ You can spend a number of rally points equal to the Health characteristic of that unit to
+return a slain model to that unit.
+You can spend the rally points in any combination of the above. Unspent rally points are
+then lost.
+Unbind
+UNBIND
+CORE RULES
+Reaction: Opponent declared a Spell ability
+Used By: A friendly Wizard within 30" of the enemy
+Wizard casting the spell.
+Effect: Make an unbinding roll of 2D6. If the roll exceeds
+the casting roll for the spell, then the spell is unbound and
+its effect is not resolved. This reaction cannot be used
+more than once per casting roll.
+Magical Intervention
+1
+GHB
+Declare: Pick a friendly Wizard or Priest to use this ability.
+Effect: That friendly unit can use a Spell, Prayer or Banish ability (as appropriate) as if it were your hero phase. If you do so, subtract 1 from casting
+rolls or chanting rolls made as part of that ability.
+MOVEMENT PHASE
+MOVEMENT PHASE
+ VANARI LORD REGENT
+Flawless Commander
+GW APP
+HEROIC TRAIT
+Declare: Pick up to 3 visible friendly LUMINETH REALM-LORDS INFANTRY units wholly within 18" of this unit to be the targets.
+Effect: Each target can use the ‘Normal Move’ ability as if it were your movement phase.
+CORE RULES
+Redeploy
+1
+MOVE
+RUN
+CORE RULES
+Declare: Pick a friendly unit that is not in combat to use this ability.
+Effect: Each model in that unit can move up to D6". That move cannot pass through or end within the combat range of an enemy unit.
+16 / 19
+
+===== page 17 =====
+OPPONENT'S TURN
+SHOOTING PHASE
+SHOOTING PHASE
+ SEVIRETH, LORD OF THE SEVENTH WIND
+Spirit of the Wind
+×1 / TURN (ARMY)
+MOVE
+GW APP
+Effect: If this unit used a SHOOT ability this phase, this unit can move D6". Add 2 to the roll for each instance of Oreali, Rune of the Wind depicted on
+your battle scripture. It cannot end that move in combat.
+CORE RULES
+Covering Fire
+1
+ATTACK
+SHOOT
+CORE RULES
+Declare: Pick a friendly unit that did not use a Run ability this turn and that is not in combat
+to use this ability, then pick the closest enemy unit (to that unit) that can be picked as the
+target of shooting attacks to be the target. You cannot pick Manifestations or faction terrain
+features as the target of this ability.
+Effect: Resolve shooting attacks for the unit using this ability against the target. You must
+subtract 1 from the hit rolls for those attacks.
+Guarded Hero
+PASSIVE
+CORE RULES
+Effect: If this Hero is within the combat range of a
+friendly unit that is not a Hero:
+ Subtract 1 from hit rolls for shooting attacks that target
+this Hero.
+ If this Hero is Infantry, they cannot be picked as the
+target of shooting attacks made by models more than
+12" from them.
+CHARGE PHASE
+CHARGE PHASE
+ CORE RULES
+Counter-charge
+2
+CORE RULES
+Declare: Pick a friendly unit that is not in combat to use this ability.
+Effect: That unit can use a Charge ability as if it were your charge phase.
+17 / 19
+
+===== page 18 =====
+OPPONENT'S TURN
+COMBAT PHASE
+COMBAT PHASE
+ ARMY RULES
+Strike as One
+PASSIVE
+GW APP
+FORMATION: WARHOST OF DUALITY
+20 Points
+Effect: When players are alternating picking units to use a FIGHT ability, when it is your turn to pick a unit, you can pick 2 friendly LUMINETH
+REALM-LORDS units instead of 1. Resolve the second FIGHT ability immediately after the first.
+VANARI LORD REGENT
+Wall of Blades
+×1 / TURN (ARMY)
+GW APP
+Declare: Pick a friendly VANARI AURALAN WARDENS unit wholly within 12" of this unit to be the wall of blades. Then, pick an enemy unit in combat
+with the wall of blades to be the target.
+Effect: Roll a dice for each model in the wall of blades that is within 3" of the target. For each 5+, inflict 1 mortal damage on the target.
+THE LIGHT OF ELTHARION
+Supreme
+Swordmaster
+PASSIVE
+GW APP
+Effect: Ignore negative modifiers to hit
+rolls and wound rolls for this unit’s combat
+attacks.
+Valorous Intervention
+1
+GW APP
+Declare: This unit cannot use this ability if it is in combat. Pick a friendly LUMINETH REALM-LORDS
+unit that is in combat to be the target.
+Effect: Remove this unit from the battlefield and set it up again within 1" of the target, within 1" of an
+enemy unit and in combat. This unit has charged.
+SEVIRETH, LORD OF THE SEVENTH WIND
+Searing Desert Winds
+×1 / TURN (ARMY)
+RAMPAGE
+GW APP
+Declare: Pick up to 3 visible enemy units within 6" of this unit to be the targets.
+Effect: Roll a D3 for each target. On a 2+, inflict an amount of mortal damage on the target equal to the roll and subtract 1 from wound rolls for the
+target’s attacks for the rest of the turn.
+VANARI AURALAN WARDENS
+Anticipated Strike
+PASSIVE
+GW APP
+Effect: If this unit has not charged this turn, ignore the effect of the Charge (+1 Damage) ability for combat attacks made by enemy units that target this
+unit.
+YDRILAN RIVERBLADES
+Relentless as the Driving Current
+×1 / TURN (ARMY)
+GW APP
+Effect: If this unit is in combat, it can move 2D6". It can pass through models in enemy units but must end that move in combat.
+CORE RULES
+Fight
+CORE
+ATTACK
+FIGHT
+CORE RULES
+Declare: Pick a friendly unit that is in combat or that
+charged this turn to use this ability. That unit can make
+a pile-in move (see 15.3). Then, if that unit is in
+combat, you must pick one or more enemy units as the
+target(s) of that unit’s attacks (see 16.0).
+Effect: Resolve combat attacks against the target
+unit(s).
+Strike-first and Strike-last
+PASSIVE
+CORE RULES
+Strike-first: If there are any Strike-first units in combat after any non-Fight combat phase
+abilities have been used, other units cannot be picked to use a Fight ability until those units
+have been picked to use a Fight ability. After all those Strike-first units have fought, the
+active player picks the next unit to fight.
+Strike-last: If there are any Strike-last units in combat, they cannot be picked to use a
+Fight ability if there are any units in combat that do not have Strike-last and have not yet
+used a Fight ability.
+Both: If a unit has Strike-first and Strike-last, treat it as if it had neither.
+Champion
+PASSIVE
+CORE RULES
+Effect: Add 1 to the Attacks characteristic of weapons used by champions in this unit.
+18 / 19
+
+===== page 19 =====
+OPPONENT'S TURN
+END OF TURN
+END OF TURN
+ ELLANIA AND ELLATHOR, ECLIPSIAN WARSAGES
+Sudden Translocation
+GW APP
+Declare: This unit can only use this ability if any enemy models were slain this turn by this unit’s combat attacks.
+Effect: Heal (D6) this unit. Then, remove it from the battlefield and set it up again on the battlefield more than 9" from all enemy units.
+CORE RULES
+Power Through
+1
+MOVE
+CORE RULES
+Declare: Pick a friendly unit that charged this turn to use this ability, then you must pick an enemy unit in combat with it to be the target. The target
+must have a lower Health characteristic than the unit using this ability.
+Effect: Inflict D3 mortal damage on the target. Then, the unit using this ability can move a distance up to its Move characteristic. It can pass through
+and end that move within the combat ranges of enemy units that were in combat with it at the start of the move, but not those of other enemy units. It
+does not have to end the move in combat.
+Eruption of Fury
+1-3
+×1 / TURN (ARMY)
+ATTACK
+FIGHT
+SEASON
+GHB
+Declare: Pick a friendly unit to use this ability, then pick an enemy unit in combat with that friendly unit to be the target.
+Effect: Pick 1 of the melee weapons that the unit using this ability is armed with. Then, spend up to 3 rage dice.
+Resolve a number of combat attacks against the target using the melee weapon you picked equal to the number of rage dice you spent.
+Those attacks cannot score critical hits. Instead, for each unmodified hit roll of 6 for those attacks:
+ Inflict an additional D3 mortal damage on each enemy unit in combat with the unit using this ability.
+ Your opponent must increase their fury level by 1, to a maximum of 7.
+For each unmodified hit roll of 1 for those attacks, allocate D3 mortal damage to this unit after the damage sequence has been resolved (ward rolls
+cannot be made for those damage points).
+Designer’s Note: Rage dice do not add to the Attacks characteristic of the weapon you pick; if you spend 3 rage dice to use this ability, you only make
+3 combat attacks.
+19 / 19
+

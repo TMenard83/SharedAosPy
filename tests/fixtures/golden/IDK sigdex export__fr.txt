@@ -1,0 +1,944 @@
+pages: 9
+pages_scenario: None
+units_matched: ['Eidolon of Mathlann, Aspect of the Sea', 'Scourge of Aqshy: Namarti Reavers', 'Isharann Tidecaster', 'Mathaela, Oracle of the Abyss', 'Akhelian Leviadon', 'Akhelian Morrsarr Guard', 'Akhelian Ishlaen Guard', 'Gloomtide Shipwreck']
+units_unmatched: []
+rules_included: ['Règles de Saison 2026-27', 'Traits de Bataille', 'Formation — Akhelian Beastmasters', 'Domaine de Sorts — Lore of the Deeps', 'Domaine de Manifestations — Lore of the Abyss', 'Flanking Firestorm', 'Blazing Onslaught', 'Artefact de Pouvoir : Cosse de Vitalgue → Eidolon of Mathlann, Aspect of the Sea', 'Trait Héroïque : Être des Abysses → Eidolon of Mathlann, Aspect of the Sea', "Ethersea Companions : Méduses d'Aqshy → Akhelian Leviadon"]
+rules_unmatched: []
+wahapedia_used: []
+absent_references: []
+absent_keywords: []
+===== page 1 =====
+Les poissons 2000/2000 pts
+Idoneth Deepkin · Akhelian Beastmasters (20) · Drops : 2 · Domaine de sorts : Lore of the Deeps · Domaine de
+manifestations : Lore of the Abyss
+Battle Tactic Cards : Flanking Firestorm, Blazing Onslaught
+General's Regiment
+ Eidolon of Mathlann, Aspect of the Sea — 310 pts
+General, Lifekelp Pod, Abyssal Dweller
+Scourge of Aqshy: Namarti Reavers — 100 pts
+Scourge of Aqshy: Namarti Reavers — 100 pts
+Scourge of Aqshy: Namarti Reavers — 100 pts
+Isharann Tidecaster — 100 pts
+Regiment 1
+ Mathaela, Oracle of the Abyss — 150 pts
+Akhelian Leviadon — 450 pts
+Aqshian Sea Nettles - (10) Points
+Akhelian Morrsarr Guard — 320 pts
+Reinforced
+Akhelian Ishlaen Guard — 340 pts
+Reinforced
+Faction Terrain
+Gloomtide Shipwreck
+Généré le <horodatage> — aospy roster pdf
+Légende des pictos
+ 7+
+Aptitude : valeur de lancement. Warscroll : niveau de Sorcier ; manifestation : valeur de lancement de sa convocation.
++2
+Dés de rage : « +N » gagnés, sinon nombre dépensé
++2
+Niveau de fureur : « +N » augmenté, sinon diminué
+MDG
+Source du texte : MDG (Manuel du Général), BT (battletome), FP (faction pack), AQSHY,
+WAHAPEDIA (anglais). Traits de Bataille, Formation : catégorie de règles d'armée.
+SIMPLE
+Texte adapté, pas le verbatim : en cas de litige, revenir à la règle d'origine.
+BASE
+SAISON
+Aptitude de base du jeu (Core) ; règle de la saison en cours (MdG 2026-27).
+×1 / TOUR (ARMÉE)
+PASSIF
+Fréquence — (ARMÉE) : une seule fois pour toute l'armée ; passif : toujours actif, rien à déclarer.
+RÉACTION
+Réaction : utilisée en réponse à l'aptitude indiquée.
+TIR
+CHARGE
+Mot-clé d'aptitude, à la couleur de sa phase (Mouvement, Tir, Charge, Corps à Corps).
+ATTAQUE
+SACCAGE
+Mot-clé d'aptitude valable dans plusieurs phases.
+SORT
+PRIÈRE
+Magie (sort, manifestation, bannissement…) ; prière. Illimité : utilisable plusieurs fois par tour.
+TACTIQUE
+MOT-CLÉ
+Autre mot-clé d'aptitude (Tactique : règle spéciale d'une carte de tactique) ; bordeaux : propre à la
+faction.
+1 / 9
+
+===== page 2 =====
+Eidolon of Mathlann, Aspect of
+the Sea
+Eidolon de Mathlann, Aspect de la Mer
+2
+ MV
+10"
+ CT
+ 5
+ SV
+3+
+ WD
+5+
+ HP
+12
+1 model
+ 310 pts
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Traits d'Énergie Abyssale
+ 12"
+ 3
+ 3+
+ 3+
+ 2
+ D3
+Psi-trident et Sceptre des
+Mers Profondes
+ 7
+ 3+
+ 3+
+ 1
+ D3
+PHASE DES HÉROS
+APTITUDES
+Énergies Dormantes
+PASSIF
+BT
+Effet : Ajoutez 1 aux jets de lancement pour cette unité.
+Être des Abysses
+×1 / BATAILLE
+AQSHY
+LES 2 PHASES
+TRAIT HÉROÏQUE
+Annonce : Choisissez comme cible un objectif à 18" de cette
+unité.
+Effet : Pour le restant de la bataille, tant que des unités ennemies
+contestent l'objectif cible, elles ne peuvent utiliser aucune
+aptitude de Course, de Repli ni de Charge.
+SORTS
+Tsunami de Terreur
+7+
+MA PHASE
+BT
+Annonce : Choisissez comme cibles jusqu'à 3 unités ennemies
+différentes visibles et à 12" de cette unité, puis faites un jet de
+lancement de 2D6.
+Effet : Soustrayez 1 aux jets de sauvegarde pour les attaques de
+mêlée qui ciblent ces unités jusqu'au début de votre prochain
+tour.
+PHASE DE MOUVEMENT
+Cosse de Vitalgue
+LES 2 PHASES
+BT
+ARTEFACT DE POUVOIR
+Effet : Soignez (D3) chaque unité d'Abyssaux Idoneths de
+Cavalerie amie qui est à portée de mêlée de cette unité.
+PHASE DE CHARGE
+Vagues Vengeresses
+×1 / TOUR (ARMÉE)
+BT
+LES 2 PHASES
+SACCAGE
+Annonce : Si cette unité n'a pas chargé à ce tour, choisissez comme
+cible une unité ennemie qui est en mêlée avec elle.
+Effet : Jetez un dé. Sur 3+, la cible ne peut pas utiliser d'ordres
+jusqu'à la fin du tour.
+FIN DE TOUR
+Calme des Abysses
+PASSIF
+BT
+Effet : Ignorez les modificateurs négatifs aux scores de contrôle des
+unités d'Abyssaux Idoneths amies tant qu'elles sont entièrement à
+12" de cette unité.
+AELF · EIDOLON · IDONETH DEEPKIN · ORDER · FLY · HERO ·
+MONSTER · WARD
+ Wahapedia (EN)
+ Isharann Tidecaster
+Guide des Courants Isharann
+1
+ MV
+6"
+ CT
+ 2
+ SV
+5+
+ WD
+—
+ HP
+ 5
+1 model
+ 100 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Bâton Pélagique
+ 4
+ 3+
+ 4+
+ 1
+ D3
+PHASE DES HÉROS
+Maître de l'Éthermer
+×1 / TOUR (ARMÉE)
+BT
+MA PHASE
+Annonce : Faites un jet de rituel isharann d'un D6.
+Effet : Sur 3+, choisissez 1 des effets suivants à appliquer jusqu'au
+début de votre prochain tour :
+Brume Rampante : Les unités d'Abyssaux Idoneths amies ne
+peuvent pas être ciblées par des attaques de tir à moins que la
+figurine attaquante soit à 12" d'elles.
+Flot Montant : Ajoutez 1 aux jets de course et de charge pour les
+unités d'Abyssaux Idoneths amies.
+Courant Sagittal : Chaque fois qu'une unité ennemie utilise une
+aptitude de Repli, infligez-lui D3 dégâts mortels après que l'effet de
+l'aptitude a été résolu.
+AELF · IDONETH DEEPKIN · ISHARANN · ORDER · HERO ·
+INFANTRY
+ Wahapedia (EN)
+Mathaela, Oracle of the Abyss
+Mathaela, l'Oracle de l'Abysse
+1
+ MV
+10"
+ CT
+ 2
+ SV
+5+
+ WD
+6+
+ HP
+ 6
+1 model
+ 150 pts
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Coup de Vague Scélérate
+Tir en Mêlée
+ 18"
+ 3
+ 2+
+ 4+
+ 1
+ D3
+Bâton de l'Abysse
+ 3
+ 3+
+ 4+
+ 1
+ D3
+Morsures Féroces de Banc
+Nébuleux
+Compagnon
+ 5
+ 4+
+ 3+
+ 1
+ 1
+PHASE DES HÉROS
+Pression Écrasante
+7+
+MA PHASE
+BT
+Annonce : Choisissez comme cible une unité ennemie visible et à
+18" de cette unité, puis faites un jet de lancement de 2D6.
+Effet : Jetez autant de dés que la caractéristique de Santé de la
+cible, jusqu'à un maximum de 10. Pour chaque jet de 4+, infligez 1
+dégât mortel à la cible.
+PHASE DE MÊLÉE
+Chant de Sirène de
+l'Abysse
+LES 2 PHASES
+BT
+Annonce : Choisissez comme cibles jusqu'à 3 unités d'Abyssaux
+Idoneths amies qui sont entièrement à 12" de cette unité.
+Effet : Pour le restant du tour, ajoutez 1 à la caractéristique
+d'Attaques des armes de Compagnon des cibles.
+AELF · IDONETH DEEPKIN · ISHARANN · ORDER · FLY · HERO ·
+INFANTRY · UNIQUE · WARD
+ Wahapedia (EN)
+2 / 9
+
+===== page 3 =====
+Scourge of Aqshy Namarti Reavers
+Écumeurs Namarti, Fléau d'Aqshy
+ MV
+7"
+ CT
+ 1
+ SV
+5+
+ WD
+—
+ HP
+ 1
+10 models
+ 100 pts
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Arc-murmure
+Crit (Blessure Auto)
+ 12"
+ 2
+ 3+
+ 4+
+ 1
+ 1
+Lame Affûtée
+ 1
+ 3+
+ 4+
+ -
+ 1
+PHASE DE TIR
+Chasseurs Impitoyables
+×1 / TOUR (ARMÉE)
+Réaction : Vous avez annoncé
+une aptitude de Tir pour cette
+unité
+AQSHY
+Effet : Après avoir résolu l'aptitude de Tir annoncée, si toutes les
+attaques de cette unité ont ciblé la même unité ennemie et si une ou
+plusieurs figurines de l'unité cible ont été tuées, choisissez 1 des
+effets ci-dessous à appliquer pour le restant du tour.
+Si toutes les attaques de cette unité ont ciblé la même unité ennemie
+mais si aucune figurine de l'unité cible n'a été tuée, jetez un dé. Sur
+3+, choisissez 1 des effets ci-dessous à appliquer pour le restant du
+tour :
+ Soustrayez 1 aux jets de protection pour l'unité ciblée.
+ Ignorez les modificateurs positifs aux jets de sauvegarde pour
+l'unité ciblée.
+AELF · IDONETH DEEPKIN · NAMARTI · ORDER · CHAMPION ·
+INFANTRY
+ Wahapedia (EN)
+ Akhelian Morrsarr Guard
+Garde Morrsarr Akhélienne
+ MV
+14"
+ CT
+ 1
+ SV
+4+
+ WD
+—
+ HP
+ 4
+3 models
+ 160 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Lance Choc
+Anti-CAVALRY (+1 Perf.), Charge (+1
+Dégât)
+ 2
+ 3+
+ 4+
+ 1
+ 1
+Crocs et Queue Fouetteuse de
+Sécodonte
+Compagnon
+ 3
+ 4+
+ 3+
+ 1
+ D3
+PHASE DE CHARGE
+Décharge Biovoltaïque
+LES 2 PHASES
+BT
+Annonce : Si cette unité a chargé à cette phase, choisissez comme
+cible une unité ennemie à 1" d'elle.
+Effet : Jetez autant de dés que le nombre de figurines de l'unité de
+Garde Morrsarr Akhélienne. Ajoutez 1 à chaque résultat s'il y a
+moins de figurines dans cette unité que dans l'unité cible. Pour
+chaque jet de 3+, infligez 1 dégât mortel à la cible.
+AELF · AKHELIAN · IDONETH DEEPKIN · ORDER · CAVALRY ·
+CHAMPION · FLY · MUSICIAN · STANDARD BEARER
+ Wahapedia (EN)
+Akhelian Ishlaen Guard
+Garde Ishlaen Akhélienne
+ MV
+14"
+ CT
+ 1
+ SV
+4+
+ WD
+—
+ HP
+ 4
+3 models
+ 170 pts
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Sabre Funeste
+ 3
+ 3+
+ 4+
+ 1
+ 1
+Crocs et Queue Fouetteuse de
+Sécodonte
+Compagnon
+ 3
+ 4+
+ 3+
+ 1
+ D3
+PHASE DE MÊLÉE
+Barrière Biovoltaïque
+LES 2 PHASES
+BT
+Annonce : Choisissez comme cible une unité ennemie qui est en
+mêlée avec cette unité.
+Effet : Jetez un dé. Sur 3+, soustrayez 1 à la caractéristique
+d'Attaques des armes de la cible pour le restant du tour.
+N'IMPORTE QUELLE PHASE
+Galvécus
+PASSIF
+BT
+Effet : Cette unité a une Protection (5+) si elle a chargé au même
+tour.
+AELF · AKHELIAN · IDONETH DEEPKIN · ORDER · CAVALRY ·
+CHAMPION · FLY · MUSICIAN · STANDARD BEARER
+ Wahapedia (EN)
+3 / 9
+
+===== page 4 =====
+Akhelian Leviadon
+Léviadon Akhélien
+ MV
+10"
+ CT
+ 5
+ SV
+3+
+ WD
+5+
+ HP
+16
+1 model
+ 450+10 pts
+ Portée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Lance-harpons à
+Clams-rasoirs
+Anti-MONSTER (+1 Perf.)
+ 18"
+ 4
+ 3+
+ 2+
+ 1
+ 3
+Ailerons Acérés et
+Mâchoires Broyeuses de
+Léviadon
+Crit (Mortel), Compagnon
+ 7
+ 4+
+ 2+
+ 2
+ 3
+Lances et Harpons
+d'Équipage
+ 4
+ 3+
+ 4+
+ 1
+ 1
+PHASE DE CHARGE
+Charge Broyeuse
+×1 / TOUR (ARMÉE)
+BT
+LES 2 PHASES
+SACCAGE
+Annonce : Si cette unité a chargé à cette phase, choisissez comme
+cible une unité d'Infanterie ennemie à 1" d'elle.
+Effet : Jetez un dé. Ajoutez 1 au jet si l'unité cible a plus de 10
+figurines. Sur 3+, infligez autant de dégâts mortels à la cible que le
+résultat du jet.
+Méduses d'Aqshy
+LES 2 PHASES
+AQSHY
+ETHERSEA COMPANIONS
+Annonce : Choisissez comme cible une unité ennemie en mêlée
+avec cette unité et qui a chargé à ce tour.
+Effet : Dépensez 1 dé de rage. Si le niveau de fureur de votre
+adversaire est inférieur au vôtre, il doit augmenter son niveau de
+fureur de 1, jusqu'à un maximum de 7.
+Puis, pour le restant du tour :
+ Les autres unités ennemies ne peuvent pas utiliser d'aptitudes de
+Corps à Corps si la cible est éligible pour être choisie.
+ Si possible, cette unité doit être choisie comme cible des
+mouvements d'engagement faits par la cible.
+ Toutes les attaques des figurines de l'unité cible à portée de mêlée
+de cette unité doivent la cibler.
+Note des Concepteurs : Cette aptitude n'annule pas les restrictions
+de Frappe en Premier ou Frappe en Dernier.
+N'IMPORTE QUELLE PHASE
+Tambour du Néant
+PASSIF
+BT
+Effet : Les unités d'Abyssaux Idoneths amies ont une Protection
+(5+) tant qu'elles sont entièrement à 6" de cette unité.
+Stigmates de Guerre
+PASSIF
+BT
+Effet : Tant que cette unité a 10 dégâts ou plus, la caractéristique
+d'Attaques de ses Ailerons Acérés et Mâchoires Broyeuses de
+Léviadon est 5.
+AELF · AKHELIAN · IDONETH DEEPKIN · ORDER · FLY · MONSTER ·
+WARD
+ Wahapedia (EN)
+ Gloomtide Shipwreck
+Épave de la Sombremer
+ MV
+ -
+ CT
+ 0
+ SV
+4+
+ WD
+—
+ HP
+ 7
+2 models
+ Invoquée
+DÉPLOIEMENT
+Émergée des Abysses
+BT
+Annonce : Cette aptitude doit être utilisée à la place de l'aptitude
+Déploiement de Terrain de Faction.
+Effet : Placez ce terrain de faction soit comme 1 élément de terrain
+constitué de 2 pièces de décor (qui doivent être placées à 3" l'une
+de l'autre) ou comme 2 éléments de terrain séparés. Placez chaque
+élément de terrain entièrement en territoire ami et à plus de 3" des
+objectifs et des autres éléments de terrain. Après cela, il a été
+déployé.
+Si ce terrain de faction est placé comme 1 élément de terrain
+constitué de 2 pièces de décor, il a une caractéristique de Santé de
+14 au lieu de 7.
+PHASE DE MÊLÉE
+Ruine Fantomatique
+PASSIF
+BT
+Effet : Les figurines peuvent traverser cet élément de terrain, mais
+ne peuvent pas être placées ni finir un mouvement sur une partie de
+cet élément.
+Chaque fois qu'une unité ennemie finit un mouvement qui a traversé
+ou est passé par-dessus cet élément de terrain, jetez un D3. Sur 2+,
+infligez autant de dégâts mortels que le jet à l'unité.
+N'IMPORTE QUELLE PHASE
+Gardiens des Profondeurs
+PASSIF
+BT
+Effet : Ajoutez 1 aux jets de sauvegarde pour les unités d'Infanterie
+et de Cavalerie Abyssaux Idoneths amies tant qu'elles sont
+entièrement à 6" de cet élément de terrain.
+IDONETH DEEPKIN · ORDER · FACTION TERRAIN
+ Wahapedia (EN)
+4 / 9
+
+===== page 5 =====
+Incarnation des Profondeurs
+8+
+ MV
+10"
+ CT
+ 9
+ SV
+4+
+ WD
+6+
+ HP
+12
+1 model
+ Invoquée
+ Entièrement à 12" et visible du lanceur
+ À plus de 9" de l'ennemi
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Gueule Broyeuse et Vagues
+Tranchantes
+Anti-FACTION TERRAIN (+1 Perf.)
+ 6
+ 4+
+ 2+
+ 1
+ 3
+PHASE DES HÉROS
+Vrilles Préhensiles
+LES 2 PHASES
+BT
+Effet : Jetez un dé. Ajoutez 1 au résultat si c'est votre tour. Sur 4+ :
+ Vous pouvez retirer 1 Vrille Abyssale amie du champ de bataille.
+ S'il y a moins de 2 Vrilles Abyssales amies sur le champ de
+bataille, vous pouvez placer une Vrille Abyssale entièrement à 9"
+de cette Manifestation.
+N'IMPORTE QUELLE PHASE
+Retourner à la Mer
+PASSIF
+BT
+Effet : Lorsque cette Manifestation est retirée du jeu, chaque Vrille
+Abyssale amie qui est sur le champ de bataille est automatiquement
+retirée du jeu.
+Aspect Sauvage
+PASSIF
+BT
+Effet : Chaque fois que cette Manifestation est ciblée par l'aptitude
+Bannissement de Manifestation, si elle est censée être bannie, elle
+ne l'est pas. Au lieu de cela, allouez-lui 6 dégâts (on ne peut faire
+aucun jet de protection contre ces dégâts).
+IDONETH DEEPKIN · ORDER · ENDLESS SPELL · FLY · INCARNATE
+· MANIFESTATION · WARD
+ Wahapedia (EN)
+ Vrille Abyssale
+ MV
+ -
+ CT
+ 6
+ SV
+6+
+ WD
+6+
+ HP
+ 6
+2 models
+ Invoquée
+ Atk
+ Hit
+ Wnd
+ Rnd
+ Dmg
+Enlacement Glacial
+ 4
+ 4+
+ 2+
+ 1
+ D3
+PHASE DE MÊLÉE
+Étreinte Aqueuse
+×1 / TOUR (ARMÉE)
+BT
+LES 2 PHASES
+Annonce : Choisissez comme cible une unité ennemie qui est en
+mêlée avec cette Manifestation.
+Effet : Jetez un dé. Si le jet est supérieur à la caractéristique de
+Santé de la cible, elle est prise au piège pour le restant du tour.
+Une unité ne peut utiliser aucun ordre tant qu'elle est prise au piège.
+Rupture Constrictive
+PASSIF
+BT
+Effet : Ajoutez 1 aux jets de touche pour les attaques des
+Manifestations des Abyssaux Idoneths amies qui ciblent une unité
+ennemie prise au piège.
+IDONETH DEEPKIN · ORDER · ENDLESS SPELL · INCARNATE ·
+MANIFESTATION · WARD
+ Wahapedia (EN)
+5 / 9
+
+===== page 6 =====
+Aptitudes
+Idoneth Deepkin
+DÉPLOIEMENT
+DÉPLOIEMENT
+ RÈGLES DE BASE
+Souffler sur les Braises
+×1 / BATAILLE (ARMÉE)
+SAISON
+MDG
+Effet : Si vous êtes l’attaquant, réglez votre niveau de fureur sur 1. Si vous êtes le défenseur, réglez votre niveau de fureur sur 2.
+Assaut Flamboyant : Règle Spéciale
+TACTIQUE
+MDG
+Au début de la bataille, après avoir utilisé toutes les aptitudes de Phase de Déploiement mais avant de déterminer le joueur qui a le premier tour,
+votre adversaire doit choisir 1 élément de terrain autre qu’un TERRAIN DE FACTION dans son territoire qui sera son repaire. Le repaire ne peut pas
+être retiré du champ de bataille au cours de cette bataille.
+N'IMPORTE QUELLE PHASE
+N'IMPORTE QUELLE PHASE
+ RÈGLES DE BASE
+Braver la Douleur
+X
+X
+PASSIF
+SAISON
+MDG
+Effet : Avant d’allouer des dégâts à une unité amie, vous pouvez dépenser n’importe quel nombre de dés de rage. Pour chaque dé de rage dépensé,
+réduisez votre niveau de fureur de 1, jusqu’à un minimum de 0, puis jetez un dé. Sur 3+, retirez 1 dégât de la réserve de dégâts de l’unité.
+DÉBUT DE ROUND
+DÉBUT DE ROUND
+ RÈGLES DE BASE
+Rage Bouillonnante
+×1 / TOUR (ARMÉE)
+SAISON
+MDG
+Annonce : Vous devez utiliser cette aptitude.
+Effet : Gagnez autant de dés de rage que votre niveau de fureur. À la fin du round de bataille, tous les dés de rage non dépensés sont perdus.
+6 / 9
+
+===== page 7 =====
+PHASE DES HÉROS
+PHASE DES HÉROS
+ RÈGLES D'ARMÉE
+Flots Camouflants
+×1 / ROUND
+BT
+LES 2 PHASES
+TIDAL
+TRAITS DE BATAILLE
+Annonce : Vous pouvez utiliser cette aptitude
+seulement si vous ne l'avez pas utilisée au round
+précédent et si vous n'avez utilisé aucune autre
+aptitude de Flots à ce round.
+Effet : Pour le restant du round, soustrayez 1 aux
+jets de touche pour les attaques qui ciblent les
+unités d'Abyssaux Idoneths amies qui n'ont
+utilisé aucune aptitude de Charge au même tour.
+Flots Rapides
+×1 / ROUND
+TIDAL
+LES 2 PHASES
+BT
+TRAITS DE BATAILLE
+Annonce : Vous pouvez utiliser cette aptitude
+seulement si vous avez utilisé Flots Camouflants au
+round précédent et si vous n'avez utilisé aucune
+autre aptitude de Flots à ce round.
+Effet : Pour le restant du round, les unités
+d'Abyssaux Idoneths amies peuvent utiliser des
+aptitudes de Course et quand même utiliser des
+aptitudes de Tir et/ou de Charge au même tour.
+Étreinte de la
+Mer
+×1 / ROUND
+MA PHASE
+TIDAL
+BT
+TRAITS DE BATAILLE
+Annonce : Vous pouvez utiliser cette
+aptitude seulement si vous avez utilisé
+Flots Rapides au round précédent et si
+vous n'avez utilisé aucune autre
+aptitude de Flots à ce round.
+Effet : Les unités d'Abyssaux
+Idoneths amies ont Frappe en
+Premier pour le restant du tour.
+Flots Imprévisibles
+×1 / ROUND
+BT
+MA PHASE
+TIDAL
+TRAITS DE BATAILLE
+Annonce : Vous pouvez utiliser cette aptitude
+seulement si vous ne l'avez pas utilisée au round
+précédent et si vous n'avez utilisé aucune autre
+aptitude de Flots à ce round. Choisissez comme
+cible une unité d'Abyssaux Idoneths amie qui
+n'est pas en mêlée.
+Effet : Retirez la cible du champ de bataille et
+replacez-la entièrement à 7" d'un bord du champ
+de bataille et à plus de 9" des unités ennemies.
+Flots Inexorables
+×1 / ROUND
+BT
+LES 2 PHASES
+TIDAL
+TRAITS DE BATAILLE
+Annonce : Vous pouvez utiliser cette aptitude
+seulement si vous avez utilisé Flots
+Imprévisibles au round précédent et si vous
+n'avez utilisé aucune autre aptitude de Flots à
+ce round.
+Effet : Soustrayez 1 à la caractéristique de
+Perforation des armes utilisées pour les
+attaques qui ciblent les unités d'Abyssaux
+Idoneths amies pour le restant du round.
+Colère de la
+Tempête
+×1 / ROUND
+MA PHASE
+BT
+TIDAL
+TRAITS DE BATAILLE
+Annonce : Vous pouvez utiliser cette
+aptitude seulement si vous avez utilisé
+Flots Inexorables au round précédent et si
+vous n'avez utilisé aucune autre aptitude de
+Flots à ce round.
+Effet : Les armes de mêlée des unités
+d'Abyssaux Idoneths amies ont Crit
+(Mortel) pour le restant du tour.
+Vagues Jumelles
+×1 / TOUR (ARMÉE)
+BT
+TRAITS DE BATAILLE
+Réaction : Vous avez annoncé une aptitude d'Attaque pour une unité Akhélienne amie
+Utilisé par : L'unité Akhélienne amie qui utilise l'aptitude d'Attaque annoncée.
+Effet : Choisissez comme cible une unité de Namarti amie visible et qui n'a utilisé aucune aptitude d'Attaque à cette phase.
+ Si l'unité qui utilise cette réaction a utilisé une aptitude de Tir, juste après l'avoir résolue, la cible peut être choisie pour utiliser une aptitude de Tir
+comme si c'était votre phase de tir.
+ Si l'unité qui utilise cette réaction a utilisé une aptitude de Corps à Corps, juste après l'avoir résolue, la cible peut être choisie pour utiliser une
+aptitude de Corps à Corps. Si la cible le fait, pour le restant de la phase, ajoutez 1 à la caractéristique d'Attaques de ses armes mais toutes ses
+attaques doivent cibler les unités ennemies qui ont subi un ou plusieurs dégâts à cette phase suite aux attaques de l'unité qui utilise cette réaction.
+SORTS
+Destrier des Marées
+6+
+MA PHASE
+ILLIMITÉ
+BT
+Annonce : Choisissez un Sorcier Abyssal
+Idoneth ami pour qu'il lance ce sort, choisissez
+comme cible une unité d'Abyssaux Idoneths
+amie visible, entièrement à 12" de lui et hors de
+mêlée, puis faites un jet de lancement de 2D6.
+Effet : Retirez la cible du champ de bataille et
+replacez-la à plus de 9" des unités ennemies.
+Contre-courant
+7+
+MA PHASE
+BT
+Annonce : Choisissez un Sorcier Abyssal
+Idoneth ami pour qu'il lance ce sort,
+choisissez comme cible une unité ennemie
+visible et à 18" de lui, puis faites un jet de
+lancement de 2D6.
+Effet : Jusqu'au début de votre prochain tour,
+divisez par deux les jets de course et de
+charge pour la cible.
+Pression des
+Profondeurs
+7+
+MA PHASE
+BT
+Annonce : Choisissez un Sorcier Abyssal
+Idoneth ami pour qu'il lance ce sort,
+choisissez comme cible une unité ennemie
+visible et à 18" de lui, puis faites un jet de
+lancement de 2D6.
+Effet : Jetez un dé pour chaque figurine de
+l'unité cible. Pour chaque jet de 5+, infligez 1
+dégât mortel à la cible.
+MANIFESTATIONS
+Convocation d'Incarnation des Profondeurs
+8+
+MA PHASE
+BT
+MANIFESTATION
+Annonce : S'il n'y a pas d'Incarnation des Profondeurs amie sur le champ de bataille, choisissez un Sorcier Abyssal Idoneth ami pour qu'il lance
+ce sort, puis faites un jet de lancement de 2D6.
+Effet : Placez une Incarnation des Profondeurs visible et entièrement à 12" du lanceur, et à plus de 9" des unités ennemies.
+PHASE DE MÊLÉE
+PHASE DE MÊLÉE
+ RÈGLES D'ARMÉE
+Prédateurs Féroces
+PASSIF
+BT
+FORMATION : AKHELIAN BEASTMASTERS
+Effet : Ajoutez 1 aux jets de touche pour les attaques de mêlée faites avec des armes de Compagnon par les unités Akhéliennes amies.
+7 / 9
+
+===== page 8 =====
+FIN DE TOUR
+FIN DE TOUR
+ RÈGLES DE BASE
+Éruption de Fureur
+1-3
+×1 / TOUR (ARMÉE)
+LES 2 PHASES
+ATTAQUE
+MDG
+CORPS À CORPS
+SAISON
+Annonce : Choisissez une unité amie pour qu’elle utilise cette aptitude, puis choisissez comme cible une unité ennemie en mêlée avec cette unité
+amie.
+Effet : Choisissez 1 des armes de mêlée de l’unité qui utilise cette aptitude. Puis dépensez 3 dés de rage maximum.
+Résolvez autant d’attaques de mêlée contre la cible en utilisant l’arme de mêlée choisie que le nombre de dés de rage que vous avez dépensés.
+Ces attaques ne peuvent pas causer de touches critiques. À la place, pour chaque jet de touche non modifié de 6 obtenu pour ces attaques :
+ Infligez D3 dégâts mortels supplémentaires à chaque unité ennemie en mêlée avec l’unité qui utilise cette aptitude.
+ Votre adversaire doit augmenter son niveau de fureur de 1, jusqu’à un maximum de 7.
+Pour chaque jet de touche non modifié de 1 pour ces attaques, allouez D3 dégâts mortels à l’unité qui utilise cette aptitude une fois la séquence de
+dégâts résolue (on ne peut tenter aucun jet de protection contre ces dégâts).
+Note des Concepteurs : Les dés de rage ne s’ajoutent pas à la caractéristique d’Attaques de l’arme que vous choisissez ; si vous dépensez 3 dés de
+rage pour utiliser cette aptitude, vous faites seulement 3 attaques de mêlée.
+8 / 9
+
+===== page 9 =====
+Encerclés par le Feu
+CARTE DE TACTIQUE 3 · Flanking Firestorm
+ÉCHAUFFOURÉE
+Embuscade
+Vous exécutez cette tactique de bataille à la fin de votre tour si vous contrôlez une combinaison d’au moins 2 objectifs ou éléments de
+terrain autres que des Terrains de Faction, et si chacun d’eux est contesté par une unité amie différente située à plus de 6" du territoire
+ami et n’ayant pas été placée à ce tour.
+ 5
+ PTS DE
+VICTOIRE
+FRAPPE
+Cernez l’Ennemi
+Vous exécutez cette tactique de bataille à la fin de votre tour si au moins 2 unités amies qui n’ont pas été placées à ce tour sont chacune
+à 9" d’un coin différent du champ de bataille et entièrement hors du territoire ami.
+ 5
+ PTS DE
+VICTOIRE
+DOMINATION
+Prenez votre Dû
+Vous exécutez cette tactique de bataille à la fin de votre tour s’il y a plus d’unités amies que d’unités ennemies en territoire ennemi, et s’il
+y a au moins 1 HÉROS ami entièrement en territoire ennemi.
+ 5
+ PTS DE
+VICTOIRE
+Assaut Flamboyant
+CARTE DE TACTIQUE 1 · Blazing Onslaught
+RÈGLE SPÉCIALE
+Au début de la bataille, après avoir utilisé toutes les aptitudes de Phase de Déploiement mais avant de déterminer le joueur qui a le premier tour, votre
+adversaire doit choisir 1 élément de terrain autre qu’un TERRAIN DE FACTION dans son territoire qui sera son repaire. Le repaire ne peut pas être retiré du
+champ de bataille au cours de cette bataille.
+ÉCHAUFFOURÉE
+Maître d’Armes
+Vous exécutez cette tactique de bataille à la fin de votre tour si la même unité ennemie a reçu au moins 1 dégât lors de 3 phases
+différentes à ce tour.
+ 5
+ PTS DE
+VICTOIRE
+FRAPPE
+Brisez Leurs Défenses
+Vous exécutez cette tactique de bataille à la fin de votre tour si vous contrôlez le repaire ennemi.
+ 5
+ PTS DE
+VICTOIRE
+DOMINATION
+Pas de Survivants
+Vous exécutez cette tactique de bataille à la fin de votre tour si au moins 2 unités ennemies ont été détruites à ce tour et si vous contrôlez
+le repaire ennemi.
+ 5
+ PTS DE
+VICTOIRE
+9 / 9
+
