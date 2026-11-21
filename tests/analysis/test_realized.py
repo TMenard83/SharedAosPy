@@ -8,6 +8,12 @@ from aospy.analysis.encounter import EffectSpec
 from aospy.analysis.realized import ONCE_PER_BATTLE_SHORT, OwnEffect, applicable, coverage, realize
 from aospy.domain.models import Unit, Weapon
 
+
+@pytest.fixture(autouse=True)
+def _mean_reading(monkeypatch):
+    """Pondérations vérifiées sur les moyennes ; le plancher a ses tests dans test_encounter.py."""
+    monkeypatch.setattr("aospy.analysis.encounter.FLOOR_COVERAGE", None)
+
 SWORD = Weapon("Sword", "melee", attacks=2, hit=3, wound=3, damage=1)
 
 

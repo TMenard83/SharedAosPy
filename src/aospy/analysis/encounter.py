@@ -29,9 +29,11 @@ from dataclasses import dataclass
 from typing import Callable, Optional
 
 from ..domain.models import Unit, Weapon
-from ..engine.combat import CombatModifiers, unit_damage_moments
-from .chassis import is_companion
+from ..engine.combat import (CombatModifiers, _convolve, _effective_counts, unit_damage_moments,
+                             weapon_damage_distribution)
+from .chassis import is_companion, weapon_damages
 from .features import _PROBE_SAVE4, _effective_wounds
+from .approach import Plan, candidate_plans, shoots_in_combat
 
 #: AoS4 : les modificateurs aux jets de touche, de blessure et de sauvegarde sont plafonnés à ±1.
 _CAPPED_STATS = {"hit", "wound", "save"}
@@ -205,8 +207,101 @@ def _probe(eff: EffectSpec) -> Unit:
     return dataclasses.replace(_PROBE_SAVE4, keywords=kws) if kws else _PROBE_SAVE4
 
 
-def _offense(unit: Unit, probe: Unit, mods: CombatModifiers) -> float:
-    return unit_damage_moments(unit, unit.models, probe, mods)[0] if unit.weapons else 0.0
+#: Plan de jeu (`approach.Plan`) : à chaque round l'unité tire, combat, ou ne fait rien, selon la distance, son
+#: mouvement, ses portées et la charge ennemie — un plan mêlée et un plan de tir par portée d'arme
+#: (`approach.candidate_plans`), l'unité prend le meilleur. Une unité au combat ne tire qu'avec ses armes
+#: « Shoot in Combat ».
+#: Dégâts d'un round lus au **plancher** de la distribution exacte, comme les duels du modèle « meilleures
+#: unités » (`reports/aggregate.py` : attaque au plancher 66 %, riposte à la moyenne) — remonté à 75 % pour
+#: toutes les unités, héros compris (utilisateur, 2026-11-21). Pénalise les profils explosifs (peu
+#: d'attaques, gros dégâts). La défense (coups à porter) reste une moyenne.
+FLOOR_COVERAGE: Optional[float] = 0.75
+
+
+def offense_parts(unit: Unit, probe: Unit, mods: CombatModifiers) -> tuple[float, float, float]:
+    """Dégâts d'un round par famille d'armes : (mêlée, tir « Shoot in Combat », autre tir)."""
+    parts = [0.0, 0.0, 0.0]
+    for w, d in zip(unit.weapons, weapon_damages(unit, probe, mods)):
+        parts[0 if w.kind != "ranged" else 1 if shoots_in_combat(w) else 2] += d
+    return parts[0], parts[1], parts[2]
+
+
+def smooth_floor(pmf: list[float], coverage: float) -> float:
+    """Plancher à `coverage` (dégât atteint au moins dans `coverage` des cas), **interpolé** entre deux
+    entiers : `combat.distribution_floor` renvoie un entier, si bien qu'un petit effet (+1 touche sur peu
+    d'attaques) vaudrait 0 ou 1 point selon le cas. Ici d + (S(d) − c) / (S(d) − S(d+1)), continu."""
+    survival = [0.0] * (len(pmf) + 1)              # survival[d] = P(dégâts ≥ d)
+    for d in range(len(pmf) - 1, -1, -1):
+        survival[d] = survival[d + 1] + pmf[d]
+    for d in range(len(pmf) - 1, -1, -1):
+        if survival[d] >= coverage - 1e-12:
+            drop = survival[d] - survival[d + 1]
+            x = d + ((survival[d] - coverage) / drop if drop > 0 else 0.0)
+            # décalage constant (1 − c) : un résultat certain retombe exactement sur sa valeur
+            return max(0.0, x - (1.0 - coverage))
+    return 0.0
+
+
+def _mix(a: list[float], b: list[float], f: float) -> list[float]:
+    """Mélange (1 − f)·a + f·b de deux PMF."""
+    n = max(len(a), len(b))
+    a, b = a + [0.0] * (n - len(a)), b + [0.0] * (n - len(b))
+    return [(1 - f) * x + f * y for x, y in zip(a, b)]
+
+
+def _weapon_pmf(w: Weapon, count: int, probe: Unit, mods: CombatModifiers) -> list[float]:
+    """PMF d'un profil ; dégâts/attaques fractionnaires (effet « +D3 » traduit par sa moyenne) = mélange des
+    deux entiers voisins, moyenne conservée (le moteur exact veut des entiers)."""
+    for field in ("damage", "attacks"):
+        v = getattr(w, field)
+        lo = int(v // 1)
+        if v != lo:
+            f = v - lo
+            return _mix(_weapon_pmf(dataclasses.replace(w, **{field: lo}), count, probe, mods),
+                        _weapon_pmf(dataclasses.replace(w, **{field: lo + 1}), count, probe, mods), f)
+        if not isinstance(v, int):
+            w = dataclasses.replace(w, **{field: lo})
+    return weapon_damage_distribution(w, count, probe, mods)
+
+
+def _weapon_pmfs(unit: Unit, probe: Unit, mods: CombatModifiers) -> list[list[float]]:
+    """PMF des dégâts d'un round de chaque profil d'arme, porteurs répartis sur l'unité ENTIÈRE (même
+    `_effective_counts` que `weapon_damages`) ; profil écarté par un choix exclusif = [1.0]."""
+    counts = _effective_counts(unit, unit.models)
+    return [_weapon_pmf(w, c, probe, mods) if c > 0 else [1.0] for w, c in zip(unit.weapons, counts)]
+
+
+def _plan_offense(pmfs: list[list[float]], plan: Plan) -> float:
+    """Σ types de round : part × dégâts du round (convolution des armes qui frappent), au plancher."""
+    total = 0.0
+    for share, weapons in plan.rounds:
+        pmf = [1.0]
+        for i in sorted(weapons):
+            if i < len(pmfs):
+                pmf = _convolve(pmf, pmfs[i])
+        if FLOOR_COVERAGE is None:                  # lecture à la moyenne (tests de traduction des effets)
+            total += share * sum(d * p for d, p in enumerate(pmf))
+        else:
+            total += share * smooth_floor(pmf, FLOOR_COVERAGE)
+    return total
+
+
+def play_plan(unit: Unit, probe: Unit = _PROBE_SAVE4, mods: Optional[CombatModifiers] = None) -> Plan:
+    """Plan (`approach.candidate_plans`) qui rapporte le plus à cette charte (au plancher `FLOOR_COVERAGE`)."""
+    pmfs = _weapon_pmfs(unit, probe, mods or CombatModifiers())
+    return max(candidate_plans(unit), key=lambda p: _plan_offense(pmfs, p))
+
+
+def _offense(unit: Unit, probe: Unit, mods: CombatModifiers, plan: Optional[Plan] = None) -> float:
+    """Dégâts d'un round moyen de la partie selon le plan de jeu (`approach.Plan`), chaque type de round lu
+    au plancher `FLOOR_COVERAGE` de sa distribution exacte. `plan` : celui de la charte nue, pour mesurer
+    avant/après un effet sur le même plan (sinon le meilleur pour ce profil)."""
+    if not unit.weapons:
+        return 0.0
+    pmfs = _weapon_pmfs(unit, probe, mods)
+    if plan is not None:
+        return _plan_offense(pmfs, plan)
+    return max(_plan_offense(pmfs, p) for p in candidate_plans(unit))
 
 
 def _defense(unit: Unit) -> float:
@@ -234,7 +329,8 @@ def apply_effect(unit: Unit, eff: EffectSpec, probe: Optional[Unit] = None,
                 ws = list(unit.weapons)
                 ws[i] = wt(ws[i])
                 candidates.append(dataclasses.replace(unit, weapons=ws))
-            return max(candidates, key=lambda u: _offense(u, probe, mods))
+            plan = play_plan(unit, probe, mods)
+            return max(candidates, key=lambda u: _offense(u, probe, mods, plan))
         ws = [wt(w) if i in idx else w for i, w in enumerate(unit.weapons)]
         return dataclasses.replace(unit, weapons=ws)
     dt = _defensive_transform(eff)
@@ -248,8 +344,9 @@ def encounter(unit: Unit, eff: EffectSpec) -> Optional[Encounter]:
     after = apply_effect(unit, eff, probe, mods)
     if after is None:
         return None
+    plan = play_plan(unit, probe, mods)
     return Encounter(
-        off_before=_offense(unit, probe, mods), off_after=_offense(after, probe, mods),
+        off_before=_offense(unit, probe, mods, plan), off_after=_offense(after, probe, mods, plan),
         def_before=_defense(unit), def_after=_defense(after),
     )
 

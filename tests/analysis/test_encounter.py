@@ -8,6 +8,13 @@ from aospy.analysis.encounter import EffectSpec, encounter, is_translatable, mat
 from aospy.domain.models import Unit, Weapon
 
 
+@pytest.fixture(autouse=True)
+def _mean_reading(monkeypatch):
+    """Ces tests vérifient la traduction des effets (rapports exacts sur les moyennes) : lecture à la
+    moyenne. Le plancher `FLOOR_COVERAGE` a ses propres tests (`test_floor_*`)."""
+    monkeypatch.setattr("aospy.analysis.encounter.FLOOR_COVERAGE", None)
+
+
 def _unit(weapons, **kw):
     base = dict(name="U", army_id=1, move=5, save=4, health=2, control=1, models=5, points=100,
                 keywords=frozenset({"INFANTRY"}), weapons=weapons)
@@ -115,3 +122,91 @@ def test_friendly_target_star_means_any_friendly_unit():
     """'*' (analyseur v27) : ligne d'option « for friendly units » sans mot-clé = toute unité amie."""
     u = Unit("Clanrats", 1, 6, 5, 1, 1, 20, 100, keywords=frozenset({"SKAVEN", "INFANTRY"}))
     assert matches_friendly_target(u, "*", VOCAB)
+
+
+def test_mixed_unit_shoots_or_fights_each_round_not_both():
+    from aospy.analysis.encounter import _offense, offense_parts, play_plan
+    from aospy.analysis.features import _NO_MODS, _PROBE_SAVE4
+
+    sic = Weapon("Pistol", "ranged", attacks=1, hit=4, wound=4, damage=1, range_in=9, abilities="Shoot in Combat")
+    u = _unit([SWORD, SWORD, BOW, sic])
+    melee, in_combat, other = offense_parts(u, _PROBE_SAVE4, _NO_MODS)
+    plan = play_plan(u)
+    assert plan.name == "mêlée"
+    # au contact, l'arc ne tire plus ; le pistolet « Shoot in Combat » si
+    assert plan.weapon_share(3) > plan.weapon_share(2)
+    assert _offense(u, _PROBE_SAVE4, _NO_MODS) < melee + in_combat + other
+    assert play_plan(_unit([BOW])).name.startswith("tir")
+
+
+def test_slow_melee_unit_does_not_fight_in_round_1():
+    from aospy.analysis.approach import melee_plan
+
+    slow, fast = melee_plan(_unit([SWORD], move=5)), melee_plan(_unit([SWORD], move=12))
+    assert slow.weapon_share(0) == pytest.approx(8 / 9)       # 18" : ni charge ni tir au round 1, il court
+    assert 8 / 9 < fast.weapon_share(0) < 1.0                # 12" + 2D6 ≥ 6 : 72 % au round 1
+
+
+def test_short_range_shooter_gets_charged_more_than_long_range():
+    from aospy.analysis.approach import shooting_plan
+
+    short = Weapon("Pistol", "ranged", attacks=2, hit=4, wound=4, damage=1, range_in=10)
+    long_ = Weapon("Rifle", "ranged", attacks=2, hit=4, wound=4, damage=1, range_in=24)
+    assert shooting_plan(_unit([short]), 10).weapon_share(0) < shooting_plan(_unit([long_]), 24).weapon_share(0)
+    assert shooting_plan(_unit([long_]), 24).weapon_share(0) == pytest.approx(1.0)
+
+
+def test_weapon_split_keeps_exclusive_choice_resolved_on_whole_unit():
+    """Mêlée + tir mesurés à part = total de l'unité (pas de choix exclusif résolu par sous-ensemble)."""
+    from aospy.analysis.chassis import chassis_profile
+    from aospy.analysis.features import _NO_MODS, _PROBE_SAVE4
+    from aospy.engine.combat import unit_damage_moments
+
+    gun = Weapon("Big Gun", "ranged", attacks=3, hit=4, wound=3, damage=2, range_in=18)
+    u = _unit([SWORD, gun], models=3,
+              description="1/3 models must be armed with 1 of the following options:<ul><li>Sword</li>"
+                          "<li>Big Gun</li></ul>")
+    p = chassis_profile(u)
+    total = unit_damage_moments(u, u.models, _PROBE_SAVE4, _NO_MODS)[0]
+    assert p.dmg_melee + p.dmg_ranged == pytest.approx(total, abs=1e-3)
+
+
+def test_smooth_floor_interpolates_between_integers():
+    from aospy.analysis.encounter import smooth_floor
+
+    assert smooth_floor([1.0], 0.75) == 0.0               # rien de certain
+    assert smooth_floor([0, 0, 0, 1.0], 0.75) == pytest.approx(3.0)   # 3 certain
+    pmf = [0.2, 0.3, 0.5]                                 # P(≥1)=0,8, P(≥2)=0,5
+    lo, hi = smooth_floor(pmf, 0.79), smooth_floor(pmf, 0.51)
+    assert 0.5 < lo < hi < 2.0                            # monotone, entre les entiers
+    assert smooth_floor(pmf, 0.8 + 1e-9) == pytest.approx(smooth_floor(pmf, 0.8), abs=1e-6)  # continu
+
+
+def _contact():
+    from aospy.analysis.approach import Plan
+    return Plan("contact", ((1.0, frozenset({0})),))
+
+
+def test_floor_penalises_swingy_profiles(monkeypatch):
+    # Même dégât moyen : 12 attaques à 1 dégât vs 1 attaque à 12 dégâts (4+/4+ vs save 7).
+    from aospy.analysis.encounter import _offense
+    from aospy.analysis.features import _NO_MODS
+
+    monkeypatch.setattr("aospy.analysis.encounter.FLOOR_COVERAGE", 0.75)
+    probe = Unit(name="p", army_id=0, move=0, save=7, health=1, control=0, models=1, points=0)
+    steady = _unit([Weapon("Many", "melee", attacks=12, hit=4, wound=4, damage=1)], models=1)
+    swingy = _unit([Weapon("Big", "melee", attacks=1, hit=4, wound=4, damage=12)], models=1)
+    # même moyenne (3), mais 75 % du temps la grosse attaque ne fait rien
+    assert _offense(swingy, probe, _NO_MODS, _contact()) < 0.2
+    assert 1.5 < _offense(steady, probe, _NO_MODS, _contact()) < 3.0
+
+
+def test_fractional_damage_keeps_the_mean(monkeypatch):
+    from aospy.analysis.encounter import _offense
+    from aospy.analysis.features import _NO_MODS, _PROBE_SAVE4
+
+    monkeypatch.setattr("aospy.analysis.encounter.FLOOR_COVERAGE", None)
+    d1 = _offense(_unit([Weapon("A", "melee", attacks=2, hit=4, wound=4, damage=1)]), _PROBE_SAVE4, _NO_MODS, _contact())
+    d2 = _offense(_unit([Weapon("A", "melee", attacks=2, hit=4, wound=4, damage=2)]), _PROBE_SAVE4, _NO_MODS, _contact())
+    d15 = _offense(_unit([Weapon("A", "melee", attacks=2, hit=4, wound=4, damage=1.5)]), _PROBE_SAVE4, _NO_MODS, _contact())
+    assert d15 == pytest.approx((d1 + d2) / 2)

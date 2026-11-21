@@ -312,6 +312,11 @@ def _effective_counts(attacker: Unit, attacker_models: int) -> list[int]:
             result.append(max(1, round(w.wielders * scale)))
         else:
             result.append(attacker_models)
+    # Modes d'arme exclusifs (« Arme: ModeA » / « Arme: ModeB ») : un seul par tour, même
+    # sans description (Pyrofane Fusiliers, Mega-Gargants…) — sinon les modes s'additionnent.
+    from .loadout import _collapse_modes, _norm
+
+    _collapse_modes(attacker.weapons, [_norm(w.name) for w in attacker.weapons], result, [])
     return result
 
 

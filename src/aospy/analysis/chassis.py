@@ -20,13 +20,13 @@ calculé ici (le partage attaque/défense reste à trancher avec l'utilisateur).
 
 from __future__ import annotations
 
-import dataclasses
 from dataclasses import dataclass
 from typing import Optional
 
 from ..domain.models import Unit, Weapon
-from ..engine.combat import unit_damage_moments
+from ..engine.combat import CombatModifiers
 from .features import _NO_MODS, _PROBE_SAVE4, _dominant_crit_type, _effective_wounds, _unit_type
+from .features import weapon_damages as _weapon_damages
 
 
 def is_companion(weapon: Weapon) -> bool:
@@ -62,10 +62,13 @@ class ChassisProfile:
     crit_type: str              # critique dominant (none / 2hits / mortal / autowound)
 
 
-def _damage(unit: Unit, weapons: list[Weapon]) -> float:
-    if not weapons:
-        return 0.0
-    return unit_damage_moments(dataclasses.replace(unit, weapons=weapons), unit.models, _PROBE_SAVE4, _NO_MODS)[0]
+def weapon_damages(unit: Unit, probe: Unit = _PROBE_SAVE4, mods: CombatModifiers = _NO_MODS) -> list[float]:
+    """`features.weapon_damages`, sonde par défaut sauvegarde 4+ (celle du châssis)."""
+    return _weapon_damages(unit, probe, mods)
+
+
+def _damage(unit: Unit, keep) -> float:
+    return sum(d for w, d in zip(unit.weapons, weapon_damages(unit)) if keep(w))
 
 
 def _attacks_total(unit: Unit) -> float:
@@ -79,12 +82,11 @@ def _attacks_total(unit: Unit) -> float:
 
 def chassis_profile(unit: Unit) -> ChassisProfile:
     """Profil de châssis d'une unité (pur, sans DB)."""
-    melee = [w for w in unit.weapons if w.kind == "melee"]
-    ranged = [w for w in unit.weapons if w.kind == "ranged"]
-    dmg_melee, dmg_ranged = _damage(unit, melee), _damage(unit, ranged)
+    dmg_melee = _damage(unit, lambda w: w.kind == "melee")
+    dmg_ranged = _damage(unit, lambda w: w.kind == "ranged")
     total = dmg_melee + dmg_ranged
-    d1 = _damage(unit, [w for w in unit.weapons if w.damage <= 1])
-    comp = _damage(unit, [w for w in unit.weapons if is_companion(w)])
+    d1 = _damage(unit, lambda w: w.damage <= 1)
+    comp = _damage(unit, is_companion)
     ward_num = unit.ward if unit.ward is not None else 7
     ew = _effective_wounds(unit.health * unit.models, unit.save, ward_num)
     per100 = 100.0 / unit.points if unit.points > 0 else 0.0

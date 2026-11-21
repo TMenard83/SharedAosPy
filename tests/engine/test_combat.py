@@ -520,6 +520,20 @@ def test_expected_unit_damage_falls_back_to_wielders_without_description():
     assert result == pytest.approx(expected_weapon_damage(w1, 3, defender, mods))
 
 
+def test_exclusive_weapon_modes_collapse_without_description():
+    # « Arme: ModeA » / « Arme: ModeB » : un seul mode par tour, même sans description.
+    mobile = Weapon(name="Fusil-cannon: Mobile", kind="ranged", attacks=1, hit=4, wound=4, damage=1)
+    fortified = Weapon(name="Fusil-cannon: Fortified Position", kind="ranged", attacks=2, hit=4, wound=4, damage=1)
+    attacker = Unit(
+        name="A", army_id=1, move=5, save=4, health=1, control=1,
+        models=10, points=100, weapons=[mobile, fortified],
+    )
+    defender = _unit(save=7)
+    mods = CombatModifiers()
+    result = expected_unit_damage(attacker, 10, defender, mods)
+    assert result == pytest.approx(expected_weapon_damage(fortified, 10, defender, mods))
+
+
 def test_anti_keyword_and_charge_moments_match_expected_weapon_damage():
     weapon = Weapon(name="w", kind="melee", attacks=2, hit=4, wound=4, damage=1,
                     abilities="Anti-MONSTER (+1 Rend), Charge (+1 Damage)")

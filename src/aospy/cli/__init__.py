@@ -361,8 +361,10 @@ def _add_encounter_subparser(sub: argparse._SubParsersAction) -> None:
     seg = p.add_mutually_exclusive_group()
     seg.add_argument("--heroes", action="store_true", help="Héros seulement.")
     seg.add_argument("--troops", action="store_true", help="Troupes seulement.")
-    p.add_argument("--sort", default="combined_per_100",
-                   choices=["combined_per_100", "combined_fit_per_100", "off_fit_per_100", "def_fit_per_100", "off_realized_per_100", "def_realized_per_100", "off_good_per_100",
+    p.add_argument("--sort", default="score_per_100",
+                   help="score_per_100 (défaut) = dégâts × durabilité × mobilité ; combined_per_100 = sans mobilité.",
+                   choices=["score_per_100", "score_fit_per_100", "reach_in",
+                            "combined_per_100", "combined_fit_per_100", "off_fit_per_100", "def_fit_per_100", "off_realized_per_100", "def_realized_per_100", "off_good_per_100",
                             "def_good_per_100", "off_gain", "def_gain"])
     p.add_argument("--detail", action="store_true", help="Liste les aptitudes prises en compte.")
     p.add_argument("--limit", type=int, default=30)

@@ -625,7 +625,10 @@ def _append_scenario_pages(writer: PdfWriter, path: Path) -> None:
     for start in range(0, len(cards.pages), 4):
         sheet = writer.add_blank_page(width=page_w, height=page_h)
         for k, card in enumerate(cards.pages[start:start + 4]):
-            cw, ch = float(card.mediabox.width), float(card.mediabox.height)
+            # La carte occupe la TrimBox (pages A4 avec carte centrée) ; sans
+            # TrimBox, pypdf renvoie la CropBox/MediaBox, soit la page entière.
+            box = card.trimbox
+            cw, ch = float(box.width), float(box.height)
             scale = min(
                 (page_w - 2 * margin - _SCENARIO_GAP) / 2 / cw, (page_h - 2 * margin - _SCENARIO_GAP) / 2 / ch,
             )
@@ -634,7 +637,10 @@ def _append_scenario_pages(writer: PdfWriter, path: Path) -> None:
             col, row = k % 2, k // 2
             x = x0 + col * (cw * scale + _SCENARIO_GAP)
             y = y0 + (1 - row) * (ch * scale + _SCENARIO_GAP)
-            sheet.merge_transformed_page(card, Transformation().scale(scale).translate(x, y))
+            sheet.merge_transformed_page(
+                card,
+                Transformation().translate(-float(box.left), -float(box.bottom)).scale(scale).translate(x, y),
+            )
 
 
 def _append_pages(writer: PdfWriter, reader: PdfReader, seen_pages: set[int], sections: list[tuple[str, list[int]]]) -> None:

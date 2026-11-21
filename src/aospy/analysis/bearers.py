@@ -26,7 +26,7 @@ from typing import Optional
 
 from ..domain.models import Unit
 from ..engine.combat import CombatModifiers
-from .encounter import (_PLURALS, EffectSpec, _defense, _offense, _parse_keywords, _probe, apply_effect,
+from .encounter import (_PLURALS, EffectSpec, _defense, _offense, _parse_keywords, _probe, apply_effect, play_plan,
                         is_translatable)
 from .marriage import incoming_damage, load_effects, marriage_of, share_melee_by_unit
 
@@ -116,7 +116,8 @@ def bearer_gain(unit: Unit, specs: list[EffectSpec]) -> Optional[tuple[float, fl
             after, applied = nxt, True
     if not applied:
         return None
-    return _offense(unit, probe, mods), _offense(after, probe, mods), _defense(unit), _defense(after)
+    plan = play_plan(unit, probe, mods)
+    return _offense(unit, probe, mods, plan), _offense(after, probe, mods, plan), _defense(unit), _defense(after)
 
 
 BEARER_COLS = (

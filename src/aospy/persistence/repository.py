@@ -1102,10 +1102,11 @@ def list_enhancement_bearers(
 
 def list_realized(
     con: duckdb.DuckDBPyConnection, *, army: Optional[str] = None, hero: Optional[bool] = None,
-    name: Optional[str] = None, order_by: str = "combined_per_100", limit: int = 30,
+    name: Optional[str] = None, order_by: str = "score_per_100", limit: int = 30,
 ) -> list[dict]:
     """Valeur réalisée par unité, filtrée (armée/nom = sous-chaîne, héros/troupes) et triée décroissante."""
-    allowed = {"combined_per_100", "off_realized_per_100", "def_realized_per_100", "off_good_per_100",
+    allowed = {"score_per_100", "score_fit_per_100", "reach_in",
+               "combined_per_100", "off_realized_per_100", "def_realized_per_100", "off_good_per_100",
                "def_good_per_100", "off_gain", "def_gain", "combined_fit_per_100", "off_fit_per_100",
                "def_fit_per_100"}
     if order_by not in allowed:

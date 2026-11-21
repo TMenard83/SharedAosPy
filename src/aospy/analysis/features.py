@@ -31,7 +31,8 @@ from dataclasses import dataclass
 import duckdb
 
 from ..domain.models import Unit
-from ..engine.combat import CombatModifiers, unit_damage_moments, weapon_crit_type
+from ..engine.combat import (CombatModifiers, _effective_counts, unit_damage_moments, weapon_crit_type,
+                             weapon_damage_moments)
 from ..persistence.repository import load_all_units_with_weapons
 
 #: Repère les mots-clés `WIZARD (N)`/`PRIEST (N)` (BSData les capture tels quels
@@ -226,25 +227,41 @@ class UnitFeatures:
 
 
 def _ranged_only(unit: Unit) -> Unit:
-    """Copie de `unit` ne conservant que ses profils d'arme à distance."""
+    """Copie de `unit` ne conservant que ses profils d'arme à distance.
+
+    Ne pas passer cette copie au moteur pour mesurer le tir d'une unité : ses choix
+    exclusifs d'armement y seraient résolus sans les armes de mêlée — utiliser
+    `weapon_damages`. Gardée pour les scripts d'expérience qui l'importent."""
     return dataclasses.replace(unit, weapons=[w for w in unit.weapons if w.kind == "ranged"])
 
 
 def _melee_only(unit: Unit) -> Unit:
-    """Copie de `unit` ne conservant que ses profils d'arme de mêlée."""
+    """Copie de `unit` ne conservant que ses profils d'arme de mêlée (même réserve que `_ranged_only`)."""
     return dataclasses.replace(unit, weapons=[w for w in unit.weapons if w.kind == "melee"])
+
+
+def weapon_damages(unit: Unit, probe: Unit, mods: CombatModifiers = _NO_MODS) -> list[float]:
+    """Dégâts moyens d'un round de chaque profil d'arme, porteurs répartis sur l'unité ENTIÈRE.
+
+    Ne pas mesurer un sous-ensemble d'armes en le passant seul au moteur : les choix exclusifs
+    (« 1/3 models must be armed with 1 of the following ») y seraient résolus par sous-ensemble,
+    chaque moitié prenant sa meilleure option — Stormfiends : mêlée + tir = 21,5 pour 14,2 au total."""
+    counts = _effective_counts(unit, unit.models)
+    return [weapon_damage_moments(w, c, probe, mods)[0] for w, c in zip(unit.weapons, counts)]
+
+
+def _damage_of_kind(unit: Unit, kind: str, probe: Unit) -> float:
+    return sum(d for w, d in zip(unit.weapons, weapon_damages(unit, probe)) if w.kind == kind)
 
 
 def _dominant_crit_type(unit: Unit) -> str:
     """Type de Crit du profil d'arme qui contribue le plus à `dmg_vs_save2` — proxy du
     "crit dominant" d'une unité à profils d'arme multiples (chacun peut porter un Crit
-    différent). "none" si l'unité n'a aucune arme ou aucun Crit."""
+    différent). "none" si l'unité n'a aucune arme ou aucun Crit. Un profil écarté par un
+    choix exclusif (0 porteur) ne compte pas."""
     best_type = "none"
     best_dmg = -1.0
-    for w in unit.weapons:
-        dmg, _v, _s = unit_damage_moments(
-            dataclasses.replace(unit, weapons=[w]), unit.models, _PROBE_SAVE2, _NO_MODS,
-        )
+    for w, dmg in zip(unit.weapons, weapon_damages(unit, _PROBE_SAVE2)):
         if dmg > best_dmg:
             best_dmg = dmg
             best_type = weapon_crit_type(w.abilities)
@@ -272,28 +289,10 @@ def compute_features(unit: Unit) -> UnitFeatures:
     mean2_charged, _v2c, _s2c = unit_damage_moments(unit, unit.models, _PROBE_SAVE2, _CHARGED_MODS)
     charge_bonus_save2 = max(0.0, mean2_charged - mean2)
 
-    ranged_unit = _ranged_only(unit)
-    dmg_ranged_vs_save6 = (
-        unit_damage_moments(ranged_unit, unit.models, _PROBE_SAVE6, _NO_MODS)[0]
-        if ranged_unit.weapons
-        else 0.0
-    )
-    melee_unit = _melee_only(unit)
-    dmg_melee_vs_save6 = (
-        unit_damage_moments(melee_unit, unit.models, _PROBE_SAVE6, _NO_MODS)[0]
-        if melee_unit.weapons
-        else 0.0
-    )
-    dmg_ranged_vs_save2 = (
-        unit_damage_moments(ranged_unit, unit.models, _PROBE_SAVE2, _NO_MODS)[0]
-        if ranged_unit.weapons
-        else 0.0
-    )
-    dmg_melee_vs_save2 = (
-        unit_damage_moments(melee_unit, unit.models, _PROBE_SAVE2, _NO_MODS)[0]
-        if melee_unit.weapons
-        else 0.0
-    )
+    dmg_ranged_vs_save6 = _damage_of_kind(unit, "ranged", _PROBE_SAVE6)
+    dmg_melee_vs_save6 = _damage_of_kind(unit, "melee", _PROBE_SAVE6)
+    dmg_ranged_vs_save2 = _damage_of_kind(unit, "ranged", _PROBE_SAVE2)
+    dmg_melee_vs_save2 = _damage_of_kind(unit, "melee", _PROBE_SAVE2)
 
     dmg_pen = (mean2 / mean6) if mean6 > 0 else 0.0
     dmg_cv_vs_save4 = (var4**0.5 / mean4) if mean4 > 0 else 0.0

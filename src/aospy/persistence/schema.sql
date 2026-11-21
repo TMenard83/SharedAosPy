@@ -359,6 +359,13 @@ ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS off_fit_per_100 DOUBLE;
 ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS def_fit_per_100 DOUBLE;
 ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS combined_fit_per_100 DOUBLE;
 ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS combined_fit_pct_rank DOUBLE;
+-- Axe mobilité (analysis/mobility.py) : portée par tour (pouces), facteur (portée/médiane)^0,35, et score de
+-- classement = indicateur combiné × facteur (« ch. » idem sur combined_fit).
+ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS reach_in DOUBLE;
+ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS mobility DOUBLE;
+ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS score_per_100 DOUBLE;
+ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS score_pct_rank DOUBLE;
+ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS score_fit_per_100 DOUBLE;
 
 -- Couche 3 — mariage châssis × aptitude (analysis/marriage.py, `aospy encounter build`) : chaque aptitude de
 -- charte jugée sur le châssis de chacun de ses porteurs. marriage = D (P(conditions du porteur) × rounds encore

@@ -43,7 +43,7 @@ from .marriage import trigger
 from .timeline import DEFAULT_RHYTHM, KAIROS_SHORT
 from .timeline import coverage as timeline_coverage
 from .encounter import (FRIENDLY_SCOPES, EffectSpec, _defense, _offense, _probe, apply_effect,
-                        is_translatable, matches_friendly_target)
+                        is_translatable, matches_friendly_target, play_plan)
 
 #: Poids des rounds 1 à 5 (somme 3) = rythme par défaut de la frise (`timeline.DEFAULT_RHYTHM`).
 ROUND_WEIGHTS = DEFAULT_RHYTHM
@@ -123,21 +123,24 @@ class Realized:
     def_fit: float = 0.0
 
 
-def _measure(unit: Unit, effects: list[OwnEffect]) -> tuple[float, float]:
+def _measure(unit: Unit, plan: str) -> tuple[float, float]:
     probe = _probe(EffectSpec("none"))
     mods = CombatModifiers()
-    return _offense(unit, probe, mods), _defense(unit)
+    return _offense(unit, probe, mods, plan), _defense(unit)
 
 
 def realize(unit: Unit, effects: list[OwnEffect], share_melee: float = 1.0) -> Realized:
-    """Valeur réalisée (et « dans le bon cas ») d'une unité avec ses propres effets."""
+    """Valeur réalisée (et « dans le bon cas ») d'une unité avec ses propres effets.
+
+    Offense lue selon le plan de jeu de la charte nue (`approach.Plan` : à chaque round l'unité tire, combat ou approche, selon distance et portées)."""
     sm = share_melee
-    off0, def0 = _measure(unit, [])
+    plan = play_plan(unit)
+    off0, def0 = _measure(unit, plan)
     base = [e for e in effects if not e.conditional and e.full(sm)]
     boosted = unit
     for e in base:
         boosted = apply_effect(boosted, e.spec) or boosted
-    off_b, def_b = _measure(boosted, base)
+    off_b, def_b = _measure(boosted, plan)
 
     def weighted(pool: list[OwnEffect], factors: Optional[list[float]] = None,
                  starts: Optional[list[int]] = None, sides: Optional[list[Optional[str]]] = None
@@ -154,7 +157,8 @@ def realize(unit: Unit, effects: list[OwnEffect], share_melee: float = 1.0) -> R
             after = apply_effect(boosted, e.spec, probe, mods)
             if after is None:
                 continue
-            d_off += f * e.weight("off", sm, st, ts) * (_offense(after, probe, mods) - _offense(boosted, probe, mods))
+            d_off += f * e.weight("off", sm, st, ts) * (_offense(after, probe, mods, plan)
+                                                       - _offense(boosted, probe, mods, plan))
             d_def += f * e.weight("def", sm, st, ts) * (_defense(after) - def_b)
         return d_off, d_def
 
@@ -241,7 +245,38 @@ REALIZED_COLS = (
     "off_pct_rank", "def_pct_rank", "n_effects", "n_conditional", "abilities",
     "combined_per_100", "combined_pct_rank",
     "off_fit", "def_fit", "off_fit_per_100", "def_fit_per_100", "combined_fit_per_100", "combined_fit_pct_rank",
+    "reach_in", "mobility", "score_per_100", "score_pct_rank", "score_fit_per_100",
 )
+
+
+def mobility_effects(con) -> dict[tuple[str, str], list[tuple]]:
+    """Effets de mouvement des aptitudes de charte, par (faction, charte en minuscules) : (portée, cible amie,
+    exclut le porteur, (kind, stat, value, activation_prob, frequency)) — même règle de receveur qu'`applicable`."""
+    from .mobility import MOBILITY_KINDS
+
+    rows = con.execute(
+        f"""SELECT o.faction_name, lower(o.owner_name), a.scope, coalesce(e.friendly_target, a.friendly_target),
+                   a.excludes_self, e.kind, e.stat, e.value, a.activation_prob, a.frequency
+            FROM ability_owner o JOIN ability a ON a.uid = o.ability_uid
+            JOIN ability_effect e ON e.ability_uid = a.uid
+            WHERE o.owner_kind = 'warscroll' AND coalesce(e.side, 'friendly') = 'friendly'
+              AND a.source_kind NOT IN ('manifestation')
+              AND e.kind IN ({', '.join('?' * len(MOBILITY_KINDS))})""",
+        sorted(MOBILITY_KINDS),
+    ).fetchall()
+    out: dict[tuple[str, str], list] = {}
+    for fac, owner, scope, ftarget, excl, kind, stat, value, prob, freq in rows:
+        out.setdefault((fac, owner), []).append(
+            (scope, ftarget or "", bool(excl),
+             (kind, stat or "", value or 0.0, prob if prob is not None else 1.0, freq or "")))
+    return out
+
+
+def unit_mobility_effects(unit: Unit, entries: list, vocab: frozenset[str]) -> list[tuple]:
+    """Effets de mouvement qui tombent sur l'unité elle-même (`self`, ou portée amie dont elle est cible)."""
+    return [eff for scope, ftarget, excl, eff in entries
+            if scope == "self" or (scope in FRIENDLY_SCOPES and not excl
+                                   and matches_friendly_target(unit, ftarget, vocab))]
 
 
 def combined(off_per_100: float, def_per_100: float) -> float:
@@ -263,13 +298,20 @@ def build_realized_rows(con) -> list[tuple]:
     effects = own_effects(con)
     share_melee = dict(con.execute("SELECT unit_id, coalesce(share_melee, 1.0) FROM unit_chassis").fetchall())
 
+    from .mobility import median_reach, mobility_factor, reach
+
+    moves = mobility_effects(con)
     results = []
+    reaches = []
     for fac, u in units:
         effs = applicable(u, effects.get((fac, u.name.lower()), []), vocab)
         results.append((u, realize(u, effs, share_melee.get(u.id, 1.0)), sorted({e.ability for e in effs})))
+        reaches.append(reach(u, unit_mobility_effects(u, moves.get((fac, u.name.lower()), []), vocab)))
+    med = median_reach(reaches) if reaches else 0.0
+    mob = [mobility_factor(x, med) for x in reaches]
 
     rows: list[tuple] = []
-    ranks: dict[int, tuple[float, float, float, float]] = {}
+    ranks: dict[int, tuple[float, float, float, float, float]] = {}
     for hero in (True, False):
         idx = [i for i, (u, _r, _a) in enumerate(results) if u.is_hero == hero]
         offs = [results[i][1].off_realized * 100 / results[i][0].points for i in idx]
@@ -278,8 +320,9 @@ def build_realized_rows(con) -> list[tuple]:
         crank = _pct_rank([combined(o, d) for o, d in zip(offs, defs)])
         frank = _pct_rank([combined(results[i][1].off_fit * 100 / results[i][0].points,
                                     results[i][1].def_fit * 100 / results[i][0].points) for i in idx])
+        srank = _pct_rank([combined(o, d) * mob[i] for i, o, d in zip(idx, offs, defs)])
         for k, i in enumerate(idx):
-            ranks[i] = (orank[k], drank[k], crank[k], frank[k])
+            ranks[i] = (orank[k], drank[k], crank[k], frank[k], srank[k])
     for i, (u, r, names) in enumerate(results):
         per = 100.0 / u.points
         rows.append((
@@ -291,5 +334,8 @@ def build_realized_rows(con) -> list[tuple]:
             round(combined(r.off_realized * per, r.def_realized * per), 3), ranks[i][2],
             round(r.off_fit, 3), round(r.def_fit, 2), round(r.off_fit * per, 3), round(r.def_fit * per, 3),
             round(combined(r.off_fit * per, r.def_fit * per), 3), ranks[i][3],
+            round(reaches[i], 2), round(mob[i], 3),
+            round(combined(r.off_realized * per, r.def_realized * per) * mob[i], 3), ranks[i][4],
+            round(combined(r.off_fit * per, r.def_fit * per) * mob[i], 3),
         ))
     return rows

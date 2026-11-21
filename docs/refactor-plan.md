@@ -1,0 +1,168 @@
+# Plan de refactorisation aospy (2026-11-21)
+
+Une session Claude Code **par lot**. Chaque session part d'un contexte vide (nouvelle session ou `/clear`),
+lit ce fichier, fait **un seul lot**, puis met à jour la section « Journal » en bas.
+
+## Règles communes à tous les lots
+
+- **Aucun changement de comportement** (sauf lot 6b, explicitement à part). Un lot = refactor pur.
+- Référence avant le lot : `pytest` → **648 passed** (2026-11-21, ~30 s). Le lot se termine tests verts,
+  même nombre de tests ou plus.
+- À partir du lot 0 : le test de non-régression PDF (`tests/tournament_kit/test_pdf_golden.py`) doit rester vert.
+  Si une référence doit changer, c'est un changement de comportement : s'arrêter et demander.
+- Travailler sur une branche `refactor/lot-N` créée depuis la branche courante une fois le lot 0 fait.
+  Proposer le commit à l'utilisateur en fin de lot (ne pas committer sans son accord).
+- **Coordination** : d'autres sessions (ex. `aospy-81`) peuvent travailler en parallèle dans `engine/` ou
+  `analysis/`. Avant de toucher un fichier, vérifier `git status` ; si des modifs non committées existent dans
+  le périmètre du lot, envoyer un message aux autres sessions (`ListAgents` puis `SendMessage`) avant d'y toucher.
+  Si deux lots doivent tourner en parallèle, utiliser un worktree git.
+- Garder les docstrings / messages CLI en français (convention du projet).
+- Après un déplacement de module : mettre à jour les imports dans `src/`, `tests/`, `scripts/`, `pour_demarrer/`,
+  les skills `.claude/skills/*/SKILL.md` et CLAUDE.md (`grep -rn "ancien.chemin"`).
+- Fin de lot : compléter le Journal (ce qui a été fait, décisions prises, pièges pour la suite).
+
+## Prompt à coller pour lancer un lot
+
+> Fais le lot N de docs/refactor-plan.md. Lis d'abord tout le fichier (règles communes + journal).
+
+---
+
+## Lot 0 — Préalables et filet de sécurité
+
+**Objectif** : pouvoir refactorer sans risque.
+
+1. Vérifier `git status` : le travail en cours (`analysis/{bearers,chassis,encounter,realized}.py`,
+   `tournament_kit/pdf_builder.py`, `tests/analysis/test_encounter.py`, CLAUDE.md au 2026-11-21) doit être
+   committé par son auteur avant de commencer. Sinon, demander à l'utilisateur.
+2. Outillage dans `pyproject.toml` :
+   - `[tool.pytest.ini_options]` : `testpaths = ["tests"]`, filtre des `RuntimeWarning` de statsmodels.
+   - `ruff` dans l'extra `dev` + `[tool.ruff]` minimal (règles `E`, `F`, `I`) ; **ne pas** reformater tout le
+     code dans ce lot, juste le configurer et noter le nombre d'avertissements dans le Journal.
+   - `import-linter` dans `dev` + un contrat `layers` qui reflète l'ordre **visé** :
+     `cli > tournament_kit | bonus_simulator | reports > analysis > abilities > orchestration > importers > engine > persistence > domain`.
+     Les violations actuelles (voir lot 3) sont listées en `ignore_imports` avec un commentaire « lot 3 ».
+3. **Test de non-régression PDF** `tests/tournament_kit/test_pdf_golden.py` :
+   - pour chaque liste de `tests/fixtures/lists/` × chaque mode (`hybrid`, `en`, `fr`, `fr-extended`, `fr-split`,
+     `fr-split-simple`, `en-split-simple`) : `build_roster_pdf` dans `tmp_path`, extraction du texte page par
+     page avec pypdf, comparaison à `tests/fixtures/golden/<liste>__<mode>.txt` ;
+   - comparer aussi `RosterPdfResult` (unmatched, wahapedia_used) et le nombre de pages ;
+   - `pytest.skip` si les sources locales sous droits (`data/Battle tome/`, `data/Manuel du général/`) sont
+     absentes ;
+   - option `--update-golden` (via `conftest.py`) pour régénérer les références ;
+   - les références sont générées **sur le code actuel**, avant tout refactor.
+4. Vérifier : `pytest` vert, `lint-imports` vert, `ruff check` tourne.
+
+**Fini quand** : tout ça est en place et le Journal donne le nombre de tests et la durée.
+
+## Lot 1 — Rangement de la racine (sans risque)
+
+1. Retirer du suivi git (et déplacer dans `scratch/output/archives/`, ignoré par git) : `bench_*.log`,
+   `bench_*.txt`, `army_ranking_*.csv`, `_inspect_arkanaut.py`.
+2. `scratch/` : les `experiment_*.py` sont les expériences **rejetées** du modèle de coût (CLAUDE.md, « Cost
+   model »). Les déplacer dans `src/aospy/analysis/experiments/rejected/` **ou** les supprimer — **demander à
+   l'utilisateur**. Les `scratch/*.json` (instantanés de duels) restent tant que `reports/` en dépend (lot 6).
+3. `scripts/l3_*.py` : **demander à l'utilisateur** s'ils restent des scripts ou deviennent une sous-commande
+   `aospy l3` (dans ce cas, seulement noter la décision ; la migration se fera au lot 5). Vérifier les alias
+   `tm-aospy-*` de `~/.bash_aliases` qui pointent dessus.
+4. Ajouter à `.gitignore` ce qui doit l'être.
+
+## Lot 2 — Alléger CLAUDE.md (94 Ko → 10-15 Ko)
+
+**Pourquoi** : CLAUDE.md (~25 000 tokens) est rechargé à chaque session.
+
+1. Créer un `README.md` par sous-paquet de `src/aospy/` (ou enrichir la docstring de `__init__.py`) et y
+   **déplacer**, sans perte, les sections détaillées de CLAUDE.md : Wahapedia import, corrections, Legends,
+   composites BSData, wielders, Anti-X/Charge, damage floor, cost model, bonus simulator, tournament kit (+ modes),
+   ability analysis (4 couches).
+2. CLAUDE.md garde : présentation, setup et commandes, carte des couches (une ligne par paquet + lien vers son
+   README), règles transverses (français, schéma dans `schema.sql`, SQL uniquement dans `persistence/`,
+   conventions des JSON curés, sources sous droits non versionnées), et une ligne « lire le README du paquet
+   avant de le modifier ».
+3. Retirer l'historique (dates, « caught once already », expériences) : il est dans git et dans la mémoire.
+4. Mettre à jour les skills `.claude/skills/*` qui citent des sections de CLAUDE.md.
+5. Vérifier qu'aucune information n'est perdue : liste des sections avant/après dans le Journal.
+
+## Lot 3 — Remettre les couches en ordre
+
+1. `persistence/repository.py:967-1065` importe `ENCOUNTER_COLS`/`REALIZED_COLS`/`MARRIAGE_COLS`/`BEARER_COLS`
+   depuis `analysis/` → déplacer ces définitions dans `persistence/` (ex. `persistence/analysis_tables.py`),
+   `analysis/` les importe de là.
+2. Lecteur commun des CSV Wahapedia : aujourd'hui 9 modules lisent `data/wahapedia/*.csv` eux-mêmes
+   (`importers/{bsdata,wahapedia}.py`, `abilities/source.py`, `bonus_simulator/army_rules.py`,
+   `tournament_kit/{pdf_builder,warscroll_card}.py`, `tournament_kit/translation/{wahapedia_lookup,rules_resolution,absent_references}.py`).
+   Créer une couche basse (ex. `aospy/sources/wahapedia_csv.py`) : lecture (pipe, BOM), filtres canoniques
+   (`_canonical_ids`), Legends (`_legends_warscroll_ids`), contenus expirés (`_is_expired_variant`). Supprime les
+   imports privés de `abilities/source.py:21-24`.
+3. Normalisation de noms : ~8 fonctions `_norm`/`_normalize` (`wahapedia_lookup`, `warscroll_index`,
+   `tactic_cards`, `encounter`, `loadout`, `verify`, `bsdata`…). Les regrouper dans `aospy/text.py` **seulement
+   quand elles font exactement la même chose** (vérifier chacune, sinon garder et documenter la différence).
+4. Rendre publiques (sans `_`) les 9 fonctions privées importées d'un module à l'autre
+   (`grep -rnE "^from \.+[a-z_.]+ import .*\b_[a-z]" src`).
+5. Découper `repository.py` (1 132 lignes) en `persistence/repo/{units,benchmarks,abilities,analysis}.py`, avec
+   `repository.py` qui réexporte tout (pas de changement d'API pour les appelants dans ce lot).
+6. Retirer les `ignore_imports` correspondants du contrat import-linter.
+
+## Lot 4 — `tournament_kit` (le plus gros, peut se faire en 4a/4b/4c)
+
+Le test golden du lot 0 est le juge. Le relancer après chaque étape.
+
+- **4a. État global → options explicites.** `warscroll_card.py` a 9 drapeaux de module (`_HIDE_TURN_QUALIFIER`,
+  `_SECTIONED`, `_BASE_LAST`, `_FRENCH_KEYWORDS`, `_BOLD_SET_UP`, `_FRENCH_WEAPON_TAGS`, `_ENGLISH_LABELS`,
+  `_FACTION_KEYWORDS`…) modifiés via `set_*`/`global`, plus `_DRAWN_BADGE_SHAPES`/`_DRAWN_PILL_COLORS`. Les
+  remplacer par un dataclass `RenderOptions` (gelé) passé explicitement, et un `RenderTracker` (pastilles
+  dessinées) porté par le build. Si le passage explicite est trop invasif, un `contextvars.ContextVar` est
+  acceptable — le noter dans le Journal.
+- **4b. Modes.** Remplacer les tuples `FR_MODES`/`SPLIT_MODES`/`SIMPLE_MODES`/`FR_NAME_MODES` (17 tests `in …`
+  dans `pdf_builder.py`) par un `ModeSpec` (langue, split, simple, patch FR, copie de pages, noms FR) construit
+  depuis `RosterMode`. La CLI et `build_roster_pdf(..., mode="fr-split")` restent inchangées.
+- **4c. Découpage des modules.**
+  - `warscroll_card.py` (3 633 l.) → paquet `render/` : `pills.py` (pastilles, badges, `_CastBadge`, légende),
+    `phases.py` (classement, rail, ordres, côtés du tour), `text.py` (flavor, gras « Placer », coupure de noms,
+    `tr()`/libellés EN, tags d'armes FR), `cards.py` (carte d'unité/règles/tactique), `layout.py` (deux colonnes,
+    `_chunk_group`, shrink-to-fit). `warscroll_card.py` réexporte l'API publique le temps de la transition.
+  - `pdf_builder.py` (2 067 l.) → `split_pool.py` (pool d'aptitudes split, clusters de choix, alias, drops),
+    `assembly.py` (pypdf, numéros de page, scénarios), `cover.py`, `pdf_builder.py` = orchestration.
+  - `translation/` (mal nommé) → `sources/` (chargeurs : `wahapedia_lookup`, `warscroll_index`, `tactic_cards`,
+    `faction_rules_fr`, `generic_core_abilities`, `season_rules`, `roster_simplifications`) et `resolution/`
+    (`rules_resolution`, `absent_references`).
+  - Découper `tests/tournament_kit/test_pdf_builder.py` (59 Ko) en suivant.
+  - Mettre à jour les skills `roster-pdf`, `faction-rules-fr`, `warscroll-index`.
+
+## Lot 5 — CLI
+
+1. `cli/commands.py` (942 l., 39 `cmd_*`) + `cli/__init__.py` (426 l., 49 sous-parseurs) → un module par groupe
+   (`cli/{db,import_,unit,battle,cost,roster,ability,chassis,encounter}.py`), chacun avec une fonction
+   `register(subparsers)` et ses `cmd_*`. `cli/__init__.py` ne fait que les assembler. `_connect` dans
+   `cli/common.py`.
+2. Vérifier que `aospy --help` et l'aide de chaque sous-commande sont identiques avant/après (diff de la sortie).
+3. Si le lot 1 a décidé `aospy l3` : migrer `scripts/l3_*.py` ici et mettre à jour les alias `tm-aospy-*`.
+
+## Lot 6 — `analysis/` et `reports/`
+
+- **6a (refactor pur).** Séparer `analysis/` en `cost/` (`features`, `cost_model`, `experiments/`) et
+  `layers/` ou un paquet par couche (`chassis`, `encounter`, `realized`, `marriage`, `bearers`, `timeline`,
+  `listing`, `assault`). Brancher `reports/` sur `repository.get_ranking_pool` au lieu de
+  `scratch/per_unit_nocharge_floor66_TM.json` ; ensuite les `scratch/*.json` peuvent partir. **Coordonner avec
+  les autres sessions : `analysis/` est la zone la plus active.**
+- **6b (changement de comportement, à valider avec l'utilisateur, commit séparé).** Bug noté dans CLAUDE.md :
+  les variables mêlée/tir de `features.py` recalculent les choix « 1 parmi » par sous-ensemble d'armes →
+  passer par `chassis.weapon_damages`, refitter le modèle de coût, comparer R² et résidus avant/après.
+
+## Plus tard (non planifié)
+
+- `abilities/extract.py` (1 116 l. de règles regex) : découper par famille de règles si ça devient gênant.
+- Appliquer `ruff format` à tout le code (un commit dédié, sans rien d'autre).
+
+---
+
+## Journal
+
+| Lot | État | Date | Notes pour la suite |
+|---|---|---|---|
+| 0 | à faire | | |
+| 1 | à faire | | |
+| 2 | à faire | | |
+| 3 | à faire | | |
+| 4 | à faire | | |
+| 5 | à faire | | |
+| 6 | à faire | | |

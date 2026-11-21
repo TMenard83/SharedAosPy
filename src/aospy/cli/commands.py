@@ -903,20 +903,22 @@ def _gain(after: float, before: float) -> str:
     return "   -  " if not before else f"{100 * (after - before) / before:+5.0f}%"
 
 
-def _num(v) -> str:
-    return "—" if v is None else f"{v:.1f}"
+def _num(v, digits: int = 1) -> str:
+    return "—" if v is None else f"{v:.{digits}f}"
 
 
 def _print_best(rows: list[dict], detail: bool) -> None:
-    print(f"{'#':>3} {'unité':<36}{'armée':<20}{'pts':>5}{'comb.':>7}{'rang':>6}{'dég/100':>8}{'+%':>7}"
-          f"{'bon cas':>8}{'dur/100':>8}{'+%':>7}{'bon cas':>8}  │{'ch.dég':>7}{'ch.dur':>7}{'ch.comb':>8}")
+    print(f"{'#':>3} {'unité':<36}{'armée':<20}{'pts':>5}{'score':>7}{'rang':>6}{'comb.':>7}{'portée':>7}"
+          f"{'mob.':>6}{'dég/100':>8}{'+%':>7}{'bon cas':>8}{'dur/100':>8}{'+%':>7}{'bon cas':>8}"
+          f"  │{'ch.dég':>7}{'ch.dur':>7}{'ch.score':>9}")
     for i, r in enumerate(rows, 1):
-        print(f"{i:>3} {r['name'][:35]:<36}{r['army_name'][:19]:<20}{r['points']:>5}{r['combined_per_100']:>7.1f}"
-              f"{r['combined_pct_rank']:>6.2f}{r['off_realized_per_100']:>8.1f}"
+        print(f"{i:>3} {r['name'][:35]:<36}{r['army_name'][:19]:<20}{r['points']:>5}{_num(r.get('score_per_100')):>7}"
+              f"{_num(r.get('score_pct_rank'), 2):>6}{r['combined_per_100']:>7.1f}{_num(r.get('reach_in')):>7}"
+              f"{_num(r.get('mobility'), 2):>6}{r['off_realized_per_100']:>8.1f}"
               f"{_gain(r['off_realized'], r['off_chassis']):>7}{r['off_good_per_100']:>8.1f}"
               f"{r['def_realized_per_100']:>8.1f}{_gain(r['def_realized'], r['def_chassis']):>7}"
               f"{r['def_good_per_100']:>8.1f}  │{_num(r.get('off_fit_per_100')):>7}{_num(r.get('def_fit_per_100')):>7}"
-              f"{_num(r.get('combined_fit_per_100')):>8}")
+              f"{_num(r.get('score_fit_per_100')):>9}")
         if detail and r["abilities"]:
             print(f"      aptitudes : {r['abilities']}")
 
@@ -932,7 +934,9 @@ def cmd_encounter_best(args: argparse.Namespace) -> int:
         return 1
     print("Châssis + aptitudes propres qui boostent l'unité, pondérées (rounds 2-3 = 1, 1/4/5 = 1/3 ; "
           "1/bataille courte = 1/2 ; × P(déclenchement)).\n"
-          "comb. = √(dég/100 × dur/100) ; rang = centile dans le segment ; dég = dégâts d'un round vs save 4+ ; "
+          "score = comb. × mob. ; comb. = √(dég/100 × dur/100) ; mob. = (portée / portée médiane)^0,35, portée = "
+          "mouvement + course + vol + aptitudes de mouvement (pouces/tour) ;\n"
+          "rang = centile du score dans le segment ; dég = dégâts d'un round vs save 4+ (plancher 75 %) ; "
           "dur = coups à porter ; +% = gain sur le châssis nu ; bon cas = avec les effets conditionnels ;\n"
           "ch. = selon châssis : conditions du porteur (charge, territoire, objectif…) × P(ce châssis les remplit)")
     for hero in segments:
