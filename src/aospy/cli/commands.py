@@ -784,7 +784,12 @@ def cmd_encounter_build(args: argparse.Namespace) -> int:
 
     marriage = build_marriage_rows(con)
     repository.replace_ability_marriage(con, marriage)
+    from ..analysis.bearers import build_bearer_rows
+
+    bearers = build_bearer_rows(con)
+    repository.replace_enhancement_bearers(con, bearers)
     con.close()
+    print(f"{len(bearers)} couples optimisation × porteur éligible.")
     print(f"{len(realized)} valeurs réalisées (châssis + aptitudes propres pondérées).")
     print(f"{len(marriage)} mariages aptitude × porteur (déclenchement × survie).")
     print(f"{stats['rencontres']} rencontres aptitude × châssis ({stats['traduits']} effets amis traduits "
@@ -811,6 +816,52 @@ def cmd_encounter_marriage(args: argparse.Namespace) -> int:
         print(f"{r['ability_name'][:27]:<28}{r['unit_name'][:29]:<30}{r['points']:>5}{r['move']:>4}{r['hp']:>4}"
               f"{sv:>7}{(r['family'] or '')[:19]:>17}{r['p_trigger']:>6.2f}{r['exposure']:>9}{r['start_round']:>4}"
               f"{r['rounds_alive']:>6.1f}{r['survival']:>6.2f}{r['marriage']:>8.2f}  {r['good_case_conditions'] or ''}")
+    return 0
+
+
+def cmd_encounter_bearers(args: argparse.Namespace) -> int:
+    con = _connect(args)
+    rows = repository.list_enhancement_bearers(con, ability=args.ability, unit=args.unit, army=args.army,
+                                               kind=args.kind, limit=args.limit)
+    con.close()
+    if not rows:
+        print("Aucun porteur (lancez `aospy encounter build`).")
+        return 1
+    print("Bons porteurs des optimisations : unités éligibles de la faction (UNIQUE exclues, restriction du "
+          "groupe/type).\nvaleur = gain absolu de √(dég × dur) × couverture × mariage (D × S) ; sans effet "
+          "chiffrable (bulle, sort…), classés par mariage puis par l'indicateur combiné du porteur.")
+    current = None
+    for r in rows:
+        if r["ability_uid"] != current:
+            current = r["ability_uid"]
+            print(f"\n== {r['ability_name']} ({r['source_kind']}, {r['faction_name']} › {r['group_name']})")
+            print(f"   {'porteur':<34}{'pts':>5}{'mv':>4}{'PV':>4}{'sv':>7}{'dég%':>7}{'dur%':>7}{'Δcomb':>7}"
+                  f"{'P':>6}{'S':>6}{'mariage':>8}{'valeur':>8}{'comb.':>7}  bon cas")
+        sv = f"{r['save']}+" + (f"/{r['ward']}+" if r['ward'] else "")
+        f = lambda v, fmt: "—" if v is None else format(v, fmt)
+        print(f"   {r['unit_name'][:33]:<34}{r['points']:>5}{r['move']:>4}{r['hp']:>4}{sv:>7}"
+              f"{f(r['off_gain_pct'], '+.0f'):>7}{f(r['def_gain_pct'], '+.0f'):>7}{f(r['delta_combined'], '.2f'):>7}"
+              f"{r['p_trigger']:>6.2f}{r['survival']:>6.2f}{r['marriage']:>8.2f}{f(r['value'], '.2f'):>8}"
+              f"{r['bearer_combined']:>7.1f}  {r['good_case_conditions'] or ''}")
+    return 0
+
+
+def cmd_roster_analyze(args: argparse.Namespace) -> int:
+    from ..analysis.listing import analyse_list
+    from ..tournament_kit.list_parser import parse_list_file
+    from .report import format_list_report
+
+    con = _connect(args)
+    rep = analyse_list(con, parse_list_file(args.list))
+    con.close()
+    text = format_list_report(rep)
+    if args.out:
+        from pathlib import Path
+
+        Path(args.out).write_text(text, encoding="utf-8")
+        print(f"Fiche écrite : {args.out}")
+    else:
+        print(text)
     return 0
 
 

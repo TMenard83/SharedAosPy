@@ -379,3 +379,23 @@ CREATE TABLE IF NOT EXISTS ability_marriage (
     marriage             DOUBLE,      -- D × S
     good_case_conditions VARCHAR      -- conditions non chiffrées (allié, adversaire, ressource)
 );
+
+-- Couche 3 — bons porteurs des optimisations (analysis/bearers.py, `aospy encounter build`) : chaque trait
+-- héroïque/artefact/amélioration/trait monstrueux × chaque unité éligible de sa faction. Reconstruite à chaque build.
+CREATE TABLE IF NOT EXISTS enhancement_bearer (
+    ability_uid          VARCHAR NOT NULL,
+    ability_name         VARCHAR,
+    source_kind          VARCHAR,
+    faction_name         VARCHAR,
+    unit_id              INTEGER NOT NULL,
+    off_gain_pct         DOUBLE,      -- gain de dégâts sur ce porteur (effets traduisibles), NULL sinon
+    def_gain_pct         DOUBLE,
+    delta_combined       DOUBLE,      -- gain absolu de √(dégâts × durabilité)
+    coverage             DOUBLE,      -- part de la partie couverte (fréquence/durée)
+    p_trigger            DOUBLE,      -- D
+    survival             DOUBLE,      -- S
+    marriage             DOUBLE,      -- D × S
+    value                DOUBLE,      -- delta_combined × coverage × marriage (NULL sans effet traduisible)
+    bearer_combined      DOUBLE,      -- indicateur combiné réalisé du porteur (départage)
+    good_case_conditions VARCHAR
+);

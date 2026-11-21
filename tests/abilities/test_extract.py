@@ -982,3 +982,9 @@ def test_v30_rules_self_damage_summon_and_declare_only():
     ex, _ = extract(_raw("", declare="For the rest of the phase:\n- Add 1 to hit rolls for this unit's attacks.",
                          condition="Once Per Turn (Army), Reaction: You declared an Attack ability for this unit"))
     assert any(e.kind == "stat_mod" and e.stat == "hit" and e.value == 1 for e in ex.effects)
+
+
+def test_v31_strip_enhancement():
+    (e,) = _kinds28("Roll a dice. On a 3+, the target no longer has that artefact of power.",
+                    declare="Pick an enemy HERO in combat with this unit to be the target.")["strip_enhancement"]
+    assert e.side == "enemy"

@@ -1060,6 +1060,46 @@ def list_marriage(
     return [dict(zip(cols, r)) for r in cur.fetchall()]
 
 
+def replace_enhancement_bearers(con: duckdb.DuckDBPyConnection, rows: list[tuple]) -> None:
+    """Remplace tout le contenu de `enhancement_bearer` (tuples dans l'ordre de `bearers.BEARER_COLS`)."""
+    from ..analysis.bearers import BEARER_COLS
+
+    con.execute("DELETE FROM enhancement_bearer")
+    _insert_rows(con, "enhancement_bearer", BEARER_COLS, rows)
+
+
+def list_enhancement_bearers(
+    con: duckdb.DuckDBPyConnection, *, ability: Optional[str] = None, unit: Optional[str] = None,
+    army: Optional[str] = None, kind: Optional[str] = None, limit: int = 40,
+) -> list[dict]:
+    """Optimisation × porteur éligible, triés par optimisation puis valeur (sinon mariage, puis porteur)."""
+    where, params = ["TRUE"], []
+    if ability:
+        where.append("lower(b.ability_name) LIKE ?")
+        params.append(f"%{ability.lower()}%")
+    if unit:
+        where.append("lower(u.name) LIKE ?")
+        params.append(f"%{unit.lower()}%")
+    if army:
+        where.append("lower(b.faction_name) LIKE ?")
+        params.append(f"%{army.lower()}%")
+    if kind:
+        where.append("b.source_kind = ?")
+        params.append(kind)
+    cur = con.execute(
+        f"""SELECT b.*, u.name AS unit_name, u.points, u.move, u.health * u.models AS hp, u.save, u.ward,
+                   a.group_name
+            FROM enhancement_bearer b JOIN unit u ON u.id = b.unit_id JOIN ability a ON a.uid = b.ability_uid
+            WHERE {' AND '.join(where)}
+            ORDER BY b.ability_name, a.group_name, b.ability_uid, b.value DESC NULLS LAST, b.marriage DESC,
+                     b.bearer_combined DESC
+            LIMIT ?""",
+        [*params, limit],
+    )
+    cols = [d[0] for d in cur.description]
+    return [dict(zip(cols, r)) for r in cur.fetchall()]
+
+
 def list_realized(
     con: duckdb.DuckDBPyConnection, *, army: Optional[str] = None, hero: Optional[bool] = None,
     name: Optional[str] = None, order_by: str = "combined_per_100", limit: int = 30,

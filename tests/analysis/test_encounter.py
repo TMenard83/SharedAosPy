@@ -109,3 +109,9 @@ def test_ward_against_spells_only_is_worth_nothing_vs_weapons():
     u = _unit([SWORD])
     assert encounter(u, EffectSpec("ward", value=3.0, target_condition="vs sorts/manifestations")) is None
     assert encounter(u, EffectSpec("ward", value=3.0)).def_gain_pct > 0
+
+
+def test_friendly_target_star_means_any_friendly_unit():
+    """'*' (analyseur v27) : ligne d'option « for friendly units » sans mot-clé = toute unité amie."""
+    u = Unit("Clanrats", 1, 6, 5, 1, 1, 20, 100, keywords=frozenset({"SKAVEN", "INFANTRY"}))
+    assert matches_friendly_target(u, "*", VOCAB)

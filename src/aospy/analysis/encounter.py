@@ -61,6 +61,8 @@ class EffectSpec:
     target_condition: str = ""
     requires: str = ""
     duration: str = ""
+    #: cible amie propre à l'effet (ligne d'option, analyseur v26) ; vide = celle de l'aptitude
+    friendly_target: str = ""
 
     @property
     def conditions(self) -> str:
@@ -279,9 +281,10 @@ def matches_friendly_target(unit: Unit, phrase: str, vocab: frozenset[str]) -> b
 
     Alternatives séparées par « or » ; « non-X » exclut ; MAJUSCULES = mots-clés exigés (tous) ;
     Casse De Titre = nom de charte. Un mot-clé absent de toute charte (ex. « PLEDGED TO KHORNE »,
-    gagné en jeu) ne restreint rien : on ne sait pas qui le portera.
+    gagné en jeu) ne restreint rien : on ne sait pas qui le portera. `'*'` (analyseur v27, cible d'un effet
+    écrite « friendly units » sans mot-clé) = toute unité amie.
     """
-    if not phrase:
+    if not phrase or phrase.strip() == "*":
         return True
     name = unit.name.lower()
     for alt in re.split(r"\s+or\s+", phrase):
@@ -371,7 +374,7 @@ def build_encounter_rows(con) -> tuple[list[tuple], dict[str, int]]:
     eff_rows = con.execute(
         """SELECT e.ability_uid, e.seq, e.kind, e.stat, e.value, e.detail, e.side, e.weapon_scope, e.weapon_name,
                   e.includes_companion, e.target_keywords, e.target_condition, e.requires, e.duration,
-                  a.source_kind, a.scope, a.friendly_target, a.excludes_self
+                  a.source_kind, a.scope, coalesce(e.friendly_target, a.friendly_target), a.excludes_self
            FROM ability_effect e JOIN ability a ON a.uid = e.ability_uid
            WHERE e.side = 'friendly'"""
     ).fetchall()

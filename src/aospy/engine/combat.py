@@ -105,8 +105,8 @@ def weapon_crit_type(abilities: Optional[str]) -> str:
     return _parse_crit(abilities)
 
 
-def _has_no_wound_roll(abilities: Optional[str]) -> bool:
-    """Détecte la règle spéciale « pas de jet pour blesser » dans `Weapon.abilities` :
+def _is_mortal_on_hit(abilities: Optional[str]) -> bool:
+    """Détecte la règle « Mortal on hit » dans `Weapon.abilities` (libellé interne, jamais affiché) :
     chaque touche inflige directement le dégât du profil en blessures mortelles —
     saute blessure ET save (le ward peut encore l'arrêter). Ex. Warp Lightning
     Cannon (« Each hit inflicts 1 mortal damage on the target and the attack
@@ -115,7 +115,9 @@ def _has_no_wound_roll(abilities: Optional[str]) -> bool:
     — il n'y a jamais de jet pour blesser du tout sur ce profil."""
     if not abilities:
         return False
-    return "no wound roll" in _normalize_abilities(abilities).lower()
+    text = _normalize_abilities(abilities).lower()
+    # « no wound roll » : ancien libellé, encore accepté (bases importées avant le renommage)
+    return "mortal on hit" in text or "no wound roll" in text
 
 
 _ANTI_RE = re.compile(r"Anti-([A-Za-z ]+?)\s*\(\s*\+(\d+)\s+(\w+)\s*\)", re.IGNORECASE)
@@ -224,7 +226,7 @@ def expected_weapon_damage(
     #: multiplie que les profils `ranged`, la mêlée n'est pas concernée.
     ranged_mult = RANGED_DOUBLE_MULT if modifiers.attacker_ranged_double and weapon.kind == "ranged" else 1.0
 
-    if _has_no_wound_roll(weapon.abilities):
+    if _is_mortal_on_hit(weapon.abilities):
         # pas de jet pour blesser : chaque touche saute blessure ET save (le ward peut encore l'arrêter)
         e_hits = total_attacks * p_hit
         return e_hits * dmg * ward_mult * ranged_mult
@@ -374,7 +376,7 @@ def weapon_damage_moments(
     p_land = p_wound * p_unsaved * ward_survive
     crit_type = _parse_crit(weapon.abilities)
 
-    if _has_no_wound_roll(weapon.abilities):
+    if _is_mortal_on_hit(weapon.abilities):
         # pas de jet pour blesser : chaque touche est un Bernoulli(ward_survive) direct
         ex1 = p_hit * ward_survive
         ex2 = ex1
@@ -519,7 +521,7 @@ def weapon_damage_distribution(
     probabilité d'infliger exactement `d` dégâts avec ce profil.
 
     Même modèle probabiliste que `weapon_damage_moments` (voir sa docstring) —
-    mêmes branches crit (`2hits`/`autowound`/`mortal`/`no wound roll`/standard) —
+    mêmes branches crit (`2hits`/`autowound`/`mortal`/`mortal on hit`/standard) —
     mais construit toute la distribution par auto-convolution de la loi d'une
     attaque individuelle sur les `total_attacks` tirages i.i.d, plutôt que ses
     deux premiers moments seulement. Sert de brique à `distribution_floor`.
@@ -558,7 +560,7 @@ def weapon_damage_distribution(
     #: PMF d'une seule attaque, exprimée en « paliers de touche réussie »
     #: (1 palier = 1 touche qui passe blessure/save/ward, valant `dmg` dégâts ;
     #: 2 paliers pour la branche `2hits`, dont le crit vaut deux essais indépendants).
-    if _has_no_wound_roll(weapon.abilities):
+    if _is_mortal_on_hit(weapon.abilities):
         p = p_hit * ward_survive
         per_attack = [1.0 - p, p]
     elif crit_type == "2hits":

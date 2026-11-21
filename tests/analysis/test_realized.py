@@ -5,8 +5,7 @@ from __future__ import annotations
 import pytest
 
 from aospy.analysis.encounter import EffectSpec
-from aospy.analysis.realized import (ONCE_PER_BATTLE_LASTING, ONCE_PER_BATTLE_SHORT, OwnEffect, applicable,
-                                     coverage, realize)
+from aospy.analysis.realized import ONCE_PER_BATTLE_SHORT, OwnEffect, applicable, coverage, realize
 from aospy.domain.models import Unit, Weapon
 
 SWORD = Weapon("Sword", "melee", attacks=2, hit=3, wound=3, damage=1)
@@ -26,8 +25,10 @@ def _eff(spec, freq="passive", p=1.0, name="A"):
 def test_coverage_weights():
     assert coverage("passive", "permanent") == 1.0
     assert coverage("once_per_turn_army", "tour") == 1.0          # anti-spam : compte en liste, pas ici
-    assert coverage("once_per_battle", "tour") == ONCE_PER_BATTLE_SHORT == 0.5
-    assert coverage("once_per_battle_army", "bataille") == ONCE_PER_BATTLE_LASTING == pytest.approx(8 / 9)
+    # une fois par bataille, effet court : 1/2 (kairos) réparti sur la part du round couverte (frise, 2026-11-20)
+    assert coverage("once_per_battle", "round") == ONCE_PER_BATTLE_SHORT == 0.5
+    assert coverage("once_per_battle", "tour") == pytest.approx(0.25)
+    assert coverage("once_per_battle_army", "bataille") == pytest.approx(8 / 9)
 
 
 def test_permanent_effects_combine_multiplicatively():
@@ -40,7 +41,8 @@ def test_permanent_effects_combine_multiplicatively():
 def test_once_per_battle_and_activation_weighting():
     u = _unit()
     r = realize(u, [_eff(EffectSpec("fight_twice", duration="phase"), freq="once_per_battle", p=0.5)])
-    assert r.off_realized == pytest.approx(r.off_chassis * (1 + 0.5 * 0.5))
+    # combat doublé une phase : 1/2 (kairos) × moitié des combats d'une unité de mêlée (l'autre tour) × P 0,5
+    assert r.off_realized == pytest.approx(r.off_chassis * (1 + 0.25 * 0.5))
 
 
 def test_conditional_effects_only_in_good_case():
@@ -89,7 +91,7 @@ def test_spending_a_resource_halves_weight_but_is_not_a_condition():
 
     u = _unit()
     e = _eff(EffectSpec("fight_twice", duration="phase", requires=SPENDS_RESOURCE), freq="unlimited")
-    assert not e.conditional and e.weight == 0.5
+    assert not e.conditional and e.weight() == 0.5
     r = realize(u, [e])
     assert r.off_realized == pytest.approx(r.off_chassis * 1.5)
 

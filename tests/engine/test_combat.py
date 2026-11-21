@@ -306,7 +306,7 @@ def test_damage_floor66_less_pessimistic_than_floor80():
         (Weapon(name="w", kind="melee", attacks=6, hit=4, wound=6, damage=2, abilities="Crit (Mortal Wounds)"),
          _unit(save=2, ward=5), CombatModifiers()),
         (Weapon(name="w", kind="ranged", attacks=3, hit=3, wound=3, damage=1,
-                abilities="Each hit inflicts 1 mortal damage on the target and the attack sequence ends. no wound roll"),
+                abilities="Each hit inflicts 1 mortal damage on the target and the attack sequence ends. Mortal on hit"),
          _unit(save=2, ward=5), CombatModifiers()),
     ],
 )
@@ -571,3 +571,13 @@ def test_crit_on_5_plus_tag():
     assert _crit_chance("Crit (Mortal), Crits on 5+", 0.5) == 2 / 6
     assert _crit_chance("Crit (Mortal)", 0.5) == 1 / 6
     assert _crit_chance(None, 0.5) == 1 / 6
+
+
+def test_mortal_on_hit_skips_wound_and_save_but_not_ward():
+    """« Mortal on hit » (Warp Lightning Cannon, Cometstrike Sceptre) : chaque touche = dégâts en blessures
+    mortelles ; l'ancien libellé « no wound roll » reste accepté."""
+    from aospy.engine.combat import _is_mortal_on_hit
+    w = Weapon(name="w", kind="ranged", attacks=6, hit=4, wound=7, damage=1, abilities="Mortal on hit")
+    assert expected_weapon_damage(w, 1, _unit(save=2), CombatModifiers()) == pytest.approx(3.0)
+    assert expected_weapon_damage(w, 1, _unit(save=2, ward=5), CombatModifiers()) == pytest.approx(2.0)
+    assert _is_mortal_on_hit("No Wound Roll (Mortal)")

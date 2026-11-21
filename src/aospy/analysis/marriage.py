@@ -26,12 +26,26 @@ from typing import Optional
 
 from ..domain.models import Unit
 
-#: Distance moyenne à couvrir (mouvement + charge) au tour où l'unité charge. 14" : une charge à 9"
-#: après un mouvement de 5" est un pari (mémoire `charge-9-is-a-gamble`), à 4" après 10" quasi sûre.
+#: Géométrie de la table PAR SAISON (remarque utilisateur, 2026-11-20 : « ça dépend des saisons » — plans de
+#: bataille et règle de déploiement changent avec le Manuel du général). Pour une nouvelle saison : relire ses
+#: plans de bataille et sa règle « Deploy Unit », ajouter une entrée, changer `SEASON`.
+#: 2026-27, vérifié le 2026-11-20 sur les 12 plans du MdG 2026-27 (`MdG26-27 Scenarii.pdf`) et « Deploy Unit »
+#: (Core Rules p. 13, MdG FR : « entièrement en territoire ami et à plus de 9" du territoire ennemi ») : sur
+#: toutes les cartes les deux territoires SE TOUCHENT (0" entre eux) → armées à ≥ 18" au départ.
+SEASON_GEOMETRY = {
+    "2026-27": {"territory_gap": 0.0, "deploy_gap": 9.0},
+}
+SEASON = "2026-27"
+_GEO = SEASON_GEOMETRY[SEASON]
+#: Distance minimale entre le déploiement et le territoire ennemi.
+DEPLOY_GAP = _GEO["deploy_gap"]
+#: Écart à couvrir (mouvement + charge) pour charger : au round 1, les armées partent à
+#: 2 × déploiement + écart entre territoires (18" en 2026-27) ; ensuite 14" (hypothèse de milieu de partie,
+#: non fixée par les cartes). Une charge à 9" après 5" de mouvement reste un pari (`charge-9-is-a-gamble`).
+ENGAGE_GAP_ROUND1 = 2 * DEPLOY_GAP + _GEO["territory_gap"]
 ENGAGE_GAP = 14.0
-#: Distance à parcourir depuis le déploiement pour finir ENTIÈREMENT en territoire ennemi (hypothèse à
-#: vérifier sur les plans de bataille du MdG 2026-27 : no man's land + emprise de l'unité).
-TERRITORY_GAP = 15.0
+#: Distance à parcourir pour finir ENTIÈREMENT en territoire ennemi : déploiement + ~2" d'emprise.
+TERRITORY_GAP = DEPLOY_GAP + 2.0
 #: Bonus de distance effectif du vol (ignore décors et écrans).
 FLY_BONUS = 2.0
 RUN_MEAN = 3.5
@@ -40,6 +54,10 @@ CHARGE_MEAN = 7.0
 #: Conditions tenues par le porteur → probabilité estimée d'après le châssis. Les autres libellés
 #: (`perimeter._REQUIRES` / `_TARGET_CONDITIONS`) ne dépendent pas de lui.
 BEARER_CONDITIONS = ("a chargé", "en territoire", "sur objectif", "au combat", "sans mouvement", "sans charge")
+#: Un bonus « a chargé » ne joue qu'au combat du tour de charge ; une unité au corps à corps combat aussi
+#: au tour adverse et en combat prolongé → environ la moitié de ses combats (choix utilisateur, 2026-11-20 :
+#: « il faut mitiger les dégâts »).
+CHARGE_FIGHT_SHARE = 0.5
 #: Sans charge ce tour : part des combats d'une unité de mêlée hors de son tour de charge (combat
 #: prolongé, tour adverse) ; un tireur qui ne charge pas l'est presque toujours.
 P_NOT_CHARGED_MELEE, P_NOT_CHARGED_SHOOTER = 0.6, 0.9
@@ -73,9 +91,15 @@ def reach(unit: Unit) -> float:
     return unit.move + (FLY_BONUS if "FLY" in unit.keywords else 0.0)
 
 
-def p_charge(unit: Unit) -> float:
-    """P(réussir la charge) au tour où l'unité veut charger : 2D6 ≥ ENGAGE_GAP − mouvement."""
-    return p_2d6_at_least(ENGAGE_GAP - reach(unit))
+def p_charge(unit: Unit, start: int = 1) -> float:
+    """P(réussir la charge), moyenne pondérée des rounds `start`..5 : 2D6 ≥ écart − mouvement, l'écart
+    valant `ENGAGE_GAP_ROUND1` au round 1 (armées à ≥ 18") puis `ENGAGE_GAP`."""
+    rounds = range(max(start, 1), 6)
+    tot = sum(ROUND_WEIGHTS[r - 1] for r in rounds)
+    if not tot:
+        return 0.0
+    return sum(ROUND_WEIGHTS[r - 1] * p_2d6_at_least((ENGAGE_GAP_ROUND1 if r == 1 else ENGAGE_GAP) - reach(unit))
+               for r in rounds) / tot
 
 
 def territory_round(unit: Unit, with_charge: bool) -> int:
@@ -95,6 +119,17 @@ class Trigger:
     p: float
     start: int = 1
     bearer_only: bool = True   # False : une condition ne dépend pas du porteur (reste « bon cas »)
+    #: « a chargé » : l'effet ne joue qu'au combat du tour de charge, donc à MON tour. Sur la frise
+    #: (`timeline`), forcer `turn_side="yours"` ; hors frise, multiplier par `CHARGE_FIGHT_SHARE`.
+    charged: bool = False
+
+    def turn_side(self, default: str) -> str:
+        return "yours" if self.charged else default
+
+    @property
+    def p_off_timeline(self) -> float:
+        """P sans frise : la part des combats d'une unité qui suivent sa charge en plus."""
+        return self.p * (CHARGE_FIGHT_SHARE if self.charged else 1.0)
 
 
 def trigger(unit: Unit, requires: str, conditions: str, share_melee: float, melee_effect: bool,
@@ -110,11 +145,11 @@ def trigger(unit: Unit, requires: str, conditions: str, share_melee: float, mele
     p, start = 1.0, 1
     charged = "a chargé" in conds
     melee_unit = share_melee >= 0.5
+    if "en territoire" in conds:
+        start = max(start, territory_round(unit, with_charge=charged))
     for c in conds:
         if c == "a chargé":
-            p *= p_charge(unit)
-        elif c == "en territoire":
-            start = max(start, territory_round(unit, with_charge=charged))
+            p *= p_charge(unit, start)
         elif c == "sur objectif":
             p *= P_OBJECTIVE_HERO if unit.is_hero or unit.models < 3 else P_OBJECTIVE_TROOP
         elif c == "au combat":
@@ -124,7 +159,7 @@ def trigger(unit: Unit, requires: str, conditions: str, share_melee: float, mele
             p *= P_NOT_CHARGED_MELEE if melee_unit else P_NOT_CHARGED_SHOOTER
         elif c == "sans mouvement":
             p *= P_STILL_MELEE if melee_unit else P_STILL_SHOOTER
-    return Trigger(p=p, start=start, bearer_only=not others)
+    return Trigger(p=p, start=start, bearer_only=not others, charged=charged)
 
 
 def exposure_of(scope: str, range_inches: Optional[int], requires: str, family: str) -> str:
@@ -138,24 +173,51 @@ def exposure_of(scope: str, range_inches: Optional[int], requires: str, family: 
     return "courte" if range_inches <= 9 else "longue"
 
 
-def rounds_alive(hp_total: float, melee_in: float, ranged_in: float, exposure: str) -> float:
-    """Rounds de survie attendus face à UNE unité ennemie moyenne, à cette exposition."""
+#: Nombre d'unités ennemies qui frappent le porteur à chaque round (choix utilisateur, 2026-11-20) :
+#: 1 au round 1 (prise de contact), 2 aux rounds 2-3 (cœur de la bataille), 1 aux rounds 4-5.
+ATTACKERS_PER_ROUND = (1, 2, 2, 1, 1)
+
+
+def damage_per_round(melee_in: float, ranged_in: float, exposure: str) -> float:
+    """Dégâts subis d'UNE unité ennemie moyenne en un round, à cette exposition."""
     km, kr = EXPOSURE[exposure]
-    dmg = km * melee_in + kr * ranged_in
-    return hp_total / dmg if dmg > 0 else 5.0
+    return km * melee_in + kr * ranged_in
 
 
-def survival_coverage(alive: float, start: int = 1, lasting: bool = True) -> float:
+def alive_profile(hp_total: float, dmg_one_unit: float, start: int = 1) -> list[float]:
+    """Part de vie en jeu au début de chaque round 1..5 (1 = intact au round `start`, 0 = mort).
+
+    Les dégâts s'accumulent à partir du round `start` (le porteur s'expose quand il agit), avec
+    `ATTACKERS_PER_ROUND` unités ennemies par round. La part d'un round est la fraction du round
+    vécue (mort en cours de round = fraction)."""
+    out, taken = [], 0.0
+    for r in range(1, 6):
+        if r < start:
+            out.append(1.0)
+            continue
+        d = dmg_one_unit * ATTACKERS_PER_ROUND[r - 1]
+        left = hp_total - taken
+        out.append(1.0 if d <= 0 else max(0.0, min(1.0, left / d)))
+        taken += d
+    return out
+
+
+def rounds_alive(hp_total: float, melee_in: float, ranged_in: float, exposure: str, start: int = 1) -> float:
+    """Rounds de survie attendus à partir de `start` (somme des parts de vie), sous la pression par étapes."""
+    prof = alive_profile(hp_total, damage_per_round(melee_in, ranged_in, exposure), start)
+    return sum(prof[start - 1:]) if start <= 5 else 0.0
+
+
+def survival_coverage(profile: list[float], start: int = 1, lasting: bool = True) -> float:
     """S : part (pondérée par round) des rounds `start`..5 où le porteur tient encore l'effet.
 
-    Survie linéaire : en vie à 100 % pendant `alive` rounds après le déclenchement, puis 0 (fraction au
-    dernier round). Effet court (`lasting=False`) : seul le round de déclenchement compte."""
-    rounds = range(start, 6) if lasting else range(start, min(start + 1, 6))
-    nominal = sum(ROUND_WEIGHTS[r - 1] for r in rounds)
-    if nominal == 0:
+    `profile` = `alive_profile`. Effet court (`lasting=False`) : seul le round de déclenchement compte."""
+    if start > 5:
         return 0.0
-    held = sum(ROUND_WEIGHTS[r - 1] * max(0.0, min(1.0, alive - (r - start))) for r in rounds)
-    return held / nominal
+    rounds = range(start, 6) if lasting else range(start, start + 1)
+    nominal = sum(ROUND_WEIGHTS[r - 1] for r in rounds)
+    held = sum(ROUND_WEIGHTS[r - 1] * profile[r - 1] for r in rounds)
+    return held / nominal if nominal else 0.0
 
 
 def incoming_damage(con) -> dict[int, tuple[float, float]]:
@@ -217,6 +279,60 @@ def _lasting(frequency: str, durations: set[str]) -> bool:
     return not once or (frequency or "") in _LASTING_FREQUENCIES or bool(durations & _LASTING_DURATIONS)
 
 
+@dataclass(frozen=True)
+class Marriage:
+    exposure: str
+    p_trigger: float
+    start_round: int
+    bearer_only: bool
+    rounds_alive: float
+    survival: float
+    marriage: float
+    others: tuple[str, ...]
+
+
+def load_effects(con) -> dict[str, list[tuple]]:
+    """ability_uid → [(kind, requires, target_condition, target_keywords, duration, weapon_scope)]."""
+    effs: dict[str, list[tuple]] = {}
+    for uid, kind, req, tcond, tkw, dur, wscope in con.execute(
+            "SELECT ability_uid, kind, requires, target_condition, target_keywords, duration, weapon_scope "
+            "FROM ability_effect").fetchall():
+        effs.setdefault(uid, []).append((kind, req or "", tcond or "", tkw or "", dur or "", wscope or ""))
+    return effs
+
+
+def marriage_of(u: Unit, e_list: list[tuple], family: str, scope: str, rng: Optional[int], freq: str,
+                share_melee: float, incoming: tuple[float, float], turn_side: str = "any") -> Marriage:
+    """D × S d'une aptitude (ses effets `load_effects`) portée par `u`."""
+    from .timeline import start_share
+
+    reqs = " | ".join(dict.fromkeys(r for e in e_list for r in e[1].split(" | ") if r))
+    conds = [c for e in e_list for c in (e[1].split(" | ") + e[2].split(" | ")) if c]
+    conds += [f"vs {e[3]}" for e in e_list if e[3]]
+    conds = list(dict.fromkeys(conds))
+    kinds = {e[0] for e in e_list}
+    melee = bool(e_list) and all(e[5] == "melee" for e in e_list if e[5])
+    t = trigger(u, reqs, " | ".join(conds), share_melee, melee_effect=melee,
+                kind="charge_bonus" if "charge_bonus" in kinds else "")
+    fam = family or "autre"
+    if fam in ("buff-perso-offensif", "buff-perso-defensif"):
+        expo = "contact" if share_melee >= 0.5 else "longue"
+    else:
+        expo = exposure_of(scope or "", rng, reqs, fam)
+    m_in, r_in = incoming
+    lasting = _lasting(freq, {e[4] for e in e_list})
+    # une fois par bataille courte : jouée au kairos (round 2 au plus tôt, cf. realized.py)
+    use = t.start if lasting else max(t.start, 2)
+    hp = u.health * u.models
+    profile = alive_profile(hp, damage_per_round(m_in, r_in, expo), start=t.start)
+    alive = rounds_alive(hp, m_in, r_in, expo, start=t.start)
+    surv = survival_coverage(profile, use, lasting=lasting)
+    dur = next((e[4] for e in e_list if e[4]), "permanent" if lasting else "")
+    d = t.p_off_timeline * start_share(freq or "", dur, turn_side or "any", t.start)
+    return Marriage(expo, t.p, t.start, t.bearer_only, alive, surv, d * surv,
+                    tuple(c for c in conds if c not in BEARER_CONDITIONS))
+
+
 def build_marriage_rows(con) -> list[tuple]:
     """Tuples `MARRIAGE_COLS` : chaque aptitude de charte jugée sur le châssis de chacun de ses porteurs.
 
@@ -224,59 +340,37 @@ def build_marriage_rows(con) -> list[tuple]:
     nominaux). Les conditions tenues par d'autres (allié, adversaire, ressource) ne sont pas chiffrées :
     elles sont listées (`good_case_conditions`) et relèvent de la couche 4 / des matchups."""
     from ..persistence import repository
-    from .realized import _start_share
 
     units = {(army, u.name.lower()): u
-             for army, us in ((a, us) for a, us in _units_by_army_name(con, repository).items())
+             for army, us in _units_by_army_name(con, repository).items()
              for u in us if u.points > 0}
-    chassis = {uid: (sm if sm is not None else 1.0)
-               for uid, sm in con.execute("SELECT unit_id, share_melee FROM unit_chassis").fetchall()}
+    chassis = share_melee_by_unit(con)
     incoming = incoming_damage(con)
-
+    effs = load_effects(con)
     abil = con.execute(
         """SELECT o.faction_name, lower(o.owner_name), a.uid, a.name, a.family, a.power, a.verdict, a.scope,
-                  a.range_inches, a.frequency
+                  a.range_inches, a.frequency, a.turn_side
            FROM ability_owner o JOIN ability a ON a.uid = o.ability_uid
            WHERE o.owner_kind = 'warscroll' AND a.source_kind NOT IN ('manifestation')"""
     ).fetchall()
-    effs: dict[str, list[tuple]] = {}
-    for uid, kind, req, tcond, tkw, dur, wscope in con.execute(
-            "SELECT ability_uid, kind, requires, target_condition, target_keywords, duration, weapon_scope "
-            "FROM ability_effect").fetchall():
-        effs.setdefault(uid, []).append((kind, req or "", tcond or "", tkw or "", dur or "", wscope or ""))
-
     rows: list[tuple] = []
     seen: set[tuple[int, str]] = set()
-    for fac, owner, uid, name, family, power, verdict, scope, rng, freq in abil:
+    for fac, owner, uid, name, family, power, verdict, scope, rng, freq, tside in abil:
         u = units.get((fac, owner))
         if u is None or (u.id, uid) in seen:
             continue
         seen.add((u.id, uid))
-        e_list = effs.get(uid, [])
-        reqs = " | ".join(dict.fromkeys(r for e in e_list for r in e[1].split(" | ") if r))
-        conds = [c for e in e_list for c in (e[1].split(" | ") + e[2].split(" | ")) if c]
-        conds += [f"vs {e[3]}" for e in e_list if e[3]]
-        conds = list(dict.fromkeys(conds))
-        kinds = {e[0] for e in e_list}
-        melee = bool(e_list) and all(e[5] == "melee" for e in e_list if e[5])
-        sm = chassis.get(u.id, 1.0)
-        t = trigger(u, reqs, " | ".join(conds), sm, melee_effect=melee,
-                    kind="charge_bonus" if "charge_bonus" in kinds else "")
-        fam = family or "autre"
-        if fam in ("buff-perso-offensif", "buff-perso-defensif"):
-            expo = "contact" if sm >= 0.5 else "longue"
-        else:
-            expo = exposure_of(scope or "", rng, reqs, fam)
-        m_in, r_in = incoming.get(u.id, (0.0, 0.0))
-        alive = rounds_alive(u.health * u.models, m_in, r_in, expo)
-        lasting = _lasting(freq, {e[4] for e in e_list})
-        # une fois par bataille courte : jouée au kairos (round 2 au plus tôt, cf. realized.py)
-        surv = survival_coverage(alive, t.start if lasting else max(t.start, 2), lasting=lasting)
-        d = t.p * _start_share(t.start, freq or "", "permanent" if lasting else "")
-        others = [c for c in conds if c not in BEARER_CONDITIONS]
-        rows.append((u.id, uid, name, fam, power, verdict, expo, round(t.p, 3), t.start, t.bearer_only,
-                     round(alive, 2), round(surv, 3), round(d * surv, 3), " | ".join(others) or None))
+        m = marriage_of(u, effs.get(uid, []), family or "autre", scope or "", rng, freq or "",
+                        chassis.get(u.id, 1.0), incoming.get(u.id, (0.0, 0.0)), tside or "any")
+        rows.append((u.id, uid, name, family or "autre", power, verdict, m.exposure, round(m.p_trigger, 3),
+                     m.start_round, m.bearer_only, round(m.rounds_alive, 2), round(m.survival, 3),
+                     round(m.marriage, 3), " | ".join(m.others) or None))
     return rows
+
+
+def share_melee_by_unit(con) -> dict[int, float]:
+    return {uid: (sm if sm is not None else 1.0)
+            for uid, sm in con.execute("SELECT unit_id, share_melee FROM unit_chassis").fetchall()}
 
 
 def _units_by_army_name(con, repository) -> dict[str, list[Unit]]:

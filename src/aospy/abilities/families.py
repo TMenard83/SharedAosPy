@@ -56,7 +56,8 @@ _OFF_KINDS = {"crit", "anti", "charge_bonus", "reroll", "strike_first", "extra_f
               "snipe"}
 _DEF_KINDS = {"ward", "damage_ignore", "negate_attack", "untargetable", "damage_redirect"}
 _DEBUFF_KINDS = {"strike_last", "restriction", "lockout", "move_debuff", "no_crit", "no_ward",
-                 "no_weapon_abilities", "taunt", "anti_heal"}
+                 "no_weapon_abilities", "taunt", "anti_heal",
+                 "strip_enhancement"}
 _MOBILITY_KINDS = {"move", "redeploy", "deep_strike", "run_and_charge", "run_and_shoot", "fly",
                    "extra_move", "pile_in", "free_retreat"}
 _MAGIC_KINDS = {"anti_magic", "cp_gain", "resource", "summon", "extra_use", "tactic_cards"}

@@ -77,6 +77,9 @@ EFFECT_WEIGHTS: dict[str, float] = {
     # v30 : règle de fonctionnement (parties de manifestation, jetons, montée sur un décor) — même principe que le
     # choix de profil (validé à 0) : pas une aptitude
     "warscroll_rule": 0.0,
+    # v31, validé par l'utilisateur (2026-11-21) : artefact retiré à un héros ennemi = 1,0 (plus bas que ma
+    # proposition 1,5 : contre-combo, beaucoup de héros adverses n'en ont pas)
+    "strip_enhancement": 1.0,
 }
 
 #: Dé en plus / en moins sur un jet (analyseur v28, validé par l'utilisateur 2026-11-20). « garder » (3 dés, on en retire 1) ≈ une relance du jet

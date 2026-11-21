@@ -40,16 +40,16 @@ from ..abilities.perimeter import RESOURCE_SCALED, SPENDS_RESOURCE
 from ..domain.models import Unit
 from ..engine.combat import CombatModifiers
 from .marriage import trigger
+from .timeline import DEFAULT_RHYTHM, KAIROS_SHORT
+from .timeline import coverage as timeline_coverage
 from .encounter import (FRIENDLY_SCOPES, EffectSpec, _defense, _offense, _probe, apply_effect,
                         is_translatable, matches_friendly_target)
 
-#: Poids des rounds 1 à 5 (somme 3).
-ROUND_WEIGHTS = (1 / 3, 1.0, 1.0, 1 / 3, 1 / 3)
+#: Poids des rounds 1 à 5 (somme 3) = rythme par défaut de la frise (`timeline.DEFAULT_RHYTHM`).
+ROUND_WEIGHTS = DEFAULT_RHYTHM
 #: Une fois par bataille, effet court : joué au kairos, le round de bascule (choix utilisateur : 1/2).
-ONCE_PER_BATTLE_SHORT = 0.5
-#: Une fois par bataille, effet qui dure le reste de la bataille : activé au round 2.
-ONCE_PER_BATTLE_LASTING = sum(ROUND_WEIGHTS[1:]) / sum(ROUND_WEIGHTS)
-_LASTING = {"bataille", "permanent"}
+ONCE_PER_BATTLE_SHORT = KAIROS_SHORT
+_LASTING = {"bataille", "permanent", "conditionnelle"}
 
 
 #: Ressource de faction au rythme de gain inconnu (points de discipline, d'oath…) : on suppose qu'elle
@@ -58,18 +58,17 @@ UNKNOWN_RESOURCE = ONCE_PER_BATTLE_SHORT
 
 
 def coverage(frequency: str, duration: str, available_round: Optional[int] = None,
-             uses_resource: bool = False) -> float:
-    """Part de la partie couverte par l'effet (0-1), d'après fréquence, durée et ressource.
+             uses_resource: bool = False, turn_side: str = "any", polarity: str = "autre",
+             share_melee: float = 1.0, start_round: int = 1) -> float:
+    """Part de la partie couverte par l'effet (0-1) : frise de 10 demi-tours (`timeline.coverage`) — fréquence,
+    tour où on le joue, durée écrite, pertinence offensive/défensive de chaque demi-tour.
 
     `available_round` (Dîme de Sang…, cf. `abilities.pipeline.RESOURCE_RATES`) : l'effet ne couvre que
     les rounds à partir de celui-là. Ressource sans rythme connu : `UNKNOWN_RESOURCE`."""
-    if (frequency or "").startswith("once_per_battle"):
-        base = ONCE_PER_BATTLE_LASTING if duration in _LASTING else ONCE_PER_BATTLE_SHORT
-    else:
-        base = 1.0
-    if available_round and available_round > 1:
-        base *= sum(ROUND_WEIGHTS[min(available_round, 5) - 1:]) / sum(ROUND_WEIGHTS)
-    elif uses_resource:
+    start = max(start_round, available_round or 1)
+    base = timeline_coverage(frequency or "", duration or "", turn_side or "any", polarity, share_melee,
+                             start_round=min(start, 6))
+    if uses_resource and not (available_round and available_round > 1):
         base = min(base, UNKNOWN_RESOURCE)
     return base
 
@@ -84,12 +83,20 @@ class OwnEffect:
     activation_prob: float
     available_round: Optional[int] = None
     uses_resource: bool = False
+    turn_side: str = "any"
 
-    @property
-    def weight(self) -> float:
+    def weight(self, polarity: str = "autre", share_melee: float = 1.0, start_round: int = 1,
+               turn_side: Optional[str] = None) -> float:
+        """Couverture sur la frise (polarité 'off'/'def') × P(déclenchement). `turn_side` remplace celui de
+        l'aptitude (« a chargé » → mon tour seulement)."""
         spends = (self.uses_resource or SPENDS_RESOURCE in self.spec.requires
                   or RESOURCE_SCALED in self.spec.requires)
-        return coverage(self.frequency, self.spec.duration, self.available_round, spends) * self.activation_prob
+        return coverage(self.frequency, self.spec.duration, self.available_round, spends,
+                        turn_side or self.turn_side, polarity, share_melee, start_round) * self.activation_prob
+
+    def full(self, share_melee: float = 1.0) -> bool:
+        """Actif sur toute la partie, en attaque comme en défense : appliqué directement au profil."""
+        return self.weight("off", share_melee) >= 0.999 and self.weight("def", share_melee) >= 0.999
 
     @property
     def conditional(self) -> bool:
@@ -122,54 +129,47 @@ def _measure(unit: Unit, effects: list[OwnEffect]) -> tuple[float, float]:
     return _offense(unit, probe, mods), _defense(unit)
 
 
-def _start_share(start: int, frequency: str, duration: str) -> float:
-    """Part de la couverture conservée si l'effet n'est possible qu'à partir du round `start`."""
-    if start <= 1:
-        return 1.0
-    once = (frequency or "").startswith("once_per_battle")
-    if once and duration not in _LASTING:
-        return 1.0 if start <= 3 else 0.5          # joué au kairos : rounds 2-3 encore possibles
-    base_start = 2 if once else 1                    # une fois par bataille durable : activé au round 2
-    if start <= base_start:
-        return 1.0
-    total = sum(ROUND_WEIGHTS[base_start - 1:])
-    return sum(ROUND_WEIGHTS[min(start, 6) - 1:]) / total if start <= 5 else 0.0
-
-
 def realize(unit: Unit, effects: list[OwnEffect], share_melee: float = 1.0) -> Realized:
     """Valeur réalisée (et « dans le bon cas ») d'une unité avec ses propres effets."""
+    sm = share_melee
     off0, def0 = _measure(unit, [])
-    base = [e for e in effects if not e.conditional and e.weight >= 0.999]
+    base = [e for e in effects if not e.conditional and e.full(sm)]
     boosted = unit
     for e in base:
         boosted = apply_effect(boosted, e.spec) or boosted
     off_b, def_b = _measure(boosted, base)
 
-    def weighted(pool: list[OwnEffect], factors: Optional[list[float]] = None) -> tuple[float, float]:
+    def weighted(pool: list[OwnEffect], factors: Optional[list[float]] = None,
+                 starts: Optional[list[int]] = None, sides: Optional[list[Optional[str]]] = None
+                 ) -> tuple[float, float]:
         d_off = d_def = 0.0
         for k, e in enumerate(pool):
             f = factors[k] if factors is not None else 1.0
             if f <= 0:
                 continue
+            st = starts[k] if starts is not None else 1
+            ts = sides[k] if sides is not None else None
             mods = CombatModifiers(attacker_charged="a chargé" in e.spec.requires or e.spec.kind == "charge_bonus")
             probe = _probe(e.spec)
             after = apply_effect(boosted, e.spec, probe, mods)
             if after is None:
                 continue
-            d_off += f * e.weight * (_offense(after, probe, mods) - _offense(boosted, probe, mods))
-            d_def += f * e.weight * (_defense(after) - def_b)
+            d_off += f * e.weight("off", sm, st, ts) * (_offense(after, probe, mods) - _offense(boosted, probe, mods))
+            d_def += f * e.weight("def", sm, st, ts) * (_defense(after) - def_b)
         return d_off, d_def
 
-    rest = [e for e in effects if not e.conditional and e.weight < 0.999]
+    rest = [e for e in effects if not e.conditional and not e.full(sm)]
     cond = [e for e in effects if e.conditional]
     r_off, r_def = weighted(rest)
     c_off, c_def = weighted(cond)
-    fit = []
+    fit, starts, sides = [], [], []
     for e in cond:
-        t = trigger(unit, e.spec.requires, e.spec.conditions, share_melee,
+        t = trigger(unit, e.spec.requires, e.spec.conditions, sm,
                     melee_effect=e.spec.weapon_scope == "melee", kind=e.spec.kind)
-        fit.append(t.p * _start_share(t.start, e.frequency, e.spec.duration) if t.bearer_only else 0.0)
-    f_off, f_def = weighted(cond, fit)
+        fit.append(t.p if t.bearer_only else 0.0)
+        starts.append(t.start)
+        sides.append("yours" if t.charged else None)       # « a chargé » : le combat de MON tour
+    f_off, f_def = weighted(cond, fit, starts, sides)
     return Realized(
         off_chassis=off0, def_chassis=def0,
         off_realized=off_b + r_off, def_realized=def_b + r_def,
@@ -184,9 +184,10 @@ def own_effects(con) -> dict[tuple[str, str], list[tuple[str, str, bool, str, Ow
 
     Chaque entrée : (portée, restriction de cible amie, exclut le porteur, nom, effet)."""
     rows = con.execute(
-        """SELECT o.faction_name, lower(o.owner_name), a.name, a.scope, a.friendly_target, a.excludes_self,
+        """SELECT o.faction_name, lower(o.owner_name), a.name, a.scope,
+                  coalesce(e.friendly_target, a.friendly_target), a.excludes_self,
                   a.frequency, a.activation_prob, a.available_round,
-                  FALSE,
+                  FALSE, a.turn_side,
                   e.kind, e.stat, e.value, e.detail, e.side, e.weapon_scope, e.weapon_name, e.includes_companion,
                   e.target_keywords, e.target_condition, e.requires, e.duration
            FROM ability_owner o JOIN ability a ON a.uid = o.ability_uid
@@ -195,8 +196,8 @@ def own_effects(con) -> dict[tuple[str, str], list[tuple[str, str, bool, str, Ow
              AND a.source_kind NOT IN ('manifestation')"""
     ).fetchall()
     out: dict[tuple[str, str], list] = {}
-    for (fac, owner, name, scope, ftarget, excl, freq, prob, avail, resource, kind, stat, value, detail, side, wscope, wname, comp,
-         tkw, tcond, req, dur) in rows:
+    for (fac, owner, name, scope, ftarget, excl, freq, prob, avail, resource, tside, kind, stat, value, detail, side,
+         wscope, wname, comp, tkw, tcond, req, dur) in rows:
         spec = EffectSpec(kind=kind, stat=stat or "", value=value or 0.0, detail=detail or "", side=side or "",
                           weapon_scope=wscope or "", weapon_name=wname or "", includes_companion=bool(comp),
                           target_keywords=tkw or "", target_condition=tcond or "", requires=req or "",
@@ -206,7 +207,7 @@ def own_effects(con) -> dict[tuple[str, str], list[tuple[str, str, bool, str, Ow
         out.setdefault((fac, owner), []).append(
             (scope, ftarget or "", bool(excl), name,
              OwnEffect(ability=name, spec=spec, frequency=freq or "", activation_prob=prob if prob is not None else 1.0,
-                       available_round=avail, uses_resource=bool(resource))))
+                       available_round=avail, uses_resource=bool(resource), turn_side=tside or "any")))
     return out
 
 

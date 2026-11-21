@@ -248,6 +248,11 @@ def _add_roster_subparser(sub: argparse._SubParsersAction) -> None:
     (nécessite l'extra `[roster]`)."""
     p_roster = sub.add_parser("roster", help="Kit de tournoi (liste + profils d'unité) en PDF.")
     sr = p_roster.add_subparsers(dest="action", required=True)
+    p = sr.add_parser("analyze", help="Fiche couche 4 chiffrée d'une liste (unités, optimisations, règles "
+                                      "mortes, mariages, limites d'armée, magie) en Markdown.")
+    p.add_argument("--list", dest="list", required=True, help="Fichier de liste (export texte de l'App).")
+    p.add_argument("--out", help="Fichier Markdown de sortie (défaut : affichage).")
+    p.set_defaults(func=cmd.cmd_roster_analyze)
     p = sr.add_parser("pdf", help="Compile une liste (export brut de l'App) en PDF.")
     p.add_argument("--list", dest="list", required=True,
                    help="Chemin du fichier de liste (export texte de Warhammer Age of Sigmar: The App).")
@@ -371,6 +376,14 @@ def _add_encounter_subparser(sub: argparse._SubParsersAction) -> None:
     p.add_argument("--worst", action="store_true", help="Pires mariages d'abord.")
     p.add_argument("--limit", type=int, default=30)
     p.set_defaults(func=cmd.cmd_encounter_marriage)
+    p = sen.add_parser("bearers", help="Bons porteurs des optimisations (traits héroïques, artefacts, "
+                                       "améliorations) : chaque unité éligible classée.")
+    p.add_argument("--ability", help="Sous-chaîne du nom de l'optimisation.")
+    p.add_argument("--unit", help="Sous-chaîne du nom du porteur.")
+    p.add_argument("--army", help="Sous-chaîne du nom de faction.")
+    p.add_argument("--kind", choices=["heroic_trait", "artefact", "enhancement", "monstrous_trait"])
+    p.add_argument("--limit", type=int, default=40)
+    p.set_defaults(func=cmd.cmd_encounter_bearers)
 
 
 def _build_parser() -> argparse.ArgumentParser:

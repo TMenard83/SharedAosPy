@@ -642,6 +642,8 @@ QUALITATIVE_RULES: list[tuple[str, str, str]] = [
     (r"draw 1 additional battle tactic|(?:top|bottom) of your battle tactic deck|return the card to your hand|"
      r"reveal 1 battle tactic card|place it face-down separately", "tactic_cards", ""),
     (r"coherency range of \d+\"", "coherency", ""),
+    # v31, validé par l'utilisateur (2026-11-21) : un héros ennemi perd son artefact de pouvoir = 1,0
+    (r"no longer has (?:that|any|the|its) artefacts? of power|no longer has any artefacts", "strip_enhancement", ""),
     # v30 : règles de fonctionnement sans effet propre (comme le choix de profil, validé à 0 par l'utilisateur) :
     # manifestation en plusieurs parties, jetons, héros qui monte sur / descend d'un décor de faction
     (r"MANIFESTATION is destroyed and (?:all|both) (?:of )?its parts are removed|"
@@ -949,7 +951,7 @@ def effects_of(declare: str, effect: str, scope: Scope, passive: bool = False, c
                     "enemy" if re.search(r"target|enemy", full[max(0, m.start() - 80):m.start()]) else "friendly")
                 if "has no effect" in m.group(0):
                     side = "enemy"   # v27 : on annule une capacité adverse
-            if kind in ("taunt", "anti_heal"):
+            if kind in ("taunt", "anti_heal", "strip_enhancement"):
                 side = "enemy"
             if kind in ("strike_first", "run_and_charge", "run_and_shoot", "redeploy", "extra_fight", "fight_twice",
                         "extra_shoot", "fly", "cp_gain", "crit", "shoot_in_combat", "charge_bonus",

@@ -341,8 +341,8 @@ def _option_damage_score(entry: ET.Element) -> float:
 _KNOWN_WEAPON_FIXUPS: dict[str, dict[str, object]] = {
     # Warp Lightning Cannon (Skaven), warscroll : "Each hit inflicts 1 mortal
     # damage on the target and the attack sequence ends." — pas de jet pour
-    # blesser du tout (cf. `combat.py::_has_no_wound_roll`).
-    "Warp Lightning Blast": {"damage": 1, "abilities": "No Wound Roll (Mortal)"},
+    # blesser du tout (cf. `combat.py::_is_mortal_on_hit`).
+    "Warp Lightning Blast": {"damage": 1, "abilities": "Mortal on hit"},
 }
 
 

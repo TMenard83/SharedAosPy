@@ -1,6 +1,31 @@
 {
   "_doc": "Corrections d'erreurs de source : l'emportent sur Wahapedia et BSData. Voir src/aospy/importers/corrections.py. Vérifier sur le scan (data/Battle tome/), consigner la page dans 'source'.",
-  "units": [],
+  "units": [
+    {
+      "faction": "Skaven",
+      "unit": "Warp Lightning Cannon",
+      "weapons": {
+        "Warp Lightning Blast": {
+          "damage": 1,
+          "abilities": "Mortal on hit"
+        }
+      },
+      "source": "Wahapedia, aptitude « Warp Lightning Blast » (Passive) : « Each hit inflicts 1 mortal damage on the target and the attack sequence ends. »",
+      "note": "Dégâts de l'arme portés par son aptitude (Wahapedia : dégâts « - » = 0) : traduits pour le moteur, 1 BM par touche sans jet pour blesser ni sauvegarde (combat._is_mortal_on_hit). Équivalent au crit mortel sur la valeur de toucher proposé par l'utilisateur, mais un +1 touche compte."
+    },
+    {
+      "faction": "Stormcast Eternals",
+      "unit": "Celestant-Prime, Hammer of Sigmar",
+      "weapons": {
+        "Cometstrike Sceptre": {
+          "damage": 2,
+          "abilities": "Mortal on hit"
+        }
+      },
+      "source": "Wahapedia, aptitude « Cometstrike Sceptre » (Passive) : « Each time this unit attacks with its Cometstrike Sceptre, if the attack scores a hit, inflict D3 mortal damage on the target. »",
+      "note": "Dégâts de l'arme portés par son aptitude (Wahapedia : dégâts « - » = 0) : D3 BM par touche, moyenne 2 (dégâts entiers dans le moteur), sans jet pour blesser ni sauvegarde. Signalé par l'utilisateur après le Warp Lightning Cannon."
+    }
+  ],
   "abilities": [
     {
       "faction": "Lumineth Realm-lords",

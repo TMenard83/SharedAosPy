@@ -243,3 +243,83 @@ def format_benchmark(
         for r in items:
             buf.write(format_duel_detail(r))
     return buf.getvalue()
+
+
+def format_list_report(rep) -> str:
+    """Fiche couche 4 chiffrée d'une liste (`analysis.listing.ListReport`) en Markdown : la matière que
+    l'analyse humaine (concept, plan round par round) reprend — jamais une analyse en soi."""
+    out = [f"# {rep.title} — {rep.faction} — fiche couche 4 chiffrée", ""]
+    out += ["## Unités (couche 3)", "",
+            "| unité | pts | × | dég/100 | dur/100 | rang dég | rang dur | ch.comb | bon cas | mêlée | mv | "
+            "engagement | rôle suggéré |",
+            "|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
+    for s in rep.sheets:
+        out.append(f"| {s.name} | {s.points} | {s.copies} | {s.off_per_100:.1f} | {s.def_per_100:.1f} | "
+                   f"{s.off_rank:.2f} | {s.def_rank:.2f} | {s.fit_per_100:.1f} | {s.good_per_100:.1f} | "
+                   f"{s.share_melee:.0%} | {s.move}{' vol' if s.fly else ''} | R{s.engage_round} | {s.role} |")
+    weak = [(s.name, w) for s in rep.sheets for w in s.weak_marriages]
+    if weak:
+        out += ["", "### Aptitudes mal mariées à leur porteur (mariage < 0,4)", ""]
+        out += [f"- **{n}** — {a} : {m:.2f} ({e})" for n, (a, m, e) in weak]
+    if rep.picks:
+        out += ["", "## Optimisations prises vs meilleurs porteurs de la liste", "",
+                "| optimisation | porteur | valeur | mariage | meilleur dans la liste | valeur | mariage | éligibles |",
+                "|---|---|---|---|---|---|---|---|"]
+        f = lambda v: "—" if v is None else f"{v:.2f}"
+        for p in rep.picks:
+            out.append(f"| {p.enhancement} | {p.bearer} | {f(p.bearer_value)} | {p.bearer_marriage:.2f} | "
+                       f"{p.best_in_list} | {f(p.best_value)} | {p.best_marriage:.2f} | {p.n_eligible} |")
+    if rep.dead:
+        out += ["", "## Règles mortes (composition)", ""]
+        out += [f"- {a.name} ({a.source}) — {r}" for a, r in rep.dead]
+    if rep.marriages:
+        out += ["", "## Mariages chiffrés (effet de la liste × receveur de la liste)", "",
+                "| aptitude | origine | receveur | dég % | dur % | poids | conditions |", "|---|---|---|---|---|---|---|"]
+        for m in rep.marriages[:40]:
+            og = "—" if m.off_gain_pct is None else f"{m.off_gain_pct:+.0f}"
+            dg = "—" if m.def_gain_pct is None else f"{m.def_gain_pct:+.0f}"
+            out.append(f"| {m.ability} | {m.source} | {m.receiver} | {og} | {dg} | {m.weight:.2f} | {m.conditions} |")
+    if rep.assault:
+        a = rep.assault
+        out += ["", "## Assaut : charges groupées (redondance et secours)", "",
+                "Hypothèse : tous les chargeurs dans les bulles des sources (point de chute groupé) ; "
+                "dissipation adverse non comptée.", ""]
+        if a.sources:
+            out += ["Sources de la liste :", ""]
+            for s in a.sources:
+                what = {"bonus": f"+{s.value:g} au jet", "relance": "relance des jets de charge",
+                        "dés": {"3d6": "charge sur 3D6", "3k2": "3 dés, on garde les 2 meilleurs",
+                                "max": "le plus bas des 2D6 aligné sur le plus haut"}.get(s.dice, s.dice)
+                        }[s.kind]
+                extra = [f"existe à {s.p_present:.0%}"] if s.p_present < 1 else []
+                if s.per_battle:
+                    extra.append("1×/bataille")
+                out.append(f"- **{s.name}** ({s.origin}) : {what} → {', '.join(s.receivers)}"
+                           + (f" ({', '.join(extra)})" if extra else ""))
+            out.append("")
+        for sc in a.scenarios:
+            n = len(sc.cases[0].at_least)
+            out += [f"### {sc.label} — {len(sc.chargers)} chargeurs", "",
+                    "Par chargeur (sec → bonus permanents) : "
+                    + " ; ".join(f"{c} {p:.0%} → {b:.0%}" for c, p, b in sc.chargers), "",
+                    "| cas | " + " | ".join(f"≥ {k}" for k in range(1, n + 1)) + " |",
+                    "|---|" + "---|" * n]
+            out += [f"| {c.label} | " + " | ".join(f"{p:.0%}" for p in c.at_least) + " |" for c in sc.cases]
+            out.append("")
+        if a.threats:
+            out += ["### À pied : portée de menace (punition des erreurs adverses)", "",
+                    "Mouvement + plus long jet de charge réussi à 50 % : un adversaire plus près se fait charger.", "",
+                    "| chargeur | mouvement | sec | bonus permanents | + relance |", "|---|---|---|---|---|"]
+            out += [f"| {t.unit} | {t.move:g}\" | {t.dry:g}\" | {t.bonus:g}\" | {t.reroll:g}\" |" for t in a.threats]
+            out.append("")
+    if rep.conflicts:
+        out += ["", "## Limites d'armée (un seul usage pour plusieurs porteurs)", ""]
+        out += [f"- {c.ability} ({c.frequency}) : {', '.join(c.carriers)}" for c in rep.conflicts]
+    if rep.magic:
+        out += ["", f"## Magie : {rep.magic.casts_per_turn} lancers par tour", ""]
+        out += [f"- {c} : {n}" for c, n in rep.magic.casters]
+        out += [f"- sort {n} ({src}) : valeur {v}, P {p:.0%}" for n, src, v, p in rep.magic.spells]
+    if rep.unresolved:
+        out += ["", "## À lire (non chiffré : tempo, mobilité, ressources, débuffs…)", ""]
+        out += [f"- {a.name} ({a.source}) — {a.verdict}" for a in rep.unresolved]
+    return "\n".join(out) + "\n"

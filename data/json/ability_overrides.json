@@ -252,8 +252,8 @@
   },
   "af5117d7fe06": {
    "name": "SNOTT, GNOBLAR THIEF",
-   "verdict": "pari",
-   "power": 1.5,
+   "verdict": "anecdotique",
+   "power": 1.0,
    "reliability": 1.5,
    "add_tags": [
     "debuff",
@@ -262,7 +262,7 @@
    "remove_tags": [
     "fiable"
    ],
-   "note": "retire les artefacts d'un héros ennemi sur D6 ≤ numéro du round (≈ 50 % sur la partie) ; revue a-revoir v28, cas isolé jugé sur le texte (2026-11-20)"
+   "note": "retire les artefacts d'un héros ennemi sur D6 ≤ numéro du round (≈ 50 % sur la partie) ; jet non lu par l'analyseur, d'où l'override ; puissance = poids validé de strip_enhancement (1,0, 2026-11-21)"
   },
   "a8cadb960f14": {
    "name": "BANNER OF SIGMAR",
@@ -440,48 +440,6 @@
    "note": "3+ : la cible au contact du général doit faire une retraite ; revue a-revoir v29, cas isolé jugé sur le texte (2026-11-21)",
    "reliability": 2.0
   },
-  "518771399db8": {
-   "name": "The Verminous Court",
-   "verdict": "pari",
-   "power": 1.5,
-   "add_tags": [
-    "debuff",
-    "aleatoire"
-   ],
-   "remove_tags": [
-    "fiable"
-   ],
-   "note": "3+ : la cible perd un artefact (comme SNOTT) ; revue a-revoir v29, cas isolé jugé sur le texte (2026-11-21)",
-   "reliability": 2.0
-  },
-  "f4d0ed69ef7a": {
-   "name": "WHAT'S YOURS IS MINE",
-   "verdict": "pari",
-   "power": 1.0,
-   "add_tags": [
-    "debuff",
-    "aleatoire"
-   ],
-   "remove_tags": [
-    "fiable"
-   ],
-   "note": "6+ (+1 par unité du régiment au contact) : la cible perd un artefact ; revue a-revoir v29, cas isolé jugé sur le texte (2026-11-21)",
-   "reliability": 1.0
-  },
-  "c0c3014e8b2d": {
-   "name": "CRAFTY CREEPERS",
-   "verdict": "pari",
-   "power": 1.5,
-   "add_tags": [
-    "debuff",
-    "aleatoire"
-   ],
-   "remove_tags": [
-    "fiable"
-   ],
-   "note": "3+ : le héros ennemi perd son artefact (comme SNOTT) ; revue a-revoir v29, cas isolé jugé sur le texte (2026-11-21)",
-   "reliability": 2.0
-  },
   "e62733f10039": {
    "name": "FIENDS OF THE WILDS",
    "verdict": "anecdotique",
@@ -537,6 +495,17 @@
     "buff-defensif"
    ],
    "note": "la manifestation n'est jamais bannie : 6 dégâts sans protection à la place ; revue a-revoir v30, cas isolé jugé sur le texte (2026-11-21)"
+  },
+  "f4d0ed69ef7a": {
+   "name": "WHAT'S YOURS IS MINE",
+   "reliability": 1.0,
+   "add_tags": [
+    "aleatoire"
+   ],
+   "remove_tags": [
+    "fiable"
+   ],
+   "note": "jet de 6+ (+1 par unité du régiment au contact) non lu par l'analyseur ; revue v31 (2026-11-21)"
   }
  }
 }
