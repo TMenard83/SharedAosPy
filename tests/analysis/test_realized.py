@@ -1,18 +1,18 @@
-"""Couche 3 — valeur réalisée (analysis/realized.py) : pondération validée par l'utilisateur."""
+"""Couche 3 — valeur réalisée (analysis/layers/realized.py) : pondération validée par l'utilisateur."""
 
 from __future__ import annotations
 
 import pytest
 
-from aospy.analysis.encounter import EffectSpec
-from aospy.analysis.realized import ONCE_PER_BATTLE_SHORT, OwnEffect, applicable, coverage, realize
+from aospy.analysis.layers.encounter import EffectSpec
+from aospy.analysis.layers.realized import ONCE_PER_BATTLE_SHORT, OwnEffect, applicable, coverage, realize
 from aospy.domain.models import Unit, Weapon
 
 
 @pytest.fixture(autouse=True)
 def _mean_reading(monkeypatch):
     """Pondérations vérifiées sur les moyennes ; le plancher a ses tests dans test_encounter.py."""
-    monkeypatch.setattr("aospy.analysis.encounter.FLOOR_COVERAGE", None)
+    monkeypatch.setattr("aospy.analysis.layers.encounter.FLOOR_COVERAGE", None)
 
 SWORD = Weapon("Sword", "melee", attacks=2, hit=3, wound=3, damage=1)
 
@@ -84,7 +84,7 @@ def test_resource_weighting():
 
 
 def test_alternatives_keep_strongest():
-    from aospy.analysis.realized import strongest_alternatives
+    from aospy.analysis.layers.realized import strongest_alternatives
 
     one = _eff(EffectSpec("stat_mod", "damage", 1.0, weapon_scope="melee", requires="porteur blessé"), name="Runic")
     two = _eff(EffectSpec("stat_mod", "damage", 2.0, weapon_scope="melee", requires="porteur blessé"), name="Runic")
@@ -103,7 +103,7 @@ def test_spending_a_resource_halves_weight_but_is_not_a_condition():
 
 
 def test_combined_penalises_glass_cannons():
-    from aospy.analysis.realized import combined
+    from aospy.analysis.layers.realized import combined
 
     assert combined(10.0, 4.5) < combined(5.0, 20.0)
     assert combined(4.0, 9.0) == pytest.approx(6.0)

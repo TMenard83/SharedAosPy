@@ -30,10 +30,15 @@ from dataclasses import dataclass
 
 import duckdb
 
-from ..domain.models import Unit
-from ..engine.combat import (CombatModifiers, effective_counts, unit_damage_moments, weapon_crit_type,
-                             weapon_damage_moments)
-from ..persistence.repository import load_all_units_with_weapons
+from ...domain.models import Unit
+from ...engine.combat import (
+    CombatModifiers,
+    effective_counts,
+    unit_damage_moments,
+    weapon_crit_type,
+    weapon_damage_moments,
+)
+from ...persistence.repository import load_all_units_with_weapons
 
 #: Repère les mots-clés `WIZARD (N)`/`PRIEST (N)` (BSData les capture tels quels
 #: dans `Unit.keywords` — seule `WARD (N+)` est traitée à part comme pseudo-catégorie).
@@ -80,7 +85,7 @@ def expected_control(unit: Unit) -> int:
 
     Validée avec l'utilisateur (2026-11-19) puis par régression : ce contrôle attendu ne se
     paie PAS (non significatif), seul l'écart à cette règle se paie — cf.
-    `UnitFeatures.control_bonus`/`control_deficit` et `analysis/experiments/control_profile.py`.
+    `UnitFeatures.control_bonus`/`control_deficit` et `analysis/cost/experiments/control_profile.py`.
 
     * plusieurs figurines : 1 sous 5 PV/figurine, 2 jusqu'à 6, 3 à 7, 5 au-delà ; Ogors : 2 dès
       4 PV ; équipe de héros : 2 au minimum (machines multi-figurines comprises, même règle) ;
@@ -136,7 +141,7 @@ _CHARGED_MODS = CombatModifiers(attacker_charged=True)
 #: 0,98 mêlée / 1,05 tir). Le Ward, lui, n'a besoin d'aucun ajustement analogue : contrairement
 #: à la save, il n'est jamais modifié par le Rend (règle AoS core). Valeur choisie par balayage
 #: entier 0-3 sur le modèle de coût complet (R² ajusté : 0,9175 / 0,9204 / 0,9199 / 0,9169) —
-#: cf. `analysis/experiments/effective_wounds_rend.py`.
+#: cf. `analysis/cost/experiments/effective_wounds_rend.py`.
 _REPRESENTATIVE_REND = 1
 
 
@@ -157,7 +162,7 @@ class UnitFeatures:
     # de mêlée — cf. `dmg_ranged_vs_save6`, même sonde save6+ mais côté cac. Avec
     # `dmg_ranged_vs_save6`, permet de scinder `dmg_vs_save6` en deux pools tir/cac plutôt
     # que de traiter le tir comme un delta sur un total déjà mêlée+tir — cf.
-    # `analysis/experiments/melee_ranged_split.py`.
+    # `analysis/cost/experiments/melee_ranged_split.py`.
     dmg_ranged_vs_save6: float
     dmg_melee_vs_save2: float  # même scission tir/cac que ci-dessus, mais côté pool perçant
     # (sonde save2+) plutôt que pool brut (save6+) — cf. `dmg_ranged_vs_save2`.
@@ -166,12 +171,12 @@ class UnitFeatures:
     dmg_vs_save2_sq: float  # dmg_vs_save2² — terme quadratique : au-delà d'un certain seuil,
     # chaque dégât perçant supplémentaire vaut structurellement plus (rendements croissants,
     # pas décroissants) que ne le capte le terme linéaire seul. Cf.
-    # `analysis/experiments/durability_and_saturation.py`, gain R² ajusté +0.0040 seul.
+    # `analysis/cost/experiments/durability_and_saturation.py`, gain R² ajusté +0.0040 seul.
     dmg_cv_vs_save4: float  # écart-type / moyenne contre save4 (fiabilité offensive)
     charge_bonus_save2: float  # supplément de dmg_vs_save2 apporté par un `Charge (+N <Stat>)`
     # (0 si l'unité n'a aucun profil d'arme avec ce texte) — sans ce champ, ce bonus était
     # invisible au modèle de coût (les sondes ci-dessous ne simulent jamais une charge).
-    # Magnitude, pas simple indicateur de présence : cf. `analysis/experiments/weapon_tags.py`,
+    # Magnitude, pas simple indicateur de présence : cf. `analysis/cost/experiments/weapon_tags.py`,
     # même constat que `dmg_pen`→`dmg_vs_save2` (la magnitude explique le prix, pas la
     # présence — `has_charge` seul n'était pas significatif, p=0.150 vs p=0.001 en magnitude).
     # `Anti-<MOT-CLÉ>` a été testé dans le même essai et écarté : ni la présence
@@ -187,10 +192,10 @@ class UnitFeatures:
     # faut effectivement porter pour tuer l'unité", au lieu de les traiter comme trois effets
     # additifs indépendants. Remplace wounds_total/save_num/ward_num dans
     # `cost_model.MODEL_FEATURES` (ils restent ici comme caractéristiques brutes, utiles
-    # hors régression) — cf. `analysis/experiments/durability_and_saturation.py`, gain R²
+    # hors régression) — cf. `analysis/cost/experiments/durability_and_saturation.py`, gain R²
     # ajusté +0.0067 seul (+0.0105 combiné à `dmg_vs_save2_sq` et à l'interaction héros).
     # La probabilité de save est dégradée par `_REPRESENTATIVE_REND` avant ce calcul (le Ward
-    # reste nu) — cf. `analysis/experiments/effective_wounds_rend.py`, gain R² ajusté +0.0029.
+    # reste nu) — cf. `analysis/cost/experiments/effective_wounds_rend.py`, gain R² ajusté +0.0029.
 
     move: int
     control: int
@@ -204,12 +209,12 @@ class UnitFeatures:
     # marqué), compensé par le carré positif au-delà d'une dizaine de modèles — GW semble
     # facturer une prime sur les très grosses hordes (contrôle d'objectif, difficulté à les
     # effacer), pas seulement un rabais continu. Cf.
-    # `analysis/experiments/unit_size_saturation.py`, gain R² ajusté +0.0009, robuste au
+    # `analysis/cost/experiments/unit_size_saturation.py`, gain R² ajusté +0.0009, robuste au
     # retrait des unités à 20 modèles (les plus grosses de la base).
 
     grand_alliance: str  # résolu par `all_features` (nécessite la DB) ; gardé comme métadonnée,
     # mais absorbé par `army_name` dans `cost_model.CATEGORICAL_FEATURES` (armée ⊂ alliance,
-    # les deux ensemble seraient colinéaires — cf. `analysis/experiments/army_factor.py`)
+    # les deux ensemble seraient colinéaires — cf. `analysis/cost/experiments/army_factor.py`)
     army_name: str  # facteur catégoriel plus fin que grand_alliance, résolu par `all_features`
     weapon_mix: str  # "melee" / "ranged" / "mixed" — facteur catégoriel dérivé des profils d'arme
 
@@ -219,11 +224,11 @@ class UnitFeatures:
     priest_level: int  # PRIEST (N), 0 si aucun
     is_unique: bool  # mot-clé UNIQUE — proxy grossier de la prime "aptitudes/narratif" d'un
     # personnage nommé, qu'aospy ne modélise pas autrement (pas de texte d'aptitude en base) ;
-    # cf. `analysis/experiments/unique_factor.py`, +16.6 pts significatif (p<0.001)
+    # cf. `analysis/cost/experiments/unique_factor.py`, +16.6 pts significatif (p<0.001)
     crit_type: str  # type de Crit (none/2hits/mortal/autowound) du profil d'arme qui contribue
     # le plus à dmg_vs_save2 (proxy du "crit dominant" d'une unité multi-profils) — significatif
     # au-delà de la magnitude de dégât déjà captée par dmg_vs_save2 : cf.
-    # `analysis/experiments/weapon_tags.py` (autowound +17.1 pts, mortal -15.9 pts vs 2hits, p<0.05)
+    # `analysis/cost/experiments/weapon_tags.py` (autowound +17.1 pts, mortal -15.9 pts vs 2hits, p<0.05)
 
 
 def _ranged_only(unit: Unit) -> Unit:
@@ -353,7 +358,7 @@ def compute_features(unit: Unit) -> UnitFeatures:
 
 def all_features(con: duckdb.DuckDBPyConnection) -> list[UnitFeatures]:
     """Calcule le vecteur de caractéristiques de toutes les unités de la base."""
-    from ..persistence.repository import list_armies
+    from ...persistence.repository import list_armies
 
     armies = list_armies(con)
     alliance_by_army = {a.id: a.grand_alliance for a in armies}

@@ -11,8 +11,8 @@ héros) donc son effet propre pourrait ne pas ressortir proprement.
 contre-exemple "sans is_unique" à partir du jeu officiel actuel plutôt que l'inverse, pour
 que la comparaison reste valide indépendamment des évolutions futures de CATEGORICAL_FEATURES
 (l'ajouter une deuxième fois au jeu déjà officiel ferait planter l'ajustement, terme dupliqué)."""
+from aospy.analysis.cost import cost_model
 from aospy.persistence import db
-from aospy.analysis import cost_model
 
 con = db.connect()
 frame = cost_model.feature_frame(con)

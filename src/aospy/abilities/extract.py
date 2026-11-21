@@ -1004,7 +1004,7 @@ def friendly_target_of(declare: str, effect: str) -> str:
 
     Lit d'abord la clause « Pick … to be the target », puis le reste du texte (auras « friendly X units
     wholly within ») ; ignore le choix du lanceur (« friendly WIZARD to cast this spell »). La couche 3
-    (`analysis/encounter.py`) la résout contre les mots-clés des unités.
+    (`analysis/layers/encounter.py`) la résout contre les mots-clés des unités.
     """
     seg = _target_clause(declare) or (_target_clause(effect) if _TARGET_PHRASE.search(effect) else "")
     for text in (seg, declare, effect):

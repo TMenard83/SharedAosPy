@@ -24,7 +24,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Optional
 
-from ..domain.models import Unit
+from ...domain.models import Unit
 
 #: Géométrie de la table PAR SAISON (remarque utilisateur, 2026-11-20 : « ça dépend des saisons » — plans de
 #: bataille et règle de déploiement changent avec le Manuel du général). Pour une nouvelle saison : relire ses
@@ -335,7 +335,7 @@ def build_marriage_rows(con) -> list[tuple]:
     mariage = D (P(conditions du porteur) × part des rounds encore possibles) × S (rounds tenus / rounds
     nominaux). Les conditions tenues par d'autres (allié, adversaire, ressource) ne sont pas chiffrées :
     elles sont listées (`good_case_conditions`) et relèvent de la couche 4 / des matchups."""
-    from ..persistence import repository
+    from ...persistence import repository
 
     units = {(army, u.name.lower()): u
              for army, us in _units_by_army_name(con, repository).items()

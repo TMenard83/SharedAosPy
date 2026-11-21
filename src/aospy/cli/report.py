@@ -9,7 +9,6 @@ from typing import Iterable
 from ..orchestration.benchmark import DuelResult, DuelRules
 from ..orchestration.simulation import BattleReport, SideOptions, SideReport
 
-
 _MODE_LABEL = {"mean": "moyenne", "floor80": "plancher 80%", "floor95": "plancher 95%"}
 
 
@@ -246,7 +245,7 @@ def format_benchmark(
 
 
 def format_list_report(rep) -> str:
-    """Fiche couche 4 chiffrée d'une liste (`analysis.listing.ListReport`) en Markdown : la matière que
+    """Fiche couche 4 chiffrée d'une liste (`analysis.layers.listing.ListReport`) en Markdown : la matière que
     l'analyse humaine (concept, plan round par round) reprend — jamais une analyse en soi."""
     out = [f"# {rep.title} — {rep.faction} — fiche couche 4 chiffrée", ""]
     out += ["## Unités (couche 3)", "",

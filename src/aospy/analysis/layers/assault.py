@@ -31,7 +31,7 @@ from functools import lru_cache
 from itertools import product
 from typing import Optional, Sequence
 
-from ..domain.models import Unit
+from ...domain.models import Unit
 
 #: Charge après une téléportation « à plus de 9" des ennemis » : un jet de 9 suffit.
 TELEPORT_GAP = 9.0

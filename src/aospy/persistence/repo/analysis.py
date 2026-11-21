@@ -10,7 +10,7 @@ import duckdb
 from ..analysis_tables import BEARER_COLS, ENCOUNTER_COLS, MARRIAGE_COLS, REALIZED_COLS
 from ._sql import _insert_rows
 
-# ----- Châssis (analysis/chassis.py) -------------------------------------------
+# ----- Châssis (analysis/layers/chassis.py) -------------------------------------------
 
 CHASSIS_COLS = (
     "unit_id", "name", "army_id", "points", "is_hero", "unit_type", "models", "health", "save", "ward",
@@ -76,7 +76,7 @@ def list_chassis(
     return [dict(zip(cols, r)) for r in rows.fetchall()]
 
 
-# ----- Couche 3 : rencontre aptitude × châssis (analysis/encounter.py) ----------
+# ----- Couche 3 : rencontre aptitude × châssis (analysis/layers/encounter.py) ----------
 
 def replace_encounters(con: duckdb.DuckDBPyConnection, rows: list[tuple]) -> None:
     """Remplace tout le contenu de `ability_encounter` (tuples dans l'ordre de `encounter.ENCOUNTER_COLS`)."""

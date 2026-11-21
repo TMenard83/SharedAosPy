@@ -6,7 +6,7 @@ import pytest
 
 pytest.importorskip("statsmodels")
 
-from aospy.analysis.cost_model import (
+from aospy.analysis.cost.cost_model import (
     Coefficient,
     CostModelResult,
     UnitResidual,
@@ -14,7 +14,7 @@ from aospy.analysis.cost_model import (
     fit_cost_model,
     fit_segmented,
 )
-from aospy.analysis.features import UnitFeatures
+from aospy.analysis.cost.features import UnitFeatures
 
 
 def _uf(i: int, **overrides) -> UnitFeatures:

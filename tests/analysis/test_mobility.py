@@ -1,11 +1,10 @@
-"""Axe mobilité du classement (analysis/mobility.py)."""
+"""Axe mobilité du classement (analysis/layers/mobility.py)."""
 
 from __future__ import annotations
 
 import pytest
 
-from aospy.analysis.mobility import (FLY_IN, MOBILITY_WEIGHT, RUN_IN, ability_bonus, mobility_factor,
-                                     reach)
+from aospy.analysis.layers.mobility import FLY_IN, MOBILITY_WEIGHT, RUN_IN, ability_bonus, mobility_factor, reach
 from aospy.domain.models import Unit
 
 

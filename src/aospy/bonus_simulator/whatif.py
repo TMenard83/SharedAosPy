@@ -7,10 +7,10 @@ pessimiste 66%, défenseur à l'espérance, `DuelRules(double_shoot=True,
 charge_move_threshold=True)` — les défauts effectifs de la CLI
 `aospy unit benchmark-all`, cf. `cli/common.py::_duel_rules`) et de
 `reports/best_unites.py::compute_ranked()` (score combiné = z-scores ROI +
-sous-cotation + impact, `cost_common.combined_score`), mais lit le pool de combat
-*live* depuis `unit_benchmark` (`repository.get_ranking_pool`) plutôt que depuis
-son export JSON figé (`scratch/per_unit_nocharge_floor66_TM.json`) — l'unité
-hypothétique n'y figurant jamais, un snapshot statique ne suffirait pas.
+sous-cotation + impact, `analysis/cost/scoring.py::combined_score`), mais lit le pool de combat
+*live* depuis `unit_benchmark` (`repository.get_ranking_pool`, la même source que
+les registres) — l'unité hypothétique n'y figurant jamais, un instantané statique
+ne suffirait pas.
 """
 
 from __future__ import annotations
@@ -22,8 +22,9 @@ from dataclasses import dataclass
 import duckdb
 import numpy as np
 
-from ..analysis import cost_model
-from ..analysis.features import UnitFeatures, compute_features
+from ..analysis.cost import cost_model
+from ..analysis.cost.features import UnitFeatures, compute_features
+from ..analysis.cost.scoring import combined_score
 from ..domain.models import Unit
 from ..orchestration.benchmark import DuelRules, benchmark_attacker
 from ..persistence import repository
@@ -127,8 +128,6 @@ def _z_pool(pool_rows: list[dict], cost_by_id: dict[int, "cost_model.UnitResidua
 
     def z(value, mean, std):
         return (value - mean) / std if std else 0.0
-
-    from ..reports.cost_common import combined_score
 
     joined = []
     for c, r in joined_src:

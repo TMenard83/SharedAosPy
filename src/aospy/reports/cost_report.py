@@ -7,14 +7,25 @@ porte la mécanique (ajustement, filtrage, mise en page PDF) commune ; les
 fichiers cost_unites.py/cost_heros.py ne gardent que leur texte et appellent
 `build()`."""
 from reportlab.lib.units import mm
-from reportlab.platypus import Paragraph, Spacer, NextPageTemplate, PageBreak
+from reportlab.platypus import NextPageTemplate, PageBreak, Paragraph, Spacer
 
+from ..analysis.cost import cost_model
 from ..persistence import db, repository
-from ..analysis import cost_model
 from .common import (
-    build_document, ranked_table, SectionMarker, today_str,
-    alliance_badge, BLOOD_GREEN, BLOOD_RED,
-    cover_title, cover_subtitle, cover_meta, cover_body, section_title, section_note, subhead,
+    BLOOD_GREEN,
+    BLOOD_RED,
+    SectionMarker,
+    alliance_badge,
+    build_document,
+    cover_body,
+    cover_meta,
+    cover_subtitle,
+    cover_title,
+    ranked_table,
+    section_note,
+    section_title,
+    subhead,
+    today_str,
 )
 from .cost_common import coef_table
 

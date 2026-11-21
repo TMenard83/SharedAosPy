@@ -1,6 +1,6 @@
 """Génère la synthèse PDF des combats par unité de troupe (hors héros) —
 liste complète, pas de Top N. Voir combat_heros.py pour le pendant
-héros. Source : scratch/per_unit_nocharge_floor66_TM.json (reports/aggregate.py).
+héros. Source : `repository.get_ranking_pool` (`unit_benchmark`).
 Mécanique (chargement, tri, mise en page) partagée avec combat_heros.py via
 combat_report.py — ce fichier ne porte que le texte propre aux unités de
 troupe."""

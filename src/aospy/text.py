@@ -2,7 +2,7 @@
 
 N'y regrouper que des fonctions **strictement identiques** à l'usage. Les variantes voisines restent dans leur
 module car elles ne normalisent pas la même chose : `engine.loadout._norm` (balises, apostrophes, espaces
-réduits), `analysis.encounter._norm` (tout non-alphanumérique → espace), `importers.bsdata._normalize_name`
+réduits), `analysis.layers.encounter._norm` (tout non-alphanumérique → espace), `importers.bsdata._normalize_name`
 (apostrophes, sans réduire les espaces internes), `importers.verify._norm` (apostrophe ’ seule, espaces réduits),
 `tournament_kit.sources.wahapedia_lookup.normalize_name` (apostrophes, « : », suffixe saisonnier, espaces
 simples conservés).

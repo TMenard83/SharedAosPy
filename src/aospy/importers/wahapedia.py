@@ -50,7 +50,7 @@ def keyword_variants(row: dict[str, str]) -> set[str]:
 
     Wahapedia range le niveau d'un sorcier/prêtre dans la colonne `parameter` (`WIZARD` + `2`) : on
     garde `WIZARD` (ciblages « friendly WIZARD ») **et** `WIZARD (2)`, la forme que BSData capture et
-    que lit `analysis.features._CASTER_RE`. Sans elle, tous les niveaux de lanceur étaient perdus."""
+    que lit `analysis.cost.features._CASTER_RE`. Sans elle, tous les niveaux de lanceur étaient perdus."""
     kw = (row.get("keyword") or "").upper()
     out = {kw}
     param = (row.get("parameter") or "").strip()

@@ -1,9 +1,9 @@
-"""Éligibilité et gain des optimisations (analysis/bearers.py)."""
+"""Éligibilité et gain des optimisations (analysis/layers/bearers.py)."""
 
 from __future__ import annotations
 
 from aospy.abilities.source import bearer_restriction_of
-from aospy.analysis.bearers import eligible
+from aospy.analysis.layers.bearers import eligible
 from aospy.domain.models import Unit
 
 VOCAB = frozenset({"HERO", "INFANTRY", "CAVALRY", "MONSTER", "BEAST", "WAR MACHINE", "UNIQUE", "WIZARD",

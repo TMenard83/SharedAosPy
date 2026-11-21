@@ -21,7 +21,7 @@ sans passer par `dmg_ranged_vs_save6`) plutôt que de la dériver de
 `cost_model.MODEL_FEATURES`, qui porte déjà la conclusion adoptée — sinon la
 comparaison deviendrait un no-op une fois le changement en place.
 """
-from aospy.analysis import cost_model
+from aospy.analysis.cost import cost_model
 from aospy.persistence import db
 
 con = db.connect()

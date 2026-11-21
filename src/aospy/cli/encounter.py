@@ -1,4 +1,4 @@
-"""Commande `encounter` : couche 3, rencontre aptitude × châssis (analysis/encounter.py)."""
+"""Commande `encounter` : couche 3, rencontre aptitude × châssis (analysis/layers/encounter.py)."""
 
 from __future__ import annotations
 
@@ -9,20 +9,20 @@ from .common import _connect
 
 
 def cmd_encounter_build(args: argparse.Namespace) -> int:
-    from ..analysis.encounter import build_encounter_rows
+    from ..analysis.layers.encounter import build_encounter_rows
 
     con = _connect(args)
-    from ..analysis.realized import build_realized_rows
+    from ..analysis.layers.realized import build_realized_rows
 
     rows, stats = build_encounter_rows(con)
     repository.replace_encounters(con, rows)
     realized = build_realized_rows(con)
     repository.replace_realized(con, realized)
-    from ..analysis.marriage import build_marriage_rows
+    from ..analysis.layers.marriage import build_marriage_rows
 
     marriage = build_marriage_rows(con)
     repository.replace_ability_marriage(con, marriage)
-    from ..analysis.bearers import build_bearer_rows
+    from ..analysis.layers.bearers import build_bearer_rows
 
     bearers = build_bearer_rows(con)
     repository.replace_enhancement_bearers(con, bearers)
@@ -167,7 +167,7 @@ def cmd_encounter_best(args: argparse.Namespace) -> int:
 
 
 def register(sub: argparse._SubParsersAction) -> None:
-    """Sous-commande `encounter` : couche 3, rencontre aptitude × châssis (analysis/encounter.py)."""
+    """Sous-commande `encounter` : couche 3, rencontre aptitude × châssis (analysis/layers/encounter.py)."""
     p_en = sub.add_parser("encounter", help="Rencontre aptitude × châssis : gain réel d'un effet sur une charte.")
     sen = p_en.add_subparsers(dest="action", required=True)
     p = sen.add_parser("build", help="(Re)construit la table ability_encounter (après `ability analyze`).")

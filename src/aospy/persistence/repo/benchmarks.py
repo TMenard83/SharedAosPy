@@ -142,13 +142,13 @@ def clear_benchmark_results(con: duckdb.DuckDBPyConnection) -> int:
     return count
 
 
-#: Même agrégation que `reports/aggregate.py::QUERY` (scénario sans charge
-#: déclarée, attaquant lu au plancher pessimiste 66%, défenseur à l'espérance),
-#: mais lue *live* depuis `unit_benchmark` plutôt que depuis son export JSON
-#: (`scratch/per_unit_nocharge_floor66_TM.json`) — utilisée par
-#: `orchestration/whatif.py` pour situer une unité hypothétique dans le même
-#: pool que `reports/best_unites.py`/`best_heros.py::compute_ranked()` sans
-#: dépendre d'un fichier généré séparément.
+#: Pool de classement « édition TM » (scénario sans charge déclarée, attaquant
+#: lu au plancher pessimiste 66%, défenseur à l'espérance ; méthode détaillée
+#: dans la docstring de `reports/aggregate.py`), lu *live* depuis
+#: `unit_benchmark` — source unique des registres `reports/combat_*`/`best_*`
+#: (`combat_report.build`, `best_report.compute_ranked`), du simulateur de bonus
+#: (`bonus_simulator/whatif.py`) et de l'export JSON facultatif
+#: `reports/aggregate.py`.
 _RANKING_POOL_QUERY = """
 with agg as (
     select
@@ -160,6 +160,7 @@ with agg as (
         u.is_hero as is_hero,
         avg(b.roi) * 100.0 as avg_roi_pct,
         avg(b.pts_net) as avg_pts_net,
+        100.0 * avg(case when b.roi > 0 then 1.0 else 0.0 end) as pct_positive,
         quantile_cont(b.roi, 0.05) * 100.0 as roi_floor95_pct,
         quantile_cont(b.roi, 0.34) * 100.0 as roi_floor66_pct,
         quantile_cont(b.roi, 0.80) * 100.0 as roi_floor20_pct
@@ -177,14 +178,14 @@ from agg
 
 def get_ranking_pool(con: duckdb.DuckDBPyConnection) -> list[dict]:
     """Une ligne par unité attaquante déjà benchmarkée (`unit_benchmark`), avec
-    les mêmes colonnes que `reports/aggregate.py`'s export JSON — dont
+    les colonnes de l'export JSON de `reports/aggregate.py` — dont
     `avg_floor_roi_pct`, moyenne des quantiles 5e/34e/80e du ROI entre duels.
     Nécessite `aospy unit benchmark-all --charge none --attacker-mode floor66
     --defender-mode mean --include-heroes` (ou équivalent) pour être peuplée.
     """
     cols = [
         "unit_id", "name", "army", "grand_alliance", "points", "is_hero",
-        "avg_roi_pct", "avg_pts_net",
+        "avg_roi_pct", "avg_pts_net", "pct_positive",
         "roi_floor95_pct", "roi_floor66_pct", "roi_floor20_pct", "avg_floor_roi_pct",
     ]
     rows = con.execute(_RANKING_POOL_QUERY).fetchall()

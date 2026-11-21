@@ -24,18 +24,18 @@ from __future__ import annotations
 import re
 from typing import Optional
 
-from ..domain.models import Unit
-from ..engine.combat import CombatModifiers
+from ...domain.models import Unit
+from ...engine.combat import CombatModifiers
 from .encounter import (
     _PLURALS,
     EffectSpec,
-    unit_durability,
-    plan_offense,
-    parse_keywords,
-    probe_for_effect,
     apply_effect,
     is_translatable,
+    parse_keywords,
+    plan_offense,
     play_plan,
+    probe_for_effect,
+    unit_durability,
 )
 from .marriage import incoming_damage, load_effects, marriage_of, share_melee_by_unit
 
@@ -133,7 +133,7 @@ def bearer_gain(unit: Unit, specs: list[EffectSpec]) -> Optional[tuple[float, fl
 
 def build_bearer_rows(con) -> list[tuple]:
     """Tuples `persistence.analysis_tables.BEARER_COLS` : chaque optimisation × chaque unité éligible de sa faction."""
-    from ..persistence import repository
+    from ...persistence import repository
     from .realized import coverage
 
     by_id = repository.load_all_units_with_weapons(con)

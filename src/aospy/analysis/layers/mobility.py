@@ -19,7 +19,7 @@ from __future__ import annotations
 import statistics
 from typing import Iterable
 
-from ..domain.models import Unit
+from ...domain.models import Unit
 
 #: Poids de l'axe mobilité (exposant du facteur de portée), utilisateur 2026-11-21.
 MOBILITY_WEIGHT = 0.35

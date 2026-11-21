@@ -82,8 +82,8 @@ aospy l3 matchups | listes | diag | compare | scenarios | export-lists   # L3 le
 | `orchestration/` | duels, benchmarks (`DamageMode` per direction), composition-vs-composition battles | [README](src/aospy/orchestration/README.md) |
 | `importers/` | BSData and Wahapedia → same schema; source corrections, Legends filtering, companion merging, wielders | [README](src/aospy/importers/README.md) |
 | `abilities/` | layer 1: context-free analysis of every ability (tables `ability*`) | [README](src/aospy/abilities/README.md) |
-| `analysis/` | cost model (`[analysis]`) and layers 2-4: chassis, encounter, realized value, marriage, bearers, list analysis | [README](src/aospy/analysis/README.md) |
-| `reports/` | PDF/aggregate "best units/heroes" reports | module docstrings |
+| `analysis/` | `cost/`: cost model (`[analysis]`), features, ranking score, adopted experiments; `layers/`: ability layers 2-4 (chassis, encounter, realized value, marriage, bearers, list analysis) — `layers` may import `cost`, never the reverse | [README](src/aospy/analysis/README.md) |
+| `reports/` | PDF "best units/heroes"/duel/cost reports, read live from `unit_benchmark` via `repository.get_ranking_pool` | module docstrings |
 | `bonus_simulator/` | Streamlit "what-if" bonus simulator (`[gui]`), no DB writes | [README](src/aospy/bonus_simulator/README.md) |
 | `tournament_kit/` | tournament roster PDF (`[roster]`), no DB; roster modes | [README](src/aospy/tournament_kit/README.md) |
 | `l3/` | L3 Centre 2026-27 league tools (matchup grids, diagnostics, list analysis, scenarios, list export), run by `aospy l3 …`; reads `data/aospy.duckdb` read-only | module docstring, skill `l3-matchups` |

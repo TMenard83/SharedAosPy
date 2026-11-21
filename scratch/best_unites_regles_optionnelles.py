@@ -7,7 +7,7 @@ cf. scratch/aggregate_regles_optionnelles.py) au lieu du scénario standard
 « sans charge » édition TM, lue au plancher pessimiste 66% de confiance (au
 lieu de 80% côté édition TM). Le plan de coût (résidu factoriel) est inchangé
 — les règles optionnelles ne touchent que les duels, pas le modèle de coût.
-Réutilise `aospy.reports.common` (charte graphique) et `aospy.analysis.cost_model`
+Réutilise `aospy.reports.common` (charte graphique) et `aospy.analysis.cost.cost_model`
 tels quels ; n'adapte que les sources de données et les textes de méthode.
 """
 import json
@@ -15,13 +15,24 @@ import statistics
 
 import duckdb
 from reportlab.lib.units import mm
-from reportlab.platypus import Paragraph, Spacer, NextPageTemplate, PageBreak
+from reportlab.platypus import NextPageTemplate, PageBreak, Paragraph, Spacer
 
-from aospy.analysis import cost_model
+from aospy.analysis.cost import cost_model
 from aospy.reports.common import (
-    build_document, ranked_table, SectionMarker, today_str,
-    alliance_badge, BLOOD_GREEN, BLOOD_RED,
-    cover_title, cover_subtitle, cover_meta, cover_body, section_title, section_note, subhead,
+    BLOOD_GREEN,
+    BLOOD_RED,
+    SectionMarker,
+    alliance_badge,
+    build_document,
+    cover_body,
+    cover_meta,
+    cover_subtitle,
+    cover_title,
+    ranked_table,
+    section_note,
+    section_title,
+    subhead,
+    today_str,
 )
 
 DB_PATH = "scratch/aospy_two_rules.duckdb"

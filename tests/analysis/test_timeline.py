@@ -1,10 +1,10 @@
-"""Frise de la partie en 10 demi-tours (analysis/timeline.py)."""
+"""Frise de la partie en 10 demi-tours (analysis/layers/timeline.py)."""
 
 from __future__ import annotations
 
 import pytest
 
-from aospy.analysis.timeline import DEF_SHARE_ENEMY_TURN, KAIROS_SHORT, coverage, relevance, span
+from aospy.analysis.layers.timeline import DEF_SHARE_ENEMY_TURN, KAIROS_SHORT, coverage, relevance, span
 
 
 def test_relevance_sums_to_one_per_round():

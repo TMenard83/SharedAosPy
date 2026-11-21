@@ -18,7 +18,7 @@ dérive donc le contre-exemple "avant adoption" (wounds_total/save_num/ward_num 
 pas de terme quadratique, interaction héros sur wounds_total) à partir du jeu officiel
 actuel plutôt que l'inverse, pour que la comparaison reste valide indépendamment des
 évolutions futures de MODEL_FEATURES."""
-from aospy.analysis import cost_model
+from aospy.analysis.cost import cost_model
 from aospy.persistence import db
 
 con = db.connect()

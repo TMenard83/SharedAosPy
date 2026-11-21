@@ -45,7 +45,7 @@ def cmd_roster_pdf(args: argparse.Namespace) -> int:
 
 
 def cmd_roster_analyze(args: argparse.Namespace) -> int:
-    from ..analysis.listing import analyse_list
+    from ..analysis.layers.listing import analyse_list
     from ..tournament_kit.list_parser import parse_list_file
     from .report import format_list_report
 

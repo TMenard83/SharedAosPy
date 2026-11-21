@@ -1,6 +1,9 @@
-"""Agrège unit_benchmark (scénario sans charge *déclarée*, édition TM) en un JSON
-par unité, héros compris (aospy unit benchmark-all --charge none --attacker-mode
-floor66 --defender-mode mean --include-heroes). Le scénario « attaquant chargé »
+"""Exporte en JSON (facultatif) le pool de classement que les registres lisent en
+direct (`repository.get_ranking_pool`) : unit_benchmark agrégé par unité (scénario
+sans charge *déclarée*, édition TM), héros compris (aospy unit benchmark-all
+--charge none --attacker-mode floor66 --defender-mode mean --include-heroes).
+Les registres combat_*/best_* n'ont plus besoin de ce fichier ; il sert à
+consulter ou archiver un instantané. Le scénario « attaquant chargé »
 (`--charge a/both`) est abandonné : en AoS4 la charge ne donne de bonus que via
 un texte d'aptitude propre à certains profils d'arme, donc la quasi-totalité des
 unités ne voient aucune différence entre les deux scénarios (cf. orchestration/README.md, « Side modifiers »).
@@ -32,45 +35,12 @@ moyen brut `avg_roi_pct`) est le critère de tri des registres de combat
 au score combiné de best_unites.py/best_heros.py (cf. cost_common.combined_score)."""
 import json
 
-from ..persistence import db
+from ..persistence import db, repository
+
+OUT_PATH = "scratch/output/per_unit_nocharge_floor66_TM.json"
 
 con = db.connect()
-
-QUERY = """
-with agg as (
-    select
-        u.id as unit_id,
-        u.name as name,
-        a.name as army,
-        a.grand_alliance as grand_alliance,
-        u.points as points,
-        u.is_hero as is_hero,
-        avg(b.roi) * 100.0 as avg_roi_pct,
-        avg(b.pts_net) as avg_pts_net,
-        100.0 * avg(case when b.roi > 0 then 1.0 else 0.0 end) as pct_positive,
-        quantile_cont(b.roi, 0.05) * 100.0 as roi_floor95_pct,
-        quantile_cont(b.roi, 0.34) * 100.0 as roi_floor66_pct,
-        quantile_cont(b.roi, 0.80) * 100.0 as roi_floor20_pct
-    from unit_benchmark b
-    join unit u on u.id = b.attacker_id
-    join army a on a.id = u.army_id
-    where b.attacker_charged = false and b.defender_charged = false
-      and b.attacker_mode = 'floor66' and b.defender_mode = 'mean'
-    group by u.id, u.name, a.name, a.grand_alliance, u.points, u.is_hero
-)
-select
-    *,
-    (roi_floor95_pct + roi_floor66_pct + roi_floor20_pct) / 3.0 as avg_floor_roi_pct
-from agg
-order by avg_floor_roi_pct desc
-"""
-
-rows = con.execute(QUERY).fetchall()
-cols = ["unit_id", "name", "army", "grand_alliance", "points", "is_hero",
-        "avg_roi_pct", "avg_pts_net", "pct_positive",
-        "roi_floor95_pct", "roi_floor66_pct", "roi_floor20_pct", "avg_floor_roi_pct"]
-data = [dict(zip(cols, r)) for r in rows]
-OUT_PATH = "scratch/per_unit_nocharge_floor66_TM.json"
+data = sorted(repository.get_ranking_pool(con), key=lambda r: r["avg_floor_roi_pct"], reverse=True)
 with open(OUT_PATH, "w", encoding="utf-8") as f:
     json.dump(data, f, ensure_ascii=False)
 print(OUT_PATH, len(data), "unites (dont",

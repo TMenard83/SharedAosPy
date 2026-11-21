@@ -1,9 +1,9 @@
-"""Couche 4 — aptitudes × armée (analysis/listing.py), cœur pur."""
+"""Couche 4 — aptitudes × armée (analysis/layers/listing.py), cœur pur."""
 
 from __future__ import annotations
 
-from aospy.analysis.encounter import EffectSpec
-from aospy.analysis.listing import ListAbility, conflicts, magic_budget, marriages, wizard_level
+from aospy.analysis.layers.encounter import EffectSpec
+from aospy.analysis.layers.listing import ListAbility, conflicts, magic_budget, marriages, wizard_level
 from aospy.domain.models import Unit, Weapon
 
 HAMMER = Weapon("Hammer", "melee", attacks=4, hit=4, wound=2, rend=2, damage=5)

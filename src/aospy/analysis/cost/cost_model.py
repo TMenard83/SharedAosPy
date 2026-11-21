@@ -32,7 +32,7 @@ from .features import UnitFeatures, all_features
 #: Prédicteurs par défaut. ``is_hero`` n'y figure pas : c'est la clé de
 #: segmentation de `fit_segmented`, pas un prédicteur continu.
 #: ``dmg_vs_save6`` (pool de dégâts bruts mêlée+tir) a été retiré au profit du seul
-#: ``dmg_ranged_vs_save6`` : `analysis/experiments/melee_ranged_split.py` montre que
+#: ``dmg_ranged_vs_save6`` : `analysis/cost/experiments/melee_ranged_split.py` montre que
 #: `dmg_vs_save6` et `dmg_ranged_vs_save6` étaient déjà mécaniquement colinéaires
 #: (le second est un sous-ensemble exact du premier), et qu'une fois reparamétrés en
 #: deux pools disjoints mêlée/tir, le pool mêlée seul (`dmg_melee_vs_save6`) n'a
@@ -45,14 +45,14 @@ from .features import UnitFeatures, all_features
 #: magnitude — un profil à dégât quasi nul avec 100 % de rend obtenait le même score
 #: qu'un gros cogneur avec 100 % de rend. `dmg_vs_save2` grandit avec les deux à la
 #: fois, plus fidèle à ce que GW valorise en points. Essais comparatifs dans
-#: `analysis/experiments/dmg_pen_weighted.py` (R² ajusté 0.8765 → 0.8794) ; deux
+#: `analysis/cost/experiments/dmg_pen_weighted.py` (R² ajusté 0.8765 → 0.8794) ; deux
 #: variantes par ligne d'arme (moyenne simple, moyenne pondérée par le nombre
 #: d'attaques) ont aussi été testées (expériences rejetées, supprimées ; voir git) et
 #: font moins bien que la somme sur les lignes — la moyenne dilue le poids des
 #: lignes à peu de porteurs, la somme (ce que fait `dmg_vs_save2`) pondère chaque
 #: ligne exactement par son dégât réel.
 #: ``charge_bonus_save2`` (supplément de ``dmg_vs_save2`` apporté par un texte d'arme
-#: `Charge (+N <Stat>)`) rejoint ces prédicteurs suite à `analysis/experiments/weapon_tags.py` :
+#: `Charge (+N <Stat>)`) rejoint ces prédicteurs suite à `analysis/cost/experiments/weapon_tags.py` :
 #: la magnitude est significative (+11.7 pts par point de dégât de charge, p=0.001) alors
 #: qu'un simple indicateur de présence (`has_charge`) ne l'était pas (p=0.150) — même
 #: enseignement que le remplacement `dmg_pen`→`dmg_vs_save2` ci-dessus, la magnitude
@@ -64,14 +64,14 @@ from .features import UnitFeatures, all_features
 #: (durabilité multiplicative, pas additive). ``dmg_vs_save2_sq`` (terme quadratique de
 #: ``dmg_vs_save2``) capte des rendements croissants au-delà d'un certain seuil de dégât
 #: perçant, que le terme linéaire seul sous-estime. Essais comparatifs dans
-#: `analysis/experiments/durability_and_saturation.py` (R² ajusté 0.9067 → 0.9173 combiné,
+#: `analysis/cost/experiments/durability_and_saturation.py` (R² ajusté 0.9067 → 0.9173 combiné,
 #: interaction héros incluse — voir `FACTORIAL_INTERACTIONS`) ; ``wounds_total``/``save_num``/
 #: ``ward_num`` restent des champs de `UnitFeatures` (utiles hors régression, notamment
 #: l'affichage) mais ne sont plus des prédicteurs du modèle de coût.
 #: ``unit_size_sq`` (terme quadratique de ``unit_size``) rejoint ces prédicteurs suite à un
 #: balayage de rendements croissants sur tous les indicateurs numériques principaux (seul
 #: `unit_size` était significatif, p=0.002, gain R² ajusté +0.0009, robuste au retrait des
-#: unités à 20 modèles) — cf. `analysis/experiments/unit_size_saturation.py`. Le coefficient
+#: unités à 20 modèles) — cf. `analysis/cost/experiments/unit_size_saturation.py`. Le coefficient
 #: linéaire de ``unit_size`` devient franchement négatif une fois ce terme ajouté (rabais de
 #: volume marqué en dessous d'une dizaine de modèles), compensé par le carré positif au-delà —
 #: GW semble facturer une prime sur les très grosses hordes, pas juste un rabais continu.
@@ -84,13 +84,13 @@ from .features import UnitFeatures, all_features
 #: parcimonie. Un retrait "un par un" isolé avait aussi repéré `dmg_vs_save2`/`weapon_mix`/
 #: `unit_type`/`is_unique` comme candidats individuellement peu coûteux, mais les retirer
 #: ensemble dégrade le R² ajusté de -0.0010 : leur contribution, faible, n'est pas nulle une
-#: fois les vrais doublons partis — gardés. Cf. `analysis/experiments/backward_elimination.py`.
+#: fois les vrais doublons partis — gardés. Cf. `analysis/cost/experiments/backward_elimination.py`.
 #: ``control`` est remplacé par son écart à la règle tacite de GW (`features.expected_control`) :
 #: le contrôle *attendu* d'un profil (1 pour l'infanterie légère, 2 pour un héros, 5 pour un
 #: monstre…) ne se paie pas (p≈0.1, non significatif), seul le *bonus* au-dessus (figurines
 #: épiques, leaders nommés, ≈+15 pts/point, p<0.001) et le *déficit* en dessous (héros montés,
 #: ≈−7 pts/point) entrent dans le prix. Le contrôle brut confondait les deux avec le type et la
-#: taille des figurines — cf. `analysis/experiments/control_profile.py`.
+#: taille des figurines — cf. `analysis/cost/experiments/control_profile.py`.
 MODEL_FEATURES: tuple[str, ...] = (
     "unit_size",
     "unit_size_sq",
@@ -112,16 +112,16 @@ SEGMENTS: dict[str, str] = {"hero": "is_hero == True", "troupe": "is_hero == Fal
 #: Facteurs catégoriels du plan d'expérience factoriel (voir `fit_cost_model_factorial`).
 #: ``army_name`` (≈25 modalités) remplace ``grand_alliance`` (4 modalités, dont il est le
 #: sur-ensemble strict — armée ⊂ alliance, les deux ensemble seraient colinéaires) :
-#: essai comparatif dans `analysis/experiments/army_factor.py`, F-test emboîté significatif
+#: essai comparatif dans `analysis/cost/experiments/army_factor.py`, F-test emboîté significatif
 #: (p≈4e-9) et R² ajusté +0.012 (0.865 → 0.877) pour le remplacement. Prudence : les armées
 #: à très peu d'unités importées (ex. Sons of Behemat, n≈7) ont un coefficient à fort effet
 #: de levier, moins fiable que celui des factions bien peuplées.
 #: ``is_unique`` (mot-clé UNIQUE, personnage nommé) proxy une part de la prime "aptitudes/
-#: narratif" qu'aospy ne modélise pas autrement — essai dans `analysis/experiments/unique_factor.py`,
+#: narratif" qu'aospy ne modélise pas autrement — essai dans `analysis/cost/experiments/unique_factor.py`,
 #: +16.6 pts significatif (p<0.001), R² ajusté +0.0025, peu colinéaire avec is_hero (corr. 0.24 :
 #: 38/144 UNIQUE ne sont pas des héros, ex. monstres/machines de guerre nommés).
 #: ``crit_type`` (type de Crit dominant, cf. `features.dominant_crit_type`) rejoint ces
-#: facteurs suite à `analysis/experiments/weapon_tags.py` : significatif au-delà de la magnitude
+#: facteurs suite à `analysis/cost/experiments/weapon_tags.py` : significatif au-delà de la magnitude
 #: de dégât déjà captée par `dmg_vs_save2` (autowound +17.1 pts, mortal -15.9 pts vs 2hits
 #: comme modalité de référence, p<0.05 sur les deux), gain de R² ajusté +0.0058 combiné à
 #: `charge_bonus_save2`.

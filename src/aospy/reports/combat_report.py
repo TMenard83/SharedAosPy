@@ -1,21 +1,30 @@
 """Logique partagée par combat_unites.py/combat_heros.py — même source
-(scratch/per_unit_nocharge_floor66_TM.json), même tableau à 5 indicateurs, seul
+(`repository.get_ranking_pool`, lu en direct dans `unit_benchmark`), même tableau à 5 indicateurs, seul
 le filtre troupe/héros et le texte (French, propre à chaque rôle) varient. Ce
 module porte la mécanique (chargement, tri, mise en page PDF) commune ; les
 fichiers combat_unites.py/combat_heros.py ne gardent que leur texte et
 appellent `build()`."""
-import json
-
 from reportlab.lib.units import mm
-from reportlab.platypus import Paragraph, Spacer, NextPageTemplate, PageBreak
+from reportlab.platypus import NextPageTemplate, PageBreak, Paragraph, Spacer
 
+from ..persistence import db, repository
 from .common import (
-    build_document, ranked_table, SectionMarker, today_str,
-    alliance_badge, BLOOD_GREEN, BLOOD_RED,
-    cover_title, cover_subtitle, cover_meta, cover_body, section_title, section_note, subhead, body_text,
+    BLOOD_GREEN,
+    BLOOD_RED,
+    SectionMarker,
+    alliance_badge,
+    body_text,
+    build_document,
+    cover_body,
+    cover_meta,
+    cover_subtitle,
+    cover_title,
+    ranked_table,
+    section_note,
+    section_title,
+    subhead,
+    today_str,
 )
-
-SOURCE_PATH = "scratch/per_unit_nocharge_floor66_TM.json"
 
 HEADER = ["#", None, "Armée", "All.", "Pts",
           "ROI Stabilité\n(95)", "ROI Fiabilité\n(66)", "ROI Explosivité\n(20)", "ROI Moyen",
@@ -63,8 +72,9 @@ def build(
     l'appelant (texte propre au rôle) ; `cover_subtitle_template`/
     `table_count_template` n'ont qu'un trou `{n}` (et `{n_armies}` pour le
     premier) pour le décompte."""
-    with open(SOURCE_PATH, "r", encoding="utf-8") as f:
-        all_rows = json.load(f)
+    con = db.connect()
+    all_rows = repository.get_ranking_pool(con)
+    con.close()
     rows = [r for r in all_rows if r["is_hero"] == is_hero]
     rows.sort(key=lambda r: r["avg_floor_roi_pct"], reverse=True)
     n_rows = len(rows)

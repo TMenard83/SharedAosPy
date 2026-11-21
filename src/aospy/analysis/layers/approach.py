@@ -31,7 +31,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Sequence
 
-from ..domain.models import Unit, Weapon
+from ...domain.models import Unit, Weapon
 from .marriage import ENGAGE_GAP_ROUND1, RUN_MEAN, p_2d6_at_least, reach
 from .timeline import DEFAULT_RHYTHM
 

@@ -16,7 +16,7 @@ grosses hordes (contrôle d'objectif, difficulté à les effacer), pas seulement
 continu. `cost_model.MODEL_FEATURES` utilise déjà `unit_size_sq` : ce script dérive donc la
 variante « avant adoption » (`unit_size` seul) à partir du jeu officiel actuel plutôt que
 l'inverse."""
-from aospy.analysis import cost_model
+from aospy.analysis.cost import cost_model
 from aospy.persistence import db
 
 con = db.connect()

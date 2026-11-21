@@ -1,4 +1,4 @@
-"""Croise, pour les héros, le registre de combat (scratch/per_unit_nocharge_floor66_TM.json)
+"""Croise, pour les héros, le registre de combat (`repository.get_ranking_pool`)
 et le registre de coût (plan d'expérience factoriel ajusté sur les héros, cf.
 cost_heros.py) pour produire un classement des « meilleurs » héros.
 

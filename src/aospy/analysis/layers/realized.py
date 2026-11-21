@@ -36,19 +36,19 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Optional
 
-from ..abilities.perimeter import RESOURCE_SCALED, SPENDS_RESOURCE
-from ..domain.models import Unit
-from ..engine.combat import CombatModifiers
+from ...abilities.perimeter import RESOURCE_SCALED, SPENDS_RESOURCE
+from ...domain.models import Unit
+from ...engine.combat import CombatModifiers
 from .encounter import (
     FRIENDLY_SCOPES,
     EffectSpec,
-    unit_durability,
-    plan_offense,
-    probe_for_effect,
     apply_effect,
     is_translatable,
     matches_friendly_target,
+    plan_offense,
     play_plan,
+    probe_for_effect,
+    unit_durability,
 )
 from .marriage import trigger
 from .timeline import DEFAULT_RHYTHM, KAIROS_SHORT
@@ -289,7 +289,7 @@ def combined(off_per_100: float, def_per_100: float) -> float:
 
 def build_realized_rows(con) -> list[tuple]:
     """Tuples `persistence.analysis_tables.REALIZED_COLS` pour toutes les unités payantes."""
-    from ..persistence import repository
+    from ...persistence import repository
     from .chassis import pct_rank
 
     units_by_army = repository.load_all_units_with_weapons(con)

@@ -2,7 +2,7 @@
 
 import pytest
 
-from aospy.analysis.assault import (ChargeSource, at_least, chargers, p_roll, reroll_receivers, scenario)
+from aospy.analysis.layers.assault import ChargeSource, at_least, chargers, p_roll, reroll_receivers, scenario
 from aospy.domain.models import Unit, Weapon
 
 
@@ -70,21 +70,21 @@ def test_scenario_cogs_expected_and_teleport():
 
 
 def test_longest_charge_threat_range():
-    from aospy.analysis.assault import longest_charge
+    from aospy.analysis.layers.assault import longest_charge
     assert longest_charge(0, False) == 7          # P(2D6 ≥ 7) = 58 %, ≥ 8 = 42 %
     assert longest_charge(1, False) == 8
     assert longest_charge(1, True) == 9           # +1 et relance : 9" à 66 %, 10" à 48 %
 
 
 def _ab(name, effects, text="", ft="", scope="friendly_aura", carriers=("Skreech",), freq="unlimited"):
-    from aospy.analysis.listing import ListAbility
+    from aospy.analysis.layers.listing import ListAbility
     return ListAbility("u-" + name, name, "charte : Skreech", "warscroll", carriers, scope, freq, "yours", "",
                        "", None, 1.0, None, ft, False, "plan", 2, 2, 2, 2, tuple(effects), False, text)
 
 
 def test_charge_sources_read_v25_v26_effects():
-    from aospy.analysis.assault import charge_sources
-    from aospy.analysis.encounter import EffectSpec
+    from aospy.analysis.layers.assault import charge_sources
+    from aospy.analysis.layers.encounter import EffectSpec
     verm, wiz = _u("Warbringer"), _u("Arch-Warlock", kw=("SKAVEN", "HERO", "WIZARD", "MASTERCLAN"))
     units = [verm, wiz]
     vocab = frozenset(k for u in units for k in u.keywords)
@@ -101,8 +101,8 @@ def test_charge_sources_read_v25_v26_effects():
 
 
 def test_charge_sources_star_target_reaches_every_unit():
-    from aospy.analysis.assault import charge_sources
-    from aospy.analysis.encounter import EffectSpec
+    from aospy.analysis.layers.assault import charge_sources
+    from aospy.analysis.layers.encounter import EffectSpec
     units = [_u("Warbringer"), _u("Arch-Warlock", kw=("SKAVEN", "HERO", "WIZARD"))]
     vocab = frozenset(k for u in units for k in u.keywords)
     cogs = _ab("Mechanisms of Time", [EffectSpec("reroll", "charge", 1.0, friendly_target="*")], ft="WIZARD")
@@ -119,8 +119,8 @@ def test_dice_count_modes():
 
 
 def test_dice_source_feeds_scenario_and_threat():
-    from aospy.analysis.assault import charge_sources, longest_charge
-    from aospy.analysis.encounter import EffectSpec
+    from aospy.analysis.layers.assault import charge_sources, longest_charge
+    from aospy.analysis.layers.encounter import EffectSpec
     units = [_u("A"), _u("B")]
     vocab = frozenset(k for u in units for k in u.keywords)
     src = charge_sources([_ab("Starfall", [EffectSpec("dice_count", "charge", 1.0, "somme")], ft="")], units, vocab)

@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import pytest
 
-from aospy.engine.combat import CombatModifiers, unit_damage_moments
-from aospy.analysis.features import _PROBE_SAVE6, _PROBE_SAVE2, _PROBE_SAVE4, compute_features
+from aospy.analysis.cost.features import _PROBE_SAVE2, _PROBE_SAVE4, _PROBE_SAVE6, compute_features
 from aospy.domain.models import Unit, Weapon
+from aospy.engine.combat import CombatModifiers, unit_damage_moments
 
 
 def _unit(**overrides):
@@ -204,7 +204,7 @@ def test_crit_type_picks_the_highest_damage_weapon_profile():
 
 import pytest as _pytest
 
-from aospy.analysis.features import compute_features, expected_control
+from aospy.analysis.cost.features import compute_features, expected_control
 from aospy.domain.models import Unit as _Unit
 
 

@@ -101,7 +101,7 @@ def _crit_chance(abilities: Optional[str], p_hit: float) -> float:
 
 def weapon_crit_type(abilities: Optional[str]) -> str:
     """Alias public de `_parse_crit`, pour un usage hors de ce module (ex. le
-    vecteur de caractéristiques du modèle de coût, `analysis/features.py`)."""
+    vecteur de caractéristiques du modèle de coût, `analysis/cost/features.py`)."""
     return _parse_crit(abilities)
 
 

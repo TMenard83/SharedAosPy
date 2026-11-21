@@ -5,7 +5,7 @@ Pas de nouvelle couche de résolution dans `combat.py` : `expected_weapon_damage
 hit/wound/rend/damage` et `defender.save/ward` directement, donc un bonus
 générique (ex. règle d'armée « +1 pour toucher, +1 pour sauvegarder ») s'applique
 en amont, en construisant une copie modifiée de l'`Unit`/ses `Weapon` via
-`dataclasses.replace` — même mécanisme que `analysis/features.py::_ranged_only`/
+`dataclasses.replace` — même mécanisme que `analysis/cost/features.py::_ranged_only`/
 `_melee_only`. Aucun changement au moteur de combat lui-même.
 """
 

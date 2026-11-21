@@ -1,5 +1,5 @@
 """Croise, pour les unités de troupe (hors héros), le registre de combat
-(scratch/per_unit_nocharge_floor66_TM.json) et le registre de coût (plan d'expérience
+(`repository.get_ranking_pool`) et le registre de coût (plan d'expérience
 factoriel ajusté sur les troupes, cf. cost_unites.py) pour produire
 un classement des « meilleures » unités : celles qui performent bien en duel
 *et* sont sous-cotées par rapport à ce que leur profil justifie.

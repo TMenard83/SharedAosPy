@@ -1,10 +1,10 @@
-"""Couche 2 — profil de châssis (analysis/chassis.py), cœur pur."""
+"""Couche 2 — profil de châssis (analysis/layers/chassis.py), cœur pur."""
 
 from __future__ import annotations
 
 import pytest
 
-from aospy.analysis.chassis import pct_rank, chassis_profile, is_companion
+from aospy.analysis.layers.chassis import chassis_profile, is_companion, pct_rank
 from aospy.domain.models import Unit, Weapon
 
 

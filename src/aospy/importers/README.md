@@ -37,7 +37,7 @@ Three sources describe a warscroll: Wahapedia, BSData and the battletome scans. 
 
 Some warscrolls are split across several free BattleScribe entries that only exist because a paid entry was taken (e.g. "Neave Blacktalon" + Neave's Companions, "Morathi-Khaine" + The Shadow Queen, "Freeguild Command Corps" = paid Adjutants + free Auxiliaries). `_detect_composite_units` finds these by following the BSData `entryLink`/`condition` graph itself (a free entry's condition referencing another, paid `entryLink`) rather than a hardcoded name list — verified against all 27 known catalogues (7 sub-entries across 4 armies). `_merge_composite_units` then folds the free entry's models/weapons/keywords into its paid parent in-place. **Simplification**: if the two differ in `save`, the parent's value wins (aospy's `Unit` has one `save` per unit).
 
-Wahapedia's importer has no equivalent merge — companion warscrolls there still land as separate `points <= 0` rows, which is why `analysis/features.py::feature_frame` unconditionally excludes `points <= 0` units from training/scoring (mechanically ≈ -100% residual otherwise, not a meaningful signal).
+Wahapedia's importer has no equivalent merge — companion warscrolls there still land as separate `points <= 0` rows, which is why `analysis/cost/features.py::feature_frame` unconditionally excludes `points <= 0` units from training/scoring (mechanically ≈ -100% residual otherwise, not a meaningful signal).
 
 ## BSData wielders resolution (`_extract_weapons`/`_weapon_wielders` in `bsdata.py`)
 

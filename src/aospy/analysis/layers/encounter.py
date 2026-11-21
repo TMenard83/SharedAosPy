@@ -28,17 +28,17 @@ import re
 from dataclasses import dataclass
 from typing import Callable, Optional
 
-from ..domain.models import Unit, Weapon
-from ..engine.combat import (
+from ...domain.models import Unit, Weapon
+from ...engine.combat import (
     CombatModifiers,
     convolve,
     effective_counts,
     unit_damage_moments,
     weapon_damage_distribution,
 )
+from ..cost.features import _PROBE_SAVE4, compute_effective_wounds
 from .approach import Plan, candidate_plans, shoots_in_combat
 from .chassis import is_companion, weapon_damages
-from .features import _PROBE_SAVE4, compute_effective_wounds
 
 #: AoS4 : les modificateurs aux jets de touche, de blessure et de sauvegarde sont plafonnés à ±1.
 _CAPPED_STATS = {"hit", "wound", "save"}
@@ -462,7 +462,7 @@ def receivers(source_kind: str, scope: str, owner_kind: str, owner_name: str, ar
 
 def build_encounter_rows(con) -> tuple[list[tuple], dict[str, int]]:
     """Tuples `persistence.analysis_tables.ENCOUNTER_COLS` pour toutes les rencontres effet ami × receveur + compteurs."""
-    from ..persistence import repository
+    from ...persistence import repository
 
     units_by_army = repository.load_all_units_with_weapons(con)
     army_names = dict(con.execute("SELECT id, name FROM army").fetchall())

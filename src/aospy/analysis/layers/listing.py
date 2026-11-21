@@ -25,7 +25,7 @@ import re
 from dataclasses import dataclass, field
 from typing import Optional
 
-from ..domain.models import Unit
+from ...domain.models import Unit
 from .encounter import EffectSpec, encounter, is_translatable, matches_friendly_target, receivers
 from .realized import coverage
 
@@ -311,7 +311,7 @@ def _effects(con, uids: list[str]) -> dict[str, list[EffectSpec]]:
 
 def collect(con, parsed) -> tuple[list[tuple[str, int, Optional[Unit]]], list[ListAbility], frozenset[str]]:
     """Unités (nom, points, `Unit` en base ou None) et aptitudes de la liste."""
-    from ..persistence import repository
+    from ...persistence import repository
 
     faction = parsed.base_faction
     units_by_army = repository.load_all_units_with_weapons(con)

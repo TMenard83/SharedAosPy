@@ -23,10 +23,10 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Optional
 
-from ..domain.models import Unit, Weapon
-from ..engine.combat import CombatModifiers
-from .features import _NO_MODS, _PROBE_SAVE4, dominant_crit_type, compute_effective_wounds, unit_type_of
-from .features import weapon_damages as _weapon_damages
+from ...domain.models import Unit, Weapon
+from ...engine.combat import CombatModifiers
+from ..cost.features import _NO_MODS, _PROBE_SAVE4, compute_effective_wounds, dominant_crit_type, unit_type_of
+from ..cost.features import weapon_damages as _weapon_damages
 
 
 def is_companion(weapon: Weapon) -> bool:
@@ -74,7 +74,7 @@ def _damage(unit: Unit, keep) -> float:
 def _attacks_total(unit: Unit) -> float:
     """Attaques totales, avec la même répartition des armes par figurine que le moteur
     (`combat.effective_counts` : `wielders` BSData, sinon description Wahapedia via `loadout`)."""
-    from ..engine.loadout import model_counts
+    from ...engine.loadout import model_counts
 
     counts, _notes = model_counts(unit, unit.weapons)
     return float(sum(w.attacks * n for w, n in zip(unit.weapons, counts)))
@@ -123,7 +123,7 @@ def build_chassis_rows(con) -> tuple[list[tuple], list[str]]:
     """Tuples `repository.CHASSIS_COLS` pour toutes les unités payantes + notes sur les sources absentes."""
     from datetime import datetime
 
-    from ..persistence import repository
+    from ...persistence import repository
 
     notes: list[str] = []
     units = [u for us in repository.load_all_units_with_weapons(con).values() for u in us if u.points > 0]
@@ -131,7 +131,7 @@ def build_chassis_rows(con) -> tuple[list[tuple], list[str]]:
 
     residuals: dict[int, float] = {}
     try:
-        from . import cost_model
+        from ..cost import cost_model
 
         res = cost_model.fit_cost_model_factorial(con)
         residuals = {r.unit_id: r.residual_pct for r in res.residuals if r.unit_id is not None}

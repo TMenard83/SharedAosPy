@@ -1,4 +1,4 @@
-"""Commande `chassis` : couche 2, la charte nue (analysis/chassis.py)."""
+"""Commande `chassis` : couche 2, la charte nue (analysis/layers/chassis.py)."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ from .common import _connect
 
 
 def cmd_chassis_build(args: argparse.Namespace) -> int:
-    from ..analysis.chassis import build_chassis_rows
+    from ..analysis.layers.chassis import build_chassis_rows
 
     con = _connect(args)
     rows, notes = build_chassis_rows(con)
@@ -72,7 +72,7 @@ def cmd_chassis_show(args: argparse.Namespace) -> int:
 
 
 def register(sub: argparse._SubParsersAction) -> None:
-    """Sous-commande `chassis` : couche 2, la charte nue (analysis/chassis.py)."""
+    """Sous-commande `chassis` : couche 2, la charte nue (analysis/layers/chassis.py)."""
     p_ch = sub.add_parser("chassis", help="Châssis des unités : la charte nue, sans aptitudes.")
     sch = p_ch.add_subparsers(dest="action", required=True)
     p = sch.add_parser("build", help="(Re)construit la table unit_chassis.")

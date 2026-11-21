@@ -10,7 +10,7 @@ from .common import _connect
 
 def cmd_cost_fit(args: argparse.Namespace) -> int:
     con = _connect(args)
-    from ..analysis import cost_model
+    from ..analysis.cost import cost_model
 
     try:
         if args.segmented:
@@ -36,7 +36,7 @@ def cmd_cost_fit(args: argparse.Namespace) -> int:
 
 def cmd_cost_residuals(args: argparse.Namespace) -> int:
     con = _connect(args)
-    from ..analysis import cost_model
+    from ..analysis.cost import cost_model
 
     try:
         result = cost_model.fit_cost_model(con)

@@ -27,9 +27,16 @@ from __future__ import annotations
 
 import dataclasses
 
-from aospy.analysis import cost_model
+from aospy.analysis.cost import cost_model
 from aospy.domain.models import Unit
-from aospy.engine.combat import CombatModifiers, _ANTI_RE, _CHARGE_RE, _normalize_abilities, _parse_crit, unit_damage_moments
+from aospy.engine.combat import (
+    _ANTI_RE,
+    _CHARGE_RE,
+    CombatModifiers,
+    _normalize_abilities,
+    _parse_crit,
+    unit_damage_moments,
+)
 from aospy.persistence import db, repository
 
 con = db.connect()

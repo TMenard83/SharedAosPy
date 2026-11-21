@@ -1,11 +1,19 @@
-"""Facteurs de mariage châssis × aptitude (analysis/marriage.py)."""
+"""Facteurs de mariage châssis × aptitude (analysis/layers/marriage.py)."""
 
 from __future__ import annotations
 
 import pytest
 
-from aospy.analysis.marriage import (CHARGE_FIGHT_SHARE, alive_profile, p_2d6_at_least, p_charge, rounds_alive,
-                                     survival_coverage, territory_round, trigger)
+from aospy.analysis.layers.marriage import (
+    CHARGE_FIGHT_SHARE,
+    alive_profile,
+    p_2d6_at_least,
+    p_charge,
+    rounds_alive,
+    survival_coverage,
+    territory_round,
+    trigger,
+)
 from aospy.domain.models import Unit
 
 

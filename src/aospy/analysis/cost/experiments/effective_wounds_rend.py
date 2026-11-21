@@ -15,7 +15,7 @@ coïncide avec ce qu'on observe dans les données plutôt que d'être un choix a
 variante "avant adoption" (Rend 0) en recalculant `effective_wounds` à la main depuis les
 champs bruts (`wounds_total`/`save_num`/`ward_num`, déjà dans `UnitFeatures`) plutôt que
 l'inverse, pour rester valide si `_REPRESENTATIVE_REND` change à l'avenir."""
-from aospy.analysis import cost_model
+from aospy.analysis.cost import cost_model
 from aospy.persistence import db
 
 con = db.connect()
@@ -45,9 +45,11 @@ for rend in (0, 1, 2, 3):
 
 print()
 print("Rend moyen observé sur les profils d'arme de la base (pondéré par nombre de profils) :")
-import duckdb  # noqa: E402
-from aospy.persistence import repository  # noqa: E402
 from collections import Counter  # noqa: E402
+
+import duckdb  # noqa: E402
+
+from aospy.persistence import repository  # noqa: E402
 
 con = db.connect()
 by_army = repository.load_all_units_with_weapons(con)

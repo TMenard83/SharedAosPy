@@ -8,8 +8,8 @@ par ce script).
 l'inverse, pour que la comparaison reste valide indépendamment des évolutions futures de
 CATEGORICAL_FEATURES. `army_name`/`grand_alliance` sont déjà deux champs natifs de
 `UnitFeatures` (résolus par `all_features`), pas besoin de les recalculer via `repository`."""
+from aospy.analysis.cost import cost_model
 from aospy.persistence import db
-from aospy.analysis import cost_model
 
 con = db.connect()
 frame = cost_model.feature_frame(con)

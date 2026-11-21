@@ -85,7 +85,11 @@ layers = [
     "aospy.text",
     "aospy.domain",
 ]
-ignore_imports = [
-    # lot 6 : combined_score (reports/cost_common.py) à descendre sous les deux paquets
-    "aospy.bonus_simulator.whatif -> aospy.reports.cost_common",
+
+[[tool.importlinter.contracts]]
+name = "analysis : les couches 2-4 s'appuient sur le modèle de coût, pas l'inverse"
+type = "layers"
+layers = [
+    "aospy.analysis.layers",
+    "aospy.analysis.cost",
 ]

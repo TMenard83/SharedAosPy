@@ -1,33 +1,42 @@
 """Logique partagée par best_unites.py/best_heros.py : les deux croisent le
-même registre de combat (scratch/per_unit_nocharge_floor66_TM.json) et un
+même registre de combat (`repository.get_ranking_pool`, lu en direct) et un
 modèle de coût factoriel ajusté séparément sur leur population (troupe ou
-héros), avec la même formule de score (cf. cost_common.combined_score). Ce
+héros), avec la même formule de score (cf. analysis/cost/scoring.py::combined_score). Ce
 module porte la mécanique (jointure, z-scores, mise en page PDF) commune ;
 `compute_ranked()` est aussi réutilisé directement par best_by_faction.py.
 Les fichiers best_unites.py/best_heros.py ne gardent que leur texte et
 appellent `render()`."""
-import json
 import statistics
 
 from reportlab.lib.units import mm
-from reportlab.platypus import Paragraph, Spacer, NextPageTemplate, PageBreak
+from reportlab.platypus import NextPageTemplate, PageBreak, Paragraph, Spacer
 
-from ..persistence import db
-from ..analysis import cost_model
+from ..analysis.cost import cost_model
+from ..analysis.cost.scoring import combined_score
+from ..persistence import db, repository
 from .common import (
-    build_document, ranked_table, SectionMarker, today_str,
-    alliance_badge, BLOOD_GREEN, BLOOD_RED,
-    cover_title, cover_subtitle, cover_meta, cover_body, section_title, section_note, subhead, body_text,
+    BLOOD_GREEN,
+    BLOOD_RED,
+    SectionMarker,
+    alliance_badge,
+    body_text,
+    build_document,
+    cover_body,
+    cover_meta,
+    cover_subtitle,
+    cover_title,
+    ranked_table,
+    section_note,
+    section_title,
+    subhead,
+    today_str,
 )
-from .cost_common import combined_score
-
-COMBAT_SOURCE_PATH = "scratch/per_unit_nocharge_floor66_TM.json"
 
 MIN_PREDICTED = 40.0
 #: Poids de l'indicateur (z_roi) relativement à la sous-cotation (z_undercost)
 #: dans le score combiné — surpondère la performance en combat.
 ROI_WEIGHT = 2.0
-#: Poids du terme de pénalité de déséquilibre (cf. `cost_common.combined_score`)
+#: Poids du terme de pénalité de déséquilibre (cf. `analysis/cost/scoring.py::combined_score`)
 #: relativement à la moyenne pondérée — empêche un excès sur un indicateur de
 #: compenser entièrement une faiblesse sur l'autre (ex. Namarti Reavers, très
 #: sous-cotés mais médiocres en combat, se classaient 3e sans ce terme).
@@ -50,11 +59,9 @@ def compute_ranked(is_hero: bool) -> list[dict]:
     """Classement complet, toutes armées confondues, avec le rang global stocké
     dans chaque ligne (clé ``rank``) — c'est ce rang, pas la position dans une
     liste éventuellement filtrée, que `render()` affiche en colonne ``#``."""
-    with open(COMBAT_SOURCE_PATH, "r", encoding="utf-8") as f:
-        combat_rows = json.load(f)
-    combat_by_id = {r["unit_id"]: r for r in combat_rows if r["is_hero"] == is_hero}
-
     con = db.connect()
+    combat_rows = repository.get_ranking_pool(con)
+    combat_by_id = {r["unit_id"]: r for r in combat_rows if r["is_hero"] == is_hero}
     frame = cost_model.feature_frame(con)
     role_frame = frame.query("is_hero == @is_hero").copy()
     cost_result = cost_model.fit_cost_model_factorial(con, frame=role_frame)

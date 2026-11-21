@@ -9,7 +9,7 @@ PV et contrôle 2). La règle est `features.expected_control`.
 Contre-exemple dérivé du jeu officiel actuel (`control_bonus`/`control_deficit` remplacés par
 `control`), pour que la comparaison reste valide si `MODEL_FEATURES` évolue.
 """
-from aospy.analysis import cost_model
+from aospy.analysis.cost import cost_model
 from aospy.persistence import db
 
 con = db.connect()

@@ -1,6 +1,6 @@
 """Génère la synthèse PDF des combats par héros (unité attaquante is_hero) —
 liste complète, pas de Top N. Pendant de combat_unites.py.
-Source : scratch/per_unit_nocharge_floor66_TM.json (reports/aggregate.py, --include-heroes).
+Source : `repository.get_ranking_pool` (`unit_benchmark` peuplée avec --include-heroes).
 Mécanique (chargement, tri, mise en page) partagée avec combat_unites.py via
 combat_report.py — ce fichier ne porte que le texte propre aux héros."""
 from .combat_report import build

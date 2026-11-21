@@ -10,8 +10,8 @@ que dmg_vs_save2 grandit avec les deux à la fois — plus fidèle à ce que GW 
 `cost_model.MODEL_FEATURES` utilise déjà `dmg_vs_save2` : ce script dérive donc la variante
 `dmg_pen` (ratio, écartée) à partir du jeu officiel actuel plutôt que l'inverse, pour que la
 comparaison reste valide indépendamment des évolutions futures de MODEL_FEATURES."""
+from aospy.analysis.cost import cost_model
 from aospy.persistence import db
-from aospy.analysis import cost_model
 
 con = db.connect()
 frame = cost_model.feature_frame(con)

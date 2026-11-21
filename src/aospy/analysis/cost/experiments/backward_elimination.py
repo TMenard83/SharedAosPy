@@ -16,7 +16,7 @@ doublons éliminés.
 `cost_model.MODEL_FEATURES` a déjà retiré `dmg_cv_vs_save4`/`move` : ce script dérive donc la
 variante « avant élimination » (les deux réintégrés) à partir du jeu officiel actuel plutôt
 que l'inverse."""
-from aospy.analysis import cost_model
+from aospy.analysis.cost import cost_model
 from aospy.persistence import db
 
 con = db.connect()
