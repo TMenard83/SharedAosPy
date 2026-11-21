@@ -6,7 +6,7 @@ CSV Wahapedia (séparateur `|`, BOM UTF-8) sont la source utilisée par le proje
 StatHammer ; ce module les rend disponibles ici sans dupliquer le moteur de
 calcul (qui reste celui d'aospy, `combat.py`).
 
-Limitations connues (périmètre volontairement restreint, voir CLAUDE.md) :
+Limitations connues (périmètre volontairement restreint, voir importers/README.md) :
 
 * seuls les rôles « unité de combat classique » sont importés (`INGESTIBLE_ROLES`)
   — Endless Spells, Manifestations, Regiments of Renown et Faction Terrain sont

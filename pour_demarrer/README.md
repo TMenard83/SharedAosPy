@@ -65,4 +65,5 @@ uniquement via la CLI complète (`aospy --help`, `aospy <commande> --help`) :
   unités retirées d'une armée.
 
 Pour le détail complet de chaque commande et de son fonctionnement interne, voir
-le `CLAUDE.md` à la racine du projet.
+le `CLAUDE.md` à la racine du projet (carte des couches) puis le `README.md` du
+sous-paquet concerné dans `src/aospy/`.

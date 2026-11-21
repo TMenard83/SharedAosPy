@@ -22,7 +22,7 @@ BASE_URL = "https://raw.githubusercontent.com/BSData/age-of-sigmar-4th/main/"
 
 #: Répertoire des CSV Wahapedia, utilisé uniquement pour recouper le statut
 #: Legends (cf. `_wahapedia_legends_names`) — aucune dépendance vers `wahapedia.py`
-#: pour ne pas inverser le sens de dépendance documenté dans CLAUDE.md.
+#: pour ne pas inverser le sens de dépendance documenté dans CLAUDE.md (carte des couches).
 WAHAPEDIA_DATA_DIR = Path("data") / "wahapedia"
 
 # Arméees disponibles : nom -> (fichier_principal, fichier_library, grand_alliance)
@@ -329,7 +329,7 @@ def _option_damage_score(entry: ET.Element) -> float:
 #: Corrections manuelles pour des règles spéciales portées par un profil séparé
 #: du warscroll (`typeName="Ability (Passive)"`) plutôt que par la caractéristique
 #: "Ability" du profil d'arme lui-même (la seule que `_extract_weapons` lit) —
-#: aospy ne stocke pas de table d'aptitudes par unité (cf. CLAUDE.md), donc ces
+#: aospy ne stocke pas de table d'aptitudes par unité (cf. importers/README.md), donc ces
 #: règles échappent structurellement au parsing générique. Repérable dans le
 #: catalogue par des caractéristiques Wnd/Rnd/Dmg non numériques du genre
 #: « See <X> ability » : `parse_target`/`parse_dice` les résolvent alors en

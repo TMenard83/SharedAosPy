@@ -574,7 +574,7 @@ def _build_cover_pdf(
 
 #: Les pages copiées depuis les battletomes/Manuel du général sont des scans
 #: aplatis (une seule image ~1865x2472 par page, cf. le traitement anti-copie
-#: documenté dans CLAUDE.md) : `writer.add_page` les recopie telles quelles,
+#: documenté dans tournament_kit/README.md) : `writer.add_page` les recopie telles quelles,
 #: soit ~1 Mo/page rien qu'en JPEG déjà compressé — largement plus que
 #: nécessaire pour une page de règles lue à l'écran ou imprimée en A4. On les
 #: redimensionne/recompresse après coup (~150-250 Ko/page), ce qui a divisé

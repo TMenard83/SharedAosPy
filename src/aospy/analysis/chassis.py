@@ -1,6 +1,6 @@
 """Couche 2 — le châssis : ce que vaut la charte nue, sans ses aptitudes.
 
-Architecture « aptitude ≠ châssis » (cf. CLAUDE.md, « Ability analysis ») : une stat de charte
+Architecture « aptitude ≠ châssis » (cf. analysis/README.md, « Architecture en quatre couches ») : une stat de charte
 est acquise, un bonus d'aptitude se joue. Ce module décrit la charte seule — PV, sauvegarde,
 profils d'arme et leurs capacités d'arme (Crit, Anti-X, Charge, Companion, qui font partie du
 profil) — avec deux familles de mesures :

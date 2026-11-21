@@ -1,6 +1,6 @@
 """Couche 3 — valeur réalisée d'une unité : son châssis + ses propres aptitudes qui la boostent.
 
-Pour refaire les « meilleures unités » (cf. CLAUDE.md, « Ability analysis ») : on ne cherche pas des
+Pour refaire les « meilleures unités » (cf. analysis/README.md, « Architecture en quatre couches ») : on ne cherche pas des
 buffers, donc seules comptent les aptitudes de la charte qui s'appliquent à l'unité elle-même —
 portée `self`, ou bulle/ordre ami dont elle est une cible éligible (restriction de cible amie
 satisfaite, pas « another/other friendly »). Traits héroïques, artefacts, règles d'armée et buffs

@@ -3,7 +3,7 @@ par unité, héros compris (aospy unit benchmark-all --charge none --attacker-mo
 floor66 --defender-mode mean --include-heroes). Le scénario « attaquant chargé »
 (`--charge a/both`) est abandonné : en AoS4 la charge ne donne de bonus que via
 un texte d'aptitude propre à certains profils d'arme, donc la quasi-totalité des
-unités ne voient aucune différence entre les deux scénarios (cf. CLAUDE.md).
+unités ne voient aucune différence entre les deux scénarios (cf. orchestration/README.md, « Side modifiers »).
 Cela dit, deux règles optionnelles de `DuelRules` — `rule-charge-threshold` et
 `rule-double-shoot` — restent actives par défaut sur ce run malgré `--charge
 none` : la première déduit l'état chargé (et son bonus d'arme) du seul écart de

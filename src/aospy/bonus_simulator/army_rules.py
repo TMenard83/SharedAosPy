@@ -5,7 +5,7 @@ l'IHM (`app.py`) — même esprit que `persistence/seed.py` pour la convention
 JSON, mais sans écriture en base.
 
 Volontairement pas encore alimenté au-delà de l'exemple donné : ni BSData ni
-Wahapedia ne capturent le texte des règles d'armée aujourd'hui (voir CLAUDE.md).
+Wahapedia ne capturent le texte des règles d'armée aujourd'hui (voir bonus_simulator/README.md).
 `data/wahapedia/Faction_abilities.csv` (`type_name == "Battle Traits"`) contient
 déjà ce texte pour les factions Wahapedia — future source d'auto-import, hors
 scope ici.

@@ -1,6 +1,6 @@
 """Couche 4 — aptitudes × armée : ce qu'une liste fait de ses aptitudes.
 
-Architecture « aptitude ≠ châssis » (cf. CLAUDE.md, « Ability analysis ») : les couches 1-3 jugent
+Architecture « aptitude ≠ châssis » (cf. analysis/README.md, « Architecture en quatre couches ») : les couches 1-3 jugent
 une aptitude hors contexte, une charte nue, puis un effet posé sur une charte. Ici on prend une
 **liste réelle** (export de l'App, `tournament_kit.list_parser`) et on relève :
 

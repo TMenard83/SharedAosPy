@@ -449,7 +449,7 @@ _ENDRINRIGGERS_LIKE = '''
 
 def test_extract_weapons_propagates_nested_bundle_unit_wide_cap() -> None:
     """Le plafond du wrapper (1/3 modèles) doit s'appliquer à ses deux sous-armes,
-    pas la taille pleine du groupe (cf. CLAUDE.md "BSData wielders resolution")."""
+    pas la taille pleine du groupe (cf. importers/README.md "BSData wielders resolution")."""
     units = parse_library_units(_library_xml(_ENDRINRIGGERS_LIKE))
     unit = units["u-end"]
     by_name = {w.name: w for w in unit.weapons}
@@ -519,7 +519,7 @@ _STEGADON_LIKE = '''
 def test_extract_weapons_keeps_only_best_option_under_group_cap() -> None:
     """Un `selectionEntryGroup` plafonné sous son nombre d'options (Stegadon : bow OU
     throwers) ne garde que la meilleure par dégât espéré ; l'autre est absente, pas
-    seulement à wielders=0 (cf. CLAUDE.md "BSData wielders resolution")."""
+    seulement à wielders=0 (cf. importers/README.md "BSData wielders resolution")."""
     units = parse_library_units(_library_xml(_STEGADON_LIKE))
     unit = units["u-steg"]
     names = {w.name for w in unit.weapons}

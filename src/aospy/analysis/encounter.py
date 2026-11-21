@@ -1,6 +1,6 @@
 """Couche 3 — rencontre aptitude × châssis : ce qu'un effet rapporte vraiment sur CETTE charte.
 
-Architecture « aptitude ≠ châssis » (cf. CLAUDE.md, « Ability analysis ») : la couche 1 décrit
+Architecture « aptitude ≠ châssis » (cf. analysis/README.md, « Architecture en quatre couches ») : la couche 1 décrit
 l'effet hors contexte (`ability_effect` : stat, valeur, périmètre) ; la couche 2 décrit la charte
 nue (`unit_chassis`). Ici on applique l'effet au châssis de chaque receveur possible et on relit
 le moteur de combat avant/après — « +1 Damage » double une arme à 1 dégât mais ne fait que +33 %

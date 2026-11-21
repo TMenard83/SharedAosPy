@@ -5,5 +5,5 @@ PDF prêt à emporter en tournoi.
 `list_parser.py` parse le texte brut, `warscroll_index.py` résout chaque
 unité vers ses pages de battletome via `data/json/warscroll_index.json` (curation
 manuelle, voir ce fichier), `pdf_builder.py` assemble le PDF final. Aucun
-accès DB requis. Voir CLAUDE.md pour le détail d'architecture.
+accès DB requis. Voir README.md (même dossier) pour le détail d'architecture.
 """
