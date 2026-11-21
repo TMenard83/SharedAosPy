@@ -47,7 +47,7 @@ from .features import UnitFeatures, all_features
 #: fois, plus fidèle à ce que GW valorise en points. Essais comparatifs dans
 #: `analysis/experiments/dmg_pen_weighted.py` (R² ajusté 0.8765 → 0.8794) ; deux
 #: variantes par ligne d'arme (moyenne simple, moyenne pondérée par le nombre
-#: d'attaques) ont aussi été testées (`scratch/experiment_dmg_pen_lineavg*.py`) et
+#: d'attaques) ont aussi été testées (expériences rejetées, supprimées ; voir git) et
 #: font moins bien que la somme sur les lignes — la moyenne dilue le poids des
 #: lignes à peu de porteurs, la somme (ce que fait `dmg_vs_save2`) pondère chaque
 #: ligne exactement par son dégât réel.

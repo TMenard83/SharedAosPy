@@ -171,7 +171,7 @@ class UnitFeatures:
     charge_bonus_save2: float  # supplément de dmg_vs_save2 apporté par un `Charge (+N <Stat>)`
     # (0 si l'unité n'a aucun profil d'arme avec ce texte) — sans ce champ, ce bonus était
     # invisible au modèle de coût (les sondes ci-dessous ne simulent jamais une charge).
-    # Magnitude, pas simple indicateur de présence : cf. `scratch/experiment_weapon_tags.py`,
+    # Magnitude, pas simple indicateur de présence : cf. `analysis/experiments/weapon_tags.py`,
     # même constat que `dmg_pen`→`dmg_vs_save2` (la magnitude explique le prix, pas la
     # présence — `has_charge` seul n'était pas significatif, p=0.150 vs p=0.001 en magnitude).
     # `Anti-<MOT-CLÉ>` a été testé dans le même essai et écarté : ni la présence
@@ -209,7 +209,7 @@ class UnitFeatures:
 
     grand_alliance: str  # résolu par `all_features` (nécessite la DB) ; gardé comme métadonnée,
     # mais absorbé par `army_name` dans `cost_model.CATEGORICAL_FEATURES` (armée ⊂ alliance,
-    # les deux ensemble seraient colinéaires — cf. `scratch/experiment_army_factor.py`)
+    # les deux ensemble seraient colinéaires — cf. `analysis/experiments/army_factor.py`)
     army_name: str  # facteur catégoriel plus fin que grand_alliance, résolu par `all_features`
     weapon_mix: str  # "melee" / "ranged" / "mixed" — facteur catégoriel dérivé des profils d'arme
 
@@ -219,11 +219,11 @@ class UnitFeatures:
     priest_level: int  # PRIEST (N), 0 si aucun
     is_unique: bool  # mot-clé UNIQUE — proxy grossier de la prime "aptitudes/narratif" d'un
     # personnage nommé, qu'aospy ne modélise pas autrement (pas de texte d'aptitude en base) ;
-    # cf. `scratch/experiment_unique_factor.py`, +16.6 pts significatif (p<0.001)
+    # cf. `analysis/experiments/unique_factor.py`, +16.6 pts significatif (p<0.001)
     crit_type: str  # type de Crit (none/2hits/mortal/autowound) du profil d'arme qui contribue
     # le plus à dmg_vs_save2 (proxy du "crit dominant" d'une unité multi-profils) — significatif
     # au-delà de la magnitude de dégât déjà captée par dmg_vs_save2 : cf.
-    # `scratch/experiment_weapon_tags.py` (autowound +17.1 pts, mortal -15.9 pts vs 2hits, p<0.05)
+    # `analysis/experiments/weapon_tags.py` (autowound +17.1 pts, mortal -15.9 pts vs 2hits, p<0.05)
 
 
 def _ranged_only(unit: Unit) -> Unit:

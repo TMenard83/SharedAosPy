@@ -26,3 +26,9 @@ data/doc d'entree/
 data/wahapedia/*/
 scratch/app_capture/
 scratch/wahapedia/
+
+# Sorties ponctuelles à la racine (benchmarks, classements, scripts d'inspection) : à ranger dans scratch/output/
+/bench_*.log
+/bench_*.txt
+/army_ranking_*.csv
+/_inspect_*.py
