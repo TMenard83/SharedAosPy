@@ -8,8 +8,8 @@ description: Curation manuelle d'une nouvelle faction (ou d'une entrée existant
 `data/json/faction_rules_fr.json` porte, par faction, le texte français **final**
 (déjà corrigé par les erratas officiels) de chaque règle de faction et de
 chaque aptitude d'unité, pour les modes `fr`/`fr-extended` de
-`aospy roster pdf --mode ...` (`tournament_kit/translation/faction_rules_fr.py`,
-`pdf_builder._fr_patch`). Contrairement à `warscroll_index.json`
+`aospy roster pdf --mode ...` (`tournament_kit/sources/faction_rules_fr.py`,
+`resolution/rules_resolution._fr_patch`). Contrairement à `warscroll_index.json`
 (`warscroll-index` skill : curation par **numéro de page**, le PDF reste
 copié tel quel), ici on transcrit le **texte intégral** — travail plus long,
 étalé sur plusieurs sessions, une faction à la fois.
@@ -137,7 +137,7 @@ s'appliquent. `battle_traits`/`heroic_traits_artefacts` n'ont pas de
 `scope` (tout s'applique, comme côté Wahapedia).
 
 **Cas particulier `manifestation_lores`** : une addition nette n'a pas de
-sens ici (`pdf_builder.resolve_rules` résout d'abord le warscroll de
+sens ici (`resolution/rules_resolution.resolve_rules` résout d'abord le warscroll de
 chaque manifestation invocable sur le nom Wahapedia d'origine, *avant*
 d'appliquer les correctifs — une aptitude sans `wahapedia_name` matchant
 n'aurait aucun warscroll à rattacher). N'utiliser que des correctifs pour
@@ -249,7 +249,7 @@ cette catégorie.
   (`name`/`description`/`condition`/`ability_phase`), sans `origin`/
   `provenance` (pas de correctif/addition à distinguer, tout vient du même
   PDF).
-- `pdf_builder._ABILITY_TEXT_OVERRIDES` (le correctif ad hoc pour le champ
+- `resolution/rules_resolution._ABILITY_TEXT_OVERRIDES` (le correctif ad hoc pour le champ
   Wahapedia corrompu de "DEPICT RUNE", LRL) reste actif dans tous les modes,
   indépendamment de ce fichier — une future entrée `faction_rules_fr.json`
   pour cette même aptitude (`wahapedia_name: "DEPICT RUNE"`) prendrait le

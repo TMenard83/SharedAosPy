@@ -27,7 +27,7 @@ d'unité viennent juste après la couverture, avant la carte de règles.
 
 **Plus aucune section n'est une page de battletome/Manuel du général copiée
 par défaut** — chacune est dessinée en carte compacte
-(`tournament_kit/warscroll_card.py`) : profils d'unité et règles de faction
+(`tournament_kit/render/`, ex-`warscroll_card.py`) : profils d'unité et règles de faction
 à partir de `data/wahapedia/*.csv` (aptitudes groupées par bandeau de phase
 vertical, 7 phases du Manuel du général + une 8ᵉ verte pour les réactions
 sans phase précise, badges en vraies pastilles pleines), cartes de tactique
@@ -55,7 +55,7 @@ manifestations à la table, pas à une seule.
 **Armée de Renom (ex. « Slaves to Darkness | Legion of the First Prince »)** :
 ses propres traits de bataille / formations / traits héroïques / artefacts /
 domaine de sorts *remplacent* ceux de la faction de base plutôt que s'y
-ajouter — le code (`pdf_builder._AOR_REPLACES`) omet la carte/page de la
+ajouter — le code (`resolution/rules_resolution._AOR_REPLACES`) omet la carte/page de la
 faction de base pour toute catégorie que l'armée de renom choisie remplace
 effectivement, pour ne jamais montrer l'ancienne version à côté de la
 nouvelle. Certaines catégories peuvent ne pas être remplacées (ex. une armée de renom sans
@@ -134,6 +134,6 @@ ne passent jamais par cette annexe : ils ont leur propre section de cartes
   le trait de bataille LRL « Depict Rune » (5 identifiants de tooltip
   consécutifs, sans texte entre eux, que le CSV exporté ne résout jamais).
   Le signaler ainsi plutôt que le faire disparaître silencieusement est
-  volontaire (`pdf_builder.clean_html`) — si un utilisateur signale un texte
+  volontaire (`render/text.clean_html`) — si un utilisateur signale un texte
   d'aptitude visiblement incomplet ailleurs, chercher ce même motif avant de
   soupçonner autre chose.

@@ -87,7 +87,7 @@ from dataclasses import dataclass, field
 from dataclasses import replace as _dc_replace
 from pathlib import Path
 
-from ..warscroll_card import tag_ability_origin
+from ..render.cards import tag_ability_origin
 from .wahapedia_lookup import AbilityEntry, normalize_name, sanitize_glyphs
 
 DEFAULT_FACTION_RULES_FR_FILE = Path("data") / "json" / "faction_rules_fr.json"
@@ -239,7 +239,7 @@ def apply_fr_overrides(entries: list[AbilityEntry], overrides: list[dict]) -> li
     documenté plus haut. Quand `condition` est fourni, `is_reaction` est
     recalculé à partir de son contenu (`"reaction:"` en tête, comme le fait
     déjà `_ability_entry` côté CSV Wahapedia) plutôt que laissé à sa valeur
-    d'origine, pour que le badge rendu (`warscroll_card._condition_pill`)
+    d'origine, pour que le badge rendu (`render/pills._condition_pill`)
     corresponde au nouveau timing plutôt qu'à l'ancien."""
     if not overrides:
         return entries

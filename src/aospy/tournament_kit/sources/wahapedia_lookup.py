@@ -205,7 +205,7 @@ class AbilityEntry:
     # départager deux homonymes de catégories différentes dans
     # `faction_rules_fr.apply_fr_overrides` (clé `wahapedia_type` du JSON).
     wahapedia_type: str = ""
-    # étiquette explicite de regroupement (cf. warscroll_card._ability_category) —
+    # étiquette explicite de regroupement (cf. render/phases._ability_category) —
     # seule valeur posée aujourd'hui : "manifestation", par `set_ability_category`
     # dans pdf_builder.py pour une aptitude de convocation d'un domaine de
     # manifestations (son `points_type` seul ne suffit pas à la distinguer d'un
@@ -214,28 +214,28 @@ class AbilityEntry:
     # warscroll(s) d'où vient l'aptitude, une fois sortie de sa carte d'unité
     # pour rejoindre une carte de règles par tour (mode `fr-split`, cf.
     # `pdf_builder.build_roster_pdf`) — rendu en badge dédié par
-    # `warscroll_card._warscroll_pills`. Plusieurs noms quand la même
+    # `render/pills._warscroll_pills`. Plusieurs noms quand la même
     # aptitude (texte identique) est portée par plusieurs unités de la liste.
     warscrolls: tuple[str, ...] = ()
     # sous-section d'affichage d'un bandeau de phase en mode `fr-split`
     # (« Règles de base », « Règles d'armée »), posée par `pdf_builder` qui
     # sait d'où vient l'aptitude — vide pour une aptitude de warscroll, rangée
-    # sous le nom de son/ses warscroll(s) (cf. `warscroll_card.ability_section`).
+    # sous le nom de son/ses warscroll(s) (cf. `render/phases.ability_section`).
     section: str = ""
     # aptitude qui ne modifie que le profil de sa propre unité, décidé sur le
     # texte Wahapedia d'origine avant tout correctif français (cf.
-    # `pdf_builder._mark_self_profile`/`warscroll_card.is_self_profile_modifier`).
+    # `split_pool._mark_self_profile`/`render/phases.is_self_profile_modifier`).
     self_profile: bool = False
     # rang explicite de la sous-section de l'aptitude dans son bandeau de
-    # phase (mode sectionné, cf. `warscroll_card._section_rank`) — posé
+    # phase (mode sectionné, cf. `render/phases._section_rank`) — posé
     # uniquement par `roster_simplifications.py` (`before_spells`).
     section_rank: int | None = None
     # case pleine largeur dans la grille d'une sous-section (mode sectionné,
-    # cf. `warscroll_card._ability_span`) — posé uniquement par
-    # `pdf_builder._order_deploy`.
+    # cf. `render/phases._ability_span`) — posé uniquement par
+    # `split_pool._order_deploy`.
     full_width: bool = False
     # ressources de saison gagnées/dépensées, en icônes à côté des badges
-    # (dé de rage, point de fureur — cf. `warscroll_card._resource_badges`) :
+    # (dé de rage, point de fureur — cf. `render/pills._resource_badges`) :
     # paires (type, valeur), ex. (("Rage", "+2"), ("Fury", "+2")). Posé par
     # le JSON (`season_rules.json`/`generic_core_abilities.json`, clé
     # `resources`).
@@ -276,7 +276,7 @@ class WarscrollData:
     # ratio de porteurs discret sur l'arme concernée (cf. warscroll_card.py)
     # aptitude de convocation d'une manifestation (sort persistant), posée par
     # `rules_resolution.resolve_rules` — badge de lancement et note de pose
-    # résumée sur la carte (cf. `warscroll_card.summon_placement_note`).
+    # résumée sur la carte (cf. `render/cards.summon_placement_note`).
     summon: AbilityEntry | None = None
     # nom français affiché en petit sous le nom anglais de la carte (celui de
     # l'export de liste de l'App) — `subtitle_fr` de `faction_rules_fr.json`.
@@ -368,7 +368,7 @@ class WahapediaLookup:
         `Warscrolls.csv` via `warscroll_id` pour connaître sa faction) et
         `Faction_abilities.csv` (`faction_id` déjà en colonne). Sert
         uniquement à teinter différemment le badge de ce mot-clé sur une
-        carte (cf. `warscroll_card._keyword_pills`), jamais à filtrer quoi que
+        carte (cf. `render/pills._keyword_pills`), jamais à filtrer quoi que
         ce soit. Normalisé en minuscules pour une comparaison insensible à la
         casse (les badges eux-mêmes affichent la valeur brute en majuscules)."""
         if self._faction_specific_keywords is None:
@@ -584,7 +584,7 @@ class WahapediaLookup:
         # `WIZARD`/`PRIEST` portent leur niveau de magie/de prière dans la
         # colonne `parameter` (Warscrolls_keywords.csv), séparée du nom du
         # mot-clé lui-même — reconstitue le format "WIZARD (N)" que
-        # `warscroll_card._caster_badges` reconnaît pour le badge d'en-tête,
+        # `render/pills._caster_badges` reconnaît pour le badge d'en-tête,
         # plutôt que de laisser le mot-clé nu sans son niveau.
         keywords = []
         for k in self.keywords:

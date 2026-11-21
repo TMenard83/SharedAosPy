@@ -15,7 +15,6 @@ l'export Wahapedia ne sont pas présents localement.
 
 from __future__ import annotations
 
-import copy
 import re
 from pathlib import Path
 
@@ -24,7 +23,6 @@ import pytest
 pypdf = pytest.importorskip("pypdf")
 pytest.importorskip("reportlab")
 
-from aospy.tournament_kit import warscroll_card  # noqa: E402
 from aospy.tournament_kit.pdf_builder import build_roster_pdf  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -40,24 +38,6 @@ LISTS = sorted(LISTS_DIR.glob("*.txt"))
 
 # horodatage de la couverture (`pdf_theme.today_str`), seul élément non déterministe
 _TIMESTAMP_RE = re.compile(r"\d{2}/\d{2}/\d{4} à \d{2}h\d{2}")
-
-
-_STATE_NAME_RE = re.compile(r"^_[A-Z][A-Z0-9_]*$")
-
-
-@pytest.fixture(autouse=True)
-def _restore_render_state():
-    """`build_roster_pdf` positionne des drapeaux de module de `warscroll_card`
-    (`set_english_labels`, `set_french_keywords`…, cf. lot 4a) sans les remettre à
-    zéro : on restaure l'état d'avant pour ne pas contaminer les tests suivants."""
-    saved = {
-        name: copy.copy(value)
-        for name, value in vars(warscroll_card).items()
-        if _STATE_NAME_RE.match(name) and isinstance(value, (bool, set, frozenset, dict, list, type(None)))
-    }
-    yield
-    for name, value in saved.items():
-        setattr(warscroll_card, name, value)
 
 
 def _page_count(path: Path | None) -> int | None:

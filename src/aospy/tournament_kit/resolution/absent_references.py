@@ -22,7 +22,7 @@ from functools import lru_cache
 from pathlib import Path
 
 from ...sources.wahapedia_csv import read_csv
-from .wahapedia_lookup import DEFAULT_WAHAPEDIA_DIR
+from ..sources.wahapedia_lookup import DEFAULT_WAHAPEDIA_DIR
 
 _POINTS_SUFFIX_RE = re.compile(r"\s*-\s*\(\d+\)\s*Points\s*$|\s*\(\d+ Points\)\s*$")
 _TAG_RE = re.compile(r"<[^>]+>")

@@ -8,7 +8,7 @@ Chargeur pur, pas de DB, relu à froid à chaque appel — même convention que
 `season_rules.py`, à ceci près qu'il lit aussi `points_type`/`points` (les
 "Ordres" du PDF coûtent des points de commandement, ce que les 4 règles de
 saison ne font jamais) pour que le badge hexagonal "PC" de
-`warscroll_card._cast_pill` s'affiche. Fichier absent ou `[]` -> liste vide,
+`render/pills._cast_pill` s'affiche. Fichier absent ou `[]` -> liste vide,
 jamais un plantage.
 
 Une ligne peut porter `requires_unit_keyword` (ex. "MUSICIAN" pour

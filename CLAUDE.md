@@ -106,11 +106,11 @@ Hand-authored / hand-curated (source, versioned):
 - `data/json/army_rules.json` — bonus simulator named army rules (`bonus_simulator/army_rules.py`, never touches the DB).
 - `data/json/source_corrections.json` — verified warscroll/ability-text fixes, win over every source (`importers/corrections.py`).
 - `data/json/ability_overrides.json` — manual ability-analysis corrections keyed by `uid` (`abilities/overrides.py`).
-- `data/json/warscroll_index.json` — unit/rule/generic-manifestation-lore name → PDF page (`tournament_kit/translation/warscroll_index.py`, `warscroll-index` skill).
-- `data/json/battle_tactic_cards.json` — the 6 Battle Tactic Cards, verbatim French (`tournament_kit/translation/tactic_cards.py`).
-- `data/json/faction_rules_fr.json` — per-faction French verbatim/errata/season content for the French roster modes (`tournament_kit/translation/faction_rules_fr.py`, `faction-rules-fr` skill).
-- `data/json/season_rules.json`, `data/json/generic_core_abilities.json` (+ `_en.json`) — season rules and the complete `MdG26-27 Aptitudes.pdf` (`tournament_kit/translation/{season_rules,generic_core_abilities}.py`).
-- `data/json/roster_simplifications.json` — `*-split-simple` per-list simplifications (`tournament_kit/translation/roster_simplifications.py`; principles in `data/roster_simplifications.md`).
+- `data/json/warscroll_index.json` — unit/rule/generic-manifestation-lore name → PDF page (`tournament_kit/sources/warscroll_index.py`, `warscroll-index` skill).
+- `data/json/battle_tactic_cards.json` — the 6 Battle Tactic Cards, verbatim French (`tournament_kit/sources/tactic_cards.py`).
+- `data/json/faction_rules_fr.json` — per-faction French verbatim/errata/season content for the French roster modes (`tournament_kit/sources/faction_rules_fr.py`, `faction-rules-fr` skill).
+- `data/json/season_rules.json`, `data/json/generic_core_abilities.json` (+ `_en.json`) — season rules and the complete `MdG26-27 Aptitudes.pdf` (`tournament_kit/sources/{season_rules,generic_core_abilities}.py`).
+- `data/json/roster_simplifications.json` — `*-split-simple` per-list simplifications (`tournament_kit/sources/roster_simplifications.py`; principles in `data/roster_simplifications.md`).
 
 Sources read, not generated: `data/Battle tome/*.pdf` and `data/Manuel du général/*.pdf` (copyrighted, no text layer, not versioned — `MdG26-27 Tactiques.pdf` stays the source of truth for `battle_tactic_cards.json`; `sorts persistants - manifestations.pdf` is a user-supplied French scan), `data/Proposition de listes/*.txt` (App list exports), `data/wahapedia/*.csv` (same files as the StatHammer project; re-download to refresh — no network in the shell, ask the user), `data/bsdata/*.cat` (local BSData libraries for `import verify`, to be dropped there by hand when needed).
 

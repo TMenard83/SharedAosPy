@@ -11,7 +11,7 @@ Lire avant de modifier ce paquet (CLAUDE.md ne garde que la carte des couches).
 
 ## Shared Wahapedia CSV reader (`aospy/sources/wahapedia_csv.py`)
 
-Every reader of `data/wahapedia/*.csv` goes through this low layer (it imports nothing else from aospy): `read_csv` (pipe separator, UTF-8 BOM), `legends_warscrolls`/`legends_warscroll_ids`, `canonical_ids` and `is_expired_variant`. Callers: both importers, `abilities/source.py`, `tournament_kit/translation/wahapedia_lookup.py` (adds its own glyph sanitising on top) and `absent_references.py` (caches the rows as tuples). New Wahapedia filters belong there, not in one importer that others then import privately.
+Every reader of `data/wahapedia/*.csv` goes through this low layer (it imports nothing else from aospy): `read_csv` (pipe separator, UTF-8 BOM), `legends_warscrolls`/`legends_warscroll_ids`, `canonical_ids` and `is_expired_variant`. Callers: both importers, `abilities/source.py`, `tournament_kit/sources/wahapedia_lookup.py` (adds its own glyph sanitising on top) and `absent_references.py` (caches the rows as tuples). New Wahapedia filters belong there, not in one importer that others then import privately.
 
 ## Wahapedia import — second import mechanism, same schema
 

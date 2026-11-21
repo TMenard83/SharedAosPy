@@ -16,63 +16,26 @@ from __future__ import annotations
 
 import re
 from dataclasses import replace as _dc_replace
-from typing import Literal
 
 from ..list_parser import ParsedList
-from ..warscroll_card import render_tactic_card, set_ability_category, tag_ability_origin
-from .faction_rules_fr import GENERIC_LORES_FACTION, FactionRulesFr, ability_join_key, apply_fr_overrides, get_faction_category_overrides, get_renown_army_overrides
-from .roster_simplifications import compress_tactic_conditions_enabled
-from .tactic_cards import TacticCard, compress_tactic_conditions, find_tactic_card
-from .wahapedia_lookup import AbilityEntry, WahapediaLookup, WarscrollData
-from .warscroll_index import FactionIndex, WarscrollIndex, find_generic_manifestation_lore, find_lore_pages
+from ..modes import RosterMode, mode_spec
+from ..render.cards import render_tactic_card, tag_ability_origin
+from ..render.phases import set_ability_category
+from ..sources.faction_rules_fr import (
+    GENERIC_LORES_FACTION,
+    FactionRulesFr,
+    ability_join_key,
+    apply_fr_overrides,
+    get_faction_category_overrides,
+    get_renown_army_overrides,
+)
+from ..sources.roster_simplifications import compress_tactic_conditions_enabled
+from ..sources.tactic_cards import TacticCard, compress_tactic_conditions, find_tactic_card
+from ..sources.wahapedia_lookup import AbilityEntry, WahapediaLookup, WarscrollData
+from ..sources.warscroll_index import FactionIndex, WarscrollIndex, find_generic_manifestation_lore, find_lore_pages
 
-
-#: Les 4 variantes du roster (`build_roster_pdf(..., mode=...)`) :
-#: `hybrid` (défaut, comportement historique) = Wahapedia (EN, déjà à jour
-#: des errata) prioritaire, repli sur une page de battletome copiée (FR) par
-#: catégorie non couverte ; `en` = Wahapedia uniquement, la copie de page FR
-#: est simplement sautée (un trou reste un trou, listé dans
-#: `RosterPdfResult.rules_unmatched`, jamais d'interaction au moment de
-#: l'exécution) ; `fr`/`fr-extended` = les correctifs/additions vérbatim
-#: français de `data/json/faction_rules_fr.json` (`RosterMode`, cf.
-#: `_fr_patch`) sont appliqués sur le pool Wahapedia partout où ils
-#: existent pour la faction/catégorie/unité, la copie de page FR reste
-#: sautée comme en `en` (l'objectif est une carte maison, pas une page
-#: scannée) ; `fr-extended` ajoute en plus la carte « Aptitudes Génériques »
-#: (`data/json/generic_core_abilities.json`, vide tant que non curé) ; `fr-split`
-#: résout exactement le même contenu que `fr-extended` mais change la mise
-#: en page (cf. `pdf_builder.build_roster_pdf`) : toutes les aptitudes de
-#: l'armée (règles *et* warscrolls) réparties en 2 cartes « Mon tour » /
-#: « Tour adverse » triées par phase, warscrolls épurés de leurs aptitudes ;
-#: `fr-split-simple` = `fr-split` + les simplifications propres à une liste,
-#: dictées et validées une à une par l'utilisateur
-#: (`data/json/roster_simplifications.json`, cf. `roster_simplifications.py`) ;
-#: `en-split-simple` = la même mise en page en anglais : Wahapedia sans
-#: correctif français, aptitudes génériques en verbatim Core Rules GW
-#: (`generic_core_abilities_en.json`, repli français pour celles que seul le
-#: Manuel du général 2026-27 porte à jour), libellés maison anglais
-#: (`warscroll_card.set_english_labels`), simplifications de la section `en`
-#: de `roster_simplifications.json`.
-RosterMode = Literal["hybrid", "en", "fr", "fr-extended", "fr-split", "fr-split-simple", "en-split-simple"]
-
-#: Modes qui appliquent les correctifs vérbatim français
-#: (`data/json/faction_rules_fr.json`) — un seul endroit à étendre pour un
-#: nouveau mode français plutôt qu'un tuple répété à chaque test de mode.
-FR_MODES: tuple[str, ...] = ("fr", "fr-extended", "fr-split", "fr-split-simple")
-
-#: Modes qui corrigent le pool Wahapedia avec un fichier de textes curés
-#: (même schéma, cf. `faction_rules_fr.py`) : les modes français
-#: (`faction_rules_fr.json`) et `en-split-simple` (`app_rules_en.json`, textes
-#: officiels anglais relevés dans l'app Warhammer Age of Sigmar, qui priment
-#: sur Wahapedia).
-PATCH_MODES: tuple[str, ...] = (*FR_MODES, "en-split-simple")
-
-#: Modes à la mise en page « split » (cartes Déploiement / Mon tour / Tour
-#: adverse, warscrolls réduits aux profils).
-SPLIT_MODES: tuple[str, ...] = ("fr-split", "fr-split-simple", "en-split-simple")
-
-#: Modes `fr-split` + simplifications par liste (`roster_simplifications.py`).
-SIMPLE_MODES: tuple[str, ...] = ("fr-split-simple", "en-split-simple")
+#: Variantes du roster : cf. `tournament_kit/modes.py` (`RosterMode`,
+#: `ModeSpec`). `RosterMode` reste importable d'ici.
 
 
 #: Sections de règles de faction toujours incluses quand la faction est
@@ -191,7 +154,7 @@ def find_pledge_battle_trait(
     entry = next((e for e in battle_traits if ability_join_key(e.name) == wahapedia_name), None)
     if entry is None:
         return None
-    if mode in PATCH_MODES:
+    if mode_spec(mode).curated_patch:
         overrides = get_faction_category_overrides(frf, faction, "battle_traits")
         matching = [o for o in overrides if ability_join_key(o.get("wahapedia_name")) == wahapedia_name]
         if matching:
@@ -369,7 +332,7 @@ def _fr_patch(
     `fr`/`fr-extended` ; renvoie `entries` tel quel en `hybrid`/`en`, ou si
     rien n'est curé pour cette faction/catégorie (dégrade naturellement vers
     le comportement `en`, sans cas particulier à coder)."""
-    if mode not in PATCH_MODES:
+    if not mode_spec(mode).curated_patch:
         return entries
     overrides = get_faction_category_overrides(frf, faction, category, scope)
     if not overrides and scope is not None:
@@ -397,7 +360,7 @@ def _renown_army_pool(
     jusqu'à curation complète (cf. `_RENOWN_ARMY_CATEGORY` pour les catégories
     couvertes -- `"Battle Formations"` n'existe pour aucune Armée de Renom,
     donc jamais dans `grouped`)."""
-    if mode not in PATCH_MODES:
+    if not mode_spec(mode).curated_patch:
         return None
     # "Heroic Traits" et "Artefacts of Power" (2 subtypes Wahapedia
     # distincts) partagent une seule catégorie JSON `heroic_traits_artefacts`
@@ -484,7 +447,7 @@ def resolve_rules(
     faction/catégorie (une faction non curée dégrade naturellement vers le
     résultat `en`) ; en `en`/`fr`/`fr-extended`, la copie de page French
     (`sections_battletome`, et les paliers French du domaine de sorts/
-    manifestations) est sautée (`allow_page_copy = mode == "hybrid"`) — seul
+    manifestations) est sautée (`allow_page_copy = mode_spec(mode).page_copy`) — seul
     `hybrid` la conserve.
 
     `renown_categories` (vide si la liste n'utilise pas d'Armée de Renom) est
@@ -533,7 +496,7 @@ def resolve_rules(
     # et les paliers de repli page French du domaine de sorts/manifestations
     # plus bas) est sautée dans ces deux modes, comme en `en` — seul `hybrid`
     # (le comportement historique) la conserve.
-    allow_page_copy = mode == "hybrid"
+    allow_page_copy = mode_spec(mode).page_copy
 
     if renown_army is not None:
         renown_name, grouped = renown_army
@@ -556,7 +519,7 @@ def resolve_rules(
         # entrée déjà prise en charge par une entrée `faction_rules_fr.json`
         # plus riche (origine/historique), sans double correction.
         entries = _fr_patch(mode, frf, entries, parsed.base_faction, static_attr)
-        if entries and mode != "en-split-simple":  # texte français : pas en anglais
+        if entries and not mode_spec(mode).english:  # texte français : pas en anglais
             entries = _apply_ability_text_overrides(entries, parsed.base_faction)
         entries = _drop_untargetable(entries, parsed, wh)
         if not entries:
@@ -692,11 +655,11 @@ def resolve_rules(
             # `points_type` "Spell"/"Prayer" comme un sort/une prière
             # ordinaire côté Wahapedia — sans ce marquage explicite, elles
             # rejoindraient le regroupement Sorts/Prières de la carte de
-            # règles fusionnée (`warscroll_card._ability_category`) plutôt
+            # règles fusionnée (`render/phases._ability_category`) plutôt
             # que leur propre bloc Manifestations.
             # Badge unique « Manifestation » (demande de l'utilisateur) : le
             # même que les aptitudes des chartes de manifestation
-            # (`pdf_builder._warscroll_ability_pool`), à la place du mot-clé
+            # (`split_pool._warscroll_ability_pool`), à la place du mot-clé
             # Wahapedia « Summon » et du nom du domaine, qui n'apportent rien
             # en jeu.
             entries = [
@@ -744,7 +707,7 @@ def resolve_rules(
     for card_name in parsed.battle_tactic_cards:
         tactic_card = find_tactic_card(tactic_cards, card_name)
         if tactic_card is not None:
-            if mode == "fr-split-simple" and compress_tactic_conditions_enabled():
+            if mode_spec(mode).simple and not mode_spec(mode).english and compress_tactic_conditions_enabled():
                 tactic_card = compress_tactic_conditions(tactic_card)
             tactic_sections.append((card_name, render_tactic_card(tactic_card, width=tactic_card_width)))
         else:

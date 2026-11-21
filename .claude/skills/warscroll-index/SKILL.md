@@ -158,7 +158,7 @@ manifestations, pas à une seule.
   Skarbrand), et les domaines de sorts **génériques** partagés entre factions
   sont confirmés absents de tous les PDF fournis (battletomes + Manuel du
   général parcourus intégralement) — mais **pas besoin de les curer ici** :
-  `tournament_kit/translation/wahapedia_lookup.py` les résout automatiquement en anglais
+  `tournament_kit/sources/wahapedia_lookup.py` les résout automatiquement en anglais
   depuis `data/wahapedia/*.csv` (déjà téléchargé par l'importeur Wahapedia,
   couvre toutes les factions). Rien à faire dans ce skill pour ces cas — s'ils
   apparaissent quand même en `rules_unmatched`/`units_unmatched`, c'est que

@@ -5,11 +5,14 @@ from __future__ import annotations
 
 import json
 
-from aospy.tournament_kit.translation.faction_rules_fr import (
-    FactionRulesFr, apply_fr_overrides, get_faction_category_overrides, get_unit_ability_overrides,
+from aospy.tournament_kit.sources.faction_rules_fr import (
+    FactionRulesFr,
+    apply_fr_overrides,
+    get_faction_category_overrides,
+    get_unit_ability_overrides,
     load_faction_rules_fr,
 )
-from aospy.tournament_kit.translation.wahapedia_lookup import AbilityEntry
+from aospy.tournament_kit.sources.wahapedia_lookup import AbilityEntry
 
 _SAMPLE = {
     "factions": {
@@ -172,8 +175,8 @@ def test_load_faction_rules_fr_sanitizes_non_breaking_hyphen(tmp_path):
 def test_apply_fr_overrides_typed_homonyms_patch_their_own_category():
     # BoK : deux correctifs « FRENZIED TASKMASTER » (Trait Héroïque et
     # Mutation d'Airain) — chacun ne corrige que l'entrée de sa catégorie
-    from aospy.tournament_kit.translation.faction_rules_fr import apply_fr_overrides
-    from aospy.tournament_kit.translation.wahapedia_lookup import AbilityEntry
+    from aospy.tournament_kit.sources.faction_rules_fr import apply_fr_overrides
+    from aospy.tournament_kit.sources.wahapedia_lookup import AbilityEntry
     overrides = [
         {"wahapedia_name": "FRENZIED TASKMASTER", "wahapedia_type": "Heroic Traits", "name": "Contremaître", "description": "HT"},
         {"wahapedia_name": "FRENZIED TASKMASTER", "wahapedia_type": "Brazen Mutations", "name": "Membres", "description": "BM"},

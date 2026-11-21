@@ -25,7 +25,7 @@ _NOTE_MARKUP = '<br/><font size="6" color="#8a8a8a">{}</font>'
 
 
 #: rang de sous-section entre les règles de base/d'armée/de choix (0-2) et
-#: les Sorts (3), cf. `warscroll_card._SECTION_RANK`.
+#: les Sorts (3), cf. `render/phases._SECTION_RANK`.
 _BEFORE_SPELLS_RANK = 2
 
 
@@ -169,7 +169,7 @@ class RosterSimplifications:
     #: proches (ex. Avalenor + Alarith Spirit of the Mountain) ; les autres
     #: suivent dans leur ordre habituel.
     warscroll_order: tuple[str, ...] = ()
-    #: clé de bandeau de phase (`warscroll_card._PHASE_ORDER`, ex. "hero") ->
+    #: clé de bandeau de phase (`render/phases._PHASE_ORDER`, ex. "hero") ->
     #: titres de sous-section (nom d'unité) placés en tête de ce bandeau, dans
     #: cet ordre (ex. Skreech, dont « Le Rat aux Treize Têtes » se choisit
     #: avant les sorts de Thanquol).

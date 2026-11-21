@@ -3,7 +3,7 @@ armées de renom, Régiments de Renom, profils d'unité de secours)."""
 
 from __future__ import annotations
 
-from aospy.tournament_kit.translation.wahapedia_lookup import load_wahapedia
+from aospy.tournament_kit.sources.wahapedia_lookup import load_wahapedia
 
 
 def test_load_wahapedia_finds_the_local_data_dir():

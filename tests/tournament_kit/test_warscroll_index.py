@@ -4,9 +4,16 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from aospy.tournament_kit.translation.warscroll_index import (
-    battletome_path, find_generic_manifestation_lore, find_lore_pages, find_pages, find_tactic_card_pages,
-    generic_manifestation_lores_path, load_index, tactic_cards_path, unit_pdf_path,
+from aospy.tournament_kit.sources.warscroll_index import (
+    battletome_path,
+    find_generic_manifestation_lore,
+    find_lore_pages,
+    find_pages,
+    find_tactic_card_pages,
+    generic_manifestation_lores_path,
+    load_index,
+    tactic_cards_path,
+    unit_pdf_path,
 )
 
 _INDEX_PATH = "data/json/warscroll_index.json"

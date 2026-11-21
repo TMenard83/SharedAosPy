@@ -1,7 +1,6 @@
-from pathlib import Path
 
 from aospy.tournament_kit.list_parser import parse_list
-from aospy.tournament_kit.translation.absent_references import find_absent_references
+from aospy.tournament_kit.resolution.absent_references import find_absent_references
 
 _LIST = """Test 2000/2000 pts
 
@@ -32,7 +31,7 @@ def test_unit_present_in_the_list_is_not_flagged():
 
 
 def test_flags_friendly_unit_type_keyword_missing_from_the_list():
-    from aospy.tournament_kit.translation.absent_references import find_absent_keywords
+    from aospy.tournament_kit.resolution.absent_references import find_absent_keywords
 
     refs = {(r.ability, r.unit) for r in find_absent_keywords(parse_list(_LIST))}
     assert ("TOO QUICK TO HIT-HIT", "CAVALRY") in refs

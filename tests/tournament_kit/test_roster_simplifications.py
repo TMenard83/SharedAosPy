@@ -1,7 +1,7 @@
 import json
 
-from aospy.tournament_kit.translation.roster_simplifications import load_roster_simplifications
-from aospy.tournament_kit.translation.wahapedia_lookup import AbilityEntry
+from aospy.tournament_kit.sources.roster_simplifications import load_roster_simplifications
+from aospy.tournament_kit.sources.wahapedia_lookup import AbilityEntry
 
 
 def test_load_roster_simplifications(tmp_path):
@@ -72,7 +72,7 @@ def test_all_lists_merge_into_only_when_source_present(tmp_path):
     assert simp.merge([rally]) == [rally]
 
 def test_compress_spell_declare():
-    from aospy.tournament_kit.translation.roster_simplifications import _compress_spell_declare as compress
+    from aospy.tournament_kit.sources.roster_simplifications import _compress_spell_declare as compress
 
     assert compress(
         '<i>f</i><br/><br/><b>Annonce :</b> Choisissez un <b>Sorcier Suzerain Lumineth</b> ami pour lancer ce sort, '
@@ -95,7 +95,7 @@ def test_compress_spell_declare():
 
 
 def test_compress_prayer_declare():
-    from aospy.tournament_kit.translation.roster_simplifications import _compress_prayer_declare as compress
+    from aospy.tournament_kit.sources.roster_simplifications import _compress_prayer_declare as compress
 
     assert compress(
         "<b>Annonce :</b> Choisissez un <b>Prêtre Sylvaneth</b> ami pour réciter cette prière, choisissez comme cible "
@@ -126,7 +126,7 @@ def test_compress_prayer_declare():
 
 
 def test_compress_tactic_conditions():
-    from aospy.tournament_kit.translation.tactic_cards import SubTactic, TacticCard, compress_tactic_conditions
+    from aospy.tournament_kit.sources.tactic_cards import SubTactic, TacticCard, compress_tactic_conditions
     sub = SubTactic(kind="Frappe", name="X", flavor="", points=5,
                     condition="Vous exécutez cette tactique de bataille à la fin de votre tour si vous contrôlez A.")
     card = compress_tactic_conditions(TacticCard(1, "En", "Fr", "", None, (sub,)))
@@ -166,7 +166,7 @@ def test_load_roster_simplifications_english_section(tmp_path):
 
 def test_unit_alias_renames_only_the_entry_with_its_options(tmp_path):
     from aospy.tournament_kit.list_parser import parse_list
-    from aospy.tournament_kit.pdf_builder import _apply_unit_aliases
+    from aospy.tournament_kit.split_pool import _apply_unit_aliases
 
     path = tmp_path / "s.json"
     path.write_text(json.dumps({"lists": {"L": {"unit_aliases": {
@@ -244,7 +244,7 @@ def test_compress_declare_any_ability(tmp_path):
 
 
 def test_line_break_after_target_sentence():
-    from aospy.tournament_kit.translation.roster_simplifications import _break_after_target
+    from aospy.tournament_kit.sources.roster_simplifications import _break_after_target
 
     assert _break_after_target("<b>Cible :</b> une unité amie. Sur 3+ : effet.") == "<b>Cible :</b> une unité amie.<br/>Sur 3+ : effet."
     assert _break_after_target("<b>Cible :</b> une unité à 6\". <b>Effet</b> : x.") == "<b>Cible :</b> une unité à 6\".<br/><b>Effet</b> : x."
