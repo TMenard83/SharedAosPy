@@ -18,8 +18,8 @@ Usage : aospy l3 matchups [--check]
 from __future__ import annotations
 
 import argparse
-import dataclasses
 import csv
+import dataclasses
 import json
 import math
 import re
@@ -32,9 +32,16 @@ import duckdb
 from pypdf import PdfReader
 
 from aospy.domain.models import Unit
-from aospy.engine.combat import (CombatModifiers, convolve, effective_counts, _normalize_abilities,
-                                 distribution_floor, expected_weapon_damage, weapon_crit_type,
-                                 weapon_damage_distribution)
+from aospy.engine.combat import (
+    CombatModifiers,
+    convolve,
+    distribution_floor,
+    effective_counts,
+    expected_weapon_damage,
+    normalize_abilities,
+    weapon_crit_type,
+    weapon_damage_distribution,
+)
 from aospy.persistence.repository import load_all_units_with_weapons
 
 from . import aptitudes as apt
@@ -900,7 +907,7 @@ def offense(al: ArmyList) -> Offense:
                 mortal += c * w.attacks * w.damage / 6
             if w.kind == "ranged":
                 max_range = max(max_range, w.range_in)
-            for kw, n, stat in _ANTI_RE.findall(_normalize_abilities(w.abilities or "")):
+            for kw, n, stat in _ANTI_RE.findall(normalize_abilities(w.abilities or "")):
                 if kw.lower() == "charge":
                     if e.label not in anti_charge:
                         anti_charge.append(e.label)

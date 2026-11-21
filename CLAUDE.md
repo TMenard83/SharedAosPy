@@ -52,7 +52,7 @@ aospy battle simulate --a <comp_id> --b <comp_id> --charge both
 aospy cost fit [--segmented]                # OLS points ~ features (needs `[analysis]`)
 aospy cost residuals --top 20 --direction under   # most under/over-costed units by residual
 aospy roster pdf --list "data/Proposition de listes/LRL L3 Avengers Wardens.txt"   # tournament PDF (needs `[roster]`)
-aospy roster pdf --list "data/Proposition de listes/LRL L3 Avengers Wardens.txt" --mode fr   # same, French-verbatim mode (see tournament_kit/README.md, "Roster modes")
+aospy roster pdf --list "data/Proposition de listes/LRL L3 Avengers Wardens.txt" --mode fr   # same, French-verbatim mode (see tournament_kit/MODES.md)
 aospy roster analyze --list <file> [--out x.md]   # layer 4: the numbers behind a list analysis
 aospy ability analyze                       # (re)build the ability* tables from data/wahapedia/*.csv (~1.5 s)
 aospy ability search --tag bulle-12 --tag buff-offensif --verdict plan --faction SE   # query by tag/faction/verdict
@@ -85,9 +85,9 @@ aospy l3 matchups | listes | diag | compare | scenarios | export-lists   # L3 le
 | `analysis/` | `cost/`: cost model (`[analysis]`), features, ranking score, adopted experiments; `layers/`: ability layers 2-4 (chassis, encounter, realized value, marriage, bearers, list analysis) — `layers` may import `cost`, never the reverse | [README](src/aospy/analysis/README.md) |
 | `reports/` | PDF "best units/heroes"/duel/cost reports, read live from `unit_benchmark` via `repository.get_ranking_pool` | module docstrings |
 | `bonus_simulator/` | Streamlit "what-if" bonus simulator (`[gui]`), no DB writes | [README](src/aospy/bonus_simulator/README.md) |
-| `tournament_kit/` | tournament roster PDF (`[roster]`), no DB; roster modes | [README](src/aospy/tournament_kit/README.md) |
+| `tournament_kit/` | tournament roster PDF (`[roster]`), no DB; roster modes | [README](src/aospy/tournament_kit/README.md) (+ `render/`, `sources/`, `MODES.md`) |
 | `l3/` | L3 Centre 2026-27 league tools (matchup grids, diagnostics, list analysis, scenarios, list export), run by `aospy l3 …`; reads `data/aospy.duckdb` read-only | module docstring, skill `l3-matchups` |
-| `cli/` | one module per command group (`db`, `unit`, `comp`, `battle`, `import_`, `cost`, `roster`, `ability`, `chassis`, `encounter`, `l3`), each with `register(sub)` and its `cmd_*` (each opens/closes its own DB connection via `common._connect(args)`); `__init__.py` only assembles them and exposes `main`; `commands.py` = transition re-export; pure text formatting (`report.py`) | — |
+| `cli/` | one module per command group (`db`, `unit`, `comp`, `battle`, `import_`, `cost`, `roster`, `ability`, `chassis`, `encounter`, `l3`), each with `register(sub)` and its `cmd_*` (each opens/closes its own DB connection via `common._connect(args)`); `__init__.py` only assembles them and exposes `main`; pure text formatting (`report.py`) | — |
 
 ## Cross-cutting rules
 

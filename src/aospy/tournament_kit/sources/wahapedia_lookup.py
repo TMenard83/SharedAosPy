@@ -18,7 +18,7 @@ from __future__ import annotations
 
 import re
 import unicodedata
-from dataclasses import dataclass, field
+from dataclasses import dataclass, replace
 from pathlib import Path
 
 from ...sources.wahapedia_csv import read_csv
@@ -273,7 +273,7 @@ class WarscrollData:
     abilities: list[AbilityEntry]
     description: str = ""  # texte libre de restriction d'arme (ex. "1/5 models
     # can replace their Warhammer with a Grandhammer") — sert à afficher un
-    # ratio de porteurs discret sur l'arme concernée (cf. warscroll_card.py)
+    # ratio de porteurs discret sur l'arme concernée (cf. render/)
     # aptitude de convocation d'une manifestation (sort persistant), posée par
     # `rules_resolution.resolve_rules` — badge de lancement et note de pose
     # résumée sur la carte (cf. `render/cards.summon_placement_note`).
@@ -606,3 +606,41 @@ class WahapediaLookup:
 
 def load_wahapedia(base_dir: str | Path = DEFAULT_WAHAPEDIA_DIR) -> WahapediaLookup:
     return WahapediaLookup(base_dir)
+
+
+def keyword_key(kw: str) -> str:
+    # ignore la casse et un simple "s" de pluriel — une aptitude "Ensorcelled
+    # Banners" (StD) porte déjà "Ensorcelled Banner" (singulier) dans son
+    # propre `keywords` Wahapedia ; sans ce rapprochement, l'étiquetage
+    # d'origine ajoutait un second badge quasi identique à côté du premier.
+    return kw.strip().lower().rstrip("s")
+
+
+def tag_ability_origin(abilities: list[AbilityEntry], origin_label: str) -> list[AbilityEntry]:
+    """Ajoute `origin_label` (« Traits de Bataille », « Formation »...) au
+    champ `keywords` de chaque aptitude — il en ressort comme un badge doré
+    de plus à côté des mots-clés d'aptitude déjà présents, cf. `_name_line`/
+    `_ability_row_flowables`. Un badge de carte aurait disparu si les
+    aptitudes de plusieurs catégories se retrouvent réunies sur une seule
+    carte (cf. `render_rule_card`) ou rejoignent la carte d'un héros ; un
+    badge d'aptitude, lui, survit au déplacement. N'ajoute rien si un
+    mot-clé quasi identique (cf. `keyword_key`) figure déjà — une aptitude
+    dont Wahapedia porte déjà le nom de catégorie en mot-clé ne doit pas
+    aussi le recevoir en badge d'origine, sous peine de deux badges
+    redondants côte à côte."""
+    target = keyword_key(origin_label)
+    # mot-clé anglais Wahapedia dont `origin_label` est la traduction (ex.
+    # « Ensorcelled Banner » pour « Bannière Ensorcelée ») : remplacé par le
+    # badge d'origine plutôt que gardé à côté (même redondance, en 2 langues).
+    translated = {
+        keyword_key(en) for en, spec in _ENHANCEMENT_CATEGORY_LABELS.items() if keyword_key(spec["label"]) == target
+    }
+    result = []
+    for ab in abilities:
+        existing = [kw.strip() for kw in ab.keywords.split(",") if kw.strip()] if ab.keywords else []
+        if any(keyword_key(kw) == target for kw in existing):
+            result.append(ab)
+            continue
+        kept = [kw for kw in existing if keyword_key(kw) not in translated]
+        result.append(replace(ab, keywords=",".join(kept + [origin_label])))
+    return result

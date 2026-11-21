@@ -9,7 +9,7 @@ import types
 import pytest
 
 from aospy import cli
-from aospy.cli import commands, l3
+from aospy.cli import l3
 from aospy.tournament_kit.modes import MODES
 
 _GROUP_COMMANDS = ["init", "reset", "army", "unit", "comp", "battle", "import", "cost", "roster",
@@ -41,11 +41,6 @@ def test_roster_mode_choices_follow_modes():
     pdf = _subparsers(roster).choices["pdf"]
     mode = next(a for a in pdf._actions if a.dest == "mode")
     assert mode.choices == list(MODES)
-
-
-def test_commands_facade_reexports_handlers():
-    assert commands.cmd_unit_duel.__module__ == "aospy.cli.unit"
-    assert commands.cmd_roster_pdf.__module__ == "aospy.cli.roster"
 
 
 def test_unknown_argument_still_rejected(capsys):

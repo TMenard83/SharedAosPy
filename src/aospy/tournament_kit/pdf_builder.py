@@ -2,11 +2,11 @@
 forme), puis les règles de faction pertinentes en carte maison (traits de
 bataille, formation, traits héroïques/artefacts, domaines de sorts/
 manifestations choisis — Wahapedia-first, repli page French par catégorie,
-cf. `warscroll_card.py`) et les cartes de tactique de bataille citées, elles
+cf. `render/`) et les cartes de tactique de bataille citées, elles
 aussi en carte maison verbatim français (`tactic_cards.py`, transcription
 manuelle de `MdG26-27 Tactiques.pdf` — plus de copie de page pour aucune de
 ces sections), puis les profils d'unité, en carte maison anglaise dessinée
-par `warscroll_card.py` à partir de `data/wahapedia/*.csv` (jamais une page
+par `render/` à partir de `data/wahapedia/*.csv` (jamais une page
 de battletome copiée, cf. le module de ce fichier pour le détail). Un
 domaine de manifestations générique (partagé entre
 factions, absent du battletome) est résolu en français via
@@ -85,7 +85,7 @@ from .cover import (
 )
 from .list_parser import parse_list_file
 from .modes import RosterMode, mode_spec
-from .render.cards import render_rule_card, tag_ability_origin
+from .render.cards import render_rule_card
 from .render.options import render_session, update_render_options
 from .render.phases import (
     CHOICE_CATEGORIES,
@@ -129,6 +129,7 @@ from .sources.wahapedia_lookup import (
     RegimentOfRenownData,
     WarscrollData,
     load_wahapedia,
+    tag_ability_origin,
 )
 from .sources.warscroll_index import battletome_path, generic_manifestation_lores_path, load_index
 from .split_pool import (
@@ -282,7 +283,7 @@ def _build_roster_pdf(
     tactic_cards = load_tactic_cards(en_path=DEFAULT_TACTIC_CARDS_EN_FILE if english else None)
     renown_prefix = parsed.faction.split("|", 1)[1].strip() if "|" in parsed.faction else None
 
-    # Profils d'unité : rendus en carte maison (warscroll_card.py) à partir
+    # Profils d'unité : rendus en carte maison (render/) à partir
     # de data/wahapedia/*.csv plutôt que copiés depuis le battletome — cf.
     # demande explicite de remplacer les pages PDF par les cartes pour les
     # unités. Wahapedia couvre la totalité du contenu AoS4 (bien plus large

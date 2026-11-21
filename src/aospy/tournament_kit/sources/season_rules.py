@@ -9,7 +9,7 @@ chaque appel.
 Contrairement aux profils d'unité/règles de faction (Wahapedia, anglais), ces
 4 aptitudes n'existent nulle part ailleurs que dans ce PDF — le texte reste
 en français, sans repli possible. `condition`/`ability_phase` restent
-toutefois écrits dans le mini-vocabulaire anglais que `warscroll_card.py`
+toutefois écrits dans le mini-vocabulaire anglais que `render/`
 sait déjà classer par bandeau de phase (cf. son en-tête de module) — un
 simple tag de classification interne, jamais affiché tel quel."""
 

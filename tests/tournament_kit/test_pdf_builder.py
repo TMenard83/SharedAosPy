@@ -467,7 +467,7 @@ def test_default_output_path_en_split_simple(tmp_path):
 
 
 def test_build_roster_pdf_mode_en_split_simple_uses_english_labels(tmp_path):
-    from aospy.tournament_kit import warscroll_card as wc
+    from aospy.tournament_kit.render import text as render_text
 
     out_path = tmp_path / "out.pdf"
     build_roster_pdf(_LRL_LIST, out_path=out_path, mode="en-split-simple")
@@ -479,7 +479,7 @@ def test_build_roster_pdf_mode_en_split_simple_uses_english_labels(tmp_path):
     assert "Simmering Rage" in text and "Rage Bouillonnante" not in text
     # l'état global des libellés ne fuit pas vers le PDF suivant
     build_roster_pdf(_LRL_LIST, out_path=tmp_path / "fr.pdf", mode="fr-split")
-    assert not wc.english_labels()
+    assert not render_text.english_labels()
 
 
 @pytest.mark.parametrize("mode", ["hybrid", "fr-extended"])

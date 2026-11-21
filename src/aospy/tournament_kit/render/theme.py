@@ -15,7 +15,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 #: utilisé avant : un vrai display serif capitalisé, cohérent avec
 #: l'esthétique "tome" du reste de la carte (bandeau nom/rôle sombre,
 #: parchemin). Embarqué en TTF plutôt que référencé par un chemin système
-#: (`scratch/build_pdf.py` pointait vers `C:/Windows/Fonts/...`, un chemin
+#: (l'ancien `scratch/build_pdf.py` pointait vers `C:/Windows/Fonts/...`, un chemin
 #: Windows qui ne marche que sur une machine précise) : Cinzel est sous SIL
 #: Open Font License, librement redistribuable, donc le fichier vit dans le
 #: paquet (`tournament_kit/assets/Cinzel-Bold.ttf`, embarqué via `package-data` dans

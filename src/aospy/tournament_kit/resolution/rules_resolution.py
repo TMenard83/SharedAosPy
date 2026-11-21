@@ -19,7 +19,7 @@ from dataclasses import replace as _dc_replace
 
 from ..list_parser import ParsedList
 from ..modes import RosterMode, mode_spec
-from ..render.cards import render_tactic_card, tag_ability_origin
+from ..render.cards import render_tactic_card
 from ..render.phases import set_ability_category
 from ..sources.faction_rules_fr import (
     GENERIC_LORES_FACTION,
@@ -31,7 +31,7 @@ from ..sources.faction_rules_fr import (
 )
 from ..sources.roster_simplifications import compress_tactic_conditions_enabled
 from ..sources.tactic_cards import TacticCard, compress_tactic_conditions, find_tactic_card
-from ..sources.wahapedia_lookup import AbilityEntry, WahapediaLookup, WarscrollData
+from ..sources.wahapedia_lookup import AbilityEntry, WahapediaLookup, WarscrollData, tag_ability_origin
 from ..sources.warscroll_index import FactionIndex, WarscrollIndex, find_generic_manifestation_lore, find_lore_pages
 
 #: Variantes du roster : cf. `tournament_kit/modes.py` (`RosterMode`,

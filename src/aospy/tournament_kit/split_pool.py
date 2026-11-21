@@ -7,7 +7,6 @@ from dataclasses import dataclass
 from dataclasses import replace as _dc_replace
 
 from .modes import mode_spec
-from .render.cards import tag_ability_origin
 from .render.phases import (
     CHOICE_CATEGORIES,
     ability_section,
@@ -23,6 +22,7 @@ from .sources.tactic_cards import find_tactic_card
 from .sources.wahapedia_lookup import (
     AbilityEntry,
     WarscrollData,
+    tag_ability_origin,
 )
 
 

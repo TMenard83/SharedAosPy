@@ -20,7 +20,7 @@ Pipeline, du bas vers le haut (chaque module n'appelle que ceux du dessus) :
 1. `models.py`    — dataclasses (aucune logique) ;
 2. `text.py`      — HTML Wahapedia → texte brut, découpe Annonce/Effet ;
 3. `source.py`    — lecture des CSV, filtrage Legends/périmé, dédoublonnage ;
-4. `extract.py`   — extraction par règles : déclenchement, coût, jet, portée,
+4. `extract/`     — extraction par règles : déclenchement, coût, jet, portée,
    cible, effets chiffrés ;
 5. `tags.py`      — tags d'utilité dérivés de l'extraction ;
 6. `scoring.py`   — trois axes + verdict, avec justification lisible ;

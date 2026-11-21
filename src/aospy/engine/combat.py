@@ -65,7 +65,7 @@ def _prob_x_plus(x: int, modifier: int = 0) -> float:
 _MARKUP_RE = re.compile(r"\*\*|\^\^|<[^>]+>")
 
 
-def _normalize_abilities(abilities: str) -> str:
+def normalize_abilities(abilities: str) -> str:
     """Retire le markup de mise en forme (gras/exposant/HTML) et les espaces/tirets
     insécables du texte libre `Weapon.abilities`, avant tout matching par regex."""
     text = _MARKUP_RE.sub("", abilities)
@@ -76,7 +76,7 @@ def _parse_crit(abilities: Optional[str]) -> str:
     """Détecte le type de crit dans le champ abilities (insensible à la casse)."""
     if not abilities:
         return "none"
-    s = _normalize_abilities(abilities).lower()
+    s = normalize_abilities(abilities).lower()
     if "crit (2 hits)" in s or "crit (2hits)" in s:
         return "2hits"
     if "crit (mortal" in s:
@@ -94,7 +94,7 @@ def _crit_chance(abilities: Optional[str], p_hit: float) -> float:
     porte « Crits on X+ » (ex. Chasseurs en Meute des Claws of Karanak : critique sur 5+).
     Un jet qui cause un critique est toujours une touche, mais jamais au-delà de `p_hit`
     plus les jets de crit qui ne touchent pas normalement (le 6 naturel touche toujours)."""
-    m = _CRIT_ON_RE.search(_normalize_abilities(abilities).lower()) if abilities else None
+    m = _CRIT_ON_RE.search(normalize_abilities(abilities).lower()) if abilities else None
     threshold = int(m[1]) if m else 6
     return (7 - threshold) / 6.0 if m else min(p_hit, 1.0 / 6.0)
 
@@ -115,17 +115,17 @@ def _is_mortal_on_hit(abilities: Optional[str]) -> bool:
     — il n'y a jamais de jet pour blesser du tout sur ce profil."""
     if not abilities:
         return False
-    text = _normalize_abilities(abilities).lower()
+    text = normalize_abilities(abilities).lower()
     # « no wound roll » : ancien libellé, encore accepté (bases importées avant le renommage)
     return "mortal on hit" in text or "no wound roll" in text
 
 
-_ANTI_RE = re.compile(r"Anti-([A-Za-z ]+?)\s*\(\s*\+(\d+)\s+(\w+)\s*\)", re.IGNORECASE)
+ANTI_RE = re.compile(r"Anti-([A-Za-z ]+?)\s*\(\s*\+(\d+)\s+(\w+)\s*\)", re.IGNORECASE)
 #: Lookbehind négatif : exclut `Anti-charge (+N Rend)` (mot-clé "CHARGE", bonus vs
 #: un défenseur qui a chargé — état non modélisé côté défenseur, cf. docstring de
 #: `_intrinsic_bonus`) qui sinon matcherait comme le bonus de charge de l'attaquant
 #: lui-même, alors que ce sont deux mécaniques distinctes.
-_CHARGE_RE = re.compile(r"(?<!anti-)Charge\s*\(\s*\+(\d+)\s+(\w+)\s*\)", re.IGNORECASE)
+CHARGE_RE = re.compile(r"(?<!anti-)Charge\s*\(\s*\+(\d+)\s+(\w+)\s*\)", re.IGNORECASE)
 _STAT_FIELD = {
     "attacks": "attacks", "atk": "attacks",
     "hit": "hit",
@@ -159,20 +159,20 @@ def _intrinsic_bonus(
     Cas particulier : `Anti-charge (+N <Stat>)` (mot-clé "CHARGE") vise un
     défenseur qui a chargé ce combat, un état que `CombatModifiers` ne modélise
     que côté attaquant (`attacker_charged`) — cette clause matche donc bien
-    `_ANTI_RE` (elle ne se déclenche jamais, faute de mot-clé "CHARGE" dans
+    `ANTI_RE` (elle ne se déclenche jamais, faute de mot-clé "CHARGE" dans
     `Unit.keywords`) mais n'applique aucun bonus, plutôt que de se faire
-    absorber à tort par `_CHARGE_RE` comme le bonus de charge de l'attaquant.
+    absorber à tort par `CHARGE_RE` comme le bonus de charge de l'attaquant.
     """
     bonus = _IntrinsicBonus()
     if not abilities:
         return bonus
-    text = _normalize_abilities(abilities)
-    for keyword, amount, stat in _ANTI_RE.findall(text):
+    text = normalize_abilities(abilities)
+    for keyword, amount, stat in ANTI_RE.findall(text):
         field_name = _STAT_FIELD.get(stat.lower())
         if field_name and keyword.strip().upper() in defender_keywords:
             setattr(bonus, field_name, getattr(bonus, field_name) + int(amount))
     if charged:
-        for amount, stat in _CHARGE_RE.findall(text):
+        for amount, stat in CHARGE_RE.findall(text):
             field_name = _STAT_FIELD.get(stat.lower())
             if field_name:
                 setattr(bonus, field_name, getattr(bonus, field_name) + int(amount))

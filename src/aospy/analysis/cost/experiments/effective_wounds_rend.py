@@ -47,8 +47,6 @@ print()
 print("Rend moyen observé sur les profils d'arme de la base (pondéré par nombre de profils) :")
 from collections import Counter  # noqa: E402
 
-import duckdb  # noqa: E402
-
 from aospy.persistence import repository  # noqa: E402
 
 con = db.connect()

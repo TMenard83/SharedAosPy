@@ -182,7 +182,7 @@ def test_unit_alias_renames_only_the_entry_with_its_options(tmp_path):
 
 
 def test_phase_overrides_move_ability_out_of_any_phase(tmp_path):
-    from aospy.tournament_kit.warscroll_card import classify_phase
+    from aospy.tournament_kit.render.phases import classify_phase
     path = tmp_path / "s.json"
     path.write_text(json.dumps({"lists": {"L": {"phase_overrides": {
         "A Splendid Pageant": "Movement Phase", "The One True King": ["Movement Phase", "Charge Phase"],
@@ -255,7 +255,7 @@ def test_line_break_after_target_sentence():
 
 
 def test_set_up_is_always_bold():
-    from aospy.tournament_kit.warscroll_card import _bold_set_up
+    from aospy.tournament_kit.render.text import _bold_set_up
 
     assert _bold_set_up("Ni <b>Mouvement</b> ni placée à ce tour.") == "Ni <b>Mouvement</b> ni <b>placée</b> à ce tour."
     assert _bold_set_up("Replacez-la à 9\".") == "<b>Replacez</b>-la à 9\"."

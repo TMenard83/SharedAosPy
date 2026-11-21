@@ -101,7 +101,7 @@ class Effect:
 
 @dataclass
 class Extraction:
-    """Caractéristiques extraites par règles (`extract.py`)."""
+    """Caractéristiques extraites par règles (paquet `extract/`)."""
 
     frequency: Frequency = "unlimited"
     turn: TurnSide = "any"

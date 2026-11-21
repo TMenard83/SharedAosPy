@@ -108,7 +108,7 @@ aospy ability review contresens    # un lot de 15, texte compris ; --limit N
 Présenter un lot, laisser l'utilisateur trancher cas par cas, puis écrire ses décisions dans
 `data/json/ability_overrides.json` (un cas tranché sort de la file, même sans modification : mettre au
 moins une `note`). Si plusieurs cas partagent la même erreur de lecture, corriger plutôt la règle
-dans `extract.py`/`perimeter.py` (+ test).
+dans `extract/`/`perimeter.py` (+ test).
 
 ## Corriger une analyse
 
@@ -120,5 +120,5 @@ Ne pas modifier les poids pour un cas isolé : ajouter une entrée dans `data/js
   "add_tags": ["restriction"], "remove_tags": [], "note": "raison, validée par l'utilisateur"}}}
 ```
 
-Un motif d'extraction raté sur **plusieurs** aptitudes se corrige dans `src/aospy/abilities/extract.py`
+Un motif d'extraction raté sur **plusieurs** aptitudes se corrige dans `src/aospy/abilities/extract/` (module de la famille concernée)
 (+ un test dans `tests/abilities/`, + `ANALYZER_VERSION` incrémenté).

@@ -61,9 +61,9 @@ def test_blood_tithe_cluster_orders_skulls_then_blood_drenched_then_options_by_c
 
 
 def test_choice_cluster_copy_stays_at_start_of_turn_despite_condition_phase():
+    from aospy.tournament_kit.render.phases import classify_phase
     from aospy.tournament_kit.sources.wahapedia_lookup import AbilityEntry
     from aospy.tournament_kit.split_pool import _CHOICE_CLUSTERS, _choice_cluster
-    from aospy.tournament_kit.warscroll_card import classify_phase
 
     spec = next(c for c in _CHOICE_CLUSTERS if c.category == "blood_tithe")
     punish = AbilityEntry("Punissez les Pacifistes", "", "", keywords="Blood Tithe",
@@ -73,9 +73,9 @@ def test_choice_cluster_copy_stays_at_start_of_turn_despite_condition_phase():
 
 
 def test_khaine_blessing_cluster_moves_blood_rites_then_blessings_to_end_of_turn():
+    from aospy.tournament_kit.render.phases import classify_phase
     from aospy.tournament_kit.sources.wahapedia_lookup import AbilityEntry
     from aospy.tournament_kit.split_pool import _apply_choice_clusters
-    from aospy.tournament_kit.warscroll_card import classify_phase
 
     rites = AbilityEntry("Rites de Sang", "", "", condition="Passive", ability_phase="Start of Turn")
     blessings = AbilityEntry("Bénédictions de Khaine", "", "", condition="Once Per Turn (Army), End of Any Turn",
@@ -119,10 +119,10 @@ def test_delusion_cluster_also_applies_in_fr_extended():
 def test_mark_self_profile_survives_french_patch():
     """Décidé sur le texte Wahapedia, le marquage survit au correctif
     français qui traduit le nom de l'arme dans le texte seulement."""
+    from aospy.tournament_kit.render.phases import is_self_profile_modifier
     from aospy.tournament_kit.sources.faction_rules_fr import apply_fr_overrides
     from aospy.tournament_kit.sources.wahapedia_lookup import AbilityEntry, WarscrollData, WeaponEntry
     from aospy.tournament_kit.split_pool import _mark_self_profile
-    from aospy.tournament_kit.warscroll_card import is_self_profile_modifier
 
     en = "<b>Effect:</b> If this unit charged this turn, add 1 to the Rend characteristic of its <b>Cursed Lances</b>."
     weapon = WeaponEntry(*(["Cursed Lance"] + [""] * (len(WeaponEntry.__dataclass_fields__) - 1)))
@@ -186,9 +186,9 @@ def test_identical_warscroll_abilities_merge_ignoring_flavor_text():
 
 
 def test_chaos_pledge_cluster_in_hero_phase_keeps_pledges_where_used():
+    from aospy.tournament_kit.render.phases import TURN_ENEMY, TURN_MINE, classify_phase
     from aospy.tournament_kit.sources.wahapedia_lookup import AbilityEntry
     from aospy.tournament_kit.split_pool import _apply_choice_clusters, _fold_warscroll_copies, _turn_sides
-    from aospy.tournament_kit.warscroll_card import TURN_ENEMY, TURN_MINE, classify_phase
 
     pledge = AbilityEntry("Vocation au Chaos", "", "", condition="Once Per Turn (Army), Your Hero Phase",
                           ability_phase="Hero Phase")

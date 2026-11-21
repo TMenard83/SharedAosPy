@@ -105,11 +105,11 @@ def _safe_paragraph(text: str, style: ParagraphStyle) -> Paragraph:
 
 #: texture pierre du fond de page — générée par
 #: `scripts/generate_stone_texture.py` (procédurale plutôt que téléchargée :
-#: même raisonnement que `Cinzel-Bold.ttf`/`warscroll_card.py`, pas de
+#: même raisonnement que `Cinzel-Bold.ttf`/`render/`, pas de
 #: licence à auditer). `ImageReader` construit une seule fois au niveau
 #: module ; repli silencieux sur un aplat `PAGE_BG` (même teinte) si le
 #: fichier venait à manquer (ex. install sans les données du paquet) — même
-#: schéma que le repli police de `warscroll_card.py`.
+#: schéma que le repli police de `render/`.
 _STONE_TEXTURE_PATH = Path(__file__).resolve().parent / "assets" / "stone_texture.jpg"
 try:
     _STONE_TEXTURE = ImageReader(str(_STONE_TEXTURE_PATH))
@@ -202,7 +202,7 @@ class _FitToFrame(Flowable):
 
 #: Les pages copiées depuis les battletomes/Manuel du général sont des scans
 #: aplatis (une seule image ~1865x2472 par page, cf. le traitement anti-copie
-#: documenté dans tournament_kit/README.md) : `writer.add_page` les recopie telles quelles,
+#: documenté dans tournament_kit/sources/README.md) : `writer.add_page` les recopie telles quelles,
 #: soit ~1 Mo/page rien qu'en JPEG déjà compressé — largement plus que
 #: nécessaire pour une page de règles lue à l'écran ou imprimée en A4. On les
 #: redimensionne/recompresse après coup (~150-250 Ko/page), ce qui a divisé
@@ -299,7 +299,7 @@ def _build_wahapedia_appendix_pdf(
     Renown à plusieurs membres (un seul membre : son aptitude rejoint plutôt
     la carte de cette unité, cf. `build_roster_pdf`). Les profils d'unité
     eux-mêmes ne passent plus par ici — ils sont rendus en carte maison
-    (`warscroll_card.py`), plus de page de battletome copiée ni de bloc de
+    (`render/`), plus de page de battletome copiée ni de bloc de
     texte anglais pour un profil d'unité."""
     if not (wahapedia_lore_blocks or renown_army or regiments_of_renown):
         return None

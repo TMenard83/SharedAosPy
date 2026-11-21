@@ -6,10 +6,10 @@ import math
 
 import pytest
 
+from aospy.domain.models import Unit, Weapon
 from aospy.engine.combat import (
-    CombatModifiers,
     RANGED_DOUBLE_MULT,
-    _parse_crit,
+    CombatModifiers,
     _prob_x_plus,
     damage_floor66,
     damage_floor80,
@@ -19,10 +19,10 @@ from aospy.engine.combat import (
     expected_weapon_damage,
     unit_damage_distribution,
     unit_damage_moments,
+    weapon_crit_type,
     weapon_damage_distribution,
     weapon_damage_moments,
 )
-from aospy.domain.models import Unit, Weapon
 
 
 def _pmf_moments(pmf: list[float]) -> tuple[float, float]:
@@ -58,11 +58,11 @@ def test_prob_x_plus_impossible_when_above_6():
 
 
 def test_parse_crit_variants():
-    assert _parse_crit("Crit (2 Hits)") == "2hits"
-    assert _parse_crit("Crit (Mortal Wounds)") == "mortal"
-    assert _parse_crit("Crit (Auto-Wound)") == "autowound"
-    assert _parse_crit("rien") == "none"
-    assert _parse_crit(None) == "none"
+    assert weapon_crit_type("Crit (2 Hits)") == "2hits"
+    assert weapon_crit_type("Crit (Mortal Wounds)") == "mortal"
+    assert weapon_crit_type("Crit (Auto-Wound)") == "autowound"
+    assert weapon_crit_type("rien") == "none"
+    assert weapon_crit_type(None) == "none"
 
 
 def test_expected_damage_simple_no_ward_no_rend():
@@ -437,7 +437,7 @@ def test_anti_keyword_bonus_absent_without_matching_keyword():
 
 def test_anti_keyword_bonus_active_with_bsdata_markup():
     # BSData encode le mot-clé avec du markup (**gras**/^^exposant^^, parfois un
-    # tiret insécable U+2011 dans "Anti‑") : cf. `_normalize_abilities`.
+    # tiret insécable U+2011 dans "Anti‑") : cf. `normalize_abilities`.
     weapon = Weapon(name="w", kind="melee", attacks=2, hit=4, wound=4, damage=1,
                     abilities="Anti‑**^^MONSTER^^**\xa0(+1 Rend)")
     monster = _unit(save=4, keywords=frozenset({"MONSTER"}))
@@ -455,7 +455,7 @@ def test_anti_keyword_bonus_active_with_wahapedia_html_markup():
 
 def test_anti_charge_text_does_not_trigger_attacker_charge_bonus():
     # "Anti-charge (+N Rend)" (mot-clé "CHARGE") est une mécanique distincte du
-    # bonus de charge de l'attaquant — ne doit pas être absorbée par _CHARGE_RE.
+    # bonus de charge de l'attaquant — ne doit pas être absorbée par CHARGE_RE.
     weapon = Weapon(name="w", kind="melee", attacks=2, hit=4, wound=4, damage=1,
                     abilities="Anti-charge (+1 Rend)")
     defender = _unit(save=4, keywords=frozenset())

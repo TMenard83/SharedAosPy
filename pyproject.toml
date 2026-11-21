@@ -93,3 +93,28 @@ layers = [
     "aospy.analysis.layers",
     "aospy.analysis.cost",
 ]
+
+[[tool.importlinter.contracts]]
+name = "tournament_kit : orchestration > assemblage > résolution > rendu > chargeurs"
+type = "layers"
+layers = [
+    "aospy.tournament_kit.pdf_builder",
+    "aospy.tournament_kit.cover | aospy.tournament_kit.split_pool",
+    "aospy.tournament_kit.assembly",
+    "aospy.tournament_kit.resolution",
+    "aospy.tournament_kit.render",
+    "aospy.tournament_kit.sources",
+    "aospy.tournament_kit.list_parser | aospy.tournament_kit.modes",
+]
+
+[[tool.importlinter.contracts]]
+name = "tournament_kit.render : cartes > mise en page > pastilles > phases > texte > thème/options"
+type = "layers"
+layers = [
+    "aospy.tournament_kit.render.cards",
+    "aospy.tournament_kit.render.layout",
+    "aospy.tournament_kit.render.pills",
+    "aospy.tournament_kit.render.phases",
+    "aospy.tournament_kit.render.text",
+    "aospy.tournament_kit.render.theme | aospy.tournament_kit.render.options",
+]

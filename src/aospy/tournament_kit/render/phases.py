@@ -8,7 +8,7 @@ from dataclasses import replace as _dc_replace
 from reportlab.lib import colors
 from reportlab.lib.styles import ParagraphStyle
 
-from ..sources.wahapedia_lookup import AbilityEntry
+from ..sources.wahapedia_lookup import AbilityEntry, keyword_key
 from .text import _clean_text, strip_flavor, tr
 from .theme import (
     _BADGE_BLOOD,
@@ -220,7 +220,7 @@ def classify_phase(ability: AbilityEntry) -> str:
     sa copie de choix, l'original reste à sa phase."""
     if ability.ability_category in CHOICE_CATEGORIES:
         return _PHASE_FIELD_TO_KEY[ability.ability_phase.strip().lower()]
-    if any(_keyword_key(kw) == "asterism" for kw in (ability.keywords or "").split(",") if kw.strip()):
+    if any(keyword_key(kw) == "asterism" for kw in (ability.keywords or "").split(",") if kw.strip()):
         return "asterism"
     if is_profile_modifier(ability):
         return "any"
@@ -503,11 +503,3 @@ def _ability_span(ab: AbilityEntry) -> int:
         return _SECTION_COLUMNS
     n = len(_clean_text(strip_flavor(ab.description)))
     return 3 if n > _SPAN_3_THRESHOLD else 2 if n > _SPAN_2_THRESHOLD else 1
-
-
-def _keyword_key(kw: str) -> str:
-    # ignore la casse et un simple "s" de pluriel — une aptitude "Ensorcelled
-    # Banners" (StD) porte déjà "Ensorcelled Banner" (singulier) dans son
-    # propre `keywords` Wahapedia ; sans ce rapprochement, l'étiquetage
-    # d'origine ajoutait un second badge quasi identique à côté du premier.
-    return kw.strip().lower().rstrip("s")

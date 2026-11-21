@@ -6,8 +6,8 @@ from pathlib import Path
 
 import pytest
 
-from aospy.persistence import db, repository
 from aospy.cli import main
+from aospy.persistence import db, repository
 
 
 @pytest.fixture()

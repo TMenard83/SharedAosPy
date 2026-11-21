@@ -3,7 +3,7 @@
 du prix que le modèle de coût officiel (`cost_model.fit_cost_model_factorial`) rate
 aujourd'hui ?
 
-Contexte : un bug de parsing dans `engine/combat.py` (`_ANTI_RE`/`_CHARGE_RE` ne toléraient
+Contexte : un bug de parsing dans `engine/combat.py` (`ANTI_RE`/`CHARGE_RE` ne toléraient
 pas le markup **gras**/^^exposant^^ de BSData ni le HTML <span> de Wahapedia) empêchait la
 quasi-totalité des Anti-X réels de s'appliquer même en combat — corrigé séparément (159/159
 unités concernées matchent maintenant). Même corrigé, ce bonus reste invisible aux features
@@ -30,12 +30,12 @@ import dataclasses
 from aospy.analysis.cost import cost_model
 from aospy.domain.models import Unit
 from aospy.engine.combat import (
-    _ANTI_RE,
-    _CHARGE_RE,
+    ANTI_RE,
+    CHARGE_RE,
     CombatModifiers,
-    _normalize_abilities,
-    _parse_crit,
+    normalize_abilities,
     unit_damage_moments,
+    weapon_crit_type,
 )
 from aospy.persistence import db, repository
 
@@ -71,11 +71,11 @@ def _tag_signals(unit: Unit) -> dict:
     best_weapon = None
     best_dmg = -1.0
     for w in unit.weapons:
-        text = _normalize_abilities(w.abilities or "")
-        for keyword, _amount, _stat in _ANTI_RE.findall(text):
+        text = normalize_abilities(w.abilities or "")
+        for keyword, _amount, _stat in ANTI_RE.findall(text):
             if keyword.strip().upper() != "CHARGE":  # "Anti-charge" : état non modélisé, cf. combat.py
                 has_anti = True
-        if _CHARGE_RE.search(text):
+        if CHARGE_RE.search(text):
             has_charge = True
         dmg, _v, _s = unit_damage_moments(
             dataclasses.replace(unit, weapons=[w]), unit.models, _PROBE_SAVE2_PLAIN, _NOT_CHARGED,
@@ -83,7 +83,7 @@ def _tag_signals(unit: Unit) -> dict:
         if dmg > best_dmg:
             best_dmg = dmg
             best_weapon = w
-    crit_type = _parse_crit(best_weapon.abilities) if best_weapon else "none"
+    crit_type = weapon_crit_type(best_weapon.abilities) if best_weapon else "none"
 
     base, _v, _s = unit_damage_moments(unit, unit.models, _PROBE_SAVE2_PLAIN, _NOT_CHARGED)
     anti_aware, _v, _s = unit_damage_moments(unit, unit.models, _PROBE_SAVE2_ANTI, _NOT_CHARGED)

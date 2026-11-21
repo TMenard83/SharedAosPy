@@ -87,8 +87,7 @@ from dataclasses import dataclass, field
 from dataclasses import replace as _dc_replace
 from pathlib import Path
 
-from ..render.cards import tag_ability_origin
-from .wahapedia_lookup import AbilityEntry, normalize_name, sanitize_glyphs
+from .wahapedia_lookup import AbilityEntry, normalize_name, sanitize_glyphs, tag_ability_origin
 
 DEFAULT_FACTION_RULES_FR_FILE = Path("data") / "json" / "faction_rules_fr.json"
 #: même schéma, textes officiels anglais relevés dans l'app Warhammer Age of

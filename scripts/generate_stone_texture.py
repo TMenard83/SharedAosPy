@@ -1,7 +1,7 @@
 """Génère la texture pierre (fond de page du kit de tournoi) utilisée par
 `tournament_kit.pdf_builder._draw_page_bg`. Procédural plutôt que téléchargée
 depuis une source externe — même raisonnement que `Cinzel-Bold.ttf`
-(cf. `warscroll_card.py`) : pas de question de licence à auditer, un fichier
+(cf. `render/`) : pas de question de licence à auditer, un fichier
 reproductible qui vit dans le dépôt.
 
 Usage : `python scripts/generate_stone_texture.py` régénère
@@ -18,7 +18,7 @@ from PIL import Image, ImageFilter
 
 _SEED = 42
 
-#: teinte de base — même couleur que `warscroll_card.PAGE_BG` (#f8f2e3),
+#: teinte de base — même couleur que `render/theme.PAGE_BG` (#f8f2e3),
 #: la texture doit rester "de la bonne couleur", juste avec du grain en plus.
 _BASE = np.array([248.0, 242.0, 227.0])
 

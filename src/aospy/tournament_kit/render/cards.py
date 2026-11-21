@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import re
-from dataclasses import replace as _dc_replace
 
 from reportlab.lib import colors
 from reportlab.lib.styles import ParagraphStyle
@@ -11,7 +10,7 @@ from reportlab.lib.units import mm
 from reportlab.platypus import Flowable, Paragraph, Table, TableStyle
 
 from ..sources.tactic_cards import SubTactic, TacticCard
-from ..sources.wahapedia_lookup import _ENHANCEMENT_CATEGORY_LABELS, AbilityEntry, WarscrollData
+from ..sources.wahapedia_lookup import AbilityEntry, WarscrollData
 from .layout import (
     _MAX_CARD_HEIGHT,
     _NOTE_STYLE,
@@ -21,7 +20,6 @@ from .layout import (
     pack_cards_two_columns,
 )
 from .options import render_options, render_options_override
-from .phases import _keyword_key
 from .pills import (
     _CAST_BADGE_COLORS,
     _CAST_BADGE_FG,
@@ -62,37 +60,6 @@ from .theme import (
     _WVAL_STYLE,
     CARD_TITLE_FONT,
 )
-
-
-def tag_ability_origin(abilities: list[AbilityEntry], origin_label: str) -> list[AbilityEntry]:
-    """Ajoute `origin_label` (« Traits de Bataille », « Formation »...) au
-    champ `keywords` de chaque aptitude — il en ressort comme un badge doré
-    de plus à côté des mots-clés d'aptitude déjà présents, cf. `_name_line`/
-    `_ability_row_flowables`. Un badge de carte aurait disparu si les
-    aptitudes de plusieurs catégories se retrouvent réunies sur une seule
-    carte (cf. `render_rule_card`) ou rejoignent la carte d'un héros ; un
-    badge d'aptitude, lui, survit au déplacement. N'ajoute rien si un
-    mot-clé quasi identique (cf. `_keyword_key`) figure déjà — une aptitude
-    dont Wahapedia porte déjà le nom de catégorie en mot-clé ne doit pas
-    aussi le recevoir en badge d'origine, sous peine de deux badges
-    redondants côte à côte."""
-    target = _keyword_key(origin_label)
-    # mot-clé anglais Wahapedia dont `origin_label` est la traduction (ex.
-    # « Ensorcelled Banner » pour « Bannière Ensorcelée ») : remplacé par le
-    # badge d'origine plutôt que gardé à côté (même redondance, en 2 langues).
-    translated = {
-        _keyword_key(en) for en, spec in _ENHANCEMENT_CATEGORY_LABELS.items() if _keyword_key(spec["label"]) == target
-    }
-    result = []
-    for ab in abilities:
-        existing = [kw.strip() for kw in ab.keywords.split(",") if kw.strip()] if ab.keywords else []
-        if any(_keyword_key(kw) == target for kw in existing):
-            result.append(ab)
-            continue
-        kept = [kw for kw in existing if _keyword_key(kw) not in translated]
-        result.append(_dc_replace(ab, keywords=",".join(kept + [origin_label])))
-    return result
-
 
 #: en-deçà de ce volume de texte cumulé (caractères des descriptions, tous
 #: bandeaux de phase confondus), une carte de règles fusionnée tient

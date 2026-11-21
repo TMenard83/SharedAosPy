@@ -5,8 +5,8 @@ Port des cas de StatHammer (mêmes clauses de description), adapté aux dataclas
 
 from __future__ import annotations
 
-from aospy.engine.loadout import model_counts
 from aospy.domain.models import Unit, Weapon
+from aospy.engine.loadout import model_counts
 
 
 def _w(name, kind="melee", attacks=2, hit=3, wound=3, rend=0, damage=1):
