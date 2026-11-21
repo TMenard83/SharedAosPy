@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import csv
 import re
 import urllib.parse
 import urllib.request
@@ -16,14 +15,14 @@ import duckdb
 from ..domain.models import Army, Unit, Weapon
 from ..engine.combat import reference_expected_damage
 from ..persistence import repository
+from ..sources.wahapedia_csv import DEFAULT_DATA_DIR, is_expired_variant, legends_warscrolls
 
 NS = "http://www.battlescribe.net/schema/catalogueSchema"
 BASE_URL = "https://raw.githubusercontent.com/BSData/age-of-sigmar-4th/main/"
 
 #: Répertoire des CSV Wahapedia, utilisé uniquement pour recouper le statut
-#: Legends (cf. `_wahapedia_legends_names`) — aucune dépendance vers `wahapedia.py`
-#: pour ne pas inverser le sens de dépendance documenté dans CLAUDE.md (carte des couches).
-WAHAPEDIA_DATA_DIR = Path("data") / "wahapedia"
+#: Legends (cf. `_wahapedia_legends_names`) ; lecture via `sources.wahapedia_csv`, sans dépendre de `wahapedia.py`.
+WAHAPEDIA_DATA_DIR = DEFAULT_DATA_DIR
 
 # Arméees disponibles : nom -> (fichier_principal, fichier_library, grand_alliance)
 KNOWN_ARMIES: dict[str, tuple[str, str, str]] = {
@@ -538,30 +537,12 @@ def _is_legends_entry(entry: ET.Element) -> bool:
 
 # ----- Filtrage Legends / packs narratifs périmés ------------------------------
 
-#: Fragments de nom (minuscules) signalant une variante de pack narratif expiré.
-#: Seul "Scourge of Ghyran" (le pack narratif saisonnier en cours) est écarté :
-#: absent des règles matched play courantes, mais BSData continue de l'exposer
-#: (suffixe « (Scourge of Ghyran) » côté BSData, préfixe « Scourge of Ghyran »
-#: côté Wahapedia — cf. `wahapedia.py::import_faction`).
-#: "Scourge of Aqshy" (pack antérieur) n'est PAS filtré : ces entrées ciblent un
-#: `targetId` distinct de l'unité de base (points/profil différents), ce ne sont
-#: donc pas de simples doublons mais des unités à part entière toujours valides.
-_EXPIRED_VARIANT_MARKERS: frozenset[str] = frozenset({
-    "scourge of ghyran",
-})
-
-
-def _is_expired_variant(name: str) -> bool:
-    lname = name.strip().lower()
-    return any(marker in lname for marker in _EXPIRED_VARIANT_MARKERS)
-
-
 def _normalize_name(name: str) -> str:
     """Casse + apostrophes typographiques -> ASCII, pour comparer un nom BSData
     (`&apos;` = U+0027) à un nom Wahapedia (guillemet courbe U+2019 systématique
     dans les CSV, ex. "Gryselle’s Arenai") sans faux négatif silencieux — sinon
     toute unité au nom possessif (nombreuses : "X's ...") échappe au filtre
-    Legends alors même que `_wahapedia_legends_names`/`_legends_warscroll_ids`
+    Legends alors même que `_wahapedia_legends_names`/`sources.wahapedia_csv.legends_warscroll_ids`
     la détecte correctement côté données.
     """
     return name.strip().lower().replace("’", "'").replace("‘", "'")
@@ -583,7 +564,7 @@ def _wahapedia_legends_names(data_dir: Path = WAHAPEDIA_DATA_DIR) -> set[str]:
 
     Recoupement par nom (les deux sources n'ont pas d'ID commun) pour appliquer
     à l'import BSData le même filtre Legends qu'à l'import Wahapedia
-    (`wahapedia.py::_legends_warscroll_ids`, qui exclut par `Source.csv` de type
+    (`sources.wahapedia_csv.legends_warscrolls`, qui exclut par `Source.csv` de type
     Legends ou note de retrait annoncé) — cible les unités individuellement
     retirées d'une armée par ailleurs toujours jouable (ex. Terrorgheist côté
     Soulblight Gravelords), en plus du cas « catalogue entier » traité par
@@ -591,22 +572,7 @@ def _wahapedia_legends_names(data_dir: Path = WAHAPEDIA_DATA_DIR) -> set[str]:
     """
     if not data_dir.exists():
         return set()
-
-    def _read(path: Path) -> list[dict[str, str]]:
-        with path.open(encoding="utf-8-sig", newline="") as fh:
-            return list(csv.DictReader(fh, delimiter="|"))
-
-    sources = _read(data_dir / "Source.csv")
-    legend_sources = {s["id"] for s in sources if "legends" in (s.get("name") or "").lower()}
-    names: set[str] = set()
-    for w in _read(data_dir / "Warscrolls.csv"):
-        is_legend = (
-            w.get("source_id") in legend_sources
-            or "legend" in (w.get("notes") or "").lower()
-        )
-        if is_legend:
-            names.add(_normalize_name(w.get("name") or ""))
-    return names
+    return {_normalize_name(w.get("name") or "") for w in legends_warscrolls(data_dir)}
 
 
 # ----- Unités "agglomérat" (un warscroll payant + sous-entrées gratuites qui en dépendent) ---
@@ -750,7 +716,7 @@ def import_army(
         if (
             parsed.is_legends
             or _normalize_name(parsed.name) in legends_names
-            or _is_expired_variant(parsed.name)
+            or is_expired_variant(parsed.name)
         ):
             summary.skipped_legends += 1
             continue

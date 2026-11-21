@@ -1,4 +1,4 @@
-"""Essai (concluant, adopté) : `_effective_wounds` (features.py) supposait jusqu'ici un Rend
+"""Essai (concluant, adopté) : `compute_effective_wounds` (features.py) supposait jusqu'ici un Rend
 nul pour calculer la probabilité de succès de la save — optimiste, puisque `combat.py`
 dégrade toujours la save réelle d'un attaquant par `defender.save + weapon.rend` et que la
 quasi-totalité des profils d'arme de la base portent du Rend. Le Ward, lui, n'a besoin

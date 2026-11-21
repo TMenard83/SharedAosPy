@@ -87,11 +87,11 @@ _PHASE_LABELS: dict[str, str] = {
 #: ordre canonique du tour (cf. AoS4) — "deploy" avant "round_start" avant
 #: "start" : le déploiement précède le round 1, et « Début de Round »
 #: (déclenchement unique, avant qu'aucun des deux joueurs n'ait pris son
-#: tour — cf. `_classify_phase`) précède « Début de Tour » (déclenchement
+#: tour — cf. `classify_phase`) précède « Début de Tour » (déclenchement
 #: propre à chaque tour, donc 2 fois par round) — 2 moments de règle
 #: distincts que Wahapedia confond tous les deux sous `ability_phase`
 #: = "Start of Turn". "any" toujours en dernier, catégorie hors séquence.
-#: "asterism" (cf. `_classify_phase`) tout en tête, avant même "deploy" :
+#: "asterism" (cf. `classify_phase`) tout en tête, avant même "deploy" :
 #: les 4 Astérismes Séraphons (mot-clé Wahapedia "Asterism") ont chacun
 #: leur propre `ability_phase` réel (Phase des Héros/Mêlée/Charge/Réaction
 #: défensive) mais sont choisis/activés ensemble via "Le Grand Dessein"/
@@ -491,7 +491,7 @@ def _plain_condition(condition: str) -> str | None:
     if m:
         return _PLAIN_CONDITION_FR.get(condition[m.end():].lstrip(" ,").lower())
     return None
-#: Reclassifie en phase « Début de Round » (cf. `_classify_phase`) toute
+#: Reclassifie en phase « Début de Round » (cf. `classify_phase`) toute
 #: aptitude dont le `condition` mentionne « Start of (the) (First) Battle
 #: Round » — Wahapedia ne distingue pas ce moment (unique, avant qu'aucun des
 #: 2 joueurs n'ait pris son tour) de « Start of Turn » (2 fois par round, une
@@ -499,10 +499,10 @@ def _plain_condition(condition: str) -> str | None:
 #: Turn" pour les deux. Volontairement plus étroit que « contient "battle
 #: round" » : ne doit pas matcher une simple fréquence sans déclencheur de
 #: timing (ex. « Once Per Battle Round, Your Hero Phase », un vrai
-#: déclenchement en phase des héros, cf. `_classify_phase`).
+#: déclenchement en phase des héros, cf. `classify_phase`).
 _ROUND_START_RE = re.compile(r"\bstart of (?:the )?(?:first )?battle round\b", re.IGNORECASE)
 #: Phase du cycle de round nommée par le `condition` d'une aptitude — prime
-#: sur `ability_phase` quand elle est seule (cf. `_classify_phase`) :
+#: sur `ability_phase` quand elle est seule (cf. `classify_phase`) :
 #: Wahapedia a parfois un `ability_phase` incohérent avec son propre
 #: `condition` (« Chalice of Ushoran » / « Lampées de Délire » : condition
 #: « Any Combat Phase » mais `ability_phase` = "End of Turn" ; « VISION OF
@@ -523,7 +523,7 @@ _WIELDER_RATIO_RE = re.compile(
 _CASTER_KW_RE = re.compile(r"^(WIZARD|PRIEST)\s*\((\d+)\)$", re.IGNORECASE)
 
 
-def _classify_phase(ability: AbilityEntry) -> str:
+def classify_phase(ability: AbilityEntry) -> str:
     """Détermine le bandeau de phase d'une aptitude. `ability_phase` (CSV
     Wahapedia, ou valeur posée à la main dans `season_rules.json`/
     `generic_core_abilities.json` — ces règles de coeur de jeu ne sont dans
@@ -611,7 +611,7 @@ def _classify_phase(ability: AbilityEntry) -> str:
     return "any"
 
 
-#: équivalents français du repli textuel de `_classify_phase`, pour une
+#: équivalents français du repli textuel de `classify_phase`, pour une
 #: réaction défensive dont le texte a été remplacé par un vérbatim FR
 #: (`faction_rules_fr.json`, ex. « Lumière Aveuglante » -> Tir, pas vert)
 _FR_MELEE_RE = re.compile(r"aptitude de (?:<b>)?corps à corps|attaques? de mêlée")
@@ -647,7 +647,7 @@ def _ability_category(ability: AbilityEntry) -> str:
     convocation d'un domaine de manifestations vaut lui-même "Spell" ou
     "Prayer" côté Wahapedia (identique à un sort/une prière ordinaire), donc
     `points_type` seul ne peut jamais distinguer une manifestation d'un sort/
-    d'une prière — seul l'appelant (`pdf_builder._resolve_rules`, qui sait de
+    d'une prière — seul l'appelant (`pdf_builder.resolve_rules`, qui sait de
     quel domaine chaque aptitude vient) peut trancher. En l'absence de ce
     marquage, `points_type` suffit à distinguer un sort/une prière d'une
     aptitude normale."""
@@ -1163,7 +1163,7 @@ def ability_turn_sides(ability: AbilityEntry) -> frozenset[str]:
     déploiement (avant le round 1, dans aucun tour) renvoie `TURN_MINE` pour
     ne jamais être dupliqué, mais `pdf_builder` le sort de toute façon des
     cartes de tour pour sa propre carte « Déploiement »."""
-    if _classify_phase(ability) == "deploy":
+    if classify_phase(ability) == "deploy":
         return frozenset({TURN_MINE})
     # sous-section « Dîme de Sang » : le déverrouillage (« Des Crânes pour le
     # Trône de Crânes ») a lieu au début de *n'importe quel* tour, toutes les
@@ -1218,10 +1218,10 @@ def _safe_paragraph(text: str, style: ParagraphStyle) -> Paragraph:
 def _clean_text(html: str) -> str:
     """Nettoyage minimal du HTML-ish Wahapedia pour `Paragraph` : `<a>`
     déballé, `<span class="kwb...">` -> `<b>`, listes -> puces, entités mal
-    formées échappées. Même logique que `pdf_builder._clean_html` (pas
+    formées échappées. Même logique que `pdf_builder.clean_html` (pas
     dupliquée pour éviter toute divergence de rendu texte)."""
-    from .pdf_builder import _clean_html
-    return _clean_html(html)
+    from .pdf_builder import clean_html
+    return clean_html(html)
 
 
 # -- Styles --------------------------------------------------------------
@@ -1729,7 +1729,7 @@ _CATEGORY_RAIL_COLORS: dict[str, tuple[str, str]] = {
 _FLAVOR_PREFIX_RE = re.compile(r"^\s*<i>.*?</i>\s*(?:<br\s*/?>\s*)+", re.IGNORECASE | re.DOTALL)
 
 
-def _strip_flavor(description: str) -> str:
+def strip_flavor(description: str) -> str:
     stripped = _FLAVOR_PREFIX_RE.sub("", description or "", count=1)
     # garde-fou : un texte entièrement en italique n'est jamais vidé
     return stripped if stripped.strip() else description
@@ -1810,7 +1810,7 @@ def _ability_row_flowables(ab: AbilityEntry, name_col: float, cond_col: float, f
     ]))
     entries.append(([name_cond], "top" if first else "top-rule"))
 
-    text = _clean_text(_strip_flavor(_bold_set_up(ab.description) if _BOLD_SET_UP else ab.description))
+    text = _clean_text(strip_flavor(_bold_set_up(ab.description) if _BOLD_SET_UP else ab.description))
     if _SECTIONED:
         # pas de ligne vide avant « Effet : »/« Utilisée par : » : le
         # libellé en gras sépare déjà les parties (cartes plus compactes)
@@ -1981,7 +1981,7 @@ def _ability_group_body(group: list[AbilityEntry], width: float, show_category_h
 #: final : reportlab ne sait pas la couper à un saut de page. Un groupe
 #: normal (une carte d'unité, une seule catégorie de règle) ne l'atteint
 #: jamais ; seule une carte de règles *fusionnées* (plusieurs catégories
-#: réunies dans la même phase, cf. `pdf_builder._resolve_rules`) le peut —
+#: réunies dans la même phase, cf. `pdf_builder.resolve_rules`) le peut —
 #: `_chunk_group` le fractionne alors en plusieurs segments qui reprennent
 #: chacun le même bandeau (couleur + nom de phase), l'un sous l'autre,
 #: plutôt que de tenter une seule ligne trop grande pour tenir sur une page.
@@ -2184,7 +2184,7 @@ def _split_long_ability_columns(ab: AbilityEntry, body_width: float, n_cols: int
     coupures de premier niveau pour remplir `n_cols` colonnes — l'appelant
     retombe alors sur le rendu pleine-largeur habituel plutôt que de risquer
     une colonne vide ou coupée au mauvais endroit."""
-    text = _clean_text(_strip_flavor(_bold_set_up(ab.description) if _BOLD_SET_UP else ab.description))
+    text = _clean_text(strip_flavor(_bold_set_up(ab.description) if _BOLD_SET_UP else ab.description))
     sectioned = len([sec for sec in _TEXT_SECTION_SPLIT_RE.split(text) if sec.strip()]) >= _MIN_TEXT_SECTIONS
     chunks = _ability_text_chunks(text)
     if len(chunks) < n_cols:
@@ -2401,7 +2401,7 @@ def _append_ability_groups(
     "Aptitudes" en tête de sa phase des héros."""
     grouped: dict[str, list[AbilityEntry]] = {}
     for ab in abilities:
-        grouped.setdefault(_classify_phase(ab), []).append(ab)
+        grouped.setdefault(classify_phase(ab), []).append(ab)
 
     body_width = width - _RAIL_WIDTH
     first_phase_row: int | None = None
@@ -2528,7 +2528,7 @@ def _section_rank(title: str) -> int:
 def _ability_span(ab: AbilityEntry) -> int:
     if ab.full_width:
         return _SECTION_COLUMNS
-    n = len(_clean_text(_strip_flavor(ab.description)))
+    n = len(_clean_text(strip_flavor(ab.description)))
     return 3 if n > _SPAN_3_THRESHOLD else 2 if n > _SPAN_2_THRESHOLD else 1
 
 
@@ -2879,7 +2879,7 @@ def _sectioned_phase_groups(
     Un `_SectionedPhaseGroup` par phase, à poser dans le flux du document."""
     grouped: dict[str, list[AbilityEntry]] = {}
     for ab in abilities:
-        grouped.setdefault(_classify_phase(ab), []).append(ab)
+        grouped.setdefault(classify_phase(ab), []).append(ab)
     body_width = width - _RAIL_WIDTH
     keys = [key for key in phase_order or _PHASE_ORDER if grouped.get(key)]
     def build(key: str, w: float, space_before: float, with_rebuild: bool) -> _SectionedPhaseGroup:
@@ -2961,7 +2961,7 @@ def render_rule_card(
     mais sans bandeau de stats ni armes, ces cartes ne sont pas des unités.
     `abilities` est déjà étiqueté par catégorie (`tag_ability_origin`) côté
     appelant, avant d'être éventuellement fusionné avec d'autres catégories
-    sur une seule carte triée par phase (cf. `pdf_builder._resolve_rules`) —
+    sur une seule carte triée par phase (cf. `pdf_builder.resolve_rules`) —
     ce n'est plus la responsabilité de cette fonction de le faire.  `None`
     si `abilities` est vide (rien à afficher)."""
     if not abilities:

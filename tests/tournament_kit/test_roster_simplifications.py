@@ -182,7 +182,7 @@ def test_unit_alias_renames_only_the_entry_with_its_options(tmp_path):
 
 
 def test_phase_overrides_move_ability_out_of_any_phase(tmp_path):
-    from aospy.tournament_kit.warscroll_card import _classify_phase
+    from aospy.tournament_kit.warscroll_card import classify_phase
     path = tmp_path / "s.json"
     path.write_text(json.dumps({"lists": {"L": {"phase_overrides": {
         "A Splendid Pageant": "Movement Phase", "The One True King": ["Movement Phase", "Charge Phase"],
@@ -192,9 +192,9 @@ def test_phase_overrides_move_ability_out_of_any_phase(tmp_path):
                            ability_phase="Start of Turn")
     king = AbilityEntry(name="The One True King", description="", legend="", condition="Passive",
                         ability_phase="Start of Turn")
-    assert _classify_phase(pageant) == "any"
+    assert classify_phase(pageant) == "any"
     out = simp.expand_phases([pageant, king], lambda ab: False)
-    assert [_classify_phase(ab) for ab in out] == ["move", "move", "charge"]
+    assert [classify_phase(ab) for ab in out] == ["move", "move", "charge"]
     # copie de sous-section de choix : intacte
     assert simp.expand_phases([king], lambda ab: True) == [king]
 

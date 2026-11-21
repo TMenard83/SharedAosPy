@@ -65,7 +65,7 @@ def _clean(desc: str | None) -> str:
     return re.sub(r"[ \t]+", " ", t).strip(" |")
 
 
-def _norm(s: str | None) -> str:
+def normalize_weapon_name(s: str | None) -> str:
     """Nom d'arme normalisé (sans balise, apostrophes/espaces unifiés, minuscules)."""
     s = _TAG.sub("", s or "").replace("’", "'").replace("‘", "'")
     return re.sub(r"\s+", " ", s).strip().lower()
@@ -90,7 +90,7 @@ def _match_profiles(name: str, names_norm: list[str]) -> list[int]:
     les descriptions raisonnent par **arme**, le vecteur de comptes par **profil**. On renvoie
     donc tous les profils d'égal nom (cas javelot/arme de jet) ; à défaut, le premier préfixe
     (comportement historique, pour ne pas sur-capturer des armes distinctes)."""
-    n = _PAREN.sub("", _norm(_ARTICLE.sub("", name))).strip(" .,;:")
+    n = _PAREN.sub("", normalize_weapon_name(_ARTICLE.sub("", name))).strip(" .,;:")
     if not n:
         return []
     exact = [i for i, wn in enumerate(names_norm) if wn == n]
@@ -127,7 +127,7 @@ def _is_all_weapons(text: str) -> bool:
     )
 
 
-def _collapse_modes(
+def collapse_modes(
     weapons: list[Weapon], names: list[str], counts: list[int], notes: list[str]
 ) -> None:
     """Effondre les **modes d'arme exclusifs** (« Arme: ModeA » / « Arme: ModeB »).
@@ -283,10 +283,10 @@ def model_counts(unit: Unit, weapons: list[Weapon]) -> tuple[list[int], list[str
     notes: list[str] = []
     if n == 0:
         return counts, notes
-    names = [_norm(w.name) for w in weapons]
+    names = [normalize_weapon_name(w.name) for w in weapons]
     desc = _clean(unit.description)
     if not desc:
-        _collapse_modes(weapons, names, counts, notes)
+        collapse_modes(weapons, names, counts, notes)
         return counts, notes
 
     base_idx: set[int] = set()                   # armes de base (portées par toute l'unité)
@@ -306,5 +306,5 @@ def model_counts(unit: Unit, weapons: list[Weapon]) -> tuple[list[int], list[str
     ):
         notes.append("description d'armement non reconnue → défaut (tous profils)")
 
-    _collapse_modes(weapons, names, counts, notes)
+    collapse_modes(weapons, names, counts, notes)
     return counts, notes

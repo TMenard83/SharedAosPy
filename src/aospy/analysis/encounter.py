@@ -29,11 +29,16 @@ from dataclasses import dataclass
 from typing import Callable, Optional
 
 from ..domain.models import Unit, Weapon
-from ..engine.combat import (CombatModifiers, _convolve, _effective_counts, unit_damage_moments,
-                             weapon_damage_distribution)
-from .chassis import is_companion, weapon_damages
-from .features import _PROBE_SAVE4, _effective_wounds
+from ..engine.combat import (
+    CombatModifiers,
+    convolve,
+    effective_counts,
+    unit_damage_moments,
+    weapon_damage_distribution,
+)
 from .approach import Plan, candidate_plans, shoots_in_combat
+from .chassis import is_companion, weapon_damages
+from .features import _PROBE_SAVE4, compute_effective_wounds
 
 #: AoS4 : les modificateurs aux jets de touche, de blessure et de sauvegarde sont plafonnés à ±1.
 _CAPPED_STATS = {"hit", "wound", "save"}
@@ -202,7 +207,7 @@ def is_translatable(eff: EffectSpec) -> bool:
 
 # ----- mesure --------------------------------------------------------------------
 
-def _probe(eff: EffectSpec) -> Unit:
+def probe_for_effect(eff: EffectSpec) -> Unit:
     kws = frozenset(k.strip() for k in eff.target_keywords.split(",") if k.strip())
     return dataclasses.replace(_PROBE_SAVE4, keywords=kws) if kws else _PROBE_SAVE4
 
@@ -266,8 +271,8 @@ def _weapon_pmf(w: Weapon, count: int, probe: Unit, mods: CombatModifiers) -> li
 
 def _weapon_pmfs(unit: Unit, probe: Unit, mods: CombatModifiers) -> list[list[float]]:
     """PMF des dégâts d'un round de chaque profil d'arme, porteurs répartis sur l'unité ENTIÈRE (même
-    `_effective_counts` que `weapon_damages`) ; profil écarté par un choix exclusif = [1.0]."""
-    counts = _effective_counts(unit, unit.models)
+    `effective_counts` que `weapon_damages`) ; profil écarté par un choix exclusif = [1.0]."""
+    counts = effective_counts(unit, unit.models)
     return [_weapon_pmf(w, c, probe, mods) if c > 0 else [1.0] for w, c in zip(unit.weapons, counts)]
 
 
@@ -278,7 +283,7 @@ def _plan_offense(pmfs: list[list[float]], plan: Plan) -> float:
         pmf = [1.0]
         for i in sorted(weapons):
             if i < len(pmfs):
-                pmf = _convolve(pmf, pmfs[i])
+                pmf = convolve(pmf, pmfs[i])
         if FLOOR_COVERAGE is None:                  # lecture à la moyenne (tests de traduction des effets)
             total += share * sum(d * p for d, p in enumerate(pmf))
         else:
@@ -292,7 +297,7 @@ def play_plan(unit: Unit, probe: Unit = _PROBE_SAVE4, mods: Optional[CombatModif
     return max(candidate_plans(unit), key=lambda p: _plan_offense(pmfs, p))
 
 
-def _offense(unit: Unit, probe: Unit, mods: CombatModifiers, plan: Optional[Plan] = None) -> float:
+def plan_offense(unit: Unit, probe: Unit, mods: CombatModifiers, plan: Optional[Plan] = None) -> float:
     """Dégâts d'un round moyen de la partie selon le plan de jeu (`approach.Plan`), chaque type de round lu
     au plancher `FLOOR_COVERAGE` de sa distribution exacte. `plan` : celui de la charte nue, pour mesurer
     avant/après un effet sur le même plan (sinon le meilleur pour ce profil)."""
@@ -304,8 +309,8 @@ def _offense(unit: Unit, probe: Unit, mods: CombatModifiers, plan: Optional[Plan
     return max(_plan_offense(pmfs, p) for p in candidate_plans(unit))
 
 
-def _defense(unit: Unit) -> float:
-    return _effective_wounds(unit.health * unit.models, unit.save, unit.ward or _NO_WARD)
+def unit_durability(unit: Unit) -> float:
+    return compute_effective_wounds(unit.health * unit.models, unit.save, unit.ward or _NO_WARD)
 
 
 def apply_effect(unit: Unit, eff: EffectSpec, probe: Optional[Unit] = None,
@@ -322,7 +327,7 @@ def apply_effect(unit: Unit, eff: EffectSpec, probe: Optional[Unit] = None,
         if not idx:
             return None
         if eff.weapon_scope == "chosen":
-            probe = probe or _probe(eff)
+            probe = probe or probe_for_effect(eff)
             mods = mods or CombatModifiers()
             candidates = []
             for i in idx:
@@ -330,7 +335,7 @@ def apply_effect(unit: Unit, eff: EffectSpec, probe: Optional[Unit] = None,
                 ws[i] = wt(ws[i])
                 candidates.append(dataclasses.replace(unit, weapons=ws))
             plan = play_plan(unit, probe, mods)
-            return max(candidates, key=lambda u: _offense(u, probe, mods, plan))
+            return max(candidates, key=lambda u: plan_offense(u, probe, mods, plan))
         ws = [wt(w) if i in idx else w for i, w in enumerate(unit.weapons)]
         return dataclasses.replace(unit, weapons=ws)
     dt = _defensive_transform(eff)
@@ -339,15 +344,15 @@ def apply_effect(unit: Unit, eff: EffectSpec, probe: Optional[Unit] = None,
 
 def encounter(unit: Unit, eff: EffectSpec) -> Optional[Encounter]:
     """Gain de l'effet sur ce châssis, ou None s'il ne s'y applique pas (ex. arme nommée absente)."""
-    probe = _probe(eff)
+    probe = probe_for_effect(eff)
     mods = CombatModifiers(attacker_charged="a chargé" in eff.requires or eff.kind == "charge_bonus")
     after = apply_effect(unit, eff, probe, mods)
     if after is None:
         return None
     plan = play_plan(unit, probe, mods)
     return Encounter(
-        off_before=_offense(unit, probe, mods, plan), off_after=_offense(after, probe, mods, plan),
-        def_before=_defense(unit), def_after=_defense(after),
+        off_before=plan_offense(unit, probe, mods, plan), off_after=plan_offense(after, probe, mods, plan),
+        def_before=unit_durability(unit), def_after=unit_durability(after),
     )
 
 
@@ -356,7 +361,7 @@ def encounter(unit: Unit, eff: EffectSpec) -> Optional[Encounter]:
 _PLURALS = {"HEROES": "HERO", "MONSTERS": "MONSTER", "WIZARDS": "WIZARD", "PRIESTS": "PRIEST"}
 
 
-def _parse_keywords(tokens: list[str], vocab: frozenset[str]) -> tuple[list[str], list[str]]:
+def parse_keywords(tokens: list[str], vocab: frozenset[str]) -> tuple[list[str], list[str]]:
     """Découpe des jetons MAJUSCULES en mots-clés connus (plus long d'abord) ; inconnus à part."""
     tokens = [_PLURALS.get(t, t) for t in tokens]
     found, unknown, i = [], [], 0
@@ -397,14 +402,14 @@ def matches_friendly_target(unit: Unit, phrase: str, vocab: frozenset[str]) -> b
                         " ".join(run + [toks[k]]) in vocab | {" ".join(run + toks[k:k + 3])}:
                     run.append(toks[k])
                     k += 1
-                excl.extend(_parse_keywords(run, vocab)[0] or run)
+                excl.extend(parse_keywords(run, vocab)[0] or run)
                 continue
             if t.isupper() or not any(ch.islower() for ch in t):
                 req.append(t)
             else:
                 title.append(t)
             k += 1
-        kws, _unknown = _parse_keywords(req, vocab)
+        kws, _unknown = parse_keywords(req, vocab)
         if any(e in unit.keywords for e in excl):
             continue
         if not all(kw in unit.keywords for kw in kws):
@@ -453,14 +458,10 @@ def receivers(source_kind: str, scope: str, owner_kind: str, owner_name: str, ar
     return []
 
 
-ENCOUNTER_COLS = (
-    "ability_uid", "seq", "unit_id", "relation", "source", "off_before", "off_after", "off_gain_pct", "off_gain_per_100",
-    "def_before", "def_after", "def_gain_pct", "def_gain_per_100", "conditions", "duration",
-)
 
 
 def build_encounter_rows(con) -> tuple[list[tuple], dict[str, int]]:
-    """Tuples `ENCOUNTER_COLS` pour toutes les rencontres effet ami × receveur + compteurs."""
+    """Tuples `persistence.analysis_tables.ENCOUNTER_COLS` pour toutes les rencontres effet ami × receveur + compteurs."""
     from ..persistence import repository
 
     units_by_army = repository.load_all_units_with_weapons(con)

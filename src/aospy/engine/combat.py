@@ -287,7 +287,7 @@ def reference_expected_damage(weapons: list[Weapon]) -> list[float]:
     return out
 
 
-def _effective_counts(attacker: Unit, attacker_models: int) -> list[int]:
+def effective_counts(attacker: Unit, attacker_models: int) -> list[int]:
     """Nombre de modèles portant chaque profil d'arme, à la taille d'attaque donnée.
 
     Utilise `loadout.model_counts` (allocation depuis `Unit.description`, texte libre)
@@ -314,9 +314,9 @@ def _effective_counts(attacker: Unit, attacker_models: int) -> list[int]:
             result.append(attacker_models)
     # Modes d'arme exclusifs (« Arme: ModeA » / « Arme: ModeB ») : un seul par tour, même
     # sans description (Pyrofane Fusiliers, Mega-Gargants…) — sinon les modes s'additionnent.
-    from .loadout import _collapse_modes, _norm
+    from .loadout import collapse_modes, normalize_weapon_name
 
-    _collapse_modes(attacker.weapons, [_norm(w.name) for w in attacker.weapons], result, [])
+    collapse_modes(attacker.weapons, [normalize_weapon_name(w.name) for w in attacker.weapons], result, [])
     return result
 
 
@@ -328,10 +328,10 @@ def expected_unit_damage(
 ) -> float:
     """Dégât total espéré d'une unité attaquante (tous profils d'arme) en 1 round.
 
-    Le nombre de porteurs par profil vient de `_effective_counts` (loadout par
+    Le nombre de porteurs par profil vient de `effective_counts` (loadout par
     description, ou wielders BattleScribe à défaut).
     """
-    counts = _effective_counts(attacker, attacker_models)
+    counts = effective_counts(attacker, attacker_models)
     return sum(
         expected_weapon_damage(w, c, defender, modifiers)
         for w, c in zip(attacker.weapons, counts, strict=True)
@@ -424,10 +424,10 @@ def unit_damage_moments(
 ) -> tuple[float, float, float]:
     """Espérance, variance et écart-type des dégâts totaux d'une unité (1 round).
 
-    Même `_effective_counts` (loadout ou wielders) que `expected_unit_damage`. Les
+    Même `effective_counts` (loadout ou wielders) que `expected_unit_damage`. Les
     profils d'arme sont des variables indépendantes : les variances s'additionnent.
     """
-    counts = _effective_counts(attacker, attacker_models)
+    counts = effective_counts(attacker, attacker_models)
     mean_total = 0.0
     var_total = 0.0
     for w, c in zip(attacker.weapons, counts, strict=True):
@@ -503,7 +503,7 @@ def damage_floor66(mean: float, std: float) -> float:
 # pour obtenir la distribution totale de l'unité.
 
 
-def _convolve(a: list[float], b: list[float]) -> list[float]:
+def convolve(a: list[float], b: list[float]) -> list[float]:
     """Produit de convolution discret de deux lois de probabilité (index = valeur
     entière, résultat de longueur `len(a) + len(b) - 1`)."""
     result = [0.0] * (len(a) + len(b) - 1)
@@ -595,7 +595,7 @@ def weapon_damage_distribution(
 
     result = [1.0]
     for _ in range(attack_count):
-        result = _convolve(result, per_attack)
+        result = convolve(result, per_attack)
 
     #: Ré-espace le support de « nombre de paliers » (indices 0..len(result)-1)
     #: vers « dégâts réels » (multiples de `dmg`), pour pouvoir ensuite convoluer
@@ -615,13 +615,13 @@ def unit_damage_distribution(
     """PMF exacte des dégâts totaux d'une unité (tous profils, 1 round) : convolution
     des PMF indépendantes de chaque profil d'arme (`weapon_damage_distribution`).
 
-    Même `_effective_counts` (loadout ou wielders) que `unit_damage_moments`, mais
+    Même `effective_counts` (loadout ou wielders) que `unit_damage_moments`, mais
     lecture exacte de la distribution plutôt que ses deux premiers moments seulement.
     """
-    counts = _effective_counts(attacker, attacker_models)
+    counts = effective_counts(attacker, attacker_models)
     total_pmf = [1.0]
     for w, c in zip(attacker.weapons, counts, strict=True):
-        total_pmf = _convolve(total_pmf, weapon_damage_distribution(w, c, defender, modifiers))
+        total_pmf = convolve(total_pmf, weapon_damage_distribution(w, c, defender, modifiers))
     return total_pmf
 
 

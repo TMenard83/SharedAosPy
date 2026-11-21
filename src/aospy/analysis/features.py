@@ -31,7 +31,7 @@ from dataclasses import dataclass
 import duckdb
 
 from ..domain.models import Unit
-from ..engine.combat import (CombatModifiers, _effective_counts, unit_damage_moments, weapon_crit_type,
+from ..engine.combat import (CombatModifiers, effective_counts, unit_damage_moments, weapon_crit_type,
                              weapon_damage_moments)
 from ..persistence.repository import load_all_units_with_weapons
 
@@ -61,7 +61,7 @@ def _caster_level(keywords: frozenset[str], kind: str) -> int:
     return best
 
 
-def _unit_type(keywords: frozenset[str]) -> str:
+def unit_type_of(keywords: frozenset[str]) -> str:
     """Type d'unité (INFANTRY/CAVALRY/MONSTER/WAR MACHINE/BEAST), "OTHER" si aucun ne matche."""
     for t in _UNIT_TYPE_KEYWORDS:
         if t in keywords:
@@ -128,7 +128,7 @@ _PROBE_SAVE6 = Unit(name="_probe", army_id=0, move=0, save=6, health=1, control=
 _NO_MODS = CombatModifiers()
 _CHARGED_MODS = CombatModifiers(attacker_charged=True)
 
-#: Rend "représentatif" supposé par `_effective_wounds` pour dégrader la save nue avant de
+#: Rend "représentatif" supposé par `compute_effective_wounds` pour dégrader la save nue avant de
 #: calculer sa probabilité de succès. `combat.py` calcule toujours `save_eff = defender.save +
 #: weapon.rend` face à un attaquant précis ; `effective_wounds` n'a pas d'attaquant (c'est une
 #: caractéristique du seul défenseur) et supposait jusqu'ici Rend 0 — optimiste, puisque la
@@ -213,7 +213,7 @@ class UnitFeatures:
     army_name: str  # facteur catégoriel plus fin que grand_alliance, résolu par `all_features`
     weapon_mix: str  # "melee" / "ranged" / "mixed" — facteur catégoriel dérivé des profils d'arme
 
-    unit_type: str  # INFANTRY / CAVALRY / MONSTER / WAR MACHINE / BEAST / OTHER, cf. _unit_type
+    unit_type: str  # INFANTRY / CAVALRY / MONSTER / WAR MACHINE / BEAST / OTHER, cf. unit_type_of
     is_flying: bool  # mot-clé FLY
     wizard_level: int  # WIZARD (N), 0 si aucun
     priest_level: int  # PRIEST (N), 0 si aucun
@@ -246,7 +246,7 @@ def weapon_damages(unit: Unit, probe: Unit, mods: CombatModifiers = _NO_MODS) ->
     Ne pas mesurer un sous-ensemble d'armes en le passant seul au moteur : les choix exclusifs
     (« 1/3 models must be armed with 1 of the following ») y seraient résolus par sous-ensemble,
     chaque moitié prenant sa meilleure option — Stormfiends : mêlée + tir = 21,5 pour 14,2 au total."""
-    counts = _effective_counts(unit, unit.models)
+    counts = effective_counts(unit, unit.models)
     return [weapon_damage_moments(w, c, probe, mods)[0] for w, c in zip(unit.weapons, counts)]
 
 
@@ -254,7 +254,7 @@ def _damage_of_kind(unit: Unit, kind: str, probe: Unit) -> float:
     return sum(d for w, d in zip(unit.weapons, weapon_damages(unit, probe)) if w.kind == kind)
 
 
-def _dominant_crit_type(unit: Unit) -> str:
+def dominant_crit_type(unit: Unit) -> str:
     """Type de Crit du profil d'arme qui contribue le plus à `dmg_vs_save2` — proxy du
     "crit dominant" d'une unité à profils d'arme multiples (chacun peut porter un Crit
     différent). "none" si l'unité n'a aucune arme ou aucun Crit. Un profil écarté par un
@@ -268,7 +268,7 @@ def _dominant_crit_type(unit: Unit) -> str:
     return best_type
 
 
-def _effective_wounds(wounds_total: int, save_num: int, ward_num: int) -> float:
+def compute_effective_wounds(wounds_total: int, save_num: int, ward_num: int) -> float:
     """PV totaux normalisés par la probabilité qu'un coup passe la save ET le ward —
     "nombre de coups qu'il faut effectivement porter pour tuer l'unité", plutôt que
     trois effets additifs séparés (cf. note de `UnitFeatures.effective_wounds`). La save
@@ -331,7 +331,7 @@ def compute_features(unit: Unit) -> UnitFeatures:
         wounds_total=wounds_total,
         save_num=save_num,
         ward_num=ward_num,
-        effective_wounds=_effective_wounds(wounds_total, save_num, ward_num),
+        effective_wounds=compute_effective_wounds(wounds_total, save_num, ward_num),
         move=unit.move,
         control=unit.control,
         control_expected=(ctl_exp := expected_control(unit)),
@@ -342,12 +342,12 @@ def compute_features(unit: Unit) -> UnitFeatures:
         grand_alliance="",
         army_name="",
         weapon_mix=weapon_mix,
-        unit_type=_unit_type(unit.keywords),
+        unit_type=unit_type_of(unit.keywords),
         is_flying="FLY" in unit.keywords,
         wizard_level=_caster_level(unit.keywords, "WIZARD"),
         priest_level=_caster_level(unit.keywords, "PRIEST"),
         is_unique="UNIQUE" in unit.keywords,
-        crit_type=_dominant_crit_type(unit),
+        crit_type=dominant_crit_type(unit),
     )
 
 

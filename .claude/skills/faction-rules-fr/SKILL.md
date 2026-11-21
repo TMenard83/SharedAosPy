@@ -137,7 +137,7 @@ s'appliquent. `battle_traits`/`heroic_traits_artefacts` n'ont pas de
 `scope` (tout s'applique, comme côté Wahapedia).
 
 **Cas particulier `manifestation_lores`** : une addition nette n'a pas de
-sens ici (`pdf_builder._resolve_rules` résout d'abord le warscroll de
+sens ici (`pdf_builder.resolve_rules` résout d'abord le warscroll de
 chaque manifestation invocable sur le nom Wahapedia d'origine, *avant*
 d'appliquer les correctifs — une aptitude sans `wahapedia_name` matchant
 n'aurait aucun warscroll à rattacher). N'utiliser que des correctifs pour

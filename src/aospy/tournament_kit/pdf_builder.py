@@ -84,8 +84,8 @@ from .translation.generic_core_abilities import (
 from .translation.absent_references import find_absent_keywords, find_absent_references
 from .translation.roster_simplifications import load_roster_simplifications
 from .translation.rules_resolution import (
-    _BANNER_PLEDGED_GOD, _PLEDGE_OPTION_RE, FR_MODES, PATCH_MODES, SIMPLE_MODES, SPLIT_MODES, RosterMode, _find_pledge_battle_trait,
-    _resolve_rules,
+    _BANNER_PLEDGED_GOD, _PLEDGE_OPTION_RE, FR_MODES, PATCH_MODES, SIMPLE_MODES, SPLIT_MODES, RosterMode, find_pledge_battle_trait,
+    resolve_rules,
 )
 from .translation.season_rules import DEFAULT_SEASON_RULES_EN_FILE, load_season_rules
 from .translation.tactic_cards import DEFAULT_TACTIC_CARDS_EN_FILE, find_tactic_card, load_tactic_cards
@@ -96,11 +96,11 @@ from .translation.warscroll_index import battletome_path, generic_manifestation_
 from .warscroll_card import (
     set_bold_set_up,
     ability_section,
-    _FULL_PAGE_HEIGHT, CARD_TITLE_FONT, CHOICE_CATEGORIES, PAGE_BG, SECTION_ARMY, SECTION_BASE, SPLIT_PHASE_ORDER, TURN_ENEMY, TURN_MINE, _classify_phase, ability_turn_sides, build_warscroll_cards_flow,
+    _FULL_PAGE_HEIGHT, CARD_TITLE_FONT, CHOICE_CATEGORIES, PAGE_BG, SECTION_ARMY, SECTION_BASE, SPLIT_PHASE_ORDER, TURN_ENEMY, TURN_MINE, classify_phase, ability_turn_sides, build_warscroll_cards_flow,
     is_self_profile_modifier, render_rule_card, render_tactic_card, english_labels, set_english_labels, set_faction_specific_keywords,
     set_french_keywords, set_french_weapon_tags, tr,
     cast_badge_legend, drawn_badge_shapes, reset_drawn_badge_shapes, pill_legend, reset_drawn_pills,
-    tag_ability_origin, _strip_flavor,
+    tag_ability_origin, strip_flavor,
 )
 
 
@@ -251,7 +251,7 @@ _WAHAPEDIA_TYPOS = {
 }
 
 
-def _clean_html(text: str) -> str:
+def clean_html(text: str) -> str:
     """Convertit le balisage HTML-ish de Wahapedia en balisage compris par
     `reportlab.platypus.Paragraph` (sous-ensemble XML). `<a>` est déballé
     (garde le texte, retire le lien), `<span class="kwb...">` devient `<b>`
@@ -657,8 +657,8 @@ def _render_ability_entries(story: list, entries: list[AbilityEntry]) -> None:
     for entry in entries:
         story.append(_safe_paragraph(entry.name, _EN_SUBSECTION))
         if entry.legend:
-            story.append(_safe_paragraph(_clean_html(entry.legend), _EN_LEGEND))
-        story.append(_safe_paragraph(_clean_html(entry.description), _EN_BODY))
+            story.append(_safe_paragraph(clean_html(entry.legend), _EN_LEGEND))
+        story.append(_safe_paragraph(clean_html(entry.description), _EN_BODY))
 
 
 def _build_wahapedia_appendix_pdf(
@@ -708,9 +708,9 @@ def _build_wahapedia_appendix_pdf(
             story.append(Paragraph("⚠ Non trouvé dans Wahapedia non plus.", _WARNING))
             continue
         if ror_data.legend:
-            story.append(_safe_paragraph(_clean_html(ror_data.legend), _EN_LEGEND))
+            story.append(_safe_paragraph(clean_html(ror_data.legend), _EN_LEGEND))
         if ror_data.composition:
-            story.append(_safe_paragraph("Composition : " + ", ".join(_clean_html(c) for c in ror_data.composition), _EN_BODY))
+            story.append(_safe_paragraph("Composition : " + ", ".join(clean_html(c) for c in ror_data.composition), _EN_BODY))
         _render_ability_entries(story, ror_data.abilities)
 
     doc.build([_wrap_in_sheet(story, doc.width)], onFirstPage=_draw_page_bg, onLaterPages=_draw_page_bg)
@@ -984,7 +984,7 @@ def _warscroll_ability_pool(warscrolls: list[WarscrollData]) -> list[AbilityEntr
         for ab in abilities:
             if is_self_profile_modifier(ab, [w.name for w in ws.weapons]):
                 continue
-            key = (ab.name, _strip_flavor(ab.description), ab.condition, ab.ability_phase, ab.keywords, ab.points_type, ab.points)
+            key = (ab.name, strip_flavor(ab.description), ab.condition, ab.ability_phase, ab.keywords, ab.points_type, ab.points)
             prev = merged.get(key)
             if prev is None:
                 merged[key] = _dc_replace(ab, warscrolls=(ws.name,))
@@ -1090,7 +1090,7 @@ def _fold_warscroll_copies(pool: list[AbilityEntry]) -> list[AbilityEntry]:
     du Prince Démon, qui a déjà le vœu, et le trait de bataille) n'est pas
     répétée : la règle d'armée prend la pastille de l'unité."""
     def key(ab: AbilityEntry) -> tuple:
-        return (ab.name.strip().lower(), _strip_flavor(ab.description), ab.condition, ab.ability_phase)
+        return (ab.name.strip().lower(), strip_flavor(ab.description), ab.condition, ab.ability_phase)
 
     army = {key(ab): i for i, ab in enumerate(pool) if not ab.warscrolls}
     out = list(pool)
@@ -1176,11 +1176,11 @@ def _apply_choice_clusters(pool: list[AbilityEntry], mode: str) -> list[AbilityE
         if not cluster:
             continue
         chooser_names = frozenset().union(*spec.chooser_names)
-        phase_key = _classify_phase(cluster[0])
+        phase_key = classify_phase(cluster[0])
         pool = [
             ab for ab in pool
             if not ((_is_option(ab, spec) or ab.name.strip().lower() in chooser_names)
-                    and _classify_phase(ab) == phase_key)
+                    and classify_phase(ab) == phase_key)
             and ab.name.strip().lower() not in spec.moved_names
             and not _is_choice_reaction(ab, spec)
         ] + cluster
@@ -1322,7 +1322,7 @@ def _apply_section_order(pool: list[AbilityEntry], section_order: dict[str, tupl
         return pool
     out = []
     for ab in pool:
-        titles = section_order.get(_classify_phase(ab), ())
+        titles = section_order.get(classify_phase(ab), ())
         title = ability_section(ab)
         if title in titles:
             ab = _dc_replace(ab, section_rank=titles.index(title) - len(titles))
@@ -1500,7 +1500,7 @@ def build_roster_pdf(
 
     # Armée de Renom : ses propres règles (Faction_abilities.csv, groupées
     # par catégorie) remplacent tout ou partie de celles de la faction de
-    # base — calculé *avant* `_resolve_rules` pour pouvoir lui passer les
+    # base — calculé *avant* `resolve_rules` pour pouvoir lui passer les
     # catégories à omettre côté battletome (cf. `_AOR_REPLACES`).
     renown_army: tuple[str, dict[str, list[AbilityEntry]]] | None = None
     renown_categories: frozenset[str] = frozenset()
@@ -1510,7 +1510,7 @@ def build_roster_pdf(
             renown_army = (renown_prefix, grouped)
             renown_categories = frozenset(grouped)
 
-    battletome_rules, generic_manifestation_sections, tactic_sections, wahapedia_lore_blocks, rules_unmatched, lore_wahapedia_used, rule_card_labels, rule_ability_pool, manifestation_warscrolls = _resolve_rules(
+    battletome_rules, generic_manifestation_sections, tactic_sections, wahapedia_lore_blocks, rules_unmatched, lore_wahapedia_used, rule_card_labels, rule_ability_pool, manifestation_warscrolls = resolve_rules(
         parsed, faction_index, index, wh, tactic_cards, renown_categories, mode=mode, frf=frf,
         renown_army=renown_army, tactic_card_width=_TACTIC_CARD_WIDTH,
     )
@@ -1521,7 +1521,7 @@ def build_roster_pdf(
         if f"Armée de Renom — {renown_name}" in rule_card_labels:
             # curation vérbatim française complète (`_renown_army_pool`,
             # `fr`/`fr-extended` seulement) : déjà rendu sur la carte de
-            # règles fusionnée par `_resolve_rules`, ne doit plus apparaître
+            # règles fusionnée par `resolve_rules`, ne doit plus apparaître
             # dans l'annexe anglaise ni y être rattaché par l'appelant.
             renown_army = None
         else:
@@ -1589,7 +1589,7 @@ def build_roster_pdf(
     # Monstrueux/catégories saisonnières propres à la faction, ex. StD
     # "Brands of the Dark Gods"/"Ensorcelled Banners") : choisies une seule
     # fois pour toute la liste puis rattachées à une seule unité — jamais
-    # montrées en bloc générique (cf. `_resolve_rules`, qui marque désormais
+    # montrées en bloc générique (cf. `resolve_rules`, qui marque désormais
     # `heroic_traits_artefacts` couvert sans jamais l'ajouter au pool), une
     # optimisation non choisie n'apparaissant nulle part, comme une unité non
     # choisie. Résolues par correspondance de nom sur les options ` • ... `
@@ -1608,7 +1608,7 @@ def build_roster_pdf(
             get_faction_category_overrides(frf, parsed.base_faction, "heroic_traits_artefacts")
             if mode in PATCH_MODES else []
         )
-        # Cf. `_find_pledge_battle_trait` : unités StD qui commencent la
+        # Cf. `find_pledge_battle_trait` : unités StD qui commencent la
         # bataille déjà marquées (Prince Démon, porteur de Bannière
         # Ensorcelée) — la Trait de Bataille "Voué à <Dieu>" correspondante
         # leur est rattachée en plus, ci-dessous après la boucle.
@@ -1637,7 +1637,7 @@ def build_roster_pdf(
                         pledged_gods.setdefault(unit.name, set()).add(pledge_match.group(1).upper())
         for unit_name, gods in pledged_gods.items():
             for god in sorted(gods):
-                pledge_entry = _find_pledge_battle_trait(wh, frf, parsed.base_faction, mode, god)
+                pledge_entry = find_pledge_battle_trait(wh, frf, parsed.base_faction, mode, god)
                 if pledge_entry is None:
                     continue
                 unit_enhancements.setdefault(unit_name, []).extend(tag_ability_origin([pledge_entry], "Trait de Bataille"))
@@ -1738,7 +1738,7 @@ def build_roster_pdf(
         ]
 
     # Règles de Saison 2026-27 / Aptitudes Génériques / règles de faction
-    # (`rule_ability_pool`, déjà résolu par `_resolve_rules`) rejoignent
+    # (`rule_ability_pool`, déjà résolu par `resolve_rules`) rejoignent
     # toutes le *même* bassin puis une seule carte triée par bandeau de
     # phase — demande explicite de l'utilisateur : un joueur qui consulte
     # cette carte raisonne "je suis en phase des héros, qu'est-ce que j'ai le
@@ -1898,10 +1898,10 @@ def build_roster_pdf(
                 base_last=simplifications is not None and simplifications.base_rules_last,
             )
 
-        deploy = [ab for ab in full_pool if _classify_phase(ab) == "deploy"]
+        deploy = [ab for ab in full_pool if classify_phase(ab) == "deploy"]
         deploy = _order_deploy(deploy)
-        any_phase = [ab for ab in full_pool if _classify_phase(ab) == "any"]
-        in_turn = _order_deploy([ab for ab in full_pool if _classify_phase(ab) not in ("deploy", "any")])
+        any_phase = [ab for ab in full_pool if classify_phase(ab) == "any"]
+        in_turn = _order_deploy([ab for ab in full_pool if classify_phase(ab) not in ("deploy", "any")])
         mine = [ab for ab in in_turn if TURN_MINE in _turn_sides(ab, in_turn)]
         enemy = _drop_enemy_charge_reroll([
             ab for ab in in_turn

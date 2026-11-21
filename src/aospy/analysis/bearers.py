@@ -26,8 +26,17 @@ from typing import Optional
 
 from ..domain.models import Unit
 from ..engine.combat import CombatModifiers
-from .encounter import (_PLURALS, EffectSpec, _defense, _offense, _parse_keywords, _probe, apply_effect, play_plan,
-                        is_translatable)
+from .encounter import (
+    _PLURALS,
+    EffectSpec,
+    unit_durability,
+    plan_offense,
+    parse_keywords,
+    probe_for_effect,
+    apply_effect,
+    is_translatable,
+    play_plan,
+)
 from .marriage import incoming_damage, load_effects, marriage_of, share_melee_by_unit
 
 ENHANCEMENT_SOURCES = ("heroic_trait", "artefact", "enhancement", "monstrous_trait")
@@ -87,7 +96,7 @@ def eligible(unit: Unit, restriction: str, source_kind: str, vocab: frozenset[st
     for t in _UNIT_TYPES:
         up = re.sub(rf"\b{t}S?\b", " ", up)
     toks = [_norm_kw(t, vocab) for t in re.split(r"\s+|\bOR\b|\bAND\b", up) if t and t not in ("OR", "AND")]
-    required, _unknown = _parse_keywords(toks, vocab)
+    required, _unknown = parse_keywords(toks, vocab)
 
     if any(k in unit.keywords for k in excl):
         return False
@@ -108,7 +117,7 @@ def bearer_gain(unit: Unit, specs: list[EffectSpec]) -> Optional[tuple[float, fl
     charged = any("a chargé" in s.requires or s.kind == "charge_bonus" for s in specs)
     mods = CombatModifiers(attacker_charged=charged)
     kws = ",".join(dict.fromkeys(k for s in specs for k in s.target_keywords.split(",") if k))
-    probe = _probe(EffectSpec("none", target_keywords=kws))
+    probe = probe_for_effect(EffectSpec("none", target_keywords=kws))
     after, applied = unit, False
     for s in specs:
         nxt = apply_effect(after, s, probe, mods)
@@ -117,18 +126,13 @@ def bearer_gain(unit: Unit, specs: list[EffectSpec]) -> Optional[tuple[float, fl
     if not applied:
         return None
     plan = play_plan(unit, probe, mods)
-    return _offense(unit, probe, mods, plan), _offense(after, probe, mods, plan), _defense(unit), _defense(after)
+    return plan_offense(unit, probe, mods, plan), plan_offense(after, probe, mods, plan), unit_durability(unit), unit_durability(after)
 
 
-BEARER_COLS = (
-    "ability_uid", "ability_name", "source_kind", "faction_name", "unit_id", "off_gain_pct", "def_gain_pct",
-    "delta_combined", "coverage", "p_trigger", "survival", "marriage", "value", "bearer_combined",
-    "good_case_conditions",
-)
 
 
 def build_bearer_rows(con) -> list[tuple]:
-    """Tuples `BEARER_COLS` : chaque optimisation × chaque unité éligible de sa faction."""
+    """Tuples `persistence.analysis_tables.BEARER_COLS` : chaque optimisation × chaque unité éligible de sa faction."""
     from ..persistence import repository
     from .realized import coverage
 

@@ -9,12 +9,11 @@ import pytest
 from aospy.persistence import db, repository
 from aospy.importers.wahapedia import (
     INGESTIBLE_ROLES,
-    _canonical_ids,
-    _legends_warscroll_ids,
     _parse_unit,
     _parse_weapon,
     import_faction,
 )
+from aospy.sources.wahapedia_csv import canonical_ids, legends_warscroll_ids
 
 WARSCROLLS_HEADER = (
     "id|name|faction_id|source_id|legend|regiment_options|notes|description|role|"
@@ -75,7 +74,7 @@ def data_dir(tmp_path: Path) -> Path:
 
 
 def test_legends_warscroll_ids_flags_legends_source(data_dir: Path):
-    assert _legends_warscroll_ids(data_dir) == {"W2"}
+    assert legends_warscroll_ids(data_dir) == {"W2"}
 
 
 def test_canonical_ids_drops_virtual_shell_dominated_by_real_sibling():
@@ -86,7 +85,7 @@ def test_canonical_ids_drops_virtual_shell_dominated_by_real_sibling():
     ids = {"gors-shell": ws[0], "gors-real": ws[1]}
     for key, row in ids.items():
         row["id"] = key
-    assert _canonical_ids(list(ids.values())) == {"gors-real"}
+    assert canonical_ids(list(ids.values())) == {"gors-real"}
 
 
 def test_canonical_ids_keeps_both_when_costs_distinct():
@@ -95,7 +94,7 @@ def test_canonical_ids_keeps_both_when_costs_distinct():
          "role": "Infantry", "Cost": "110"}
     b = {"id": "b", "faction_id": "BoC", "name": "Gutter Runners", "virtual": "false",
          "role": "Infantry", "Cost": "160"}
-    assert _canonical_ids([a, b]) == {"a", "b"}
+    assert canonical_ids([a, b]) == {"a", "b"}
 
 
 def test_canonical_ids_drops_ror_reference_dominated_by_non_ror_sibling():
@@ -103,7 +102,7 @@ def test_canonical_ids_drops_ror_reference_dominated_by_non_ror_sibling():
          "role": "Regiment of Renown", "Cost": ""}
     b = {"id": "b", "faction_id": "BoC", "name": "Morgok's Krushas", "virtual": "false",
          "role": "Infantry", "Cost": "100"}
-    assert _canonical_ids([a, b]) == {"b"}
+    assert canonical_ids([a, b]) == {"b"}
 
 
 def test_parse_unit_maps_wahapedia_fields():

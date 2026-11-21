@@ -25,7 +25,7 @@ from typing import Optional
 
 from ..domain.models import Unit, Weapon
 from ..engine.combat import CombatModifiers
-from .features import _NO_MODS, _PROBE_SAVE4, _dominant_crit_type, _effective_wounds, _unit_type
+from .features import _NO_MODS, _PROBE_SAVE4, dominant_crit_type, compute_effective_wounds, unit_type_of
 from .features import weapon_damages as _weapon_damages
 
 
@@ -73,7 +73,7 @@ def _damage(unit: Unit, keep) -> float:
 
 def _attacks_total(unit: Unit) -> float:
     """Attaques totales, avec la même répartition des armes par figurine que le moteur
-    (`combat._effective_counts` : `wielders` BSData, sinon description Wahapedia via `loadout`)."""
+    (`combat.effective_counts` : `wielders` BSData, sinon description Wahapedia via `loadout`)."""
     from ..engine.loadout import model_counts
 
     counts, _notes = model_counts(unit, unit.weapons)
@@ -88,22 +88,22 @@ def chassis_profile(unit: Unit) -> ChassisProfile:
     d1 = _damage(unit, lambda w: w.damage <= 1)
     comp = _damage(unit, is_companion)
     ward_num = unit.ward if unit.ward is not None else 7
-    ew = _effective_wounds(unit.health * unit.models, unit.save, ward_num)
+    ew = compute_effective_wounds(unit.health * unit.models, unit.save, ward_num)
     per100 = 100.0 / unit.points if unit.points > 0 else 0.0
     share = (lambda x: x / total) if total > 0 else (lambda x: 0.0)
     return ChassisProfile(
         unit_id=unit.id, name=unit.name, army_id=unit.army_id, points=unit.points, is_hero=unit.is_hero,
-        unit_type=_unit_type(unit.keywords), models=unit.models, health=unit.health, save=unit.save,
+        unit_type=unit_type_of(unit.keywords), models=unit.models, health=unit.health, save=unit.save,
         ward=unit.ward, move=unit.move, is_flying="FLY" in unit.keywords,
         dmg_melee=round(dmg_melee, 3), dmg_ranged=round(dmg_ranged, 3), effective_wounds=round(ew, 2),
         dmg_per_100=round(total * per100, 3), ewounds_per_100=round(ew * per100, 3),
         attacks_total=_attacks_total(unit), share_melee=round(share(dmg_melee), 3),
         share_damage1=round(share(d1), 3), share_companion=round(share(comp), 3),
-        crit_type=_dominant_crit_type(unit),
+        crit_type=dominant_crit_type(unit),
     )
 
 
-def _pct_rank(values: list[float]) -> list[float]:
+def pct_rank(values: list[float]) -> list[float]:
     """Rang centile (0 = plus faible, 1 = plus fort), ex æquo au rang moyen."""
     order = sorted(range(len(values)), key=lambda i: values[i])
     ranks = [0.0] * len(values)
@@ -145,8 +145,8 @@ def build_chassis_rows(con) -> tuple[list[tuple], list[str]]:
     ranks: dict[int, tuple[float, float]] = {}
     for hero in (True, False):
         idx = [i for i, p in enumerate(profiles) if p.is_hero == hero]
-        dr = _pct_rank([profiles[i].dmg_per_100 for i in idx])
-        er = _pct_rank([profiles[i].ewounds_per_100 for i in idx])
+        dr = pct_rank([profiles[i].dmg_per_100 for i in idx])
+        er = pct_rank([profiles[i].ewounds_per_100 for i in idx])
         for k, i in enumerate(idx):
             ranks[i] = (dr[k], er[k])
 

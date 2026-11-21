@@ -16,11 +16,12 @@ français, copié depuis les PDF)."""
 
 from __future__ import annotations
 
-import csv
 import re
 import unicodedata
 from dataclasses import dataclass, field
 from pathlib import Path
+
+from ...sources.wahapedia_csv import read_csv
 
 DEFAULT_WAHAPEDIA_DIR = Path(__file__).resolve().parents[4] / "data" / "wahapedia"
 
@@ -96,7 +97,7 @@ def _enhancement_label(row: dict[str, str]) -> str:
 #: (BSData/l'App) sur un simple singulier/pluriel — jamais corrigé depuis
 #: côté Wahapedia (re-téléchargé tel quel), donc traité ici plutôt que par
 #: un patch du CSV qu'un futur re-téléchargement effacerait. Clé = nom normalisé
-#: (via `_normalize`) tel qu'exporté par l'App/dans `data/aospy.duckdb` (BSData),
+#: (via `normalize_name`) tel qu'exporté par l'App/dans `data/aospy.duckdb` (BSData),
 #: valeur = nom normalisé tel qu'il apparaît réellement dans `Warscrolls.csv`.
 #: Repéré sur la faction Fyreslayers (curation `faction_rules_fr` des aptitudes
 #: d'unité, signalé par l'utilisateur) : "Hearthguard Berzerkers with Berzerker
@@ -116,7 +117,7 @@ _WARSCROLL_NAME_ALIASES = {
 _SEASONAL_SUFFIX_RE = re.compile(r"^(.*?)\s*\((Scourge of \w+)\)\s*$", re.IGNORECASE)
 
 
-def _normalize(name: str) -> str:
+def normalize_name(name: str) -> str:
     # apostrophes typographiques (ex. "Be’lakor" chez Wahapedia vs "Be'lakor"
     # dans l'export de liste) : à uniformiser *avant* le passage NFKD+ASCII,
     # sans quoi le caractère U+2019 (sans décomposition ASCII) disparaît
@@ -147,7 +148,7 @@ _UNSUPPORTED_GLYPHS = {
 }
 
 
-def _sanitize_glyphs(text: str) -> str:
+def sanitize_glyphs(text: str) -> str:
     for bad, good in _UNSUPPORTED_GLYPHS.items():
         if bad in text:
             text = text.replace(bad, good)
@@ -155,12 +156,11 @@ def _sanitize_glyphs(text: str) -> str:
 
 
 def _read_csv(path: Path) -> list[dict[str, str]]:
-    with open(path, encoding="utf-8-sig", newline="") as fh:
-        rows = list(csv.DictReader(fh, delimiter="|"))
+    rows = read_csv(path)
     for row in rows:
         for key, value in row.items():
             if value and any(ch in value for ch in _UNSUPPORTED_GLYPHS):
-                row[key] = _sanitize_glyphs(value)
+                row[key] = sanitize_glyphs(value)
     return rows
 
 
@@ -275,7 +275,7 @@ class WarscrollData:
     # can replace their Warhammer with a Grandhammer") — sert à afficher un
     # ratio de porteurs discret sur l'arme concernée (cf. warscroll_card.py)
     # aptitude de convocation d'une manifestation (sort persistant), posée par
-    # `rules_resolution._resolve_rules` — badge de lancement et note de pose
+    # `rules_resolution.resolve_rules` — badge de lancement et note de pose
     # résumée sur la carte (cf. `warscroll_card.summon_placement_note`).
     summon: AbilityEntry | None = None
     # nom français affiché en petit sous le nom anglais de la carte (celui de
@@ -330,9 +330,9 @@ class WahapediaLookup:
         return self._load("_factions", "Factions.csv")
 
     def _faction_id(self, faction_name: str) -> str | None:
-        target = _normalize(faction_name)
+        target = normalize_name(faction_name)
         for r in self.factions:
-            if _normalize(r["name"]) == target:
+            if normalize_name(r["name"]) == target:
                 return r["id"]
         return None
 
@@ -406,10 +406,10 @@ class WahapediaLookup:
     # -- Domaines de sorts/manifestations génériques (faction_id == "EnS") --
 
     def find_generic_lore(self, lore_name: str) -> list[AbilityEntry] | None:
-        target = _normalize(lore_name.split("(", 1)[0].strip())
+        target = normalize_name(lore_name.split("(", 1)[0].strip())
         rows = [
             r for r in self.faction_abilities
-            if r["faction_id"] == _GENERIC_FACTION_ID and _normalize(r["subtype_name"]) == target
+            if r["faction_id"] == _GENERIC_FACTION_ID and normalize_name(r["subtype_name"]) == target
         ]
         if not rows:
             return None
@@ -438,8 +438,8 @@ class WahapediaLookup:
             return None
         rows = [r for r in self.faction_abilities if r["faction_id"] == fid and r["type_name"] == type_name]
         if subtype_name is not None:
-            target = _normalize(subtype_name.split("(", 1)[0].strip())
-            rows = [r for r in rows if _normalize(r["subtype_name"]) == target]
+            target = normalize_name(subtype_name.split("(", 1)[0].strip())
+            rows = [r for r in rows if normalize_name(r["subtype_name"]) == target]
         if not rows:
             return None
         rows.sort(key=lambda r: (r["subtype_name"], int(r["line"] or 0)))
@@ -483,13 +483,13 @@ class WahapediaLookup:
         key = _enhancement_option_key(option_text)
         if not key:
             return None
-        target = _normalize(key)
+        target = normalize_name(key)
         matches = [
             r for r in self.faction_abilities
             if r["faction_id"] == fid
             and r["type_name"] not in _ENHANCEMENT_EXCLUDED_TYPES
             and r["subtype_name"] not in _ENHANCEMENT_EXCLUDED_SUBTYPES
-            and _normalize(r["name"]) == target
+            and normalize_name(r["name"]) == target
         ]
         if not matches:
             return None
@@ -508,8 +508,8 @@ class WahapediaLookup:
         (« Battle Traits », « Heroic Traits », « Artefacts of Power »,
         « Spell Lore », « Manifestation Lore »...). `None` si le nom n'est
         associé à aucune ligne."""
-        target = _normalize(renown_name)
-        rows = [r for r in self.faction_abilities if _normalize(r["type_name"]) == target]
+        target = normalize_name(renown_name)
+        rows = [r for r in self.faction_abilities if normalize_name(r["type_name"]) == target]
         if not rows:
             return None
         rows.sort(key=lambda r: (r["subtype_name"], int(r["line"] or 0)))
@@ -521,10 +521,10 @@ class WahapediaLookup:
     # -- Régiments de Renom --
 
     def find_regiment_of_renown(self, name: str) -> RegimentOfRenownData | None:
-        target = _normalize(name)
+        target = normalize_name(name)
         candidates = [
             r for r in self.warscrolls
-            if r.get("role") == "Regiment of Renown" and _normalize(r["name"]) == target
+            if r.get("role") == "Regiment of Renown" and normalize_name(r["name"]) == target
         ]
         if not candidates:
             return None
@@ -556,13 +556,13 @@ class WahapediaLookup:
         `None`/faction inconnue/aucun candidat de cette faction — retombe
         alors sur l'ancien comportement (premier candidat avec un `Move`
         renseigné, ordre `Warscrolls.csv`)."""
-        target = _normalize(name)
-        candidates = [r for r in self.warscrolls if _normalize(r["name"]) == target and r.get("role") != "Regiment of Renown"]
+        target = normalize_name(name)
+        candidates = [r for r in self.warscrolls if normalize_name(r["name"]) == target and r.get("role") != "Regiment of Renown"]
         if not candidates:
             alias = _WARSCROLL_NAME_ALIASES.get(target)
             if alias is None:
                 return None
-            candidates = [r for r in self.warscrolls if _normalize(r["name"]) == alias and r.get("role") != "Regiment of Renown"]
+            candidates = [r for r in self.warscrolls if normalize_name(r["name"]) == alias and r.get("role") != "Regiment of Renown"]
             if not candidates:
                 return None
         row = None

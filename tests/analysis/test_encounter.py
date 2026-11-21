@@ -125,7 +125,7 @@ def test_friendly_target_star_means_any_friendly_unit():
 
 
 def test_mixed_unit_shoots_or_fights_each_round_not_both():
-    from aospy.analysis.encounter import _offense, offense_parts, play_plan
+    from aospy.analysis.encounter import plan_offense, offense_parts, play_plan
     from aospy.analysis.features import _NO_MODS, _PROBE_SAVE4
 
     sic = Weapon("Pistol", "ranged", attacks=1, hit=4, wound=4, damage=1, range_in=9, abilities="Shoot in Combat")
@@ -135,7 +135,7 @@ def test_mixed_unit_shoots_or_fights_each_round_not_both():
     assert plan.name == "mêlée"
     # au contact, l'arc ne tire plus ; le pistolet « Shoot in Combat » si
     assert plan.weapon_share(3) > plan.weapon_share(2)
-    assert _offense(u, _PROBE_SAVE4, _NO_MODS) < melee + in_combat + other
+    assert plan_offense(u, _PROBE_SAVE4, _NO_MODS) < melee + in_combat + other
     assert play_plan(_unit([BOW])).name.startswith("tir")
 
 
@@ -189,7 +189,7 @@ def _contact():
 
 def test_floor_penalises_swingy_profiles(monkeypatch):
     # Même dégât moyen : 12 attaques à 1 dégât vs 1 attaque à 12 dégâts (4+/4+ vs save 7).
-    from aospy.analysis.encounter import _offense
+    from aospy.analysis.encounter import plan_offense
     from aospy.analysis.features import _NO_MODS
 
     monkeypatch.setattr("aospy.analysis.encounter.FLOOR_COVERAGE", 0.75)
@@ -197,16 +197,16 @@ def test_floor_penalises_swingy_profiles(monkeypatch):
     steady = _unit([Weapon("Many", "melee", attacks=12, hit=4, wound=4, damage=1)], models=1)
     swingy = _unit([Weapon("Big", "melee", attacks=1, hit=4, wound=4, damage=12)], models=1)
     # même moyenne (3), mais 75 % du temps la grosse attaque ne fait rien
-    assert _offense(swingy, probe, _NO_MODS, _contact()) < 0.2
-    assert 1.5 < _offense(steady, probe, _NO_MODS, _contact()) < 3.0
+    assert plan_offense(swingy, probe, _NO_MODS, _contact()) < 0.2
+    assert 1.5 < plan_offense(steady, probe, _NO_MODS, _contact()) < 3.0
 
 
 def test_fractional_damage_keeps_the_mean(monkeypatch):
-    from aospy.analysis.encounter import _offense
+    from aospy.analysis.encounter import plan_offense
     from aospy.analysis.features import _NO_MODS, _PROBE_SAVE4
 
     monkeypatch.setattr("aospy.analysis.encounter.FLOOR_COVERAGE", None)
-    d1 = _offense(_unit([Weapon("A", "melee", attacks=2, hit=4, wound=4, damage=1)]), _PROBE_SAVE4, _NO_MODS, _contact())
-    d2 = _offense(_unit([Weapon("A", "melee", attacks=2, hit=4, wound=4, damage=2)]), _PROBE_SAVE4, _NO_MODS, _contact())
-    d15 = _offense(_unit([Weapon("A", "melee", attacks=2, hit=4, wound=4, damage=1.5)]), _PROBE_SAVE4, _NO_MODS, _contact())
+    d1 = plan_offense(_unit([Weapon("A", "melee", attacks=2, hit=4, wound=4, damage=1)]), _PROBE_SAVE4, _NO_MODS, _contact())
+    d2 = plan_offense(_unit([Weapon("A", "melee", attacks=2, hit=4, wound=4, damage=2)]), _PROBE_SAVE4, _NO_MODS, _contact())
+    d15 = plan_offense(_unit([Weapon("A", "melee", attacks=2, hit=4, wound=4, damage=1.5)]), _PROBE_SAVE4, _NO_MODS, _contact())
     assert d15 == pytest.approx((d1 + d2) / 2)

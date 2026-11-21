@@ -32,7 +32,7 @@ import duckdb
 from pypdf import PdfReader
 
 from aospy.domain.models import Unit
-from aospy.engine.combat import (CombatModifiers, _convolve, _effective_counts, _normalize_abilities,
+from aospy.engine.combat import (CombatModifiers, convolve, effective_counts, _normalize_abilities,
                                  distribution_floor, expected_weapon_damage, weapon_crit_type,
                                  weapon_damage_distribution)
 from aospy.persistence.repository import load_all_units_with_weapons
@@ -614,7 +614,7 @@ def unit_damage(attacker, models: int, defender, charged: bool = True, extra_dir
     """
     mods = _MODS if charged else _MODS_STILL
     best: dict[tuple, tuple[float, str, object, int]] = {}
-    for i, (w, c) in enumerate(zip(attacker.weapons, _effective_counts(attacker, models), strict=True)):
+    for i, (w, c) in enumerate(zip(attacker.weapons, effective_counts(attacker, models), strict=True)):
         key = (w.kind, w.name.split(":")[0].strip()) if ":" in w.name else (w.kind, i)
         dmg = expected_weapon_damage(w, c, defender, mods)
         if dmg > best.get(key, (-1.0, "", None, 0))[0]:
@@ -624,7 +624,7 @@ def unit_damage(attacker, models: int, defender, charged: bool = True, extra_dir
     # Un profil à peu d'attaques et gros dégâts (variance forte) vaut moins que sa moyenne.
     pmf = [1.0]
     for _, _, w, c in best.values():
-        pmf = _convolve(pmf, weapon_damage_distribution(w, c, defender, mods))
+        pmf = convolve(pmf, weapon_damage_distribution(w, c, defender, mods))
     floor = distribution_floor(pmf, RELIABILITY_COVERAGE)
     factor = (1 - RELIABILITY_WEIGHT) + RELIABILITY_WEIGHT * min(1.0, floor / mean_dmg) if mean_dmg else 1.0
     weapons_dmg = mean_dmg * factor
@@ -878,7 +878,7 @@ class Defense:
 def _best_weapons(unit, models: int):
     """Arme(s) retenue(s) par mode alternatif, avec leur nombre de porteurs."""
     best: dict[tuple, tuple[float, object, int]] = {}
-    for i, (w, c) in enumerate(zip(unit.weapons, _effective_counts(unit, models), strict=True)):
+    for i, (w, c) in enumerate(zip(unit.weapons, effective_counts(unit, models), strict=True)):
         key = (w.kind, w.name.split(":")[0].strip()) if ":" in w.name else (w.kind, i)
         d = expected_weapon_damage(w, c, _REF, _MODS)
         if d > best.get(key, (-1.0, None, 0))[0]:

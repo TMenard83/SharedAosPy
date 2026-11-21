@@ -25,10 +25,11 @@ nouveau battletome ajouté ou nouvelle carte de tactique."""
 from __future__ import annotations
 
 import json
-import unicodedata
 from dataclasses import dataclass
 from pathlib import Path
 from typing import TypeVar
+
+from ...text import fold_name
 
 _REPO_ROOT = Path(__file__).resolve().parents[4]
 DEFAULT_INDEX_PATH = _REPO_ROOT / "data" / "json" / "warscroll_index.json"
@@ -94,17 +95,12 @@ class WarscrollIndex:
 _T = TypeVar("_T")
 
 
-def _normalize(name: str) -> str:
-    folded = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode("ascii")
-    return "".join(folded.lower().split())
-
-
 def _lookup_normalized(entries: dict[str, _T], name: str) -> _T | None:
     if name in entries:
         return entries[name]
-    target = _normalize(name)
+    target = fold_name(name)
     for key, value in entries.items():
-        if _normalize(key) == target:
+        if fold_name(key) == target:
             return value
     return None
 
@@ -221,9 +217,9 @@ def find_generic_manifestation_lore(index: WarscrollIndex, lore_name: str) -> Ge
     lores = index.generic_manifestation_lores.lores
     if lore_name in lores:
         return lores[lore_name]
-    target = _normalize(lore_name)
+    target = fold_name(lore_name)
     for key, lore in lores.items():
-        if _normalize(key) == target:
+        if fold_name(key) == target:
             return lore
     base_name = lore_name.split("(", 1)[0].strip()
     if base_name != lore_name:

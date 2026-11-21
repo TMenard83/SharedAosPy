@@ -9,6 +9,10 @@ Lire avant de modifier ce paquet (CLAUDE.md ne garde que la carte des couches).
 
 - **BSData `wielders`**: inferred from BattleScribe `constraints` on `selections` (min/max, scoped to `parent` or the unit), with parent-resolved counts for nested weapon bundles, replaced-base-weapon reduction, and group-level exclusive choices — see "BSData wielders resolution" below. Trickiest part of that importer; check there first if imported weapon counts look wrong.
 
+## Shared Wahapedia CSV reader (`aospy/sources/wahapedia_csv.py`)
+
+Every reader of `data/wahapedia/*.csv` goes through this low layer (it imports nothing else from aospy): `read_csv` (pipe separator, UTF-8 BOM), `legends_warscrolls`/`legends_warscroll_ids`, `canonical_ids` and `is_expired_variant`. Callers: both importers, `abilities/source.py`, `tournament_kit/translation/wahapedia_lookup.py` (adds its own glyph sanitising on top) and `absent_references.py` (caches the rows as tuples). New Wahapedia filters belong there, not in one importer that others then import privately.
+
 ## Wahapedia import — second import mechanism, same schema
 
 `data/wahapedia/*.csv` (pipe-separated, UTF-8 BOM) is an alternative to BSData; both write into the identical schema, so downstream code doesn't care which importer populated a given army. Deliberate simplifications:
@@ -16,7 +20,7 @@ Lire avant de modifier ce paquet (CLAUDE.md ne garde que la carte des couches).
 - **`Weapon.wielders` is always `0`** ("all models carry it"). Instead, `Unit.description` (the warscroll's free-text restriction) is captured and resolved at combat-time by `loadout.model_counts`.
 - **`Unit.keywords`** captured in full (not just `HERO`) so weapon-level `Anti-<KEYWORD>` clauses can be evaluated against a defender's keyword set.
 - **Only "regular battlefield unit" roles** are imported (`INGESTIBLE_ROLES`: Infantry/Cavalry/Beast/Monster/War Machine, plain or `* Hero`); `Endless Spell`/`Manifestation`/`Regiment of Renown`/`Faction Terrain` are skipped (`Unit` has no `role` column to store them distinctly).
-- **Canonical dedup** (`_canonical_ids`, ported from StatHammer's `mark_canonical`): a warscroll "shell" dominated by a sibling (`virtual='false'` version, or a non-RoR version) is dropped. No manual overrides file — a residual ambiguity just picks the first candidate and warns, so `--all` never blocks.
+- **Canonical dedup** (`sources.wahapedia_csv.canonical_ids`, ported from StatHammer's `mark_canonical`): a warscroll "shell" dominated by a sibling (`virtual='false'` version, or a non-RoR version) is dropped. No manual overrides file — a residual ambiguity just picks the first candidate and warns, so `--all` never blocks.
 - **Grand alliance mapping** (`FACTION_GRAND_ALLIANCE`) is derived from `bsdata.KNOWN_ARMIES` (faction names match) since Wahapedia CSVs carry no alliance info.
 
 ## Source corrections and cross-checking (`importers/corrections.py`, `importers/verify.py`)
@@ -25,8 +29,8 @@ Three sources describe a warscroll: Wahapedia, BSData and the battletome scans. 
 
 ## Legends & stale-unit filtering (both importers)
 
-- **Legends detection**: `bsdata._is_legends_catalogue` skips a whole catalogue named `... [Legends]`. For individually-retired units in an otherwise-current army, `bsdata._wahapedia_legends_names` cross-references `data/wahapedia/Source.csv`+`Warscrolls.csv` by name (read-only; `bsdata.py` never imports `wahapedia.py`, keeping the one-way dependency above) — same "legend" substring match `wahapedia._legends_warscroll_ids` uses for its own importer.
-- **Expired narrative packs**: `bsdata._is_expired_variant` matches the name suffix "Scourge of Ghyran" (current seasonal narrative pack, absent from matched-play rules); shared by both importers. Both count these on `ImportSummary.skipped_legends`, reported separately from `skipped_no_profile`/`skipped_no_points`. "Scourge of Aqshy" (an earlier pack) is deliberately *not* filtered — those BSData entries target a distinct `targetId`/points cost from the base unit, so they're standalone valid units, not duplicates.
+- **Legends detection**: `bsdata._is_legends_catalogue` skips a whole catalogue named `... [Legends]`. For individually-retired units in an otherwise-current army, `bsdata._wahapedia_legends_names` cross-references `data/wahapedia/Source.csv`+`Warscrolls.csv` by name (read-only; `bsdata.py` never imports `wahapedia.py`, keeping the one-way dependency above) — same "legend" rule (`sources.wahapedia_csv.legends_warscrolls`) that `legends_warscroll_ids` applies for the Wahapedia importer and `abilities/source.py`.
+- **Expired narrative packs**: `sources.wahapedia_csv.is_expired_variant` matches the name suffix "Scourge of Ghyran" (current seasonal narrative pack, absent from matched-play rules); shared by both importers and `abilities/source.py`. Both count these on `ImportSummary.skipped_legends`, reported separately from `skipped_no_profile`/`skipped_no_points`. "Scourge of Aqshy" (an earlier pack) is deliberately *not* filtered — those BSData entries target a distinct `targetId`/points cost from the base unit, so they're standalone valid units, not duplicates.
 - **`--clean-stale`** (`cmd_import_bsdata`/`cmd_import_wahapedia`): records `datetime.now()` as `cutoff` before importing, then `repository.delete_units_imported_before(con, cutoff, army_id=...)` deletes any unit (+ weapons/composition entries/`unit_benchmark` rows) whose `unit.imported_at` predates it — i.e. units the run didn't touch. Scoped to the current army/faction, unscoped for `--all`.
 
 ## Composite/companion unit merging (`bsdata.py` only)

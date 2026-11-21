@@ -133,7 +133,7 @@ _RENOWN_ARMY_CATEGORY: dict[str, str] = {
 #: page de battletome copiée — (label affiché, `type_name` Wahapedia, clé
 #: `_STATIC_RULE_SECTIONS`/`_AOR_REPLACES` correspondante). Toutes les lignes
 #: de la catégorie sont incluses (aucune sélection à faire, contrairement à
-#: la Formation — cf. `_resolve_rules`, qui filtre celle-ci sur le nom choisi
+#: la Formation — cf. `resolve_rules`, qui filtre celle-ci sur le nom choisi
 #: par la liste). Traits Héroïques/Artefacts de Pouvoir n'y figurent plus :
 #: ce sont des optimisations choisies une seule fois puis rattachées à une
 #: seule unité (comme sur la table), pas des règles génériques pour toute la
@@ -177,7 +177,7 @@ _BANNER_PLEDGED_GOD = {
 }
 
 
-def _find_pledge_battle_trait(
+def find_pledge_battle_trait(
     wh: WahapediaLookup, frf: FactionRulesFr, faction: str, mode: str, god: str,
 ) -> AbilityEntry | None:
     """The "Voué à <Dieu>" Battle Trait entry for `god` (`"KHORNE"` etc.),
@@ -200,14 +200,14 @@ def _find_pledge_battle_trait(
 
 
 #: Repli verbatim français pour une aptitude dont le champ Wahapedia est
-#: authentiquement corrompu (cf. le commentaire de `_clean_html` sur la
+#: authentiquement corrompu (cf. le commentaire de `clean_html` sur la
 #: suite d'ids de tooltip collés bout à bout) *et* dont le contenu manquant
 #: est significatif — pas une simple retouche cosmétique. Clé : `(faction
 #: exactement comme dans `bsdata.KNOWN_ARMIES`, nom d'aptitude en
 #: MAJUSCULES comme Wahapedia). Contrairement au reste de la carte de règle
 #: (Wahapedia-first, anglais), cette entrée précise est transcrite depuis le
 #: battletome français (« TRAITS DE BATAILLE » / « INSCRIPTION DE RUNE ») —
-#: `_clean_html` continue par ailleurs de signaler tout *autre* trou de ce
+#: `clean_html` continue par ailleurs de signaler tout *autre* trou de ce
 #: type par son message `[texte manquant...]`, cette table ne fait que
 #: réparer les entrées déjà identifiées à la main.
 _ABILITY_TEXT_OVERRIDES: dict[tuple[str, str], tuple[str, str]] = {
@@ -427,7 +427,7 @@ def _renown_army_pool(
     return tag_ability_origin(pool, renown_name)
 
 
-def _resolve_rules(
+def resolve_rules(
     parsed: ParsedList, faction_index: FactionIndex | None, index: WarscrollIndex, wh: WahapediaLookup,
     tactic_cards: dict[str, TacticCard], renown_categories: frozenset[str] = frozenset(),
     *, mode: RosterMode = "hybrid", frf: FactionRulesFr = FactionRulesFr(),

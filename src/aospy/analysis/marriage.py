@@ -264,10 +264,6 @@ def incoming_damage(con) -> dict[int, tuple[float, float]]:
 _LASTING_DURATIONS = {"bataille", "permanent", "conditionnelle"}
 _LASTING_FREQUENCIES = {"passive"}
 
-MARRIAGE_COLS = (
-    "unit_id", "ability_uid", "ability_name", "family", "power", "verdict", "exposure", "p_trigger",
-    "start_round", "bearer_only", "rounds_alive", "survival", "marriage", "good_case_conditions",
-)
 
 
 def _lasting(frequency: str, durations: set[str]) -> bool:
@@ -334,7 +330,7 @@ def marriage_of(u: Unit, e_list: list[tuple], family: str, scope: str, rng: Opti
 
 
 def build_marriage_rows(con) -> list[tuple]:
-    """Tuples `MARRIAGE_COLS` : chaque aptitude de charte jugée sur le châssis de chacun de ses porteurs.
+    """Tuples `persistence.analysis_tables.MARRIAGE_COLS` : chaque aptitude de charte jugée sur le châssis de chacun de ses porteurs.
 
     mariage = D (P(conditions du porteur) × part des rounds encore possibles) × S (rounds tenus / rounds
     nominaux). Les conditions tenues par d'autres (allié, adversaire, ressource) ne sont pas chiffrées :

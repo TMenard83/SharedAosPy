@@ -19,9 +19,10 @@ carte est marquée `english`."""
 from __future__ import annotations
 
 import json
-import unicodedata
 from dataclasses import dataclass, replace
 from pathlib import Path
+
+from ...text import fold_name
 
 DEFAULT_TACTIC_CARDS_FILE = Path("data") / "json" / "battle_tactic_cards.json"
 DEFAULT_TACTIC_CARDS_EN_FILE = Path("data") / "json" / "battle_tactic_cards_en.json"
@@ -46,11 +47,6 @@ class TacticCard:
     sub_tactics: tuple[SubTactic, ...]
     #: texte remplacé par la couche anglaise (`load_tactic_cards(en_path=...)`)
     english: bool = False
-
-
-def _normalize(name: str) -> str:
-    folded = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode("ascii")
-    return "".join(folded.lower().split())
 
 
 def load_tactic_cards(
@@ -101,9 +97,9 @@ def find_tactic_card(cards: dict[str, TacticCard], name: str) -> TacticCard | No
     cité dans l'export de liste."""
     if name in cards:
         return cards[name]
-    target = _normalize(name)
+    target = fold_name(name)
     for key, card in cards.items():
-        if _normalize(key) == target:
+        if fold_name(key) == target:
             return card
     return None
 

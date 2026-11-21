@@ -39,11 +39,20 @@ from typing import Optional
 from ..abilities.perimeter import RESOURCE_SCALED, SPENDS_RESOURCE
 from ..domain.models import Unit
 from ..engine.combat import CombatModifiers
+from .encounter import (
+    FRIENDLY_SCOPES,
+    EffectSpec,
+    unit_durability,
+    plan_offense,
+    probe_for_effect,
+    apply_effect,
+    is_translatable,
+    matches_friendly_target,
+    play_plan,
+)
 from .marriage import trigger
 from .timeline import DEFAULT_RHYTHM, KAIROS_SHORT
 from .timeline import coverage as timeline_coverage
-from .encounter import (FRIENDLY_SCOPES, EffectSpec, _defense, _offense, _probe, apply_effect,
-                        is_translatable, matches_friendly_target, play_plan)
 
 #: Poids des rounds 1 à 5 (somme 3) = rythme par défaut de la frise (`timeline.DEFAULT_RHYTHM`).
 ROUND_WEIGHTS = DEFAULT_RHYTHM
@@ -124,9 +133,9 @@ class Realized:
 
 
 def _measure(unit: Unit, plan: str) -> tuple[float, float]:
-    probe = _probe(EffectSpec("none"))
+    probe = probe_for_effect(EffectSpec("none"))
     mods = CombatModifiers()
-    return _offense(unit, probe, mods, plan), _defense(unit)
+    return plan_offense(unit, probe, mods, plan), unit_durability(unit)
 
 
 def realize(unit: Unit, effects: list[OwnEffect], share_melee: float = 1.0) -> Realized:
@@ -153,13 +162,13 @@ def realize(unit: Unit, effects: list[OwnEffect], share_melee: float = 1.0) -> R
             st = starts[k] if starts is not None else 1
             ts = sides[k] if sides is not None else None
             mods = CombatModifiers(attacker_charged="a chargé" in e.spec.requires or e.spec.kind == "charge_bonus")
-            probe = _probe(e.spec)
+            probe = probe_for_effect(e.spec)
             after = apply_effect(boosted, e.spec, probe, mods)
             if after is None:
                 continue
-            d_off += f * e.weight("off", sm, st, ts) * (_offense(after, probe, mods, plan)
-                                                       - _offense(boosted, probe, mods, plan))
-            d_def += f * e.weight("def", sm, st, ts) * (_defense(after) - def_b)
+            d_off += f * e.weight("off", sm, st, ts) * (plan_offense(after, probe, mods, plan)
+                                                       - plan_offense(boosted, probe, mods, plan))
+            d_def += f * e.weight("def", sm, st, ts) * (unit_durability(after) - def_b)
         return d_off, d_def
 
     rest = [e for e in effects if not e.conditional and not e.full(sm)]
@@ -239,14 +248,6 @@ def strongest_alternatives(effects: list[OwnEffect]) -> list[OwnEffect]:
     return list(best.values())
 
 
-REALIZED_COLS = (
-    "unit_id", "off_chassis", "def_chassis", "off_realized", "def_realized", "off_good_case", "def_good_case",
-    "off_realized_per_100", "def_realized_per_100", "off_good_per_100", "def_good_per_100",
-    "off_pct_rank", "def_pct_rank", "n_effects", "n_conditional", "abilities",
-    "combined_per_100", "combined_pct_rank",
-    "off_fit", "def_fit", "off_fit_per_100", "def_fit_per_100", "combined_fit_per_100", "combined_fit_pct_rank",
-    "reach_in", "mobility", "score_per_100", "score_pct_rank", "score_fit_per_100",
-)
 
 
 def mobility_effects(con) -> dict[tuple[str, str], list[tuple]]:
@@ -287,9 +288,9 @@ def combined(off_per_100: float, def_per_100: float) -> float:
 
 
 def build_realized_rows(con) -> list[tuple]:
-    """Tuples `REALIZED_COLS` pour toutes les unités payantes."""
+    """Tuples `persistence.analysis_tables.REALIZED_COLS` pour toutes les unités payantes."""
     from ..persistence import repository
-    from .chassis import _pct_rank
+    from .chassis import pct_rank
 
     units_by_army = repository.load_all_units_with_weapons(con)
     army_names = dict(con.execute("SELECT id, name FROM army").fetchall())
@@ -316,11 +317,11 @@ def build_realized_rows(con) -> list[tuple]:
         idx = [i for i, (u, _r, _a) in enumerate(results) if u.is_hero == hero]
         offs = [results[i][1].off_realized * 100 / results[i][0].points for i in idx]
         defs = [results[i][1].def_realized * 100 / results[i][0].points for i in idx]
-        orank, drank = _pct_rank(offs), _pct_rank(defs)
-        crank = _pct_rank([combined(o, d) for o, d in zip(offs, defs)])
-        frank = _pct_rank([combined(results[i][1].off_fit * 100 / results[i][0].points,
+        orank, drank = pct_rank(offs), pct_rank(defs)
+        crank = pct_rank([combined(o, d) for o, d in zip(offs, defs)])
+        frank = pct_rank([combined(results[i][1].off_fit * 100 / results[i][0].points,
                                     results[i][1].def_fit * 100 / results[i][0].points) for i in idx])
-        srank = _pct_rank([combined(o, d) * mob[i] for i, o, d in zip(idx, offs, defs)])
+        srank = pct_rank([combined(o, d) * mob[i] for i, o, d in zip(idx, offs, defs)])
         for k, i in enumerate(idx):
             ranks[i] = (orank[k], drank[k], crank[k], frank[k], srank[k])
     for i, (u, r, names) in enumerate(results):

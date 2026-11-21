@@ -134,6 +134,6 @@ ne passent jamais par cette annexe : ils ont leur propre section de cartes
   le trait de bataille LRL « Depict Rune » (5 identifiants de tooltip
   consécutifs, sans texte entre eux, que le CSV exporté ne résout jamais).
   Le signaler ainsi plutôt que le faire disparaître silencieusement est
-  volontaire (`pdf_builder._clean_html`) — si un utilisateur signale un texte
+  volontaire (`pdf_builder.clean_html`) — si un utilisateur signale un texte
   d'aptitude visiblement incomplet ailleurs, chercher ce même motif avant de
   soupçonner autre chose.

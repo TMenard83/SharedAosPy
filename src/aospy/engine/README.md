@@ -5,8 +5,8 @@ Lire avant de modifier ce paquet (CLAUDE.md ne garde que la carte des couches).
 ## Modules
 
 - **`engine/combat.py`** — pure math, no DB access. `expected_weapon_damage` (hit → wound → save/rend → ward, crit variants + intrinsic `Anti-X`/`Charge` bonuses parsed from `Weapon.abilities` — see "Intrinsic Anti-X/Charge bonuses" below) and its `E[D²]` twin `weapon_damage_moments` (→ `unit_damage_moments`). Damage-floor reads go through the *exact* discrete distribution (`weapon_damage_distribution` → `unit_damage_distribution` → `distribution_floor`), not a Gaussian approximation — see "Damage floor: exact distribution vs Gaussian approximation" below; `damage_floor66`/`80`/`95` (`mean − z·σ`) survive only as a comparison baseline. **Caveat**: `Weapon.attacks`/`damage` are integers resolved at import time (no dice notation kept), so variance only captures hit/wound/save/ward/crit randomness, not dice-valued attacks/damage.
-- **`engine/loadout.py`** — ported from StatHammer's `loadout.py`: parses `Unit.description` (free text) into per-weapon-profile model counts (`model_counts`). Best-effort, unrecognized clauses fall back to "every model carries every profile" (logged in the returned notes). Used by `combat.py::_effective_counts`.
-- **Reinforcement**: doubles model count and points; `combat.py::_effective_counts` scales per-profile model counts (from `loadout.model_counts` or `weapon.wielders`) proportionally rather than assuming all models carry all weapons.
+- **`engine/loadout.py`** — ported from StatHammer's `loadout.py`: parses `Unit.description` (free text) into per-weapon-profile model counts (`model_counts`). Best-effort, unrecognized clauses fall back to "every model carries every profile" (logged in the returned notes). Used by `combat.py::effective_counts`.
+- **Reinforcement**: doubles model count and points; `combat.py::effective_counts` scales per-profile model counts (from `loadout.model_counts` or `weapon.wielders`) proportionally rather than assuming all models carry all weapons.
 
 ## Intrinsic `Anti-X`/`Charge` bonuses
 

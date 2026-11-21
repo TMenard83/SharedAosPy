@@ -80,14 +80,11 @@ layers = [
     "aospy.importers",
     "aospy.engine",
     "aospy.persistence",
+    "aospy.sources",
+    "aospy.text",
     "aospy.domain",
 ]
 ignore_imports = [
-    # lot 3 : définitions des colonnes des tables d'analyse à déplacer dans persistence/
-    "aospy.persistence.repository -> aospy.analysis.encounter",
-    "aospy.persistence.repository -> aospy.analysis.realized",
-    "aospy.persistence.repository -> aospy.analysis.marriage",
-    "aospy.persistence.repository -> aospy.analysis.bearers",
     # lot 6 : combined_score (reports/cost_common.py) à descendre sous les deux paquets
     "aospy.bonus_simulator.whatif -> aospy.reports.cost_common",
 ]

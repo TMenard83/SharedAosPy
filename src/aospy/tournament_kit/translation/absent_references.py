@@ -15,13 +15,13 @@ seule, aucun accès DB."""
 
 from __future__ import annotations
 
-import csv
 import html
 import re
 from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
 
+from ...sources.wahapedia_csv import read_csv
 from .wahapedia_lookup import DEFAULT_WAHAPEDIA_DIR
 
 _POINTS_SUFFIX_RE = re.compile(r"\s*-\s*\(\d+\)\s*Points\s*$|\s*\(\d+ Points\)\s*$")
@@ -37,8 +37,7 @@ class AbsentReference:
 
 @lru_cache(maxsize=8)
 def _read(base_dir: str, name: str) -> tuple[dict[str, str], ...]:
-    with open(Path(base_dir) / name, encoding="utf-8-sig", newline="") as fh:
-        return tuple(csv.DictReader(fh, delimiter="|"))
+    return tuple(read_csv(Path(base_dir) / name))
 
 
 def _plain(description: str) -> str:

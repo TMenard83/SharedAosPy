@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from aospy.analysis.chassis import _pct_rank, chassis_profile, is_companion
+from aospy.analysis.chassis import pct_rank, chassis_profile, is_companion
 from aospy.domain.models import Unit, Weapon
 
 
@@ -35,8 +35,8 @@ def test_durability_counts_ward_and_points():
 
 
 def test_pct_rank_ties_and_bounds():
-    assert _pct_rank([1.0, 3.0, 2.0]) == [0.0, 1.0, 0.5]
-    assert _pct_rank([2.0, 2.0]) == [0.5, 0.5]
+    assert pct_rank([1.0, 3.0, 2.0]) == [0.0, 1.0, 0.5]
+    assert pct_rank([2.0, 2.0]) == [0.5, 0.5]
 
 
 def test_attacks_total_follows_loadout_description():

@@ -22,16 +22,14 @@ Limitations connues (périmètre volontairement restreint, voir importers/README
 
 from __future__ import annotations
 
-import csv
 from pathlib import Path
 
 import duckdb
 
 from ..domain.models import Army, Unit, Weapon
 from ..persistence import repository
-from .bsdata import KNOWN_ARMIES, ImportSummary, _is_expired_variant, parse_dice, parse_target
-
-DEFAULT_DATA_DIR = Path("data") / "wahapedia"
+from ..sources.wahapedia_csv import DEFAULT_DATA_DIR, canonical_ids, is_expired_variant, legends_warscroll_ids, read_csv
+from .bsdata import KNOWN_ARMIES, ImportSummary, parse_dice, parse_target
 
 #: Alliance de grande faction, dérivée du mapping déjà tenu par `bsdata.py`
 #: (les noms d'armée correspondent exactement aux noms de faction Wahapedia).
@@ -46,73 +44,6 @@ INGESTIBLE_ROLES: frozenset[str] = frozenset({
     "Beast", "Beast Hero", "Monster", "Monster Hero",
     "War Machine", "War Machine Hero", "Hero",
 })
-
-_ROR_ROLE = "Regiment of Renown"
-
-
-def _read_csv(path: Path) -> list[dict[str, str]]:
-    with path.open(encoding="utf-8-sig", newline="") as fh:
-        return list(csv.DictReader(fh, delimiter="|"))
-
-
-def _legends_warscroll_ids(data_dir: Path) -> set[str]:
-    """Warscrolls Legends à exclure : source de type Legends, ou note d'annonce de retrait."""
-    sources = _read_csv(data_dir / "Source.csv")
-    legend_sources = {s["id"] for s in sources if "legends" in (s.get("name") or "").lower()}
-    warscrolls = _read_csv(data_dir / "Warscrolls.csv")
-    exclude: set[str] = set()
-    for w in warscrolls:
-        if w.get("source_id") in legend_sources:
-            exclude.add(w["id"])
-        elif "legend" in (w.get("notes") or "").lower():
-            exclude.add(w["id"])
-    return exclude
-
-
-def _canonical_ids(warscrolls: list[dict[str, str]]) -> set[str]:
-    """Élit, par groupe (faction, nom) homonyme, la ou les warscroll(s) de référence.
-
-    Port de `StatHammer/ingest/dedupe.py::mark_canonical` : une entrée est une
-    « coquille » dominée si une version jouable (`virtual='false'`) existe, ou si
-    une version non-RoR existe alors qu'elle référence un Regiment of Renown.
-    """
-    groups: dict[tuple[str, str], list[dict[str, str]]] = {}
-    for w in warscrolls:
-        key = (w.get("faction_id") or "", (w.get("name") or "").lower())
-        groups.setdefault(key, []).append(w)
-
-    canonical: set[str] = set()
-    for ws in groups.values():
-        if len(ws) == 1:
-            canonical.add(ws[0]["id"])
-            continue
-
-        has_real = any((w.get("virtual") or "") == "false" for w in ws)
-        has_non_ror = any((w.get("role") or "") != _ROR_ROLE for w in ws)
-        survivors = [
-            w for w in ws
-            if not (has_real and (w.get("virtual") or "") != "false")
-            and not (has_non_ror and (w.get("role") or "") == _ROR_ROLE)
-        ] or ws  # filet de sécurité : ne devrait jamais être vide
-
-        if len(survivors) == 1:
-            canonical.add(survivors[0]["id"])
-            continue
-
-        # Plusieurs candidats canoniques sont légitimes s'ils se distinguent par
-        # leur coût (ex. variantes ×5/×10 d'une même unité) ; sinon, ambigu.
-        costs = [w.get("Cost") for w in survivors]
-        if all(costs) and len(set(costs)) == len(costs):
-            canonical.update(w["id"] for w in survivors)
-        else:
-            print(
-                f"⚠ Ambigu : {ws[0].get('name')!r} → {len(survivors)} candidats "
-                f"canoniques non départageables, le premier est retenu "
-                f"({survivors[0]['id']})."
-            )
-            canonical.add(survivors[0]["id"])
-    return canonical
-
 
 def keyword_variants(row: dict[str, str]) -> set[str]:
     """Mot-clé d'une ligne `Warscrolls_keywords.csv`, plus sa forme paramétrée pour les lanceurs.
@@ -176,21 +107,21 @@ def import_faction(
             f"faction inconnue '{faction_name}'. Connues : {', '.join(FACTION_GRAND_ALLIANCE)}"
         )
 
-    factions = _read_csv(data_dir / "Factions.csv")
+    factions = read_csv(data_dir / "Factions.csv")
     faction_id = next((f["id"] for f in factions if f.get("name") == faction_name), None)
     if faction_id is None:
         raise ValueError(f"faction '{faction_name}' absente de {data_dir / 'Factions.csv'}")
 
-    warscrolls = _read_csv(data_dir / "Warscrolls.csv")
-    exclude_legends = _legends_warscroll_ids(data_dir)
-    canonical_ids = _canonical_ids(warscrolls)
+    warscrolls = read_csv(data_dir / "Warscrolls.csv")
+    exclude_legends = legends_warscroll_ids(data_dir)
+    canonical = canonical_ids(warscrolls)
 
     keywords_by_id: dict[str, set[str]] = {}
-    for k in _read_csv(data_dir / "Warscrolls_keywords.csv"):
+    for k in read_csv(data_dir / "Warscrolls_keywords.csv"):
         keywords_by_id.setdefault(k["warscroll_id"], set()).update(keyword_variants(k))
 
     weapons_by_id: dict[str, list[dict[str, str]]] = {}
-    for w in _read_csv(data_dir / "Warscrolls_weapons.csv"):
+    for w in read_csv(data_dir / "Warscrolls_weapons.csv"):
         weapons_by_id.setdefault(w["warscroll_id"], []).append(w)
 
     alliance = FACTION_GRAND_ALLIANCE[faction_name]
@@ -205,11 +136,11 @@ def import_faction(
         wid = w["id"]
         if w.get("faction_id") != faction_id:
             continue
-        if wid in exclude_legends or wid not in canonical_ids:
+        if wid in exclude_legends or wid not in canonical:
             continue
         if (w.get("role") or "") not in INGESTIBLE_ROLES:
             continue
-        if _is_expired_variant(w.get("name") or ""):
+        if is_expired_variant(w.get("name") or ""):
             summary.skipped_legends += 1
             continue
         if not (w.get("Cost") or "").strip():

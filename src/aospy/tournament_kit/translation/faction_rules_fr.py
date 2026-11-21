@@ -30,7 +30,7 @@ mini-vocabulaire anglais interne que `season_rules.json`, jamais affiché tel
 quel). Une addition nette n'a de sens que pour `battle_traits`/`formations`/
 `heroic_traits_artefacts`/`spell_lores`/aptitudes d'unité : pour
 `manifestation_lores`, seul un correctif (avec `wahapedia_name`) l'est —
-`pdf_builder._resolve_rules` résout d'abord les manifestations invocables
+`pdf_builder.resolve_rules` résout d'abord les manifestations invocables
 sur les noms Wahapedia d'origine, *avant* d'appliquer ces correctifs, donc
 une addition nette n'aurait aucun warscroll de manifestation à rattacher.
 
@@ -62,7 +62,7 @@ authentiquement corrompu, cf. `pdf_builder._ABILITY_TEXT_OVERRIDES` — et
 côté armée de renom "Aelementiri Conclave", avec un texte différent et
 intact) : les mélanger dans une seule liste `rules.battle_traits` ferait
 `apply_fr_overrides` corriger la mauvaise moitié selon l'ordre de résolution.
-Cf. `get_renown_army_overrides` et `pdf_builder._resolve_rules`
+Cf. `get_renown_army_overrides` et `pdf_builder.resolve_rules`
 (`renown_army`).
 
 Un Régiment de Renom natif d'une faction (couvert par un PDF officiel
@@ -88,7 +88,7 @@ from dataclasses import replace as _dc_replace
 from pathlib import Path
 
 from ..warscroll_card import tag_ability_origin
-from .wahapedia_lookup import AbilityEntry, _normalize, _sanitize_glyphs
+from .wahapedia_lookup import AbilityEntry, normalize_name, sanitize_glyphs
 
 DEFAULT_FACTION_RULES_FR_FILE = Path("data") / "json" / "faction_rules_fr.json"
 #: même schéma, textes officiels anglais relevés dans l'app Warhammer Age of
@@ -111,7 +111,7 @@ def load_faction_rules_fr(path: str | Path = DEFAULT_FACTION_RULES_FR_FILE) -> F
     # même assainissement que les CSV Wahapedia : le texte de l'App contient
     # des tirets insécables (« FLESH‑EATER », U+2011) que Helvetica dessine
     # en carré noir
-    data = json.loads(_sanitize_glyphs(p.read_text(encoding="utf-8")))
+    data = json.loads(sanitize_glyphs(p.read_text(encoding="utf-8")))
     return FactionRulesFr(factions=data.get("factions", {}))
 
 
@@ -141,7 +141,7 @@ def _scope_key(scope: str) -> str:
 def get_unit_ability_overrides(frf: FactionRulesFr, faction_name: str, *unit_names: str) -> list[dict]:
     """Aptitudes curées d'une unité, cherchées sous chacun de `unit_names` dans
     l'ordre (typiquement le nom tel qu'exporté par l'App, puis le nom du
-    warscroll Wahapedia résolu). Rapprochement via `wahapedia_lookup._normalize`
+    warscroll Wahapedia résolu). Rapprochement via `wahapedia_lookup.normalize_name`
     (apostrophes typographiques, « : » d'un préfixe saisonnier, casse,
     accents) : une clé curée sous « Scourge of Aqshy: X » répond aussi à
     « Scourge of Aqshy X », et inversement."""
@@ -162,9 +162,9 @@ def get_unit_display_overrides(frf: FactionRulesFr, faction_name: str, *unit_nam
 
 def _unit_entry(frf: FactionRulesFr, faction_name: str, *unit_names: str) -> dict:
     units = frf.factions.get(faction_name, {}).get("units", {})
-    by_key = {_normalize(k): v for k, v in units.items()}
+    by_key = {normalize_name(k): v for k, v in units.items()}
     for unit_name in unit_names:
-        entry = units.get(unit_name) or by_key.get(_normalize(unit_name))
+        entry = units.get(unit_name) or by_key.get(normalize_name(unit_name))
         if entry:
             return entry
     return {}

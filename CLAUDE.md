@@ -73,8 +73,10 @@ aospy encounter best | marriage | bearers --ability X   # best units, chassis ×
 
 | Package | Role | Details |
 |---|---|---|
+| `text.py` | shared text normalisation (`fold_name`), only for functions strictly identical across packages | module docstring |
+| `sources/` | raw-data readers shared by importers, abilities and tournament kit: `wahapedia_csv.py` (pipe/BOM CSV reader, Legends, canonical dedup, expired variants) | [importers README](src/aospy/importers/README.md) |
 | `domain/` | frozen/plain dataclasses (`Army`, `Weapon`, `Unit`, `HeroicTrait`, `Artefact`, `CompositionUnit`, `Composition`), no DB or logic | `models.py` |
-| `persistence/` | DuckDB connection, `schema.sql` (applied on every `connect()`), **all SQL** in `repository.py`, JSON seed loaders | [README](src/aospy/persistence/README.md) |
+| `persistence/` | DuckDB connection, `schema.sql` (applied on every `connect()`), **all SQL** in `repo/` (re-exported by `repository.py`), analysis-table columns in `analysis_tables.py`, JSON seed loaders | [README](src/aospy/persistence/README.md) |
 | `engine/` | pure math: expected damage, exact damage distribution / floors, `Anti-X`/`Charge`, loadout parsing | [README](src/aospy/engine/README.md) |
 | `orchestration/` | duels, benchmarks (`DamageMode` per direction), composition-vs-composition battles | [README](src/aospy/orchestration/README.md) |
 | `importers/` | BSData and Wahapedia → same schema; source corrections, Legends filtering, companion merging, wielders | [README](src/aospy/importers/README.md) |
@@ -89,7 +91,7 @@ aospy encounter best | marriage | bearers --ability X   # best units, chassis ×
 
 - French for docstrings, CLI help and output.
 - Schema changes go in `persistence/schema.sql`, not in Python. Never re-run `ALTER TABLE ... ADD COLUMN IF NOT EXISTS` on a column holding real data (DuckDB resets it to its `DEFAULT` — see `persistence/README.md`).
-- SQL lives only in `persistence/repository.py`; nothing above that layer writes raw SQL.
+- SQL lives only in `persistence/` (`repo/*.py`, imported through `repository.py`); nothing above that layer writes raw SQL.
 - `engine/combat.py` ships in the base install (`duckdb` only): no numpy/pandas there; those stay behind `[analysis]`.
 - Optional extras are checked at command time with an "install this extra" message (`cmd_cost_fit`, `cmd_roster_pdf`).
 - Source precedence for warscroll data: `data/json/source_corrections.json` > latest rules update > scan > Wahapedia/BSData (`importers/README.md`).

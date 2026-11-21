@@ -17,7 +17,7 @@ simule plutôt les 5 rounds sur la géométrie de la saison (`marriage.ENGAGE_GA
   atteint avec la même probabilité.
 
 Le résultat est un `Plan` : des **types de round** (part de la partie pondérée par `timeline.DEFAULT_RHYTHM`,
-ensemble des armes qui frappent ce round). `encounter._offense` lit chaque type au plancher de sa distribution
+ensemble des armes qui frappent ce round). `encounter.plan_offense` lit chaque type au plancher de sa distribution
 exacte puis somme. L'unité prend le plan qui lui rapporte le plus ; les effets sont mesurés sur le plan de la
 charte nue.
 

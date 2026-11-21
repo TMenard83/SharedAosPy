@@ -53,7 +53,7 @@ def test_build_roster_pdf_produces_cover_plus_rules_plus_unique_unit_pages(tmp_p
     # 1 couverture + 2 pages pour la carte "Aptitudes" (règles de saison —
     # cf. `season_rules.py` — + traits de bataille + formation + domaines,
     # fusionnés et triés par phase en une seule carte dessinée, pas une page
-    # copiée — cf. `_resolve_rules` ; « Inscription de Rune », Battle Trait
+    # copiée — cf. `resolve_rules` ; « Inscription de Rune », Battle Trait
     # de début de round, reste dans son bandeau de phase normal malgré sa
     # longueur, répartie sur ses 2 colonnes plutôt que confinée à une seule —
     # cf. `warscroll_card._ability_group_body_columns_mixed` — vérifié
@@ -183,7 +183,7 @@ def test_build_roster_pdf_reports_truly_unmatched_content_gracefully(tmp_path):
 #: Répertoire Wahapedia inexistant — force `WahapediaLookup.available` à
 #: `False` (`self._dir.exists()`) sans avoir à démonter les CSV réels, pour
 #: forcer la résolution des règles sur le repli page French (`hybrid`) et
-#: vérifier qu'`en`/`fr` le sautent bien (cf. `pdf_builder._resolve_rules`,
+#: vérifier qu'`en`/`fr` le sautent bien (cf. `pdf_builder.resolve_rules`,
 #: `allow_page_copy`).
 _LRL_LIST = "tests/fixtures/lists/LRL L3 Avengers Wardens.txt"
 
@@ -311,10 +311,10 @@ def test_build_roster_pdf_mode_fr_extended_without_curated_generic_abilities_beh
 
 def test_classify_phase_prefers_condition_over_inconsistent_ability_phase():
     from aospy.tournament_kit.translation.wahapedia_lookup import AbilityEntry
-    from aospy.tournament_kit.warscroll_card import _classify_phase
+    from aospy.tournament_kit.warscroll_card import classify_phase
 
     def phase(condition: str, ability_phase: str) -> str:
-        return _classify_phase(AbilityEntry("X", "", "", condition=condition, ability_phase=ability_phase))
+        return classify_phase(AbilityEntry("X", "", "", condition=condition, ability_phase=ability_phase))
 
     # Chalice of Ushoran (Wahapedia) : « Any Combat Phase » rangée à tort en "End of Turn"
     assert phase("Any Combat Phase", "End of Turn") == "melee"
@@ -352,8 +352,8 @@ def test_is_profile_modifier_detects_damage_dependent_characteristics_in_both_la
     # même texte mais aptitude déclenchée : reste une aptitude de tour
     assert not is_profile_modifier(AbilityEntry("X", en, "", condition="Your Hero Phase"))
     # Wahapedia la range à tort en "Start of Turn" : bandeau vert, pas « Début de tour »
-    from aospy.tournament_kit.warscroll_card import _classify_phase
-    assert _classify_phase(AbilityEntry("Battle Damaged", en, "", condition="Passive", ability_phase="Start of Turn")) == "any"
+    from aospy.tournament_kit.warscroll_card import classify_phase
+    assert classify_phase(AbilityEntry("Battle Damaged", en, "", condition="Passive", ability_phase="Start of Turn")) == "any"
     assert not is_profile_modifier(
         AbilityEntry("X", "Effect: Add 1 to the Damage characteristic of this unit's melee weapons.", "", condition="Passive")
     )
@@ -488,7 +488,7 @@ def _renown_army_frf_json(abilities: list[tuple[str, str]]) -> str:
     """Construit un `data/json/faction_rules_fr.json` de test avec, pour chaque
     `(catégorie, wahapedia_name)` de `abilities`, un correctif minimal sous
     `renown_armies."Legion of the First Prince"` — assez pour vérifier la
-    plomberie (`_renown_army_pool`/`_resolve_rules`), pas un vérbatim réel."""
+    plomberie (`_renown_army_pool`/`resolve_rules`), pas un vérbatim réel."""
     import json as _json
 
     by_category: dict[str, list[dict]] = {}
@@ -601,19 +601,19 @@ def test_cast_badge_shapes_are_unique():
 def test_choice_cluster_copy_stays_at_start_of_turn_despite_condition_phase():
     from aospy.tournament_kit.pdf_builder import _CHOICE_CLUSTERS, _choice_cluster
     from aospy.tournament_kit.translation.wahapedia_lookup import AbilityEntry
-    from aospy.tournament_kit.warscroll_card import _classify_phase
+    from aospy.tournament_kit.warscroll_card import classify_phase
 
     spec = next(c for c in _CHOICE_CLUSTERS if c.category == "blood_tithe")
     punish = AbilityEntry("Punissez les Pacifistes", "", "", keywords="Blood Tithe",
                           condition="Once Per Turn (Army), Your Combat Phase", ability_phase="Combat Phase")
-    assert _classify_phase(punish) == "melee"
-    assert [_classify_phase(ab) for ab in _choice_cluster([punish], spec)] == ["start"]
+    assert classify_phase(punish) == "melee"
+    assert [classify_phase(ab) for ab in _choice_cluster([punish], spec)] == ["start"]
 
 
 def test_khaine_blessing_cluster_moves_blood_rites_then_blessings_to_end_of_turn():
     from aospy.tournament_kit.pdf_builder import _apply_choice_clusters
     from aospy.tournament_kit.translation.wahapedia_lookup import AbilityEntry
-    from aospy.tournament_kit.warscroll_card import _classify_phase
+    from aospy.tournament_kit.warscroll_card import classify_phase
 
     rites = AbilityEntry("Rites de Sang", "", "", condition="Passive", ability_phase="Start of Turn")
     blessings = AbilityEntry("Bénédictions de Khaine", "", "", condition="Once Per Turn (Army), End of Any Turn",
@@ -623,7 +623,7 @@ def test_khaine_blessing_cluster_moves_blood_rites_then_blessings_to_end_of_turn
     out = _apply_choice_clusters([rites, other, blessings], "fr-split")
     assert [ab.name for ab in out] == ["Ritualiste Consacrée", "Rites de Sang", "Bénédictions de Khaine"]
     assert [ab.ability_category for ab in out] == ["", "khaine_blessing", "khaine_blessing"]
-    assert {_classify_phase(ab) for ab in out[1:]} == {"end"}
+    assert {classify_phase(ab) for ab in out[1:]} == {"end"}
     assert _apply_choice_clusters([other], "fr-split") == [other]
 
 
@@ -959,15 +959,15 @@ def test_provenance_note_does_not_make_a_synthesis_a_profile_modifier():
 
 def test_clean_html_unwraps_escaped_keyword_span():
     # FEC « The One True King » : balise de mot-clé échappée dans le scrape
-    from aospy.tournament_kit.pdf_builder import _clean_html
+    from aospy.tournament_kit.pdf_builder import clean_html
     raw = ('While you believe this <a href="/x"><span class="kwb2 kwbu">&lt;<span class="kwb3">S</span>PAN</span> '
            '<span class="kwb kwbu">CLASS="KWB</span> <span class="kwb kwbu">KWBU"&gt;DELUSION&lt;/SPAN&gt;</span></a>:')
-    assert _clean_html(raw) == "While you believe this <b>DELUSION</b>:"
+    assert clean_html(raw) == "While you believe this <b>DELUSION</b>:"
 
 
 def test_clean_html_fixes_known_wahapedia_typos():
-    from aospy.tournament_kit.pdf_builder import _clean_html
-    assert "effect of that DELUSION applies" in _clean_html("In such cases, the eect of that D  applies as if")
+    from aospy.tournament_kit.pdf_builder import clean_html
+    assert "effect of that DELUSION applies" in clean_html("In such cases, the eect of that D  applies as if")
 
 
 def test_identical_warscroll_abilities_merge_ignoring_flavor_text():
@@ -986,7 +986,7 @@ def test_identical_warscroll_abilities_merge_ignoring_flavor_text():
 def test_chaos_pledge_cluster_in_hero_phase_keeps_pledges_where_used():
     from aospy.tournament_kit.pdf_builder import _apply_choice_clusters, _fold_warscroll_copies, _turn_sides
     from aospy.tournament_kit.translation.wahapedia_lookup import AbilityEntry
-    from aospy.tournament_kit.warscroll_card import TURN_ENEMY, TURN_MINE, _classify_phase
+    from aospy.tournament_kit.warscroll_card import TURN_ENEMY, TURN_MINE, classify_phase
 
     pledge = AbilityEntry("Vocation au Chaos", "", "", condition="Once Per Turn (Army), Your Hero Phase",
                           ability_phase="Hero Phase")
@@ -1002,9 +1002,9 @@ def test_chaos_pledge_cluster_in_hero_phase_keeps_pledges_where_used():
     out = _apply_choice_clusters(folded, "fr-split")
     cluster = [ab for ab in out if ab.ability_category == "chaos_pledge"]
     assert [ab.name for ab in cluster] == ["Vocation au Chaos", "Voué à Khorne", "Voué à Nurgle"]
-    assert {_classify_phase(ab) for ab in cluster} == {"hero"}
+    assert {classify_phase(ab) for ab in cluster} == {"hero"}
     # chaque vœu reste aussi dans sa phase d'usage
-    assert [_classify_phase(ab) for ab in out if ab.ability_category == ""] == ["melee", "any"]
+    assert [classify_phase(ab) for ab in out if ab.ability_category == ""] == ["melee", "any"]
     # la sous-section suit le tour de « Vocation au Chaos » (votre phase des héros)
     assert all(_turn_sides(ab, out) == {TURN_MINE} for ab in cluster)
     assert _turn_sides(out[0], out) == {TURN_MINE, TURN_ENEMY}

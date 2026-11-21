@@ -13,19 +13,19 @@ donne qu'une `RawAbility`, avec la liste de tous ses porteurs dans `owners`.
 
 from __future__ import annotations
 
-import csv
-import re
 import hashlib
+import re
 from pathlib import Path
 
-from ..importers.bsdata import _is_expired_variant
-from ..importers.corrections import (DEFAULT_CORRECTIONS_PATH, ability_correction, correct_ability_fields,
-                                     load_corrections)
-from ..importers.wahapedia import _canonical_ids, _legends_warscroll_ids
+from ..importers.corrections import (
+    DEFAULT_CORRECTIONS_PATH,
+    ability_correction,
+    correct_ability_fields,
+    load_corrections,
+)
+from ..sources.wahapedia_csv import DEFAULT_DATA_DIR, canonical_ids, is_expired_variant, legends_warscroll_ids, read_csv
 from .models import AbilityOwner, RawAbility, SourceKind
 from .text import clean, fix_typos, split_declare_effect
-
-DEFAULT_DATA_DIR = Path("data") / "wahapedia"
 
 #: `type_name` (ou, pour une Armée de Renom, `subtype_name`) → origine.
 _RULE_KINDS: dict[str, SourceKind] = {
@@ -39,11 +39,6 @@ _RULE_KINDS: dict[str, SourceKind] = {
     "Manifestation Lore": "manifestation",
     "Monstrous Traits": "monstrous_trait",
 }
-
-
-def _read_csv(path: Path) -> list[dict[str, str]]:
-    with path.open(encoding="utf-8-sig", newline="") as fh:
-        return list(csv.DictReader(fh, delimiter="|"))
 
 
 def _uid(name: str, condition: str, declare: str, effect: str) -> str:
@@ -105,14 +100,14 @@ def load_raw_abilities(data_dir: str | Path = DEFAULT_DATA_DIR,
     tronqués ou faux avant le calcul de l'uid."""
     data_dir = Path(data_dir)
     fixes = load_corrections(corrections_path)["abilities"]
-    factions = {f["id"]: f["name"] for f in _read_csv(data_dir / "Factions.csv")}
-    warscrolls = _read_csv(data_dir / "Warscrolls.csv")
-    legends = _legends_warscroll_ids(data_dir)
-    canonical = _canonical_ids(warscrolls)
+    factions = {f["id"]: f["name"] for f in read_csv(data_dir / "Factions.csv")}
+    warscrolls = read_csv(data_dir / "Warscrolls.csv")
+    legends = legends_warscroll_ids(data_dir)
+    canonical = canonical_ids(warscrolls)
     kept = {
         w["id"]: w for w in warscrolls
         if w["id"] in canonical and w["id"] not in legends
-        and not _is_expired_variant(w.get("name") or "")
+        and not is_expired_variant(w.get("name") or "")
     }
 
     merged: dict[str, dict] = {}
@@ -120,7 +115,7 @@ def load_raw_abilities(data_dir: str | Path = DEFAULT_DATA_DIR,
     for f_name, key in (("Faction_ability_types.csv", "type"), ("Faction_ability_subtypes.csv", "subtype")):
         path = data_dir / f_name
         if path.exists():
-            for row in _read_csv(path):
+            for row in read_csv(path):
                 r = bearer_restriction_of(row.get("description") or "")
                 if r:
                     restrictions[(key, row.get("id") or "")] = r
@@ -135,7 +130,7 @@ def load_raw_abilities(data_dir: str | Path = DEFAULT_DATA_DIR,
         if owner not in entry["owners"]:
             entry["owners"].append(owner)
 
-    for row in _read_csv(data_dir / "Warscrolls_abilities.csv"):
+    for row in read_csv(data_dir / "Warscrolls_abilities.csv"):
         w = kept.get(row.get("warscroll_id") or "")
         if w is None:
             continue
@@ -144,11 +139,11 @@ def load_raw_abilities(data_dir: str | Path = DEFAULT_DATA_DIR,
                              (w.get("role") or "").strip())
         add(_base_fields(row), "warscroll", "", owner)
 
-    for row in _read_csv(data_dir / "Faction_abilities.csv"):
+    for row in read_csv(data_dir / "Faction_abilities.csv"):
         fid = row.get("faction_id") or ""
         type_name = (row.get("type_name") or "").strip()
         subtype = (row.get("subtype_name") or "").strip()
-        if _is_expired_variant(type_name) or _is_expired_variant(subtype):
+        if is_expired_variant(type_name) or is_expired_variant(subtype):
             continue
         group = f"{type_name} › {subtype}" if subtype and subtype != "_1" else type_name
         owner = AbilityOwner(fid, factions.get(fid, fid), "faction_rule", group)
