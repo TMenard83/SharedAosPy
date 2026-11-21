@@ -21,7 +21,7 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[3]
 WAHAPEDIA = ROOT / "data" / "wahapedia"
 AIDS = ROOT / "data" / "2026-27 L3 Aller" / "Aides de jeu"
 FR_RULES = ROOT / "data" / "json" / "faction_rules_fr.json"
@@ -395,7 +395,7 @@ def _level(keywords, kind: str) -> int:
 def profile(lib: Library, al, header: list[str], options: list[str]) -> Profile:
     """Profil d'aptitudes d'une `ArmyList` (voir l3_matchups).
 
-    Si l'aide de jeu split-simple de la liste existe (`l3_export_lists.py --pdf`), elle fait foi :
+    Si l'aide de jeu split-simple de la liste existe (`aospy l3 export-lists --pdf`), elle fait foi :
     les aptitudes Wahapedia ne sont gardées que si elles y figurent, et ses aptitudes sans
     équivalent Wahapedia (battletome récent, contenus Aqshy...) sont lues en français.
     """

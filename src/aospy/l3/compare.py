@@ -4,10 +4,10 @@ Avant de toucher à la méthode, aux notes de plan ou aux ajustements, prendre u
 après, comparer. Les instantanés sont durables (pas dans un dossier temporaire) :
 `data/2026-27 L3 Aller/Matchups/instantanés/<nom>.json`.
 
-  l3_compare.py snapshot <nom> [--note "..."]   enregistre grilles Melusior/Vae Victis + score ligue
-  l3_compare.py list                            liste les instantanés
-  l3_compare.py diff <avant> [<après>]          écarts (après = état actuel si omis), sortie courte
-  l3_compare.py diff <avant> [<après>] --md     écrit aussi `Matchups/Comparatif <avant> → <après>.md`
+  aospy l3 compare snapshot <nom> [--note "..."]   enregistre grilles Melusior/Vae Victis + score ligue
+  aospy l3 compare list                            liste les instantanés
+  aospy l3 compare diff <avant> [<après>]          écarts (après = état actuel si omis), sortie courte
+  aospy l3 compare diff <avant> [<après>] --md     écrit aussi `Matchups/Comparatif <avant> → <après>.md`
 """
 
 from __future__ import annotations
@@ -16,11 +16,9 @@ import argparse
 import json
 import sys
 from datetime import datetime
-from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-import l3_diag as dg  # noqa: E402
-import l3_matchups as mx  # noqa: E402
+from . import diag as dg
+from . import matchups as mx
 
 SNAP = mx.FOLDER / "Matchups" / "instantanés"
 
@@ -79,8 +77,8 @@ def diff(a: dict, b: dict, name_a: str, name_b: str) -> list[str]:
     return out + [""]
 
 
-def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+def main(argv: list[str] | None = None) -> int:
+    ap = argparse.ArgumentParser(prog="aospy l3 compare", description=__doc__.splitlines()[0])
     sub = ap.add_subparsers(dest="cmd", required=True)
     s = sub.add_parser("snapshot")
     s.add_argument("name")
@@ -90,7 +88,7 @@ def main() -> int:
     d.add_argument("before")
     d.add_argument("after", nargs="?")
     d.add_argument("--md", action="store_true")
-    args = ap.parse_args()
+    args = ap.parse_args(argv)
     SNAP.mkdir(parents=True, exist_ok=True)
     if args.cmd == "snapshot":
         data = current()

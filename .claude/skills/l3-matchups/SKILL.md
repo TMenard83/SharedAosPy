@@ -6,7 +6,7 @@ description: Contexte et outils des grilles de matchups / analyse des listes de 
 # L3 Centre 2026-27 (aller) — matchups
 
 Lire ce fichier **avant** d'ouvrir les gros Markdown générés : la plupart des questions se
-règlent avec `scripts/l3_diag.py` (sorties de quelques lignes). Répondre en français.
+règlent avec `aospy l3 diag` (sorties de quelques lignes). Répondre en français.
 
 ## Fichiers (`data/2026-27 L3 Aller/`)
 
@@ -16,14 +16,14 @@ règlent avec `scripts/l3_diag.py` (sorties de quelques lignes). Répondre en fr
 | `Données/combos/<équipe>.json` | par joueur : `archetype`, `choix`, `plan`, `combos`, `interactions`, `limites`, `moteur`, **`note_plan` (0-3)** ; `_équipe` | à la main (Claude), à valider par l'équipe |
 | `Données/ajustements_matchups.json` | `listes` (vide depuis la méthode v2) et `matchups` (`"Nous\|Eux"` → `[{bonus, raison}]`, 56 entrées) | à la main |
 | `Données/ajustements_listes_ancienne_methode.json` | sauvegarde des 50 corrections par liste d'avant la v2 | archive |
-| `Listes/Listes <équipe>.md` | 9 fichiers : rang ligue /54, métriques, combos | `scripts/l3_listes.py` |
-| `Matchups/Matchups <équipe>.md` + `Matchups <équipe>/Ronde N — contre X/` | index (méthode + grilles) ; par ronde `00 Grille et profils.md` + un fichier par joueur | `scripts/l3_matchups.py` |
-| `Matchups/instantanés/*.json` | instantanés de grilles pour les comparatifs | `scripts/l3_compare.py` |
+| `Listes/Listes <équipe>.md` | 9 fichiers : rang ligue /54, métriques, combos | `aospy l3 listes` |
+| `Matchups/Matchups <équipe>.md` + `Matchups <équipe>/Ronde N — contre X/` | index (méthode + grilles) ; par ronde `00 Grille et profils.md` + un fichier par joueur | `aospy l3 matchups` |
+| `Matchups/instantanés/*.json` | instantanés de grilles pour les comparatifs | `aospy l3 compare` |
 | `Fiches/` | fiches d'équipe (pairing) | à la main |
 | `Données/scenarios.json` | les 12 cartes MdG 2026-27 (`objectifs`, `score`, `aptitudes`, `gagne`), `rappels`, maps par ronde, calendrier de nos 2 équipes | à la main (cartes lues dans `MdG26-27 Scenarii.pdf`, extraire les scans avec pypdf `page.images`) |
 | `Données/notes_scenarios.json` | `equipes.<équipe>.joueurs.<joueur>.notes.<clé scénario>` = `[note ++…−−, commentaire]` pour nos 12 listes (12 scénarios) et les 42 adverses (maps où elles nous affrontent) ; `profil`, `grille_montre`, `a_verifier` pour nos équipes | à la main, à valider par les joueurs |
 | `Données/tactiques.json` | règles des tactiques (hypothèse à confirmer), lecture générale des 18 tactiques (facile/moyen/difficile), interactions notables par scénario ; par joueur, clé `tactiques` des combos (`cartes`, `bilan`, `faciles`, `difficiles`, `scenarios`, `plan`) | à la main (Claude), à valider |
-| `Scénarios/Scénarios <équipe>.md` | par ronde : nos défenseurs conseillés, leurs défenseurs probables, chaque map (objectifs, score, aptitudes, ce qui gagne) avec nos notes et les leurs | `scripts/l3_scenarios.py` (`tm-aospy-l3-scenarios`) |
+| `Scénarios/Scénarios <équipe>.md` | par ronde : nos défenseurs conseillés, leurs défenseurs probables, chaque map (objectifs, score, aptitudes, ce qui gagne) avec nos notes et les leurs | `aospy l3 scenarios` (`tm-aospy-l3-scenarios`) |
 
 Ne jamais éditer les `.md` générés : modifier les données ou le code, puis relancer.
 
@@ -36,15 +36,15 @@ Ne jamais éditer les `.md` générés : modifier les données ou le code, puis 
 
 ## Scripts (tous via `.venv/bin/python`, alias entre parenthèses)
 
-- `scripts/l3_matchups.py` (`tm-aospy-l3-matchups`) : régénère `Matchups/`. `--check` = parsing des listes seulement.
-- `scripts/l3_listes.py` (`tm-aospy-l3-listes`) : régénère `Listes/`.
-- `scripts/l3_diag.py` (`tm-aospy-l3-diag`) : sans option = corrélations (contrôle des biais) ; `--rank [N]` ; `--player P…` (indices, familles d'aptitudes détectées et leur source) ; `--match A B` (décomposition d'un score) ; `--team Melusior|"Vae Victis Vernou"` (grilles compactes).
-- `scripts/l3_compare.py` (`tm-aospy-l3-compare`) : `snapshot <nom> --note "…"` **avant** toute modif de méthode/notes/ajustements, puis `diff <nom>` (vs état actuel) ; `--md` écrit le comparatif dans `Matchups/`. `list`.
-- `scripts/l3_aptitudes.py` : module (pas de CLI), lecture des aptitudes par regex (anglais Wahapedia ; français pour les contenus de l'aide de jeu absents de Wahapedia, `RULES_FR`).
-- `scripts/l3_export_lists.py` : les 54 listes au format App (`Listes texte/<équipe>/<joueur>.txt` ; nos 12 = exports App de `Proposition de listes/`, les 42 adverses reconstruites depuis le PDF de l'orga) ; `--pdf` génère l'aide de jeu fr-split-simple (`Aides de jeu/<équipe>/<joueur> (fr-split-simple).pdf`) **et** son JSON d'aptitudes par carte (`deploy`/`any`/`mine`/`enemy`/`warscrolls`/`battle_traits`, via `RosterPdfResult.ability_cards`). **L'aide de jeu fait foi** : `l3_aptitudes.profile` ne garde que les aptitudes qui y figurent (formation, domaines, améliorations, armée de renom, versions récentes des warscrolls), ajoute celles qu'elle seule contient (règles d'armée de renom, manifestations), et ignore les règles génériques (≥ 75 % des aides + MdG + saison). À relancer si une liste ou `faction_rules_fr.json` change.
-- `scripts/l3_scenarios.py` (`tm-aospy-l3-scenarios`) : régénère `Scénarios/` depuis les deux JSON scénario + les grilles. `--team <équipe>`. À relancer après `l3_matchups.py` (les défenseurs conseillés dépendent des grilles).
+- `aospy l3 matchups` (`tm-aospy-l3-matchups`) : régénère `Matchups/`. `--check` = parsing des listes seulement.
+- `aospy l3 listes` (`tm-aospy-l3-listes`) : régénère `Listes/`.
+- `aospy l3 diag` (`tm-aospy-l3-diag`) : sans option = corrélations (contrôle des biais) ; `--rank [N]` ; `--player P…` (indices, familles d'aptitudes détectées et leur source) ; `--match A B` (décomposition d'un score) ; `--team Melusior|"Vae Victis Vernou"` (grilles compactes).
+- `aospy l3 compare` (`tm-aospy-l3-compare`) : `snapshot <nom> --note "…"` **avant** toute modif de méthode/notes/ajustements, puis `diff <nom>` (vs état actuel) ; `--md` écrit le comparatif dans `Matchups/`. `list`.
+- `src/aospy/l3/aptitudes.py` : module (pas de CLI), lecture des aptitudes par regex (anglais Wahapedia ; français pour les contenus de l'aide de jeu absents de Wahapedia, `RULES_FR`).
+- `aospy l3 export-lists` : les 54 listes au format App (`Listes texte/<équipe>/<joueur>.txt` ; nos 12 = exports App de `Proposition de listes/`, les 42 adverses reconstruites depuis le PDF de l'orga) ; `--pdf` génère l'aide de jeu fr-split-simple (`Aides de jeu/<équipe>/<joueur> (fr-split-simple).pdf`) **et** son JSON d'aptitudes par carte (`deploy`/`any`/`mine`/`enemy`/`warscrolls`/`battle_traits`, via `RosterPdfResult.ability_cards`). **L'aide de jeu fait foi** : `l3/aptitudes.py::profile` ne garde que les aptitudes qui y figurent (formation, domaines, améliorations, armée de renom, versions récentes des warscrolls), ajoute celles qu'elle seule contient (règles d'armée de renom, manifestations), et ignore les règles génériques (≥ 75 % des aides + MdG + saison). À relancer si une liste ou `faction_rules_fr.json` change.
+- `aospy l3 scenarios` (`tm-aospy-l3-scenarios`) : régénère `Scénarios/` depuis les deux JSON scénario + les grilles. `--team <équipe>`. À relancer après `aospy l3 matchups` (les défenseurs conseillés dépendent des grilles).
 
-## Méthode v2 (depuis le 2026-11-18) — `evaluate()` dans l3_matchups.py
+## Méthode v2 (depuis le 2026-11-18) — `evaluate()` dans l3/matchups.py
 
 Score = écart de PV attendu pour la liste A, borné à ±20 (±3 équilibré, ±8 net).
 - **Combat ±6** (`COMBAT_MAX`) : `6·tanh(ln(attrition A / attrition B))`. Attrition = moteur aospy (dégâts de chaque unité contre chaque unité adverse, pondérés par les points) + 1,5 attaque de Fureur + aptitudes à mortelles directes. **Fiabilité** (depuis le 2026-11-18, demande de l'utilisateur) : dégâts d'armes = 50 % moyenne + 50 % plancher « 2 fois sur 3 » de la distribution exacte (`RELIABILITY_WEIGHT`, `RELIABILITY_COVERAGE`). Effet faible : la variance pénalise souvent les deux camps, le rapport bouge peu.
@@ -60,21 +60,21 @@ Diagnostic de référence (v2) : corrélation score ligue ~ PV +0,40 (v1 : +0,71
 
 1. `note_plan` dans `Données/combos/<équipe>.json` (toutes notées par Claude, **à valider** ; Shadow 1 et Totosai 3 sont les plus discutables).
 2. `ajustements_matchups.json` → `matchups` : correction ciblée avec `raison` (suffixe « proposé par Claude … à valider » si c'est moi).
-3. `BT_RULES` dans l3_matchups.py : règle lue dans le battletome quand Wahapedia est tronqué, avec le choix du joueur (`ward` par nom d'unité, `aptitudes` = (famille, poids, description)). Ex. Totosai : que des Alaithi (Rune de la Montagne) → Protection 5+ sur Avalenor + 3 Spirits. Totosai a aussi +4 A aux marteaux (Force of a Landslide, moyenne sur 5 rounds). `damage_cap` (libellé → Damage max des armes qui le ciblent, ex. Darkflame Pendant du Daemon Prince de Shadow, Ward 5+ par Pledged to Nurgle). Aussi `melee_attacks` (libellé d'entrée → +N Attaques en mêlée), ex. Shadow : Varanguard R marqués de Khorne au round 1, Chaos Knights par la Bannière de Rage. Limite : l'attrition plafonne les dégâts à la cible tuée (pas de report de surplus), donc un bonus offensif sur une unité qui tue déjà ses cibles bouge peu le score.
+3. `BT_RULES` dans l3/matchups.py : règle lue dans le battletome quand Wahapedia est tronqué, avec le choix du joueur (`ward` par nom d'unité, `aptitudes` = (famille, poids, description)). Ex. Totosai : que des Alaithi (Rune de la Montagne) → Protection 5+ sur Avalenor + 3 Spirits. Totosai a aussi +4 A aux marteaux (Force of a Landslide, moyenne sur 5 rounds). `damage_cap` (libellé → Damage max des armes qui le ciblent, ex. Darkflame Pendant du Daemon Prince de Shadow, Ward 5+ par Pledged to Nurgle). Aussi `melee_attacks` (libellé d'entrée → +N Attaques en mêlée), ex. Shadow : Varanguard R marqués de Khorne au round 1, Chaos Knights par la Bannière de Rage. Limite : l'attrition plafonne les dégâts à la cible tuée (pas de report de surplus), donc un bonus offensif sur une unité qui tue déjà ses cibles bouge peu le score.
 3b. Mortelles directes (`parse_direct_ability`) : `needs_charge` (« charged this turn/phase » → seulement dans le cas « a chargé », fréquence ≤ 1) ; `DIRECT_OVERRIDES` (lecture corrigée à la main, ex. Rampaging Destruction 10,7 vs MONSTRE) ; `army_direct_abilities` (traits de bataille portés par les entrées : Ogor Eat 'Em Alive, Bull Charge). `Entry.ignore_first` = « Ignore the first damage point … each phase » (Stone Skeleton), −1 par phase où l'attaquant blesse. Les soins ne sont **pas** dans l'attrition (seulement famille « soins » de l'indice d'aptitudes).
-4. `RULES` dans l3_aptitudes.py (regex des familles) et poids dans `evaluate()` : changer la méthode → snapshot + diff + vérifier `l3_diag.py` (corrélations).
+4. `RULES` dans l3/aptitudes.py (regex des familles) et poids dans `evaluate()` : changer la méthode → snapshot + diff + vérifier `aospy l3 diag` (corrélations).
 
 Texte français des battletomes : `data/json/faction_rules_fr.json` (`factions.<faction>.rules.<catégorie>`, clé de jointure `wahapedia_name`).
 
 ## Tactiques de bataille (étape d'analyse, depuis le 2026-11-19)
 
-Pour chaque liste : facilité à scorer ses 2 cartes de tactique, d'abord en général (quelles tactiques sont faciles, lesquelles abandonner, ordre conseillé), puis seulement les scénarios où c'est notable (Nuées bloque Siège de Cendres, Avalanche/Rogne punissent l'empilement, diagonales et Cernez l'Ennemi…). Rendu par `l3_listes.py` (section joueur + « lecture générale » en fin de fichier). Bilan sur les **4 tactiques réalistes** (Échauffourées + Frappes) : selon l'utilisateur, la Domination est souvent irréalisable à notre niveau (ne la compter que si la liste a un moyen concret). Règlement AOSFF 3.1 : chaque carte prise 1 à 3 fois par équipe, donc Écran de Fumée obligatoire (Martoni, Cartoone). Qualitatif : rien n'entre dans les grilles tant que ce n'est pas validé. Fait pour nos 12 listes, adversaires à faire.
+Pour chaque liste : facilité à scorer ses 2 cartes de tactique, d'abord en général (quelles tactiques sont faciles, lesquelles abandonner, ordre conseillé), puis seulement les scénarios où c'est notable (Nuées bloque Siège de Cendres, Avalanche/Rogne punissent l'empilement, diagonales et Cernez l'Ennemi…). Rendu par `aospy l3 listes` (section joueur + « lecture générale » en fin de fichier). Bilan sur les **4 tactiques réalistes** (Échauffourées + Frappes) : selon l'utilisateur, la Domination est souvent irréalisable à notre niveau (ne la compter que si la liste a un moyen concret). Règlement AOSFF 3.1 : chaque carte prise 1 à 3 fois par équipe, donc Écran de Fumée obligatoire (Martoni, Cartoone). Qualitatif : rien n'entre dans les grilles tant que ce n'est pas validé. Fait pour nos 12 listes, adversaires à faire.
 
 **Avant de juger une liste, lire ses règles d'armée, pas seulement ses chartes** (correction de l'utilisateur, 2026-11-19). Par exemple, le réseau de décors de l'invasion végétale Sylvaneth rend faciles les tactiques de placement de Pierrodactyl. Méthode : dans l'aide de jeu (`Aides de jeu/<équipe>/<joueur> (fr-split-simple).json`, cartes `deploy`/`any`/`mine`/`enemy`), relever toutes les aptitudes de placement, de replacement et de bonus de mouvement, en particulier celles d'armée (`unites` vide, hors `MdG`), puis les confronter à chaque tactique de placement. Nos 12 listes ont été refaites de cette façon le 2026-11-19 (passage de 2 à 3 tactiques réalistes pour Pierrodactyl, Martoni et Totosai ; de 3 à 4 pour SoDarkSnow, Laytorne et Razemme). Il reste des questions aux joueurs : marques de Tzeentch de Shadow ; Martoni : une unité replacée au tour adverse compte-t-elle comme « n'a pas bougé » ?
 
 ## Trois regards sur chaque liste
 
-1. **Stats** (moteur : combat, scénario, indices) — `l3_diag.py --player P`.
+1. **Stats** (moteur : combat, scénario, indices) — `aospy l3 diag --player P`.
 2. **Textes** (combos, aptitudes, plan, `note_plan`) — `Données/combos/<équipe>.json`, rédigés par Claude.
 3. **Analyse stratégique de l'utilisateur** — clé `strategie` du joueur dans le même JSON, rendue
    en section « Analyse stratégique » des fichiers `Listes/` :
@@ -92,7 +92,7 @@ Quand l'utilisateur donne son analyse d'une liste :
   et comment l'adversaire peut la forcer à dépenser ailleurs ; poser la question explicitement ;
 - après échange, consigner `challenge` / `conclusions` / `en_suspens` ; ne traduire en chiffres
   (`note_plan`, `ajustements_matchups.json`, `BT_RULES`) que ce qui est **validé** par l'utilisateur,
-  en le listant dans `impact` ; snapshot avant, diff après, puis régénérer (`l3_matchups.py`, `l3_listes.py`).
+  en le listant dans `impact` ; snapshot avant, diff après, puis régénérer (`aospy l3 matchups`, `aospy l3 listes`).
 
 ## Principes stratégiques (de l'utilisateur, à appliquer dans toutes les analyses)
 
@@ -118,7 +118,7 @@ Quand l'utilisateur donne son analyse d'une liste :
 
 - Wahapedia tronque certains textes : **Depict Rune** (runes Lumineth — Totosai traité via `BT_RULES`, TyraNounours et Darkane pas encore : demander leurs runes). Unités absentes de la base (Gotrek, Be'lakor, Belga, Frost Sabres) : comptées au prorata des points.
 - Le cache de dégâts est indexé par `(attaquant, figurines, défenseur, ward du défenseur)` : toute modif de profil défensif doit passer dans la clé.
-- Le scratchpad est vidé entre sessions : sauvegarder les états à comparer avec `l3_compare.py snapshot`, pas dans `/tmp`.
+- Le scratchpad est vidé entre sessions : sauvegarder les états à comparer avec `aospy l3 compare snapshot`, pas dans `/tmp`.
 - Le hook rtk réécrit les commandes Bash ; si le classifieur refuse, relancer exactement l'entrée réécrite.
 - Appariement AOSFF : le défenseur choisit son adversaire (voir la mémoire `aosff-pairing-defender-chooses`).
 

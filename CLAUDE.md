@@ -63,6 +63,7 @@ aospy chassis list --troops --sort cost_residual_pct --asc      # cheapest chass
 aospy encounter build                        # layer 3: friendly ability effects × receivers' chassis → ability_encounter
 aospy encounter list --unit "Liberators" [--own] [--sort off_per_100]   # what each buff really yields on that chassis
 aospy encounter best | marriage | bearers --ability X   # best units, chassis × ability marriage, enhancement bearers
+aospy l3 matchups | listes | diag | compare | scenarios | export-lists   # L3 league tools (options forwarded: `aospy l3 diag --help`)
 ```
 
 `cost_model.fit_cost_model_factorial` is a library call, not wired to the CLI (see `analysis/README.md`).
@@ -85,7 +86,8 @@ aospy encounter best | marriage | bearers --ability X   # best units, chassis ×
 | `reports/` | PDF/aggregate "best units/heroes" reports | module docstrings |
 | `bonus_simulator/` | Streamlit "what-if" bonus simulator (`[gui]`), no DB writes | [README](src/aospy/bonus_simulator/README.md) |
 | `tournament_kit/` | tournament roster PDF (`[roster]`), no DB; roster modes | [README](src/aospy/tournament_kit/README.md) |
-| `cli/` | argparse wiring (`__init__.py`, exposes `main`), one `cmd_*` per subcommand (`commands.py`, each opens/closes its own DB connection via `_connect(args)`), pure text formatting (`report.py`) | — |
+| `l3/` | L3 Centre 2026-27 league tools (matchup grids, diagnostics, list analysis, scenarios, list export), run by `aospy l3 …`; reads `data/aospy.duckdb` read-only | module docstring, skill `l3-matchups` |
+| `cli/` | one module per command group (`db`, `unit`, `comp`, `battle`, `import_`, `cost`, `roster`, `ability`, `chassis`, `encounter`, `l3`), each with `register(sub)` and its `cmd_*` (each opens/closes its own DB connection via `common._connect(args)`); `__init__.py` only assembles them and exposes `main`; `commands.py` = transition re-export; pure text formatting (`report.py`) | — |
 
 ## Cross-cutting rules
 

@@ -8,8 +8,8 @@ noms Wahapedia de la faction, domaines, cartes de tactique), puis on recopie le 
 unités, options, Régiments de Renom, terrain de faction). Nos 12 listes reprennent l'export
 App déjà rangé dans `data/Proposition de listes/<équipe>/`.
 
-  l3_export_lists.py                 écrit les .txt dans `data/2026-27 L3 Aller/Listes texte/<équipe>/`
-  l3_export_lists.py --pdf [--mode M] [--player P ...]   + génère les PDF dans `Aides de jeu/<équipe>/`
+  aospy l3 export-lists                 écrit les .txt dans `data/2026-27 L3 Aller/Listes texte/<équipe>/`
+  aospy l3 export-lists --pdf [--mode M] [--player P ...]   + génère les PDF dans `Aides de jeu/<équipe>/`
 """
 
 from __future__ import annotations
@@ -22,8 +22,7 @@ import sys
 import unicodedata
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-import l3_matchups as mx  # noqa: E402
+from . import matchups as mx
 
 TXT_DIR = mx.FOLDER / "Listes texte"
 PDF_DIR = mx.FOLDER / "Aides de jeu"
@@ -154,12 +153,12 @@ def our_file(player: str, team: str) -> Path | None:
     return sorted(hits)[0] if hits else None
 
 
-def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+def main(argv: list[str] | None = None) -> int:
+    ap = argparse.ArgumentParser(prog="aospy l3 export-lists", description=__doc__.splitlines()[0])
     ap.add_argument("--pdf", action="store_true")
     ap.add_argument("--mode", default="fr-split-simple")
     ap.add_argument("--player", nargs="+")
-    args = ap.parse_args()
+    args = ap.parse_args(argv)
     rows, fids = _faction_rows(), _faction_ids()
     blocks = mx.parse_lists(mx.PDF)
     report = {}

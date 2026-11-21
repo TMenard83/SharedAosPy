@@ -19,7 +19,8 @@ LISTES_DIR = REPO_ROOT / "data" / "Proposition de listes"
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
 try:
-    from aospy.cli import commands as cmd
+    from aospy.cli.roster import cmd_roster_pdf
+    from aospy.cli.unit import cmd_unit_benchmark, cmd_unit_duel
     from aospy.persistence import repository
     from aospy.persistence.db import connect
 except ImportError:
@@ -110,7 +111,7 @@ def action_roster_pdf() -> None:
     idx_mode = choisir_dans_liste(modes, "Choix du mode :")
 
     args = argparse.Namespace(db=DB_PATH, list=str(liste), out=None, mode=modes[idx_mode])
-    cmd.cmd_roster_pdf(args)
+    cmd_roster_pdf(args)
 
 
 def action_duel() -> None:
@@ -131,7 +132,7 @@ def action_duel() -> None:
         attacker_reinforced=attaquant_renforce, defender_reinforced=defenseur_renforce,
         charge="a" if attaquant_charge else "none",
     )
-    cmd.cmd_unit_duel(args)
+    cmd_unit_duel(args)
 
 
 def action_benchmark() -> None:
@@ -152,7 +153,7 @@ def action_benchmark() -> None:
         charge="a" if attaquant_charge else "none",
         include_heroes=inclure_heros, detail=detail,
     )
-    cmd.cmd_unit_benchmark(args)
+    cmd_unit_benchmark(args)
 
 
 ACTIONS = {

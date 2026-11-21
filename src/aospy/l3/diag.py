@@ -2,11 +2,11 @@
 
 Sorties courtes, pensées pour être lues en quelques lignes :
 
-  l3_diag.py                     corrélations du score ligue + composantes (vérifie les biais)
-  l3_diag.py --rank [N]          classement ligue (N premières lignes, défaut 54) avec composantes
-  l3_diag.py --player P [P...]   indices d'un joueur : mobilité, aptitudes par famille, plan, détail
-  l3_diag.py --match A B         décomposition d'un matchup A contre B (combat, scénario, aptitudes, ajustements)
-  l3_diag.py --team Melusior     grille compacte d'une équipe contre tous ses adversaires de la phase aller
+  aospy l3 diag                     corrélations du score ligue + composantes (vérifie les biais)
+  aospy l3 diag --rank [N]          classement ligue (N premières lignes, défaut 54) avec composantes
+  aospy l3 diag --player P [P...]   indices d'un joueur : mobilité, aptitudes par famille, plan, détail
+  aospy l3 diag --match A B         décomposition d'un matchup A contre B (combat, scénario, aptitudes, ajustements)
+  aospy l3 diag --team Melusior     grille compacte d'une équipe contre tous ses adversaires de la phase aller
 
 Toutes les options partagent un seul calcul des 1 431 paires (~quelques secondes).
 """
@@ -16,12 +16,10 @@ from __future__ import annotations
 import argparse
 import statistics as st
 import sys
-from pathlib import Path
 
 import duckdb
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-import l3_matchups as mx  # noqa: E402
+from . import matchups as mx
 
 
 def load():
@@ -117,13 +115,13 @@ def cmd_team(lists, adj, cache, team):
             print(f"  {p:13s}" + " ".join(f"{s:+7d}" for s in sc) + f"  {sum(sc) / len(sc):+5.1f}")
 
 
-def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+def main(argv: list[str] | None = None) -> int:
+    ap = argparse.ArgumentParser(prog="aospy l3 diag", description=__doc__.splitlines()[0])
     ap.add_argument("--rank", nargs="?", const=54, type=int)
     ap.add_argument("--player", nargs="+")
     ap.add_argument("--match", nargs=2, metavar=("A", "B"))
     ap.add_argument("--team", choices=list(mx.SCHEDULE))
-    args = ap.parse_args()
+    args = ap.parse_args(argv)
     lists, adj, cache = load()
     if args.match:
         cmd_match(lists, adj, cache, *args.match)

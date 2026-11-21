@@ -4,20 +4,19 @@ Pour chaque liste : métriques du moteur aospy mesurées contre les 53 autres li
 (score moyen, attrition infligée/subie, profil offensif/défensif, objectifs), puis l'analyse des
 choix et combos internes, rédigée à la main dans `combos/<équipe>.json` (à corriger par l'équipe).
 
-Usage : python scripts/l3_listes.py
+Usage : aospy l3 listes
 """
 
 from __future__ import annotations
 
+import argparse
 import json
 import sys
-from pathlib import Path
 from statistics import mean
 
 import duckdb
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-import l3_matchups as mx  # noqa: E402
+from . import matchups as mx
 
 OUT = mx.FOLDER / "Listes"
 COMBOS = mx.FOLDER / "Données" / "combos"
@@ -111,7 +110,8 @@ def tactics_section(tac: dict | None, cards_fr: dict[str, str]) -> list[str]:
     return out
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    argparse.ArgumentParser(prog="aospy l3 listes", description=__doc__.splitlines()[0]).parse_args(argv)
     con = duckdb.connect(str(mx.DB), read_only=True)
     mx._DIRECT.update(mx.load_direct_abilities())
     lists = mx.build_lists(con)

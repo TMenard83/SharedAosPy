@@ -5,7 +5,7 @@ en direct — sans persister de duel ni régénérer de PDF. Cœur de `app.py`.
 Réplique la méthodologie de `reports/aggregate.py` (attaquant lu au plancher
 pessimiste 66%, défenseur à l'espérance, `DuelRules(double_shoot=True,
 charge_move_threshold=True)` — les défauts effectifs de la CLI
-`aospy unit benchmark-all`, cf. `cli/commands.py::_duel_rules`) et de
+`aospy unit benchmark-all`, cf. `cli/common.py::_duel_rules`) et de
 `reports/best_unites.py::compute_ranked()` (score combiné = z-scores ROI +
 sous-cotation + impact, `cost_common.combined_score`), mais lit le pool de combat
 *live* depuis `unit_benchmark` (`repository.get_ranking_pool`) plutôt que depuis

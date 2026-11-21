@@ -184,7 +184,7 @@ class RosterPdfResult:
     #: modes split : aptitudes de chaque carte de tour (« deploy », « any »,
     #: « mine », « enemy ») et celles restées sur les cartes d'unité
     #: (« warscrolls ») — mêmes entrées que le PDF, pour l'analyse des listes
-    #: (`scripts/l3_export_lists.py`), pas lu par le rendu.
+    #: (`aospy l3 export-lists`), pas lu par le rendu.
     ability_cards: dict = field(default_factory=dict)
 
 

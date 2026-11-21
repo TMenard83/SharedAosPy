@@ -8,11 +8,11 @@ Le score combine (détail dans `method_body`) :
   * le combat (±6) : indice d'attrition du moteur (dégâts attendus unité par unité, toutes
     cibles de l'armée adverse, pondérées par leur coût) ;
   * le jeu de scénario (±7) : contrôle, nombre d'unités et mobilité ;
-  * les aptitudes et le plan de jeu (±7,6) : textes Wahapedia lus par `l3_aptitudes.py`, plus
+  * les aptitudes et le plan de jeu (±7,6) : textes Wahapedia lus par `l3/aptitudes.py`, plus
     une note de plan par liste (`Données/combos/<équipe>.json`, clé `note_plan`) ;
   * des ajustements manuels justifiés par matchup (`Données/ajustements_matchups.json`).
 
-Usage : python scripts/l3_matchups.py [--check]
+Usage : aospy l3 matchups [--check]
 """
 
 from __future__ import annotations
@@ -37,10 +37,9 @@ from aospy.engine.combat import (CombatModifiers, convolve, effective_counts, _n
                                  weapon_damage_distribution)
 from aospy.persistence.repository import load_all_units_with_weapons
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-import l3_aptitudes as apt  # noqa: E402
+from . import aptitudes as apt
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[3]
 FOLDER = ROOT / "data" / "2026-27 L3 Aller"
 PDF = FOLDER / "Sources" / "2027 L3 Centre (aller) - listes.pdf"
 ADJUSTMENTS = FOLDER / "Données" / "ajustements_matchups.json"
@@ -353,7 +352,7 @@ def build_lists(con) -> dict[str, ArmyList]:
     return lists
 
 
-# --- Mobilité et aptitudes (textes Wahapedia, voir l3_aptitudes.py) ------------------------
+# --- Mobilité et aptitudes (textes Wahapedia, voir l3/aptitudes.py) ------------------------
 
 APT_FAMILIES = ("soins", "protection", "buff", "débuff", "objectifs")
 
@@ -1122,7 +1121,7 @@ def _md_link(path: str) -> str:
 
 
 def method_body() -> list[str]:
-    """Description des composantes du score (partagée avec l3_listes.py)."""
+    """Description des composantes du score (partagée avec l3/listes.py)."""
     return [
         f"- **Combat** (jusqu'à ±{COMBAT_MAX}) : moteur aospy, dégâts attendus de chaque unité contre chaque unité "
         "adverse (touche, blessure, sauvegarde/perforation, ward, critiques, Anti-X, bonus de charge), "
@@ -1218,10 +1217,10 @@ def build_reports(team: str, lists: dict[str, ArmyList], adjustments: dict, cach
     return files
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(prog="aospy l3 matchups", description=__doc__.splitlines()[0])
     parser.add_argument("--check", action="store_true", help="affiche seulement le parsing des listes")
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     con = duckdb.connect(str(DB), read_only=True)
     _DIRECT.update(load_direct_abilities())
     lists = build_lists(con)

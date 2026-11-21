@@ -3,18 +3,18 @@
 Entrées (à modifier à la main, puis relancer) :
 - Données/scenarios.json        : les 12 cartes (objectifs, score, aptitudes, ce qui gagne), maps par ronde, calendrier.
 - Données/notes_scenarios.json  : note (++ … −−) et commentaire de chaque liste (nôtres et adverses) par scénario.
-- Matchups/Matchups <équipe>/Ronde N — contre X/00 Grille et profils.md : grilles du moteur (scripts/l3_matchups.py).
+- Matchups/Matchups <équipe>/Ronde N — contre X/00 Grille et profils.md : grilles du moteur (aospy l3 matchups).
 
 Défenseur conseillé (nous comme eux) : un défenseur joue contre le 2e meilleur contre adverse ;
 score = écart prévu contre ce 2e contre + 2 pts de victoire par cran de note scénario.
 
-Usage : python scripts/l3_scenarios.py [--team Melusior|"Vae Victis Vernou"]
+Usage : aospy l3 scenarios [--team Melusior|"Vae Victis Vernou"]
 """
 import argparse
 import json
 from pathlib import Path
 
-BASE = Path(__file__).resolve().parents[1] / "data" / "2026-27 L3 Aller"
+BASE = Path(__file__).resolve().parents[3] / "data" / "2026-27 L3 Aller"
 NUM = {"++": 2, "+": 1, "=": 0, "−": -1, "−−": -2}
 K = 2  # pts de victoire par cran de note scénario
 FILE_NAME = {"Melusior": "Melusior", "Vae Victis Vernou": "Vae Victis"}
@@ -74,7 +74,7 @@ def build(team, S, N):
     ours = N["equipes"][team]["joueurs"]
     T = N["equipes"][team]
     out = [f"# {FILE_NAME[team]} — nos listes face aux scénarios (L3 Centre 2026-27, aller)", "",
-           "*Généré par `scripts/l3_scenarios.py` à partir de `Données/scenarios.json` (cartes), `Données/notes_scenarios.json` (notes par liste, à corriger avec les joueurs) "
+           "*Généré par `aospy l3 scenarios` à partir de `Données/scenarios.json` (cartes), `Données/notes_scenarios.json` (notes par liste, à corriger avec les joueurs) "
            "et des grilles de `Matchups/`. Ne pas modifier ce fichier : corriger les données puis relancer. Chaque ronde se lit seule, quitte à répéter un scénario qui revient.*", "",
            "## À savoir avant de lire", ""]
     out += [f"- {r}" for r in S["rappels"]]
@@ -156,10 +156,10 @@ def build(team, S, N):
     return "\n".join(out)
 
 
-def main():
-    ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+def main(argv: list[str] | None = None) -> int:
+    ap = argparse.ArgumentParser(prog="aospy l3 scenarios", description=__doc__.split("\n")[0])
     ap.add_argument("--team", choices=list(FILE_NAME), help="une seule équipe (défaut : les deux)")
-    a = ap.parse_args()
+    a = ap.parse_args(argv)
     S = json.loads((BASE / "Données" / "scenarios.json").read_text())
     N = json.loads((BASE / "Données" / "notes_scenarios.json").read_text())
     for team in [a.team] if a.team else list(FILE_NAME):

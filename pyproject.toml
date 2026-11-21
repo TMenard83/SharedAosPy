@@ -73,6 +73,7 @@ name = "Couches aospy (ordre visé, cf. docs/refactor-plan.md)"
 type = "layers"
 layers = [
     "aospy.cli",
+    "aospy.l3",
     "aospy.tournament_kit | aospy.bonus_simulator | aospy.reports",
     "aospy.analysis",
     "aospy.abilities",
