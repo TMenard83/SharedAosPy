@@ -39,3 +39,22 @@ def test_mobility_factor_is_neutral_at_median_and_uses_user_weight():
     assert mobility_factor(11.5, 11.5) == pytest.approx(1.0)
     assert mobility_factor(23.0, 11.5) == pytest.approx(2**0.35)
     assert mobility_factor(5.75, 11.5) < 1.0
+
+
+def test_action_reach_takes_the_longest_significant_channel():
+    from aospy.analysis.layers.mobility import CHARGE_IN, action_reach
+
+    move_reach = 5 + RUN_IN  # infanterie à 5"
+    # rien d'autre que le déplacement : canal « score »
+    assert action_reach(move_reach) == (pytest.approx(move_reach), "score")
+    # mêlée significative : déplacement + charge
+    assert action_reach(move_reach, [("melee", 1, 1.0)]) == (pytest.approx(5 + CHARGE_IN), "mêlée")
+    # arme de tir à 24" mais anecdotique (10 % des dégâts) : ignorée
+    r, c = action_reach(move_reach, [("melee", 1, 0.9), ("ranged", 24, 0.1)])
+    assert c == "mêlée"
+    # sorcier à pied, sort à 18" : agit à 23"
+    r, c = action_reach(move_reach, [("melee", 1, 1.0)], [("sort", 18, 0.58)])
+    assert (r, c) == (pytest.approx(23.0), "sort")
+    # canal trop improbable écarté ; aptitude au contact = portée de mêlée
+    assert action_reach(move_reach, [], [("sort", 18, 0.2)])[1] == "score"
+    assert action_reach(move_reach, [], [("ciblage", 1, 1.0)]) == (pytest.approx(5 + CHARGE_IN), "ciblage")

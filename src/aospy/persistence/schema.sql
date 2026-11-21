@@ -267,6 +267,11 @@ ALTER TABLE ability_effect ADD COLUMN IF NOT EXISTS family VARCHAR;
 ALTER TABLE ability_effect ADD COLUMN IF NOT EXISTS friendly_target VARCHAR;
 ALTER TABLE ability ADD COLUMN IF NOT EXISTS family VARCHAR;                     -- famille principale
 ALTER TABLE ability ADD COLUMN IF NOT EXISTS bearer_restriction VARCHAR;         -- optimisations : à qui la donner (« HERO only »…)
+-- Origine de chaque porteur (analyseur v32, abilities/source.py::origin_of) : warscroll / regiment_of_renown /
+-- base / army_of_renown / spearhead / path_to_glory. Spearhead et Path to Glory sont hors jeu égal.
+ALTER TABLE ability_owner ADD COLUMN IF NOT EXISTS origin_kind VARCHAR;
+ALTER TABLE ability_owner ADD COLUMN IF NOT EXISTS origin_name VARCHAR;          -- nom de l'AoR / de l'armée Spearhead
+ALTER TABLE ability_owner ADD COLUMN IF NOT EXISTS category VARCHAR;             -- battle_trait, formation, spell… de CE porteur
 
 -- Couche 2 — châssis (analysis/chassis.py, `aospy chassis build`) : la charte nue, sans aptitudes.
 -- Reconstruite en entier à chaque build (DELETE + INSERT). `*_pct_rank` : rang centile (0-1)
@@ -366,6 +371,11 @@ ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS mobility DOUBLE;
 ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS score_per_100 DOUBLE;
 ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS score_pct_rank DOUBLE;
 ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS score_fit_per_100 DOUBLE;
+-- Portée d'action (analysis/layers/mobility.py::action_reach) : jusqu'où l'unité agit en un tour (pouces) et le
+-- canal qui la donne (score, mêlée, tir, sort, prière, ordre, aura, ciblage). Depuis le 2026-11-21, `mobility`
+-- (facteur du score) lit cette portée ; `reach_in` reste la portée de déplacement (lue par marriage.role_fit).
+ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS action_reach_in DOUBLE;
+ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS action_channel VARCHAR;
 
 -- Couche 3 — mariage châssis × aptitude (analysis/marriage.py, `aospy encounter build`) : chaque aptitude de
 -- charte jugée sur le châssis de chacun de ses porteurs. marriage = D (P(conditions du porteur) × rounds encore

@@ -360,6 +360,64 @@ def unit_mobility_effects(unit: Unit, entries: list, vocab: frozenset[str]) -> l
     ]
 
 
+_ACTION_SCOPES = ("one_enemy", "one_friendly", "friendly_aura", "enemy_aura")
+_CHANNEL_OF_COST = {"Spell": "sort", "Prayer": "prière", "Command": "ordre"}
+
+
+def _channel(cost_type: Optional[str], scope: str) -> str:
+    return _CHANNEL_OF_COST.get(cost_type or "", "aura" if scope.endswith("aura") else "ciblage")
+
+
+def action_abilities(con) -> tuple[dict[tuple[str, str], list[tuple]], dict[tuple[str, str], tuple]]:
+    """Portées d'action des aptitudes non anecdotiques (`mobility.action_reach`).
+
+    Renvoie (par (faction, charte en minuscules) : [(canal, portée, probabilité)], par (faction, « sort » ou
+    « prière ») : (portée médiane, probabilité médiane) des domaines de la faction, pour ses sorciers et
+    prêtres — un lanceur a toujours un domaine à la composition)."""
+    scopes = ", ".join(f"'{s}'" for s in _ACTION_SCOPES)
+    rows = con.execute(
+        f"""SELECT o.faction_name, lower(o.owner_name), a.cost_type, a.scope, a.range_inches,
+                   coalesce(a.activation_prob, 1.0)
+            FROM ability_owner o JOIN ability a ON a.uid = o.ability_uid
+            WHERE o.owner_kind = 'warscroll' AND a.source_kind = 'warscroll'
+              AND a.range_inches > 0 AND a.scope IN ({scopes}) AND a.verdict <> 'anecdotique'"""
+    ).fetchall()
+    own: dict[tuple[str, str], list[tuple]] = {}
+    for fac, owner, cost, scope, rng, prob in rows:
+        own.setdefault((fac, owner), []).append((_channel(cost, scope), float(rng), prob))
+    lore_rows = con.execute(
+        """SELECT o.faction_name, a.cost_type, median(a.range_inches), median(coalesce(a.activation_prob, 1.0))
+           FROM ability_owner o JOIN ability a ON a.uid = o.ability_uid
+           WHERE o.owner_kind = 'faction_rule' AND a.source_kind IN ('spell', 'prayer', 'manifestation')
+             AND a.cost_type IN ('Spell', 'Prayer') AND a.range_inches > 0 AND a.verdict <> 'anecdotique'
+             AND coalesce(o.origin_kind, 'base') = 'base'   -- pas les domaines d'armée de renom, Spearhead…
+           GROUP BY 1, 2"""
+    ).fetchall()
+    lores = {(fac, _CHANNEL_OF_COST[cost]): (float(rng), float(prob)) for fac, cost, rng, prob in lore_rows}
+    return own, lores
+
+
+def unit_action_abilities(unit: Unit, faction: str, own: dict, lores: dict) -> list[tuple]:
+    """Canaux d'aptitudes d'une unité : sa charte, plus le domaine de sa faction si elle est sorcier/prêtre."""
+    out = list(own.get((faction, unit.name.lower()), []))
+    for keyword, chan in (("WIZARD", "sort"), ("PRIEST", "prière")):
+        if keyword in unit.keywords and (faction, chan) in lores:
+            rng, prob = lores[(faction, chan)]
+            out.append((chan, rng, prob))
+    return out
+
+
+def weapon_channels(unit: Unit) -> list[tuple[str, float, float]]:
+    """(type, portée, part des dégâts de l'unité) par profil d'arme (sonde save 4+, porteurs répartis)."""
+    from .chassis import weapon_damages
+
+    dmg = weapon_damages(unit)
+    total = sum(dmg)
+    if total <= 0:
+        return []
+    return [(w.kind, float(w.range_in or 0), d / total) for w, d in zip(unit.weapons, dmg)]
+
+
 def combined(off_per_100: float, def_per_100: float) -> float:
     """Indicateur combiné (validé par l'utilisateur, 2026-11-19) : moyenne géométrique des dégâts et de
     la durabilité pour 100 pts — logique de Lanchester, ce qu'une unité inflige sur sa durée de vie
@@ -379,17 +437,21 @@ def build_realized_rows(con) -> list[tuple]:
     effects = own_effects(con)
     share_melee = dict(con.execute("SELECT unit_id, coalesce(share_melee, 1.0) FROM unit_chassis").fetchall())
 
-    from .mobility import median_reach, mobility_factor, reach
+    from .mobility import action_reach, median_reach, mobility_factor, reach
 
     moves = mobility_effects(con)
+    own_actions, lores = action_abilities(con)
     results = []
     reaches = []
+    actions: list[tuple[float, str]] = []
     for fac, u in units:
         effs = applicable(u, effects.get((fac, u.name.lower()), []), vocab)
         results.append((u, realize(u, effs, share_melee.get(u.id, 1.0)), sorted({e.ability for e in effs})))
         reaches.append(reach(u, unit_mobility_effects(u, moves.get((fac, u.name.lower()), []), vocab)))
-    med = median_reach(reaches) if reaches else 0.0
-    mob = [mobility_factor(x, med) for x in reaches]
+        actions.append(action_reach(reaches[-1], weapon_channels(u), unit_action_abilities(u, fac, own_actions, lores)))
+    # Le facteur du score lit la **portée d'action** (`reach_in` reste la portée de déplacement, lue par le mariage).
+    med = median_reach([a for a, _c in actions]) if actions else 0.0
+    mob = [mobility_factor(a, med) for a, _c in actions]
 
     rows: list[tuple] = []
     ranks: dict[int, tuple[float, float, float, float, float]] = {}
@@ -444,6 +506,8 @@ def build_realized_rows(con) -> list[tuple]:
                 round(combined(r.off_realized * per, r.def_realized * per) * mob[i], 3),
                 ranks[i][4],
                 round(combined(r.off_fit * per, r.def_fit * per) * mob[i], 3),
+                round(actions[i][0], 2),
+                actions[i][1],
             )
         )
     return rows

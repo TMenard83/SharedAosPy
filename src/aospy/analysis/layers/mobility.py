@@ -68,6 +68,50 @@ def reach(unit: Unit, effects: Iterable[tuple[str, str, float, float, str]] = ()
     return unit.move + RUN_IN + (FLY_IN if fly else 0.0) + sum(best.values())
 
 
+#: --- Portée d'action (utilisateur, 2026-11-21) -------------------------------------------------------------
+#: Plutôt que la seule mobilité, le classement lit **jusqu'où l'unité agit** en un tour : la plus grande portée
+#: parmi ses canaux significatifs (variante A ; variante B — chaque canal pondéré par ce qu'il apporte — si A ne
+#: convient pas). Canal = déplacement du tour + portée propre : score (course), mêlée (charge), tir (arme),
+#: sort / prière / ordre / aura (portée de l'aptitude). La fiabilité reste dans la grille des aptitudes ; seul un
+#: canal trop improbable (< `MIN_CHANNEL_PROB`) est écarté.
+#: Charge réussie à ≥ 50 % sur 2D6.
+CHARGE_IN = 7.0
+#: Part minimale des dégâts de l'unité pour qu'un canal d'armes (mêlée, ou une arme de tir) compte.
+SIGNIFICANT_DAMAGE_SHARE = 0.2
+MIN_CHANNEL_PROB = 1 / 3
+#: Une aptitude à portée ≤ 3" agit au contact : même portée que la mêlée.
+CONTACT_IN = 3.0
+
+
+def action_reach(
+    move_reach: float,
+    weapons: Iterable[tuple[str, float, float]] = (),
+    abilities: Iterable[tuple[str, float, float]] = (),
+) -> tuple[float, str]:
+    """Portée d'action (pouces) et canal qui la donne.
+
+    `move_reach` : `reach()` (mouvement + course + vol + aptitudes de mouvement).
+    `weapons` : (« melee » / « ranged », portée, part des dégâts de l'unité) par profil d'arme.
+    `abilities` : (canal — sort / prière / ordre / aura / ciblage, portée, probabilité) des aptitudes non
+    anecdotiques à portée (charte, et domaine de faction pour un sorcier ou un prêtre)."""
+    move = move_reach - RUN_IN  # le déplacement avant d'agir n'inclut pas la course (sauf aptitude dédiée)
+    best, channel = move_reach, "score"
+    melee_share = sum(s for k, _r, s in weapons if k != "ranged")
+    candidates = []
+    if melee_share >= SIGNIFICANT_DAMAGE_SHARE:
+        candidates.append((move + CHARGE_IN, "mêlée"))
+    for kind, rng, share in weapons:
+        if kind == "ranged" and share >= SIGNIFICANT_DAMAGE_SHARE and rng > 0:
+            candidates.append((move + rng, "tir"))
+    for chan, rng, prob in abilities:
+        if prob >= MIN_CHANNEL_PROB and rng > 0:
+            candidates.append((move + (CHARGE_IN if rng <= CONTACT_IN else rng), chan))
+    for r, c in candidates:
+        if r > best:
+            best, channel = r, c
+    return best, channel
+
+
 def median_reach(reaches: Iterable[float]) -> float:
     return statistics.median(list(reaches))
 
