@@ -642,6 +642,11 @@ QUALITATIVE_RULES: list[tuple[str, str, str]] = [
     (r"draw 1 additional battle tactic|(?:top|bottom) of your battle tactic deck|return the card to your hand|"
      r"reveal 1 battle tactic card|place it face-down separately", "tactic_cards", ""),
     (r"coherency range of \d+\"", "coherency", ""),
+    # v30 : règles de fonctionnement sans effet propre (comme le choix de profil, validé à 0 par l'utilisateur) :
+    # manifestation en plusieurs parties, jetons, héros qui monte sur / descend d'un décor de faction
+    (r"MANIFESTATION is destroyed and (?:all|both) (?:of )?its parts are removed|"
+     r"(?:'s|') [A-Z][\w' -]+ (?:is a token|are tokens|are [A-Z][\w -]+ tokens)|"
+     r"[Pp]lace the target on this terrain feature|That unit is no longer (?:a|an|the) [A-Z]", "warscroll_rule", ""),
     (r"[Aa]dd \d+\" to the Range characteristic", "range_bonus", ""),          # validé : +6" = 1,0
     # v28 : relais de sort (« Measure the range and visibility of the next SPELL ability … from the target »)
     (r"[Mm]easure (?:the )?range and visibility (?:of (?:that|the next|the) [^.]*?SPELL|from (?:this|the target|either))",
@@ -705,7 +710,8 @@ QUALITATIVE_RULES: list[tuple[str, str, str]] = [
      r"[Ss]et up a (?:single )?replacement [^.]*?more than \d+\" from (?:all )?enemy|"
      r"[Ss]et up (?:a|an|the|The) [A-Z][^.]*?within \d+\" of (?:and visible to )?the (?:caster|chanter)|"
      r"set it up wholly within \d+\" of the caster|"
-     r"[Ss]et up the (?:first part of the [A-Z]|MANIFESTATION you picked)",   # v28 : manifestations
+     r"[Ss]et up the (?:first part of the [A-Z]|MANIFESTATION you picked)|"   # v28 : manifestations
+     r"pick 1 of the (?:friendly )?MANIFESTATIONS (?:below|from the list below) that is not on the battlefield",
      "summon", ""),
     (r"control score|contest objectives|\bcontrol (?:that|the) objective|gain control|"
      r"[Yy]ou control the (?:target )?objective|cannot control the target objective", "control", ""),
@@ -875,6 +881,10 @@ def effects_of(declare: str, effect: str, scope: Scope, passive: bool = False, c
         add(Effect("mortal_damage", "", mean or 0.0, expr if "D" in expr else "",
                    "friendly" if target_us else "enemy",
                    "auto-infligé" if target_us else ("variable" if mean is None else "")), effect, m.start())
+    for m in re.finditer(r"[Aa]llocate (\d+|D\d) damage points? to (?:this unit|this MANIFESTATION|it)\b", effect):
+        # v30 : dégâts que l'unité s'inflige (surchauffe, contrecoup) : contrepartie, poids nul
+        add(Effect("mortal_damage", "", dice_mean(m.group(1)) or 0.0, m.group(1) if "D" in m.group(1) else "",
+                   "friendly", "auto-infligé"), effect, m.start())
     for m in re.finditer(r"[Aa]llocate (\d+|D\d(?:\+\d)?|a number of) damage points? to (?:the target|each target|"
                          r"that enemy unit|each enemy unit|the enemy unit)\b", effect):
         expr = m.group(1)
@@ -926,6 +936,8 @@ def effects_of(declare: str, effect: str, scope: Scope, passive: bool = False, c
             if kind == "stat_set" and re.search(r"\b(?:[Ii]f|[Ww]hile|whose|[Uu]nless)\b[^.,:]*$",
                                                  full[max(0, m.start() - 60):m.start()]):
                 continue   # « If the target's Save characteristic is 3+ » : condition, pas un effet (v27)
+            if kind == "warscroll_rule" and not passive and re.search(r"token", m.group(0)):
+                continue   # v30 : jeton posé par une aptitude active (Bomb Rats…) : l'effet est ailleurs, à lire
             if kind == "fly" and "FLY" not in m.group(0) \
                     and any(e.kind in ("move", "extra_move", "redeploy", "deep_strike") for e in out):
                 continue   # « It can move through the combat ranges » : modalité du mouvement, pas un effet en plus
@@ -944,7 +956,8 @@ def effects_of(declare: str, effect: str, scope: Scope, passive: bool = False, c
                         "summon", "anti_magic", "control", "pile_in", "damage_redirect", "anti", "extra_move",
                         "deep_strike", "stat_set", "negate_attack", "keyword_gain", "damage_ignore",
                         "resource", "extra_use", "battle_damaged", "free_retreat", "fixed_roll", "rally",
-                        "range_bonus", "ignore_debuff", "snipe", "profile_choice", "tactic_cards", "coherency"):
+                        "range_bonus", "ignore_debuff", "snipe", "profile_choice", "tactic_cards", "coherency",
+                        "warscroll_rule"):
                 side = "friendly"
             if kind not in _WEAPON_KINDS and any(e.kind == kind and e.stat == stat and e.side == side for e in out):
                 break  # v28 : deux règles du même effet (ressource…) ne le doublent pas
@@ -1049,6 +1062,9 @@ def effect_friendly_target(sentence: str, text: str) -> str:
 
 def extract(raw: RawAbility) -> tuple[Extraction, float]:
     """Extraction complète + pénalité de mise en place cumulée (utilisée par scoring)."""
+    if not raw.effect.strip() and raw.declare.strip():
+        # v30 : tout le texte rangé sous « Declare » (OVERDRIVE SWITCH) : c'est l'effet
+        raw = dataclasses.replace(raw, declare="", effect=raw.declare)
     main, secondary = split_main_secondary(raw.effect)
     scope, rng, wholly = scope_of(raw.declare, raw.effect)
     enemy_target = scope in ("one_enemy", "enemy_aura", "all_enemies")

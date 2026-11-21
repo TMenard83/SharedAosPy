@@ -74,6 +74,9 @@ EFFECT_WEIGHTS: dict[str, float] = {
     # v29, validés par l'utilisateur (2026-11-21) : choix de profil d'arme = règle de profil (0), cartes de tactique
     # 1,5 (plus haut que ma proposition 1,0 : le scoring décide la partie), cohésion 2" 0,25 (plus bas que 0,5)
     "profile_choice": 0.0, "tactic_cards": 1.5, "coherency": 0.25,
+    # v30 : règle de fonctionnement (parties de manifestation, jetons, montée sur un décor) — même principe que le
+    # choix de profil (validé à 0) : pas une aptitude
+    "warscroll_rule": 0.0,
 }
 
 #: Dé en plus / en moins sur un jet (analyseur v28, validé par l'utilisateur 2026-11-20). « garder » (3 dés, on en retire 1) ≈ une relance du jet

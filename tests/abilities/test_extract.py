@@ -956,3 +956,29 @@ def test_v29_dice_match_and_battle_round():
     assert (e.stat, e.value) == ("move", 3.0)
     assert "untargetable" not in _kinds28("Units in this Regiment of Renown cannot be picked to be the target of "
                                           "RAMPAGE abilities used by enemy units.")
+
+
+# --- analyseur v30 (dernier passage « a-revoir », toutes factions) ---
+
+def test_v30_rules_self_damage_summon_and_declare_only():
+    assert "warscroll_rule" in _kinds28("When a number of damage points equal to this MANIFESTATION's Health "
+                                        "characteristic are allocated to it, this MANIFESTATION is destroyed and both "
+                                        "its parts are removed from play.")
+    assert "warscroll_rule" in _kinds28("This unit's Klutcha-grot is a token. If it is removed from the battlefield, "
+                                        "this unit cannot use the 'A Tough Grot to Swallow' ability.")
+    # jeton posé par une aptitude active : pas une simple règle de fonctionnement
+    assert "warscroll_rule" not in _kinds28("Place this unit's Bomb Rat next to the target.",
+                                            declare="This unit's Bomb Rats are tokens.",
+                                            condition="Once Per Turn (Army), Any Combat Phase")
+    (e,) = _kinds28("For each 5+, allocate 1 damage point to this unit (ward rolls cannot be made for those damage "
+                    "points).")["mortal_damage"]
+    assert e.side == "friendly" and e.detail == "auto-infligé"
+    assert "summon" in _kinds28("If there is already a friendly MANIFESTATION from the list above on the "
+                                "battlefield, it is immediately banished. Then,",
+                                declare="Pick a friendly WIZARD to cast this spell, pick 1 of the friendly "
+                                        "MANIFESTATIONS below that is not on the battlefield, then make a casting "
+                                        "roll of 2D6.")
+    # tout le texte sous « Declare » : lu comme l'effet
+    ex, _ = extract(_raw("", declare="For the rest of the phase:\n- Add 1 to hit rolls for this unit's attacks.",
+                         condition="Once Per Turn (Army), Reaction: You declared an Attack ability for this unit"))
+    assert any(e.kind == "stat_mod" and e.stat == "hit" and e.value == 1 for e in ex.effects)

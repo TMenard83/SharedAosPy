@@ -519,6 +519,24 @@
    "add_tags": [],
    "remove_tags": [],
    "note": "PV doublés pour le seul 'Power Through' ; revue a-revoir v29, cas isolé jugé sur le texte (2026-11-21)"
+  },
+  "b98e20801529": {
+   "name": "Wild Form",
+   "verdict": "correct",
+   "power": 1.0,
+   "add_tags": [
+    "buff-defensif"
+   ],
+   "note": "la manifestation n'est jamais bannie : 6 dégâts sans protection à la place ; revue a-revoir v30, cas isolé jugé sur le texte (2026-11-21)"
+  },
+  "86645b953e41": {
+   "name": "Wild Form",
+   "verdict": "correct",
+   "power": 1.0,
+   "add_tags": [
+    "buff-defensif"
+   ],
+   "note": "la manifestation n'est jamais bannie : 6 dégâts sans protection à la place ; revue a-revoir v30, cas isolé jugé sur le texte (2026-11-21)"
   }
  }
 }
