@@ -83,3 +83,41 @@ def test_magic_budget_counts_casters_and_spells():
     spell = _ab("Push", scope="one_friendly", freq="unlimited", cost_type="Spell", cost_value=6.0, activation_prob=0.72)
     mb = magic_budget([spell], [mage, big, _unit("S")])
     assert mb.casts_per_turn == 3 and mb.spells[0][0] == "Push"
+
+
+def test_ranged_buff_is_unprofitable_when_nobody_shoots():
+    """Exemple de l'utilisateur : bannière « +1 touche au tir » en bulle, nulle si personne ne tire."""
+    from aospy.analysis.layers.listing import unprofitable_buffs
+
+    banner = _ab(
+        "Banner",
+        scope="friendly_aura",
+        carriers=("Spirit",),
+        effects=[EffectSpec("stat_mod", "hit", 1.0, weapon_scope="ranged")],
+    )
+    melee_only = [_unit("Spirit"), _unit("Sevireth")]
+    got = unprofitable_buffs([banner], melee_only, frozenset({"MONSTER"}))
+    assert [(a.name, r) for a, r in got] == [("Banner", "aucune unité de la liste ne tire")]
+    bow = Weapon("Bow", "ranged", attacks=4, hit=4, wound=4, rend=1, damage=1, range_in=18)
+    archer = _unit("Archer", weapons=[bow])
+    assert unprofitable_buffs([banner], [*melee_only, archer], frozenset({"MONSTER"})) == []
+
+
+def test_army_of_renown_categories_replace_base_ones():
+    from types import SimpleNamespace
+
+    from aospy.analysis.layers.listing import _rule_groups
+
+    parsed = SimpleNamespace(
+        allegiance="Thunderhead Host",
+        spell_lore="Lore of the Storm",
+        prayer_lore="Prayers of the Stormhosts",
+        manifestation_lore=None,
+    )
+    base = dict(_rule_groups(parsed))
+    assert "Battle Traits › *" in base and "Spell Lore › Lore of the Storm" in base
+    aor = dict(_rule_groups(parsed, ("Ruination Brotherhood", frozenset({"Battle Traits", "Prayer Lore"}))))
+    assert "Battle Traits › *" not in aor and "Ruination Brotherhood › Battle Traits" in aor
+    assert "Ruination Brotherhood › Prayer Lore" in aor and "Prayer Lore › Prayers of the Stormhosts" not in aor
+    assert "Spell Lore › Lore of the Storm" in aor  # catégorie que l'AoR ne porte pas : celle de base
+    assert "Battle Formations › Thunderhead Host" in aor

@@ -65,6 +65,13 @@ class AbilityOwner:
     owner_name: str  # nom de warscroll, ou « type › sous-type » de la règle
     warscroll_id: Optional[str] = None
     role: str = ""  # rôle Wahapedia de la warscroll (Infantry, Manifestation…)
+    #: Origine (`abilities.source.origin_of`) : warscroll / regiment_of_renown / base / army_of_renown /
+    #: spearhead / path_to_glory. Spearhead et Path to Glory sont hors jeu égal (couches 3-4 les écartent).
+    origin_kind: str = ""
+    origin_name: str = ""  # nom de l'Armée de Renom / de l'armée Spearhead, '' sinon
+    #: catégorie de CE porteur (battle_trait, formation, spell…) : `RawAbility.source_kind` ne garde que
+    #: celle du premier porteur.
+    category: str = ""
 
 
 @dataclass(frozen=True)

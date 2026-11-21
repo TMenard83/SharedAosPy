@@ -53,7 +53,17 @@ ABILITY_COLS = (
     "family",
     "bearer_restriction",
 )
-ABILITY_OWNER_COLS = ("ability_uid", "faction_id", "faction_name", "owner_kind", "owner_name", "warscroll_id")
+ABILITY_OWNER_COLS = (
+    "ability_uid",
+    "faction_id",
+    "faction_name",
+    "owner_kind",
+    "owner_name",
+    "warscroll_id",
+    "origin_kind",
+    "origin_name",
+    "category",
+)
 ABILITY_TAG_COLS = ("ability_uid", "tag")
 ABILITY_EFFECT_COLS = (
     "ability_uid",

@@ -35,3 +35,16 @@ def test_round_trip_search_and_unit_view(tmp_path):
     repository.replace_ability_analyses(con, *to_rows([analyze_one(raw)]))
     assert con.execute("SELECT count(*) FROM ability").fetchone()[0] == 1
     con.close()
+
+
+def test_origin_of_wahapedia_types():
+    from aospy.abilities.source import origin_of
+
+    assert origin_of("Battle Traits", frozenset({"Battle Traits"})) == "base"
+    assert origin_of("Scars of War", frozenset({"Scars of War"})) == "base"
+    assert origin_of("PATH TO GLORY", frozenset({"BATTLE MOUNTS"})) == "path_to_glory"
+    spearhead = frozenset({"Battle Traits", "Enhancements", "Regiment Abilities"})
+    assert origin_of("Vigilant Brotherhood", spearhead) == "spearhead"
+    aor = frozenset({"Artefacts of Power", "Battle Traits", "Heroic Traits", "Prayer Lore"})
+    assert origin_of("Ruination Brotherhood", aor) == "army_of_renown"
+    assert origin_of("The Swords of Chaos", frozenset({"Battle Traits", "First Circle Titles"})) == "army_of_renown"

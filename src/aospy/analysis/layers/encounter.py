@@ -504,11 +504,14 @@ def build_encounter_rows(con) -> tuple[list[tuple], dict[str, int]]:
            FROM ability_effect e JOIN ability a ON a.uid = e.ability_uid
            WHERE e.side = 'friendly'"""
     ).fetchall()
+    # Spearhead / Path to Glory : hors jeu égal, écartés (analyseur v32, `abilities.source.origin_of`).
     owners: dict[str, list[tuple]] = {}
-    for uid, kind, name, faction in con.execute(
-        "SELECT ability_uid, owner_kind, owner_name, faction_name FROM ability_owner"
+    for uid, kind, name, faction, origin, category in con.execute(
+        """SELECT ability_uid, owner_kind, owner_name, faction_name, coalesce(origin_kind, ''), category
+           FROM ability_owner
+           WHERE coalesce(origin_kind, '') NOT IN ('spearhead', 'path_to_glory')"""
     ).fetchall():
-        owners.setdefault(uid, []).append((kind, name, faction))
+        owners.setdefault(uid, []).append((kind, name, faction, origin, category))
 
     stats = {"effets": 0, "traduits": 0, "rencontres": 0, "sans_arme": 0}
     rows: list[tuple] = []
@@ -551,10 +554,19 @@ def build_encounter_rows(con) -> tuple[list[tuple], dict[str, int]]:
         if not is_translatable(eff):
             continue
         stats["traduits"] += 1
-        for owner_kind, owner_name, faction in owners.get(uid, []):
-            source = owner_name if owner_kind == "warscroll" else f"{source_kind}: {owner_name}"
+        # une rencontre (aptitude, effet, receveur) garde le premier porteur : la règle de base avant l'AoR
+        for owner_kind, owner_name, faction, origin, category in sorted(
+            owners.get(uid, []), key=lambda o: o[3] == "army_of_renown"
+        ):
+            kind_of_owner = category or source_kind
+            if owner_kind == "warscroll":
+                source = owner_name
+            elif origin == "army_of_renown":
+                source = f"{kind_of_owner} (armée de renom): {owner_name}"
+            else:
+                source = f"{kind_of_owner}: {owner_name}"
             for unit, rel in receivers(
-                source_kind,
+                kind_of_owner if owner_kind == "faction_rule" else source_kind,
                 scope,
                 owner_kind,
                 owner_name,

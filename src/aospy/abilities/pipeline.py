@@ -17,7 +17,7 @@ from .tags import tags_for
 
 #: Incrémenter à chaque changement des règles d'extraction/notation : stocké en
 #: base (`ability.analyzer_version`) pour savoir quelle version a produit une ligne.
-ANALYZER_VERSION = 31
+ANALYZER_VERSION = 32
 
 
 #: Gain réaliste (validé par l'utilisateur) d'une ressource de faction qui s'accumule
@@ -219,7 +219,19 @@ def to_rows(
             key = (o.faction_id, o.owner_kind, o.owner_name)
             if key not in seen:
                 seen.add(key)
-                owners.append((r.uid, o.faction_id, o.faction_name, o.owner_kind, o.owner_name, o.warscroll_id))
+                owners.append(
+                    (
+                        r.uid,
+                        o.faction_id,
+                        o.faction_name,
+                        o.owner_kind,
+                        o.owner_name,
+                        o.warscroll_id,
+                        o.origin_kind or None,
+                        o.origin_name or None,
+                        o.category or None,
+                    )
+                )
         tags.extend((r.uid, t) for t in a.tags)
         effects.extend(
             (

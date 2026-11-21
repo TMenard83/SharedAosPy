@@ -23,7 +23,14 @@ from ..importers.corrections import (
     correct_ability_fields,
     load_corrections,
 )
-from ..sources.wahapedia_csv import DEFAULT_DATA_DIR, canonical_ids, is_expired_variant, legends_warscroll_ids, read_csv
+from ..sources.wahapedia_csv import (
+    DEFAULT_DATA_DIR,
+    ROR_ROLE,
+    canonical_ids,
+    is_expired_variant,
+    legends_warscroll_ids,
+    read_csv,
+)
 from .models import AbilityOwner, RawAbility, SourceKind
 from .text import clean, fix_typos, split_declare_effect
 
@@ -39,6 +46,36 @@ _RULE_KINDS: dict[str, SourceKind] = {
     "Manifestation Lore": "manifestation",
     "Monstrous Traits": "monstrous_trait",
 }
+
+
+#: Catégories de règles de faction de base (`type_name` Wahapedia).
+_CORE_TYPES = frozenset(t for t in _RULE_KINDS if t != "Regiment Abilities")
+
+#: Origines hors jeu égal : armées Spearhead (format à part) et règles de campagne Path to Glory.
+NON_MATCHED_ORIGINS = frozenset({"spearhead", "path_to_glory"})
+
+
+def origin_of(type_name: str, subtypes: frozenset[str]) -> str:
+    """Origine d'un `type_name` de `Faction_abilities.csv`, d'après les sous-types qu'il regroupe.
+
+    Wahapedia range les règles de base sous leur catégorie (« Battle Traits », « Spell Lore »…), mais une
+    Armée de Renom ou une armée Spearhead sous SON nom, la catégorie passant en sous-type :
+    - « PATH TO GLORY » → `path_to_glory` ;
+    - un type qui regroupe des « Regiment Abilities » → `spearhead` (constaté sur toutes les boîtes Spearhead :
+      Battle Traits + Regiment Abilities + Enhancements — Vigilant Brotherhood, Fusil-Platoon…) ;
+    - un type qui regroupe une catégorie de base (Battle Traits, Heroic Traits, Spell Lore…) → `army_of_renown`
+      (y compris les AoR à catégories propres, « First Circle Titles », « Little Toes ») ;
+    - sinon → `base` : catégorie de base, ou table d'optimisations propre à la faction dont le seul sous-type
+      porte le nom du type (Scars of War, Brazen Mutations, Big Names…)."""
+    if type_name in _CORE_TYPES:
+        return "base"
+    if type_name.strip().upper() == "PATH TO GLORY":
+        return "path_to_glory"
+    if "Regiment Abilities" in subtypes:
+        return "spearhead"
+    if subtypes & _CORE_TYPES:
+        return "army_of_renown"
+    return "base"
 
 
 def _uid(name: str, condition: str, declare: str, effect: str) -> str:
@@ -135,19 +172,44 @@ def load_raw_abilities(
         if w is None:
             continue
         fid = w.get("faction_id") or ""
+        role = (w.get("role") or "").strip()
         owner = AbilityOwner(
-            fid, factions.get(fid, fid), "warscroll", w["name"], w["id"], (w.get("role") or "").strip()
+            fid,
+            factions.get(fid, fid),
+            "warscroll",
+            w["name"],
+            w["id"],
+            role,
+            origin_kind="regiment_of_renown" if role == ROR_ROLE else "warscroll",
+            origin_name=w["name"] if role == ROR_ROLE else "",
+            category="warscroll",
         )
         add(_base_fields(row), "warscroll", "", owner)
 
-    for row in read_csv(data_dir / "Faction_abilities.csv"):
+    faction_rows = read_csv(data_dir / "Faction_abilities.csv")
+    subtypes_of: dict[tuple[str, str], set[str]] = {}
+    for row in faction_rows:
+        key = (row.get("faction_id") or "", (row.get("type_name") or "").strip())
+        subtypes_of.setdefault(key, set()).add((row.get("subtype_name") or "").strip())
+
+    for row in faction_rows:
         fid = row.get("faction_id") or ""
         type_name = (row.get("type_name") or "").strip()
         subtype = (row.get("subtype_name") or "").strip()
         if is_expired_variant(type_name) or is_expired_variant(subtype):
             continue
         group = f"{type_name} › {subtype}" if subtype and subtype != "_1" else type_name
-        owner = AbilityOwner(fid, factions.get(fid, fid), "faction_rule", group)
+        origin = origin_of(type_name, frozenset(subtypes_of.get((fid, type_name), ())))
+        kind = _rule_kind(type_name, subtype)
+        owner = AbilityOwner(
+            fid,
+            factions.get(fid, fid),
+            "faction_rule",
+            group,
+            origin_kind=origin,
+            origin_name=type_name if origin in ("army_of_renown", "spearhead") else "",
+            category=kind,
+        )
         fields = _base_fields(row)
         # le groupe (sous-type) est plus précis que le type : « HERO only » vs « Brazen Mutations are … »
         fields["bearer_restriction"] = (
@@ -155,7 +217,7 @@ def load_raw_abilities(
             or restrictions.get(("type", row.get("type_id") or ""))
             or ""
         )
-        add(fields, _rule_kind(type_name, subtype), subtype or type_name, owner)
+        add(fields, kind, subtype or type_name, owner)
 
     # fautes de l'export corrigées après l'uid (v28) : l'uid, clé des overrides, ne bouge pas
     out = [

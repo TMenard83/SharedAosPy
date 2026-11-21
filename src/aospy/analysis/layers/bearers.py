@@ -189,7 +189,8 @@ def build_bearer_rows(con) -> list[tuple]:
         f"""SELECT DISTINCT a.uid, a.name, a.source_kind, o.faction_name, a.bearer_restriction, a.family, a.scope,
                    a.range_inches, a.frequency, a.turn_side, a.activation_prob, a.available_round
             FROM ability a JOIN ability_owner o ON o.ability_uid = a.uid
-            WHERE a.source_kind IN ({",".join("'" + k + "'" for k in ENHANCEMENT_SOURCES)})"""
+            WHERE a.source_kind IN ({",".join("'" + k + "'" for k in ENHANCEMENT_SOURCES)})
+              AND coalesce(o.origin_kind, '') NOT IN ('spearhead', 'path_to_glory')"""
     ).fetchall()
     rows: list[tuple] = []
     for uid, name, kind, fac, restr, family, scope, rng, freq, tside, prob, avail in abil:

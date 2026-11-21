@@ -196,6 +196,15 @@ class ParsedList:
                 return right
         return left
 
+    @property
+    def army_of_renown(self) -> str | None:
+        """Armée de Renom de la liste (« Lords of the Clan » pour « Sylvaneth | Lords of the Clan »), None
+        sinon — y compris pour un tome multi-factions, dont le segment après le « | » est la faction."""
+        left, sep, right = self.faction.partition("|")
+        if not sep or left.strip() in _COMBINED_BOOK_NAMES:
+            return None
+        return right.strip() or None
+
     def unique_unit_names(self) -> list[str]:
         """Noms d'unité uniques (dédoublonne p. ex. les entrées Reinforced
         répétées), dans l'ordre d'apparition. Inclut le Faction Terrain et les

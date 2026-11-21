@@ -253,6 +253,50 @@ def dead_rules(abilities: list[ListAbility], units: list[Unit], vocab: frozenset
     return out
 
 
+_SCOPE_NOBODY = {
+    "ranged": "aucune unité de la liste ne tire",
+    "melee": "aucune unité de la liste ne combat au corps à corps",
+}
+
+
+def unprofitable_buffs(
+    abilities: list[ListAbility], units: list[Unit], vocab: frozenset[str], dead: frozenset[str] = frozenset()
+) -> list[tuple[ListAbility, str]]:
+    """Buffs donnés dont personne dans la liste ne profite (couche 4, exemple de l'utilisateur : un porte-bannière
+    « +3 touche au tir » en bulle de 12" excellent sur son châssis, nul si aucune unité de la liste ne tire).
+
+    Une aptitude qui vise des alliés (`one_friendly` / `friendly_aura` / `army`) dont TOUS les effets traduisibles
+    ne rapportent rien (gain d'attaque et de défense nuls, ou aucun profil concerné) sur TOUS ses receveurs de la
+    liste, porteur compris. Les effets non traduits ne sont pas jugés : l'aptitude n'est retenue que si elle n'en
+    a aucun ; ni ceux dont le gain dépend de l'adversaire (Anti-X, cible « vs HERO » : mesurés contre une cible
+    standard sans mot-clé, ils vaudraient 0 à tort). Les aptitudes déjà mortes (`dead`) sont ignorées."""
+    out: list[tuple[ListAbility, str]] = []
+    for ab in abilities:
+        if ab.uid in dead or ab.scope not in ("one_friendly", "friendly_aura", "army"):
+            continue
+        effs = ab.translatable
+        if not effs or len(effs) < len(ab.effects):
+            continue
+        if any(e.kind == "anti" or e.target_keywords or e.target_condition for e in effs):
+            continue  # gain selon l'adversaire (Anti-X, « vs HERO ») : matchups, pas composition de liste
+        profit = False
+        receivers_seen = False
+        for eff in effs:
+            for unit, _rel in list_receivers(effect_ability(ab, eff.friendly_target), units, vocab):
+                receivers_seen = True
+                enc = encounter(unit, eff)
+                if enc is not None and ((enc.off_gain_pct or 0) > 0 or (enc.def_gain_pct or 0) > 0):
+                    profit = True
+                    break
+            if profit:
+                break
+        if receivers_seen and not profit:
+            scopes = {e.weapon_scope for e in effs}
+            reason = _SCOPE_NOBODY.get(scopes.pop(), "") if len(scopes) == 1 else ""
+            out.append((ab, reason or "aucun receveur de la liste n'en profite"))
+    return out
+
+
 def conflicts(abilities: list[ListAbility], unit_counts: dict[str, int]) -> list[Conflict]:
     """Aptitudes limitées à l'armée portées par plusieurs exemplaires d'unités de la liste."""
     out = []
@@ -295,6 +339,7 @@ def analyse(
         counts[u.name] = counts.get(u.name, 0) + 1
     rep = ListReport(title, faction, entries, abilities)
     rep.dead = dead_rules(abilities, distinct, vocab)
+    rep.dead += unprofitable_buffs(abilities, distinct, vocab, frozenset(a.uid for a, _r in rep.dead))
     rep.marriages = marriages(abilities, distinct, vocab, share_melee, frozenset(a.uid for a, _r in rep.dead))
     rep.conflicts = conflicts(abilities, counts)
     rep.magic = magic_budget(abilities, units)
@@ -310,24 +355,58 @@ def analyse(
 # ----- lecture en base -------------------------------------------------------------
 
 
-def _rule_groups(parsed) -> list[tuple[str, str]]:
-    """(groupe `ability_owner.owner_name`, libellé d'origine) des règles d'armée choisies."""
-    groups = [("Battle Traits › Battle Traits", "trait de bataille")]
-    if parsed.allegiance:
-        groups.append((f"Battle Formations › {_base_name(parsed.allegiance)}", "formation"))
-    for lore, label in (
-        (parsed.spell_lore, "domaine de sorts"),
-        (parsed.prayer_lore, "domaine de prières"),
-        (parsed.manifestation_lore, "domaine de manifestations"),
+def _rule_groups(parsed, renown: Optional[tuple[str, frozenset[str]]] = None) -> list[tuple[str, str]]:
+    """(groupe `ability_owner.owner_name`, libellé d'origine) des règles d'armée choisies.
+
+    `renown` = (nom Wahapedia de l'Armée de Renom, ses catégories) : chaque catégorie qu'elle porte REMPLACE
+    celle de la faction de base (règle du kit de tournoi, `tournament_kit.resolution.rules_resolution._AOR_REPLACES`,
+    validée par le test de référence du PDF) — ex. « Lords of the Clan › Spell Lore » au lieu de
+    « Spell Lore › Lore of the Deepwood » ; une catégorie absente (la formation : aucune AoR n'en a) reste celle
+    de base. Une AoR n'a qu'un domaine par catégorie : son nom dans l'export n'est pas nécessaire."""
+    aor, cats = renown if renown else ("", frozenset())
+
+    def pick(category: str, base_group: str, label: str) -> tuple[str, str]:
+        if category in cats:
+            return f"{aor} › {category}", f"{label} (armée de renom {aor})"
+        return base_group, label
+
+    # « › * » : tous les sous-types de traits de base (Khorne « Blood Tithe Abilities », Idoneth « Battle Traits1 »…)
+    groups = [pick("Battle Traits", "Battle Traits › *", "trait de bataille")]
+    from ...text import fold_name
+
+    # export AoR : « Army of Renown », ou le nom de l'AoR elle-même (format compact) — pas une formation
+    if parsed.allegiance and fold_name(parsed.allegiance) not in (fold_name("Army of Renown"), fold_name(aor)):
+        groups.append(pick("Battle Formations", f"Battle Formations › {_base_name(parsed.allegiance)}", "formation"))
+    for lore, kind, label in (
+        (parsed.spell_lore, "Spell Lore", "domaine de sorts"),
+        (parsed.prayer_lore, "Prayer Lore", "domaine de prières"),
+        (parsed.manifestation_lore, "Manifestation Lore", "domaine de manifestations"),
     ):
-        if lore:
-            kind = {
-                "domaine de sorts": "Spell Lore",
-                "domaine de prières": "Prayer Lore",
-                "domaine de manifestations": "Manifestation Lore",
-            }[label]
+        if kind in cats:
+            groups.append(pick(kind, "", label))
+        elif lore:
             groups.append((f"{kind} › {_base_name(lore)}", label))
     return groups
+
+
+def renown_categories(con, faction: str, renown: Optional[str]) -> Optional[tuple[str, frozenset[str]]]:
+    """(nom Wahapedia, catégories) de l'Armée de Renom `renown` de `faction`, None si absente de la base."""
+    if not renown:
+        return None
+    from ...text import fold_name
+
+    found: dict[str, set[str]] = {}
+    for name, group in con.execute(
+        """SELECT DISTINCT origin_name, owner_name FROM ability_owner
+           WHERE origin_kind = 'army_of_renown' AND faction_name = ?""",
+        [faction],
+    ).fetchall():
+        if fold_name(name) == fold_name(renown):
+            found.setdefault(name, set()).add(group.split(" › ", 1)[1] if " › " in group else group)
+    if not found:
+        return None
+    name, cats = next(iter(found.items()))
+    return name, frozenset(cats)
 
 
 def _ability_from_row(row, source: str, carriers: tuple[str, ...], effects) -> ListAbility:
@@ -443,19 +522,53 @@ def collect(con, parsed) -> tuple[list[tuple[str, int, Optional[Unit]]], list[Li
             [faction, name],
         ).fetchall():
             rows.append((row, f"charte : {name}", (name,)))
-    for group, label in _rule_groups(parsed):
+    # export complet : « Faction | AoR » ; export compact : l'AoR occupe la place de la formation, mais une
+    # formation de base peut porter le même nom qu'une AoR (Sylvaneth « Lords of the Clan ») : elle l'emporte.
+    renown = renown_categories(con, faction, parsed.army_of_renown)
+    if renown is None and parsed.allegiance:
+        is_formation = con.execute(
+            "SELECT 1 FROM ability_owner WHERE owner_kind = 'faction_rule' AND faction_name = ? AND owner_name = ?",
+            [faction, f"Battle Formations › {_base_name(parsed.allegiance)}"],
+        ).fetchone()
+        if not is_formation:
+            renown = renown_categories(con, faction, parsed.allegiance)
+    owner_groups = [
+        g
+        for (g,) in con.execute(
+            "SELECT DISTINCT owner_name FROM ability_owner WHERE owner_kind = 'faction_rule' AND faction_name = ?",
+            [faction],
+        ).fetchall()
+    ]
+    rule_groups = []
+    for group, label in _rule_groups(parsed, renown):
+        if group.endswith(" › *"):
+            prefix = group[:-1]
+            rule_groups.extend((g, label) for g in sorted(owner_groups) if g.startswith(prefix))
+        else:
+            rule_groups.append((group, label))
+    for group, label in rule_groups:
         for row in con.execute(
             _ABILITY_SELECT + " WHERE o.owner_kind = 'faction_rule' AND o.owner_name = ? "
             "AND (o.faction_name = ? OR o.faction_name = 'Endless Spells')",
             [group, faction],
         ).fetchall():
             rows.append((row, f"{label} : {group.split(' › ', 1)[1]}", ()))
+    # Optimisation nommée dans l'export : celle de l'AoR de la liste si elle en a une de ce nom, sinon celle de
+    # base — jamais une homonyme d'une autre AoR, d'une armée Spearhead ou de Path to Glory.
+    opt_where = " WHERE o.owner_kind = 'faction_rule' AND o.faction_name = ? AND upper(a.name) = upper(?) AND "
     for unit_name, opt in options:
-        for row in con.execute(
-            _ABILITY_SELECT + " WHERE o.owner_kind = 'faction_rule' AND o.faction_name = ? "
-            "AND upper(a.name) = upper(?)",
-            [faction, opt],
-        ).fetchall():
+        found = []
+        if renown:
+            found = con.execute(
+                _ABILITY_SELECT + opt_where + "o.origin_kind = 'army_of_renown' AND o.origin_name = ?",
+                [faction, opt, renown[0]],
+            ).fetchall()
+        if not found:
+            found = con.execute(
+                _ABILITY_SELECT + opt_where + "coalesce(o.origin_kind, 'base') = 'base'",
+                [faction, opt],
+            ).fetchall()
+        for row in found:
             rows.append((row, f"amélioration : {opt}", (unit_name,)))
     # Aptitudes des manifestations invocables (domaine choisi) : elles n'existent que si l'invocation passe.
     summon_p: dict[str, float] = {}

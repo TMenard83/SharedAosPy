@@ -60,6 +60,7 @@ def test_army_of_renown_splits_faction_from_base_faction():
     pl = parse_list_file(f"{_LISTS_DIR}/STD L3 First Prince 1980.txt")
     assert pl.faction == "Slaves to Darkness | Legion of the First Prince"
     assert pl.base_faction == "Slaves to Darkness"
+    assert pl.army_of_renown == "Legion of the First Prince"
     assert pl.allegiance == "Army of Renown"
 
 
