@@ -376,6 +376,11 @@ ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS score_fit_per_100 DOUBLE;
 -- (facteur du score) lit cette portée ; `reach_in` reste la portée de déplacement (lue par marriage.role_fit).
 ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS action_reach_in DOUBLE;
 ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS action_channel VARCHAR;
+-- Soutien des héros (variante B, realized.support_values) : buffs de charte donnés aux autres unités amies (gains
+-- bruts pondérés × receveurs), ajoutés aux dégâts/durabilité du héros dans score_per_100 seulement.
+ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS off_support DOUBLE;
+ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS def_support DOUBLE;
+ALTER TABLE unit_realized ADD COLUMN IF NOT EXISTS support_abilities VARCHAR;
 
 -- Couche 3 — mariage châssis × aptitude (analysis/marriage.py, `aospy encounter build`) : chaque aptitude de
 -- charte jugée sur le châssis de chacun de ses porteurs. marriage = D (P(conditions du porteur) × rounds encore

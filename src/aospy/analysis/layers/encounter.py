@@ -24,6 +24,7 @@ manifestations (couche 1 les traite déjà comme une chaîne d'invocation).
 from __future__ import annotations
 
 import dataclasses
+import functools
 import re
 from dataclasses import dataclass
 from typing import Callable, Optional
@@ -391,6 +392,11 @@ def parse_keywords(tokens: list[str], vocab: frozenset[str]) -> tuple[list[str],
     return found, unknown
 
 
+@functools.lru_cache(maxsize=8)
+def _curly_keywords(vocab: frozenset[str]) -> tuple[str, ...]:
+    return tuple(k for k in vocab if "’" in k)
+
+
 def matches_friendly_target(unit: Unit, phrase: str, vocab: frozenset[str]) -> bool:
     """L'unité satisfait-elle la restriction de cible amie `ability.friendly_target` ?
 
@@ -401,6 +407,10 @@ def matches_friendly_target(unit: Unit, phrase: str, vocab: frozenset[str]) -> b
     """
     if not phrase or phrase.strip() == "*":
         return True
+    # Apostrophe droite dans le texte, typographique dans les mots-clés (« GUNNAR’S OATHSWORN ») : on aligne.
+    for kw in _curly_keywords(vocab):
+        if kw.replace("’", "'") in phrase:
+            phrase = phrase.replace(kw.replace("’", "'"), kw)
     name = unit.name.lower()
     for alt in re.split(r"\s+or\s+", phrase):
         toks = [

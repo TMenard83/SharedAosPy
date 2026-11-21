@@ -124,3 +124,45 @@ def test_combined_penalises_glass_cannons():
     assert combined(10.0, 4.5) < combined(5.0, 20.0)
     assert combined(4.0, 9.0) == pytest.approx(6.0)
     assert combined(0.0, 30.0) == 0.0
+
+
+# --- Soutien des héros (variante B) -------------------------------------------------------------------------
+
+
+def test_support_receivers_by_scope():
+    from aospy.analysis.layers.realized import support_receivers
+
+    assert support_receivers("one_friendly", 12) == 1
+    assert support_receivers("friendly_aura", 12) == 2
+    assert support_receivers("friendly_aura", 18) == 3
+    assert support_receivers("army", None) == 3
+    assert support_receivers("self", None) == 0
+
+
+def test_hero_mobility_without_support_is_variant_a():
+    from aospy.analysis.layers.realized import hero_mobility
+
+    assert hero_mobility(5.0, 20.0, 0.9, 8.5, [], 12.0) == 0.9
+
+
+def test_hero_mobility_weights_support_by_its_value():
+    from aospy.analysis.layers.mobility import mobility_factor
+    from aospy.analysis.layers.realized import Support, hero_mobility
+
+    sup = Support("Buff", "aura", 18.0, off=5.0, def_=0.0)  # autant que sa propre offense, portée 5 + 18
+    f = hero_mobility(5.0, 20.0, 0.9, 8.5, [sup], 12.0)
+    f_off = (0.9 + mobility_factor(23.0, 12.0)) / 2
+    assert abs(f - (f_off * 0.9) ** 0.5) < 1e-9
+
+
+def test_friendly_target_matches_curly_apostrophe_keyword():
+    import dataclasses
+
+    from aospy.analysis.layers.encounter import matches_friendly_target
+
+    vocab = frozenset({"GUNNAR’S OATHSWORN", "INFANTRY"})
+    base = _unit()
+    kin = dataclasses.replace(base, keywords=frozenset({"GUNNAR’S OATHSWORN", "INFANTRY"}))
+    other = dataclasses.replace(base, keywords=frozenset({"INFANTRY"}))
+    assert matches_friendly_target(kin, "GUNNAR'S OATHSWORN", vocab)
+    assert not matches_friendly_target(other, "GUNNAR'S OATHSWORN", vocab)

@@ -56,6 +56,9 @@ REALIZED_COLS = (
     "score_fit_per_100",
     "action_reach_in",
     "action_channel",
+    "off_support",
+    "def_support",
+    "support_abilities",
 )
 
 

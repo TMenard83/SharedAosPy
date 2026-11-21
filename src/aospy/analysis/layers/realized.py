@@ -418,6 +418,150 @@ def weapon_channels(unit: Unit) -> list[tuple[str, float, float]]:
     return [(w.kind, float(w.range_in or 0), d / total) for w, d in zip(unit.weapons, dmg)]
 
 
+#: --- Valeur de soutien des héros (portée d'action, variante B — utilisateur, 2026-11-21) --------------------
+#: Un héros vaut aussi par ce qu'il donne : ses buffs de charte sur les **autres** unités amies s'ajoutent à
+#: ses dégâts et à sa durabilité (étape 1 : buffs mesurés par la couche 3, `ability_encounter`, relation
+#: « allié »). Hypothèses à challenger :
+#: Nombre d'unités amies qui profitent du buff : ciblage 1, bulle ≤ 12" 2, bulle plus grande 3, armée 3.
+SUPPORT_RECEIVERS = {"one_friendly": 1.0, "aura_small": 2.0, "aura_large": 3.0, "army": 3.0}
+AURA_SMALL_IN = 12
+#: Le joueur pose le buff sur un bon receveur, pas sur la médiane : quantile des gains parmi les receveurs.
+SUPPORT_RECEIVER_QUANTILE = 0.75
+
+
+def support_receivers(scope: str, range_in: Optional[float]) -> float:
+    if scope == "friendly_aura":
+        return SUPPORT_RECEIVERS["aura_small" if (range_in or 0) <= AURA_SMALL_IN else "aura_large"]
+    return SUPPORT_RECEIVERS.get(scope, 0.0)
+
+
+def _quantile(values: list[float], q: float) -> float:
+    if not values:
+        return 0.0
+    s = sorted(values)
+    pos = q * (len(s) - 1)
+    lo = int(pos)
+    hi = min(lo + 1, len(s) - 1)
+    return s[lo] + (s[hi] - s[lo]) * (pos - lo)
+
+
+@dataclass(frozen=True)
+class Support:
+    """Apport d'une aptitude de soutien d'un héros (gains bruts, déjà × couverture × receveurs)."""
+
+    ability: str
+    channel: str
+    range_in: float
+    off: float
+    def_: float
+
+
+def support_values(con, share_melee: dict[int, float]) -> dict[tuple[str, str], list[Support]]:
+    """Buffs de charte donnés aux autres unités amies, par (faction, charte en minuscules).
+
+    Par aptitude : par receveur, somme des effets (paliers d'un même type : le plus fort) pondérés comme
+    les effets propres (frise × P(déclenchement), sans les effets conditionnels) ; puis quantile
+    `SUPPORT_RECEIVER_QUANTILE` des receveurs × `support_receivers`."""
+    rows = con.execute(
+        """SELECT o.faction_name, lower(o.owner_name), a.name, a.scope, a.range_inches, a.cost_type,
+                  a.frequency, coalesce(a.activation_prob, 1.0), a.available_round, a.turn_side,
+                  e.kind, e.stat, e.weapon_scope, e.weapon_name, e.duration, coalesce(x.conditions, ''),
+                  x.unit_id, x.off_after - x.off_before, x.def_after - x.def_before
+           FROM ability_encounter x
+           JOIN ability a ON a.uid = x.ability_uid
+           JOIN ability_effect e ON e.ability_uid = x.ability_uid AND e.seq = x.seq
+           JOIN ability_owner o ON o.ability_uid = a.uid AND o.owner_kind = 'warscroll'
+           WHERE x.relation = 'allié' AND a.source_kind NOT IN ('manifestation')"""
+    ).fetchall()
+    resource = {SPENDS_RESOURCE, RESOURCE_SCALED}
+    # (faction, charte, aptitude) -> meta, et receveur -> type d'effet -> meilleur (Δoff, Δdef)
+    meta: dict[tuple, tuple] = {}
+    gains: dict[tuple, dict[int, dict[tuple, tuple[float, float]]]] = {}
+    for (
+        fac,
+        owner,
+        name,
+        scope,
+        rng,
+        cost,
+        freq,
+        prob,
+        avail,
+        tside,
+        kind,
+        stat,
+        wscope,
+        wname,
+        dur,
+        conds,
+        unit_id,
+        d_off,
+        d_def,
+    ) in rows:
+        tokens = {c for c in conds.split(" | ") if c}
+        if tokens - resource or kind == "charge_bonus":
+            continue
+        spends = bool(tokens & resource)
+        sm = share_melee.get(unit_id, 1.0)
+        args = (freq or "", dur or "", avail, spends, tside or "any")
+        w_off = coverage(*args, polarity="off", share_melee=sm) * prob
+        w_def = coverage(*args, polarity="def", share_melee=sm) * prob
+        key = (fac, owner, name)
+        meta[key] = (scope, rng, _channel(cost, scope or ""))
+        per = gains.setdefault(key, {}).setdefault(unit_id, {})
+        k = (kind, stat, wscope, wname)
+        cur = per.get(k, (0.0, 0.0))
+        g = (max(d_off or 0.0, 0.0) * w_off, max(d_def or 0.0, 0.0) * w_def)
+        if g[0] + g[1] > cur[0] + cur[1]:
+            per[k] = g
+    out: dict[tuple[str, str], list[Support]] = {}
+    for (fac, owner, name), by_unit in gains.items():
+        scope, rng, chan = meta[(fac, owner, name)]
+        # pas plus de receveurs que de chartes éligibles (« Stormvermin » : une seule)
+        n = min(support_receivers(scope or "", rng), len(by_unit))
+        if n <= 0:
+            continue
+        offs = [sum(g[0] for g in d.values()) for d in by_unit.values()]
+        defs = [sum(g[1] for g in d.values()) for d in by_unit.values()]
+        off = n * _quantile(offs, SUPPORT_RECEIVER_QUANTILE)
+        dfn = n * _quantile(defs, SUPPORT_RECEIVER_QUANTILE)
+        if off > 0 or dfn > 0:
+            out.setdefault((fac, owner), []).append(Support(name, chan, float(rng or 0), off, dfn))
+    return out
+
+
+def hero_mobility(
+    own_off: float,
+    own_def: float,
+    own_factor: float,
+    move_reach: float,
+    supports: list[Support],
+    median: float,
+) -> float:
+    """Facteur de portée d'un héros (variante B) : chaque canal pondéré par ce qu'il apporte.
+
+    Sa valeur propre garde le facteur de la variante A (`own_factor` : son plus long canal significatif —
+    tant que les sorts de domaine n'ont pas de valeur, leur portée reste lue ainsi) ; chaque soutien compte à
+    la portée de son aptitude (déplacement + portée, contact → charge). Facteur = √(moyenne côté dégâts ×
+    moyenne côté durabilité), comme l'indicateur combiné. Sans soutien : exactement la variante A."""
+    from .mobility import CHARGE_IN, CONTACT_IN, RUN_IN, mobility_factor
+
+    move = move_reach - RUN_IN
+
+    def avg(parts: list[tuple[float, float]]) -> float:
+        tot = sum(v for v, _f in parts)
+        if tot <= 0:
+            return own_factor
+        return sum(v * f for v, f in parts) / tot
+
+    sup = [
+        (s, mobility_factor(move + (CHARGE_IN if s.range_in <= CONTACT_IN else s.range_in), median)) for s in supports
+    ]
+    f_off = avg([(own_off, own_factor)] + [(s.off, f) for s, f in sup])
+    f_def = avg([(own_def, own_factor)] + [(s.def_, f) for s, f in sup])
+    return (f_off * f_def) ** 0.5
+
+
 def combined(off_per_100: float, def_per_100: float) -> float:
     """Indicateur combiné (validé par l'utilisateur, 2026-11-19) : moyenne géométrique des dégâts et de
     la durabilité pour 100 pts — logique de Lanchester, ce qu'une unité inflige sur sa durée de vie
@@ -441,17 +585,30 @@ def build_realized_rows(con) -> list[tuple]:
 
     moves = mobility_effects(con)
     own_actions, lores = action_abilities(con)
+    supports = support_values(con, share_melee)
     results = []
     reaches = []
+    sups: list[list[Support]] = []
     actions: list[tuple[float, str]] = []
     for fac, u in units:
         effs = applicable(u, effects.get((fac, u.name.lower()), []), vocab)
         results.append((u, realize(u, effs, share_melee.get(u.id, 1.0)), sorted({e.ability for e in effs})))
         reaches.append(reach(u, unit_mobility_effects(u, moves.get((fac, u.name.lower()), []), vocab)))
-        actions.append(action_reach(reaches[-1], weapon_channels(u), unit_action_abilities(u, fac, own_actions, lores)))
-    # Le facteur du score lit la **portée d'action** (`reach_in` reste la portée de déplacement, lue par le mariage).
+        wch = weapon_channels(u)
+        actions.append(action_reach(reaches[-1], wch, unit_action_abilities(u, fac, own_actions, lores)))
+        sups.append(supports.get((fac, u.name.lower()), []) if u.is_hero else [])
+    # Le facteur du score lit la **portée d'action** (`reach_in` reste la portée de déplacement, lue par le mariage) :
+    # troupes, variante A (le plus long canal significatif) ; héros, variante B (canaux pondérés par leur apport).
     med = median_reach([a for a, _c in actions]) if actions else 0.0
-    mob = [mobility_factor(a, med) for a, _c in actions]
+    mob = []
+    for i, (a, _c) in enumerate(actions):
+        u, r, _n = results[i]
+        if u.is_hero:
+            mob.append(hero_mobility(r.off_realized, r.def_realized, mobility_factor(a, med), reaches[i], sups[i], med))
+        else:
+            mob.append(mobility_factor(a, med))
+    sup_off = [sum(s.off for s in ss) for ss in sups]
+    sup_def = [sum(s.def_ for s in ss) for ss in sups]
 
     rows: list[tuple] = []
     ranks: dict[int, tuple[float, float, float, float, float]] = {}
@@ -470,7 +627,13 @@ def build_realized_rows(con) -> list[tuple]:
                 for i in idx
             ]
         )
-        srank = pct_rank([combined(o, d) * mob[i] for i, o, d in zip(idx, offs, defs)])
+        srank = pct_rank(
+            [
+                combined(o + sup_off[i] * 100 / results[i][0].points, d + sup_def[i] * 100 / results[i][0].points)
+                * mob[i]
+                for i, o, d in zip(idx, offs, defs)
+            ]
+        )
         for k, i in enumerate(idx):
             ranks[i] = (orank[k], drank[k], crank[k], frank[k], srank[k])
     for i, (u, r, names) in enumerate(results):
@@ -503,11 +666,15 @@ def build_realized_rows(con) -> list[tuple]:
                 ranks[i][3],
                 round(reaches[i], 2),
                 round(mob[i], 3),
-                round(combined(r.off_realized * per, r.def_realized * per) * mob[i], 3),
+                round(combined((r.off_realized + sup_off[i]) * per, (r.def_realized + sup_def[i]) * per) * mob[i], 3),
                 ranks[i][4],
-                round(combined(r.off_fit * per, r.def_fit * per) * mob[i], 3),
+                round(combined((r.off_fit + sup_off[i]) * per, (r.def_fit + sup_def[i]) * per) * mob[i], 3),
                 round(actions[i][0], 2),
                 actions[i][1],
+                round(sup_off[i], 3),
+                round(sup_def[i], 2),
+                " | ".join(f"{s.ability} ({s.channel})" for s in sorted(sups[i], key=lambda s: -(s.off + s.def_)))
+                or None,
             )
         )
     return rows
