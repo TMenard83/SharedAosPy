@@ -383,9 +383,14 @@ CREATE TABLE IF NOT EXISTS ability_marriage (
     bearer_only          BOOLEAN,     -- FALSE : une condition dépend d'un allié/de l'adversaire
     rounds_alive         DOUBLE,      -- rounds de survie face à une unité ennemie moyenne, à cette exposition
     survival             DOUBLE,      -- S
-    marriage             DOUBLE,      -- D × S
+    marriage             DOUBLE,      -- D × S × F × A × R (grille par famille, marriage.py)
     good_case_conditions VARCHAR      -- conditions non chiffrées (allié, adversaire, ressource)
 );
+-- Grille par famille (2026-11-21). Sans DEFAULT : réexécuté à chaque connect() sans effacer la table.
+ALTER TABLE ability_marriage ADD COLUMN IF NOT EXISTS tempo DOUBLE;          -- F : fenêtre de l'effet vs moment où le châssis agit
+ALTER TABLE ability_marriage ADD COLUMN IF NOT EXISTS amplification DOUBLE;  -- A : gain sur ce châssis / médiane du même effet (borné)
+ALTER TABLE ability_marriage ADD COLUMN IF NOT EXISTS role_fit DOUBLE;       -- R : cohérence de rôle (borné)
+ALTER TABLE ability_marriage ADD COLUMN IF NOT EXISTS bearing DOUBLE;        -- D × S seul
 
 -- Couche 3 — bons porteurs des optimisations (analysis/bearers.py, `aospy encounter build`) : chaque trait
 -- héroïque/artefact/amélioration/trait monstrueux × chaque unité éligible de sa faction. Reconstruite à chaque build.

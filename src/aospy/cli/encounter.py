@@ -29,7 +29,7 @@ def cmd_encounter_build(args: argparse.Namespace) -> int:
     con.close()
     print(f"{len(bearers)} couples optimisation × porteur éligible.")
     print(f"{len(realized)} valeurs réalisées (châssis + aptitudes propres pondérées).")
-    print(f"{len(marriage)} mariages aptitude × porteur (déclenchement × survie).")
+    print(f"{len(marriage)} mariages aptitude × porteur (déclenchement × survie × tempo × amplification × rôle).")
     print(
         f"{stats['rencontres']} rencontres aptitude × châssis ({stats['traduits']} effets amis traduits "
         f"sur {stats['effets']} ; {stats['sans_arme']} paires sans arme concernée)."
@@ -47,23 +47,32 @@ def cmd_encounter_marriage(args: argparse.Namespace) -> int:
         print("Aucun mariage (lancez `aospy encounter build`).")
         return 1
     print(
-        "Mariage = D × S. D = P(conditions tenues par le porteur : charge, territoire, objectif…) × rounds "
-        "encore possibles ; S = part des rounds où il survit pour tenir l'effet, à l'exposition imposée "
-        '(contact ≤3", courte ≤9", longue derrière un écran) face à une unité ennemie moyenne.\n'
+        "Mariage = D × S × F × A × R. D = P(conditions tenues par le porteur : charge, territoire, objectif…) "
+        "× rounds encore possibles ; S = part des rounds où il survit pour tenir l'effet, à l'exposition imposée "
+        '(contact ≤3", courte ≤9", longue derrière un écran) face à une unité ennemie moyenne ; F = tempo '
+        "(la fenêtre de l'effet tombe quand le châssis agit) ; A = amplification (gain ici / gain médian du même "
+        "effet) ; R = rôle (buff offensif sur un marteau, défensif sur qui encaisse, bulle : le porteur suit). "
+        "A et R bornés 0,5-1,5 ; familles hors buffs : F = A = R = 1.\n"
         "Hypothèses (marriage.py) à challenger. « bon cas » : conditions tenues par d'autres (couche 4/matchups)."
     )
     print(
         f"{'aptitude':<28}{'porteur':<30}{'pts':>5}{'mv':>4}{'PV':>4}{'sv':>4}{'fam.':>20}{'P':>6}"
-        f"{'expo':>9}{'rnd':>4}{'vie':>6}{'S':>6}{'mariage':>8}  bon cas"
+        f"{'expo':>9}{'rnd':>4}{'vie':>6}{'S':>6}{'F':>6}{'A':>6}{'R':>6}{'mariage':>8}  bon cas"
     )
     for r in rows:
         sv = f"{r['save']}+" + (f"/{r['ward']}+" if r["ward"] else "")
         print(
             f"{r['ability_name'][:27]:<28}{r['unit_name'][:29]:<30}{r['points']:>5}{r['move']:>4}{r['hp']:>4}"
             f"{sv:>7}{(r['family'] or '')[:19]:>17}{r['p_trigger']:>6.2f}{r['exposure']:>9}{r['start_round']:>4}"
-            f"{r['rounds_alive']:>6.1f}{r['survival']:>6.2f}{r['marriage']:>8.2f}  {r['good_case_conditions'] or ''}"
+            f"{r['rounds_alive']:>6.1f}{r['survival']:>6.2f}{_g(r['tempo'])}{_g(r['amplification'])}"
+            f"{_g(r['role_fit'])}{r['marriage']:>8.2f}  {r['good_case_conditions'] or ''}"
         )
     return 0
+
+
+def _g(v) -> str:
+    """Facteur de la grille (absent avant `encounter build`)."""
+    return f"{'—':>6}" if v is None else f"{v:>6.2f}"
 
 
 def cmd_encounter_bearers(args: argparse.Namespace) -> int:

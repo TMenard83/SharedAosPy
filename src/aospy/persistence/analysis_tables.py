@@ -73,6 +73,10 @@ MARRIAGE_COLS = (
     "survival",
     "marriage",
     "good_case_conditions",
+    "tempo",
+    "amplification",
+    "role_fit",
+    "bearing",
 )
 
 

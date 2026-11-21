@@ -15,6 +15,18 @@ cool, mais ça n'arrive jamais »). Deux facteurs s'ajoutent à l'amplification 
   le porteur reste derrière un écran) — et les dégâts qu'il subit d'une unité ennemie moyenne
   (`unit_benchmark`, réparti mêlée/tir selon le profil de l'attaquant, `unit_chassis.share_melee`).
 
+Grille par famille (2026-11-21, recommandations validées par l'utilisateur, buffs d'abord) — mariage =
+D × S × F × A × R, `bearing` = D × S seul :
+
+* **F — tempo** (0-1) : la fenêtre de l'effet tombe-t-elle quand ce châssis agit ? Relatif, à fréquence
+  égale (la fréquence elle-même est pondérée en couche 1) ;
+* **A — amplification** (borné 0,5-1,5) : gain sur ce châssis / gain médian du même effet sur tous les
+  châssis mesurés (`ability_encounter`) ; neutre si l'effet n'est pas traduit ;
+* **R — rôle** (borné 0,5-1,5) : rang offensif pour un buff offensif, rang défensif et contact pour un buff
+  défensif, « le porteur suit ses receveurs » (allonge) pour un buff donné.
+
+Les autres familles restent neutres (A = R = F = 1) : critères proposés dans analysis/README.md.
+
 **Toutes les constantes ci-dessous sont des hypothèses de travail à challenger** (règle utilisateur :
 signaler les classements contre-intuitifs et proposer de les réviser).
 """
@@ -280,6 +292,171 @@ def _lasting(frequency: str, durations: set[str]) -> bool:
     return not once or (frequency or "") in _LASTING_FREQUENCIES or bool(durations & _LASTING_DURATIONS)
 
 
+# ----- grille par famille : tempo F, amplification A, rôle R -------------------------------------------
+#
+# Grille co-construite avec l'utilisateur (2026-11-21, « en avant » sur le brouillon) ; on commence par les
+# buffs, les autres familles restent neutres (A = R = 1) — leurs critères proposés sont dans le README.
+#
+# * D × S restent des probabilités (« ça arrive ? ») ; F aussi (part de la fenêtre utile couverte) ;
+# * A et R sont des « mieux / moins bien que d'habitude » : multiplicateurs bornés autour de 1
+#   (`FACTOR_BOUNDS`), pas des probabilités — un seul facteur faible ne tue pas le mariage ;
+# * F est RELATIF au châssis : la fréquence elle-même (1/bataille = 1/2…) est déjà pondérée en couche 1 et
+#   dans `realized` ; F ne mesure que le décalage entre la fenêtre de l'effet et le moment où ce châssis agit
+#   (un buff de mêlée « pour le reste du tour » ne couvre que la moitié des combats d'une unité qui riposte
+#   aussi au tour adverse ; « jusqu'au prochain tour » les couvre tous) ;
+# * R est un axe simple propre à la famille (pas les rôles de `listing.suggest_role`, qui restent couche 4).
+
+#: Bornes des multiplicateurs A et R (choix de travail, à challenger).
+FACTOR_BOUNDS = (0.5, 1.5)
+#: Familles notées par la grille (les autres : A = R = F = 1).
+GRID_FAMILIES = ("buff-perso-offensif", "buff-perso-defensif", "buff-donne")
+#: Polarité de la frise (`timeline.relevance`) par famille notée.
+FAMILY_POLARITY = {"buff-perso-offensif": "off", "buff-perso-defensif": "def", "buff-donne": "autre"}
+#: Durées courtes dont la fenêtre peut manquer une partie de ce que fait le châssis ; la durée « idéale » de
+#: comparaison couvre le tour joué ET le tour suivant.
+_SHORT_DURATIONS = {"tour", "phase", "action", "non précisée", ""}
+_IDEAL_DURATION = "jusqu'au prochain tour"
+#: Nombre minimal de mesures positives d'un même effet pour en tirer une médiane de référence (A).
+MIN_REFERENCE_SAMPLES = 10
+
+
+def _bound(x: float) -> float:
+    lo, hi = FACTOR_BOUNDS
+    return max(lo, min(hi, x))
+
+
+_DEF_KINDS = {"ward", "damage_ignore", "negate_attack", "untargetable", "damage_redirect"}
+_DEF_STATS = {"save", "ward", "health"}
+
+
+def effect_timing(family: str, e_list: list[tuple], bearer_share_melee: float) -> tuple[str, float]:
+    """(polarité, part de mêlée) qui fixent les demi-tours utiles d'un effet (`timeline.relevance`).
+
+    Buff perso : la famille donne la polarité, le porteur sa part de mêlée. Buff donné : lu dans les effets
+    (une protection sert surtout au tour adverse, un buff de tir à mon seul tour) ; les armes visées
+    (`weapon_scope`) fixent la part de mêlée — tir → 0, mêlée → 1, sinon celle du porteur."""
+    pol = FAMILY_POLARITY.get(family, "autre")
+    if family == "buff-donne" and e_list:
+        n_def = sum(1 for e in e_list if e[0] in _DEF_KINDS or (len(e) > 6 and e[6] in _DEF_STATS))
+        pol = "def" if 2 * n_def > len(e_list) else "off"
+    scopes = {e[5] for e in e_list if e[5]}
+    if scopes == {"ranged"}:
+        return pol, 0.0
+    if scopes == {"melee"}:
+        return pol, 1.0
+    return pol, bearer_share_melee
+
+
+def tempo(family: str, frequency: str, duration: str, turn_side: str, share_melee: float, polarity: str = "") -> float:
+    """F : part de la fenêtre utile du châssis que couvre l'effet, à fréquence égale (0-1, 1 = rien ne manque).
+
+    = couverture de la frise avec la durée écrite / couverture avec une durée « jusqu'au prochain tour »,
+    même fréquence, même tour joué, pertinence lue avec la polarité et la part de mêlée (`effect_timing`)."""
+    from .timeline import coverage
+
+    pol = polarity or FAMILY_POLARITY.get(family)
+    if family not in GRID_FAMILIES or pol is None or (frequency or "") == "passive" or duration not in _SHORT_DURATIONS:
+        return 1.0
+    side = turn_side or "any"
+    ideal = coverage(frequency or "", _IDEAL_DURATION, side, pol, share_melee)
+    if ideal <= 0:
+        return 1.0
+    return min(1.0, coverage(frequency or "", duration, side, pol, share_melee) / ideal)
+
+
+def amplification_ratios(con) -> dict[tuple[int, str], float]:
+    """(unit_id, ability_uid) → A brut : gain de l'aptitude sur son porteur / gain médian des mêmes effets.
+
+    Lu dans `ability_encounter` (relation « porteur »). Un « même effet » = même (kind, stat, value,
+    weapon_scope) ; sa médiane de référence porte sur toutes les mesures positives (porteurs et alliés), dès
+    `MIN_REFERENCE_SAMPLES`. Gain offensif pour un buff offensif, défensif pour un buff défensif. Les effets
+    non traduits (pas de ligne) n'entrent pas : l'aptitude reste neutre (absente du dict)."""
+    rows = con.execute(
+        """SELECT DISTINCT en.ability_uid, en.seq, en.unit_id, en.relation, en.off_gain_pct, en.def_gain_pct,
+                  e.kind, coalesce(e.stat, ''), coalesce(e.value, 0), coalesce(e.weapon_scope, ''), a.family
+           FROM ability_encounter en
+           JOIN ability_effect e ON e.ability_uid = en.ability_uid AND e.seq = en.seq
+           JOIN ability a ON a.uid = en.ability_uid"""
+    ).fetchall()
+    samples: dict[tuple, dict[str, list[float]]] = {}
+    for _uid, _seq, _unit, _rel, og, dg, *sig, _fam in rows:
+        d = samples.setdefault(tuple(sig), {"off": [], "def": []})
+        if og and og > 0:
+            d["off"].append(og)
+        if dg and dg > 0:
+            d["def"].append(dg)
+    ref: dict[tuple[tuple, str], float] = {}
+    for sig, d in samples.items():
+        for pol, vals in d.items():
+            if len(vals) >= MIN_REFERENCE_SAMPLES:
+                vals.sort()
+                n = len(vals)
+                ref[(sig, pol)] = vals[n // 2] if n % 2 else (vals[n // 2 - 1] + vals[n // 2]) / 2
+    here: dict[tuple[int, str], list[float]] = {}
+    for uid, _seq, unit_id, rel, og, dg, *sig, fam in rows:
+        pol = FAMILY_POLARITY.get(fam or "")
+        if rel != "porteur" or pol not in ("off", "def"):
+            continue
+        r = ref.get((tuple(sig), pol))
+        if r is None:
+            continue
+        acc = here.setdefault((unit_id, uid), [0.0, 0.0])
+        acc[0] += (og if pol == "off" else dg) or 0.0
+        acc[1] += r
+    return {k: g / r for k, (g, r) in here.items() if r > 0}
+
+
+def receiver_reach(con) -> dict[str, float]:
+    """ability_uid → allonge médiane (`unit_realized.reach_in`) des receveurs alliés de l'aptitude."""
+    return dict(
+        con.execute(
+            """SELECT en.ability_uid, median(r.reach_in)
+               FROM (SELECT DISTINCT ability_uid, unit_id FROM ability_encounter WHERE relation = 'allié') en
+               JOIN unit_realized r ON r.unit_id = en.unit_id
+               WHERE r.reach_in IS NOT NULL GROUP BY 1"""
+        ).fetchall()
+    )
+
+
+@dataclass(frozen=True)
+class ChassisProfile:
+    """Ce que la grille lit du porteur : rangs centiles couche 3, part de mêlée, allonge."""
+
+    off_rank: Optional[float] = None
+    def_rank: Optional[float] = None
+    share_melee: float = 1.0
+    reach: Optional[float] = None
+
+
+def chassis_profiles(con) -> dict[int, ChassisProfile]:
+    sm = share_melee_by_unit(con)
+    return {
+        uid: ChassisProfile(off, dfn, sm.get(uid, 1.0), reach)
+        for uid, off, dfn, reach in con.execute(
+            "SELECT unit_id, off_pct_rank, def_pct_rank, reach_in FROM unit_realized"
+        ).fetchall()
+    }
+
+
+def role_fit(family: str, prof: ChassisProfile, receivers_reach: Optional[float] = None) -> float:
+    """R : l'aptitude colle-t-elle au rôle du porteur ? (multiplicateur borné, 1 = neutre)
+
+    * buff offensif : 0,5 + rang offensif — un buff offensif sur un marteau, pas sur une unité qui frappe peu
+      (+100 % d'un petit chiffre reste petit : A est relatif, R donne le poids absolu) ;
+    * buff défensif : 0,5 + moyenne(rang défensif, part de mêlée) — une unité faite pour encaisser, ou qui va
+      au contact, s'en sert ; une artillerie restée derrière un écran beaucoup moins ;
+    * buff donné : le porteur **suit-il ses receveurs** ? min(1, allonge du porteur / allonge médiane des
+      receveurs) — un héros à 5" qui doit tenir une bulle sur de la cavalerie la perd (jamais un bonus) ;
+    * autres familles : 1."""
+    if family == "buff-perso-offensif" and prof.off_rank is not None:
+        return _bound(0.5 + prof.off_rank)
+    if family == "buff-perso-defensif" and prof.def_rank is not None:
+        return _bound(0.5 + (prof.def_rank + min(max(prof.share_melee, 0.0), 1.0)) / 2)
+    if family == "buff-donne" and prof.reach and receivers_reach:
+        return _bound(min(1.0, prof.reach / receivers_reach))
+    return 1.0
+
+
 @dataclass(frozen=True)
 class Marriage:
     exposure: str
@@ -288,18 +465,22 @@ class Marriage:
     bearer_only: bool
     rounds_alive: float
     survival: float
-    marriage: float
+    marriage: float  # D × S × F × A × R
     others: tuple[str, ...]
+    tempo: float = 1.0  # F
+    amplification: float = 1.0  # A (borné)
+    role_fit: float = 1.0  # R (borné)
+    bearing: float = 0.0  # D × S : le porteur déclenche et tient l'effet (sans la grille)
 
 
 def load_effects(con) -> dict[str, list[tuple]]:
-    """ability_uid → [(kind, requires, target_condition, target_keywords, duration, weapon_scope)]."""
+    """ability_uid → [(kind, requires, target_condition, target_keywords, duration, weapon_scope, stat)]."""
     effs: dict[str, list[tuple]] = {}
-    for uid, kind, req, tcond, tkw, dur, wscope in con.execute(
-        "SELECT ability_uid, kind, requires, target_condition, target_keywords, duration, weapon_scope "
+    for uid, kind, req, tcond, tkw, dur, wscope, stat in con.execute(
+        "SELECT ability_uid, kind, requires, target_condition, target_keywords, duration, weapon_scope, stat "
         "FROM ability_effect"
     ).fetchall():
-        effs.setdefault(uid, []).append((kind, req or "", tcond or "", tkw or "", dur or "", wscope or ""))
+        effs.setdefault(uid, []).append((kind, req or "", tcond or "", tkw or "", dur or "", wscope or "", stat or ""))
     return effs
 
 
@@ -313,8 +494,12 @@ def marriage_of(
     share_melee: float,
     incoming: tuple[float, float],
     turn_side: str = "any",
+    amplification: Optional[float] = None,
+    role: float = 1.0,
 ) -> Marriage:
-    """D × S d'une aptitude (ses effets `load_effects`) portée par `u`."""
+    """Mariage d'une aptitude (ses effets `load_effects`) portée par `u` : D × S × F × A × R.
+
+    `amplification` = A brut (`amplification_ratios`, None = non mesuré → neutre), `role` = R (`role_fit`)."""
     from .timeline import start_share
 
     reqs = " | ".join(dict.fromkeys(r for e in e_list for r in e[1].split(" | ") if r))
@@ -346,17 +531,34 @@ def marriage_of(
     surv = survival_coverage(profile, use, lasting=lasting)
     dur = next((e[4] for e in e_list if e[4]), "permanent" if lasting else "")
     d = t.p_off_timeline * start_share(freq or "", dur, turn_side or "any", t.start)
+    pol, sm_t = effect_timing(fam, e_list, share_melee)
+    f = tempo(fam, freq or "", dur, turn_side or "any", sm_t, pol)
+    a = _bound(amplification) if amplification is not None and fam in GRID_FAMILIES else 1.0
+    r = role if fam in GRID_FAMILIES else 1.0
     return Marriage(
-        expo, t.p, t.start, t.bearer_only, alive, surv, d * surv, tuple(c for c in conds if c not in BEARER_CONDITIONS)
+        expo,
+        t.p,
+        t.start,
+        t.bearer_only,
+        alive,
+        surv,
+        d * surv * f * a * r,
+        tuple(c for c in conds if c not in BEARER_CONDITIONS),
+        tempo=f,
+        amplification=a,
+        role_fit=r,
+        bearing=d * surv,
     )
 
 
 def build_marriage_rows(con) -> list[tuple]:
-    """Tuples `persistence.analysis_tables.MARRIAGE_COLS` : chaque aptitude de charte jugée sur le châssis de chacun de ses porteurs.
+    """Tuples `persistence.analysis_tables.MARRIAGE_COLS` : chaque aptitude de charte jugée sur le châssis
+    de chacun de ses porteurs.
 
     mariage = D (P(conditions du porteur) × part des rounds encore possibles) × S (rounds tenus / rounds
-    nominaux). Les conditions tenues par d'autres (allié, adversaire, ressource) ne sont pas chiffrées :
-    elles sont listées (`good_case_conditions`) et relèvent de la couche 4 / des matchups."""
+    nominaux) × F (tempo) × A (amplification) × R (rôle) — grille par famille ci-dessus. Les conditions
+    tenues par d'autres (allié, adversaire, ressource) ne sont pas chiffrées : elles sont listées
+    (`good_case_conditions`) et relèvent de la couche 4 / des matchups."""
     from ...persistence import repository
 
     units = {
@@ -368,6 +570,9 @@ def build_marriage_rows(con) -> list[tuple]:
     chassis = share_melee_by_unit(con)
     incoming = incoming_damage(con)
     effs = load_effects(con)
+    amps = amplification_ratios(con)
+    profiles = chassis_profiles(con)
+    recv = receiver_reach(con)
     abil = con.execute(
         """SELECT o.faction_name, lower(o.owner_name), a.uid, a.name, a.family, a.power, a.verdict, a.scope,
                   a.range_inches, a.frequency, a.turn_side
@@ -381,6 +586,7 @@ def build_marriage_rows(con) -> list[tuple]:
         if u is None or (u.id, uid) in seen:
             continue
         seen.add((u.id, uid))
+        fam = family or "autre"
         m = marriage_of(
             u,
             effs.get(uid, []),
@@ -391,6 +597,8 @@ def build_marriage_rows(con) -> list[tuple]:
             chassis.get(u.id, 1.0),
             incoming.get(u.id, (0.0, 0.0)),
             tside or "any",
+            amplification=amps.get((u.id, uid)),
+            role=role_fit(fam, profiles.get(u.id, ChassisProfile(share_melee=chassis.get(u.id, 1.0))), recv.get(uid)),
         )
         rows.append(
             (
@@ -408,6 +616,10 @@ def build_marriage_rows(con) -> list[tuple]:
                 round(m.survival, 3),
                 round(m.marriage, 3),
                 " | ".join(m.others) or None,
+                round(m.tempo, 3),
+                round(m.amplification, 3),
+                round(m.role_fit, 3),
+                round(m.bearing, 3),
             )
         )
     return rows

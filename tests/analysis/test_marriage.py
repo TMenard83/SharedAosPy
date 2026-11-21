@@ -6,11 +6,17 @@ import pytest
 
 from aospy.analysis.layers.marriage import (
     CHARGE_FIGHT_SHARE,
+    FACTOR_BOUNDS,
+    ChassisProfile,
     alive_profile,
+    effect_timing,
+    marriage_of,
     p_2d6_at_least,
     p_charge,
+    role_fit,
     rounds_alive,
     survival_coverage,
+    tempo,
     territory_round,
     trigger,
 )
@@ -95,3 +101,75 @@ def test_survival_coverage():
     assert survival_coverage([1.0, 1.0, 0.0, 0.0, 0.0], start=2) == pytest.approx(1.0 / (8 / 3))
     # effet court : seul le round d'usage compte
     assert survival_coverage([1.0, 1.0, 0.0, 0.0, 0.0], start=2, lasting=False) == 1.0
+
+
+# ----- grille par famille (F tempo, A amplification, R rôle) ------------------------------------------
+
+
+def _eff(kind="stat_mod", duration="tour", wscope="melee", stat="attacks"):
+    # (kind, requires, target_condition, target_keywords, duration, weapon_scope, stat) — `load_effects`
+    return (kind, "", "", "", duration, wscope, stat)
+
+
+def test_tempo_melee_buff_for_the_turn_misses_the_riposte():
+    """Un buff de mêlée « pour le reste du tour » joué à mon tour : l'unité de mêlée combat aussi au tour
+    adverse, il n'en couvre que la moitié ; « jusqu'au prochain tour » couvre tout ; un tireur ne perd rien."""
+    assert tempo("buff-perso-offensif", "unlimited", "tour", "yours", 1.0) == pytest.approx(0.5)
+    assert tempo("buff-perso-offensif", "unlimited", "jusqu'au prochain tour", "yours", 1.0) == 1.0
+    assert tempo("buff-perso-offensif", "unlimited", "tour", "yours", 0.0) == pytest.approx(1.0)
+    assert tempo("buff-perso-offensif", "passive", "permanent", "any", 1.0) == 1.0
+    # familles hors grille : neutres
+    assert tempo("debuff", "unlimited", "tour", "yours", 1.0) == 1.0
+
+
+def test_effect_timing_reads_given_buffs_from_their_effects():
+    # buff de tir donné : mon seul tour compte → F = 1 même joué « pour le tour »
+    pol, sm = effect_timing("buff-donne", [_eff(wscope="ranged", stat="hit")], 1.0)
+    assert (pol, sm) == ("off", 0.0)
+    assert tempo("buff-donne", "unlimited", "tour", "yours", sm, pol) == pytest.approx(1.0)
+    # protection donnée jouée à mon tour : l'essentiel des coups arrive au tour adverse
+    pol, _ = effect_timing("buff-donne", [_eff(kind="ward", wscope="", stat="")], 1.0)
+    assert pol == "def"
+    assert tempo("buff-donne", "unlimited", "tour", "yours", 1.0, pol) < 0.5
+
+
+def test_role_fit_by_family():
+    lo, hi = FACTOR_BOUNDS
+    hammer, weak = ChassisProfile(off_rank=0.95, def_rank=0.2), ChassisProfile(off_rank=0.1, def_rank=0.2)
+    assert role_fit("buff-perso-offensif", hammer) > 1.0 > role_fit("buff-perso-offensif", weak) >= lo
+    anvil = ChassisProfile(off_rank=0.2, def_rank=0.9, share_melee=1.0)
+    gunline = ChassisProfile(off_rank=0.2, def_rank=0.2, share_melee=0.0)
+    assert role_fit("buff-perso-defensif", anvil) > 1.0 > role_fit("buff-perso-defensif", gunline)
+    # buff donné : un porteur lent ne suit pas ses receveurs, un porteur rapide n'est jamais bonifié
+    assert role_fit("buff-donne", ChassisProfile(reach=7.5), 18.5) == lo
+    assert role_fit("buff-donne", ChassisProfile(reach=14.0), 10.0) == 1.0
+    assert role_fit("debuff", hammer) == 1.0
+    assert role_fit("buff-perso-offensif", ChassisProfile(off_rank=1.0)) <= hi
+
+
+def test_marriage_combines_grid_factors_and_keeps_bearing():
+    u = _unit(8, health=10, models=5, hero=False)
+    base = marriage_of(u, [_eff()], "buff-perso-offensif", "self", None, "unlimited", 1.0, (0.0, 0.0), "yours")
+    assert base.bearing == pytest.approx(1.0)
+    assert base.tempo == pytest.approx(0.5) and base.amplification == 1.0 and base.role_fit == 1.0
+    assert base.marriage == pytest.approx(0.5)
+    m = marriage_of(
+        u,
+        [_eff()],
+        "buff-perso-offensif",
+        "self",
+        None,
+        "unlimited",
+        1.0,
+        (0.0, 0.0),
+        "yours",
+        amplification=3.0,
+        role=1.2,
+    )
+    assert m.amplification == FACTOR_BOUNDS[1]
+    assert m.marriage == pytest.approx(0.5 * FACTOR_BOUNDS[1] * 1.2)
+    # famille hors grille : A et R ignorés
+    d = marriage_of(
+        u, [_eff()], "debuff", "one_enemy", 12, "unlimited", 1.0, (0.0, 0.0), "yours", amplification=3.0, role=1.4
+    )
+    assert d.marriage == pytest.approx(d.bearing)

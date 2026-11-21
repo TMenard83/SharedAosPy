@@ -12,9 +12,10 @@ prendre dans une liste donnée.
 * **Gain** : les effets traduisibles appliqués ensemble au profil du porteur (`encounter.apply_effect`), mesurés
   au moteur ; `delta_combined` = gain de l'indicateur combiné √(dégâts × durabilité), en absolu (une optimisation
   ne coûte pas de points : +20 % sur un monstre à 400 pts vaut plus que sur un héros à 80).
-* **Mariage** : D × S (`marriage.marriage_of`) sur ce porteur.
+* **Mariage** : D × S × F × A × R (`marriage.marriage_of`) sur ce porteur ; la valeur chiffrée n'applique que
+  D × S (`Marriage.bearing`), le gain mesuré et la frise portant déjà l'amplification et le tempo.
 * **Valeur** = delta_combined (gains d'attaque et de défense pondérés chacun par leur couverture sur la frise,
-  `timeline`) × mariage. Les optimisations
+  `timeline`) × D × S. Les optimisations
   sans effet traduisible (bulles, sorts, mobilité…) n'ont pas de valeur chiffrée : leurs porteurs sont classés
   par mariage (tenir l'effet) puis par l'indicateur combiné du porteur.
 """
@@ -37,7 +38,16 @@ from .encounter import (
     probe_for_effect,
     unit_durability,
 )
-from .marriage import incoming_damage, load_effects, marriage_of, share_melee_by_unit
+from .marriage import (
+    ChassisProfile,
+    chassis_profiles,
+    incoming_damage,
+    load_effects,
+    marriage_of,
+    receiver_reach,
+    role_fit,
+    share_melee_by_unit,
+)
 
 ENHANCEMENT_SOURCES = ("heroic_trait", "artefact", "enhancement", "monstrous_trait")
 _UNIT_TYPES = ("INFANTRY", "CAVALRY", "MONSTER", "BEAST", "WAR MACHINE")
@@ -146,6 +156,8 @@ def build_bearer_rows(con) -> list[tuple]:
     sm = share_melee_by_unit(con)
     incoming = incoming_damage(con)
     effs = load_effects(con)
+    profiles = chassis_profiles(con)
+    recv = receiver_reach(con)
     specs: dict[str, list[EffectSpec]] = {}
     for uid, kind, stat, value, detail, side, wscope, wname, comp, tkw, tcond, req, dur in con.execute(
         """SELECT ability_uid, kind, stat, value, detail, side, weapon_scope, weapon_name, includes_companion,
@@ -202,6 +214,7 @@ def build_bearer_rows(con) -> list[tuple]:
                 s_m,
                 incoming.get(u.id, (0.0, 0.0)),
                 tside or "any",
+                role=role_fit(family or "autre", profiles.get(u.id, ChassisProfile(share_melee=s_m)), recv.get(uid)),
             )
             cov_off = coverage(freq or "", dur, avail, False, tside or "any", "off", s_m) * p_act
             cov_def = coverage(freq or "", dur, avail, False, tside or "any", "def", s_m) * p_act
@@ -213,7 +226,8 @@ def build_bearer_rows(con) -> list[tuple]:
                 dg = round((da / db - 1) * 100, 1) if db else None
                 # gain pondéré par la frise : l'attaque et la défense n'ont pas les mêmes demi-tours utiles
                 dc = _combined(ob + cov_off * (oa - ob), db + cov_def * (da - db)) - _combined(ob, db)
-                val = round(dc * m.marriage, 3)
+                # gain mesuré sur CE porteur et pondéré par la frise : A et F y sont déjà, seul D × S s'applique
+                val = round(dc * m.bearing, 3)
                 dc = round(dc, 3)
             cov = cov_off if (og or 0) >= (dg or 0) else cov_def
             rows.append(
