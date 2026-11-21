@@ -126,7 +126,13 @@ SEGMENTS: dict[str, str] = {"hero": "is_hero == True", "troupe": "is_hero == Fal
 #: comme modalité de référence, p<0.05 sur les deux), gain de R² ajusté +0.0058 combiné à
 #: `charge_bonus_save2`.
 CATEGORICAL_FEATURES: tuple[str, ...] = (
-    "army_name", "is_hero", "weapon_mix", "unit_type", "is_flying", "is_unique", "crit_type",
+    "army_name",
+    "is_hero",
+    "weapon_mix",
+    "unit_type",
+    "is_flying",
+    "is_unique",
+    "crit_type",
 )
 
 #: Interactions bloc×continu : au lieu de deux régressions séparées héros/troupe
@@ -136,9 +142,7 @@ CATEGORICAL_FEATURES: tuple[str, ...] = (
 #: (`C(is_hero):dmg_vs_save6`) a été retirée avec `dmg_vs_save6` lui-même (voir
 #: la note de `MODEL_FEATURES`) : son propre coefficient n'était pas significatif
 #: (p=0.79) avant même le retrait du pool mêlée.
-FACTORIAL_INTERACTIONS: tuple[str, ...] = (
-    "C(is_hero):effective_wounds",
-)
+FACTORIAL_INTERACTIONS: tuple[str, ...] = ("C(is_hero):effective_wounds",)
 
 
 @dataclass(frozen=True)
@@ -268,7 +272,10 @@ def fit_cost_model(
         for name in feats
     ]
     intercept = Coefficient(
-        "const", float(model.params["const"]), float(model.bse["const"]), float(model.pvalues["const"]),
+        "const",
+        float(model.params["const"]),
+        float(model.bse["const"]),
+        float(model.pvalues["const"]),
     )
 
     return CostModelResult(
@@ -342,7 +349,10 @@ def fit_cost_model_factorial(
         if name != "Intercept"
     ]
     intercept = Coefficient(
-        "const", float(model.params["Intercept"]), float(model.bse["Intercept"]), float(model.pvalues["Intercept"]),
+        "const",
+        float(model.params["Intercept"]),
+        float(model.bse["Intercept"]),
+        float(model.pvalues["Intercept"]),
     )
 
     return CostModelResult(

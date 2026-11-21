@@ -51,26 +51,38 @@ def extract(raw: RawAbility) -> tuple[Extraction, float]:
     conditions, penalty = conditions_of(f"{raw.condition} {raw.declare} {main}", enemy_target)
     if secondary:
         # prérequis propres à un effet secondaire : notés, sans pénalité de mise en place
-        conditions += [f"{c} (effet secondaire seulement)" for c in conditions_of(secondary, enemy_target)[0]
-                       if c not in conditions]
+        conditions += [
+            f"{c} (effet secondaire seulement)"
+            for c in conditions_of(secondary, enemy_target)[0]
+            if c not in conditions
+        ]
     p, notes, variance = activation_of(raw, raw.effect)
-    effects, target_kw, scales = effects_of(raw.declare, raw.effect, scope,
-                                            passive=raw.condition.lower().startswith("passive"),
-                                            condition=raw.condition)
+    effects, target_kw, scales = effects_of(
+        raw.declare, raw.effect, scope, passive=raw.condition.lower().startswith("passive"), condition=raw.condition
+    )
     # condition de charge portée par l'Annonce (« Pick up to 3 friendly Verminus units that charged this
     # turn ») : elle vaut pour tous les effets amis, pas seulement pour la phrase qui les porte (v23)
     if "nous" in charge_subjects(raw.declare, enemy_target):
-        effects = [e if e.side != "friendly" or "a chargé" in (e.requires or "")
-                   else dataclasses.replace(e, requires=" | ".join(filter(None, ["a chargé", e.requires])))
-                   for e in effects]
+        effects = [
+            e
+            if e.side != "friendly" or "a chargé" in (e.requires or "")
+            else dataclasses.replace(e, requires=" | ".join(filter(None, ["a chargé", e.requires])))
+            for e in effects
+        ]
     # cible amie par effet (v26) : une ligne d'option l'emporte ; ailleurs, seulement si l'aptitude n'en a pas
     ability_ft = friendly_target_of(raw.declare, raw.effect)
-    effects = [dataclasses.replace(e, friendly_target=(
-        e.friendly_target[7:] if e.friendly_target.startswith("option:")
-        else ("" if ability_ft else e.friendly_target)))
-        for e in effects]
-    effects = [e if e.friendly_target != ability_ft else dataclasses.replace(e, friendly_target="")
-               for e in effects]
+    effects = [
+        dataclasses.replace(
+            e,
+            friendly_target=(
+                e.friendly_target[7:]
+                if e.friendly_target.startswith("option:")
+                else ("" if ability_ft else e.friendly_target)
+            ),
+        )
+        for e in effects
+    ]
+    effects = [e if e.friendly_target != ability_ft else dataclasses.replace(e, friendly_target="") for e in effects]
     ex = Extraction(
         frequency=frequency_of(raw.condition),
         turn=turn_of(raw.condition, raw.phase),
@@ -88,7 +100,7 @@ def extract(raw: RawAbility) -> tuple[Extraction, float]:
         # marquage : unités amies qui profitent de la cible désignée (« Hobgrot Slittaz », « NIGHTHAUNT »)
         excludes_self=scope in ("one_friendly", "friendly_aura", "army") and excludes_self_of(raw.declare, raw.effect),
         friendly_target=friendly_target_of(raw.declare, raw.effect)
-        if scope in ("one_friendly", "friendly_aura", "army")
-        or any(e.detail == "marquage" for e in effects) else "",
+        if scope in ("one_friendly", "friendly_aura", "army") or any(e.detail == "marquage" for e in effects)
+        else "",
     )
     return ex, penalty

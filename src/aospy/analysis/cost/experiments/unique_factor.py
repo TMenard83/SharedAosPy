@@ -11,6 +11,7 @@ héros) donc son effet propre pourrait ne pas ressortir proprement.
 contre-exemple "sans is_unique" à partir du jeu officiel actuel plutôt que l'inverse, pour
 que la comparaison reste valide indépendamment des évolutions futures de CATEGORICAL_FEATURES
 (l'ajouter une deuxième fois au jeu déjà officiel ferait planter l'ajustement, terme dupliqué)."""
+
 from aospy.analysis.cost import cost_model
 from aospy.persistence import db
 
@@ -25,11 +26,17 @@ print(f"Corrélation is_unique / is_hero : {frame['is_unique'].astype(float).cor
 print()
 
 cats_before = [c for c in cost_model.CATEGORICAL_FEATURES if c != "is_unique"]
-model_a = cost_model.fit_cost_model_factorial(categorical=cats_before, frame=frame.copy())  # contre-exemple, sans is_unique
+model_a = cost_model.fit_cost_model_factorial(
+    categorical=cats_before, frame=frame.copy()
+)  # contre-exemple, sans is_unique
 model_g = cost_model.fit_cost_model_factorial(frame=frame.copy())  # officiel actuel, + is_unique
 
-print(f"Modèle A (contre-exemple, sans is_unique) : R² = {model_a.r_squared:.4f}  R² ajusté = {model_a.adj_r_squared:.4f}")
-print(f"Modèle G (officiel actuel, + is_unique)    : R² = {model_g.r_squared:.4f}  R² ajusté = {model_g.adj_r_squared:.4f}")
+print(
+    f"Modèle A (contre-exemple, sans is_unique) : R² = {model_a.r_squared:.4f}  R² ajusté = {model_a.adj_r_squared:.4f}"
+)
+print(
+    f"Modèle G (officiel actuel, + is_unique)    : R² = {model_g.r_squared:.4f}  R² ajusté = {model_g.adj_r_squared:.4f}"
+)
 print(f"Gain R² ajusté : {model_g.adj_r_squared - model_a.adj_r_squared:+.4f}")
 print()
 
@@ -42,7 +49,9 @@ for c in model_g.coefficients:
 inter_h = list(cost_model.FACTORIAL_INTERACTIONS) + ["C(is_unique):dmg_vs_save2"]
 model_h = cost_model.fit_cost_model_factorial(interactions=inter_h, frame=frame.copy())  # officiel + interaction
 print()
-print(f"Modèle H (officiel + is_unique x dmg_vs_save2) : R² = {model_h.r_squared:.4f}  R² ajusté = {model_h.adj_r_squared:.4f}")
+print(
+    f"Modèle H (officiel + is_unique x dmg_vs_save2) : R² = {model_h.r_squared:.4f}  R² ajusté = {model_h.adj_r_squared:.4f}"
+)
 print(f"Gain R² ajusté (H vs A) : {model_h.adj_r_squared - model_a.adj_r_squared:+.4f}")
 for c in model_h.coefficients:
     if "unique" in c.name.lower():

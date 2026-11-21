@@ -51,6 +51,7 @@ class DuelRules:
     - `charge_dist_in`/`run_dist_in` : distances (pouces) utilisées par
       `double_shoot`, par défaut l'espérance des dés (2D6=7, 1D6=3.5).
     """
+
     double_shoot: bool = False
     charge_move_threshold: bool = False
     charge_dist_in: float = 7.0
@@ -63,6 +64,7 @@ class DuelResult:
     différer : par exemple lire A→B au plancher pessimiste (dégât qu'on peut
     "garantir" en attaquant) et B→A à la moyenne (riposte "typique" plutôt que
     pire cas), un duel n'est donc pas nécessairement symétrique dans sa lecture."""
+
     attacker: Unit
     attacker_models: int
     attacker_reinforced: bool
@@ -126,8 +128,10 @@ def _effective_models(unit: Unit, reinforced: bool) -> int:
 
 
 def _mods(
-    attacker: Unit, attacker_opts: SideOptions,
-    defender: Unit, defender_opts: SideOptions,
+    attacker: Unit,
+    attacker_opts: SideOptions,
+    defender: Unit,
+    defender_opts: SideOptions,
     rules: DuelRules,
 ) -> CombatModifiers:
     """Modificateurs d'une direction d'attaque, règles optionnelles incluses.
@@ -166,9 +170,7 @@ def _mods(
         attacker_range = max((w.range_in for w in attacker.weapons if w.kind == "ranged"), default=0)
         defender_range = max((w.range_in for w in defender.weapons if w.kind == "ranged"), default=0)
         if attacker_range > defender_range:
-            reach = defender.move + rules.charge_dist_in + (
-                rules.run_dist_in if defender_opts.ran_and_charged else 0.0
-            )
+            reach = defender.move + rules.charge_dist_in + (rules.run_dist_in if defender_opts.ran_and_charged else 0.0)
             ranged_double = reach < attacker_range
 
     return CombatModifiers(
@@ -180,8 +182,12 @@ def _mods(
 
 
 def _attack_damage(
-    attacker: Unit, attacker_models: int, defender: Unit, modifiers: CombatModifiers,
-    *, mode: DamageMode,
+    attacker: Unit,
+    attacker_models: int,
+    defender: Unit,
+    modifiers: CombatModifiers,
+    *,
+    mode: DamageMode,
 ) -> float:
     """Dégât total d'une unité en 1 round, lu selon `mode` : espérance brute
     (`expected_unit_damage`), ou plancher pessimiste à 66%/80%/95% de confiance,
@@ -240,23 +246,31 @@ def unit_duel(
     exp_ba = min(raw_ba, float(a_hp_total))
 
     return DuelResult(
-        attacker=attacker, attacker_models=a_models,
+        attacker=attacker,
+        attacker_models=a_models,
         attacker_reinforced=attacker_reinforced,
-        defender=defender, defender_models=b_models,
+        defender=defender,
+        defender_models=b_models,
         defender_reinforced=defender_reinforced,
         defender_army_name=defender_army_name,
-        raw_a_to_b=raw_ab, expected_a_to_b=exp_ab,
+        raw_a_to_b=raw_ab,
+        expected_a_to_b=exp_ab,
         expected_models_killed_b=min(exp_ab / defender.health, float(b_models)),
-        raw_b_to_a=raw_ba, expected_b_to_a=exp_ba,
+        raw_b_to_a=raw_ba,
+        expected_b_to_a=exp_ba,
         expected_models_killed_a=min(exp_ba / attacker.health, float(a_models)),
-        options_a=opts_a, options_b=opts_b,
-        mode_a=mode_a, mode_b=mode_b,
+        options_a=opts_a,
+        options_b=opts_b,
+        mode_a=mode_a,
+        mode_b=mode_b,
         rules=duel_rules,
     )
 
 
 def find_unit(
-    con: duckdb.DuckDBPyConnection, name: str, army_name: Optional[str],
+    con: duckdb.DuckDBPyConnection,
+    name: str,
+    army_name: Optional[str],
 ) -> tuple[Unit, str]:
     """Résout une unité par nom (+ armée optionnelle pour lever l'ambiguïté)."""
     if army_name:
@@ -324,16 +338,21 @@ def benchmark_attacker(
         for defender in defenders:
             if defender.is_hero and not include_heroes:
                 continue
-            results.append(unit_duel(
-                attacker, defender, army_name,
-                attacker_reinforced=attacker_reinforced,
-                defender_reinforced=defender_reinforced,
-                options_a=options_a, options_b=options_b,
-                mode_a=mode_a, mode_b=mode_b,
-                rules=rules,
-            ))
+            results.append(
+                unit_duel(
+                    attacker,
+                    defender,
+                    army_name,
+                    attacker_reinforced=attacker_reinforced,
+                    defender_reinforced=defender_reinforced,
+                    options_a=options_a,
+                    options_b=options_b,
+                    mode_a=mode_a,
+                    mode_b=mode_b,
+                    rules=rules,
+                )
+            )
     return results
-
 
 
 def save_results(con: duckdb.DuckDBPyConnection, results: list[DuelResult]) -> int:
@@ -344,19 +363,33 @@ def save_results(con: duckdb.DuckDBPyConnection, results: list[DuelResult]) -> i
     coexistent sans s'écraser (cf. `schema.sql::unit_benchmark`).
     """
     from datetime import datetime
+
     now = datetime.now()
     rows: list[tuple] = []
     for r in results:
         if r.attacker.id is None or r.defender.id is None:
             continue
-        rows.append((
-            r.attacker.id, r.defender.id,
-            r.attacker_reinforced, r.defender_reinforced,
-            r.options_a.charged, r.options_b.charged, r.mode_a, r.mode_b,
-            r.raw_a_to_b, r.expected_a_to_b,
-            r.raw_b_to_a, r.expected_b_to_a,
-            r.pts_destroyed, r.pts_lost, r.pts_net, r.roi, now,
-        ))
+        rows.append(
+            (
+                r.attacker.id,
+                r.defender.id,
+                r.attacker_reinforced,
+                r.defender_reinforced,
+                r.options_a.charged,
+                r.options_b.charged,
+                r.mode_a,
+                r.mode_b,
+                r.raw_a_to_b,
+                r.expected_a_to_b,
+                r.raw_b_to_a,
+                r.expected_b_to_a,
+                r.pts_destroyed,
+                r.pts_lost,
+                r.pts_net,
+                r.roi,
+                now,
+            )
+        )
     repository.save_benchmark_results_many(con, rows)
     return len(rows)
 
@@ -364,6 +397,7 @@ def save_results(con: duckdb.DuckDBPyConnection, results: list[DuelResult]) -> i
 @dataclass
 class FullBenchmarkSummary:
     """Bilan d'un run global : nb d'attaquants traités et de duels écrits."""
+
     attackers: int = 0
     duels: int = 0
 
@@ -404,13 +438,16 @@ def run_all_benchmarks(
         if progress is not None:
             progress(attacker.name, army_names.get(army_id, "?"), idx, total)
         results = benchmark_attacker(
-            con, attacker,
+            con,
+            attacker,
             exclude_army_id=army_id,
             include_heroes=include_heroes,
-            options_a=options_a, options_b=options_b,
+            options_a=options_a,
+            options_b=options_b,
             defenders_by_army=defenders_by_army,
             army_names=army_names,
-            mode_a=mode_a, mode_b=mode_b,
+            mode_a=mode_a,
+            mode_b=mode_b,
             rules=rules,
         )
         summary.duels += save_results(con, results)

@@ -6,6 +6,7 @@ modèle — voir sa docstring pour la justification de ce choix face à deux
 régressions séparées (`fit_segmented`). Mécanique (ajustement, mise en page)
 partagée avec cost_unites.py via cost_report.py — ce fichier ne porte que le
 texte propre aux héros."""
+
 from .cost_report import build
 
 OUT_PATH = "scratch/output/best_unit/AoS_heros_prix_TM.pdf"

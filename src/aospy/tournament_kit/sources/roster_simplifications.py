@@ -39,7 +39,9 @@ _STAT_FIELDS = frozenset({"move", "save", "control", "health", "ward", "points"}
 #: « Annonce » d'un sort/d'une convocation (`_compress_spell_declare`).
 _DECLARE_RE = re.compile(r"(<b>Annonce :</b>\s*)((?:(?!<br/>).)*)((?:<br/>)*)", re.S)
 _ONE_PER_TYPE_RE = re.compile(r"S[’']il n[’']y a pas d.*? sur le champ de bataille,\s*", re.S)
-_PICK_CASTER_RE = re.compile(r"[Cc]hoisissez un (?:<b>)?Sorcier[^,]*? ami pour (?:lancer|qu[’']il lance) ce sort,?\s*(?:puis\s+)?")
+_PICK_CASTER_RE = re.compile(
+    r"[Cc]hoisissez un (?:<b>)?Sorcier[^,]*? ami pour (?:lancer|qu[’']il lance) ce sort,?\s*(?:puis\s+)?"
+)
 #: « …la cible. Puis faites un jet de lancement de 2D6. » : la phrase entière part.
 _CASTING_ROLL_SENTENCE_RE = re.compile(r"(?<=\.)\s*Puis faites un jet de lancement de 2D6\.")
 _CASTING_ROLL_RE = re.compile(r",?\s*(?:puis |et )?[Ff]aites un jet de lancement de 2D6")
@@ -54,6 +56,7 @@ def _compress_spell_declare(description: str) -> str:
     persistant de chaque type — seuls la cible et ce qui s'y ajoute (malus au
     jet...) restent ; l'Effet (règles de placement comprises) est intact. Un
     jet de lancement autre que 2D6 laisse l'Annonce telle quelle."""
+
     def compress(m: re.Match) -> str:
         seg = m.group(2)
         if "jet de lancement de 2D6" not in seg:
@@ -72,7 +75,9 @@ def _compress_spell_declare(description: str) -> str:
     return _DECLARE_RE.sub(compress, description, count=1)
 
 
-_PICK_PRIEST_RE = re.compile(r"[Cc]hoisissez un (?:<b>)?Prêtre[^,]*? (?:ami )?pour (?:réciter|qu[’']il récite) cette prière,?\s*")
+_PICK_PRIEST_RE = re.compile(
+    r"[Cc]hoisissez un (?:<b>)?Prêtre[^,]*? (?:ami )?pour (?:réciter|qu[’']il récite) cette prière,?\s*"
+)
 _CHANTING_ROLL_RE = re.compile(r",?\s*(?:puis |et )?[Ff]aites un jet de récitation (?:d[’']un|de) D6")
 #: « S'il n'y a pas de / aucune / pas un X ami sur le champ de bataille »
 #: d'une convocation par prière (formulations plus variées que les sorts).
@@ -84,6 +89,7 @@ def _compress_prayer_declare(description: str) -> str:
     récite, à 1D6 » est sous-entendu, seule la cible reste. Un Prêtre précis
     (« Choisissez le Prêtre du Carnage de ce Régiment de Renom ») n'est pas
     un Prêtre quelconque : l'Annonce est alors laissée telle quelle."""
+
     def compress(m: re.Match) -> str:
         seg = m.group(2)
         if not (_PICK_PRIEST_RE.search(seg) and _CHANTING_ROLL_RE.search(seg)):
@@ -109,13 +115,14 @@ def _compress_declare(description: str) -> str:
     -> « Cible(s) : X » (demande de l'utilisateur, principe 17 de
     `data/roster_simplifications.md`). Une Annonce qui commence autrement
     (« Choisissez un Prince Démon ami pour… », « Si… ») reste telle quelle."""
+
     def compress(m: re.Match) -> str:
         seg = m.group(2).strip()
         t = _PICK_TARGETS_RE.match(seg)
         if t is None:
             return m.group(0)
         label = t.group(1)[0].upper() + t.group(1)[1:]  # « Cible ennemie »
-        return f"<b>{label} :</b> " + seg[t.end():] + m.group(3)
+        return f"<b>{label} :</b> " + seg[t.end() :] + m.group(3)
 
     return _DECLARE_RE.sub(compress, description, count=1)
 
@@ -138,7 +145,7 @@ def _break_after_target(description: str) -> str:
         stop = _BREAK_RE.search(description, m.end())
         if end is None or (stop is not None and stop.start() <= end.start()):
             continue
-        out.append(description[pos:end.start() + 1] + "<br/>")
+        out.append(description[pos : end.start() + 1] + "<br/>")
         pos = end.end()
     return "".join(out) + description[pos:]
 
@@ -244,9 +251,7 @@ class RosterSimplifications:
         """Applique `merge_into` : l'aptitude fusionnée sort du bassin, celle
         qui l'absorbe prend le texte fusionné."""
         present = {ability_join_key(ab.name) for ab in pool}
-        targets = {
-            into: text for src, (into, text) in self.merge_into.items() if src in present and into in present
-        }
+        targets = {into: text for src, (into, text) in self.merge_into.items() if src in present and into in present}
         if not targets:
             return pool
         merged_sources = {src for src, (into, _) in self.merge_into.items() if into in targets}
@@ -309,7 +314,9 @@ class RosterSimplifications:
 
 
 def load_roster_simplifications(
-    list_name: str, path: str | Path = DEFAULT_ROSTER_SIMPLIFICATIONS_FILE, lang: str = "fr",
+    list_name: str,
+    path: str | Path = DEFAULT_ROSTER_SIMPLIFICATIONS_FILE,
+    lang: str = "fr",
 ) -> RosterSimplifications:
     """Fichier absent -> aucune simplification. La section `all_lists`
     s'applique à toute liste en `fr-split-simple`, `lists.<nom>` en plus à
@@ -342,7 +349,9 @@ def load_roster_simplifications(
     removed = frozenset(ability_join_key(n) for n in entry.get("remove_abilities", []))
     add_keywords = {**common.get("add_keywords", {}), **entry.get("add_keywords", {})}
     return RosterSimplifications(
-        unit_abilities=unit_abilities, removed=removed, option_labels=dict(entry.get("option_labels", {})),
+        unit_abilities=unit_abilities,
+        removed=removed,
+        option_labels=dict(entry.get("option_labels", {})),
         description_overrides={
             ability_join_key(k): v
             for k, v in {**common.get("description_overrides", {}), **entry.get("description_overrides", {})}.items()
@@ -365,19 +374,26 @@ def load_roster_simplifications(
         },
         unit_description_overrides={
             unit: {ability_join_key(k): v for k, v in spec.get("description_overrides", {}).items()}
-            for unit, spec in entry.get("units", {}).items() if spec.get("description_overrides")
+            for unit, spec in entry.get("units", {}).items()
+            if spec.get("description_overrides")
         },
         unit_stats={
             unit: {k: v for k, v in spec["stats"].items() if k in _STAT_FIELDS}
-            for unit, spec in entry.get("units", {}).items() if spec.get("stats")
+            for unit, spec in entry.get("units", {}).items()
+            if spec.get("stats")
         },
         unit_keywords={
             unit: tuple(spec["add_unit_keywords"])
-            for unit, spec in entry.get("units", {}).items() if spec.get("add_unit_keywords")
+            for unit, spec in entry.get("units", {}).items()
+            if spec.get("add_unit_keywords")
         },
         unit_weapons={
-            unit: {name: {k: str(v) for k, v in stats.items() if k in _WEAPON_FIELDS} for name, stats in spec["weapons"].items()}
-            for unit, spec in entry.get("units", {}).items() if spec.get("weapons")
+            unit: {
+                name: {k: str(v) for k, v in stats.items() if k in _WEAPON_FIELDS}
+                for name, stats in spec["weapons"].items()
+            }
+            for unit, spec in entry.get("units", {}).items()
+            if spec.get("weapons")
         },
         unit_aliases={
             alias: (spec["unit"], tuple(spec.get("options", [])))

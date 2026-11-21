@@ -15,14 +15,15 @@ from ..persistence import repository
 @dataclass
 class PairResult:
     """Résultat d'un duel attaquant_entry → défenseur_entry."""
+
     attacker_entry_id: Optional[int]
     attacker_label: str
     attacker_models: int
     defender_entry_id: Optional[int]
     defender_label: str
     defender_total_hp: int
-    raw_damage: float            # dégât brut espéré (non plafonné)
-    expected_damage: float       # plafonné par HP du défenseur
+    raw_damage: float  # dégât brut espéré (non plafonné)
+    expected_damage: float  # plafonné par HP du défenseur
     expected_models_killed: float
 
 
@@ -38,6 +39,7 @@ class SideOptions:
     (`battle simulate` notamment). Indépendant de `charged` : ce dernier ne
     gouverne plus que le bonus `Charge (+N)` (`DuelRules.charge_move_threshold`).
     """
+
     charged: bool = True
     all_out_attack: bool = False
     all_out_defense: bool = False
@@ -47,6 +49,7 @@ class SideOptions:
 @dataclass
 class SideReport:
     """Rapport d'un côté qui attaque l'autre."""
+
     composition: Composition
     pairs: list[PairResult] = field(default_factory=list)
     best_target_total: float = 0.0  # somme des meilleurs dégâts par attaquant
@@ -110,17 +113,19 @@ def _compute_side(
                 capped / b_unit.health,
                 float(b_unit.models * (2 if b_entry.reinforced else 1)),
             )
-            pairs.append(PairResult(
-                attacker_entry_id=a_entry.id,
-                attacker_label=_label(a_unit, a_entry.reinforced),
-                attacker_models=a_models,
-                defender_entry_id=b_entry.id,
-                defender_label=_label(b_unit, b_entry.reinforced),
-                defender_total_hp=b_hp,
-                raw_damage=raw,
-                expected_damage=capped,
-                expected_models_killed=models_killed,
-            ))
+            pairs.append(
+                PairResult(
+                    attacker_entry_id=a_entry.id,
+                    attacker_label=_label(a_unit, a_entry.reinforced),
+                    attacker_models=a_models,
+                    defender_entry_id=b_entry.id,
+                    defender_label=_label(b_unit, b_entry.reinforced),
+                    defender_total_hp=b_hp,
+                    raw_damage=raw,
+                    expected_damage=capped,
+                    expected_models_killed=models_killed,
+                )
+            )
             prev = best_per_attacker.get(a_entry.id, -1.0)
             if capped > prev:
                 best_per_attacker[a_entry.id] = capped
@@ -154,6 +159,8 @@ def simulate_battle(
     b_to_a = _compute_side(con, comp_b, comp_a, opts_b, opts_a)
 
     return BattleReport(
-        a_to_b=a_to_b, b_to_a=b_to_a,
-        options_a=opts_a, options_b=opts_b,
+        a_to_b=a_to_b,
+        b_to_a=b_to_a,
+        options_a=opts_a,
+        options_b=opts_b,
     )

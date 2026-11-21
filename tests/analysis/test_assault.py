@@ -34,14 +34,13 @@ def test_at_least_edges():
 
 def test_command_rerolls_most_promising_failure():
     # un seul chargeur raté relancé : on choisit celui qui a le plus de chances
-    assert at_least([0.9, 0.1], 2, command=True) == pytest.approx(
-        0.9 * 0.1 + 0.9 * 0.9 * 0.1 + 0.1 * 0.1 * 0.9)
+    assert at_least([0.9, 0.1], 2, command=True) == pytest.approx(0.9 * 0.1 + 0.9 * 0.9 * 0.1 + 0.1 * 0.1 * 0.9)
 
 
 def test_reroll_receivers_reads_text():
     units = [_u("Verminlord"), _u("Clanrats", kw=("SKAVEN", "INFANTRY"))]
     vocab = frozenset(k for u in units for k in u.keywords)
-    txt = "Until the start of your next turn, you can re roll charge rolls for friendly units while they are wholly within 12\""
+    txt = 'Until the start of your next turn, you can re roll charge rolls for friendly units while they are wholly within 12"'
     assert reroll_receivers(txt, units, vocab) == ("Verminlord", "Clanrats")
     assert reroll_receivers("You can re-roll charge rolls for friendly MONSTER units.", units, vocab) == ("Verminlord",)
     assert reroll_receivers("Add 1 to charge rolls.", units, vocab) is None
@@ -58,8 +57,10 @@ def test_chargers_keep_the_hitters():
 def test_scenario_cogs_expected_and_teleport():
     units = [_u(f"V{i}") for i in range(4)]
     names = tuple(u.name for u in units)
-    srcs = [ChargeSource("Short-tempered", "x", "bonus", 1, names, 1.0, False),
-            ChargeSource("Cogs", "manifestation", "relance", 0, names, 0.72, False)]
+    srcs = [
+        ChargeSource("Short-tempered", "x", "bonus", 1, names, 1.0, False),
+        ChargeSource("Cogs", "manifestation", "relance", 0, names, 0.72, False),
+    ]
     sc = scenario("tp", units, lambda u: 9.0, srcs, p_arrive=0.72)
     by = {c.label.split(" (")[0]: c.at_least for c in sc.cases}
     assert by["bonus permanents"][1] == pytest.approx(0.553, abs=0.005)
@@ -71,38 +72,71 @@ def test_scenario_cogs_expected_and_teleport():
 
 def test_longest_charge_threat_range():
     from aospy.analysis.layers.assault import longest_charge
-    assert longest_charge(0, False) == 7          # P(2D6 ≥ 7) = 58 %, ≥ 8 = 42 %
+
+    assert longest_charge(0, False) == 7  # P(2D6 ≥ 7) = 58 %, ≥ 8 = 42 %
     assert longest_charge(1, False) == 8
-    assert longest_charge(1, True) == 9           # +1 et relance : 9" à 66 %, 10" à 48 %
+    assert longest_charge(1, True) == 9  # +1 et relance : 9" à 66 %, 10" à 48 %
 
 
 def _ab(name, effects, text="", ft="", scope="friendly_aura", carriers=("Skreech",), freq="unlimited"):
     from aospy.analysis.layers.listing import ListAbility
-    return ListAbility("u-" + name, name, "charte : Skreech", "warscroll", carriers, scope, freq, "yours", "",
-                       "", None, 1.0, None, ft, False, "plan", 2, 2, 2, 2, tuple(effects), False, text)
+
+    return ListAbility(
+        "u-" + name,
+        name,
+        "charte : Skreech",
+        "warscroll",
+        carriers,
+        scope,
+        freq,
+        "yours",
+        "",
+        "",
+        None,
+        1.0,
+        None,
+        ft,
+        False,
+        "plan",
+        2,
+        2,
+        2,
+        2,
+        tuple(effects),
+        False,
+        text,
+    )
 
 
 def test_charge_sources_read_v25_v26_effects():
     from aospy.analysis.layers.assault import charge_sources
     from aospy.analysis.layers.encounter import EffectSpec
+
     verm, wiz = _u("Warbringer"), _u("Arch-Warlock", kw=("SKAVEN", "HERO", "WIZARD", "MASTERCLAN"))
     units = [verm, wiz]
     vocab = frozenset(k for u in units for k in u.keywords)
-    thirteen = _ab("The Thirteen-headed One", [
-        EffectSpec("stat_mod", "cast", 1.0), EffectSpec("stat_mod", "charge", 1.0, friendly_target="VERMINUS")],
-        ft="MASTERCLAN WIZARD")
-    cogs = _ab("Mechanisms of Time", [EffectSpec("reroll", "charge", 1.0)], ft="WIZARD",
-               text="you can re roll charge rolls for friendly units while they are wholly within 12\"")
+    thirteen = _ab(
+        "The Thirteen-headed One",
+        [EffectSpec("stat_mod", "cast", 1.0), EffectSpec("stat_mod", "charge", 1.0, friendly_target="VERMINUS")],
+        ft="MASTERCLAN WIZARD",
+    )
+    cogs = _ab(
+        "Mechanisms of Time",
+        [EffectSpec("reroll", "charge", 1.0)],
+        ft="WIZARD",
+        text='you can re roll charge rolls for friendly units while they are wholly within 12"',
+    )
     partial = _ab("Pitiless", [EffectSpec("reroll", "charge", 0.5)], ft="SKAVEN")
     src = {s.name: s for s in charge_sources([thirteen, cogs, partial], units, vocab)}
-    assert src["The Thirteen-headed One"].receivers == ("Warbringer",)      # cible de l'effet (v26)
-    assert set(src["Mechanisms of Time"].receivers) == {"Warbringer", "Arch-Warlock"}   # texte : toutes
-    assert "Pitiless" not in src                                            # relance partielle non comptée
+    assert src["The Thirteen-headed One"].receivers == ("Warbringer",)  # cible de l'effet (v26)
+    assert set(src["Mechanisms of Time"].receivers) == {"Warbringer", "Arch-Warlock"}  # texte : toutes
+    assert "Pitiless" not in src  # relance partielle non comptée
 
 
 def test_charge_sources_star_target_reaches_every_unit():
     from aospy.analysis.layers.assault import charge_sources
     from aospy.analysis.layers.encounter import EffectSpec
+
     units = [_u("Warbringer"), _u("Arch-Warlock", kw=("SKAVEN", "HERO", "WIZARD"))]
     vocab = frozenset(k for u in units for k in u.keywords)
     cogs = _ab("Mechanisms of Time", [EffectSpec("reroll", "charge", 1.0, friendly_target="*")], ft="WIZARD")
@@ -121,13 +155,14 @@ def test_dice_count_modes():
 def test_dice_source_feeds_scenario_and_threat():
     from aospy.analysis.layers.assault import charge_sources, longest_charge
     from aospy.analysis.layers.encounter import EffectSpec
+
     units = [_u("A"), _u("B")]
     vocab = frozenset(k for u in units for k in u.keywords)
     src = charge_sources([_ab("Starfall", [EffectSpec("dice_count", "charge", 1.0, "somme")], ft="")], units, vocab)
     assert src[0].kind == "dés" and src[0].dice == "3d6"
     sc = scenario("tp", units, lambda u: 9.0, src)
     assert dict((c, b) for c, _p, b in sc.chargers)["A"] == pytest.approx(0.741, abs=0.001)
-    assert longest_charge(0, False, dice="3d6") == 11      # 3D6 ≥ 11 : 50 % (seuil atteint) ; ≥ 12 : 37,5 %
+    assert longest_charge(0, False, dice="3d6") == 11  # 3D6 ≥ 11 : 50 % (seuil atteint) ; ≥ 12 : 37,5 %
 
 
 def test_dice_max_mode_and_best_choice():

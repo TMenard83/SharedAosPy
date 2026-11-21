@@ -10,6 +10,7 @@ que dmg_vs_save2 grandit avec les deux à la fois — plus fidèle à ce que GW 
 `cost_model.MODEL_FEATURES` utilise déjà `dmg_vs_save2` : ce script dérive donc la variante
 `dmg_pen` (ratio, écartée) à partir du jeu officiel actuel plutôt que l'inverse, pour que la
 comparaison reste valide indépendamment des évolutions futures de MODEL_FEATURES."""
+
 from aospy.analysis.cost import cost_model
 from aospy.persistence import db
 
@@ -28,9 +29,15 @@ model_ratio = cost_model.fit_cost_model_factorial(features=FEATURES_RATIO, frame
 model_weighted = cost_model.fit_cost_model_factorial(features=FEATURES_WEIGHTED, frame=frame.copy())
 model_both = cost_model.fit_cost_model_factorial(features=FEATURES_BOTH, frame=frame.copy())
 
-print(f"Modèle A (dmg_pen, ratio, écarté)           : R = {model_ratio.r_squared**0.5:.4f}  R² = {model_ratio.r_squared:.4f}  R² ajusté = {model_ratio.adj_r_squared:.4f}")
-print(f"Modèle B (dmg_vs_save2, officiel actuel)     : R = {model_weighted.r_squared**0.5:.4f}  R² = {model_weighted.r_squared:.4f}  R² ajusté = {model_weighted.adj_r_squared:.4f}")
-print(f"Modèle C (dmg_pen + dmg_vs_save2, les deux) : R = {model_both.r_squared**0.5:.4f}  R² = {model_both.r_squared:.4f}  R² ajusté = {model_both.adj_r_squared:.4f}")
+print(
+    f"Modèle A (dmg_pen, ratio, écarté)           : R = {model_ratio.r_squared**0.5:.4f}  R² = {model_ratio.r_squared:.4f}  R² ajusté = {model_ratio.adj_r_squared:.4f}"
+)
+print(
+    f"Modèle B (dmg_vs_save2, officiel actuel)     : R = {model_weighted.r_squared**0.5:.4f}  R² = {model_weighted.r_squared:.4f}  R² ajusté = {model_weighted.adj_r_squared:.4f}"
+)
+print(
+    f"Modèle C (dmg_pen + dmg_vs_save2, les deux) : R = {model_both.r_squared**0.5:.4f}  R² = {model_both.r_squared:.4f}  R² ajusté = {model_both.adj_r_squared:.4f}"
+)
 print()
 print(f"Gain R² ajusté (B vs A) : {model_weighted.adj_r_squared - model_ratio.adj_r_squared:+.4f}")
 print(f"Gain R² ajusté (C vs A) : {model_both.adj_r_squared - model_ratio.adj_r_squared:+.4f}")

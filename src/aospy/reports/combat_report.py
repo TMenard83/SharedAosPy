@@ -4,6 +4,7 @@ le filtre troupe/héros et le texte (French, propre à chaque rôle) varient. Ce
 module porte la mécanique (chargement, tri, mise en page PDF) commune ; les
 fichiers combat_unites.py/combat_heros.py ne gardent que leur texte et
 appellent `build()`."""
+
 from reportlab.lib.units import mm
 from reportlab.platypus import NextPageTemplate, PageBreak, Paragraph, Spacer
 
@@ -26,9 +27,19 @@ from .common import (
     today_str,
 )
 
-HEADER = ["#", None, "Armée", "All.", "Pts",
-          "ROI Stabilité\n(95)", "ROI Fiabilité\n(66)", "ROI Explosivité\n(20)", "ROI Moyen",
-          "Pts net moy.", "% positif"]
+HEADER = [
+    "#",
+    None,
+    "Armée",
+    "All.",
+    "Pts",
+    "ROI Stabilité\n(95)",
+    "ROI Fiabilité\n(66)",
+    "ROI Explosivité\n(20)",
+    "ROI Moyen",
+    "Pts net moy.",
+    "% positif",
+]
 COL_WIDTHS = [w * mm for w in (10, 54, 38, 14, 12, 20, 20, 20, 20, 24, 18)]
 
 
@@ -87,10 +98,12 @@ def build(
     story = []
     story.append(Spacer(1, 26 * mm))
     story.append(Paragraph("Compendium des Duels", cover_title))
-    story.append(Paragraph(
-        cover_subtitle_template.format(n_armies=n_armies, n=n_rows),
-        cover_subtitle,
-    ))
+    story.append(
+        Paragraph(
+            cover_subtitle_template.format(n_armies=n_armies, n=n_rows),
+            cover_subtitle,
+        )
+    )
     story.append(Spacer(1, 8 * mm))
     story.append(Paragraph(f"Registre établi le {today_str()} — Édition TM", cover_meta))
     story.append(Spacer(1, 10 * mm))
@@ -111,8 +124,9 @@ def build(
     story.append(Paragraph(data_section_note, section_note))
     story.append(Paragraph(table_count_template.format(n=n_rows), subhead))
     story.append(Spacer(1, 2))
-    story.append(ranked_table(header, COL_WIDTHS, rows, fmt_row, lambda r: r["grand_alliance"],
-                              colored_cols=[(8, roi_color)]))
+    story.append(
+        ranked_table(header, COL_WIDTHS, rows, fmt_row, lambda r: r["grand_alliance"], colored_cols=[(8, roi_color)])
+    )
 
     doc.build(story)
     print("PDF genere:", out_path)

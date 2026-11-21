@@ -148,7 +148,7 @@ def test_build_roster_pdf_falls_back_to_wahapedia_for_regiment_of_renown(tmp_pat
     # une seule occurrence : plus de section "Regiment of Renown" séparée,
     # seulement la note de provenance rattachée à la carte de Skarbrand.
     assert text.count("Regiment of Renown — The Exiled One") == 1
-    assert "Regiment of Renown — The Exiled One" in text[skarbrand_idx:skarbrand_idx + 400]
+    assert "Regiment of Renown — The Exiled One" in text[skarbrand_idx : skarbrand_idx + 400]
     assert "HATRED FOR ALL" in text[skarbrand_idx:]
 
 
@@ -188,7 +188,10 @@ _LRL_LIST = "tests/fixtures/lists/LRL L3 Avengers Wardens.txt"
 
 def test_build_roster_pdf_mode_hybrid_falls_back_to_french_page_copy_without_wahapedia(tmp_path):
     result = build_roster_pdf(
-        _LRL_LIST, out_path=tmp_path / "out.pdf", wahapedia_dir=tmp_path / "no-such-wahapedia-dir", mode="hybrid",
+        _LRL_LIST,
+        out_path=tmp_path / "out.pdf",
+        wahapedia_dir=tmp_path / "no-such-wahapedia-dir",
+        mode="hybrid",
     )
     assert result.rules_unmatched == []
     assert "Formations de Bataille" in result.rules_included
@@ -197,7 +200,10 @@ def test_build_roster_pdf_mode_hybrid_falls_back_to_french_page_copy_without_wah
 
 def test_build_roster_pdf_mode_en_skips_french_page_copy_fallback(tmp_path):
     result = build_roster_pdf(
-        _LRL_LIST, out_path=tmp_path / "out.pdf", wahapedia_dir=tmp_path / "no-such-wahapedia-dir", mode="en",
+        _LRL_LIST,
+        out_path=tmp_path / "out.pdf",
+        wahapedia_dir=tmp_path / "no-such-wahapedia-dir",
+        mode="en",
     )
     assert "Formations de Bataille" not in result.rules_included
     assert "Traits Héroïques et Artefacts de Pouvoir" not in result.rules_included
@@ -248,7 +254,9 @@ def test_build_roster_pdf_mode_fr_extended_includes_generic_abilities_card(tmp_p
         encoding="utf-8",
     )
     out_path = tmp_path / "out.pdf"
-    result = build_roster_pdf(_LRL_LIST, out_path=out_path, mode="fr-extended", generic_core_abilities_path=generic_path)
+    result = build_roster_pdf(
+        _LRL_LIST, out_path=out_path, mode="fr-extended", generic_core_abilities_path=generic_path
+    )
 
     assert "Aptitudes Génériques — MdG26-27" in result.rules_included
     # carte sectionnée : un nom court peut tenir sur plusieurs lignes d'une
@@ -334,7 +342,9 @@ def test_build_roster_pdf_mode_fr_split_two_turn_cards_and_stripped_warscrolls(t
     # (recto), quitte à laisser une page blanche de remplissage juste avant
     windmage = [i for i, t in enumerate(pages) if "Hurakan Windmage" in t and "MV" in t]
     assert windmage[0] < deploy and mine < windmage[-1] < enemy
-    copy_start = next(i for i in range(mine, enemy) if "MV" in pages[i] and not pages[i].lstrip().startswith("MON TOUR"))
+    copy_start = next(
+        i for i in range(mine, enemy) if "MV" in pages[i] and not pages[i].lstrip().startswith("MON TOUR")
+    )
     assert copy_start % 2 == 0
     assert all(t.lstrip().startswith("MON TOUR") or not t.strip() for t in pages[mine:copy_start])
     assert not pages[deploy].lstrip().startswith(("MON TOUR", "TOUR DE"))
@@ -389,19 +399,23 @@ def _renown_army_frf_json(abilities: list[tuple[str, str]]) -> str:
 
     by_category: dict[str, list[dict]] = {}
     for category, wahapedia_name in abilities:
-        by_category.setdefault(category, []).append({
-            "wahapedia_name": wahapedia_name,
-            "name": f"FR : {wahapedia_name}",
-            "description": f"<b>Texte français de test pour {wahapedia_name}.</b>",
-            "origin": "BT",
-        })
-    return _json.dumps({
-        "factions": {
-            "Slaves to Darkness": {
-                "renown_armies": {"Legion of the First Prince": by_category},
+        by_category.setdefault(category, []).append(
+            {
+                "wahapedia_name": wahapedia_name,
+                "name": f"FR : {wahapedia_name}",
+                "description": f"<b>Texte français de test pour {wahapedia_name}.</b>",
+                "origin": "BT",
+            }
+        )
+    return _json.dumps(
+        {
+            "factions": {
+                "Slaves to Darkness": {
+                    "renown_armies": {"Legion of the First Prince": by_category},
+                },
             },
-        },
-    })
+        }
+    )
 
 
 def test_build_roster_pdf_mode_fr_renown_army_full_coverage(tmp_path):
@@ -441,7 +455,10 @@ def test_build_roster_pdf_mode_hybrid_ignores_renown_army_curation(tmp_path):
     frf_path = tmp_path / "faction_rules_fr.json"
     frf_path.write_text(_renown_army_frf_json(_LEGION_OF_THE_FIRST_PRINCE_ABILITIES), encoding="utf-8")
     result = build_roster_pdf(
-        _STD_FIRST_PRINCE_LIST, out_path=tmp_path / "out.pdf", mode="hybrid", faction_rules_fr_path=frf_path,
+        _STD_FIRST_PRINCE_LIST,
+        out_path=tmp_path / "out.pdf",
+        mode="hybrid",
+        faction_rules_fr_path=frf_path,
     )
     assert "Legion of the First Prince — Army of Renown Rules (EN, Wahapedia)" in result.wahapedia_used
     assert "Armée de Renom — Legion of the First Prince" not in result.rules_included
@@ -452,17 +469,21 @@ def test_default_output_path_groups_by_team_then_list(tmp_path):
     out_dir = tmp_path / "roster"
     in_team = lists_dir / "Melusior" / "KB L3 Ruze.txt"
     assert default_output_path(in_team, "fr-split-simple", lists_dir, out_dir) == (
-        out_dir / "Melusior" / "KB L3 Ruze" / "KB L3 Ruze (fr-split-simple).pdf")
+        out_dir / "Melusior" / "KB L3 Ruze" / "KB L3 Ruze (fr-split-simple).pdf"
+    )
     # hybrid -> « defaut » ; liste hors du dossier des listes -> pas d'équipe
     elsewhere = tmp_path / "ailleurs" / "STD Nath.txt"
     assert default_output_path(elsewhere, "hybrid", lists_dir, out_dir) == (
-        out_dir / "STD Nath" / "STD Nath (defaut).pdf")
+        out_dir / "STD Nath" / "STD Nath (defaut).pdf"
+    )
 
 
 def test_default_output_path_en_split_simple(tmp_path):
     lists = tmp_path / "lists"
     (lists / "Equipe").mkdir(parents=True)
-    path = default_output_path(lists / "Equipe" / "Ma liste.txt", "en-split-simple", lists_dir=lists, output_dir=tmp_path / "out")
+    path = default_output_path(
+        lists / "Equipe" / "Ma liste.txt", "en-split-simple", lists_dir=lists, output_dir=tmp_path / "out"
+    )
     assert path == tmp_path / "out" / "Equipe" / "Ma liste" / "Ma liste (en-split-simple).pdf"
 
 
@@ -510,7 +531,9 @@ def test_split_enemy_turn_card_drops_at_the_double(tmp_path, monkeypatch):
 
     cards = []
     real = pb.render_rule_card
-    monkeypatch.setattr(pb, "render_rule_card", lambda t, a, *x, **k: (cards.append((t, list(a or []))), real(t, a, *x, **k))[1])
+    monkeypatch.setattr(
+        pb, "render_rule_card", lambda t, a, *x, **k: (cards.append((t, list(a or []))), real(t, a, *x, **k))[1]
+    )
     build_roster_pdf(_LRL_LIST, out_path=tmp_path / "out.pdf", mode="fr-split")
     names = {title: {ab.name for ab in abilities} for title, abilities in cards}
     assert "Au Pas de Course" in names["Mon tour"]

@@ -50,7 +50,8 @@ class TacticCard:
 
 
 def load_tactic_cards(
-    path: str | Path = DEFAULT_TACTIC_CARDS_FILE, en_path: str | Path | None = None,
+    path: str | Path = DEFAULT_TACTIC_CARDS_FILE,
+    en_path: str | Path | None = None,
 ) -> dict[str, TacticCard]:
     """`{nom anglais (tel qu'utilisé dans un export de liste) -> TacticCard}`.
     Fichier absent -> dict vide (une liste citant une carte tombe alors en
@@ -68,7 +69,9 @@ def load_tactic_cards(
             flavor=row["flavor"],
             special_rule=row.get("special_rule"),
             sub_tactics=tuple(
-                SubTactic(kind=s["kind"], name=s["name"], flavor=s["flavor"], condition=s["condition"], points=s["points"])
+                SubTactic(
+                    kind=s["kind"], name=s["name"], flavor=s["flavor"], condition=s["condition"], points=s["points"]
+                )
                 for s in row["sub_tactics"]
             ),
         )
@@ -82,7 +85,10 @@ def load_tactic_cards(
         if en is None:
             continue
         cards[key] = replace(
-            card, special_rule=en.get("special_rule"), flavor="", english=True,
+            card,
+            special_rule=en.get("special_rule"),
+            flavor="",
+            english=True,
             sub_tactics=tuple(
                 replace(sub, name=e["name"], condition=e["condition"], flavor="")
                 for sub, e in zip(card.sub_tactics, en["sub_tactics"])
@@ -112,7 +118,10 @@ def compress_tactic_conditions(card: TacticCard) -> TacticCard:
     """`fr-split-simple` : « Vous exécutez cette tactique de bataille à la fin
     de votre tour si… » -> « Fin de votre tour, si… » (demande de
     l'utilisateur, toutes les listes)."""
-    return replace(card, sub_tactics=tuple(
-        replace(sub, condition=sub.condition.replace(_TACTIC_CONDITION_PREFIX, "Fin de votre tour, ", 1))
-        for sub in card.sub_tactics
-    ))
+    return replace(
+        card,
+        sub_tactics=tuple(
+            replace(sub, condition=sub.condition.replace(_TACTIC_CONDITION_PREFIX, "Fin de votre tour, ", 1))
+            for sub in card.sub_tactics
+        ),
+    )

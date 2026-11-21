@@ -49,11 +49,12 @@ def cmd_cost_residuals(args: argparse.Namespace) -> int:
     label = "sous-cotées" if args.direction == "under" else "sur-cotées"
     print(f"Top {len(pool)} unités {label} :")
     for r in pool:
-        print(f"  {r.name:<28} [{armies.get(r.army_id, '?'):<20}]  pts={r.points:<5} "
-              f"prédit={r.predicted:7.1f}  résidu={r.residual:+7.1f} ({r.residual_pct:+.0f}%)")
+        print(
+            f"  {r.name:<28} [{armies.get(r.army_id, '?'):<20}]  pts={r.points:<5} "
+            f"prédit={r.predicted:7.1f}  résidu={r.residual:+7.1f} ({r.residual_pct:+.0f}%)"
+        )
     con.close()
     return 0
-
 
 
 def register(sub: argparse._SubParsersAction) -> None:
@@ -61,11 +62,14 @@ def register(sub: argparse._SubParsersAction) -> None:
     p_cost = sub.add_parser("cost", help="Modèle de coût (points ~ caractéristiques).")
     scst = p_cost.add_subparsers(dest="action", required=True)
     p = scst.add_parser("fit", help="Ajuste le modèle et affiche les coefficients.")
-    p.add_argument("--segmented", action="store_true",
-                   help="Ajuste un modèle séparé par segment (hero/troupe).")
+    p.add_argument("--segmented", action="store_true", help="Ajuste un modèle séparé par segment (hero/troupe).")
     p.set_defaults(func=cmd_cost_fit)
     p = scst.add_parser("residuals", help="Unités les plus sous/sur-cotées (résidu).")
     p.add_argument("--top", type=int, default=20, help="Nombre d'unités à afficher.")
-    p.add_argument("--direction", choices=["under", "over"], default="under",
-                   help="Sous-cotées (under, défaut) ou sur-cotées (over).")
+    p.add_argument(
+        "--direction",
+        choices=["under", "over"],
+        default="under",
+        help="Sous-cotées (under, défaut) ou sur-cotées (over).",
+    )
     p.set_defaults(func=cmd_cost_residuals)

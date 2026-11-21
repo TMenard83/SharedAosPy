@@ -42,7 +42,17 @@ from .theme import (
 #: Cas localisé à ce mot-clé (propre à Seraphon) : ne change rien pour
 #: aucune autre aptitude/faction.
 _PHASE_ORDER = [
-    "asterism", "deploy", "round_start", "start", "hero", "move", "shoot", "charge", "melee", "end", "any",
+    "asterism",
+    "deploy",
+    "round_start",
+    "start",
+    "hero",
+    "move",
+    "shoot",
+    "charge",
+    "melee",
+    "end",
+    "any",
 ]
 
 #: Ordre des cartes du mode `fr-split` (`pdf_builder`) : « N'importe quelle
@@ -51,14 +61,28 @@ _PHASE_ORDER = [
 #: de tour n'en ont donc plus, et « Fin de tour » y est le dernier bandeau,
 #: suivi directement des cartes de tactique de bataille.
 SPLIT_PHASE_ORDER = [
-    "asterism", "deploy", "any", "round_start", "start", "hero", "move", "shoot", "charge", "melee", "end",
+    "asterism",
+    "deploy",
+    "any",
+    "round_start",
+    "start",
+    "hero",
+    "move",
+    "shoot",
+    "charge",
+    "melee",
+    "end",
 ]
 
 
 _PHASE_FIELD_TO_KEY = {
     "deployment phase": "deploy",
-    "start of turn": "start", "hero phase": "hero", "movement phase": "move",
-    "shooting phase": "shoot", "charge phase": "charge", "combat phase": "melee",
+    "start of turn": "start",
+    "hero phase": "hero",
+    "movement phase": "move",
+    "shooting phase": "shoot",
+    "charge phase": "charge",
+    "combat phase": "melee",
     "end of turn": "end",
 }
 
@@ -125,8 +149,10 @@ def _plain_condition(condition: str) -> str | None:
         return _PLAIN_CONDITION_FR[low]
     m = _FREQ_RE.match(condition)
     if m:
-        return _PLAIN_CONDITION_FR.get(condition[m.end():].lstrip(" ,").lower())
+        return _PLAIN_CONDITION_FR.get(condition[m.end() :].lstrip(" ,").lower())
     return None
+
+
 #: Reclassifie en phase « Début de Round » (cf. `classify_phase`) toute
 #: aptitude dont le `condition` mentionne « Start of (the) (First) Battle
 #: Round » — Wahapedia ne distingue pas ce moment (unique, avant qu'aucun des
@@ -145,7 +171,8 @@ _ROUND_START_RE = re.compile(r"\bstart of (?:the )?(?:first )?battle round\b", r
 #: DEFIANT SUPREMACY » : « Any Hero Phase » mais "Movement Phase"), et c'est
 #: le `condition` qui correspond à la charte imprimée.
 _CONDITION_PHASE_RE = re.compile(
-    r"\b(Hero Phase|Movement Phase|Shooting Phase|Charge Phase|Combat Phase)\b", re.IGNORECASE,
+    r"\b(Hero Phase|Movement Phase|Shooting Phase|Charge Phase|Combat Phase)\b",
+    re.IGNORECASE,
 )
 _WIELDER_RATIO_RE = re.compile(
     r"(\d+/\d+)\s+models?\s+can\s+replace\s+(?:their|its)\s+[\w\s'’-]+?\s+with\s+an?\s+([\w\s'’-]+?)\.",
@@ -263,15 +290,34 @@ _FR_SHOOT_RE = re.compile(r"attaques? de tir")
 #: `split_pool._CHOICE_CLUSTERS`) passent en tête de leur bandeau.
 CHOICE_CATEGORIES = frozenset({"delusion", "blood_tithe", "khaine_blessing", "chaos_pledge"})
 _CHOICE_CATEGORY_KEYWORDS = {"delusion": "delusion", "blood_tithe": "blood tithe"}
-_CATEGORY_ORDER = ["delusion", "blood_tithe", "khaine_blessing", "chaos_pledge", "normal", "spell", "prayer", "manifestation"]
+_CATEGORY_ORDER = [
+    "delusion",
+    "blood_tithe",
+    "khaine_blessing",
+    "chaos_pledge",
+    "normal",
+    "spell",
+    "prayer",
+    "manifestation",
+]
 _CATEGORY_LABELS_FR = {
-    "normal": "Aptitudes", "spell": "Sorts", "prayer": "Prières", "manifestation": "Manifestations",
-    "delusion": "Délires", "blood_tithe": "Dîme de Sang", "khaine_blessing": "Bénédictions de Khaine",
+    "normal": "Aptitudes",
+    "spell": "Sorts",
+    "prayer": "Prières",
+    "manifestation": "Manifestations",
+    "delusion": "Délires",
+    "blood_tithe": "Dîme de Sang",
+    "khaine_blessing": "Bénédictions de Khaine",
     "chaos_pledge": "Vocation au Chaos",
 }
 _CATEGORY_COLORS = {
-    "normal": "#6b6555", "spell": _BADGE_SPELL, "prayer": _BADGE_PRAYER, "manifestation": _BADGE_STAT,
-    "delusion": _BADGE_FACTION, "blood_tithe": _BADGE_BLOOD, "khaine_blessing": _BADGE_FACTION,
+    "normal": "#6b6555",
+    "spell": _BADGE_SPELL,
+    "prayer": _BADGE_PRAYER,
+    "manifestation": _BADGE_STAT,
+    "delusion": _BADGE_FACTION,
+    "blood_tithe": _BADGE_BLOOD,
+    "khaine_blessing": _BADGE_FACTION,
     "chaos_pledge": _BADGE_FACTION,
 }
 
@@ -330,7 +376,8 @@ def _qualifier_label(condition: str) -> str | None:
 #: Bilingue : le texte est l'anglais Wahapedia ou le français patché
 #: (`faction_rules_fr.json`, qui garde le `condition` Wahapedia).
 _DAMAGE_STATE_RE = re.compile(
-    r"while this unit has [^.]*?damage points?|tant qu(?:e cette unité|['’]elle) a [^.]*?dégâts?", re.IGNORECASE,
+    r"while this unit has [^.]*?damage points?|tant qu(?:e cette unité|['’]elle) a [^.]*?dégâts?",
+    re.IGNORECASE,
 )
 _CHARACTERISTIC_RE = re.compile(r"\bcharacteristic\b|\bcaractéristique\b", re.IGNORECASE)
 
@@ -355,7 +402,8 @@ def is_profile_modifier(ability: AbilityEntry) -> bool:
 #: note de provenance d'une aptitude de synthèse (`roster_simplifications._NOTE_MARKUP`).
 _PROVENANCE_NOTE_RE = re.compile(r'<br/><font size="6" color="#8a8a8a">.*?</font>', re.S)
 _OTHER_UNITS_RE = re.compile(
-    r"\b(?:declare|annonce|friendly|enemy|amie?s?|ennemie?s?|other units?|autres? unités?)\b", re.IGNORECASE,
+    r"\b(?:declare|annonce|friendly|enemy|amie?s?|ennemie?s?|other units?|autres? unités?)\b",
+    re.IGNORECASE,
 )
 #: effet porté sur la cible d'une attaque (« the target has the WARD-SMASHED
 #: keyword », « that HERO is automatically destroyed ») : touche une autre
@@ -405,9 +453,7 @@ TURN_ENEMY = "enemy"
 _BOTH_TURNS = frozenset({TURN_MINE, TURN_ENEMY})
 
 
-_IN_YOUR_PHASE_RE = re.compile(
-    r"\bin your\b[^,.]*?\bphase\b|\bdans votre phase\b", re.IGNORECASE
-)
+_IN_YOUR_PHASE_RE = re.compile(r"\bin your\b[^,.]*?\bphase\b|\bdans votre phase\b", re.IGNORECASE)
 
 
 def ability_turn_sides(ability: AbilityEntry) -> frozenset[str]:
@@ -468,7 +514,11 @@ _SPAN_2_THRESHOLD = 450
 _SPAN_3_THRESHOLD = 1100
 
 _SECTION_HEADER_STYLE = ParagraphStyle(
-    "wc_section", fontName="Helvetica-Bold", fontSize=8, leading=10, textColor=colors.white,
+    "wc_section",
+    fontName="Helvetica-Bold",
+    fontSize=8,
+    leading=10,
+    textColor=colors.white,
 )
 _SECTION_HEADER_BG = colors.black
 

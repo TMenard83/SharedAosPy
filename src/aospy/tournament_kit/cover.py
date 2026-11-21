@@ -56,13 +56,20 @@ def _unit_row(name: str, points: int, options: list[str]) -> str:
 
 
 def _build_cover_pdf(
-    parsed: ParsedList, units_unmatched: list[str], rules_unmatched: list[str], wahapedia_used: list[str],
+    parsed: ParsedList,
+    units_unmatched: list[str],
+    rules_unmatched: list[str],
+    wahapedia_used: list[str],
     badge_shapes: frozenset[str] = frozenset(),
 ) -> bytes:
     buf = BytesIO()
     doc = SimpleDocTemplate(
-        buf, pagesize=A4,
-        leftMargin=18 * mm, rightMargin=18 * mm, topMargin=18 * mm, bottomMargin=15 * mm,
+        buf,
+        pagesize=A4,
+        leftMargin=18 * mm,
+        rightMargin=18 * mm,
+        topMargin=18 * mm,
+        bottomMargin=15 * mm,
         title=parsed.title,
     )
     #: largeur dispo pour le contenu une fois la case blanche (`_wrap_in_sheet`)
@@ -94,29 +101,34 @@ def _build_cover_pdf(
         rows = [[Paragraph(_unit_row(u.name, u.points, u.options), style)] for u in regiment.units]
         if rows:
             table = Table(rows, colWidths=[content_width])
-            table.setStyle(TableStyle([
-                ("BOX", (0, 0), (-1, -1), 0.6, GOLD),
-                ("INNERGRID", (0, 0), (-1, -1), 0.4, GOLD),
-                ("LEFTPADDING", (0, 0), (-1, -1), 6),
-                ("TOPPADDING", (0, 0), (-1, -1), 4),
-                ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
-            ]))
+            table.setStyle(
+                TableStyle(
+                    [
+                        ("BOX", (0, 0), (-1, -1), 0.6, GOLD),
+                        ("INNERGRID", (0, 0), (-1, -1), 0.4, GOLD),
+                        ("LEFTPADDING", (0, 0), (-1, -1), 6),
+                        ("TOPPADDING", (0, 0), (-1, -1), 4),
+                        ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
+                    ]
+                )
+            )
             story.append(table)
 
     if parsed.regiments_of_renown:
         story.append(Paragraph("Regiments of Renown", _REGIMENT))
-        rows = [
-            [Paragraph(_unit_row(ror.name, ror.points, ror.units), style)]
-            for ror in parsed.regiments_of_renown
-        ]
+        rows = [[Paragraph(_unit_row(ror.name, ror.points, ror.units), style)] for ror in parsed.regiments_of_renown]
         table = Table(rows, colWidths=[content_width])
-        table.setStyle(TableStyle([
-            ("BOX", (0, 0), (-1, -1), 0.6, GOLD),
-            ("INNERGRID", (0, 0), (-1, -1), 0.4, GOLD),
-            ("LEFTPADDING", (0, 0), (-1, -1), 6),
-            ("TOPPADDING", (0, 0), (-1, -1), 4),
-            ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
-        ]))
+        table.setStyle(
+            TableStyle(
+                [
+                    ("BOX", (0, 0), (-1, -1), 0.6, GOLD),
+                    ("INNERGRID", (0, 0), (-1, -1), 0.4, GOLD),
+                    ("LEFTPADDING", (0, 0), (-1, -1), 6),
+                    ("TOPPADDING", (0, 0), (-1, -1), 4),
+                    ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
+                ]
+            )
+        )
         story.append(table)
 
     if parsed.faction_terrain:
@@ -124,23 +136,38 @@ def _build_cover_pdf(
         story.append(Paragraph(", ".join(parsed.faction_terrain), style))
 
     if units_unmatched:
-        story.append(Paragraph(
-            tr("⚠ Profil non trouvé (ni battletome, ni Wahapedia) pour : ") + ", ".join(units_unmatched),
-            _WARNING,
-        ))
+        story.append(
+            Paragraph(
+                tr("⚠ Profil non trouvé (ni battletome, ni Wahapedia) pour : ") + ", ".join(units_unmatched),
+                _WARNING,
+            )
+        )
     if rules_unmatched:
-        story.append(Paragraph(
-            tr("⚠ Règle non trouvée (ni battletome, ni Wahapedia) pour : ") + ", ".join(tr(r) for r in rules_unmatched),
-            _WARNING,
-        ))
+        story.append(
+            Paragraph(
+                tr("⚠ Règle non trouvée (ni battletome, ni Wahapedia) pour : ")
+                + ", ".join(tr(r) for r in rules_unmatched),
+                _WARNING,
+            )
+        )
     if wahapedia_used:
-        story.append(Paragraph(
-            tr("ℹ Complété en anglais via Wahapedia (voir annexe en fin de document) : ") + ", ".join(tr(w) for w in wahapedia_used),
-            ParagraphStyle("kit_info", fontName="Times-Italic", fontSize=8.5, leading=12, textColor=STEEL, spaceBefore=8),
-        ))
+        story.append(
+            Paragraph(
+                tr("ℹ Complété en anglais via Wahapedia (voir annexe en fin de document) : ")
+                + ", ".join(tr(w) for w in wahapedia_used),
+                ParagraphStyle(
+                    "kit_info", fontName="Times-Italic", fontSize=8.5, leading=12, textColor=STEEL, spaceBefore=8
+                ),
+            )
+        )
 
     story.append(Spacer(1, 14))
-    story.append(Paragraph(tr("Généré le ") + f"{today_str()} — aospy roster pdf", ParagraphStyle("kit_footer", fontName="Times-Italic", fontSize=8, textColor=STEEL)))
+    story.append(
+        Paragraph(
+            tr("Généré le ") + f"{today_str()} — aospy roster pdf",
+            ParagraphStyle("kit_footer", fontName="Times-Italic", fontSize=8, textColor=STEEL),
+        )
+    )
 
     # légende des pictos (cercle sort, losange prière...) dessinés dans le
     # reste du PDF — demande de l'utilisateur, dans sa propre case sous celle
@@ -149,18 +176,27 @@ def _build_cover_pdf(
     legend = cast_badge_legend(badge_shapes)
     pills = pill_legend()
     if legend or pills:
-        legend_style = ParagraphStyle("kit_legend", fontName="Times-Roman", fontSize=9, leading=12, textColor=NIGHT_BLUE)
+        legend_style = ParagraphStyle(
+            "kit_legend", fontName="Times-Roman", fontSize=9, leading=12, textColor=NIGHT_BLUE
+        )
         legend_title = ParagraphStyle("kit_legend_title", parent=_REGIMENT, spaceBefore=0)
         legend_story: list = [Paragraph(tr("Légende des pictos"), legend_title)]
         if legend:
             table = Table(
-                [[badge, Paragraph(text, legend_style)] for badge, text in legend], colWidths=[22, content_width - 22],
+                [[badge, Paragraph(text, legend_style)] for badge, text in legend],
+                colWidths=[22, content_width - 22],
             )
-            table.setStyle(TableStyle([
-                ("VALIGN", (0, 0), (-1, -1), "MIDDLE"), ("ALIGN", (0, 0), (0, -1), "CENTER"),
-                ("LEFTPADDING", (0, 0), (-1, -1), 2), ("TOPPADDING", (0, 0), (-1, -1), 1),
-                ("BOTTOMPADDING", (0, 0), (-1, -1), 1),
-            ]))
+            table.setStyle(
+                TableStyle(
+                    [
+                        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                        ("ALIGN", (0, 0), (0, -1), "CENTER"),
+                        ("LEFTPADDING", (0, 0), (-1, -1), 2),
+                        ("TOPPADDING", (0, 0), (-1, -1), 1),
+                        ("BOTTOMPADDING", (0, 0), (-1, -1), 1),
+                    ]
+                )
+            )
             legend_story.append(table)
         if pills:
             # pastilles d'exemple à gauche (largeur de la plus large rangée),
@@ -172,11 +208,17 @@ def _build_cover_pdf(
             # (`_wrap_in_sheet`), qui peut alors se couper entre deux pages
             for row, _width, text in pills:
                 line = Table([[row, Paragraph(text, pill_text_style)]], colWidths=[pill_col, content_width - pill_col])
-                line.setStyle(TableStyle([
-                    ("VALIGN", (0, 0), (-1, -1), "MIDDLE"), ("ALIGN", (0, 0), (0, -1), "LEFT"),
-                    ("LEFTPADDING", (0, 0), (-1, -1), 2), ("TOPPADDING", (0, 0), (-1, -1), 0.5),
-                    ("BOTTOMPADDING", (0, 0), (-1, -1), 0.5),
-                ]))
+                line.setStyle(
+                    TableStyle(
+                        [
+                            ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                            ("ALIGN", (0, 0), (0, -1), "LEFT"),
+                            ("LEFTPADDING", (0, 0), (-1, -1), 2),
+                            ("TOPPADDING", (0, 0), (-1, -1), 0.5),
+                            ("BOTTOMPADDING", (0, 0), (-1, -1), 0.5),
+                        ]
+                    )
+                )
                 legend_story.append(line)
         sheets += [Spacer(1, 10), _wrap_in_sheet(legend_story, doc.width)]
 

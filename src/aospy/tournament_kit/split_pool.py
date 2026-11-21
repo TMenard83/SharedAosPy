@@ -43,7 +43,8 @@ def _apply_display_fr(ws: WarscrollData, display: dict) -> WarscrollData:
     if weapons_fr:
         changes["weapons"] = [
             _dc_replace(w, name=fr["name"], abilities=fr.get("abilities", w.abilities))
-            if (fr := weapons_fr.get(ability_join_key(w.name))) else w
+            if (fr := weapons_fr.get(ability_join_key(w.name)))
+            else w
             for w in ws.weapons
         ]
     return _dc_replace(ws, **changes)
@@ -56,9 +57,12 @@ def _mark_self_profile(ws: WarscrollData) -> WarscrollData:
     français, qui traduisent « Cursed Lances » dans le texte de l'aptitude
     sans forcément traduire le nom de l'arme dans le profil."""
     names = [w.name for w in ws.weapons]
-    return _dc_replace(ws, abilities=[
-        _dc_replace(ab, self_profile=True) if is_self_profile_modifier(ab, names) else ab for ab in ws.abilities
-    ])
+    return _dc_replace(
+        ws,
+        abilities=[
+            _dc_replace(ab, self_profile=True) if is_self_profile_modifier(ab, names) else ab for ab in ws.abilities
+        ],
+    )
 
 
 def _with_section(abilities: list[AbilityEntry], section: str) -> list[AbilityEntry]:
@@ -87,7 +91,15 @@ def _warscroll_ability_pool(warscrolls: list[WarscrollData]) -> list[AbilityEntr
         for ab in abilities:
             if is_self_profile_modifier(ab, [w.name for w in ws.weapons]):
                 continue
-            key = (ab.name, strip_flavor(ab.description), ab.condition, ab.ability_phase, ab.keywords, ab.points_type, ab.points)
+            key = (
+                ab.name,
+                strip_flavor(ab.description),
+                ab.condition,
+                ab.ability_phase,
+                ab.keywords,
+                ab.points_type,
+                ab.points,
+            )
             prev = merged.get(key)
             if prev is None:
                 merged[key] = _dc_replace(ab, warscrolls=(ws.name,))
@@ -132,7 +144,8 @@ _CHOICE_CLUSTERS = (
     # (il n'a lui-même pas le mot-clé "Delusion", d'où le repère par nom) ;
     # « Épicentre de l'Illusion » (Ushoran, ±1 au jet de délire) y est déplacé.
     _ChoiceCluster(
-        category="delusion", keyword="delusion",
+        category="delusion",
+        keyword="delusion",
         chooser_names=(frozenset({"a kingdom deluded", "royaume délirant"}),),
         moved_names=frozenset({"epicentre of delusion", "épicentre de l'illusion"}),
     ),
@@ -140,7 +153,8 @@ _CHOICE_CLUSTERS = (
     # une aptitude de Dîme de Sang, « Trempés de Sang » réagit à ce
     # déverrouillage — puis toutes les aptitudes de Dîme de Sang, par coût.
     _ChoiceCluster(
-        category="blood_tithe", keyword="blood tithe",
+        category="blood_tithe",
+        keyword="blood tithe",
         chooser_names=(
             frozenset({"skulls for the skull throne", "des crânes pour le trône de crânes"}),
             frozenset({"blood-drenched", "trempés de sang"}),
@@ -187,6 +201,7 @@ def _fold_warscroll_copies(pool: list[AbilityEntry]) -> list[AbilityEntry]:
     (même nom, même texte hors ambiance, même timing — ex. « Voué à Nurgle »
     du Prince Démon, qui a déjà le vœu, et le trait de bataille) n'est pas
     répétée : la règle d'armée prend la pastille de l'unité."""
+
     def key(ab: AbilityEntry) -> tuple:
         return (ab.name.strip().lower(), strip_flavor(ab.description), ab.condition, ab.ability_phase)
 
@@ -197,7 +212,9 @@ def _fold_warscroll_copies(pool: list[AbilityEntry]) -> list[AbilityEntry]:
         j = army.get(key(ab)) if ab.warscrolls else None
         if j is None:
             continue
-        out[j] = _dc_replace(out[j], warscrolls=out[j].warscrolls + tuple(w for w in ab.warscrolls if w not in out[j].warscrolls))
+        out[j] = _dc_replace(
+            out[j], warscrolls=out[j].warscrolls + tuple(w for w in ab.warscrolls if w not in out[j].warscrolls)
+        )
         dropped.add(i)
     return [ab for i, ab in enumerate(out) if i not in dropped]
 
@@ -229,7 +246,8 @@ def _choice_cluster(pool: list[AbilityEntry], spec: _ChoiceCluster) -> list[Abil
     `keyword`) — toute autre faction : aucun effet."""
     if spec.option_names:
         options = [
-            first for names in spec.option_names
+            first
+            for names in spec.option_names
             if (first := next((ab for ab in pool if ab.name.strip().lower() in names), None)) is not None
         ]
     else:
@@ -240,12 +258,12 @@ def _choice_cluster(pool: list[AbilityEntry], spec: _ChoiceCluster) -> list[Abil
     # un nom à la fois choisi et déplacé (« Rites de Sang ») garde sa place
     # parmi les `chooser_names`, sans doublon.
     moved = [
-        ab for ab in pool
+        ab
+        for ab in pool
         if (ab.name.strip().lower() in spec.moved_names or _is_choice_reaction(ab, spec)) and ab not in choosers
     ]
     return [
-        _dc_replace(ab, ability_phase=spec.phase, ability_category=spec.category)
-        for ab in choosers + moved + options
+        _dc_replace(ab, ability_phase=spec.phase, ability_category=spec.category) for ab in choosers + moved + options
     ]
 
 
@@ -276,9 +294,11 @@ def _apply_choice_clusters(pool: list[AbilityEntry], mode: str) -> list[AbilityE
         chooser_names = frozenset().union(*spec.chooser_names)
         phase_key = classify_phase(cluster[0])
         pool = [
-            ab for ab in pool
-            if not ((_is_option(ab, spec) or ab.name.strip().lower() in chooser_names)
-                    and classify_phase(ab) == phase_key)
+            ab
+            for ab in pool
+            if not (
+                (_is_option(ab, spec) or ab.name.strip().lower() in chooser_names) and classify_phase(ab) == phase_key
+            )
             and ab.name.strip().lower() not in spec.moved_names
             and not _is_choice_reaction(ab, spec)
         ] + cluster
@@ -289,16 +309,26 @@ def _apply_choice_clusters(pool: list[AbilityEntry], mode: str) -> list[AbilityE
 #: ouvrent le bandeau Déploiement, dans cet ordre, une par ligne
 #: (`AbilityEntry.full_width`) — modes `fr-extended`/`fr-split`/
 #: `fr-split-simple`.
-_DEPLOY_ORDER = tuple(ability_join_key(n) for n in (
-    "Placez le Champ de Bataille", "Déploiement de Terrain de Faction", "Déploiement de Régiment",
-    "Déploiement d’Unité", "Souffler sur les Braises",
-    # pas un déploiement, mais même modèle « étapes numérotées » : ouvre le
-    # bandeau « Début de Round », en pleine largeur
-    "Début de Round de Bataille",
-    # `en-split-simple` (`generic_core_abilities_en.json`, `season_rules_en.json`)
-    "Set Up the Battlefield", "Deploy Faction Terrain", "Deploy Regiment", "Deploy Unit", "Raising the Heat",
-    "Start of Battle Round",
-))
+_DEPLOY_ORDER = tuple(
+    ability_join_key(n)
+    for n in (
+        "Placez le Champ de Bataille",
+        "Déploiement de Terrain de Faction",
+        "Déploiement de Régiment",
+        "Déploiement d’Unité",
+        "Souffler sur les Braises",
+        # pas un déploiement, mais même modèle « étapes numérotées » : ouvre le
+        # bandeau « Début de Round », en pleine largeur
+        "Début de Round de Bataille",
+        # `en-split-simple` (`generic_core_abilities_en.json`, `season_rules_en.json`)
+        "Set Up the Battlefield",
+        "Deploy Faction Terrain",
+        "Deploy Regiment",
+        "Deploy Unit",
+        "Raising the Heat",
+        "Start of Battle Round",
+    )
+)
 
 
 def _order_deploy(abilities: list[AbilityEntry]) -> list[AbilityEntry]:
@@ -335,7 +365,11 @@ def _merge_unit_keywords(keywords: list[str], added) -> list[str]:
     for kw in added:
         m = _CASTER_LEVEL_RE.match(kw.strip())
         if m:
-            out = [k for k in out if not ((c := _CASTER_LEVEL_RE.match(k.strip())) and c.group(1).upper() == m.group(1).upper())]
+            out = [
+                k
+                for k in out
+                if not ((c := _CASTER_LEVEL_RE.match(k.strip())) and c.group(1).upper() == m.group(1).upper())
+            ]
         if kw not in out:
             out.append(kw)
     return out
@@ -363,11 +397,16 @@ def _tactic_special_rules(parsed, tactic_cards) -> list[AbilityEntry]:
         card = find_tactic_card(tactic_cards, card_name)
         if card is None or not card.special_rule:
             continue
-        out.append(AbilityEntry(
-            name=f"{card.name_en}: Special Rule" if english_labels() else f"{card.title_fr} : Règle Spéciale",
-            description=card.special_rule, legend="",
-            condition="Deployment Phase", ability_phase="Deployment Phase", full_width=True,
-        ))
+        out.append(
+            AbilityEntry(
+                name=f"{card.name_en}: Special Rule" if english_labels() else f"{card.title_fr} : Règle Spéciale",
+                description=card.special_rule,
+                legend="",
+                condition="Deployment Phase",
+                ability_phase="Deployment Phase",
+                full_width=True,
+            )
+        )
     return out
 
 
@@ -383,9 +422,7 @@ def _relabel_options(parsed, simplifications):
         return parsed
     labels = simplifications.option_labels
     regiments = [
-        _dc_replace(reg, units=[
-            _dc_replace(u, options=[labels.get(o, o) for o in u.options]) for u in reg.units
-        ])
+        _dc_replace(reg, units=[_dc_replace(u, options=[labels.get(o, o) for o in u.options]) for u in reg.units])
         for reg in parsed.regiments
     ]
     return _dc_replace(parsed, regiments=regiments)
@@ -453,6 +490,9 @@ def _drop_identical_alias_cards(warscrolls: list[WarscrollData], alias_sources: 
         return _dc_replace(alias, name=base.name, subtitle=base.subtitle) == base
 
     return [
-        ws for ws in warscrolls
-        if not (ws.name in alias_sources and alias_sources[ws.name] in by_name and same(ws, by_name[alias_sources[ws.name]]))
+        ws
+        for ws in warscrolls
+        if not (
+            ws.name in alias_sources and alias_sources[ws.name] in by_name and same(ws, by_name[alias_sources[ws.name]])
+        )
     ]

@@ -36,7 +36,5 @@ def load_army_rules(path: str | Path = DEFAULT_ARMY_RULES_FILE) -> dict[str, lis
     by_army: dict[str, list[Bonus]] = defaultdict(list)
     for row in rows:
         delta = StatDelta(**row.get("delta", {}))
-        by_army[row["army"]].append(
-            Bonus(name=row["name"], description=row.get("description", ""), delta=delta)
-        )
+        by_army[row["army"]].append(Bonus(name=row["name"], description=row.get("description", ""), delta=delta))
     return dict(by_army)

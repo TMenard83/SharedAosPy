@@ -16,8 +16,18 @@ def _mean_reading(monkeypatch):
 
 
 def _unit(weapons, **kw):
-    base = dict(name="U", army_id=1, move=5, save=4, health=2, control=1, models=5, points=100,
-                keywords=frozenset({"INFANTRY"}), weapons=weapons)
+    base = dict(
+        name="U",
+        army_id=1,
+        move=5,
+        save=4,
+        health=2,
+        control=1,
+        models=5,
+        points=100,
+        keywords=frozenset({"INFANTRY"}),
+        weapons=weapons,
+    )
     base.update(kw)
     return Unit(**base)
 
@@ -38,7 +48,7 @@ def test_companion_weapons_excluded_unless_stated():
     eff = EffectSpec("stat_mod", "attacks", 1.0, weapon_scope="melee")
     assert encounter(_unit([JAWS]), eff) is None
     both = encounter(_unit([SWORD, JAWS]), eff)
-    assert 0 < both.off_gain_pct < 50.0           # seule l'épée profite
+    assert 0 < both.off_gain_pct < 50.0  # seule l'épée profite
     incl = EffectSpec("stat_mod", "attacks", 1.0, weapon_scope="melee", includes_companion=True)
     assert encounter(_unit([SWORD, JAWS]), incl).off_gain_pct == pytest.approx(50.0)
 
@@ -54,8 +64,10 @@ def test_scope_named_and_ranged():
 def test_chosen_weapon_takes_the_best():
     chosen = EffectSpec("stat_set", detail="Double the Damage", weapon_scope="chosen")
     enc = encounter(_unit([SWORD, AXE]), chosen)
-    single_axe = encounter(_unit([SWORD, AXE]), EffectSpec("stat_set", detail="Double the Damage",
-                                                           weapon_scope="named", weapon_name="Great Axe"))
+    single_axe = encounter(
+        _unit([SWORD, AXE]),
+        EffectSpec("stat_set", detail="Double the Damage", weapon_scope="named", weapon_name="Great Axe"),
+    )
     assert enc.off_after == pytest.approx(single_axe.off_after)
 
 
@@ -63,8 +75,12 @@ def test_hit_modifier_capped_and_crit_on_5():
     big = encounter(_unit([SWORD]), EffectSpec("stat_mod", "hit", 2.0))
     one = encounter(_unit([SWORD]), EffectSpec("stat_mod", "hit", 1.0))
     assert big.off_after == pytest.approx(one.off_after)
-    crit = encounter(_unit([SWORD]), EffectSpec("crit", detail="score critical hits on unmodified hit rolls of 5+ "
-                                                              "Crit (Mortal)", weapon_scope="melee"))
+    crit = encounter(
+        _unit([SWORD]),
+        EffectSpec(
+            "crit", detail="score critical hits on unmodified hit rolls of 5+ Crit (Mortal)", weapon_scope="melee"
+        ),
+    )
     assert crit.off_gain_pct > 0
 
 
@@ -86,7 +102,7 @@ def test_untranslated_effects():
     assert not is_translatable(EffectSpec("extra_fight", detail="can be picked to use a FIGHT ability"))
     assert not is_translatable(EffectSpec("stat_mod", "hit", -1.0, side="enemy"))
     assert not is_translatable(EffectSpec("reroll", detail="re-roll"))
-    assert not is_translatable(EffectSpec("stat_mod", "health", -1.0))   # faux effet ami (COLOSSAL SLAM)
+    assert not is_translatable(EffectSpec("stat_mod", "health", -1.0))  # faux effet ami (COLOSSAL SLAM)
 
 
 VOCAB = frozenset({"HERO", "INFANTRY", "CAVALRY", "WARRIORS OF CHAOS", "SLAVES TO DARKNESS", "CHAOS"})
@@ -94,8 +110,9 @@ VOCAB = frozenset({"HERO", "INFANTRY", "CAVALRY", "WARRIORS OF CHAOS", "SLAVES T
 
 def test_friendly_target_resolution():
     warriors = _unit([], name="Chaos Warriors", keywords=frozenset({"INFANTRY", "WARRIORS OF CHAOS", "CHAOS"}))
-    lord = _unit([], name="Chaos Lord", is_hero=True,
-                 keywords=frozenset({"HERO", "INFANTRY", "WARRIORS OF CHAOS", "CHAOS"}))
+    lord = _unit(
+        [], name="Chaos Lord", is_hero=True, keywords=frozenset({"HERO", "INFANTRY", "WARRIORS OF CHAOS", "CHAOS"})
+    )
     knights = _unit([], name="Chaos Knights", keywords=frozenset({"CAVALRY", "WARRIORS OF CHAOS", "CHAOS"}))
     phrase = "non-HERO WARRIORS OF CHAOS INFANTRY"
     assert matches_friendly_target(warriors, phrase, VOCAB)
@@ -143,8 +160,8 @@ def test_slow_melee_unit_does_not_fight_in_round_1():
     from aospy.analysis.layers.approach import melee_plan
 
     slow, fast = melee_plan(_unit([SWORD], move=5)), melee_plan(_unit([SWORD], move=12))
-    assert slow.weapon_share(0) == pytest.approx(8 / 9)       # 18" : ni charge ni tir au round 1, il court
-    assert 8 / 9 < fast.weapon_share(0) < 1.0                # 12" + 2D6 ≥ 6 : 72 % au round 1
+    assert slow.weapon_share(0) == pytest.approx(8 / 9)  # 18" : ni charge ni tir au round 1, il court
+    assert 8 / 9 < fast.weapon_share(0) < 1.0  # 12" + 2D6 ≥ 6 : 72 % au round 1
 
 
 def test_short_range_shooter_gets_charged_more_than_long_range():
@@ -163,9 +180,11 @@ def test_weapon_split_keeps_exclusive_choice_resolved_on_whole_unit():
     from aospy.engine.combat import unit_damage_moments
 
     gun = Weapon("Big Gun", "ranged", attacks=3, hit=4, wound=3, damage=2, range_in=18)
-    u = _unit([SWORD, gun], models=3,
-              description="1/3 models must be armed with 1 of the following options:<ul><li>Sword</li>"
-                          "<li>Big Gun</li></ul>")
+    u = _unit(
+        [SWORD, gun],
+        models=3,
+        description="1/3 models must be armed with 1 of the following options:<ul><li>Sword</li><li>Big Gun</li></ul>",
+    )
     p = chassis_profile(u)
     total = unit_damage_moments(u, u.models, _PROBE_SAVE4, _NO_MODS)[0]
     assert p.dmg_melee + p.dmg_ranged == pytest.approx(total, abs=1e-3)
@@ -174,16 +193,17 @@ def test_weapon_split_keeps_exclusive_choice_resolved_on_whole_unit():
 def test_smooth_floor_interpolates_between_integers():
     from aospy.analysis.layers.encounter import smooth_floor
 
-    assert smooth_floor([1.0], 0.75) == 0.0               # rien de certain
-    assert smooth_floor([0, 0, 0, 1.0], 0.75) == pytest.approx(3.0)   # 3 certain
-    pmf = [0.2, 0.3, 0.5]                                 # P(≥1)=0,8, P(≥2)=0,5
+    assert smooth_floor([1.0], 0.75) == 0.0  # rien de certain
+    assert smooth_floor([0, 0, 0, 1.0], 0.75) == pytest.approx(3.0)  # 3 certain
+    pmf = [0.2, 0.3, 0.5]  # P(≥1)=0,8, P(≥2)=0,5
     lo, hi = smooth_floor(pmf, 0.79), smooth_floor(pmf, 0.51)
-    assert 0.5 < lo < hi < 2.0                            # monotone, entre les entiers
+    assert 0.5 < lo < hi < 2.0  # monotone, entre les entiers
     assert smooth_floor(pmf, 0.8 + 1e-9) == pytest.approx(smooth_floor(pmf, 0.8), abs=1e-6)  # continu
 
 
 def _contact():
     from aospy.analysis.layers.approach import Plan
+
     return Plan("contact", ((1.0, frozenset({0})),))
 
 
@@ -206,7 +226,13 @@ def test_fractional_damage_keeps_the_mean(monkeypatch):
     from aospy.analysis.layers.encounter import plan_offense
 
     monkeypatch.setattr("aospy.analysis.layers.encounter.FLOOR_COVERAGE", None)
-    d1 = plan_offense(_unit([Weapon("A", "melee", attacks=2, hit=4, wound=4, damage=1)]), _PROBE_SAVE4, _NO_MODS, _contact())
-    d2 = plan_offense(_unit([Weapon("A", "melee", attacks=2, hit=4, wound=4, damage=2)]), _PROBE_SAVE4, _NO_MODS, _contact())
-    d15 = plan_offense(_unit([Weapon("A", "melee", attacks=2, hit=4, wound=4, damage=1.5)]), _PROBE_SAVE4, _NO_MODS, _contact())
+    d1 = plan_offense(
+        _unit([Weapon("A", "melee", attacks=2, hit=4, wound=4, damage=1)]), _PROBE_SAVE4, _NO_MODS, _contact()
+    )
+    d2 = plan_offense(
+        _unit([Weapon("A", "melee", attacks=2, hit=4, wound=4, damage=2)]), _PROBE_SAVE4, _NO_MODS, _contact()
+    )
+    d15 = plan_offense(
+        _unit([Weapon("A", "melee", attacks=2, hit=4, wound=4, damage=1.5)]), _PROBE_SAVE4, _NO_MODS, _contact()
+    )
     assert d15 == pytest.approx((d1 + d2) / 2)

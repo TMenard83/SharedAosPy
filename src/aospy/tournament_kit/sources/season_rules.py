@@ -28,7 +28,8 @@ DEFAULT_SEASON_RULES_EN_FILE = Path("data") / "json" / "season_rules_en.json"
 
 
 def load_season_rules(
-    path: str | Path = DEFAULT_SEASON_RULES_FILE, en_path: str | Path | None = None,
+    path: str | Path = DEFAULT_SEASON_RULES_FILE,
+    en_path: str | Path | None = None,
 ) -> list[AbilityEntry]:
     """Fichier absent -> liste vide (pas de carte "Règles de Saison" plutôt
     qu'un plantage, même filet de sécurité que `tactic_cards.load_tactic_cards`).

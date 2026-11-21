@@ -5,6 +5,7 @@ espérance défenseur) en un JSON par unité, miroir de
 lieu du scénario standard "sans charge" édition TM. Plancher 66% (au lieu de
 80% côté édition TM) : lecture pessimiste plus permissive, cf.
 `engine/combat.py::damage_floor66`."""
+
 import json
 
 import duckdb

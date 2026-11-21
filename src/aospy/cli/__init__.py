@@ -24,7 +24,9 @@ def _build_parser() -> argparse.ArgumentParser:
         description="Calcul de la force de combat d'armées Age of Sigmar.",
     )
     parser.add_argument(
-        "--db", type=Path, default=DEFAULT_DB_PATH,
+        "--db",
+        type=Path,
+        default=DEFAULT_DB_PATH,
         help=f"Chemin du fichier DuckDB (défaut: {DEFAULT_DB_PATH}).",
     )
     sub = parser.add_subparsers(dest="command", required=True)

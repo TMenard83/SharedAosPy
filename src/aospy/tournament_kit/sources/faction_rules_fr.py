@@ -115,7 +115,10 @@ def load_faction_rules_fr(path: str | Path = DEFAULT_FACTION_RULES_FR_FILE) -> F
 
 
 def get_faction_category_overrides(
-    frf: FactionRulesFr, faction_name: str, category: str, scope: str | None = None,
+    frf: FactionRulesFr,
+    faction_name: str,
+    category: str,
+    scope: str | None = None,
 ) -> list[dict]:
     """`category` in {battle_traits, formations, heroic_traits_artefacts,
     spell_lores, manifestation_lores}. `scope` filtre sur le champ `scope`
@@ -169,7 +172,9 @@ def _unit_entry(frf: FactionRulesFr, faction_name: str, *unit_names: str) -> dic
     return {}
 
 
-def get_regiment_of_renown_overrides(frf: FactionRulesFr, faction_name: str, regiment_wahapedia_name: str) -> list[dict]:
+def get_regiment_of_renown_overrides(
+    frf: FactionRulesFr, faction_name: str, regiment_wahapedia_name: str
+) -> list[dict]:
     """Comme `get_unit_ability_overrides`, pour les aptitudes propres d'un
     Régiment de Renom natif de cette faction (`factions.<faction>.
     regiments_of_renown.<nom Wahapedia du régiment, ex. "Sigil Convocation">`).
@@ -180,11 +185,19 @@ def get_regiment_of_renown_overrides(frf: FactionRulesFr, faction_name: str, reg
     factions (rare) n'a de correctif que sous sa faction d'origine — même
     convention que `WahapediaLookup.find_regiment_of_renown`, qui ne retient
     que la ligne à `legend` non vide."""
-    return frf.factions.get(faction_name, {}).get("regiments_of_renown", {}).get(regiment_wahapedia_name, {}).get("abilities", [])
+    return (
+        frf.factions.get(faction_name, {})
+        .get("regiments_of_renown", {})
+        .get(regiment_wahapedia_name, {})
+        .get("abilities", [])
+    )
 
 
 def get_renown_army_overrides(
-    frf: FactionRulesFr, faction_name: str, renown_name: str, category: str,
+    frf: FactionRulesFr,
+    faction_name: str,
+    renown_name: str,
+    category: str,
 ) -> list[dict]:
     """Comme `get_faction_category_overrides`, mais pour les règles propres
     d'une Armée de Renom (`factions.<faction>.renown_armies.<renown_name>`,

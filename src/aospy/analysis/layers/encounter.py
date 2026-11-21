@@ -33,7 +33,6 @@ from ...engine.combat import (
     CombatModifiers,
     convolve,
     effective_counts,
-    unit_damage_moments,
     weapon_damage_distribution,
 )
 from ..cost.features import _PROBE_SAVE4, compute_effective_wounds
@@ -99,6 +98,7 @@ class Encounter:
 
 # ----- périmètre d'armes ---------------------------------------------------------
 
+
 def _norm(s: str) -> str:
     return re.sub(r"[^a-z0-9]+", " ", s.lower()).strip()
 
@@ -120,8 +120,12 @@ def weapon_in_scope(w: Weapon, eff: EffectSpec) -> bool:
 
 # ----- traduction effet → réécriture de profil -----------------------------------
 
-_CRIT_TYPES = {"2 hits": "Crit (2 Hits)", "mortal": "Crit (Mortal)", "auto-wound": "Crit (Auto-wound)",
-               "auto wound": "Crit (Auto-wound)"}
+_CRIT_TYPES = {
+    "2 hits": "Crit (2 Hits)",
+    "mortal": "Crit (Mortal)",
+    "auto-wound": "Crit (Auto-wound)",
+    "auto wound": "Crit (Auto-wound)",
+}
 _CRIT_TEXT_RE = re.compile(r"crit\s*\([^)]*\)", re.I)
 _CRIT_ON_RE = re.compile(r"(?:unmodified hit rolls? of|crits? on) ([2-5])\+", re.I)
 
@@ -182,9 +186,11 @@ def _defensive_transform(eff: EffectSpec) -> Optional[Callable[[Unit], Unit]]:
         return lambda u: dataclasses.replace(u, save=max(_BEST_ROLL, u.save - v))
     if eff.kind == "stat_mod" and eff.stat == "ward":
         v = int(round(eff.value))
+
         def f(u: Unit) -> Unit:
             n = max(_BEST_ROLL, (u.ward or _NO_WARD) - v)
             return dataclasses.replace(u, ward=None if n >= _NO_WARD else n)
+
         return f
     if eff.kind == "ward" and "vs " in eff.target_condition:
         # protection contre les seuls sorts/manifestations/blessures mortelles : nulle contre les attaques
@@ -206,6 +212,7 @@ def is_translatable(eff: EffectSpec) -> bool:
 
 
 # ----- mesure --------------------------------------------------------------------
+
 
 def probe_for_effect(eff: EffectSpec) -> Unit:
     kws = frozenset(k.strip() for k in eff.target_keywords.split(",") if k.strip())
@@ -235,7 +242,7 @@ def smooth_floor(pmf: list[float], coverage: float) -> float:
     """Plancher à `coverage` (dégât atteint au moins dans `coverage` des cas), **interpolé** entre deux
     entiers : `combat.distribution_floor` renvoie un entier, si bien qu'un petit effet (+1 touche sur peu
     d'attaques) vaudrait 0 ou 1 point selon le cas. Ici d + (S(d) − c) / (S(d) − S(d+1)), continu."""
-    survival = [0.0] * (len(pmf) + 1)              # survival[d] = P(dégâts ≥ d)
+    survival = [0.0] * (len(pmf) + 1)  # survival[d] = P(dégâts ≥ d)
     for d in range(len(pmf) - 1, -1, -1):
         survival[d] = survival[d + 1] + pmf[d]
     for d in range(len(pmf) - 1, -1, -1):
@@ -262,8 +269,11 @@ def _weapon_pmf(w: Weapon, count: int, probe: Unit, mods: CombatModifiers) -> li
         lo = int(v // 1)
         if v != lo:
             f = v - lo
-            return _mix(_weapon_pmf(dataclasses.replace(w, **{field: lo}), count, probe, mods),
-                        _weapon_pmf(dataclasses.replace(w, **{field: lo + 1}), count, probe, mods), f)
+            return _mix(
+                _weapon_pmf(dataclasses.replace(w, **{field: lo}), count, probe, mods),
+                _weapon_pmf(dataclasses.replace(w, **{field: lo + 1}), count, probe, mods),
+                f,
+            )
         if not isinstance(v, int):
             w = dataclasses.replace(w, **{field: lo})
     return weapon_damage_distribution(w, count, probe, mods)
@@ -284,7 +294,7 @@ def _plan_offense(pmfs: list[list[float]], plan: Plan) -> float:
         for i in sorted(weapons):
             if i < len(pmfs):
                 pmf = convolve(pmf, pmfs[i])
-        if FLOOR_COVERAGE is None:                  # lecture à la moyenne (tests de traduction des effets)
+        if FLOOR_COVERAGE is None:  # lecture à la moyenne (tests de traduction des effets)
             total += share * sum(d * p for d, p in enumerate(pmf))
         else:
             total += share * smooth_floor(pmf, FLOOR_COVERAGE)
@@ -313,8 +323,9 @@ def unit_durability(unit: Unit) -> float:
     return compute_effective_wounds(unit.health * unit.models, unit.save, unit.ward or _NO_WARD)
 
 
-def apply_effect(unit: Unit, eff: EffectSpec, probe: Optional[Unit] = None,
-                 mods: Optional[CombatModifiers] = None) -> Optional[Unit]:
+def apply_effect(
+    unit: Unit, eff: EffectSpec, probe: Optional[Unit] = None, mods: Optional[CombatModifiers] = None
+) -> Optional[Unit]:
     """Copie de `unit` avec l'effet appliqué, ou None s'il ne la concerne pas.
 
     « that weapon » (`chosen`) : l'effet va sur l'arme du périmètre où il rapporte le plus.
@@ -351,8 +362,10 @@ def encounter(unit: Unit, eff: EffectSpec) -> Optional[Encounter]:
         return None
     plan = play_plan(unit, probe, mods)
     return Encounter(
-        off_before=plan_offense(unit, probe, mods, plan), off_after=plan_offense(after, probe, mods, plan),
-        def_before=unit_durability(unit), def_after=unit_durability(after),
+        off_before=plan_offense(unit, probe, mods, plan),
+        off_after=plan_offense(after, probe, mods, plan),
+        def_before=unit_durability(unit),
+        def_after=unit_durability(after),
     )
 
 
@@ -390,7 +403,9 @@ def matches_friendly_target(unit: Unit, phrase: str, vocab: frozenset[str]) -> b
         return True
     name = unit.name.lower()
     for alt in re.split(r"\s+or\s+", phrase):
-        toks = [t for t in alt.split() if t.lower() not in ("unified", "anointed", "other", "damaged", "visible", "and")]
+        toks = [
+            t for t in alt.split() if t.lower() not in ("unified", "anointed", "other", "damaged", "visible", "and")
+        ]
         excl, req, title = [], [], []
         k = 0
         while k < len(toks):
@@ -398,8 +413,12 @@ def matches_friendly_target(unit: Unit, phrase: str, vocab: frozenset[str]) -> b
             if t.startswith("non-"):
                 run = [t[4:]]
                 k += 1
-                while k < len(toks) and toks[k].isupper() and not toks[k].startswith("non-") and \
-                        " ".join(run + [toks[k]]) in vocab | {" ".join(run + toks[k:k + 3])}:
+                while (
+                    k < len(toks)
+                    and toks[k].isupper()
+                    and not toks[k].startswith("non-")
+                    and " ".join(run + [toks[k]]) in vocab | {" ".join(run + toks[k : k + 3])}
+                ):
                     run.append(toks[k])
                     k += 1
                 excl.extend(parse_keywords(run, vocab)[0] or run)
@@ -422,15 +441,23 @@ def matches_friendly_target(unit: Unit, phrase: str, vocab: frozenset[str]) -> b
     return False
 
 
-def receivers(source_kind: str, scope: str, owner_kind: str, owner_name: str, army_units: list[Unit],
-              friendly_target: str = "", vocab: frozenset[str] = frozenset(),
-              excludes_self: bool = False) -> list[tuple[Unit, str]]:
+def receivers(
+    source_kind: str,
+    scope: str,
+    owner_kind: str,
+    owner_name: str,
+    army_units: list[Unit],
+    friendly_target: str = "",
+    vocab: frozenset[str] = frozenset(),
+    excludes_self: bool = False,
+) -> list[tuple[Unit, str]]:
     """Unités de l'armée qui peuvent recevoir l'effet, avec leur relation (`porteur`/`allié`).
 
     Aptitude de charte : `self` → le porteur ; portée amie → les unités de l'armée qui satisfont la
     restriction de cible (porteur compris). Règle de faction : trait/artefact/amélioration → les
     héros ; le reste → l'armée filtrée. Manifestations ignorées.
     """
+
     def ok(u: Unit) -> bool:
         return matches_friendly_target(u, friendly_target, vocab)
 
@@ -439,8 +466,11 @@ def receivers(source_kind: str, scope: str, owner_kind: str, owner_name: str, ar
         if scope == "self":
             return [(u, "porteur") for u in own]
         if scope in FRIENDLY_SCOPES:
-            return [(u, "porteur" if u in own else "allié") for u in army_units
-                    if ok(u) and not (excludes_self and u in own)]
+            return [
+                (u, "porteur" if u in own else "allié")
+                for u in army_units
+                if ok(u) and not (excludes_self and u in own)
+            ]
         return []
     if source_kind == "manifestation":
         return []
@@ -456,8 +486,6 @@ def receivers(source_kind: str, scope: str, owner_kind: str, owner_name: str, ar
     if scope in FRIENDLY_SCOPES or scope == "self":
         return [(u, "allié") for u in army_units if ok(u)]
     return []
-
-
 
 
 def build_encounter_rows(con) -> tuple[list[tuple], dict[str, int]]:
@@ -478,26 +506,63 @@ def build_encounter_rows(con) -> tuple[list[tuple], dict[str, int]]:
     ).fetchall()
     owners: dict[str, list[tuple]] = {}
     for uid, kind, name, faction in con.execute(
-            "SELECT ability_uid, owner_kind, owner_name, faction_name FROM ability_owner").fetchall():
+        "SELECT ability_uid, owner_kind, owner_name, faction_name FROM ability_owner"
+    ).fetchall():
         owners.setdefault(uid, []).append((kind, name, faction))
 
     stats = {"effets": 0, "traduits": 0, "rencontres": 0, "sans_arme": 0}
     rows: list[tuple] = []
     seen: set[tuple] = set()
-    for (uid, seq, kind, stat, value, detail, side, wscope, wname, comp, tkw, tcond, req, dur,
-         source_kind, scope, ftarget, excl) in eff_rows:
+    for (
+        uid,
+        seq,
+        kind,
+        stat,
+        value,
+        detail,
+        side,
+        wscope,
+        wname,
+        comp,
+        tkw,
+        tcond,
+        req,
+        dur,
+        source_kind,
+        scope,
+        ftarget,
+        excl,
+    ) in eff_rows:
         stats["effets"] += 1
-        eff = EffectSpec(kind=kind, stat=stat or "", value=value or 0.0, detail=detail or "", side=side or "",
-                         weapon_scope=wscope or "", weapon_name=wname or "", includes_companion=bool(comp),
-                         target_keywords=tkw or "", target_condition=tcond or "", requires=req or "",
-                         duration=dur or "")
+        eff = EffectSpec(
+            kind=kind,
+            stat=stat or "",
+            value=value or 0.0,
+            detail=detail or "",
+            side=side or "",
+            weapon_scope=wscope or "",
+            weapon_name=wname or "",
+            includes_companion=bool(comp),
+            target_keywords=tkw or "",
+            target_condition=tcond or "",
+            requires=req or "",
+            duration=dur or "",
+        )
         if not is_translatable(eff):
             continue
         stats["traduits"] += 1
         for owner_kind, owner_name, faction in owners.get(uid, []):
             source = owner_name if owner_kind == "warscroll" else f"{source_kind}: {owner_name}"
-            for unit, rel in receivers(source_kind, scope, owner_kind, owner_name, by_faction.get(faction, []),
-                                       ftarget or "", vocab, bool(excl)):
+            for unit, rel in receivers(
+                source_kind,
+                scope,
+                owner_kind,
+                owner_name,
+                by_faction.get(faction, []),
+                ftarget or "",
+                vocab,
+                bool(excl),
+            ):
                 key = (uid, seq, unit.id)
                 if key in seen:
                     continue
@@ -508,12 +573,24 @@ def build_encounter_rows(con) -> tuple[list[tuple], dict[str, int]]:
                     continue
                 per100 = 100.0 / unit.points
                 og, dg = enc.off_gain_pct, enc.def_gain_pct
-                rows.append((
-                    uid, seq, unit.id, rel, source, round(enc.off_before, 3), round(enc.off_after, 3),
-                    None if og is None else round(og, 1), round((enc.off_after - enc.off_before) * per100, 3),
-                    round(enc.def_before, 2), round(enc.def_after, 2),
-                    None if dg is None else round(dg, 1), round((enc.def_after - enc.def_before) * per100, 3),
-                    eff.conditions, eff.duration,
-                ))
+                rows.append(
+                    (
+                        uid,
+                        seq,
+                        unit.id,
+                        rel,
+                        source,
+                        round(enc.off_before, 3),
+                        round(enc.off_after, 3),
+                        None if og is None else round(og, 1),
+                        round((enc.off_after - enc.off_before) * per100, 3),
+                        round(enc.def_before, 2),
+                        round(enc.def_after, 2),
+                        None if dg is None else round(dg, 1),
+                        round((enc.def_after - enc.def_before) * per100, 3),
+                        eff.conditions,
+                        eff.duration,
+                    )
+                )
     stats["rencontres"] = len(rows)
     return rows, stats

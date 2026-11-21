@@ -28,6 +28,7 @@ def _keywords_from_db(raw: Optional[str]) -> frozenset[str]:
 
 # ----- Army -----------------------------------------------------------------
 
+
 def add_army(con: duckdb.DuckDBPyConnection, army: Army) -> int:
     row = con.execute(
         "INSERT INTO army(name, grand_alliance) VALUES (?, ?) RETURNING id",
@@ -47,13 +48,12 @@ def get_army_by_name(con: duckdb.DuckDBPyConnection, name: str) -> Optional[Army
 
 
 def list_armies(con: duckdb.DuckDBPyConnection) -> list[Army]:
-    rows = con.execute(
-        "SELECT id, name, grand_alliance FROM army ORDER BY name"
-    ).fetchall()
+    rows = con.execute("SELECT id, name, grand_alliance FROM army ORDER BY name").fetchall()
     return [Army(id=r[0], name=r[1], grand_alliance=r[2]) for r in rows]
 
 
 # ----- Unit -----------------------------------------------------------------
+
 
 def add_unit(con: duckdb.DuckDBPyConnection, unit: Unit) -> int:
     row = con.execute(
@@ -64,9 +64,18 @@ def add_unit(con: duckdb.DuckDBPyConnection, unit: Unit) -> int:
         RETURNING id
         """,
         [
-            unit.army_id, unit.name, unit.move, unit.save, unit.health,
-            unit.control, unit.models, unit.points, unit.is_hero, unit.ward,
-            _keywords_to_db(unit.keywords), unit.description,
+            unit.army_id,
+            unit.name,
+            unit.move,
+            unit.save,
+            unit.health,
+            unit.control,
+            unit.models,
+            unit.points,
+            unit.is_hero,
+            unit.ward,
+            _keywords_to_db(unit.keywords),
+            unit.description,
         ],
     ).fetchone()
     unit_id = int(row[0])
@@ -84,9 +93,18 @@ def add_weapon(con: duckdb.DuckDBPyConnection, unit_id: int, weapon: Weapon) -> 
         RETURNING id
         """,
         [
-            unit_id, weapon.name, weapon.kind, weapon.range_in, weapon.attacks,
-            weapon.hit, weapon.wound, weapon.rend, weapon.damage, weapon.abilities,
-            weapon.wielders, weapon.is_companion,
+            unit_id,
+            weapon.name,
+            weapon.kind,
+            weapon.range_in,
+            weapon.attacks,
+            weapon.hit,
+            weapon.wound,
+            weapon.rend,
+            weapon.damage,
+            weapon.abilities,
+            weapon.wielders,
+            weapon.is_companion,
         ],
     ).fetchone()
     return int(row[0])
@@ -105,10 +123,20 @@ def get_unit(con: duckdb.DuckDBPyConnection, unit_id: int) -> Optional[Unit]:
         return None
     weapons = _list_weapons(con, unit_id)
     return Unit(
-        id=row[0], army_id=row[1], name=row[2], move=row[3], save=row[4],
-        health=row[5], control=row[6], models=row[7], points=row[8],
-        is_hero=bool(row[9]), ward=row[10], keywords=_keywords_from_db(row[11]),
-        description=row[12], weapons=weapons,
+        id=row[0],
+        army_id=row[1],
+        name=row[2],
+        move=row[3],
+        save=row[4],
+        health=row[5],
+        control=row[6],
+        models=row[7],
+        points=row[8],
+        is_hero=bool(row[9]),
+        ward=row[10],
+        keywords=_keywords_from_db(row[11]),
+        description=row[12],
+        weapons=weapons,
     )
 
 
@@ -123,12 +151,24 @@ def list_units_for_army(con: duckdb.DuckDBPyConnection, army_id: int) -> list[Un
     ).fetchall()
     units: list[Unit] = []
     for r in rows:
-        units.append(Unit(
-            id=r[0], army_id=r[1], name=r[2], move=r[3], save=r[4],
-            health=r[5], control=r[6], models=r[7], points=r[8],
-            is_hero=bool(r[9]), ward=r[10], keywords=_keywords_from_db(r[11]),
-            description=r[12], weapons=_list_weapons(con, r[0]),
-        ))
+        units.append(
+            Unit(
+                id=r[0],
+                army_id=r[1],
+                name=r[2],
+                move=r[3],
+                save=r[4],
+                health=r[5],
+                control=r[6],
+                models=r[7],
+                points=r[8],
+                is_hero=bool(r[9]),
+                ward=r[10],
+                keywords=_keywords_from_db(r[11]),
+                description=r[12],
+                weapons=_list_weapons(con, r[0]),
+            )
+        )
     return units
 
 
@@ -143,9 +183,19 @@ def _list_weapons(con: duckdb.DuckDBPyConnection, unit_id: int) -> list[Weapon]:
     ).fetchall()
     return [
         Weapon(
-            id=r[0], unit_id=r[1], name=r[2], kind=r[3], range_in=r[4],
-            attacks=r[5], hit=r[6], wound=r[7], rend=r[8], damage=r[9],
-            abilities=r[10], wielders=r[11], is_companion=bool(r[12]),
+            id=r[0],
+            unit_id=r[1],
+            name=r[2],
+            kind=r[3],
+            range_in=r[4],
+            attacks=r[5],
+            hit=r[6],
+            wound=r[7],
+            rend=r[8],
+            damage=r[9],
+            abilities=r[10],
+            wielders=r[11],
+            is_companion=bool(r[12]),
         )
         for r in rows
     ]
@@ -181,17 +231,38 @@ def load_all_units_with_weapons(
     ).fetchall()
     weapons_by_unit: dict[int, list[Weapon]] = {}
     for r in weapon_rows:
-        weapons_by_unit.setdefault(int(r[1]), []).append(Weapon(
-            id=r[0], unit_id=r[1], name=r[2], kind=r[3], range_in=r[4],
-            attacks=r[5], hit=r[6], wound=r[7], rend=r[8], damage=r[9],
-            abilities=r[10], wielders=r[11], is_companion=bool(r[12]),
-        ))
+        weapons_by_unit.setdefault(int(r[1]), []).append(
+            Weapon(
+                id=r[0],
+                unit_id=r[1],
+                name=r[2],
+                kind=r[3],
+                range_in=r[4],
+                attacks=r[5],
+                hit=r[6],
+                wound=r[7],
+                rend=r[8],
+                damage=r[9],
+                abilities=r[10],
+                wielders=r[11],
+                is_companion=bool(r[12]),
+            )
+        )
     by_army: dict[int, list[Unit]] = {}
     for r in unit_rows:
         unit = Unit(
-            id=r[0], army_id=r[1], name=r[2], move=r[3], save=r[4],
-            health=r[5], control=r[6], models=r[7], points=r[8],
-            is_hero=bool(r[9]), ward=r[10], keywords=_keywords_from_db(r[11]),
+            id=r[0],
+            army_id=r[1],
+            name=r[2],
+            move=r[3],
+            save=r[4],
+            health=r[5],
+            control=r[6],
+            models=r[7],
+            points=r[8],
+            is_hero=bool(r[9]),
+            ward=r[10],
+            keywords=_keywords_from_db(r[11]),
             description=r[12],
             weapons=weapons_by_unit.get(int(r[0]), []),
         )
@@ -200,7 +271,9 @@ def load_all_units_with_weapons(
 
 
 def get_unit_by_name(
-    con: duckdb.DuckDBPyConnection, army_id: int, name: str,
+    con: duckdb.DuckDBPyConnection,
+    army_id: int,
+    name: str,
 ) -> Optional[Unit]:
     row = con.execute(
         "SELECT id FROM unit WHERE army_id = ? AND name = ?",
@@ -228,9 +301,17 @@ def replace_unit(con: duckdb.DuckDBPyConnection, unit: Unit) -> bool:
         WHERE id = ?
         """,
         [
-            unit.move, unit.save, unit.health, unit.control,
-            unit.models, unit.points, unit.is_hero, unit.ward,
-            _keywords_to_db(unit.keywords), unit.description, unit_id,
+            unit.move,
+            unit.save,
+            unit.health,
+            unit.control,
+            unit.models,
+            unit.points,
+            unit.is_hero,
+            unit.ward,
+            _keywords_to_db(unit.keywords),
+            unit.description,
+            unit_id,
         ],
     )
     con.execute("DELETE FROM weapon WHERE unit_id = ?", [unit_id])
@@ -246,7 +327,10 @@ def replace_unit(con: duckdb.DuckDBPyConnection, unit: Unit) -> bool:
 
 
 def delete_units_imported_before(
-    con: duckdb.DuckDBPyConnection, cutoff: datetime, *, army_id: Optional[int] = None,
+    con: duckdb.DuckDBPyConnection,
+    cutoff: datetime,
+    *,
+    army_id: Optional[int] = None,
 ) -> int:
     """Purge les unités dont `imported_at` précède `cutoff` (plus touchées par le dernier import).
 
@@ -275,6 +359,7 @@ def delete_units_imported_before(
 
 # ----- Heroic traits / Artefacts --------------------------------------------
 
+
 def add_heroic_trait(con: duckdb.DuckDBPyConnection, trait: HeroicTrait) -> int:
     row = con.execute(
         "INSERT INTO heroic_trait(army_id, name, description) VALUES (?, ?, ?) RETURNING id",
@@ -283,9 +368,7 @@ def add_heroic_trait(con: duckdb.DuckDBPyConnection, trait: HeroicTrait) -> int:
     return int(row[0])
 
 
-def get_heroic_trait_by_name(
-    con: duckdb.DuckDBPyConnection, army_id: int, name: str
-) -> Optional[HeroicTrait]:
+def get_heroic_trait_by_name(con: duckdb.DuckDBPyConnection, army_id: int, name: str) -> Optional[HeroicTrait]:
     row = con.execute(
         "SELECT id, army_id, name, description FROM heroic_trait WHERE army_id = ? AND name = ?",
         [army_id, name],
@@ -311,9 +394,7 @@ def add_artefact(con: duckdb.DuckDBPyConnection, artefact: Artefact) -> int:
     return int(row[0])
 
 
-def get_artefact_by_name(
-    con: duckdb.DuckDBPyConnection, army_id: int, name: str
-) -> Optional[Artefact]:
+def get_artefact_by_name(con: duckdb.DuckDBPyConnection, army_id: int, name: str) -> Optional[Artefact]:
     row = con.execute(
         "SELECT id, army_id, name, description FROM artefact WHERE army_id = ? AND name = ?",
         [army_id, name],
@@ -332,6 +413,7 @@ def list_artefacts(con: duckdb.DuckDBPyConnection, army_id: int) -> list[Artefac
 
 
 # ----- Compositions ---------------------------------------------------------
+
 
 def _unit_points(con: duckdb.DuckDBPyConnection, unit_id: int) -> int:
     row = con.execute("SELECT points FROM unit WHERE id = ?", [unit_id]).fetchone()
@@ -359,9 +441,13 @@ def add_composition(con: duckdb.DuckDBPyConnection, composition: Composition) ->
         RETURNING id
         """,
         [
-            composition.army_id, composition.name, composition.kind,
-            composition.format_points, composition.total_points,
-            composition.source, composition.notes,
+            composition.army_id,
+            composition.name,
+            composition.kind,
+            composition.format_points,
+            composition.total_points,
+            composition.source,
+            composition.notes,
         ],
     ).fetchone()
     comp_id = int(row[0])
@@ -372,8 +458,7 @@ def add_composition(con: duckdb.DuckDBPyConnection, composition: Composition) ->
                                           is_general, heroic_trait_id, artefact_id)
             VALUES (?, ?, ?, ?, ?, ?)
             """,
-            [comp_id, e.unit_id, e.reinforced, e.is_general,
-             e.heroic_trait_id, e.artefact_id],
+            [comp_id, e.unit_id, e.reinforced, e.is_general, e.heroic_trait_id, e.artefact_id],
         )
     return comp_id
 
@@ -391,15 +476,20 @@ def get_composition(con: duckdb.DuckDBPyConnection, composition_id: int) -> Opti
         return None
     entries = _list_composition_entries(con, composition_id)
     return Composition(
-        id=row[0], army_id=row[1], name=row[2], kind=row[3],
-        format_points=row[4], total_points=row[5], source=row[6],
-        notes=row[7], created_at=row[8], entries=entries,
+        id=row[0],
+        army_id=row[1],
+        name=row[2],
+        kind=row[3],
+        format_points=row[4],
+        total_points=row[5],
+        source=row[6],
+        notes=row[7],
+        created_at=row[8],
+        entries=entries,
     )
 
 
-def get_composition_by_name(
-    con: duckdb.DuckDBPyConnection, army_id: int, name: str
-) -> Optional[Composition]:
+def get_composition_by_name(con: duckdb.DuckDBPyConnection, army_id: int, name: str) -> Optional[Composition]:
     row = con.execute(
         "SELECT id FROM composition WHERE army_id = ? AND name = ?",
         [army_id, name],
@@ -425,9 +515,7 @@ def list_compositions(
     return [c for c in (get_composition(con, int(r[0])) for r in rows) if c is not None]
 
 
-def _list_composition_entries(
-    con: duckdb.DuckDBPyConnection, composition_id: int
-) -> list[CompositionUnit]:
+def _list_composition_entries(con: duckdb.DuckDBPyConnection, composition_id: int) -> list[CompositionUnit]:
     rows = con.execute(
         """
         SELECT id, composition_id, unit_id, reinforced, is_general,
@@ -438,12 +526,16 @@ def _list_composition_entries(
     ).fetchall()
     return [
         CompositionUnit(
-            id=r[0], composition_id=r[1], unit_id=r[2], reinforced=bool(r[3]),
-            is_general=bool(r[4]), heroic_trait_id=r[5], artefact_id=r[6],
+            id=r[0],
+            composition_id=r[1],
+            unit_id=r[2],
+            reinforced=bool(r[3]),
+            is_general=bool(r[4]),
+            heroic_trait_id=r[5],
+            artefact_id=r[6],
         )
         for r in rows
     ]
-
 
 
 def add_composition_entry(
@@ -459,8 +551,7 @@ def add_composition_entry(
         VALUES (?, ?, ?, ?, ?, ?)
         RETURNING id
         """,
-        [composition_id, entry.unit_id, entry.reinforced, entry.is_general,
-         entry.heroic_trait_id, entry.artefact_id],
+        [composition_id, entry.unit_id, entry.reinforced, entry.is_general, entry.heroic_trait_id, entry.artefact_id],
     ).fetchone()
     _refresh_total_points(con, composition_id)
     return int(row[0])
@@ -468,9 +559,7 @@ def add_composition_entry(
 
 def remove_composition_entry(con: duckdb.DuckDBPyConnection, entry_id: int) -> bool:
     """Supprime une entrée de composition. Retourne True si une ligne a été supprimée."""
-    row = con.execute(
-        "SELECT composition_id FROM composition_unit WHERE id = ?", [entry_id]
-    ).fetchone()
+    row = con.execute("SELECT composition_id FROM composition_unit WHERE id = ?", [entry_id]).fetchone()
     if row is None:
         return False
     composition_id = int(row[0])
@@ -500,14 +589,19 @@ def clone_composition(
     if source is None:
         raise ValueError(f"composition introuvable: {source_id}")
     clone = Composition(
-        army_id=source.army_id, name=new_name, kind=kind,  # type: ignore[arg-type]
+        army_id=source.army_id,
+        name=new_name,
+        kind=kind,  # type: ignore[arg-type]
         format_points=source.format_points,
         source=f"clone of #{source_id} ({source.name})",
         notes=source.notes,
         entries=[
             CompositionUnit(
-                unit_id=e.unit_id, reinforced=e.reinforced, is_general=e.is_general,
-                heroic_trait_id=e.heroic_trait_id, artefact_id=e.artefact_id,
+                unit_id=e.unit_id,
+                reinforced=e.reinforced,
+                is_general=e.is_general,
+                heroic_trait_id=e.heroic_trait_id,
+                artefact_id=e.artefact_id,
             )
             for e in source.entries
         ],

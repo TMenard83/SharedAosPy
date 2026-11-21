@@ -24,7 +24,7 @@ def test_parse_dice_constants_and_dice() -> None:
     assert parse_dice("D6") == 4  # round(1*(6+1)/2)=round(3.5)=4
     assert parse_dice("2D6") == 7
     assert parse_dice('5"') == 5
-    assert parse_dice("D6+3") == 7   # round(3.5) + 3
+    assert parse_dice("D6+3") == 7  # round(3.5) + 3
     assert parse_dice("2D6+3") == 10
     assert parse_dice("D3+3") == 5
     assert parse_dice('D6+5"') == 9
@@ -34,8 +34,8 @@ def _main_xml(entries: str) -> str:
     return (
         '<?xml version="1.0" encoding="utf-8"?>'
         f'<catalogue xmlns="{bsdata.NS}">'
-        f'<entryLinks>{entries}</entryLinks>'
-        '</catalogue>'
+        f"<entryLinks>{entries}</entryLinks>"
+        "</catalogue>"
     )
 
 
@@ -43,11 +43,11 @@ def test_parse_main_costs_extracts_only_priced_entries() -> None:
     xml = _main_xml(
         '<entryLink targetId="u-abc">'
         '  <costs><cost name="pts" typeId="points" value="120"/></costs>'
-        '</entryLink>'
+        "</entryLink>"
         '<entryLink targetId="u-no-cost"/>'
         '<entryLink targetId="u-zero">'
         '  <costs><cost name="pts" typeId="points" value="0"/></costs>'
-        '</entryLink>'
+        "</entryLink>"
     )
     costs = parse_main_costs(xml)
     assert costs == {"u-abc": 120}
@@ -57,10 +57,10 @@ def test_parse_main_costs_keeps_max_for_duplicate_targets() -> None:
     xml = _main_xml(
         '<entryLink targetId="u-dup">'
         '  <costs><cost name="pts" typeId="points" value="310"/></costs>'
-        '</entryLink>'
+        "</entryLink>"
         '<entryLink targetId="u-dup">'
         '  <costs><cost name="pts" typeId="points" value="160"/></costs>'
-        '</entryLink>'
+        "</entryLink>"
     )
     costs = parse_main_costs(xml)
     assert costs == {"u-dup": 310}
@@ -70,10 +70,10 @@ def test_parse_main_costs_max_regardless_of_order() -> None:
     xml = _main_xml(
         '<entryLink targetId="u-flip">'
         '  <costs><cost name="pts" typeId="points" value="90"/></costs>'
-        '</entryLink>'
+        "</entryLink>"
         '<entryLink targetId="u-flip">'
         '  <costs><cost name="pts" typeId="points" value="160"/></costs>'
-        '</entryLink>'
+        "</entryLink>"
     )
     costs = parse_main_costs(xml)
     assert costs == {"u-flip": 160}
@@ -83,12 +83,12 @@ def _library_xml(entries: str) -> str:
     return (
         '<?xml version="1.0" encoding="utf-8"?>'
         f'<catalogue xmlns="{bsdata.NS}">'
-        f'<sharedSelectionEntries>{entries}</sharedSelectionEntries>'
-        '</catalogue>'
+        f"<sharedSelectionEntries>{entries}</sharedSelectionEntries>"
+        "</catalogue>"
     )
 
 
-_LIBERATORS = '''
+_LIBERATORS = """
 <selectionEntry id="u-lib" type="unit" name="Liberators">
   <categoryLinks>
     <categoryLink name="WARD (6+)"/>
@@ -123,10 +123,10 @@ _LIBERATORS = '''
     </selectionEntry>
   </selectionEntries>
 </selectionEntry>
-'''
+"""
 
 
-_LORD = '''
+_LORD = """
 <selectionEntry id="u-lord" type="unit" name="Lord-Vigilant">
   <categoryLinks><categoryLink name="HERO"/></categoryLinks>
   <profiles>
@@ -140,7 +140,7 @@ _LORD = '''
     </profile>
   </profiles>
 </selectionEntry>
-'''
+"""
 
 
 def test_parse_library_units_extracts_profiles_and_weapons() -> None:
@@ -174,6 +174,7 @@ def test_parse_library_units_extracts_profiles_and_weapons() -> None:
 
 # ----- Résolution des porteurs (wielders) --------------------------------------
 
+
 def _frag(xml: str) -> ET.Element:
     """Parse un unique élément fragment dans le namespace BSData."""
     wrapper = ET.fromstring(f'<root xmlns="{bsdata.NS}">{xml}</root>')
@@ -181,42 +182,42 @@ def _frag(xml: str) -> ET.Element:
 
 
 def test_unit_wide_max_ignores_per_instance_scopes() -> None:
-    entry = _frag('''
+    entry = _frag("""
       <selectionEntry>
         <constraints>
           <constraint type="max" field="selections" scope="parent" value="1"/>
           <constraint type="max" field="selections" scope="some-unit-id" value="3"/>
         </constraints>
       </selectionEntry>
-    ''')
+    """)
     assert bsdata._unit_wide_max(entry) == 3
 
 
 def test_unit_wide_max_keeps_smallest_of_several_unit_scopes() -> None:
-    entry = _frag('''
+    entry = _frag("""
       <selectionEntry>
         <constraints>
           <constraint type="max" field="selections" scope="unit-a" value="2"/>
           <constraint type="max" field="selections" scope="unit-b" value="1"/>
         </constraints>
       </selectionEntry>
-    ''')
+    """)
     assert bsdata._unit_wide_max(entry) == 1
 
 
 def test_unit_wide_max_none_without_unit_scope_constraint() -> None:
-    entry = _frag('''
+    entry = _frag("""
       <selectionEntry>
         <constraints>
           <constraint type="max" field="selections" scope="parent" value="1"/>
         </constraints>
       </selectionEntry>
-    ''')
+    """)
     assert bsdata._unit_wide_max(entry) is None
 
 
 def test_replaced_by_reads_conditional_zero_modifier() -> None:
-    entry = _frag('''
+    entry = _frag("""
       <selectionEntry>
         <constraints>
           <constraint id="c1" type="min" field="selections" scope="parent" value="1"/>
@@ -229,7 +230,7 @@ def test_replaced_by_reads_conditional_zero_modifier() -> None:
           </modifier>
         </modifiers>
       </selectionEntry>
-    ''')
+    """)
     assert bsdata._replaced_by(entry) == ["replacer-1"]
 
 
@@ -239,7 +240,7 @@ def test_replaced_by_empty_without_own_constraint_id() -> None:
 
 
 def test_replaced_by_ignores_non_zero_modifiers() -> None:
-    entry = _frag('''
+    entry = _frag("""
       <selectionEntry>
         <constraints>
           <constraint id="c1" type="min" field="selections" scope="parent" value="1"/>
@@ -252,22 +253,42 @@ def test_replaced_by_ignores_non_zero_modifiers() -> None:
           </modifier>
         </modifiers>
       </selectionEntry>
-    ''')
+    """)
     assert bsdata._replaced_by(entry) == []
 
 
 def test_merge_composite_units_tags_merged_weapons_as_companion() -> None:
     parent = bsdata.ParsedUnit(
-        target_id="parent", name="Neave Blacktalon", move=6, save=4, health=6,
-        control=2, models=1, is_hero=True, ward=None,
-        weapons=[bsdata.ParsedWeapon(name="Shadowclaw", kind="melee", range_in=1,
-                                      attacks=4, hit=3, wound=3, rend=1, damage=2)],
+        target_id="parent",
+        name="Neave Blacktalon",
+        move=6,
+        save=4,
+        health=6,
+        control=2,
+        models=1,
+        is_hero=True,
+        ward=None,
+        weapons=[
+            bsdata.ParsedWeapon(
+                name="Shadowclaw", kind="melee", range_in=1, attacks=4, hit=3, wound=3, rend=1, damage=2
+            )
+        ],
     )
     extra = bsdata.ParsedUnit(
-        target_id="extra", name="Neave's Companions", move=6, save=5, health=1,
-        control=1, models=2, is_hero=False, ward=None,
-        weapons=[bsdata.ParsedWeapon(name="Companion Blade", kind="melee", range_in=1,
-                                      attacks=2, hit=4, wound=4, rend=0, damage=1)],
+        target_id="extra",
+        name="Neave's Companions",
+        move=6,
+        save=5,
+        health=1,
+        control=1,
+        models=2,
+        is_hero=False,
+        ward=None,
+        weapons=[
+            bsdata.ParsedWeapon(
+                name="Companion Blade", kind="melee", range_in=1, attacks=2, hit=4, wound=4, rend=0, damage=1
+            )
+        ],
     )
     units = {"parent": parent, "extra": extra}
     bsdata._merge_composite_units(units, {"extra": ("parent", None)})
@@ -281,13 +302,13 @@ def test_merge_composite_units_tags_merged_weapons_as_companion() -> None:
 
 
 def test_group_cap_reads_max_scope_parent() -> None:
-    group = _frag('''
+    group = _frag("""
       <selectionEntryGroup>
         <constraints>
           <constraint type="max" field="selections" scope="parent" value="1"/>
         </constraints>
       </selectionEntryGroup>
-    ''')
+    """)
     assert bsdata._group_cap(group) == 1
 
 
@@ -297,24 +318,24 @@ def test_group_cap_none_without_constraint() -> None:
 
 
 def test_is_legends_entry_true_with_legends_category_link() -> None:
-    entry = _frag('''
+    entry = _frag("""
       <selectionEntry name="Gryselle's Arenai">
         <categoryLinks>
           <categoryLink name="Legends" id="cat-legends" targetId="cat-legends" primary="false"/>
         </categoryLinks>
       </selectionEntry>
-    ''')
+    """)
     assert bsdata._is_legends_entry(entry) is True
 
 
 def test_is_legends_entry_false_without_legends_category_link() -> None:
-    entry = _frag('''
+    entry = _frag("""
       <selectionEntry name="Freeguild Steelhelms">
         <categoryLinks>
           <categoryLink name="Infantry" id="cat-inf" targetId="cat-inf" primary="true"/>
         </categoryLinks>
       </selectionEntry>
-    ''')
+    """)
     assert bsdata._is_legends_entry(entry) is False
 
 
@@ -331,13 +352,11 @@ def test_normalize_name_folds_typographic_apostrophes_and_case() -> None:
 
 def test_wahapedia_legends_names_matches_bsdata_apostrophe_variant(tmp_path: Path) -> None:
     (tmp_path / "Source.csv").write_text(
-        "id|name|type|edition|version|errata_date|errata_link|\n"
-        "1|Legends compendium|Warscroll|4|||\n",
+        "id|name|type|edition|version|errata_date|errata_link|\n1|Legends compendium|Warscroll|4|||\n",
         encoding="utf-8-sig",
     )
     (tmp_path / "Warscrolls.csv").write_text(
-        "id|name|faction_id|source_id|notes|\n"
-        "1|Gryselle’s Arenai|DoK|1||\n",
+        "id|name|faction_id|source_id|notes|\n1|Gryselle’s Arenai|DoK|1||\n",
         encoding="utf-8-sig",
     )
     names = bsdata._wahapedia_legends_names(tmp_path)
@@ -345,7 +364,7 @@ def test_wahapedia_legends_names_matches_bsdata_apostrophe_variant(tmp_path: Pat
 
 
 def test_option_damage_score_ranks_higher_damage_weapon_first() -> None:
-    weak = _frag('''
+    weak = _frag("""
       <selectionEntry name="Sling">
         <profiles>
           <profile typeName="Ranged Weapon" name="Sling">
@@ -359,8 +378,8 @@ def test_option_damage_score_ranks_higher_damage_weapon_first() -> None:
           </profile>
         </profiles>
       </selectionEntry>
-    ''')
-    strong = _frag('''
+    """)
+    strong = _frag("""
       <selectionEntry name="Cannon">
         <profiles>
           <profile typeName="Ranged Weapon" name="Cannon">
@@ -374,11 +393,11 @@ def test_option_damage_score_ranks_higher_damage_weapon_first() -> None:
           </profile>
         </profiles>
       </selectionEntry>
-    ''')
+    """)
     assert bsdata._option_damage_score(strong) > bsdata._option_damage_score(weak)
 
 
-_ENDRINRIGGERS_LIKE = '''
+_ENDRINRIGGERS_LIKE = """
 <selectionEntry id="u-end" type="unit" name="Endrinriggers">
   <profiles>
     <profile typeName="Unit" name="Endrinriggers">
@@ -444,7 +463,7 @@ _ENDRINRIGGERS_LIKE = '''
     </selectionEntry>
   </selectionEntries>
 </selectionEntry>
-'''
+"""
 
 
 def test_extract_weapons_propagates_nested_bundle_unit_wide_cap() -> None:
@@ -458,7 +477,7 @@ def test_extract_weapons_propagates_nested_bundle_unit_wide_cap() -> None:
     assert by_name["Gun Butt"].wielders == 1
 
 
-_STEGADON_LIKE = '''
+_STEGADON_LIKE = """
 <selectionEntry id="u-steg" type="unit" name="Stegadon">
   <profiles>
     <profile typeName="Unit" name="Stegadon">
@@ -513,7 +532,7 @@ _STEGADON_LIKE = '''
     </selectionEntryGroup>
   </selectionEntryGroups>
 </selectionEntry>
-'''
+"""
 
 
 def test_extract_weapons_keeps_only_best_option_under_group_cap() -> None:

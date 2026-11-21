@@ -49,17 +49,17 @@ class ChassisProfile:
     move: int
     is_flying: bool
     # performance (moteur)
-    dmg_melee: float            # dégâts moyens / round vs sauvegarde 4+, mêlée
-    dmg_ranged: float           # idem, tir
-    effective_wounds: float     # coups à porter pour tuer l'unité (rend 1 représentatif)
-    dmg_per_100: float          # (mêlée + tir) pour 100 pts
-    ewounds_per_100: float      # durabilité pour 100 pts
+    dmg_melee: float  # dégâts moyens / round vs sauvegarde 4+, mêlée
+    dmg_ranged: float  # idem, tir
+    effective_wounds: float  # coups à porter pour tuer l'unité (rend 1 représentatif)
+    dmg_per_100: float  # (mêlée + tir) pour 100 pts
+    ewounds_per_100: float  # durabilité pour 100 pts
     # descripteurs de compatibilité (couche 3)
-    attacks_total: float        # attaques totales de l'unité (toutes armes, tous porteurs)
-    share_melee: float          # part des dégâts en mêlée (0-1)
-    share_damage1: float        # part des dégâts venant d'armes à 1 dégât
-    share_companion: float      # part des dégâts venant d'armes Compagnon
-    crit_type: str              # critique dominant (none / 2hits / mortal / autowound)
+    attacks_total: float  # attaques totales de l'unité (toutes armes, tous porteurs)
+    share_melee: float  # part des dégâts en mêlée (0-1)
+    share_damage1: float  # part des dégâts venant d'armes à 1 dégât
+    share_companion: float  # part des dégâts venant d'armes Compagnon
+    crit_type: str  # critique dominant (none / 2hits / mortal / autowound)
 
 
 def weapon_damages(unit: Unit, probe: Unit = _PROBE_SAVE4, mods: CombatModifiers = _NO_MODS) -> list[float]:
@@ -92,13 +92,27 @@ def chassis_profile(unit: Unit) -> ChassisProfile:
     per100 = 100.0 / unit.points if unit.points > 0 else 0.0
     share = (lambda x: x / total) if total > 0 else (lambda x: 0.0)
     return ChassisProfile(
-        unit_id=unit.id, name=unit.name, army_id=unit.army_id, points=unit.points, is_hero=unit.is_hero,
-        unit_type=unit_type_of(unit.keywords), models=unit.models, health=unit.health, save=unit.save,
-        ward=unit.ward, move=unit.move, is_flying="FLY" in unit.keywords,
-        dmg_melee=round(dmg_melee, 3), dmg_ranged=round(dmg_ranged, 3), effective_wounds=round(ew, 2),
-        dmg_per_100=round(total * per100, 3), ewounds_per_100=round(ew * per100, 3),
-        attacks_total=_attacks_total(unit), share_melee=round(share(dmg_melee), 3),
-        share_damage1=round(share(d1), 3), share_companion=round(share(comp), 3),
+        unit_id=unit.id,
+        name=unit.name,
+        army_id=unit.army_id,
+        points=unit.points,
+        is_hero=unit.is_hero,
+        unit_type=unit_type_of(unit.keywords),
+        models=unit.models,
+        health=unit.health,
+        save=unit.save,
+        ward=unit.ward,
+        move=unit.move,
+        is_flying="FLY" in unit.keywords,
+        dmg_melee=round(dmg_melee, 3),
+        dmg_ranged=round(dmg_ranged, 3),
+        effective_wounds=round(ew, 2),
+        dmg_per_100=round(total * per100, 3),
+        ewounds_per_100=round(ew * per100, 3),
+        attacks_total=_attacks_total(unit),
+        share_melee=round(share(dmg_melee), 3),
+        share_damage1=round(share(d1), 3),
+        share_companion=round(share(comp), 3),
         crit_type=dominant_crit_type(unit),
     )
 
@@ -139,8 +153,10 @@ def build_chassis_rows(con) -> tuple[list[tuple], list[str]]:
         notes.append("résidu de coût absent : installer l'extra [analysis]")
     roi = repository.duel_roi_by_unit(con)
     if not roi:
-        notes.append("efficacité en duel absente : lancer `aospy unit benchmark-all --charge none "
-                     "--attacker-mode floor66 --defender-mode mean --include-heroes`")
+        notes.append(
+            "efficacité en duel absente : lancer `aospy unit benchmark-all --charge none "
+            "--attacker-mode floor66 --defender-mode mean --include-heroes`"
+        )
 
     ranks: dict[int, tuple[float, float]] = {}
     for hero in (True, False):
@@ -153,10 +169,35 @@ def build_chassis_rows(con) -> tuple[list[tuple], list[str]]:
     now = datetime.now()
     rows = []
     for i, p in enumerate(profiles):
-        rows.append((
-            p.unit_id, p.name, p.army_id, p.points, p.is_hero, p.unit_type, p.models, p.health, p.save, p.ward,
-            p.move, p.is_flying, p.dmg_melee, p.dmg_ranged, p.effective_wounds, p.dmg_per_100, p.ewounds_per_100,
-            p.attacks_total, p.share_melee, p.share_damage1, p.share_companion, p.crit_type,
-            ranks[i][0], ranks[i][1], residuals.get(p.unit_id), roi.get(p.unit_id), now,
-        ))
+        rows.append(
+            (
+                p.unit_id,
+                p.name,
+                p.army_id,
+                p.points,
+                p.is_hero,
+                p.unit_type,
+                p.models,
+                p.health,
+                p.save,
+                p.ward,
+                p.move,
+                p.is_flying,
+                p.dmg_melee,
+                p.dmg_ranged,
+                p.effective_wounds,
+                p.dmg_per_100,
+                p.ewounds_per_100,
+                p.attacks_total,
+                p.share_melee,
+                p.share_damage1,
+                p.share_companion,
+                p.crit_type,
+                ranks[i][0],
+                ranks[i][1],
+                residuals.get(p.unit_id),
+                roi.get(p.unit_id),
+                now,
+            )
+        )
     return rows, notes

@@ -22,7 +22,7 @@ def frequency_of(condition: str) -> Frequency:
     if c.startswith("passive"):
         return "passive"
     if re.search(r"first battle round", c):
-        return "once_per_battle"      # un seul déclenchement : début du premier round
+        return "once_per_battle"  # un seul déclenchement : début du premier round
     if "deployment" in c:
         # La phase de déploiement n'a lieu qu'une fois : « Once Per Battle » y est un garde-fou
         # redondant de GW (avis utilisateur), pas une limite qui coûte de la puissance.

@@ -35,8 +35,17 @@ def _pmf_moments(pmf: list[float]) -> tuple[float, float]:
 
 def _unit(save=4, health=2, ward=None, weapons=None, models=5, keywords=frozenset()):
     return Unit(
-        name="T", army_id=1, move=5, save=save, health=health, control=1,
-        models=models, points=100, ward=ward, keywords=keywords, weapons=weapons or [],
+        name="T",
+        army_id=1,
+        move=5,
+        save=save,
+        health=health,
+        control=1,
+        models=models,
+        points=100,
+        ward=ward,
+        keywords=keywords,
+        weapons=weapons or [],
     )
 
 
@@ -83,7 +92,7 @@ def test_expected_damage_with_rend_and_ward():
     defender = _unit(save=4, ward=5)
     mods = CombatModifiers()
     result = expected_weapon_damage(weapon, 5, defender, mods)
-    expected = 10 * (4/6) * (4/6) * (4/6) * 2 * (4/6)
+    expected = 10 * (4 / 6) * (4 / 6) * (4 / 6) * 2 * (4 / 6)
     assert result == pytest.approx(expected)
 
 
@@ -92,7 +101,7 @@ def test_rend_makes_save_impossible_when_eff_above_6():
     weapon = Weapon(name="w", kind="melee", attacks=1, hit=2, wound=2, rend=2, damage=1)
     defender = _unit(save=6, ward=None)
     # 5 atk, hit 5/6, wound 5/6, unsaved 1, ward 1, dmg 1
-    expected = 5 * (5/6) * (5/6) * 1.0 * 1
+    expected = 5 * (5 / 6) * (5 / 6) * 1.0 * 1
     assert expected_weapon_damage(weapon, 5, defender, CombatModifiers()) == pytest.approx(expected)
 
 
@@ -112,21 +121,17 @@ def test_all_out_attack_improves_hit():
     weapon = Weapon(name="w", kind="melee", attacks=1, hit=4, wound=4, damage=1)
     defender = _unit(save=7)
     base = expected_weapon_damage(weapon, 5, defender, CombatModifiers())
-    boosted = expected_weapon_damage(
-        weapon, 5, defender, CombatModifiers(attacker_all_out_attack=True)
-    )
+    boosted = expected_weapon_damage(weapon, 5, defender, CombatModifiers(attacker_all_out_attack=True))
     # base: 5 * 3/6 * 3/6 = 1.25 ; boosted: 5 * 4/6 * 3/6 ≈ 1.667
     assert base == pytest.approx(1.25)
-    assert boosted == pytest.approx(5 * (4/6) * (3/6))
+    assert boosted == pytest.approx(5 * (4 / 6) * (3 / 6))
 
 
 def test_all_out_defense_improves_save():
     weapon = Weapon(name="w", kind="melee", attacks=1, hit=2, wound=2, rend=0, damage=1)
     defender = _unit(save=4)
     base = expected_weapon_damage(weapon, 5, defender, CombatModifiers())
-    defended = expected_weapon_damage(
-        weapon, 5, defender, CombatModifiers(defender_all_out_defense=True)
-    )
+    defended = expected_weapon_damage(weapon, 5, defender, CombatModifiers(defender_all_out_defense=True))
     # base: save 4+ (3/6), unsaved 3/6. defended: save 3+ (4/6), unsaved 2/6.
     assert defended < base
 
@@ -136,8 +141,7 @@ def test_crit_2_hits():
     # P_normal_hit = 1/2 - 1/6 = 2/6 ; P_crit = 1/6
     # E[hits] = 6 * (2/6 + 2 * 1/6) = 6 * 4/6 = 4
     # E[unsaved] = 4 * 1/2 = 2
-    weapon = Weapon(name="w", kind="melee", attacks=6, hit=4, wound=4, damage=1,
-                    abilities="Crit (2 Hits)")
+    weapon = Weapon(name="w", kind="melee", attacks=6, hit=4, wound=4, damage=1, abilities="Crit (2 Hits)")
     defender = _unit(save=7)
     result = expected_weapon_damage(weapon, 1, defender, CombatModifiers())
     assert result == pytest.approx(2.0)
@@ -147,23 +151,21 @@ def test_crit_auto_wound_skips_wound_roll():
     # 6 atk, 4+ hit, 6+ wound, save 7. Normal: 6*1/2*1/6 = 0.5
     # Auto-wound: normal_hits=6*2/6=2, crit_hits=6*1/6=1
     # wounds = 2*1/6 + 1 = 1.333..., unsaved = wounds (no save), dmg 1
-    weapon = Weapon(name="w", kind="melee", attacks=6, hit=4, wound=6, damage=1,
-                    abilities="Crit (Auto-Wound)")
+    weapon = Weapon(name="w", kind="melee", attacks=6, hit=4, wound=6, damage=1, abilities="Crit (Auto-Wound)")
     defender = _unit(save=7)
     result = expected_weapon_damage(weapon, 1, defender, CombatModifiers())
-    assert result == pytest.approx(2 * (1/6) + 1)
+    assert result == pytest.approx(2 * (1 / 6) + 1)
 
 
 def test_crit_mortal_bypasses_wound_and_save():
     # crit dmg passe outre save & wound mais subit ward
-    weapon = Weapon(name="w", kind="melee", attacks=6, hit=4, wound=6, damage=2,
-                    abilities="Crit (Mortal Wounds)")
+    weapon = Weapon(name="w", kind="melee", attacks=6, hit=4, wound=6, damage=2, abilities="Crit (Mortal Wounds)")
     defender = _unit(save=2, ward=5)  # save 2+ bloque presque tout, mortels passent
     result = expected_weapon_damage(weapon, 1, defender, CombatModifiers())
     # crit_hits = 1, mortels = 1 * 2 = 2 ; normal_hits = 2, wounds = 2*1/6, save 2+ (5/6) unsaved 1/6
     # normal damage = (2*1/6)*1/6 * 2 ≈ 0.111
     # ward = 5+ → 1 - 2/6 = 4/6 multiplier
-    expected = ((2 * (1/6) * (1/6) * 2) + (1 * 2)) * (4/6)
+    expected = ((2 * (1 / 6) * (1 / 6) * 2) + (1 * 2)) * (4 / 6)
     assert result == pytest.approx(expected)
 
 
@@ -171,23 +173,45 @@ def test_crit_mortal_bypasses_wound_and_save():
 # Moments (moyenne/variance/écart-type) — non-régression vs expected_weapon_damage
 # --------------------------------------------------------------------------- #
 
+
 @pytest.mark.parametrize(
     "weapon,defender,mods",
     [
-        (Weapon(name="w", kind="melee", attacks=2, hit=4, wound=4, rend=0, damage=1),
-         _unit(save=4, ward=None), CombatModifiers()),
-        (Weapon(name="w", kind="melee", attacks=2, hit=3, wound=3, rend=1, damage=2),
-         _unit(save=4, ward=5), CombatModifiers()),
-        (Weapon(name="m", kind="melee", attacks=2, hit=4, wound=4, damage=1),
-         _unit(save=7), CombatModifiers(attacker_charged=True)),
-        (Weapon(name="w", kind="melee", attacks=1, hit=4, wound=4, damage=1),
-         _unit(save=7), CombatModifiers(attacker_all_out_attack=True)),
-        (Weapon(name="w", kind="melee", attacks=6, hit=4, wound=4, damage=1, abilities="Crit (2 Hits)"),
-         _unit(save=7), CombatModifiers()),
-        (Weapon(name="w", kind="melee", attacks=6, hit=4, wound=6, damage=1, abilities="Crit (Auto-Wound)"),
-         _unit(save=7), CombatModifiers()),
-        (Weapon(name="w", kind="melee", attacks=6, hit=4, wound=6, damage=2, abilities="Crit (Mortal Wounds)"),
-         _unit(save=2, ward=5), CombatModifiers()),
+        (
+            Weapon(name="w", kind="melee", attacks=2, hit=4, wound=4, rend=0, damage=1),
+            _unit(save=4, ward=None),
+            CombatModifiers(),
+        ),
+        (
+            Weapon(name="w", kind="melee", attacks=2, hit=3, wound=3, rend=1, damage=2),
+            _unit(save=4, ward=5),
+            CombatModifiers(),
+        ),
+        (
+            Weapon(name="m", kind="melee", attacks=2, hit=4, wound=4, damage=1),
+            _unit(save=7),
+            CombatModifiers(attacker_charged=True),
+        ),
+        (
+            Weapon(name="w", kind="melee", attacks=1, hit=4, wound=4, damage=1),
+            _unit(save=7),
+            CombatModifiers(attacker_all_out_attack=True),
+        ),
+        (
+            Weapon(name="w", kind="melee", attacks=6, hit=4, wound=4, damage=1, abilities="Crit (2 Hits)"),
+            _unit(save=7),
+            CombatModifiers(),
+        ),
+        (
+            Weapon(name="w", kind="melee", attacks=6, hit=4, wound=6, damage=1, abilities="Crit (Auto-Wound)"),
+            _unit(save=7),
+            CombatModifiers(),
+        ),
+        (
+            Weapon(name="w", kind="melee", attacks=6, hit=4, wound=6, damage=2, abilities="Crit (Mortal Wounds)"),
+            _unit(save=2, ward=5),
+            CombatModifiers(),
+        ),
     ],
 )
 def test_weapon_damage_moments_mean_matches_expected_weapon_damage(weapon, defender, mods):
@@ -214,8 +238,7 @@ def test_weapon_damage_moments_2hits_variance():
     # 1 attaque, hit toujours (2+ = 5/6, mais on isole le crit) : ici hit 2+ pour
     # simplifier p_crit = 1/6 = p_hit_min, wound 2+ (5/6), save impossible, dmg 1,
     # Crit (2 Hits). Vérifié contre le calcul manuel E[Y²] = 2p + 2p² (Y = B1+B2).
-    weapon = Weapon(name="w", kind="melee", attacks=1, hit=2, wound=2, damage=1,
-                    abilities="Crit (2 Hits)")
+    weapon = Weapon(name="w", kind="melee", attacks=1, hit=2, wound=2, damage=1, abilities="Crit (2 Hits)")
     defender = _unit(save=7)
     p_hit = 5 / 6
     p_crit = 1 / 6
@@ -224,7 +247,7 @@ def test_weapon_damage_moments_2hits_variance():
     ex1 = p_normal * p_land + p_crit * 2 * p_land
     ex2 = p_normal * p_land + p_crit * (2 * p_land + 2 * p_land * p_land)
     expected_mean = ex1 * 1
-    expected_var = ex2 * 1 - expected_mean ** 2
+    expected_var = ex2 * 1 - expected_mean**2
     mean, var = weapon_damage_moments(weapon, 1, defender, CombatModifiers())
     assert mean == pytest.approx(expected_mean)
     assert var == pytest.approx(expected_var)
@@ -234,8 +257,15 @@ def test_unit_damage_moments_sums_independent_weapon_variances():
     w1 = Weapon(name="a", kind="melee", attacks=4, hit=4, wound=4, damage=3, wielders=1)
     w2 = Weapon(name="b", kind="ranged", attacks=4, hit=4, wound=4, damage=3, wielders=1)
     attacker = Unit(
-        name="A", army_id=1, move=5, save=4, health=2, control=1,
-        models=1, points=100, weapons=[w1, w2],
+        name="A",
+        army_id=1,
+        move=5,
+        save=4,
+        health=2,
+        control=1,
+        models=1,
+        points=100,
+        weapons=[w1, w2],
     )
     defender = _unit(save=7)
     mean, var, std = unit_damage_moments(attacker, 1, defender, CombatModifiers())
@@ -250,8 +280,15 @@ def test_unit_damage_moments_mean_matches_expected_unit_damage():
     w1 = Weapon(name="a", kind="melee", attacks=2, hit=3, wound=3, rend=1, damage=2, wielders=3)
     w2 = Weapon(name="b", kind="ranged", attacks=1, hit=4, wound=4, damage=1, wielders=2)
     attacker = Unit(
-        name="A", army_id=1, move=5, save=4, health=2, control=1,
-        models=5, points=200, weapons=[w1, w2],
+        name="A",
+        army_id=1,
+        move=5,
+        save=4,
+        health=2,
+        control=1,
+        models=5,
+        points=200,
+        weapons=[w1, w2],
     )
     defender = _unit(save=4, ward=5)
     mods = CombatModifiers(attacker_charged=True)
@@ -295,19 +332,39 @@ def test_damage_floor66_less_pessimistic_than_floor80():
 # Distribution exacte (convolution) — remplace l'approximation gaussienne
 # --------------------------------------------------------------------------- #
 
+
 @pytest.mark.parametrize(
     "weapon, defender, mods",
     [
         (Weapon(name="w", kind="melee", attacks=6, hit=4, wound=4, damage=1), _unit(save=4), CombatModifiers()),
-        (Weapon(name="w", kind="melee", attacks=6, hit=4, wound=4, damage=1, abilities="Crit (2 Hits)"),
-         _unit(save=7), CombatModifiers()),
-        (Weapon(name="w", kind="melee", attacks=6, hit=4, wound=6, damage=1, abilities="Crit (Auto-Wound)"),
-         _unit(save=7), CombatModifiers()),
-        (Weapon(name="w", kind="melee", attacks=6, hit=4, wound=6, damage=2, abilities="Crit (Mortal Wounds)"),
-         _unit(save=2, ward=5), CombatModifiers()),
-        (Weapon(name="w", kind="ranged", attacks=3, hit=3, wound=3, damage=1,
-                abilities="Each hit inflicts 1 mortal damage on the target and the attack sequence ends. Mortal on hit"),
-         _unit(save=2, ward=5), CombatModifiers()),
+        (
+            Weapon(name="w", kind="melee", attacks=6, hit=4, wound=4, damage=1, abilities="Crit (2 Hits)"),
+            _unit(save=7),
+            CombatModifiers(),
+        ),
+        (
+            Weapon(name="w", kind="melee", attacks=6, hit=4, wound=6, damage=1, abilities="Crit (Auto-Wound)"),
+            _unit(save=7),
+            CombatModifiers(),
+        ),
+        (
+            Weapon(name="w", kind="melee", attacks=6, hit=4, wound=6, damage=2, abilities="Crit (Mortal Wounds)"),
+            _unit(save=2, ward=5),
+            CombatModifiers(),
+        ),
+        (
+            Weapon(
+                name="w",
+                kind="ranged",
+                attacks=3,
+                hit=3,
+                wound=3,
+                damage=1,
+                abilities="Each hit inflicts 1 mortal damage on the target and the attack sequence ends. Mortal on hit",
+            ),
+            _unit(save=2, ward=5),
+            CombatModifiers(),
+        ),
     ],
 )
 def test_weapon_damage_distribution_sums_to_one(weapon, defender, mods):
@@ -320,12 +377,21 @@ def test_weapon_damage_distribution_sums_to_one(weapon, defender, mods):
     "weapon, defender, mods",
     [
         (Weapon(name="w", kind="melee", attacks=6, hit=4, wound=4, damage=1), _unit(save=4), CombatModifiers()),
-        (Weapon(name="w", kind="melee", attacks=6, hit=4, wound=4, damage=1, abilities="Crit (2 Hits)"),
-         _unit(save=7), CombatModifiers()),
-        (Weapon(name="w", kind="melee", attacks=6, hit=4, wound=6, damage=1, abilities="Crit (Auto-Wound)"),
-         _unit(save=7), CombatModifiers()),
-        (Weapon(name="w", kind="melee", attacks=6, hit=4, wound=6, damage=2, abilities="Crit (Mortal Wounds)"),
-         _unit(save=2, ward=5), CombatModifiers()),
+        (
+            Weapon(name="w", kind="melee", attacks=6, hit=4, wound=4, damage=1, abilities="Crit (2 Hits)"),
+            _unit(save=7),
+            CombatModifiers(),
+        ),
+        (
+            Weapon(name="w", kind="melee", attacks=6, hit=4, wound=6, damage=1, abilities="Crit (Auto-Wound)"),
+            _unit(save=7),
+            CombatModifiers(),
+        ),
+        (
+            Weapon(name="w", kind="melee", attacks=6, hit=4, wound=6, damage=2, abilities="Crit (Mortal Wounds)"),
+            _unit(save=2, ward=5),
+            CombatModifiers(),
+        ),
     ],
 )
 def test_weapon_damage_distribution_moments_match_weapon_damage_moments(weapon, defender, mods):
@@ -342,8 +408,15 @@ def test_unit_damage_distribution_moments_match_unit_damage_moments():
     w1 = Weapon(name="a", kind="melee", attacks=4, hit=4, wound=4, damage=3, wielders=1)
     w2 = Weapon(name="b", kind="ranged", attacks=4, hit=4, wound=4, damage=3, wielders=1)
     attacker = Unit(
-        name="A", army_id=1, move=5, save=4, health=2, control=1,
-        models=1, points=100, weapons=[w1, w2],
+        name="A",
+        army_id=1,
+        move=5,
+        save=4,
+        health=2,
+        control=1,
+        models=1,
+        points=100,
+        weapons=[w1, w2],
     )
     defender = _unit(save=7)
     pmf = unit_damage_distribution(attacker, 1, defender, CombatModifiers())
@@ -413,61 +486,66 @@ def test_distribution_floor_converges_to_gaussian_for_many_attacks():
 # Bonus intrinsèques Anti-<MOT-CLÉ> / Charge (texte libre, Weapon.abilities)
 # --------------------------------------------------------------------------- #
 
+
 def test_anti_keyword_bonus_active_only_when_defender_has_keyword():
     # 10 atk, 4+ hit, 4+ wound, save 4+, dmg 1, Anti-MONSTER (+1 Rend)
-    weapon = Weapon(name="w", kind="melee", attacks=2, hit=4, wound=4, damage=1,
-                    abilities="Anti-MONSTER (+1 Rend)")
+    weapon = Weapon(name="w", kind="melee", attacks=2, hit=4, wound=4, damage=1, abilities="Anti-MONSTER (+1 Rend)")
     plain = _unit(save=4, keywords=frozenset())
     monster = _unit(save=4, keywords=frozenset({"MONSTER"}))
     dmg_plain = expected_weapon_damage(weapon, 5, plain, CombatModifiers())
     dmg_monster = expected_weapon_damage(weapon, 5, monster, CombatModifiers())
     # rend +1 → save 4+ devient 5+ (2/6 au lieu de 3/6) → plus de dégâts non sauvés
     assert dmg_monster > dmg_plain
-    assert dmg_plain == pytest.approx(10 * (1/2) * (1/2) * (1/2))
-    assert dmg_monster == pytest.approx(10 * (1/2) * (1/2) * (4/6))
+    assert dmg_plain == pytest.approx(10 * (1 / 2) * (1 / 2) * (1 / 2))
+    assert dmg_monster == pytest.approx(10 * (1 / 2) * (1 / 2) * (4 / 6))
 
 
 def test_anti_keyword_bonus_absent_without_matching_keyword():
-    weapon = Weapon(name="w", kind="melee", attacks=2, hit=4, wound=4, damage=1,
-                    abilities="Anti-MONSTER (+1 Rend)")
+    weapon = Weapon(name="w", kind="melee", attacks=2, hit=4, wound=4, damage=1, abilities="Anti-MONSTER (+1 Rend)")
     hero = _unit(save=4, keywords=frozenset({"HERO"}))  # mot-clé présent mais pas MONSTER
     result = expected_weapon_damage(weapon, 5, hero, CombatModifiers())
-    assert result == pytest.approx(10 * (1/2) * (1/2) * (1/2))
+    assert result == pytest.approx(10 * (1 / 2) * (1 / 2) * (1 / 2))
 
 
 def test_anti_keyword_bonus_active_with_bsdata_markup():
     # BSData encode le mot-clé avec du markup (**gras**/^^exposant^^, parfois un
     # tiret insécable U+2011 dans "Anti‑") : cf. `normalize_abilities`.
-    weapon = Weapon(name="w", kind="melee", attacks=2, hit=4, wound=4, damage=1,
-                    abilities="Anti‑**^^MONSTER^^**\xa0(+1 Rend)")
+    weapon = Weapon(
+        name="w", kind="melee", attacks=2, hit=4, wound=4, damage=1, abilities="Anti‑**^^MONSTER^^**\xa0(+1 Rend)"
+    )
     monster = _unit(save=4, keywords=frozenset({"MONSTER"}))
     result = expected_weapon_damage(weapon, 5, monster, CombatModifiers())
-    assert result == pytest.approx(10 * (1/2) * (1/2) * (4/6))
+    assert result == pytest.approx(10 * (1 / 2) * (1 / 2) * (4 / 6))
 
 
 def test_anti_keyword_bonus_active_with_wahapedia_html_markup():
-    weapon = Weapon(name="w", kind="melee", attacks=2, hit=4, wound=4, damage=1,
-                    abilities='Anti-<span class="kwb">MONSTER</span> (+1 Rend)')
+    weapon = Weapon(
+        name="w",
+        kind="melee",
+        attacks=2,
+        hit=4,
+        wound=4,
+        damage=1,
+        abilities='Anti-<span class="kwb">MONSTER</span> (+1 Rend)',
+    )
     monster = _unit(save=4, keywords=frozenset({"MONSTER"}))
     result = expected_weapon_damage(weapon, 5, monster, CombatModifiers())
-    assert result == pytest.approx(10 * (1/2) * (1/2) * (4/6))
+    assert result == pytest.approx(10 * (1 / 2) * (1 / 2) * (4 / 6))
 
 
 def test_anti_charge_text_does_not_trigger_attacker_charge_bonus():
     # "Anti-charge (+N Rend)" (mot-clé "CHARGE") est une mécanique distincte du
     # bonus de charge de l'attaquant — ne doit pas être absorbée par CHARGE_RE.
-    weapon = Weapon(name="w", kind="melee", attacks=2, hit=4, wound=4, damage=1,
-                    abilities="Anti-charge (+1 Rend)")
+    weapon = Weapon(name="w", kind="melee", attacks=2, hit=4, wound=4, damage=1, abilities="Anti-charge (+1 Rend)")
     defender = _unit(save=4, keywords=frozenset())
     result = expected_weapon_damage(weapon, 5, defender, CombatModifiers(attacker_charged=True))
-    assert result == pytest.approx(10 * (1/2) * (1/2) * (1/2))
+    assert result == pytest.approx(10 * (1 / 2) * (1 / 2) * (1 / 2))
 
 
 def test_charge_ability_bonus_only_from_weapon_text():
     # Pas de bonus universel de charge en AoS4 : seul le texte d'arme compte
     # (ex. Charge (+1 Damage), typique des profils de cavalerie).
-    weapon = Weapon(name="w", kind="melee", attacks=2, hit=4, wound=4, damage=1,
-                    abilities="Charge (+1 Damage)")
+    weapon = Weapon(name="w", kind="melee", attacks=2, hit=4, wound=4, damage=1, abilities="Charge (+1 Damage)")
     defender = _unit(save=7)  # save impossible → tout passe
     base = expected_weapon_damage(weapon, 5, defender, CombatModifiers())
     charged = expected_weapon_damage(weapon, 5, defender, CombatModifiers(attacker_charged=True))
@@ -478,11 +556,10 @@ def test_charge_ability_bonus_only_from_weapon_text():
 
 
 def test_charge_ability_bonus_inactive_without_charge():
-    weapon = Weapon(name="w", kind="melee", attacks=2, hit=4, wound=4, damage=1,
-                    abilities="Charge (+1 Hit)")
+    weapon = Weapon(name="w", kind="melee", attacks=2, hit=4, wound=4, damage=1, abilities="Charge (+1 Hit)")
     defender = _unit(save=7)
     result = expected_weapon_damage(weapon, 5, defender, CombatModifiers())
-    assert result == pytest.approx(10 * (1/2) * (1/2) * 1)
+    assert result == pytest.approx(10 * (1 / 2) * (1 / 2) * 1)
 
 
 def test_expected_unit_damage_uses_loadout_description_when_present():
@@ -490,20 +567,27 @@ def test_expected_unit_damage_uses_loadout_description_when_present():
     # sans description, wielders=0 ferait porter l'arme spéciale par les 10 modèles.
     base = Weapon(name="Warhammer", kind="melee", attacks=2, hit=4, wound=4, damage=1)
     special = Weapon(name="Grandhammer", kind="melee", attacks=2, hit=4, wound=4, damage=2)
-    desc = ("<ul><li>Each model is armed with a Warhammer.</li>"
-            "<li>2/10 models can replace their Warhammer with a Grandhammer.</li></ul>")
+    desc = (
+        "<ul><li>Each model is armed with a Warhammer.</li>"
+        "<li>2/10 models can replace their Warhammer with a Grandhammer.</li></ul>"
+    )
     attacker = Unit(
-        name="A", army_id=1, move=5, save=4, health=1, control=1,
-        models=10, points=100, description=desc, weapons=[base, special],
+        name="A",
+        army_id=1,
+        move=5,
+        save=4,
+        health=1,
+        control=1,
+        models=10,
+        points=100,
+        description=desc,
+        weapons=[base, special],
     )
     defender = _unit(save=7)
     mods = CombatModifiers()
     result = expected_unit_damage(attacker, 10, defender, mods)
     # 8 modèles Warhammer + 2 modèles Grandhammer (pas 10+10, ni 0 sur l'un des deux)
-    expected = (
-        expected_weapon_damage(base, 8, defender, mods)
-        + expected_weapon_damage(special, 2, defender, mods)
-    )
+    expected = expected_weapon_damage(base, 8, defender, mods) + expected_weapon_damage(special, 2, defender, mods)
     assert result == pytest.approx(expected)
 
 
@@ -511,8 +595,15 @@ def test_expected_unit_damage_falls_back_to_wielders_without_description():
     # Sans description, comportement inchangé : wielders pilote l'allocation.
     w1 = Weapon(name="a", kind="melee", attacks=2, hit=4, wound=4, damage=1, wielders=3)
     attacker = Unit(
-        name="A", army_id=1, move=5, save=4, health=1, control=1,
-        models=10, points=100, weapons=[w1],
+        name="A",
+        army_id=1,
+        move=5,
+        save=4,
+        health=1,
+        control=1,
+        models=10,
+        points=100,
+        weapons=[w1],
     )
     defender = _unit(save=7)
     mods = CombatModifiers()
@@ -525,8 +616,15 @@ def test_exclusive_weapon_modes_collapse_without_description():
     mobile = Weapon(name="Fusil-cannon: Mobile", kind="ranged", attacks=1, hit=4, wound=4, damage=1)
     fortified = Weapon(name="Fusil-cannon: Fortified Position", kind="ranged", attacks=2, hit=4, wound=4, damage=1)
     attacker = Unit(
-        name="A", army_id=1, move=5, save=4, health=1, control=1,
-        models=10, points=100, weapons=[mobile, fortified],
+        name="A",
+        army_id=1,
+        move=5,
+        save=4,
+        health=1,
+        control=1,
+        models=10,
+        points=100,
+        weapons=[mobile, fortified],
     )
     defender = _unit(save=7)
     mods = CombatModifiers()
@@ -535,8 +633,15 @@ def test_exclusive_weapon_modes_collapse_without_description():
 
 
 def test_anti_keyword_and_charge_moments_match_expected_weapon_damage():
-    weapon = Weapon(name="w", kind="melee", attacks=2, hit=4, wound=4, damage=1,
-                    abilities="Anti-MONSTER (+1 Rend), Charge (+1 Damage)")
+    weapon = Weapon(
+        name="w",
+        kind="melee",
+        attacks=2,
+        hit=4,
+        wound=4,
+        damage=1,
+        abilities="Anti-MONSTER (+1 Rend), Charge (+1 Damage)",
+    )
     defender = _unit(save=4, keywords=frozenset({"MONSTER"}))
     mods = CombatModifiers(attacker_charged=True)
     mean, _var = weapon_damage_moments(weapon, 5, defender, mods)
@@ -547,12 +652,16 @@ def test_anti_keyword_and_charge_moments_match_expected_weapon_damage():
 # Règle optionnelle "tir double" (CombatModifiers.attacker_ranged_double)
 # --------------------------------------------------------------------------- #
 
+
 def test_ranged_double_doubles_ranged_weapon_damage():
     weapon = Weapon(name="r", kind="ranged", attacks=2, hit=4, wound=4, damage=1)
     defender = _unit(save=7)
     base = expected_weapon_damage(weapon, 5, defender, CombatModifiers())
     doubled = expected_weapon_damage(
-        weapon, 5, defender, CombatModifiers(attacker_ranged_double=True),
+        weapon,
+        5,
+        defender,
+        CombatModifiers(attacker_ranged_double=True),
     )
     assert doubled == pytest.approx(RANGED_DOUBLE_MULT * base)
 
@@ -562,7 +671,10 @@ def test_ranged_double_does_not_affect_melee_weapon():
     defender = _unit(save=7)
     base = expected_weapon_damage(weapon, 5, defender, CombatModifiers())
     result = expected_weapon_damage(
-        weapon, 5, defender, CombatModifiers(attacker_ranged_double=True),
+        weapon,
+        5,
+        defender,
+        CombatModifiers(attacker_ranged_double=True),
     )
     assert result == pytest.approx(base)
 
@@ -573,7 +685,10 @@ def test_ranged_double_moments_double_mean_and_variance_not_variance_times_4():
     defender = _unit(save=7)
     mean, var = weapon_damage_moments(weapon, 1, defender, CombatModifiers())
     mean2, var2 = weapon_damage_moments(
-        weapon, 1, defender, CombatModifiers(attacker_ranged_double=True),
+        weapon,
+        1,
+        defender,
+        CombatModifiers(attacker_ranged_double=True),
     )
     assert mean2 == pytest.approx(RANGED_DOUBLE_MULT * mean)
     assert var2 == pytest.approx(RANGED_DOUBLE_MULT * var)
@@ -582,6 +697,7 @@ def test_ranged_double_moments_double_mean_and_variance_not_variance_times_4():
 def test_crit_on_5_plus_tag():
     """« Crits on 5+ » (ex. Chasseurs en Meute) : critique sur 5+ au lieu du 6 naturel."""
     from aospy.engine.combat import _crit_chance
+
     assert _crit_chance("Crit (Mortal), Crits on 5+", 0.5) == 2 / 6
     assert _crit_chance("Crit (Mortal)", 0.5) == 1 / 6
     assert _crit_chance(None, 0.5) == 1 / 6
@@ -591,6 +707,7 @@ def test_mortal_on_hit_skips_wound_and_save_but_not_ward():
     """« Mortal on hit » (Warp Lightning Cannon, Cometstrike Sceptre) : chaque touche = dégâts en blessures
     mortelles ; l'ancien libellé « no wound roll » reste accepté."""
     from aospy.engine.combat import _is_mortal_on_hit
+
     w = Weapon(name="w", kind="ranged", attacks=6, hit=4, wound=7, damage=1, abilities="Mortal on hit")
     assert expected_weapon_damage(w, 1, _unit(save=2), CombatModifiers()) == pytest.approx(3.0)
     assert expected_weapon_damage(w, 1, _unit(save=2, ward=5), CombatModifiers()) == pytest.approx(2.0)

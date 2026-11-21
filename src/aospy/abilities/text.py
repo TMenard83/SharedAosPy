@@ -5,8 +5,8 @@ from __future__ import annotations
 import html
 import re
 
-_TOOLTIP_RE = re.compile(r"%\d+([^%]*)%")       # « %000010870<ky>FIGHT</ky> ability% »
-_ORPHAN_ID_RE = re.compile(r"[%$]\d{5,}\|?")     # marqueur d'infobulle orphelin
+_TOOLTIP_RE = re.compile(r"%\d+([^%]*)%")  # « %000010870<ky>FIGHT</ky> ability% »
+_ORPHAN_ID_RE = re.compile(r"[%$]\d{5,}\|?")  # marqueur d'infobulle orphelin
 _TAG_RE = re.compile(r"<[^>]*>?")
 _SPACES_RE = re.compile(r"[ \t ]+")
 _DESIGNER_RE = re.compile(r"Designer[’']s Note:.*", re.S)
@@ -33,8 +33,10 @@ def clean(raw: str) -> str:
 #: Fautes de l'export Wahapedia (analyseur v28) : ligatures « fi »/« fl »/« ff » perdues (« battleeld »,
 #: « inict », « modiers », « eect »), « I »/« l » à la place du chiffre 1, « to » oublié.
 _TYPOS = [
-    (re.compile(r"\bbattleeld"), "battlefield"), (re.compile(r"\binict"), "inflict"),
-    (re.compile(r"\bmodier"), "modifier"), (re.compile(r"\beect"), "effect"),
+    (re.compile(r"\bbattleeld"), "battlefield"),
+    (re.compile(r"\binict"), "inflict"),
+    (re.compile(r"\bmodier"), "modifier"),
+    (re.compile(r"\beect"), "effect"),
     (re.compile(r"\b([Aa]dd|[Ss]ubtract) I (to|from)\b"), r"\1 1 \2"),
     (re.compile(r"\broll l additional\b"), "roll 1 additional"),
     (re.compile(r"\bAAdd\b"), "Add"),

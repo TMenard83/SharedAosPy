@@ -65,12 +65,12 @@ def eligible(unit: Unit, restriction: str, source_kind: str, vocab: frozenset[st
     m = re.search(r"\bexcluding (.+)$", r, re.I)
     if m:
         excluded_names = [n.strip().lower().rstrip("s") for n in re.split(r",| and ", m.group(1)) if n.strip()]
-        r = r[:m.start()].strip(" ,")
+        r = r[: m.start()].strip(" ,")
     with_kw = ""
     m = re.search(r"\bwith the ([A-Z][A-Z ]+?) keyword", r)
     if m:
         with_kw = m.group(1).strip()
-        r = r[:m.start()].strip()
+        r = r[: m.start()].strip()
     m = re.search(r"can (?:only )?be given to (.+)$", r, re.I)
     phrase = m.group(1) if m else re.sub(r"\s+on?ly\b.*$", "", r, flags=re.I)
     phrase = re.sub(r"\b(?:units?|models?)\b\.?$", "", phrase.strip(), flags=re.I).strip()
@@ -126,9 +126,12 @@ def bearer_gain(unit: Unit, specs: list[EffectSpec]) -> Optional[tuple[float, fl
     if not applied:
         return None
     plan = play_plan(unit, probe, mods)
-    return plan_offense(unit, probe, mods, plan), plan_offense(after, probe, mods, plan), unit_durability(unit), unit_durability(after)
-
-
+    return (
+        plan_offense(unit, probe, mods, plan),
+        plan_offense(after, probe, mods, plan),
+        unit_durability(unit),
+        unit_durability(after),
+    )
 
 
 def build_bearer_rows(con) -> list[tuple]:
@@ -144,15 +147,31 @@ def build_bearer_rows(con) -> list[tuple]:
     incoming = incoming_damage(con)
     effs = load_effects(con)
     specs: dict[str, list[EffectSpec]] = {}
-    for (uid, kind, stat, value, detail, side, wscope, wname, comp, tkw, tcond, req, dur) in con.execute(
-            """SELECT ability_uid, kind, stat, value, detail, side, weapon_scope, weapon_name, includes_companion,
-                      target_keywords, target_condition, requires, duration FROM ability_effect""").fetchall():
-        specs.setdefault(uid, []).append(EffectSpec(
-            kind=kind, stat=stat or "", value=value or 0.0, detail=detail or "", side=side or "",
-            weapon_scope=wscope or "", weapon_name=wname or "", includes_companion=bool(comp),
-            target_keywords=tkw or "", target_condition=tcond or "", requires=req or "", duration=dur or ""))
-    comb = dict(con.execute("SELECT unit_id, combined_per_100 * points / 100 FROM unit_realized r "
-                            "JOIN unit u ON u.id = r.unit_id").fetchall())
+    for uid, kind, stat, value, detail, side, wscope, wname, comp, tkw, tcond, req, dur in con.execute(
+        """SELECT ability_uid, kind, stat, value, detail, side, weapon_scope, weapon_name, includes_companion,
+                      target_keywords, target_condition, requires, duration FROM ability_effect"""
+    ).fetchall():
+        specs.setdefault(uid, []).append(
+            EffectSpec(
+                kind=kind,
+                stat=stat or "",
+                value=value or 0.0,
+                detail=detail or "",
+                side=side or "",
+                weapon_scope=wscope or "",
+                weapon_name=wname or "",
+                includes_companion=bool(comp),
+                target_keywords=tkw or "",
+                target_condition=tcond or "",
+                requires=req or "",
+                duration=dur or "",
+            )
+        )
+    comb = dict(
+        con.execute(
+            "SELECT unit_id, combined_per_100 * points / 100 FROM unit_realized r JOIN unit u ON u.id = r.unit_id"
+        ).fetchall()
+    )
 
     abil = con.execute(
         f"""SELECT DISTINCT a.uid, a.name, a.source_kind, o.faction_name, a.bearer_restriction, a.family, a.scope,
@@ -164,15 +183,26 @@ def build_bearer_rows(con) -> list[tuple]:
     for uid, name, kind, fac, restr, family, scope, rng, freq, tside, prob, avail in abil:
         e_list = effs.get(uid, [])
         durations = [e[4] for e in e_list if e[4]]
-        dur = next((d for d in ("bataille", "permanent", "conditionnelle") if d in durations),
-                   durations[0] if durations else "")
+        dur = next(
+            (d for d in ("bataille", "permanent", "conditionnelle") if d in durations),
+            durations[0] if durations else "",
+        )
         p_act = prob if prob is not None else 1.0
         for u in by_faction.get(fac, []):
             if not eligible(u, restr or "", kind, vocab):
                 continue
             s_m = sm.get(u.id, 1.0)
-            m = marriage_of(u, e_list, family or "autre", scope or "", rng, freq or "", s_m,
-                            incoming.get(u.id, (0.0, 0.0)), tside or "any")
+            m = marriage_of(
+                u,
+                e_list,
+                family or "autre",
+                scope or "",
+                rng,
+                freq or "",
+                s_m,
+                incoming.get(u.id, (0.0, 0.0)),
+                tside or "any",
+            )
             cov_off = coverage(freq or "", dur, avail, False, tside or "any", "off", s_m) * p_act
             cov_def = coverage(freq or "", dur, avail, False, tside or "any", "def", s_m) * p_act
             g = bearer_gain(u, specs.get(uid, []))
@@ -186,7 +216,23 @@ def build_bearer_rows(con) -> list[tuple]:
                 val = round(dc * m.marriage, 3)
                 dc = round(dc, 3)
             cov = cov_off if (og or 0) >= (dg or 0) else cov_def
-            rows.append((uid, name, kind, fac, u.id, og, dg, dc, round(cov, 3), round(m.p_trigger, 3),
-                         round(m.survival, 3), round(m.marriage, 3), val,
-                         round(comb.get(u.id) or 0.0, 3), " | ".join(m.others) or None))
+            rows.append(
+                (
+                    uid,
+                    name,
+                    kind,
+                    fac,
+                    u.id,
+                    og,
+                    dg,
+                    dc,
+                    round(cov, 3),
+                    round(m.p_trigger, 3),
+                    round(m.survival, 3),
+                    round(m.marriage, 3),
+                    val,
+                    round(comb.get(u.id) or 0.0, 3),
+                    " | ".join(m.others) or None,
+                )
+            )
     return rows

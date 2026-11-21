@@ -41,8 +41,9 @@ def test_blood_tithe_cluster_orders_skulls_then_blood_drenched_then_options_by_c
     from aospy.tournament_kit.split_pool import _apply_choice_clusters
 
     def bt(name, phase, cost):
-        return AbilityEntry(name, "", "", keywords="Blood Tithe", ability_phase=phase,
-                            points_type="Blood tithe", points=cost)
+        return AbilityEntry(
+            name, "", "", keywords="Blood Tithe", ability_phase=phase, points_type="Blood tithe", points=cost
+        )
 
     drenched = AbilityEntry("Trempés de Sang", "", "", ability_phase="Start of Turn", is_reaction=True)
     skulls = AbilityEntry("Des Crânes pour le Trône de Crânes", "", "", ability_phase="Start of Turn")
@@ -53,7 +54,10 @@ def test_blood_tithe_cluster_orders_skulls_then_blood_drenched_then_options_by_c
     out = _apply_choice_clusters(pool, "fr-extended")
     cluster = [ab for ab in out if ab.ability_category == "blood_tithe"]
     assert [ab.name for ab in cluster] == [
-        "Des Crânes pour le Trône de Crânes", "Trempés de Sang", "Mépris Divin", "Massacre Triomphal",
+        "Des Crânes pour le Trône de Crânes",
+        "Trempés de Sang",
+        "Mépris Divin",
+        "Massacre Triomphal",
     ]
     # l'option hors « Début de tour » reste aussi à sa place, les autres sont déplacées
     assert [ab.name for ab in out if ab.ability_category != "blood_tithe"] == ["Massacre Triomphal"]
@@ -66,8 +70,14 @@ def test_choice_cluster_copy_stays_at_start_of_turn_despite_condition_phase():
     from aospy.tournament_kit.split_pool import _CHOICE_CLUSTERS, _choice_cluster
 
     spec = next(c for c in _CHOICE_CLUSTERS if c.category == "blood_tithe")
-    punish = AbilityEntry("Punissez les Pacifistes", "", "", keywords="Blood Tithe",
-                          condition="Once Per Turn (Army), Your Combat Phase", ability_phase="Combat Phase")
+    punish = AbilityEntry(
+        "Punissez les Pacifistes",
+        "",
+        "",
+        keywords="Blood Tithe",
+        condition="Once Per Turn (Army), Your Combat Phase",
+        ability_phase="Combat Phase",
+    )
     assert classify_phase(punish) == "melee"
     assert [classify_phase(ab) for ab in _choice_cluster([punish], spec)] == ["start"]
 
@@ -78,8 +88,9 @@ def test_khaine_blessing_cluster_moves_blood_rites_then_blessings_to_end_of_turn
     from aospy.tournament_kit.split_pool import _apply_choice_clusters
 
     rites = AbilityEntry("Rites de Sang", "", "", condition="Passive", ability_phase="Start of Turn")
-    blessings = AbilityEntry("Bénédictions de Khaine", "", "", condition="Once Per Turn (Army), End of Any Turn",
-                             ability_phase="End of Turn")
+    blessings = AbilityEntry(
+        "Bénédictions de Khaine", "", "", condition="Once Per Turn (Army), End of Any Turn", ability_phase="End of Turn"
+    )
     other = AbilityEntry("Ritualiste Consacrée", "", "", ability_phase="Start of Turn")
 
     out = _apply_choice_clusters([rites, other, blessings], "fr-split")
@@ -93,17 +104,24 @@ def test_choice_cluster_moves_reactions_to_the_choice_ability():
     from aospy.tournament_kit.sources.wahapedia_lookup import AbilityEntry
     from aospy.tournament_kit.split_pool import _apply_choice_clusters
 
-    blessings = AbilityEntry("Bénédictions de Khaine", "", "", condition="Once Per Turn (Army), End of Any Turn",
-                             ability_phase="End of Turn")
+    blessings = AbilityEntry(
+        "Bénédictions de Khaine", "", "", condition="Once Per Turn (Army), End of Any Turn", ability_phase="End of Turn"
+    )
     offerings = AbilityEntry(
-        "Offrandes Pourpres", "", "", is_reaction=True, ability_phase="End of Turn",
+        "Offrandes Pourpres",
+        "",
+        "",
+        is_reaction=True,
+        ability_phase="End of Turn",
         condition="Once Per Turn (Army), Reaction: You declared the ‘%000021998Blessings of Khaine%’ ability",
     )
     redeploy = AbilityEntry("Autre", "", "", condition="Reaction: You declared the ‘%000009837Redeploy%’ command")
 
     out = _apply_choice_clusters([offerings, redeploy, blessings], "fr-extended")
     assert [(ab.name, ab.ability_category) for ab in out] == [
-        ("Autre", ""), ("Bénédictions de Khaine", "khaine_blessing"), ("Offrandes Pourpres", "khaine_blessing"),
+        ("Autre", ""),
+        ("Bénédictions de Khaine", "khaine_blessing"),
+        ("Offrandes Pourpres", "khaine_blessing"),
     ]
 
 
@@ -127,12 +145,26 @@ def test_mark_self_profile_survives_french_patch():
     en = "<b>Effect:</b> If this unit charged this turn, add 1 to the Rend characteristic of its <b>Cursed Lances</b>."
     weapon = WeaponEntry(*(["Cursed Lance"] + [""] * (len(WeaponEntry.__dataclass_fields__) - 1)))
     ws = WarscrollData(
-        "Chaos Knights", "", "", "", "", "", "", "", "", "", "", [], [weapon],
+        "Chaos Knights",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        [],
+        [weapon],
         [AbilityEntry("Impaling Charge", en, "", condition="Passive")],
     )
     ws = _mark_self_profile(ws)
     fr = "<b>Effet :</b> Si cette unité a chargé à ce tour, ajoutez 1 à la Perforation de ses Lances Maudites."
-    patched = apply_fr_overrides(ws.abilities, [{"wahapedia_name": "Impaling Charge", "name": "Charge Empaleuse", "description": fr}])
+    patched = apply_fr_overrides(
+        ws.abilities, [{"wahapedia_name": "Impaling Charge", "name": "Charge Empaleuse", "description": fr}]
+    )
     assert is_self_profile_modifier(patched[0], [weapon.name])
 
 
@@ -142,7 +174,12 @@ def test_order_deploy_game_sequence_full_width():
 
     names = ["Autre", "Souffler sur les Braises", "Déploiement d’Unité", "Placez le Champ de Bataille"]
     out = _order_deploy([AbilityEntry(name=n, description="", legend="") for n in names])
-    assert [ab.name for ab in out] == ["Placez le Champ de Bataille", "Déploiement d’Unité", "Souffler sur les Braises", "Autre"]
+    assert [ab.name for ab in out] == [
+        "Placez le Champ de Bataille",
+        "Déploiement d’Unité",
+        "Souffler sur les Braises",
+        "Autre",
+    ]
     assert [ab.full_width for ab in out] == [True, True, True, False]
 
 
@@ -151,6 +188,7 @@ def test_tactic_special_rules_join_deployment():
 
     from aospy.tournament_kit.sources.tactic_cards import load_tactic_cards
     from aospy.tournament_kit.split_pool import _tactic_special_rules
+
     parsed = SimpleNamespace(battle_tactic_cards=["Blazing Onslaught", "Siege of Ashes"])
     (rule,) = _tactic_special_rules(parsed, load_tactic_cards())
     assert rule.name == "Assaut Flamboyant : Règle Spéciale" and "repaire" in rule.description
@@ -177,8 +215,13 @@ def test_identical_warscroll_abilities_merge_ignoring_flavor_text():
     from aospy.tournament_kit.split_pool import _warscroll_ability_pool
 
     def ws(name, flavor):
-        ab = AbilityEntry("Descendez-les", f"<i>{flavor}</i><br/><br/><b>Effet :</b> +1 touche.", "",
-                          condition="Your Shooting Phase", ability_phase="Shooting Phase")
+        ab = AbilityEntry(
+            "Descendez-les",
+            f"<i>{flavor}</i><br/><br/><b>Effet :</b> +1 touche.",
+            "",
+            condition="Your Shooting Phase",
+            ability_phase="Shooting Phase",
+        )
         return WarscrollData(name, "KB", "", "", "", "", "", "", "", "", "", [], [], [ab])
 
     pool = _warscroll_ability_pool([ws("Boltboyz", "Tirs ajustés."), ws("Killbow", "Tirs mortels.")])
@@ -190,16 +233,27 @@ def test_chaos_pledge_cluster_in_hero_phase_keeps_pledges_where_used():
     from aospy.tournament_kit.sources.wahapedia_lookup import AbilityEntry
     from aospy.tournament_kit.split_pool import _apply_choice_clusters, _fold_warscroll_copies, _turn_sides
 
-    pledge = AbilityEntry("Vocation au Chaos", "", "", condition="Once Per Turn (Army), Your Hero Phase",
-                          ability_phase="Hero Phase")
-    khorne = AbilityEntry("Voué à Khorne", "<b>Effet :</b> +1 A.", "", condition="Passive", ability_phase="Combat Phase")
-    khorne_ws = AbilityEntry("Voué à Khorne", "<i>Rage.</i><br/><br/><b>Effet :</b> +1 A.", "", condition="Passive",
-                             ability_phase="Combat Phase", warscrolls=("Chaos Knights",))
+    pledge = AbilityEntry(
+        "Vocation au Chaos", "", "", condition="Once Per Turn (Army), Your Hero Phase", ability_phase="Hero Phase"
+    )
+    khorne = AbilityEntry(
+        "Voué à Khorne", "<b>Effet :</b> +1 A.", "", condition="Passive", ability_phase="Combat Phase"
+    )
+    khorne_ws = AbilityEntry(
+        "Voué à Khorne",
+        "<i>Rage.</i><br/><br/><b>Effet :</b> +1 A.",
+        "",
+        condition="Passive",
+        ability_phase="Combat Phase",
+        warscrolls=("Chaos Knights",),
+    )
     nurgle = AbilityEntry("Voué à Nurgle", "", "", condition="Passive", ability_phase="Defensive reaction")
 
     folded = _fold_warscroll_copies([pledge, khorne, nurgle, khorne_ws])
     assert [(ab.name, ab.warscrolls) for ab in folded] == [
-        ("Vocation au Chaos", ()), ("Voué à Khorne", ("Chaos Knights",)), ("Voué à Nurgle", ()),
+        ("Vocation au Chaos", ()),
+        ("Voué à Khorne", ("Chaos Knights",)),
+        ("Voué à Nurgle", ()),
     ]
     out = _apply_choice_clusters(folded, "fr-split")
     cluster = [ab for ab in out if ab.ability_category == "chaos_pledge"]
@@ -218,7 +272,9 @@ def test_split_drops_alias_card_identical_to_its_unit():
     from aospy.tournament_kit.sources.wahapedia_lookup import WarscrollData
     from aospy.tournament_kit.split_pool import _drop_identical_alias_cards
 
-    base = WarscrollData("Verminlord Warbringer", "ST", "", "", '10"', "4+", "5", "13", "5+", "1", "260", ["HERO"], [], [])
+    base = WarscrollData(
+        "Verminlord Warbringer", "ST", "", "", '10"', "4+", "5", "13", "5+", "1", "260", ["HERO"], [], []
+    )
     alias = replace(base, name="Warbringer riche", subtitle="Verminlord Warbringer")
     sources = {"Warbringer riche": "Verminlord Warbringer"}
     assert _drop_identical_alias_cards([base, alias], sources) == [base]

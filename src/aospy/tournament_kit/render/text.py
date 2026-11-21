@@ -17,10 +17,21 @@ from .theme import _NAME_STYLE
 #: propres à une faction (Delusion, Blood Tithe...) n'y sont pas : leur nom
 #: français officiel se curate au cas par cas, jamais deviné.
 _KEYWORD_LABELS_FR = {
-    "core": "BASE", "attack": "ATTAQUE", "fight": "CORPS À CORPS", "shoot": "TIR",
-    "move": "MOUVEMENT", "run": "COURSE", "retreat": "REPLI", "charge": "CHARGE",
-    "rampage": "SACCAGE", "spell": "SORT", "prayer": "PRIÈRE", "summon": "CONVOCATION",
-    "unbind": "DISSIPATION", "banish": "BANNISSEMENT", "deploy": "DÉPLOIEMENT",
+    "core": "BASE",
+    "attack": "ATTAQUE",
+    "fight": "CORPS À CORPS",
+    "shoot": "TIR",
+    "move": "MOUVEMENT",
+    "run": "COURSE",
+    "retreat": "REPLI",
+    "charge": "CHARGE",
+    "rampage": "SACCAGE",
+    "spell": "SORT",
+    "prayer": "PRIÈRE",
+    "summon": "CONVOCATION",
+    "unbind": "DISSIPATION",
+    "banish": "BANNISSEMENT",
+    "deploy": "DÉPLOIEMENT",
     "deploy terrain": "DÉPLOIEMENT DE TERRAIN",
 }
 
@@ -63,93 +74,140 @@ def english_labels() -> bool:
 #: en casse normale).
 _EN_LABELS: dict[str, str] = {
     # bandeaux de phase
-    "Déploiement": "Deployment", "Début de round": "Start of battle round", "Astérisme": "Asterism",
-    "Début de tour": "Start of turn", "Phase des héros": "Hero phase", "Phase de mouvement": "Movement phase",
-    "Phase de tir": "Shooting phase", "Phase de charge": "Charge phase", "Phase de mêlée": "Combat phase",
-    "Fin de tour": "End of turn", "N'importe quelle phase": "Any phase",
+    "Déploiement": "Deployment",
+    "Début de round": "Start of battle round",
+    "Astérisme": "Asterism",
+    "Début de tour": "Start of turn",
+    "Phase des héros": "Hero phase",
+    "Phase de mouvement": "Movement phase",
+    "Phase de tir": "Shooting phase",
+    "Phase de charge": "Charge phase",
+    "Phase de mêlée": "Combat phase",
+    "Fin de tour": "End of turn",
+    "N'importe quelle phase": "Any phase",
     # catégories / sous-sections
-    "Aptitudes": "Abilities", "Sorts": "Spells", "Prières": "Prayers", "Manifestations": "Manifestations",
-    "Délires": "Delusions", "Dîme de Sang": "Blood Tithe", "Bénédictions de Khaine": "Blessings of Khaine",
+    "Aptitudes": "Abilities",
+    "Sorts": "Spells",
+    "Prières": "Prayers",
+    "Manifestations": "Manifestations",
+    "Délires": "Delusions",
+    "Dîme de Sang": "Blood Tithe",
+    "Bénédictions de Khaine": "Blessings of Khaine",
     "Vocation au Chaos": "Pledge to Chaos",
-    "Règles de base": "Core rules", "Règles d'armée": "Army rules",
+    "Règles de base": "Core rules",
+    "Règles d'armée": "Army rules",
     # pastilles de timing
-    "Ma phase": "Your phase", "Les 2 phases": "Both turns", "Phase ennemi": "Enemy phase",
-    "×1 / TOUR": "×1 / TURN", "×1 / BATAILLE": "×1 / BATTLE", "×1 / TOUR (ARMÉE)": "×1 / TURN (ARMY)",
-    "×1 / BATAILLE (ARMÉE)": "×1 / BATTLE (ARMY)", "×1 / ROUND (ARMÉE)": "×1 / ROUND (ARMY)",
-    "×1 / ROUND": "×1 / ROUND", "×1 / PHASE": "×1 / PHASE", "×1 / PHASE (ARMÉE)": "×1 / PHASE (ARMY)",
-    "DÉBUT DU 1ER ROUND": "START OF FIRST BATTLE ROUND", "FIN DU 1ER ROUND": "END OF FIRST BATTLE ROUND",
-    "PASSIF": "PASSIVE", "RÉACTION": "REACTION", "Réaction :": "Reaction:",
-    "PHASE DE DÉPLOIEMENT": "DEPLOYMENT PHASE", "DÉBUT DU ROUND DE BATAILLE": "START OF BATTLE ROUND",
-    "ILLIMITÉ": "UNLIMITED", "SORT": "SPELL", "PRIÈRE": "PRAYER", "ORDRE": "COMMAND",
+    "Ma phase": "Your phase",
+    "Les 2 phases": "Both turns",
+    "Phase ennemi": "Enemy phase",
+    "×1 / TOUR": "×1 / TURN",
+    "×1 / BATAILLE": "×1 / BATTLE",
+    "×1 / TOUR (ARMÉE)": "×1 / TURN (ARMY)",
+    "×1 / BATAILLE (ARMÉE)": "×1 / BATTLE (ARMY)",
+    "×1 / ROUND (ARMÉE)": "×1 / ROUND (ARMY)",
+    "×1 / ROUND": "×1 / ROUND",
+    "×1 / PHASE": "×1 / PHASE",
+    "×1 / PHASE (ARMÉE)": "×1 / PHASE (ARMY)",
+    "DÉBUT DU 1ER ROUND": "START OF FIRST BATTLE ROUND",
+    "FIN DU 1ER ROUND": "END OF FIRST BATTLE ROUND",
+    "PASSIF": "PASSIVE",
+    "RÉACTION": "REACTION",
+    "Réaction :": "Reaction:",
+    "PHASE DE DÉPLOIEMENT": "DEPLOYMENT PHASE",
+    "DÉBUT DU ROUND DE BATAILLE": "START OF BATTLE ROUND",
+    "ILLIMITÉ": "UNLIMITED",
+    "SORT": "SPELL",
+    "PRIÈRE": "PRAYER",
+    "ORDRE": "COMMAND",
     "DIME DE SANG": "BLOOD TITHE",
     # badges d'origine (`tag_ability_origin`, internes en français)
-    "SAISON": "SEASON", "MDG": "GHB", "TACTIQUE": "TACTIC", "TRAITS DE BATAILLE": "BATTLE TRAITS",
-    "TRAIT DE BATAILLE": "BATTLE TRAIT", "TRAIT HÉROÏQUE": "HEROIC TRAIT", "ARTEFACT DE POUVOIR": "ARTEFACT OF POWER",
-    "TRAIT MONSTRUEUX": "MONSTROUS TRAIT", "MUTATION D'AIRAIN": "BRAZEN MUTATION",
-    "MARQUE DES DIEUX SOMBRES": "BRAND OF THE DARK GODS", "BANNIÈRE ENSORCELÉE": "ENSORCELLED BANNER",
-    "MÉDAILLE DE BRAVOURE": "DECORATION FOR VALOUR", "FABLE TERRIFIANTE": "TERRIFYING FOLK TALE",
+    "SAISON": "SEASON",
+    "MDG": "GHB",
+    "TACTIQUE": "TACTIC",
+    "TRAITS DE BATAILLE": "BATTLE TRAITS",
+    "TRAIT DE BATAILLE": "BATTLE TRAIT",
+    "TRAIT HÉROÏQUE": "HEROIC TRAIT",
+    "ARTEFACT DE POUVOIR": "ARTEFACT OF POWER",
+    "TRAIT MONSTRUEUX": "MONSTROUS TRAIT",
+    "MUTATION D'AIRAIN": "BRAZEN MUTATION",
+    "MARQUE DES DIEUX SOMBRES": "BRAND OF THE DARK GODS",
+    "BANNIÈRE ENSORCELÉE": "ENSORCELLED BANNER",
+    "MÉDAILLE DE BRAVOURE": "DECORATION FOR VALOUR",
+    "FABLE TERRIFIANTE": "TERRIFYING FOLK TALE",
     # carte d'unité
-    "Portée": "Rng", "Invoquée": "Summoned",
+    "Portée": "Rng",
+    "Invoquée": "Summoned",
     # cartes de tactique
-    "ÉCHAUFFOURÉE": "AFFRAY", "FRAPPE": "STRIKE", "DOMINATION": "DOMINATION", "RÈGLE SPÉCIALE": "SPECIAL RULE",
+    "ÉCHAUFFOURÉE": "AFFRAY",
+    "FRAPPE": "STRIKE",
+    "DOMINATION": "DOMINATION",
+    "RÈGLE SPÉCIALE": "SPECIAL RULE",
     "PTS DE<br/>VICTOIRE": "VICTORY<br/>POINTS",
     # légende de la page de garde
     "Source du texte : MDG (Manuel du Général), BT (battletome), FP (faction pack), AQSHY, WAHAPEDIA "
-    "(anglais). Traits de Bataille, Formation : catégorie de règles d'armée.":
-        "Text source: GW APP (official Warhammer Age of Sigmar app), CORE RULES (GW Core Rules), GHB (General's Handbook), BT (battletome), "
-        "FP (faction pack), AQSHY, WAHAPEDIA. Battle Traits, Formation: army rule category.",
-    "Texte adapté, pas le verbatim : en cas de litige, revenir à la règle d'origine.":
-        "Adapted text, not verbatim: in case of dispute, refer to the original rule.",
-    "Aptitude de base du jeu (Core) ; règle de la saison en cours (MdG 2026-27).":
-        "Core ability; current season rule (General's Handbook 2026-27).",
-    "Fréquence — (ARMÉE) : une seule fois pour toute l'armée ; passif : toujours actif, rien à déclarer.":
-        "Frequency — (ARMY): once for the whole army; passive: always active, nothing to declare.",
+    "(anglais). Traits de Bataille, Formation : catégorie de règles d'armée.": "Text source: GW APP (official Warhammer Age of Sigmar app), CORE RULES (GW Core Rules), GHB (General's Handbook), BT (battletome), "
+    "FP (faction pack), AQSHY, WAHAPEDIA. Battle Traits, Formation: army rule category.",
+    "Texte adapté, pas le verbatim : en cas de litige, revenir à la règle d'origine.": "Adapted text, not verbatim: in case of dispute, refer to the original rule.",
+    "Aptitude de base du jeu (Core) ; règle de la saison en cours (MdG 2026-27).": "Core ability; current season rule (General's Handbook 2026-27).",
+    "Fréquence — (ARMÉE) : une seule fois pour toute l'armée ; passif : toujours actif, rien à déclarer.": "Frequency — (ARMY): once for the whole army; passive: always active, nothing to declare.",
     "Réaction : utilisée en réponse à l'aptitude indiquée.": "Reaction: used in response to the stated ability.",
-    "Mot-clé d'aptitude, à la couleur de sa phase (Mouvement, Tir, Charge, Corps à Corps).":
-        "Ability keyword, in the colour of its phase (Move, Shoot, Charge, Fight).",
+    "Mot-clé d'aptitude, à la couleur de sa phase (Mouvement, Tir, Charge, Corps à Corps).": "Ability keyword, in the colour of its phase (Move, Shoot, Charge, Fight).",
     "Mot-clé d'aptitude valable dans plusieurs phases.": "Ability keyword used in several phases.",
-    "Magie (sort, manifestation, bannissement…) ; prière. Illimité : utilisable plusieurs fois par tour.":
-        "Magic (spell, manifestation, banishment…); prayer. Unlimited: can be used several times per turn.",
-    "Unité qui porte l'aptitude (pour un sort signature : son lanceur).":
-        "Unit that has the ability (for a signature spell: its caster).",
-    "Autre mot-clé d'aptitude (Tactique : règle spéciale d'une carte de tactique) ; bordeaux : propre à la faction.":
-        "Other ability keyword (Tactic: special rule of a battle tactic card); burgundy: faction-specific.",
-    "Aptitude : valeur de lancement. Warscroll : niveau de Sorcier ; manifestation : valeur de lancement de sa convocation.":
-        "Ability: casting value. Warscroll: Wizard level; manifestation: casting value of its summoning.",
+    "Magie (sort, manifestation, bannissement…) ; prière. Illimité : utilisable plusieurs fois par tour.": "Magic (spell, manifestation, banishment…); prayer. Unlimited: can be used several times per turn.",
+    "Unité qui porte l'aptitude (pour un sort signature : son lanceur).": "Unit that has the ability (for a signature spell: its caster).",
+    "Autre mot-clé d'aptitude (Tactique : règle spéciale d'une carte de tactique) ; bordeaux : propre à la faction.": "Other ability keyword (Tactic: special rule of a battle tactic card); burgundy: faction-specific.",
+    "Aptitude : valeur de lancement. Warscroll : niveau de Sorcier ; manifestation : valeur de lancement de sa convocation.": "Ability: casting value. Warscroll: Wizard level; manifestation: casting value of its summoning.",
     "Aptitude : valeur de récitation. Warscroll : niveau de Prêtre.": "Ability: chanting value. Warscroll: Priest level.",
     "Ordre : coût en points d’ordre": "Command: command point cost",
     "Dîme de sang : coût en points de dîme de sang": "Blood tithe: blood tithe point cost",
     "Dés de rage : « +N » gagnés, sinon nombre dépensé": "Rage dice: “+N” gained, otherwise number spent",
     "Niveau de fureur : « +N » augmenté, sinon diminué": "Fury level: “+N” increased, otherwise decreased",
-    "NOM D'UNITÉ": "UNIT NAME", "MOT-CLÉ": "KEYWORD", "ATTAQUE": "ATTACK", "SACCAGE": "RAMPAGE", "TIR": "SHOOT",
-    "BASE": "CORE", "MOUVEMENT": "MOVE", "COURSE": "RUN", "REPLI": "RETREAT", "CORPS À CORPS": "FIGHT",
-    "BANNISSEMENT": "BANISH", "DISSIPATION": "UNBIND", "CONVOCATION": "SUMMON", "DÉPLOIEMENT": "DEPLOY",
+    "NOM D'UNITÉ": "UNIT NAME",
+    "MOT-CLÉ": "KEYWORD",
+    "ATTAQUE": "ATTACK",
+    "SACCAGE": "RAMPAGE",
+    "TIR": "SHOOT",
+    "BASE": "CORE",
+    "MOUVEMENT": "MOVE",
+    "COURSE": "RUN",
+    "REPLI": "RETREAT",
+    "CORPS À CORPS": "FIGHT",
+    "BANNISSEMENT": "BANISH",
+    "DISSIPATION": "UNBIND",
+    "CONVOCATION": "SUMMON",
+    "DÉPLOIEMENT": "DEPLOY",
     "DÉPLOIEMENT DE TERRAIN": "DEPLOY TERRAIN",
     # cartes de règle / pages du roster (`pdf_builder`)
-    "Mon tour": "My turn", "Tour adverse": "Opponent's turn", "Tour de l'adversaire": "Opponent's turn",
+    "Mon tour": "My turn",
+    "Tour adverse": "Opponent's turn",
+    "Tour de l'adversaire": "Opponent's turn",
     "Traits de Bataille": "Battle Traits",
     "Battle Tactic Cards :": "Battle Tactic Cards:",
     "⚠ Profil non trouvé (ni battletome, ni Wahapedia) pour : ": "⚠ Profile not found (neither battletome nor Wahapedia) for: ",
     "⚠ Règle non trouvée (ni battletome, ni Wahapedia) pour : ": "⚠ Rule not found (neither battletome nor Wahapedia) for: ",
-    "ℹ Complété en anglais via Wahapedia (voir annexe en fin de document) : ":
-        "ℹ Completed from Wahapedia (see appendix at the end of the document): ",
-    "Généré le ": "Generated on ", "Légende des pictos": "Icon legend",
+    "ℹ Complété en anglais via Wahapedia (voir annexe en fin de document) : ": "ℹ Completed from Wahapedia (see appendix at the end of the document): ",
+    "Généré le ": "Generated on ",
+    "Légende des pictos": "Icon legend",
     "ANNEXE — CONTENU WAHAPEDIA (ANGLAIS)": "APPENDIX — WAHAPEDIA CONTENT",
     "Ce qui suit n'existe dans aucun des PDF fournis (battletomes, Manuel du général) : "
     "domaines de sorts/manifestations génériques, règles d'armée de renom, Régiments de Renom. "
-    "Repris tel quel depuis data/wahapedia/ (Wahapedia, en anglais) — non traduit pour éviter tout contresens sur des règles de jeu.":
-        "Generic spell/manifestation lores, Army of Renown rules and Regiments of Renown not covered elsewhere, "
-        "taken as-is from data/wahapedia/ (Wahapedia).",
+    "Repris tel quel depuis data/wahapedia/ (Wahapedia, en anglais) — non traduit pour éviter tout contresens sur des règles de jeu.": "Generic spell/manifestation lores, Army of Renown rules and Regiments of Renown not covered elsewhere, "
+    "taken as-is from data/wahapedia/ (Wahapedia).",
 }
 
 #: badges d'origine paramétrés (« Formation : X », « Optimisation (X) »...) :
 #: préfixe français -> préfixe anglais, en majuscules comme la pastille.
 _EN_LABEL_PREFIXES = (
-    ("FORMATION : ", "FORMATION: "), ("RÉGIMENT DE RENOM : ", "REGIMENT OF RENOWN: "),
+    ("FORMATION : ", "FORMATION: "),
+    ("RÉGIMENT DE RENOM : ", "REGIMENT OF RENOWN: "),
     ("OPTIMISATION (", "ENHANCEMENT ("),
-    ("Drops : ", "Drops: "), ("Domaine de sorts : ", "Spell lore: "), ("Domaine de prières : ", "Prayer lore: "),
-    ("Domaine de manifestations : ", "Manifestation lore: "), ("Carte de tactique : ", "Battle tactic card: "),
-    ("Domaine de Sorts — ", "Spell Lore — "), ("Domaine de Prières — ", "Prayer Lore — "),
+    ("Drops : ", "Drops: "),
+    ("Domaine de sorts : ", "Spell lore: "),
+    ("Domaine de prières : ", "Prayer lore: "),
+    ("Domaine de manifestations : ", "Manifestation lore: "),
+    ("Carte de tactique : ", "Battle tactic card: "),
+    ("Domaine de Sorts — ", "Spell Lore — "),
+    ("Domaine de Prières — ", "Prayer Lore — "),
     ("Domaine de Manifestations — ", "Manifestation Lore — "),
 )
 
@@ -163,8 +221,9 @@ def tr(text: str) -> str:
         return _EN_LABELS[text]
     for fr, en in _EN_LABEL_PREFIXES:
         if text.startswith(fr):
-            return en + text[len(fr):]
+            return en + text[len(fr) :]
     return text
+
 
 #: mots-clés d'arme Wahapedia -> vocabulaire français déjà employé par les
 #: entrées curées de `faction_rules_fr.json` (« Tir en Mêlée », « Crit
@@ -180,9 +239,18 @@ _WEAPON_ABILITIES_FR = [
     (re.compile(r"\bCompanion\b"), "Compagnon"),
 ]
 _ANTI_TARGET_FR = {
-    "infantry": "Infanterie", "monster": "Monstre", "hero": "Héros", "charge": "charge", "cavalry": "Cavalerie",
-    "wizard": "Sorcier", "priest": "Prêtre", "manifestation": "Manifestation", "beast": "Bête",
-    "war machine": "Machine de Guerre", "faction terrain": "Terrain de Faction", "daemon": "Démon",
+    "infantry": "Infanterie",
+    "monster": "Monstre",
+    "hero": "Héros",
+    "charge": "charge",
+    "cavalry": "Cavalerie",
+    "wizard": "Sorcier",
+    "priest": "Prêtre",
+    "manifestation": "Manifestation",
+    "beast": "Bête",
+    "war machine": "Machine de Guerre",
+    "faction terrain": "Terrain de Faction",
+    "daemon": "Démon",
     "unique": "Unique",
 }
 _ANTI_RE = re.compile(r"\bAnti-([A-Za-z ]+?)\s*(?=\()")
@@ -194,7 +262,8 @@ def weapon_abilities_fr(text: str) -> str:
     for pattern, repl in _WEAPON_ABILITIES_FR:
         text = pattern.sub(repl, text)
     return _ANTI_RE.sub(
-        lambda m: "Anti-" + _ANTI_TARGET_FR.get(m.group(1).strip().lower(), m.group(1).strip()) + " ", text,
+        lambda m: "Anti-" + _ANTI_TARGET_FR.get(m.group(1).strip().lower(), m.group(1).strip()) + " ",
+        text,
     )
 
 
@@ -268,7 +337,9 @@ def clean_html(text: str) -> str:
     # `<span>` englobant reste et met le mot-clé en gras.
     text = re.sub(
         r"&lt;(?:<[^>]+>)*S(?:<[^>]+>)*PAN\b.*?&gt;(.*?)&lt;/SPAN&gt;",
-        r"\1", text, flags=re.IGNORECASE | re.DOTALL,
+        r"\1",
+        text,
+        flags=re.IGNORECASE | re.DOTALL,
     )
     # fautes du scrape lui-même (ligature « ff » et mot-clé perdus)
     for bad, good in _WAHAPEDIA_TYPOS.items():

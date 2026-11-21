@@ -13,10 +13,33 @@ from ._sql import _insert_rows
 # ----- Châssis (analysis/layers/chassis.py) -------------------------------------------
 
 CHASSIS_COLS = (
-    "unit_id", "name", "army_id", "points", "is_hero", "unit_type", "models", "health", "save", "ward",
-    "move", "is_flying", "dmg_melee", "dmg_ranged", "effective_wounds", "dmg_per_100", "ewounds_per_100",
-    "attacks_total", "share_melee", "share_damage1", "share_companion", "crit_type", "dmg_pct_rank",
-    "ewounds_pct_rank", "cost_residual_pct", "duel_roi_pct", "built_at",
+    "unit_id",
+    "name",
+    "army_id",
+    "points",
+    "is_hero",
+    "unit_type",
+    "models",
+    "health",
+    "save",
+    "ward",
+    "move",
+    "is_flying",
+    "dmg_melee",
+    "dmg_ranged",
+    "effective_wounds",
+    "dmg_per_100",
+    "ewounds_per_100",
+    "attacks_total",
+    "share_melee",
+    "share_damage1",
+    "share_companion",
+    "crit_type",
+    "dmg_pct_rank",
+    "ewounds_pct_rank",
+    "cost_residual_pct",
+    "duel_roi_pct",
+    "built_at",
 )
 
 
@@ -48,12 +71,28 @@ def replace_chassis(con: duckdb.DuckDBPyConnection, rows: list[tuple]) -> None:
 
 
 def list_chassis(
-    con: duckdb.DuckDBPyConnection, *, army: Optional[str] = None, hero: Optional[bool] = None,
-    name: Optional[str] = None, order_by: str = "dmg_per_100", ascending: bool = False, limit: int = 30,
+    con: duckdb.DuckDBPyConnection,
+    *,
+    army: Optional[str] = None,
+    hero: Optional[bool] = None,
+    name: Optional[str] = None,
+    order_by: str = "dmg_per_100",
+    ascending: bool = False,
+    limit: int = 30,
 ) -> list[dict]:
     """Châssis filtrés (armée = sous-chaîne, héros/troupes) et triés."""
-    allowed = {"dmg_per_100", "ewounds_per_100", "dmg_pct_rank", "ewounds_pct_rank", "cost_residual_pct",
-               "duel_roi_pct", "points", "share_damage1", "share_companion", "name"}
+    allowed = {
+        "dmg_per_100",
+        "ewounds_per_100",
+        "dmg_pct_rank",
+        "ewounds_pct_rank",
+        "cost_residual_pct",
+        "duel_roi_pct",
+        "points",
+        "share_damage1",
+        "share_companion",
+        "name",
+    }
     if order_by not in allowed:
         raise ValueError(f"tri inconnu : {order_by} ({', '.join(sorted(allowed))})")
     where, params = ["TRUE"], []
@@ -69,7 +108,7 @@ def list_chassis(
     direction = "ASC" if ascending else "DESC"
     rows = con.execute(
         f"""SELECT c.*, ar.name AS army_name FROM unit_chassis c JOIN army ar ON ar.id = c.army_id
-            WHERE {' AND '.join(where)} ORDER BY c.{order_by} {direction} NULLS LAST, c.name LIMIT ?""",
+            WHERE {" AND ".join(where)} ORDER BY c.{order_by} {direction} NULLS LAST, c.name LIMIT ?""",
         params + [limit],
     )
     cols = [d[0] for d in rows.description]
@@ -77,6 +116,7 @@ def list_chassis(
 
 
 # ----- Couche 3 : rencontre aptitude × châssis (analysis/layers/encounter.py) ----------
+
 
 def replace_encounters(con: duckdb.DuckDBPyConnection, rows: list[tuple]) -> None:
     """Remplace tout le contenu de `ability_encounter` (tuples dans l'ordre de `encounter.ENCOUNTER_COLS`)."""
@@ -92,8 +132,13 @@ def replace_encounters(con: duckdb.DuckDBPyConnection, rows: list[tuple]) -> Non
 
 
 def list_encounters(
-    con: duckdb.DuckDBPyConnection, *, unit: Optional[str] = None, ability: Optional[str] = None,
-    relation: Optional[str] = None, order_by: str = "gain", limit: int = 30,
+    con: duckdb.DuckDBPyConnection,
+    *,
+    unit: Optional[str] = None,
+    ability: Optional[str] = None,
+    relation: Optional[str] = None,
+    order_by: str = "gain",
+    limit: int = 30,
 ) -> list[dict]:
     """Rencontres filtrées (unité / aptitude = sous-chaîne), triées par gain décroissant.
 
@@ -108,8 +153,11 @@ def list_encounters(
     if relation:
         where.append("e.relation = ?")
         params.append(relation)
-    order = {"gain": "greatest(coalesce(e.off_gain_pct, 0), coalesce(e.def_gain_pct, 0))",
-             "off_per_100": "e.off_gain_per_100", "def_per_100": "e.def_gain_per_100"}[order_by]
+    order = {
+        "gain": "greatest(coalesce(e.off_gain_pct, 0), coalesce(e.def_gain_pct, 0))",
+        "off_per_100": "e.off_gain_per_100",
+        "def_per_100": "e.def_gain_per_100",
+    }[order_by]
     cur = con.execute(
         f"""SELECT e.*, a.name AS ability_name, a.verdict, a.activation_prob, a.frequency,
                    ef.kind, ef.stat, ef.value, ef.weapon_scope, ef.weapon_name,
@@ -118,7 +166,7 @@ def list_encounters(
             JOIN ability a ON a.uid = e.ability_uid
             JOIN ability_effect ef ON ef.ability_uid = e.ability_uid AND ef.seq = e.seq
             JOIN unit u ON u.id = e.unit_id JOIN army ar ON ar.id = u.army_id
-            WHERE {' AND '.join(where)}
+            WHERE {" AND ".join(where)}
             ORDER BY {order} DESC NULLS LAST, a.name, u.name LIMIT ?""",
         [*params, limit],
     )
@@ -147,8 +195,13 @@ def replace_ability_marriage(con: duckdb.DuckDBPyConnection, rows: list[tuple]) 
 
 
 def list_marriage(
-    con: duckdb.DuckDBPyConnection, *, ability: Optional[str] = None, unit: Optional[str] = None,
-    family: Optional[str] = None, worst: bool = False, limit: int = 30,
+    con: duckdb.DuckDBPyConnection,
+    *,
+    ability: Optional[str] = None,
+    unit: Optional[str] = None,
+    family: Optional[str] = None,
+    worst: bool = False,
+    limit: int = 30,
 ) -> list[dict]:
     """Mariages aptitude × porteur, filtrés (sous-chaînes), triés par mariage décroissant (ou croissant)."""
     where, params = ["TRUE"], []
@@ -165,8 +218,8 @@ def list_marriage(
         f"""SELECT m.*, u.name AS unit_name, u.points, u.move, u.health * u.models AS hp, u.save, u.ward,
                    ar.name AS army_name
             FROM ability_marriage m JOIN unit u ON u.id = m.unit_id JOIN army ar ON ar.id = u.army_id
-            WHERE {' AND '.join(where)}
-            ORDER BY m.marriage {'ASC' if worst else 'DESC'}, m.power DESC NULLS LAST, u.name LIMIT ?""",
+            WHERE {" AND ".join(where)}
+            ORDER BY m.marriage {"ASC" if worst else "DESC"}, m.power DESC NULLS LAST, u.name LIMIT ?""",
         [*params, limit],
     )
     cols = [d[0] for d in cur.description]
@@ -181,8 +234,13 @@ def replace_enhancement_bearers(con: duckdb.DuckDBPyConnection, rows: list[tuple
 
 
 def list_enhancement_bearers(
-    con: duckdb.DuckDBPyConnection, *, ability: Optional[str] = None, unit: Optional[str] = None,
-    army: Optional[str] = None, kind: Optional[str] = None, limit: int = 40,
+    con: duckdb.DuckDBPyConnection,
+    *,
+    ability: Optional[str] = None,
+    unit: Optional[str] = None,
+    army: Optional[str] = None,
+    kind: Optional[str] = None,
+    limit: int = 40,
 ) -> list[dict]:
     """Optimisation × porteur éligible, triés par optimisation puis valeur (sinon mariage, puis porteur)."""
     where, params = ["TRUE"], []
@@ -202,7 +260,7 @@ def list_enhancement_bearers(
         f"""SELECT b.*, u.name AS unit_name, u.points, u.move, u.health * u.models AS hp, u.save, u.ward,
                    a.group_name
             FROM enhancement_bearer b JOIN unit u ON u.id = b.unit_id JOIN ability a ON a.uid = b.ability_uid
-            WHERE {' AND '.join(where)}
+            WHERE {" AND ".join(where)}
             ORDER BY b.ability_name, a.group_name, b.ability_uid, b.value DESC NULLS LAST, b.marriage DESC,
                      b.bearer_combined DESC
             LIMIT ?""",
@@ -213,18 +271,36 @@ def list_enhancement_bearers(
 
 
 def list_realized(
-    con: duckdb.DuckDBPyConnection, *, army: Optional[str] = None, hero: Optional[bool] = None,
-    name: Optional[str] = None, order_by: str = "score_per_100", limit: int = 30,
+    con: duckdb.DuckDBPyConnection,
+    *,
+    army: Optional[str] = None,
+    hero: Optional[bool] = None,
+    name: Optional[str] = None,
+    order_by: str = "score_per_100",
+    limit: int = 30,
 ) -> list[dict]:
     """Valeur réalisée par unité, filtrée (armée/nom = sous-chaîne, héros/troupes) et triée décroissante."""
-    allowed = {"score_per_100", "score_fit_per_100", "reach_in",
-               "combined_per_100", "off_realized_per_100", "def_realized_per_100", "off_good_per_100",
-               "def_good_per_100", "off_gain", "def_gain", "combined_fit_per_100", "off_fit_per_100",
-               "def_fit_per_100"}
+    allowed = {
+        "score_per_100",
+        "score_fit_per_100",
+        "reach_in",
+        "combined_per_100",
+        "off_realized_per_100",
+        "def_realized_per_100",
+        "off_good_per_100",
+        "def_good_per_100",
+        "off_gain",
+        "def_gain",
+        "combined_fit_per_100",
+        "off_fit_per_100",
+        "def_fit_per_100",
+    }
     if order_by not in allowed:
         raise ValueError(f"tri inconnu : {order_by}")
-    order = {"off_gain": "r.off_realized / nullif(r.off_chassis, 0)",
-             "def_gain": "r.def_realized / nullif(r.def_chassis, 0)"}.get(order_by, f"r.{order_by}")
+    order = {
+        "off_gain": "r.off_realized / nullif(r.off_chassis, 0)",
+        "def_gain": "r.def_realized / nullif(r.def_chassis, 0)",
+    }.get(order_by, f"r.{order_by}")
     where, params = ["TRUE"], []
     if army:
         where.append("lower(ar.name) LIKE ?")
@@ -238,7 +314,7 @@ def list_realized(
     cur = con.execute(
         f"""SELECT r.*, u.name, u.points, u.is_hero, ar.name AS army_name
             FROM unit_realized r JOIN unit u ON u.id = r.unit_id JOIN army ar ON ar.id = u.army_id
-            WHERE {' AND '.join(where)} ORDER BY {order} DESC NULLS LAST, u.name LIMIT ?""",
+            WHERE {" AND ".join(where)} ORDER BY {order} DESC NULLS LAST, u.name LIMIT ?""",
         [*params, limit],
     )
     cols = [d[0] for d in cur.description]

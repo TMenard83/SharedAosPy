@@ -27,7 +27,6 @@ def cmd_battle_simulate(args: argparse.Namespace) -> int:
     return 0
 
 
-
 def register(sub: argparse._SubParsersAction) -> None:
     """Sous-commande `battle` (simulation composition contre composition)."""
     p_battle = sub.add_parser("battle", help="Simulation d'affrontement.")
@@ -35,10 +34,9 @@ def register(sub: argparse._SubParsersAction) -> None:
     p = sb.add_parser("simulate", help="Simule un combat entre 2 compositions.")
     p.add_argument("--a", dest="comp_a", type=int, required=True, help="ID composition A.")
     p.add_argument("--b", dest="comp_b", type=int, required=True, help="ID composition B.")
-    p.add_argument("--charge", choices=["a", "b", "both", "none"], default="both",
-                   help="Côté(s) qui charge (défaut: both).")
-    p.add_argument("--aoa", choices=["a", "b", "both", "none"], default="none",
-                   help="All-out Attack (+1 hit).")
-    p.add_argument("--aod", choices=["a", "b", "both", "none"], default="none",
-                   help="All-out Defense (+1 save).")
+    p.add_argument(
+        "--charge", choices=["a", "b", "both", "none"], default="both", help="Côté(s) qui charge (défaut: both)."
+    )
+    p.add_argument("--aoa", choices=["a", "b", "both", "none"], default="none", help="All-out Attack (+1 hit).")
+    p.add_argument("--aod", choices=["a", "b", "both", "none"], default="none", help="All-out Defense (+1 save).")
     p.set_defaults(func=cmd_battle_simulate)

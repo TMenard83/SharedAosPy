@@ -9,6 +9,7 @@ Usage : `python scripts/generate_stone_texture.py` régénère
 numpy — outils de génération ponctuelle, pas des dépendances runtime de
 `aospy`). Seed fixe (`_SEED`) : sortie reproductible d'un run à l'autre.
 """
+
 from __future__ import annotations
 
 from pathlib import Path

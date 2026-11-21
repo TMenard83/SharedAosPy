@@ -26,10 +26,12 @@ def _migrate_floor95(con: duckdb.DuckDBPyConnection) -> None:
     tables = con.execute("SELECT table_name FROM information_schema.tables").fetchall()
     if ("unit_benchmark",) not in tables:
         return
-    cols = {r[0] for r in con.execute(
-        "SELECT column_name FROM information_schema.columns "
-        "WHERE table_name = 'unit_benchmark'"
-    ).fetchall()}
+    cols = {
+        r[0]
+        for r in con.execute(
+            "SELECT column_name FROM information_schema.columns WHERE table_name = 'unit_benchmark'"
+        ).fetchall()
+    }
     if "floor80" not in cols or "floor95" in cols:
         return
     con.execute("ALTER TABLE unit_benchmark RENAME COLUMN floor80 TO floor95")
@@ -48,10 +50,12 @@ def _migrate_damage_mode(con: duckdb.DuckDBPyConnection) -> None:
     tables = con.execute("SELECT table_name FROM information_schema.tables").fetchall()
     if ("unit_benchmark",) not in tables:
         return
-    cols = {r[0] for r in con.execute(
-        "SELECT column_name FROM information_schema.columns "
-        "WHERE table_name = 'unit_benchmark'"
-    ).fetchall()}
+    cols = {
+        r[0]
+        for r in con.execute(
+            "SELECT column_name FROM information_schema.columns WHERE table_name = 'unit_benchmark'"
+        ).fetchall()
+    }
     if "floor95" not in cols or "attacker_mode" in cols:
         return
     con.execute("""
@@ -108,9 +112,12 @@ def _migrate_weapon_is_companion(con: duckdb.DuckDBPyConnection) -> None:
     tables = con.execute("SELECT table_name FROM information_schema.tables").fetchall()
     if ("weapon",) not in tables:
         return
-    cols = {r[0] for r in con.execute(
-        "SELECT column_name FROM information_schema.columns WHERE table_name = 'weapon'"
-    ).fetchall()}
+    cols = {
+        r[0]
+        for r in con.execute(
+            "SELECT column_name FROM information_schema.columns WHERE table_name = 'weapon'"
+        ).fetchall()
+    }
     if "is_companion" in cols:
         return
     con.execute("ALTER TABLE weapon ADD COLUMN is_companion BOOLEAN NOT NULL DEFAULT FALSE")

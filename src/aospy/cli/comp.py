@@ -19,8 +19,10 @@ def cmd_comp_list(args: argparse.Namespace) -> int:
         print(f"{'ID':<4} {'Armée':<22} {'Nom':<40} {'Kind':<10} {'Pts':>5}/{'Fmt':>4}")
         armies = {a.id: a.name for a in repository.list_armies(con)}
         for c in comps:
-            print(f"{c.id:<4} {armies.get(c.army_id, '?'):<22} {c.name:<40} "
-                  f"{c.kind:<10} {c.total_points:>5}/{c.format_points:>4}")
+            print(
+                f"{c.id:<4} {armies.get(c.army_id, '?'):<22} {c.name:<40} "
+                f"{c.kind:<10} {c.total_points:>5}/{c.format_points:>4}"
+            )
     con.close()
     return 0
 
@@ -35,8 +37,10 @@ def cmd_comp_show(args: argparse.Namespace) -> int:
     print(f"  Armée       : {armies.get(comp.army_id, '?')}")
     print(f"  Type        : {comp.kind}")
     print(f"  Format      : {comp.format_points} pts")
-    print(f"  Total       : {comp.total_points} pts"
-          + ("  ⚠ dépassement" if comp.total_points > comp.format_points else ""))
+    print(
+        f"  Total       : {comp.total_points} pts"
+        + ("  ⚠ dépassement" if comp.total_points > comp.format_points else "")
+    )
     if comp.source:
         print(f"  Source      : {comp.source}")
     if comp.notes:
@@ -67,8 +71,12 @@ def cmd_comp_create(args: argparse.Namespace) -> int:
     con = _connect(args)
     army_id = _resolve_army_id(con, args.army)
     comp = Composition(
-        army_id=army_id, name=args.name, kind=args.kind,
-        format_points=args.format_points, source=args.source, notes=args.notes,
+        army_id=army_id,
+        name=args.name,
+        kind=args.kind,
+        format_points=args.format_points,
+        source=args.source,
+        notes=args.notes,
     )
     comp_id = repository.add_composition(con, comp)
     print(f"Composition créée : #{comp_id} — {args.name}")
@@ -111,14 +119,18 @@ def cmd_comp_add_unit(args: argparse.Namespace) -> int:
         )
 
     entry_id = repository.add_composition_entry(
-        con, args.comp_id, CompositionUnit(
-            unit_id=unit.id, reinforced=args.reinforced, is_general=args.general,
-            heroic_trait_id=trait_id, artefact_id=artefact_id,
+        con,
+        args.comp_id,
+        CompositionUnit(
+            unit_id=unit.id,
+            reinforced=args.reinforced,
+            is_general=args.general,
+            heroic_trait_id=trait_id,
+            artefact_id=artefact_id,
         ),
     )
     refreshed = repository.get_composition(con, args.comp_id)
-    print(f"Entrée ajoutée : entry#{entry_id} {unit.name}"
-          + (" (renforcée)" if args.reinforced else ""))
+    print(f"Entrée ajoutée : entry#{entry_id} {unit.name}" + (" (renforcée)" if args.reinforced else ""))
     if refreshed and refreshed.total_points > refreshed.format_points:
         print(f"  ⚠ {refreshed.total_points} > {refreshed.format_points} pts")
     con.close()
@@ -153,7 +165,6 @@ def cmd_comp_delete(args: argparse.Namespace) -> int:
     return 0
 
 
-
 def register(sub: argparse._SubParsersAction) -> None:
     """Sous-commande `comp` : list/show/create/add-unit/remove-entry/clone/delete."""
     p_comp = sub.add_parser("comp", help="Commandes sur les compositions.")
@@ -181,8 +192,7 @@ def register(sub: argparse._SubParsersAction) -> None:
     p.add_argument("--comp", dest="comp_id", type=int, required=True)
     p.add_argument("--unit", required=True, help="Nom de l'unité.")
     p.add_argument("--reinforced", action="store_true")
-    p.add_argument("--general", action="store_true",
-                   help="Désigne cette entrée comme général.")
+    p.add_argument("--general", action="store_true", help="Désigne cette entrée comme général.")
     p.add_argument("--trait", help="Nom du trait héroïque (requiert --general).")
     p.add_argument("--artefact", help="Nom de l'artefact (requiert --general).")
     p.set_defaults(func=cmd_comp_add_unit)

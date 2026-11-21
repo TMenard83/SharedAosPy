@@ -6,10 +6,10 @@ from pathlib import Path
 
 import pytest
 
-from aospy.persistence import db, repository, seed
 from aospy.cli import main as cli_main
 from aospy.cli.report import format_report
 from aospy.orchestration.simulation import SideOptions, simulate_battle
+from aospy.persistence import db, repository, seed
 
 
 @pytest.fixture()
@@ -55,12 +55,18 @@ def test_charge_has_no_universal_bonus(con):
     # texte d'arme "Charge (+N <Stat>)", donc charger ne change rien aux dégâts.
     a_id, b_id = _comp_ids(con)
     no_charge = simulate_battle(
-        con, a_id, b_id,
-        SideOptions(charged=False), SideOptions(charged=False),
+        con,
+        a_id,
+        b_id,
+        SideOptions(charged=False),
+        SideOptions(charged=False),
     )
     with_charge = simulate_battle(
-        con, a_id, b_id,
-        SideOptions(charged=True), SideOptions(charged=False),
+        con,
+        a_id,
+        b_id,
+        SideOptions(charged=True),
+        SideOptions(charged=False),
     )
     assert with_charge.a_to_b.best_target_total == pytest.approx(no_charge.a_to_b.best_target_total)
 
@@ -69,7 +75,11 @@ def test_aod_reduces_incoming_damage(con):
     a_id, b_id = _comp_ids(con)
     base = simulate_battle(con, a_id, b_id, SideOptions(), SideOptions())
     b_defends = simulate_battle(
-        con, a_id, b_id, SideOptions(), SideOptions(all_out_defense=True),
+        con,
+        a_id,
+        b_id,
+        SideOptions(),
+        SideOptions(all_out_defense=True),
     )
     assert b_defends.a_to_b.best_target_total <= base.a_to_b.best_target_total
 
@@ -89,10 +99,20 @@ def test_cli_battle_simulate_end_to_end(tmp_path: Path, capsys):
     dbp = tmp_path / "cli_sim.duckdb"
     cli_main(["--db", str(dbp), "init"])
     capsys.readouterr()
-    rc = cli_main([
-        "--db", str(dbp), "battle", "simulate",
-        "--a", "1", "--b", "2", "--charge", "both",
-    ])
+    rc = cli_main(
+        [
+            "--db",
+            str(dbp),
+            "battle",
+            "simulate",
+            "--a",
+            "1",
+            "--b",
+            "2",
+            "--charge",
+            "both",
+        ]
+    )
     out = capsys.readouterr().out
     assert rc == 0
     assert "Bataille" in out

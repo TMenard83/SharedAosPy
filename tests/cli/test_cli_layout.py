@@ -12,8 +12,21 @@ from aospy import cli
 from aospy.cli import l3
 from aospy.tournament_kit.modes import MODES
 
-_GROUP_COMMANDS = ["init", "reset", "army", "unit", "comp", "battle", "import", "cost", "roster",
-                   "ability", "chassis", "encounter", "l3"]
+_GROUP_COMMANDS = [
+    "init",
+    "reset",
+    "army",
+    "unit",
+    "comp",
+    "battle",
+    "import",
+    "cost",
+    "roster",
+    "ability",
+    "chassis",
+    "encounter",
+    "l3",
+]
 
 
 def _subparsers(parser: argparse.ArgumentParser) -> argparse._SubParsersAction:

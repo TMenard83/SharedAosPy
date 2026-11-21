@@ -43,37 +43,42 @@ THREAT_P = 0.5
 CHARGER_DAMAGE_SHARE = 0.5
 COMMAND_REROLL = "En Avant, vers la Victoire (ordre, 1 PC, une charge par tour)"
 
-_REROLL_RE = re.compile(r"re-?\s?roll (?:the )?charge rolls?(?: for (?P<who>[^.:\n]*?))?(?= while|\.|,|:|\n|$)",
-                        re.I)
-_ONCE_PER_BATTLE_OPTION_RE = re.compile(r"(?:same|each) effect more than once per battle|"
-                                        r"more than once per battle", re.I)
+_REROLL_RE = re.compile(r"re-?\s?roll (?:the )?charge rolls?(?: for (?P<who>[^.:\n]*?))?(?= while|\.|,|:|\n|$)", re.I)
+_ONCE_PER_BATTLE_OPTION_RE = re.compile(
+    r"(?:same|each) effect more than once per battle|"
+    r"more than once per battle",
+    re.I,
+)
 _PER_BATTLE_FREQ = ("once_per_battle", "once_per_battle_army")
-_BONUS_TARGET_RE = re.compile(r"add \d+ to (?:run and )?charge rolls for friendly ((?:[A-Z][A-Z'-]* )*[A-Z][A-Z'-]*)"
-                              r" units", re.I)
+_BONUS_TARGET_RE = re.compile(
+    r"add \d+ to (?:run and )?charge rolls for friendly ((?:[A-Z][A-Z'-]* )*[A-Z][A-Z'-]*)"
+    r" units",
+    re.I,
+)
 
 
 @dataclass(frozen=True)
 class ChargeSource:
     name: str
     origin: str
-    kind: str                     # « bonus » | « relance » | « dés »
-    value: float                  # +N au jet (bonus) ; 0 pour une relance
-    receivers: tuple[str, ...]    # noms d'unités de la liste
-    p_present: float              # P(la source existe ce tour) : invocation d'une manifestation, sinon 1
-    per_battle: bool              # un seul round dans la partie
-    dice: str = ""                # mode de jet pour « dés » (`DICE_MODES`)
+    kind: str  # « bonus » | « relance » | « dés »
+    value: float  # +N au jet (bonus) ; 0 pour une relance
+    receivers: tuple[str, ...]  # noms d'unités de la liste
+    p_present: float  # P(la source existe ce tour) : invocation d'une manifestation, sinon 1
+    per_battle: bool  # un seul round dans la partie
+    dice: str = ""  # mode de jet pour « dés » (`DICE_MODES`)
 
 
 @dataclass(frozen=True)
 class AssaultCase:
     label: str
-    at_least: tuple[float, ...]   # P(≥1), P(≥2), P(≥3)…
+    at_least: tuple[float, ...]  # P(≥1), P(≥2), P(≥3)…
 
 
 @dataclass(frozen=True)
 class AssaultScenario:
     label: str
-    chargers: tuple[tuple[str, float, float], ...]   # (unité, P sec, P avec bonus permanents)
+    chargers: tuple[tuple[str, float, float], ...]  # (unité, P sec, P avec bonus permanents)
     cases: tuple[AssaultCase, ...]
 
 
@@ -87,9 +92,9 @@ class Threat:
 
     unit: str
     move: float
-    dry: float        # sans bonus ni relance
-    bonus: float      # bonus permanents de la liste
-    reroll: float     # + relance (ordre ou Cogs)
+    dry: float  # sans bonus ni relance
+    bonus: float  # bonus permanents de la liste
+    reroll: float  # + relance (ordre ou Cogs)
 
 
 @dataclass(frozen=True)
@@ -122,14 +127,13 @@ def _p_dice_at_least(n: int, dice: str) -> float:
 def p_roll(need: float, bonus: float = 0.0, reroll: bool = False, dice="2d6") -> float:
     """P(jet + bonus ≥ need), relance d'un échec comprise (relance avant modificateurs : Core Rules p. 6) ;
     `dice` : un des `DICE_MODES`, ou plusieurs (le joueur choisit le meilleur pour cette distance)."""
-    n = int(-(-(need - bonus) // 1))   # plafond
+    n = int(-(-(need - bonus) // 1))  # plafond
     modes = (dice,) if isinstance(dice, str) else tuple(dice) or ("2d6",)
     p = max(_p_dice_at_least(n, m) for m in modes) if n > 1 else 1.0
     return 1 - (1 - p) ** 2 if reroll else p
 
 
-def at_least(ps: Sequence[float], k: int, command: bool = False,
-             reroll_ps: Optional[Sequence[float]] = None) -> float:
+def at_least(ps: Sequence[float], k: int, command: bool = False, reroll_ps: Optional[Sequence[float]] = None) -> float:
     """P(au moins k succès) sur des tentatives indépendantes ; `command` : une relance du raté le plus
     prometteur (`reroll_ps[i]` = P de réussir la relance, par défaut `ps[i]`)."""
     n = len(ps)
@@ -168,8 +172,9 @@ def reroll_receivers(text: str, units: list[Unit], vocab: frozenset[str]) -> Opt
     return tuple(u.name for u in units if matches_friendly_target(u, target, vocab))
 
 
-def charge_sources(abilities, units: list[Unit], vocab: frozenset[str], dead: frozenset[str] = frozenset()
-                   ) -> list[ChargeSource]:
+def charge_sources(
+    abilities, units: list[Unit], vocab: frozenset[str], dead: frozenset[str] = frozenset()
+) -> list[ChargeSource]:
     """Bonus (`stat_mod` charge > 0) et relances complètes (`reroll` charge, analyseur v25) de la liste.
 
     Receveurs : la cible amie de l'effet (v26), sinon celle que la phrase écrit (« for friendly X units »,
@@ -191,8 +196,9 @@ def charge_sources(abilities, units: list[Unit], vocab: frozenset[str], dead: fr
         per_battle = ab.frequency in _PER_BATTLE_FREQ or bool(_ONCE_PER_BATTLE_OPTION_RE.search(ab.text))
         p = ab.summon_prob * (ab.activation_prob if ab.summon_prob == 1.0 else 1.0)
         m = _BONUS_TARGET_RE.search(ab.text)
-        bonus_text = (tuple(u.name for u in units if matches_friendly_target(u, m.group(1).strip(), vocab))
-                      if m else None)
+        bonus_text = (
+            tuple(u.name for u in units if matches_friendly_target(u, m.group(1).strip(), vocab)) if m else None
+        )
         for e in ab.effects:
             if e.stat != "charge" or e.side == "enemy":
                 continue
@@ -215,8 +221,13 @@ def charge_sources(abilities, units: list[Unit], vocab: frozenset[str], dead: fr
 def chargers(units: list[Unit], share_melee: dict[str, float], melee_dmg: dict[str, float]) -> list[Unit]:
     """Les frappeurs de la liste : majoritairement au corps à corps, hors machines de guerre, et au moins
     `CHARGER_DAMAGE_SHARE` des dégâts de mêlée du meilleur d'entre eux (les autres chargent par opportunité)."""
-    melee = [u for u in units if share_melee.get(u.name, 1.0) >= CHARGER_MELEE_SHARE
-             and "WAR MACHINE" not in u.keywords and any(w.kind == "melee" for w in u.weapons)]
+    melee = [
+        u
+        for u in units
+        if share_melee.get(u.name, 1.0) >= CHARGER_MELEE_SHARE
+        and "WAR MACHINE" not in u.keywords
+        and any(w.kind == "melee" for w in u.weapons)
+    ]
     if not melee_dmg:
         return melee
     best = max((melee_dmg.get(u.name, 0.0) for u in melee), default=0.0)
@@ -224,54 +235,86 @@ def chargers(units: list[Unit], share_melee: dict[str, float], melee_dmg: dict[s
 
 
 def _bonus(u: Unit, sources: Sequence[ChargeSource], per_battle: bool) -> float:
-    return sum(s.value for s in sources if s.kind == "bonus" and u.name in s.receivers
-               and s.p_present >= 1.0 and (per_battle or not s.per_battle))
+    return sum(
+        s.value
+        for s in sources
+        if s.kind == "bonus" and u.name in s.receivers and s.p_present >= 1.0 and (per_battle or not s.per_battle)
+    )
 
 
 def _dice(u: Unit, sources: Sequence[ChargeSource], per_battle: bool) -> tuple[str, ...]:
     """Modes de jet disponibles en permanence (ou ce round-là, `per_battle`) pour `u`, 2D6 compris."""
-    modes = {s.dice for s in sources if s.kind == "dés" and u.name in s.receivers
-             and s.p_present >= 1.0 and (per_battle or not s.per_battle)}
+    modes = {
+        s.dice
+        for s in sources
+        if s.kind == "dés" and u.name in s.receivers and s.p_present >= 1.0 and (per_battle or not s.per_battle)
+    }
     return tuple(m for m in DICE_MODES if m in modes | {"2d6"})
 
 
-def scenario(label: str, units: list[Unit], need, sources: Sequence[ChargeSource], k_max: int = 3,
-             p_arrive: Optional[float] = None) -> AssaultScenario:
+def scenario(
+    label: str,
+    units: list[Unit],
+    need,
+    sources: Sequence[ChargeSource],
+    k_max: int = 3,
+    p_arrive: Optional[float] = None,
+) -> AssaultScenario:
     """`need(u)` : jet de charge nécessaire pour l'unité `u` ; `p_arrive` : P que le chargeur arrive (sort de
     téléportation réussi, chacun le sien, sans 2e tentative) — ajoute une ligne « téléportation comprise »."""
     ks = range(1, min(k_max, len(units)) + 1)
     sec = [p_roll(need(u)) for u in units]
     bon = [p_roll(need(u), _bonus(u, sources, False), dice=_dice(u, sources, False)) for u in units]
-    cases = [AssaultCase("sec", tuple(at_least(sec, k) for k in ks)),
-             AssaultCase("bonus permanents", tuple(at_least(bon, k) for k in ks)),
-             AssaultCase(f"+ {COMMAND_REROLL.split(' (')[0]} (1 PC)", tuple(at_least(bon, k, True) for k in ks))]
+    cases = [
+        AssaultCase("sec", tuple(at_least(sec, k) for k in ks)),
+        AssaultCase("bonus permanents", tuple(at_least(bon, k) for k in ks)),
+        AssaultCase(f"+ {COMMAND_REROLL.split(' (')[0]} (1 PC)", tuple(at_least(bon, k, True) for k in ks)),
+    ]
     for s in (x for x in sources if x.kind == "relance"):
-        rr = [p_roll(need(u), _bonus(u, sources, False), u.name in s.receivers, _dice(u, sources, False))
-              for u in units]
+        rr = [
+            p_roll(need(u), _bonus(u, sources, False), u.name in s.receivers, _dice(u, sources, False)) for u in units
+        ]
         with_src = [at_least(rr, k, True, bon) for k in ks]
         cases.append(AssaultCase(f"+ {s.name} (si en jeu) + ordre", tuple(with_src)))
         if s.p_present < 1.0:
             fallback = [at_least(bon, k, True) for k in ks]
-            cases.append(AssaultCase(f"attendu : {s.name} à {s.p_present:.0%}, sinon l'ordre",
-                                     tuple(s.p_present * a + (1 - s.p_present) * b
-                                           for a, b in zip(with_src, fallback))))
+            cases.append(
+                AssaultCase(
+                    f"attendu : {s.name} à {s.p_present:.0%}, sinon l'ordre",
+                    tuple(s.p_present * a + (1 - s.p_present) * b for a, b in zip(with_src, fallback)),
+                )
+            )
             if p_arrive is not None and p_arrive < 1.0:
                 pa = p_arrive
                 a2 = [at_least([pa * x for x in rr], k, True, [pa * x for x in bon]) for k in ks]
                 b2 = [at_least([pa * x for x in bon], k, True) for k in ks]
-                cases.append(AssaultCase(f"idem, téléportation comprise (saut réussi à {pa:.0%})",
-                                         tuple(s.p_present * a + (1 - s.p_present) * b for a, b in zip(a2, b2))))
+                cases.append(
+                    AssaultCase(
+                        f"idem, téléportation comprise (saut réussi à {pa:.0%})",
+                        tuple(s.p_present * a + (1 - s.p_present) * b for a, b in zip(a2, b2)),
+                    )
+                )
     if any(s.per_battle and s.kind in ("bonus", "dés") for s in sources):
         pb = [p_roll(need(u), _bonus(u, sources, True), dice=_dice(u, sources, True)) for u in units]
-        cases.append(AssaultCase("round des bonus 1×/bataille (sans relance de source)",
-                                 tuple(at_least(pb, k, True) for k in ks)))
-    return AssaultScenario(label, tuple((u.name, round(a, 3), round(b, 3)) for u, a, b in zip(units, sec, bon)),
-                           tuple(cases))
+        cases.append(
+            AssaultCase(
+                "round des bonus 1×/bataille (sans relance de source)", tuple(at_least(pb, k, True) for k in ks)
+            )
+        )
+    return AssaultScenario(
+        label, tuple((u.name, round(a, 3), round(b, 3)) for u, a, b in zip(units, sec, bon)), tuple(cases)
+    )
 
 
-def assault(abilities, units: list[Unit], vocab: frozenset[str], share_melee: dict[str, float],
-            teleporters: frozenset[str], dead: frozenset[str] = frozenset(),
-            melee_dmg: Optional[dict[str, float]] = None) -> Optional[Assault]:
+def assault(
+    abilities,
+    units: list[Unit],
+    vocab: frozenset[str],
+    share_melee: dict[str, float],
+    teleporters: frozenset[str],
+    dead: frozenset[str] = frozenset(),
+    melee_dmg: Optional[dict[str, float]] = None,
+) -> Optional[Assault]:
     """`units` : la liste, copies comprises ; `teleporters` : noms des unités qui peuvent se téléporter ;
     `melee_dmg` : dégâts de mêlée par round (`unit_chassis.dmg_melee`) pour retenir les frappeurs."""
     from .marriage import reach
@@ -285,16 +328,33 @@ def assault(abilities, units: list[Unit], vocab: frozenset[str], share_melee: di
     tp = [u for u in ch if u.name in teleporters]
     if len(tp) >= 2:
         # P du saut : le sort de téléportation le plus sûr de la liste (une aptitude propre, sans jet, vaut 1)
-        tp_spells = [a.activation_prob for a in abilities if a.uid not in dead
-                     and (a.cost_type or "").lower() == "spell"
-                     and any(e.kind in ("deep_strike", "redeploy") for e in a.effects)]
+        tp_spells = [
+            a.activation_prob
+            for a in abilities
+            if a.uid not in dead
+            and (a.cost_type or "").lower() == "spell"
+            and any(e.kind in ("deep_strike", "redeploy") for e in a.effects)
+        ]
         p_tp = max(tp_spells) if tp_spells else None
-        scen.append(scenario(f"après téléportation (posés à plus de {TELEPORT_GAP:g}\")", tp,
-                             lambda u: TELEPORT_GAP, srcs, p_arrive=p_tp))
-    threats = tuple(Threat(u.name, reach(u), reach(u) + longest_charge(0.0, False),
-                           reach(u) + longest_charge(_bonus(u, srcs, False), False, dice=_dice(u, srcs, False)),
-                           reach(u) + longest_charge(_bonus(u, srcs, False), True, dice=_dice(u, srcs, False)))
-                    for u in {x.name: x for x in ch}.values())
+        scen.append(
+            scenario(
+                f'après téléportation (posés à plus de {TELEPORT_GAP:g}")',
+                tp,
+                lambda u: TELEPORT_GAP,
+                srcs,
+                p_arrive=p_tp,
+            )
+        )
+    threats = tuple(
+        Threat(
+            u.name,
+            reach(u),
+            reach(u) + longest_charge(0.0, False),
+            reach(u) + longest_charge(_bonus(u, srcs, False), False, dice=_dice(u, srcs, False)),
+            reach(u) + longest_charge(_bonus(u, srcs, False), True, dice=_dice(u, srcs, False)),
+        )
+        for u in {x.name: x for x in ch}.values()
+    )
     return Assault(tuple(srcs), tuple(scen), threats)
 
 

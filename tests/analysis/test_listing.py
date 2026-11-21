@@ -10,18 +10,46 @@ HAMMER = Weapon("Hammer", "melee", attacks=4, hit=4, wound=2, rend=2, damage=5)
 
 
 def _unit(name, **kw):
-    base = dict(name=name, army_id=1, move=6, save=3, health=14, control=5, models=1, points=300,
-                keywords=frozenset({"MONSTER", "ALARITH"}), weapons=[HAMMER])
+    base = dict(
+        name=name,
+        army_id=1,
+        move=6,
+        save=3,
+        health=14,
+        control=5,
+        models=1,
+        points=300,
+        keywords=frozenset({"MONSTER", "ALARITH"}),
+        weapons=[HAMMER],
+    )
     base.update(kw)
     return Unit(**base)
 
 
 def _ab(name, scope="self", freq="passive", carriers=(), effects=(), **kw):
-    base = dict(uid=name, name=name, source=f"charte : {carriers[0]}" if carriers else "formation : X",
-                source_kind="warscroll" if carriers else "battle_formation", carriers=tuple(carriers),
-                scope=scope, frequency=freq, turn_side="any", phase="", cost_type="", cost_value=None,
-                activation_prob=1.0, available_round=None, friendly_target="", excludes_self=False,
-                verdict="correct", power=1.5, reliability=3.0, ease=3.0, interaction=0.0, effects=tuple(effects))
+    base = dict(
+        uid=name,
+        name=name,
+        source=f"charte : {carriers[0]}" if carriers else "formation : X",
+        source_kind="warscroll" if carriers else "battle_formation",
+        carriers=tuple(carriers),
+        scope=scope,
+        frequency=freq,
+        turn_side="any",
+        phase="",
+        cost_type="",
+        cost_value=None,
+        activation_prob=1.0,
+        available_round=None,
+        friendly_target="",
+        excludes_self=False,
+        verdict="correct",
+        power=1.5,
+        reliability=3.0,
+        ease=3.0,
+        interaction=0.0,
+        effects=tuple(effects),
+    )
     base.update(kw)
     return ListAbility(**base)
 
@@ -29,8 +57,13 @@ def _ab(name, scope="self", freq="passive", carriers=(), effects=(), **kw):
 def test_wards_do_not_stack_in_a_list():
     spirit = _unit("Spirit")
     warded = _unit("Sevireth", ward=5)
-    shield = _ab("Realmshield", scope="friendly_aura", freq="unlimited", effects=[EffectSpec("ward", value=5.0)],
-                 activation_prob=0.5)
+    shield = _ab(
+        "Realmshield",
+        scope="friendly_aura",
+        freq="unlimited",
+        effects=[EffectSpec("ward", value=5.0)],
+        activation_prob=0.5,
+    )
     got = {m.receiver: m for m in marriages([shield], [spirit, warded], frozenset({"MONSTER"}))}
     assert got["Spirit"].def_gain_pct > 49 and got["Spirit"].weight == 0.5
     assert got["Sevireth"].def_gain_pct == 0

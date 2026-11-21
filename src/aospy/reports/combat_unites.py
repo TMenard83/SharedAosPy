@@ -4,6 +4,7 @@ héros. Source : `repository.get_ranking_pool` (`unit_benchmark`).
 Mécanique (chargement, tri, mise en page) partagée avec combat_heros.py via
 combat_report.py — ce fichier ne porte que le texte propre aux unités de
 troupe."""
+
 from .combat_report import build
 
 OUT_PATH = "scratch/output/best_unit/AoS_unites_duels_TM.pdf"

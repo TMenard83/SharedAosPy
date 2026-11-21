@@ -41,11 +41,23 @@ def test_comp_create_and_add_unit(db_path, capsys):
     run(["--db", str(db_path), "init", "--no-compositions"])
     capsys.readouterr()
 
-    assert run([
-        "--db", str(db_path), "comp", "create",
-        "--army", "Skaven", "--name", "MaListe",
-        "--format-points", "1000",
-    ]) == 0
+    assert (
+        run(
+            [
+                "--db",
+                str(db_path),
+                "comp",
+                "create",
+                "--army",
+                "Skaven",
+                "--name",
+                "MaListe",
+                "--format-points",
+                "1000",
+            ]
+        )
+        == 0
+    )
 
     con = db.connect(db_path)
     comp = repository.get_composition_by_name(con, _army_id(con, "Skaven"), "MaListe")
@@ -53,15 +65,42 @@ def test_comp_create_and_add_unit(db_path, capsys):
     con.close()
     comp_id = comp.id
 
-    assert run([
-        "--db", str(db_path), "comp", "add-unit",
-        "--comp", str(comp_id), "--unit", "Grey Seer",
-        "--general", "--trait", "Master of Magic", "--artefact", "Warpstone Charm",
-    ]) == 0
-    assert run([
-        "--db", str(db_path), "comp", "add-unit",
-        "--comp", str(comp_id), "--unit", "Clanrats", "--reinforced",
-    ]) == 0
+    assert (
+        run(
+            [
+                "--db",
+                str(db_path),
+                "comp",
+                "add-unit",
+                "--comp",
+                str(comp_id),
+                "--unit",
+                "Grey Seer",
+                "--general",
+                "--trait",
+                "Master of Magic",
+                "--artefact",
+                "Warpstone Charm",
+            ]
+        )
+        == 0
+    )
+    assert (
+        run(
+            [
+                "--db",
+                str(db_path),
+                "comp",
+                "add-unit",
+                "--comp",
+                str(comp_id),
+                "--unit",
+                "Clanrats",
+                "--reinforced",
+            ]
+        )
+        == 0
+    )
 
     con = db.connect(db_path)
     comp = repository.get_composition(con, comp_id)
@@ -84,10 +123,21 @@ def test_comp_clone_then_delete(db_path, capsys):
     src_id = tournaments[0].id
     con.close()
 
-    assert run([
-        "--db", str(db_path), "comp", "clone",
-        "--from", str(src_id), "--name", "Variante Test",
-    ]) == 0
+    assert (
+        run(
+            [
+                "--db",
+                str(db_path),
+                "comp",
+                "clone",
+                "--from",
+                str(src_id),
+                "--name",
+                "Variante Test",
+            ]
+        )
+        == 0
+    )
 
     con = db.connect(db_path)
     customs = repository.list_compositions(con, kind="custom")
@@ -104,14 +154,32 @@ def test_comp_clone_then_delete(db_path, capsys):
 
 def test_comp_remove_entry(db_path, capsys):
     run(["--db", str(db_path), "init", "--no-compositions"])
-    run([
-        "--db", str(db_path), "comp", "create",
-        "--army", "Skaven", "--name", "T", "--format-points", "1000",
-    ])
-    run([
-        "--db", str(db_path), "comp", "add-unit",
-        "--comp", "1", "--unit", "Clanrats",
-    ])
+    run(
+        [
+            "--db",
+            str(db_path),
+            "comp",
+            "create",
+            "--army",
+            "Skaven",
+            "--name",
+            "T",
+            "--format-points",
+            "1000",
+        ]
+    )
+    run(
+        [
+            "--db",
+            str(db_path),
+            "comp",
+            "add-unit",
+            "--comp",
+            "1",
+            "--unit",
+            "Clanrats",
+        ]
+    )
     capsys.readouterr()
 
     con = db.connect(db_path)
@@ -120,9 +188,19 @@ def test_comp_remove_entry(db_path, capsys):
     entry_id = comp.entries[0].id
     con.close()
 
-    assert run([
-        "--db", str(db_path), "comp", "remove-entry", "--entry", str(entry_id),
-    ]) == 0
+    assert (
+        run(
+            [
+                "--db",
+                str(db_path),
+                "comp",
+                "remove-entry",
+                "--entry",
+                str(entry_id),
+            ]
+        )
+        == 0
+    )
 
     con = db.connect(db_path)
     comp = repository.get_composition(con, 1)

@@ -8,6 +8,7 @@ import duckdb
 
 # ----- Benchmarks -----------------------------------------------------------
 
+
 def save_benchmark_result(
     con: duckdb.DuckDBPyConnection,
     *,
@@ -55,11 +56,23 @@ def save_benchmark_result(
             computed_at     = EXCLUDED.computed_at
         """,
         [
-            attacker_id, defender_id,
-            attacker_reinforced, defender_reinforced,
-            attacker_charged, defender_charged, attacker_mode, defender_mode,
-            raw_a_to_b, expected_a_to_b, raw_b_to_a, expected_b_to_a,
-            pts_destroyed, pts_lost, pts_net, roi, now,
+            attacker_id,
+            defender_id,
+            attacker_reinforced,
+            defender_reinforced,
+            attacker_charged,
+            defender_charged,
+            attacker_mode,
+            defender_mode,
+            raw_a_to_b,
+            expected_a_to_b,
+            raw_b_to_a,
+            expected_b_to_a,
+            pts_destroyed,
+            pts_lost,
+            pts_net,
+            roi,
+            now,
         ],
     )
 
@@ -99,17 +112,10 @@ def save_benchmark_results_many(
     """
     if not rows:
         return
-    values_sql = ",".join(
-        "(" + ",".join(_fmt_bench_value(v) for v in row) + ")" for row in rows
-    )
+    values_sql = ",".join("(" + ",".join(_fmt_bench_value(v) for v in row) + ")" for row in rows)
     con.execute("DROP TABLE IF EXISTS _unit_benchmark_stg")
-    con.execute(
-        "CREATE TEMP TABLE _unit_benchmark_stg AS "
-        "SELECT * FROM unit_benchmark LIMIT 0"
-    )
-    con.execute(
-        f"INSERT INTO _unit_benchmark_stg ({_BENCH_COLS}) VALUES {values_sql}"
-    )
+    con.execute("CREATE TEMP TABLE _unit_benchmark_stg AS SELECT * FROM unit_benchmark LIMIT 0")
+    con.execute(f"INSERT INTO _unit_benchmark_stg ({_BENCH_COLS}) VALUES {values_sql}")
     con.execute(
         f"""
         INSERT INTO unit_benchmark ({_BENCH_COLS})
@@ -134,9 +140,7 @@ def save_benchmark_results_many(
 
 def clear_benchmark_results(con: duckdb.DuckDBPyConnection) -> int:
     """Vide la table des benchmarks. Retourne le nombre de lignes supprimées."""
-    row = con.execute(
-        "SELECT COUNT(*) FROM unit_benchmark"
-    ).fetchone()
+    row = con.execute("SELECT COUNT(*) FROM unit_benchmark").fetchone()
     count = int(row[0]) if row else 0
     con.execute("DELETE FROM unit_benchmark")
     return count
@@ -184,9 +188,19 @@ def get_ranking_pool(con: duckdb.DuckDBPyConnection) -> list[dict]:
     --defender-mode mean --include-heroes` (ou équivalent) pour être peuplée.
     """
     cols = [
-        "unit_id", "name", "army", "grand_alliance", "points", "is_hero",
-        "avg_roi_pct", "avg_pts_net", "pct_positive",
-        "roi_floor95_pct", "roi_floor66_pct", "roi_floor20_pct", "avg_floor_roi_pct",
+        "unit_id",
+        "name",
+        "army",
+        "grand_alliance",
+        "points",
+        "is_hero",
+        "avg_roi_pct",
+        "avg_pts_net",
+        "pct_positive",
+        "roi_floor95_pct",
+        "roi_floor66_pct",
+        "roi_floor20_pct",
+        "avg_floor_roi_pct",
     ]
     rows = con.execute(_RANKING_POOL_QUERY).fetchall()
     return [dict(zip(cols, r)) for r in rows]

@@ -11,7 +11,9 @@ _GATE_D6 = re.compile(r"\b[Rr]oll a dice\b(?! for each)[^.]*\.(?:[^.]*?)\b[Oo]n 
 _GATE_2D6 = re.compile(r"\b[Rr]oll 2D6\b[^.]*\.(?:[^.]*?)\b[Oo]n an? (\d{1,2})\+")
 _GATE_VS_STAT = re.compile(
     r"Roll (?:2D6|a dice|D3|3D6)\. If (?:the )?(?:roll|result) (?:exceeds|is (?:equal to or )?greater than|"
-    r"equals or exceeds|is (?:equal to or )?less than)", re.I)
+    r"equals or exceeds|is (?:equal to or )?less than)",
+    re.I,
+)
 #: Probabilité forfaitaire d'un test contre une caractéristique de la cible inconnue.
 OPPOSED_TEST_PROB = 0.5
 #: Par caractéristique visée : « D6 > Contrôle » (Contrôle 1-2 en général : 83 %/67 %),
@@ -19,7 +21,9 @@ OPPOSED_TEST_PROB = 0.5
 OPPOSED_TEST_PROBS = {"control": 0.75, "health": 0.42}
 _BINOMIAL = re.compile(
     r"roll a (?:number of )?dice (?:for each|equal to)|roll a number of dice|"
-    r"for each (?:\d\+|roll of)|for each (?:model|enemy model|point)", re.I)
+    r"for each (?:\d\+|roll of)|for each (?:model|enemy model|point)",
+    re.I,
+)
 _DICE_IN_EFFECT = re.compile(r"\b\d?D[36](?:\+\d)?\b")
 
 
@@ -50,8 +54,10 @@ def activation_of(raw: RawAbility, effect: str) -> tuple[float, list[str], str]:
     elif cost == "prayer" and val:
         n = int(val.group())
         p *= p_prayer_banked(n)
-        notes.append(f"prière à {n} : {p_prayer_banked(n):.0%} au round clé (points rituels stockés au round 1 ; "
-                     f"{p_d6(n):.0%} d'un seul jet ; pas de dissipation)")
+        notes.append(
+            f"prière à {n} : {p_prayer_banked(n):.0%} au round clé (points rituels stockés au round 1 ; "
+            f"{p_d6(n):.0%} d'un seul jet ; pas de dissipation)"
+        )
     elif cost == "command":
         notes.append(f"ordre : {raw.cost_value or 1} PC")
     elif cost:
@@ -73,13 +79,12 @@ def activation_of(raw: RawAbility, effect: str) -> tuple[float, list[str], str]:
             notes.append(f"test 2D6 à {n}+ : {p_2d6(n):.0%}")
         elif _GATE_VS_STAT.search(effect):
             m = _GATE_VS_STAT.search(effect)
-            stat = re.search(r"(Control|Health|Save|Move)\b", effect[m.end():m.end() + 60])
+            stat = re.search(r"(Control|Health|Save|Move)\b", effect[m.end() : m.end() + 60])
             key = stat.group(1).lower() if stat else ""
             prob = OPPOSED_TEST_PROBS.get(key, OPPOSED_TEST_PROB)
             p *= prob
             label = {"control": "le Contrôle", "health": "les PV", "save": "la Sauvegarde", "move": "le Mouvement"}
-            notes.append(f"test contre {label.get(key, 'une caractéristique')} de la cible : "
-                         f"~{prob:.0%} hors contexte")
+            notes.append(f"test contre {label.get(key, 'une caractéristique')} de la cible : ~{prob:.0%} hors contexte")
 
     if _BINOMIAL.search(effect):
         variance = "binomial"

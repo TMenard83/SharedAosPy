@@ -66,17 +66,25 @@ _LASTING = {"bataille", "permanent", "conditionnelle"}
 UNKNOWN_RESOURCE = ONCE_PER_BATTLE_SHORT
 
 
-def coverage(frequency: str, duration: str, available_round: Optional[int] = None,
-             uses_resource: bool = False, turn_side: str = "any", polarity: str = "autre",
-             share_melee: float = 1.0, start_round: int = 1) -> float:
+def coverage(
+    frequency: str,
+    duration: str,
+    available_round: Optional[int] = None,
+    uses_resource: bool = False,
+    turn_side: str = "any",
+    polarity: str = "autre",
+    share_melee: float = 1.0,
+    start_round: int = 1,
+) -> float:
     """Part de la partie couverte par l'effet (0-1) : frise de 10 demi-tours (`timeline.coverage`) — fréquence,
     tour où on le joue, durée écrite, pertinence offensive/défensive de chaque demi-tour.
 
     `available_round` (Dîme de Sang…, cf. `abilities.pipeline.RESOURCE_RATES`) : l'effet ne couvre que
     les rounds à partir de celui-là. Ressource sans rythme connu : `UNKNOWN_RESOURCE`."""
     start = max(start_round, available_round or 1)
-    base = timeline_coverage(frequency or "", duration or "", turn_side or "any", polarity, share_melee,
-                             start_round=min(start, 6))
+    base = timeline_coverage(
+        frequency or "", duration or "", turn_side or "any", polarity, share_melee, start_round=min(start, 6)
+    )
     if uses_resource and not (available_round and available_round > 1):
         base = min(base, UNKNOWN_RESOURCE)
     return base
@@ -94,14 +102,25 @@ class OwnEffect:
     uses_resource: bool = False
     turn_side: str = "any"
 
-    def weight(self, polarity: str = "autre", share_melee: float = 1.0, start_round: int = 1,
-               turn_side: Optional[str] = None) -> float:
+    def weight(
+        self, polarity: str = "autre", share_melee: float = 1.0, start_round: int = 1, turn_side: Optional[str] = None
+    ) -> float:
         """Couverture sur la frise (polarité 'off'/'def') × P(déclenchement). `turn_side` remplace celui de
         l'aptitude (« a chargé » → mon tour seulement)."""
-        spends = (self.uses_resource or SPENDS_RESOURCE in self.spec.requires
-                  or RESOURCE_SCALED in self.spec.requires)
-        return coverage(self.frequency, self.spec.duration, self.available_round, spends,
-                        turn_side or self.turn_side, polarity, share_melee, start_round) * self.activation_prob
+        spends = self.uses_resource or SPENDS_RESOURCE in self.spec.requires or RESOURCE_SCALED in self.spec.requires
+        return (
+            coverage(
+                self.frequency,
+                self.spec.duration,
+                self.available_round,
+                spends,
+                turn_side or self.turn_side,
+                polarity,
+                share_melee,
+                start_round,
+            )
+            * self.activation_prob
+        )
 
     def full(self, share_melee: float = 1.0) -> bool:
         """Actif sur toute la partie, en attaque comme en défense : appliqué directement au profil."""
@@ -111,8 +130,7 @@ class OwnEffect:
     def conditional(self) -> bool:
         # Un bonus « Charge (+N) » n'existe que si quelqu'un a chargé (nous, ou l'ennemi pour un
         # anti-charge) : conditionnel par nature, même quand le texte ne l'écrit pas comme prérequis.
-        conds = [c for c in self.spec.conditions.split(" | ")
-                 if c and c not in (SPENDS_RESOURCE, RESOURCE_SCALED)]
+        conds = [c for c in self.spec.conditions.split(" | ") if c and c not in (SPENDS_RESOURCE, RESOURCE_SCALED)]
         return bool(conds) or self.spec.kind == "charge_bonus"
 
 
@@ -151,9 +169,12 @@ def realize(unit: Unit, effects: list[OwnEffect], share_melee: float = 1.0) -> R
         boosted = apply_effect(boosted, e.spec) or boosted
     off_b, def_b = _measure(boosted, plan)
 
-    def weighted(pool: list[OwnEffect], factors: Optional[list[float]] = None,
-                 starts: Optional[list[int]] = None, sides: Optional[list[Optional[str]]] = None
-                 ) -> tuple[float, float]:
+    def weighted(
+        pool: list[OwnEffect],
+        factors: Optional[list[float]] = None,
+        starts: Optional[list[int]] = None,
+        sides: Optional[list[Optional[str]]] = None,
+    ) -> tuple[float, float]:
         d_off = d_def = 0.0
         for k, e in enumerate(pool):
             f = factors[k] if factors is not None else 1.0
@@ -166,8 +187,11 @@ def realize(unit: Unit, effects: list[OwnEffect], share_melee: float = 1.0) -> R
             after = apply_effect(boosted, e.spec, probe, mods)
             if after is None:
                 continue
-            d_off += f * e.weight("off", sm, st, ts) * (plan_offense(after, probe, mods, plan)
-                                                       - plan_offense(boosted, probe, mods, plan))
+            d_off += (
+                f
+                * e.weight("off", sm, st, ts)
+                * (plan_offense(after, probe, mods, plan) - plan_offense(boosted, probe, mods, plan))
+            )
             d_def += f * e.weight("def", sm, st, ts) * (unit_durability(after) - def_b)
         return d_off, d_def
 
@@ -177,18 +201,24 @@ def realize(unit: Unit, effects: list[OwnEffect], share_melee: float = 1.0) -> R
     c_off, c_def = weighted(cond)
     fit, starts, sides = [], [], []
     for e in cond:
-        t = trigger(unit, e.spec.requires, e.spec.conditions, sm,
-                    melee_effect=e.spec.weapon_scope == "melee", kind=e.spec.kind)
+        t = trigger(
+            unit, e.spec.requires, e.spec.conditions, sm, melee_effect=e.spec.weapon_scope == "melee", kind=e.spec.kind
+        )
         fit.append(t.p if t.bearer_only else 0.0)
         starts.append(t.start)
-        sides.append("yours" if t.charged else None)       # « a chargé » : le combat de MON tour
+        sides.append("yours" if t.charged else None)  # « a chargé » : le combat de MON tour
     f_off, f_def = weighted(cond, fit, starts, sides)
     return Realized(
-        off_chassis=off0, def_chassis=def0,
-        off_realized=off_b + r_off, def_realized=def_b + r_def,
-        off_good_case=off_b + r_off + c_off, def_good_case=def_b + r_def + c_def,
-        n_effects=len(effects), n_conditional=len(cond),
-        off_fit=off_b + r_off + f_off, def_fit=def_b + r_def + f_def,
+        off_chassis=off0,
+        def_chassis=def0,
+        off_realized=off_b + r_off,
+        def_realized=def_b + r_def,
+        off_good_case=off_b + r_off + c_off,
+        def_good_case=def_b + r_def + c_def,
+        n_effects=len(effects),
+        n_conditional=len(cond),
+        off_fit=off_b + r_off + f_off,
+        def_fit=def_b + r_def + f_def,
     )
 
 
@@ -209,18 +239,64 @@ def own_effects(con) -> dict[tuple[str, str], list[tuple[str, str, bool, str, Ow
              AND a.source_kind NOT IN ('manifestation')"""
     ).fetchall()
     out: dict[tuple[str, str], list] = {}
-    for (fac, owner, name, scope, ftarget, excl, freq, prob, avail, resource, tside, kind, stat, value, detail, side,
-         wscope, wname, comp, tkw, tcond, req, dur) in rows:
-        spec = EffectSpec(kind=kind, stat=stat or "", value=value or 0.0, detail=detail or "", side=side or "",
-                          weapon_scope=wscope or "", weapon_name=wname or "", includes_companion=bool(comp),
-                          target_keywords=tkw or "", target_condition=tcond or "", requires=req or "",
-                          duration=dur or "")
+    for (
+        fac,
+        owner,
+        name,
+        scope,
+        ftarget,
+        excl,
+        freq,
+        prob,
+        avail,
+        resource,
+        tside,
+        kind,
+        stat,
+        value,
+        detail,
+        side,
+        wscope,
+        wname,
+        comp,
+        tkw,
+        tcond,
+        req,
+        dur,
+    ) in rows:
+        spec = EffectSpec(
+            kind=kind,
+            stat=stat or "",
+            value=value or 0.0,
+            detail=detail or "",
+            side=side or "",
+            weapon_scope=wscope or "",
+            weapon_name=wname or "",
+            includes_companion=bool(comp),
+            target_keywords=tkw or "",
+            target_condition=tcond or "",
+            requires=req or "",
+            duration=dur or "",
+        )
         if not is_translatable(spec):
             continue
         out.setdefault((fac, owner), []).append(
-            (scope, ftarget or "", bool(excl), name,
-             OwnEffect(ability=name, spec=spec, frequency=freq or "", activation_prob=prob if prob is not None else 1.0,
-                       available_round=avail, uses_resource=bool(resource), turn_side=tside or "any")))
+            (
+                scope,
+                ftarget or "",
+                bool(excl),
+                name,
+                OwnEffect(
+                    ability=name,
+                    spec=spec,
+                    frequency=freq or "",
+                    activation_prob=prob if prob is not None else 1.0,
+                    available_round=avail,
+                    uses_resource=bool(resource),
+                    turn_side=tside or "any",
+                ),
+            )
+        )
     return out
 
 
@@ -228,8 +304,7 @@ def applicable(unit: Unit, entries: list, vocab: frozenset[str]) -> list[OwnEffe
     """Effets qui tombent sur l'unité elle-même : `self`, ou portée amie dont elle est cible éligible."""
     keep = []
     for scope, ftarget, excl, _name, eff in entries:
-        if scope == "self" or (scope in FRIENDLY_SCOPES and not excl
-                               and matches_friendly_target(unit, ftarget, vocab)):
+        if scope == "self" or (scope in FRIENDLY_SCOPES and not excl and matches_friendly_target(unit, ftarget, vocab)):
             keep.append(eff)
     return strongest_alternatives(keep)
 
@@ -248,8 +323,6 @@ def strongest_alternatives(effects: list[OwnEffect]) -> list[OwnEffect]:
     return list(best.values())
 
 
-
-
 def mobility_effects(con) -> dict[tuple[str, str], list[tuple]]:
     """Effets de mouvement des aptitudes de charte, par (faction, charte en minuscules) : (portée, cible amie,
     exclut le porteur, (kind, stat, value, activation_prob, frequency)) — même règle de receveur qu'`applicable`."""
@@ -262,22 +335,29 @@ def mobility_effects(con) -> dict[tuple[str, str], list[tuple]]:
             JOIN ability_effect e ON e.ability_uid = a.uid
             WHERE o.owner_kind = 'warscroll' AND coalesce(e.side, 'friendly') = 'friendly'
               AND a.source_kind NOT IN ('manifestation')
-              AND e.kind IN ({', '.join('?' * len(MOBILITY_KINDS))})""",
+              AND e.kind IN ({", ".join("?" * len(MOBILITY_KINDS))})""",
         sorted(MOBILITY_KINDS),
     ).fetchall()
     out: dict[tuple[str, str], list] = {}
     for fac, owner, scope, ftarget, excl, kind, stat, value, prob, freq in rows:
         out.setdefault((fac, owner), []).append(
-            (scope, ftarget or "", bool(excl),
-             (kind, stat or "", value or 0.0, prob if prob is not None else 1.0, freq or "")))
+            (
+                scope,
+                ftarget or "",
+                bool(excl),
+                (kind, stat or "", value or 0.0, prob if prob is not None else 1.0, freq or ""),
+            )
+        )
     return out
 
 
 def unit_mobility_effects(unit: Unit, entries: list, vocab: frozenset[str]) -> list[tuple]:
     """Effets de mouvement qui tombent sur l'unité elle-même (`self`, ou portée amie dont elle est cible)."""
-    return [eff for scope, ftarget, excl, eff in entries
-            if scope == "self" or (scope in FRIENDLY_SCOPES and not excl
-                                   and matches_friendly_target(unit, ftarget, vocab))]
+    return [
+        eff
+        for scope, ftarget, excl, eff in entries
+        if scope == "self" or (scope in FRIENDLY_SCOPES and not excl and matches_friendly_target(unit, ftarget, vocab))
+    ]
 
 
 def combined(off_per_100: float, def_per_100: float) -> float:
@@ -319,24 +399,51 @@ def build_realized_rows(con) -> list[tuple]:
         defs = [results[i][1].def_realized * 100 / results[i][0].points for i in idx]
         orank, drank = pct_rank(offs), pct_rank(defs)
         crank = pct_rank([combined(o, d) for o, d in zip(offs, defs)])
-        frank = pct_rank([combined(results[i][1].off_fit * 100 / results[i][0].points,
-                                    results[i][1].def_fit * 100 / results[i][0].points) for i in idx])
+        frank = pct_rank(
+            [
+                combined(
+                    results[i][1].off_fit * 100 / results[i][0].points,
+                    results[i][1].def_fit * 100 / results[i][0].points,
+                )
+                for i in idx
+            ]
+        )
         srank = pct_rank([combined(o, d) * mob[i] for i, o, d in zip(idx, offs, defs)])
         for k, i in enumerate(idx):
             ranks[i] = (orank[k], drank[k], crank[k], frank[k], srank[k])
     for i, (u, r, names) in enumerate(results):
         per = 100.0 / u.points
-        rows.append((
-            u.id, round(r.off_chassis, 3), round(r.def_chassis, 2), round(r.off_realized, 3),
-            round(r.def_realized, 2), round(r.off_good_case, 3), round(r.def_good_case, 2),
-            round(r.off_realized * per, 3), round(r.def_realized * per, 3), round(r.off_good_case * per, 3),
-            round(r.def_good_case * per, 3), ranks[i][0], ranks[i][1], r.n_effects, r.n_conditional,
-            " | ".join(names) or None,
-            round(combined(r.off_realized * per, r.def_realized * per), 3), ranks[i][2],
-            round(r.off_fit, 3), round(r.def_fit, 2), round(r.off_fit * per, 3), round(r.def_fit * per, 3),
-            round(combined(r.off_fit * per, r.def_fit * per), 3), ranks[i][3],
-            round(reaches[i], 2), round(mob[i], 3),
-            round(combined(r.off_realized * per, r.def_realized * per) * mob[i], 3), ranks[i][4],
-            round(combined(r.off_fit * per, r.def_fit * per) * mob[i], 3),
-        ))
+        rows.append(
+            (
+                u.id,
+                round(r.off_chassis, 3),
+                round(r.def_chassis, 2),
+                round(r.off_realized, 3),
+                round(r.def_realized, 2),
+                round(r.off_good_case, 3),
+                round(r.def_good_case, 2),
+                round(r.off_realized * per, 3),
+                round(r.def_realized * per, 3),
+                round(r.off_good_case * per, 3),
+                round(r.def_good_case * per, 3),
+                ranks[i][0],
+                ranks[i][1],
+                r.n_effects,
+                r.n_conditional,
+                " | ".join(names) or None,
+                round(combined(r.off_realized * per, r.def_realized * per), 3),
+                ranks[i][2],
+                round(r.off_fit, 3),
+                round(r.def_fit, 2),
+                round(r.off_fit * per, 3),
+                round(r.def_fit * per, 3),
+                round(combined(r.off_fit * per, r.def_fit * per), 3),
+                ranks[i][3],
+                round(reaches[i], 2),
+                round(mob[i], 3),
+                round(combined(r.off_realized * per, r.def_realized * per) * mob[i], 3),
+                ranks[i][4],
+                round(combined(r.off_fit * per, r.def_fit * per) * mob[i], 3),
+            )
+        )
     return rows

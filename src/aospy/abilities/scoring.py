@@ -28,11 +28,11 @@ from __future__ import annotations
 
 from .models import Effect, Extraction, Score
 
-MIN_POWER = 1.25   # en dessous : effet trop faible pour peser
-PLAN_RELIABILITY = 2.25   # ≈ déclenchement ≥ 75 % : un 2+ passe, un 3+ non
+MIN_POWER = 1.25  # en dessous : effet trop faible pour peser
+PLAN_RELIABILITY = 2.25  # ≈ déclenchement ≥ 75 % : un 2+ passe, un 3+ non
 PLAN_EASE = 1.75
 GAMBLE_POWER = 1.5
-PLAN_POWER = 1.75   # en dessous, fiable et facile = « correct »
+PLAN_POWER = 1.75  # en dessous, fiable et facile = « correct »
 #: Aptitude active utilisable aux DEUX tours (« Any … phase », « End of Any Turn ») :
 #: deux occasions par round au lieu d'une.
 BOTH_TURNS_MULT = 1.15
@@ -46,34 +46,83 @@ DELAY_PENALTY_PER_ROUND, DELAY_PENALTY_MAX = 0.5, 2.0
 
 #: Poids de base (puissance) d'un modificateur de ±1 par caractéristique.
 STAT_WEIGHTS: dict[str, float] = {
-    "hit": 1.5, "wound": 1.5, "rend": 1.5, "attacks": 1.5, "damage": 2.0,
-    "save": 1.5, "ward": 1.0, "health": 1.0, "cast": 1.0,
+    "hit": 1.5,
+    "wound": 1.5,
+    "rend": 1.5,
+    "attacks": 1.5,
+    "damage": 2.0,
+    "save": 1.5,
+    "ward": 1.0,
+    "health": 1.0,
+    "cast": 1.0,
     # Provisoire : le contrôle est une caractéristique peu valorisée (avis utilisateur) ;
     # à recaler sur les coefficients du modèle de coût (`aospy cost fit`, extra [analysis]).
     "control": 0.6,
-    "chant": 1.0, "unbind": 0.75, "banish": 0.5, "charge": 1.0, "run": 0.5,
-    "move": 1.0, "power_level": 0.5,
+    "chant": 1.0,
+    "unbind": 0.75,
+    "banish": 0.5,
+    "charge": 1.0,
+    "run": 0.5,
+    "move": 1.0,
+    "power_level": 0.5,
 }
 
 #: Poids de base des effets qualitatifs.
 EFFECT_WEIGHTS: dict[str, float] = {
-    "strike_first": 2.0, "strike_last": 2.0, "run_and_charge": 2.0, "run_and_shoot": 1.5,
-    "redeploy": 2.0, "extra_fight": 3.0, "fight_twice": 3.0, "extra_shoot": 2.5, "shoot_in_combat": 1.0,
-    "crit": 1.5, "reroll": 1.5, "cp_gain": 1.5, "anti_magic": 1.0, "lockout": 2.0,
-    "restriction": 1.5, "untargetable": 2.0, "fly": 1.0, "move_debuff": 1.0, "summon": 1.5,
-    "control": 0.6, "anti": 1.0, "charge_bonus": 1.0, "no_crit": 1.5, "pile_in": 0.5, "damage_redirect": 1.5,
-    "extra_move": 1.5, "deep_strike": 2.0, "no_ward": 2.0, "slay": 2.0, "stat_set": 1.5,
-    "negate_attack": 2.0, "keyword_gain": 0.5,
-    "damage_ignore": 1.5, "no_weapon_abilities": 1.5, "resource": 1.0, "extra_use": 1.0,
-    "battle_damaged": 0.0, "free_retreat": 1.0, "fixed_roll": 1.5, "rally": 1.0, "no_buff": 1.0,
+    "strike_first": 2.0,
+    "strike_last": 2.0,
+    "run_and_charge": 2.0,
+    "run_and_shoot": 1.5,
+    "redeploy": 2.0,
+    "extra_fight": 3.0,
+    "fight_twice": 3.0,
+    "extra_shoot": 2.5,
+    "shoot_in_combat": 1.0,
+    "crit": 1.5,
+    "reroll": 1.5,
+    "cp_gain": 1.5,
+    "anti_magic": 1.0,
+    "lockout": 2.0,
+    "restriction": 1.5,
+    "untargetable": 2.0,
+    "fly": 1.0,
+    "move_debuff": 1.0,
+    "summon": 1.5,
+    "control": 0.6,
+    "anti": 1.0,
+    "charge_bonus": 1.0,
+    "no_crit": 1.5,
+    "pile_in": 0.5,
+    "damage_redirect": 1.5,
+    "extra_move": 1.5,
+    "deep_strike": 2.0,
+    "no_ward": 2.0,
+    "slay": 2.0,
+    "stat_set": 1.5,
+    "negate_attack": 2.0,
+    "keyword_gain": 0.5,
+    "damage_ignore": 1.5,
+    "no_weapon_abilities": 1.5,
+    "resource": 1.0,
+    "extra_use": 1.0,
+    "battle_damaged": 0.0,
+    "free_retreat": 1.0,
+    "fixed_roll": 1.5,
+    "rally": 1.0,
+    "no_buff": 1.0,
     # v27, validés par l'utilisateur (2026-11-20) : +N" de portée de tir, ignorer les malus, provocation
-    "range_bonus": 1.0, "ignore_debuff": 0.5, "taunt": 1.0,
+    "range_bonus": 1.0,
+    "ignore_debuff": 0.5,
+    "taunt": 1.0,
     # v28, validés par l'utilisateur (2026-11-20) : tir sur un héros protégé (« Guarded Hero » ignoré) = 1,0,
     # soins/retours de figurines interdits à l'ennemi = 1,0 (l'utilisateur a choisi plus haut que ma proposition 0,75)
-    "snipe": 1.0, "anti_heal": 1.0,
+    "snipe": 1.0,
+    "anti_heal": 1.0,
     # v29, validés par l'utilisateur (2026-11-21) : choix de profil d'arme = règle de profil (0), cartes de tactique
     # 1,5 (plus haut que ma proposition 1,0 : le scoring décide la partie), cohésion 2" 0,25 (plus bas que 0,5)
-    "profile_choice": 0.0, "tactic_cards": 1.5, "coherency": 0.25,
+    "profile_choice": 0.0,
+    "tactic_cards": 1.5,
+    "coherency": 0.25,
     # v30 : règle de fonctionnement (parties de manifestation, jetons, montée sur un décor) — même principe que le
     # choix de profil (validé à 0) : pas une aptitude
     "warscroll_rule": 0.0,
@@ -91,8 +140,16 @@ DICE_ENEMY_WEIGHTS: dict[str, float] = {"charge": 2.0, "cast": 1.5, "unbind": 1.
 #: Relance complète d'un type de jet (analyseur v25, validé utilisateur 2026-11-20) : relancer une charge
 #: à 9" (28 % → 48 %) vaut mieux qu'un +1 charge (42 %). Relance partielle (1 jet, 1 dé, les 1) = moitié.
 REROLL_WEIGHTS: dict[str, float] = {
-    "hit": 1.5, "wound": 1.5, "save": 1.5, "charge": 1.5, "ward": 1.0, "run": 0.5,
-    "cast": 1.0, "chant": 1.0, "unbind": 0.75, "": 1.0,
+    "hit": 1.5,
+    "wound": 1.5,
+    "save": 1.5,
+    "charge": 1.5,
+    "ward": 1.0,
+    "run": 0.5,
+    "cast": 1.0,
+    "chant": 1.0,
+    "unbind": 0.75,
+    "": 1.0,
 }
 
 _WARD_WEIGHTS = {6: 1.0, 5: 2.0, 4: 2.5, 3: 3.0, 2: 3.0}
@@ -108,17 +165,38 @@ OFFENSE_STACK_FACTOR = 0.7
 STACK_FACTOR = 0.35
 
 _SCOPE_MULT = {
-    "self": 1.0, "one_friendly": 1.0, "friendly_aura": 1.2, "army": 1.4,
-    "one_enemy": 1.0, "enemy_aura": 1.2, "all_enemies": 1.4, "battlefield": 1.0, "unknown": 1.0,
+    "self": 1.0,
+    "one_friendly": 1.0,
+    "friendly_aura": 1.2,
+    "army": 1.4,
+    "one_enemy": 1.0,
+    "enemy_aura": 1.2,
+    "all_enemies": 1.4,
+    "battlefield": 1.0,
+    "unknown": 1.0,
 }
-_FREQ_MULT = {"once_per_battle": 0.6, "once_per_battle_army": 0.6,
-              "once_per_round": 0.9, "once_per_round_army": 0.9}
+_FREQ_MULT = {"once_per_battle": 0.6, "once_per_battle_army": 0.6, "once_per_round": 0.9, "once_per_round_army": 0.9}
 
-_FR_STAT = {"hit": "touche", "wound": "blessure", "save": "sauvegarde", "ward": "protection",
-            "attacks": "Attaques", "rend": "Perforation", "damage": "Dégâts", "charge": "charge",
-            "run": "course", "cast": "lancement", "chant": "psalmodie", "unbind": "dissipation",
-            "banish": "bannissement", "redeploy": "Redeploy", "control": "contrôle", "health": "PV", "move": "Mouvement",
-            "power_level": "niveau de puissance"}
+_FR_STAT = {
+    "hit": "touche",
+    "wound": "blessure",
+    "save": "sauvegarde",
+    "ward": "protection",
+    "attacks": "Attaques",
+    "rend": "Perforation",
+    "damage": "Dégâts",
+    "charge": "charge",
+    "run": "course",
+    "cast": "lancement",
+    "chant": "psalmodie",
+    "unbind": "dissipation",
+    "banish": "bannissement",
+    "redeploy": "Redeploy",
+    "control": "contrôle",
+    "health": "PV",
+    "move": "Mouvement",
+    "power_level": "niveau de puissance",
+}
 
 
 def _effect_weight(e: Effect) -> tuple[float, str]:
@@ -137,11 +215,14 @@ def _effect_weight(e: Effect) -> tuple[float, str]:
         return 1.5, "BM variables"
     if e.kind == "ward":
         if e.detail == "fragile":
-            return (_WARD_WEIGHTS.get(int(e.value), 1.0) * FRAGILE_MULT,
-                    f"Protection {int(e.value)}+ perdue au 1er jet de sauvegarde de 1")
+            return (
+                _WARD_WEIGHTS.get(int(e.value), 1.0) * FRAGILE_MULT,
+                f"Protection {int(e.value)}+ perdue au 1er jet de sauvegarde de 1",
+            )
         return _WARD_WEIGHTS.get(int(e.value), 1.0), f"Protection {int(e.value)}+"
     if e.kind == "crit":
         import re as _re
+
         m = _re.search(r"of (\d)\+", e.detail)
         if m:
             n = int(m.group(1))
@@ -154,7 +235,7 @@ def _effect_weight(e: Effect) -> tuple[float, str]:
     if e.kind == "move":
         if e.side == "enemy":
             return 0.5, "déplace une unité ennemie"
-        return (1.75 if e.value >= 6 else 1.5), f"mouvement {e.dice or (int(e.value) if e.value else '')}\""
+        return (1.75 if e.value >= 6 else 1.5), f'mouvement {e.dice or (int(e.value) if e.value else "")}"'
     if e.kind == "reroll":
         w = REROLL_WEIGHTS.get(e.stat, 1.0) * (0.5 if e.value < 1 else 1.0)
         return w, f"{e.detail} {_FR_STAT.get(e.stat, e.stat) or 'de dés'}".strip()
@@ -165,22 +246,22 @@ def _effect_weight(e: Effect) -> tuple[float, str]:
         if e.side == "enemy":
             return DICE_ENEMY_WEIGHTS.get(e.stat, 1.0), f"un dé de moins ({name}, ennemi)"
         if e.value < 0:
-            return 0.0, ""   # contrepartie sur sa propre unité
-        base = 0.5 if e.stat == "redeploy" else REROLL_WEIGHTS.get(e.stat, 1.0)   # Redeploy ≈ course
-        w = base * (DICE_SUM_MULT if e.detail == "somme" else 1.0)   # « max » (dé bas = dé haut) ≈ « garder »
+            return 0.0, ""  # contrepartie sur sa propre unité
+        base = 0.5 if e.stat == "redeploy" else REROLL_WEIGHTS.get(e.stat, 1.0)  # Redeploy ≈ course
+        w = base * (DICE_SUM_MULT if e.detail == "somme" else 1.0)  # « max » (dé bas = dé haut) ≈ « garder »
         how = {"somme": "tous comptent", "max": "le plus bas devient le plus haut"}.get(e.detail, "on en retire un")
         return w, f"un dé de plus ({name}, {how})"
     if e.kind in ("strike_last", "restriction", "lockout", "move_debuff", "untargetable"):
         if e.kind == "untargetable" and e.side == "friendly":
             return 2.0, "inciblable"
         if e.side == "friendly" and e.kind != "untargetable":
-            return 0.0, ""   # contrepartie sur sa propre unité
+            return 0.0, ""  # contrepartie sur sa propre unité
     w = EFFECT_WEIGHTS.get(e.kind, 0.5)
     return w, e.kind.replace("_", " ")
 
 
 def power_of(ex: Extraction, effect_text: str) -> tuple[float, list[str]]:
-    best: dict[str, tuple[float, str]] = {}   # un même type d'effet ne compte qu'une fois (le meilleur)
+    best: dict[str, tuple[float, str]] = {}  # un même type d'effet ne compte qu'une fois (le meilleur)
     for e in ex.effects:
         w = _effect_weight(e)
         key = f"{e.kind}:{e.stat}:{e.side}"
@@ -190,9 +271,10 @@ def power_of(ex: Extraction, effect_text: str) -> tuple[float, list[str]]:
     if not weights:
         return 0.0, ["aucun effet chiffrable"]
     offense_debuffs = sum(
-        1 for e in ex.effects
-        if e.side == "enemy" and (e.kind in _OFFENSE_DEBUFF_KINDS
-                                  or (e.kind == "stat_mod" and e.detail == "defensif")))
+        1
+        for e in ex.effects
+        if e.side == "enemy" and (e.kind in _OFFENSE_DEBUFF_KINDS or (e.kind == "stat_mod" and e.detail == "defensif"))
+    )
     factor = OFFENSE_STACK_FACTOR if offense_debuffs >= 2 and ex.scope == "one_enemy" else STACK_FACTOR
     raw = weights[0][0] + factor * sum(w for w, _ in weights[1:])
     lasting = "rest of the battle" in effect_text and "rest of the battle round" not in effect_text
@@ -211,7 +293,7 @@ def power_of(ex: Extraction, effect_text: str) -> tuple[float, list[str]]:
         notes.append("utilisable aux deux tours")
     if once_lasting:
         notes.append("une fois par bataille = déclencheur, effet jusqu'à la fin de la bataille")
-    elif lasting:   # « rest of the battle round » ne dure qu'un round : pas de bonus
+    elif lasting:  # « rest of the battle round » ne dure qu'un round : pas de bonus
         mult *= 1.3
         notes.append("durable (reste de la bataille)")
     elif ex.frequency.startswith("once_per_battle"):
@@ -242,16 +324,16 @@ def ease_of(ex: Extraction, penalty: float, cost_type: str, is_reaction: bool) -
     if ex.scope in ("one_enemy", "one_friendly") and ex.range_inches is not None:
         if ex.range_inches <= 3 and ex.scope == "one_friendly":
             pen += 0.5
-            notes.append(f"cible à {ex.range_inches}\"")
+            notes.append(f'cible à {ex.range_inches}"')
         elif ex.range_inches <= 6 and ex.scope == "one_enemy" and ex.range_inches > 1:
             pen += 0.25
-            notes.append(f"cible ennemie à {ex.range_inches}\"")
+            notes.append(f'cible ennemie à {ex.range_inches}"')
     if ex.available_round and ex.available_round > 1:
         pen += min(DELAY_PENALTY_MAX, DELAY_PENALTY_PER_ROUND * (ex.available_round - 1))
         notes.append(f"{ex.resource_cost} pts de {cost_type.lower()} cumulés → dispo. ~round {ex.available_round}")
     if ex.scope == "friendly_aura" and ex.range_inches is not None and ex.range_inches <= 6:
         pen += 0.5 if ex.wholly_within else 0.25
-        notes.append(f"bulle courte ({ex.range_inches}\")")
+        notes.append(f'bulle courte ({ex.range_inches}")')
     return round(max(0.0, 3.0 - pen), 2), notes or ["aucun prérequis notable"]
 
 
@@ -261,9 +343,9 @@ def interaction_of(ex: Extraction) -> tuple[float, str]:
         return 3.0, "toute l'armée"
     if s == "friendly_aura":
         v = 1.5 + (1.0 if (r or 0) >= 18 else 0.75 if (r or 0) >= 12 else 0.25 if (r or 0) >= 9 else 0.0)
-        return v, f"bulle {'entièrement ' if ex.wholly_within else ''}à {r}\""
+        return v, f'bulle {"entièrement " if ex.wholly_within else ""}à {r}"'
     if s == "one_friendly":
-        return 1.0, "une unité amie" + (f" à {r}\"" if r else "")
+        return 1.0, "une unité amie" + (f' à {r}"' if r else "")
     if s in ("enemy_aura", "all_enemies"):
         return 2.0, "affaiblit plusieurs ennemis (profite à toute l'armée)"
     if s == "one_enemy" and any(e.detail == "marquage" for e in ex.effects):
@@ -271,11 +353,13 @@ def interaction_of(ex: Extraction) -> tuple[float, str]:
         if ft and not any(w.isupper() for w in ft.split()):
             # nom propre de charte (« Hobgrot Slittaz ») : un seul type d'unité en profite
             return 1.5, f"marquage restreint : les {ft} amis qui attaquent la cible en profitent"
-        return 2.0, "marquage : " + (f"les unités {ft} amies" if ft else "toute unité amie") + \
-            " qui attaquent la cible en profitent"
+        return 2.0, "marquage : " + (
+            f"les unités {ft} amies" if ft else "toute unité amie"
+        ) + " qui attaquent la cible en profitent"
     if s == "one_enemy":
         if any(e.kind == "stat_mod" and e.side == "enemy" for e in ex.effects) or any(
-                e.kind in ("strike_last", "lockout", "restriction") for e in ex.effects):
+            e.kind in ("strike_last", "lockout", "restriction") for e in ex.effects
+        ):
             return 1.0, "affaiblit une cible pour toute l'armée"
         return 0.0, "effet direct sur une cible"
     return 0.0, "unité porteuse seule"

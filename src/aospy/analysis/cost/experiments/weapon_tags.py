@@ -23,6 +23,7 @@ dominant (`crit_type`) sont désormais dans `cost_model.MODEL_FEATURES`/`CATEGOR
 ce script dérive donc le contre-exemple "avant adoption" à partir du jeu officiel actuel plutôt
 que l'inverse. Anti-X (présence et magnitude) reste écarté : ni l'un ni l'autre n'était
 significatif ; ce script re-teste sa magnitude en plus du modèle déjà adopté pour le confirmer."""
+
 from __future__ import annotations
 
 import dataclasses
@@ -52,13 +53,32 @@ frame = frame.reset_index(drop=True)
 # à un défenseur sonde : l'idée n'est pas de simuler un adversaire réaliste
 # précis, mais de mesurer "cette arme a-t-elle un Anti-X qui peut se
 # déclencher contre un adversaire plausible, et de combien ça vaut en dégât".
-_ANTI_TARGET_KEYWORDS = frozenset({
-    "HERO", "INFANTRY", "CAVALRY", "MONSTER", "BEAST", "WAR MACHINE",
-    "WIZARD", "PRIEST", "DAEMON", "MANIFESTATION", "UNIQUE", "FACTION TERRAIN",
-})
+_ANTI_TARGET_KEYWORDS = frozenset(
+    {
+        "HERO",
+        "INFANTRY",
+        "CAVALRY",
+        "MONSTER",
+        "BEAST",
+        "WAR MACHINE",
+        "WIZARD",
+        "PRIEST",
+        "DAEMON",
+        "MANIFESTATION",
+        "UNIQUE",
+        "FACTION TERRAIN",
+    }
+)
 _PROBE_SAVE2_ANTI = Unit(
-    name="_probe_anti", army_id=0, move=0, save=2, health=1, control=0, models=1,
-    points=0, keywords=_ANTI_TARGET_KEYWORDS,
+    name="_probe_anti",
+    army_id=0,
+    move=0,
+    save=2,
+    health=1,
+    control=0,
+    models=1,
+    points=0,
+    keywords=_ANTI_TARGET_KEYWORDS,
 )
 _PROBE_SAVE2_PLAIN = Unit(name="_probe_plain", army_id=0, move=0, save=2, health=1, control=0, models=1, points=0)
 _NOT_CHARGED = CombatModifiers()
@@ -78,7 +98,10 @@ def _tag_signals(unit: Unit) -> dict:
         if CHARGE_RE.search(text):
             has_charge = True
         dmg, _v, _s = unit_damage_moments(
-            dataclasses.replace(unit, weapons=[w]), unit.models, _PROBE_SAVE2_PLAIN, _NOT_CHARGED,
+            dataclasses.replace(unit, weapons=[w]),
+            unit.models,
+            _PROBE_SAVE2_PLAIN,
+            _NOT_CHARGED,
         )
         if dmg > best_dmg:
             best_dmg = dmg
@@ -105,11 +128,15 @@ for key in ("has_anti", "has_charge", "crit_type", "anti_bonus_save2", "charge_b
 
 n = len(frame)
 print(f"Unités dans le jeu d'entraînement : {n}")
-print(f"  has_anti   : {frame['has_anti'].sum()} ({frame['has_anti'].mean()*100:.1f} %)")
-print(f"  has_charge : {frame['has_charge'].sum()} ({frame['has_charge'].mean()*100:.1f} %)")
+print(f"  has_anti   : {frame['has_anti'].sum()} ({frame['has_anti'].mean() * 100:.1f} %)")
+print(f"  has_charge : {frame['has_charge'].sum()} ({frame['has_charge'].mean() * 100:.1f} %)")
 print(f"  crit_type  : {frame['crit_type'].value_counts().to_dict()}")
-print(f"  anti_bonus_save2   : moyenne={frame['anti_bonus_save2'].mean():.3f}  max={frame['anti_bonus_save2'].max():.3f}")
-print(f"  charge_bonus_save2 : moyenne={frame['charge_bonus_save2'].mean():.3f}  max={frame['charge_bonus_save2'].max():.3f}")
+print(
+    f"  anti_bonus_save2   : moyenne={frame['anti_bonus_save2'].mean():.3f}  max={frame['anti_bonus_save2'].max():.3f}"
+)
+print(
+    f"  charge_bonus_save2 : moyenne={frame['charge_bonus_save2'].mean():.3f}  max={frame['charge_bonus_save2'].max():.3f}"
+)
 print()
 
 # `frame["charge_bonus_save2"]` (calculé ci-dessus) écrase la colonne déjà
@@ -118,22 +145,38 @@ print()
 feats_before = [f for f in cost_model.MODEL_FEATURES if f != "charge_bonus_save2"]
 cats_before = [c for c in cost_model.CATEGORICAL_FEATURES if c != "crit_type"]
 
-model_a = cost_model.fit_cost_model_factorial(features=feats_before, categorical=cats_before, frame=frame.copy())  # avant adoption, sans tags
+model_a = cost_model.fit_cost_model_factorial(
+    features=feats_before, categorical=cats_before, frame=frame.copy()
+)  # avant adoption, sans tags
 
 cats_b = cats_before + ["has_anti", "has_charge", "crit_type"]
-model_b = cost_model.fit_cost_model_factorial(features=feats_before, categorical=cats_b, frame=frame.copy())  # + présence (catégoriel)
+model_b = cost_model.fit_cost_model_factorial(
+    features=feats_before, categorical=cats_b, frame=frame.copy()
+)  # + présence (catégoriel)
 
 feats_c = feats_before + ["anti_bonus_save2", "charge_bonus_save2"]
-model_c = cost_model.fit_cost_model_factorial(features=feats_c, categorical=cats_before, frame=frame.copy())  # + magnitude (continu)
+model_c = cost_model.fit_cost_model_factorial(
+    features=feats_c, categorical=cats_before, frame=frame.copy()
+)  # + magnitude (continu)
 
 feats_d = feats_before + ["anti_bonus_save2", "charge_bonus_save2"]
 cats_d = cats_before + ["crit_type"]
-model_d = cost_model.fit_cost_model_factorial(features=feats_d, categorical=cats_d, frame=frame.copy())  # officiel actuel + Anti-X testé en plus
+model_d = cost_model.fit_cost_model_factorial(
+    features=feats_d, categorical=cats_d, frame=frame.copy()
+)  # officiel actuel + Anti-X testé en plus
 
-print(f"Modèle A (avant adoption, sans tags)                : R² = {model_a.r_squared:.4f}  R² ajusté = {model_a.adj_r_squared:.4f}")
-print(f"Modèle B (+ has_anti/has_charge/crit_type, catégoriel) : R² = {model_b.r_squared:.4f}  R² ajusté = {model_b.adj_r_squared:.4f}  (gain {model_b.adj_r_squared - model_a.adj_r_squared:+.4f})")
-print(f"Modèle C (+ magnitude anti_bonus/charge_bonus, continu): R² = {model_c.r_squared:.4f}  R² ajusté = {model_c.adj_r_squared:.4f}  (gain {model_c.adj_r_squared - model_a.adj_r_squared:+.4f})")
-print(f"Modèle D (officiel actuel + Anti-X testé en plus)      : R² = {model_d.r_squared:.4f}  R² ajusté = {model_d.adj_r_squared:.4f}  (gain {model_d.adj_r_squared - model_a.adj_r_squared:+.4f})")
+print(
+    f"Modèle A (avant adoption, sans tags)                : R² = {model_a.r_squared:.4f}  R² ajusté = {model_a.adj_r_squared:.4f}"
+)
+print(
+    f"Modèle B (+ has_anti/has_charge/crit_type, catégoriel) : R² = {model_b.r_squared:.4f}  R² ajusté = {model_b.adj_r_squared:.4f}  (gain {model_b.adj_r_squared - model_a.adj_r_squared:+.4f})"
+)
+print(
+    f"Modèle C (+ magnitude anti_bonus/charge_bonus, continu): R² = {model_c.r_squared:.4f}  R² ajusté = {model_c.adj_r_squared:.4f}  (gain {model_c.adj_r_squared - model_a.adj_r_squared:+.4f})"
+)
+print(
+    f"Modèle D (officiel actuel + Anti-X testé en plus)      : R² = {model_d.r_squared:.4f}  R² ajusté = {model_d.adj_r_squared:.4f}  (gain {model_d.adj_r_squared - model_a.adj_r_squared:+.4f})"
+)
 print()
 
 print("-- Modèle B : coefficients des tags --")

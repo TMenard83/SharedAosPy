@@ -8,8 +8,14 @@ from pathlib import Path
 from ..persistence import repository
 from .common import _connect
 
-
-_VERDICT_FR = {"plan": "PLAN", "correct": "correct", "pari": "PARI", "bonus": "BONUS", "anecdotique": "anecdotique", "a-revoir": "à revoir"}
+_VERDICT_FR = {
+    "plan": "PLAN",
+    "correct": "correct",
+    "pari": "PARI",
+    "bonus": "BONUS",
+    "anecdotique": "anecdotique",
+    "a-revoir": "à revoir",
+}
 
 
 def cmd_ability_analyze(args: argparse.Namespace) -> int:
@@ -30,8 +36,10 @@ def cmd_ability_analyze(args: argparse.Namespace) -> int:
 
 def _ability_line(r: dict, with_text: bool) -> str:
     axes = f"P{r['power']:.1f} F{r['reliability']:.1f} M{r['ease']:.1f} I{r['interaction']:.1f}"
-    head = (f"{_VERDICT_FR.get(r['verdict'], r['verdict']):<11} {axes}  {r['name']}"
-            f"  [{r['faction_id']}] {r['owners'] or ''}"[:160])
+    head = (
+        f"{_VERDICT_FR.get(r['verdict'], r['verdict']):<11} {axes}  {r['name']}"
+        f"  [{r['faction_id']}] {r['owners'] or ''}"[:160]
+    )
     out = head + f"\n            {r['tags']}"
     if with_text:
         out += f"\n            {(r['effect_text'] or '')[:300]}"
@@ -41,8 +49,16 @@ def _ability_line(r: dict, with_text: bool) -> str:
 def cmd_ability_search(args: argparse.Namespace) -> int:
     con = _connect(args)
     rows = repository.search_abilities(
-        con, name=args.name, faction=args.faction, owner=args.owner, tags=args.tag,
-        verdict=args.verdict, source_kind=args.kind, order_by=args.sort, limit=args.limit)
+        con,
+        name=args.name,
+        faction=args.faction,
+        owner=args.owner,
+        tags=args.tag,
+        verdict=args.verdict,
+        source_kind=args.kind,
+        order_by=args.sort,
+        limit=args.limit,
+    )
     con.close()
     if not rows:
         print("Aucune aptitude (lancez `aospy ability analyze` si les tables sont vides).")
@@ -55,8 +71,11 @@ def cmd_ability_search(args: argparse.Namespace) -> int:
 
 def cmd_ability_show(args: argparse.Namespace) -> int:
     con = _connect(args)
-    rows = [r for r in repository.search_abilities(con, faction=args.faction, limit=5000, order_by="name")
-            if r["uid"] == args.name or args.name.lower() in r["name"].lower()]
+    rows = [
+        r
+        for r in repository.search_abilities(con, faction=args.faction, limit=5000, order_by="name")
+        if r["uid"] == args.name or args.name.lower() in r["name"].lower()
+    ]
     if not rows:
         con.close()
         print(f"Aucune aptitude ne correspond à {args.name!r}.")
@@ -69,8 +88,10 @@ def cmd_ability_show(args: argparse.Namespace) -> int:
         if r["declare_text"]:
             print(f"Annonce : {r['declare_text']}")
         print(f"Effet : {r['effect_text']}")
-        print(f"Verdict : {_VERDICT_FR.get(r['verdict'], r['verdict'])}"
-              f"{' (corrigé à la main)' if r['overridden'] else ''}")
+        print(
+            f"Verdict : {_VERDICT_FR.get(r['verdict'], r['verdict'])}"
+            f"{' (corrigé à la main)' if r['overridden'] else ''}"
+        )
         print(r["rationale"])
         print(f"Tags : {r['tags']}")
         effects = repository.get_ability_effects(con, r["uid"])
@@ -89,10 +110,18 @@ def cmd_ability_show(args: argparse.Namespace) -> int:
                 scope += f" « {e['weapon_name']} »"
             if e["includes_companion"]:
                 scope += " (Compagnon incluses)"
-            bits = [b for b in (f"{e['side']}" if e["side"] else "", f"armes : {scope}" if scope else "",
-                                f"cible : {e['target_keywords']}" if e["target_keywords"] else "",
-                                e["target_condition"] or "", f"si : {e['requires']}" if e["requires"] else "",
-                                f"durée : {e['duration']}" if e["duration"] else "") if b]
+            bits = [
+                b
+                for b in (
+                    f"{e['side']}" if e["side"] else "",
+                    f"armes : {scope}" if scope else "",
+                    f"cible : {e['target_keywords']}" if e["target_keywords"] else "",
+                    e["target_condition"] or "",
+                    f"si : {e['requires']}" if e["requires"] else "",
+                    f"durée : {e['duration']}" if e["duration"] else "",
+                )
+                if b
+            ]
             print(f"  - {what} — {', '.join(bits)}")
         print()
     con.close()
@@ -132,7 +161,9 @@ def cmd_ability_review(args: argparse.Namespace) -> int:
     label = repository.ABILITY_REVIEW_CATEGORIES[args.category][0]
     print(f"{args.category} — {label} : {total} restant(s), {len(rows)} affiché(s)")
     for i, r in enumerate(rows, 1):
-        print(f"\n{i}. {r['name']} [{r['faction_id']}] — {_VERDICT_FR.get(r['verdict'], r['verdict'])} — uid {r['uid']}")
+        print(
+            f"\n{i}. {r['name']} [{r['faction_id']}] — {_VERDICT_FR.get(r['verdict'], r['verdict'])} — uid {r['uid']}"
+        )
         print(f"   Timing : {r['condition_text']}")
         if r["declare_text"]:
             print(f"   Annonce : {r['declare_text'][:220]}")
@@ -146,7 +177,6 @@ def cmd_ability_tags(args: argparse.Namespace) -> int:
     for tag, desc in ALL_TAGS.items():
         print(f"{tag:<22} {desc}")
     return 0
-
 
 
 def register(sub: argparse._SubParsersAction) -> None:

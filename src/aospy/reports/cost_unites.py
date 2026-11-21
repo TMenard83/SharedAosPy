@@ -9,6 +9,7 @@ l'abandon de `fit_segmented` (deux régressions indépendantes) pour ce plan
 factoriel unique. Mécanique (ajustement, mise en page) partagée avec
 cost_heros.py via cost_report.py — ce fichier ne porte que le texte propre
 aux unités de troupe."""
+
 from .cost_report import build
 
 OUT_PATH = "scratch/output/best_unit/AoS_unites_prix_TM.pdf"

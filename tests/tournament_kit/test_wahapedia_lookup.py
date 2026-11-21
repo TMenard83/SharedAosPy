@@ -16,7 +16,9 @@ def test_find_generic_lore_returns_entries_sorted_by_line():
     entries = wh.find_generic_lore("Twilit Sorceries")
     assert entries is not None
     assert [e.name for e in entries] == [
-        "SUMMON GEMINIDS OF UHL-GYSH", "SUMMON PRISMATIC PALISADE", "SUMMON UMBRAL SPELLPORTAL",
+        "SUMMON GEMINIDS OF UHL-GYSH",
+        "SUMMON PRISMATIC PALISADE",
+        "SUMMON UMBRAL SPELLPORTAL",
     ]
 
 

@@ -6,8 +6,8 @@ from pathlib import Path
 
 import pytest
 
-from aospy.persistence import db, repository, seed
 from aospy.domain.models import Artefact, Composition, CompositionUnit, HeroicTrait
+from aospy.persistence import db, repository, seed
 
 
 @pytest.fixture()
@@ -44,7 +44,10 @@ def test_add_composition_computes_total_points(con):
     units = {u.name: u for u in repository.list_units_for_army(con, sk.id)}
 
     comp = Composition(
-        army_id=sk.id, name="Skaven Test", kind="custom", format_points=1000,
+        army_id=sk.id,
+        name="Skaven Test",
+        kind="custom",
+        format_points=1000,
         entries=[
             CompositionUnit(unit_id=units["Grey Seer"].id, is_general=True),
             CompositionUnit(unit_id=units["Clanrats"].id, reinforced=True),
@@ -93,11 +96,16 @@ def test_list_compositions_filter_by_kind(con):
     assert sk is not None and sk.id is not None
     # Ajout d'une composition custom à côté
     units = {u.name: u for u in repository.list_units_for_army(con, sk.id)}
-    repository.add_composition(con, Composition(
-        army_id=sk.id, name="Skaven Custom Probe", kind="custom",
-        format_points=1000,
-        entries=[CompositionUnit(unit_id=units["Clanrats"].id)],
-    ))
+    repository.add_composition(
+        con,
+        Composition(
+            army_id=sk.id,
+            name="Skaven Custom Probe",
+            kind="custom",
+            format_points=1000,
+            entries=[CompositionUnit(unit_id=units["Clanrats"].id)],
+        ),
+    )
 
     tournament = repository.list_compositions(con, kind="tournament")
     custom = repository.list_compositions(con, kind="custom")

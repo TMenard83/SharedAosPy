@@ -3,6 +3,7 @@ liste complète, pas de Top N. Pendant de combat_unites.py.
 Source : `repository.get_ranking_pool` (`unit_benchmark` peuplée avec --include-heroes).
 Mécanique (chargement, tri, mise en page) partagée avec combat_unites.py via
 combat_report.py — ce fichier ne porte que le texte propre aux héros."""
+
 from .combat_report import build
 
 OUT_PATH = "scratch/output/best_unit/AoS_heros_duels_TM.pdf"

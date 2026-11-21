@@ -131,7 +131,7 @@ def _missing_quotes(text: str, haystack: str) -> list[str]:
         words = _norm(quote).split()
         if len(words) < _MIN_QUOTE_WORDS or _TIMING_RE.match(quote.strip()):
             continue
-        windows = [" ".join(words[i:i + 6]) for i in range(0, max(1, len(words) - 5), 3)]
+        windows = [" ".join(words[i : i + 6]) for i in range(0, max(1, len(words) - 5), 3)]
         if sum(w in haystack for w in windows) / len(windows) < 0.6:
             missing.append(re.sub(r"\s+", " ", quote).strip())
     return missing
@@ -216,10 +216,16 @@ def _check_wahapedia(old_dir: Path, factions: dict, only: set[str] | None) -> No
     for faction, data in sorted(factions.items()):
         if only and faction not in only:
             continue
-        entries = [(cat, (ids.get(faction.lower()), a.get("wahapedia_name", "").lower()), a, True)
-                   for cat, lst in data.get("rules", {}).items() for a in lst]
-        entries += [(unit, (unit.lower(), a.get("wahapedia_name", "").lower()), a, False)
-                    for unit, u in data.get("units", {}).items() for a in u.get("abilities", [])]
+        entries = [
+            (cat, (ids.get(faction.lower()), a.get("wahapedia_name", "").lower()), a, True)
+            for cat, lst in data.get("rules", {}).items()
+            for a in lst
+        ]
+        entries += [
+            (unit, (unit.lower(), a.get("wahapedia_name", "").lower()), a, False)
+            for unit, u in data.get("units", {}).items()
+            for a in u.get("abilities", [])
+        ]
         for where, key, ability, is_rule in entries:
             old_rows = (old_f if is_rule else old_u).get(key)
             new_rows = (new_f if is_rule else new_u).get(key)
@@ -240,7 +246,9 @@ def _check_wahapedia(old_dir: Path, factions: dict, only: set[str] | None) -> No
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("--pdf", type=Path, help="PDF « Mises à jour de Règles » (défaut : le plus récent de Download GW)")
+    parser.add_argument(
+        "--pdf", type=Path, help="PDF « Mises à jour de Règles » (défaut : le plus récent de Download GW)"
+    )
     parser.add_argument("--faction", action="append", help="limiter à une faction (répétable)")
     parser.add_argument("--old-wahapedia", type=Path, help="ancien export Wahapedia à comparer à data/wahapedia/")
     parser.add_argument("--no-pdf", action="store_true", help="sauter le contrôle des citations du PDF")

@@ -52,23 +52,49 @@ def test_generic_core_abilities_english_layer_replaces_matched_entries(tmp_path)
     from aospy.tournament_kit.sources.generic_core_abilities import load_generic_core_abilities
 
     fr_path = tmp_path / "generic.json"
-    fr_path.write_text(json.dumps([
-        {"name": "Dissipation", "requires_unit_keyword": "WIZARD", "description": "fr",
-         "condition": "Reaction: L’adversaire a annoncé une aptitude de Sort", "ability_phase": "Hero Phase"},
-        {"name": "Attaque en Règle", "description": "fr", "points_type": "Command", "points": "1"},
-    ]), encoding="utf-8")
+    fr_path.write_text(
+        json.dumps(
+            [
+                {
+                    "name": "Dissipation",
+                    "requires_unit_keyword": "WIZARD",
+                    "description": "fr",
+                    "condition": "Reaction: L’adversaire a annoncé une aptitude de Sort",
+                    "ability_phase": "Hero Phase",
+                },
+                {"name": "Attaque en Règle", "description": "fr", "points_type": "Command", "points": "1"},
+            ]
+        ),
+        encoding="utf-8",
+    )
     en_path = tmp_path / "generic_en.json"
-    en_path.write_text(json.dumps([
-        {"fr_name": "Dissipation", "name": "Unbind", "description": "en",
-         "condition": "Reaction: Opponent declared a Spell ability", "keywords": "Unbind"},
-    ]), encoding="utf-8")
+    en_path.write_text(
+        json.dumps(
+            [
+                {
+                    "fr_name": "Dissipation",
+                    "name": "Unbind",
+                    "description": "en",
+                    "condition": "Reaction: Opponent declared a Spell ability",
+                    "keywords": "Unbind",
+                },
+            ]
+        ),
+        encoding="utf-8",
+    )
     unbind, all_out = load_generic_core_abilities(fr_path, en_path=en_path)
-    assert (unbind.name, unbind.description, unbind.condition) == ("Unbind", "en", "Reaction: Opponent declared a Spell ability")
+    assert (unbind.name, unbind.description, unbind.condition) == (
+        "Unbind",
+        "en",
+        "Reaction: Opponent declared a Spell ability",
+    )
     assert unbind.keywords == "Unbind, Core Rules" and unbind.ability_phase == "Hero Phase"
     # sans ligne anglaise : l'entrée française reste telle quelle
     assert (all_out.name, all_out.points) == ("Attaque en Règle", "1")
     # `requires_unit_keyword` vient de l'entrée française
-    assert [ab.name for ab in load_generic_core_abilities(fr_path, frozenset({"HERO"}), en_path=en_path)] == ["Attaque en Règle"]
+    assert [ab.name for ab in load_generic_core_abilities(fr_path, frozenset({"HERO"}), en_path=en_path)] == [
+        "Attaque en Règle"
+    ]
 
 
 def test_generic_core_abilities_english_file_matches_french_names():

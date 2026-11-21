@@ -1,6 +1,7 @@
 """Score composite des classements « meilleures unités »/« meilleurs héros »
 (`reports/best_report.py`) et du simulateur de bonus (`bonus_simulator/whatif.py`),
 placé sous les deux paquets pour qu'ils le partagent sans dépendre l'un de l'autre."""
+
 from collections.abc import Sequence
 
 

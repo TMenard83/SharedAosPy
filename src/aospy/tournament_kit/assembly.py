@@ -67,16 +67,81 @@ _UNIT_CARD_WIDTH = (_CARD_PAGE_WIDTH - _UNIT_CARD_GAP) / 2
 #: titres de carte (`render/theme.CARD_TITLE_FONT`) plutôt que
 #: `OLD_ENGLISH_FONT` (Times-Bold) utilisé avant : demande explicite de
 #: l'utilisateur, pour une cohérence visuelle titre de liste / titre de carte.
-_TITLE = ParagraphStyle("kit_title", fontName=CARD_TITLE_FONT, fontSize=20, leading=24, textColor=NIGHT_BLUE, alignment=TA_LEFT, spaceAfter=2)
-_META = ParagraphStyle("kit_meta", fontName="Times-Italic", fontSize=9.5, leading=13, textColor=STEEL, alignment=TA_LEFT, spaceAfter=10)
-_REGIMENT = ParagraphStyle("kit_regiment", fontName="Times-Bold", fontSize=12, leading=15, textColor=GOLD_DIM, alignment=TA_LEFT, spaceBefore=10, spaceAfter=3)
-_WARNING = ParagraphStyle("kit_warning", fontName="Times-Bold", fontSize=9.5, leading=13, textColor=STEEL, alignment=TA_LEFT, spaceBefore=14)
-_EN_BANNER = ParagraphStyle("kit_en_banner", fontName="Times-Bold", fontSize=15, leading=19, textColor=colors.HexColor("#8c1f1f"), alignment=TA_LEFT, spaceAfter=2)
-_EN_SUBBANNER = ParagraphStyle("kit_en_subbanner", fontName="Times-Italic", fontSize=9.5, leading=13, textColor=STEEL, alignment=TA_LEFT, spaceAfter=12)
-_EN_SECTION = ParagraphStyle("kit_en_section", fontName="Times-Bold", fontSize=13, leading=17, textColor=NIGHT_BLUE, alignment=TA_LEFT, spaceBefore=12, spaceAfter=4)
-_EN_SUBSECTION = ParagraphStyle("kit_en_subsection", fontName="Times-Bold", fontSize=10.5, leading=14, textColor=GOLD_DIM, alignment=TA_LEFT, spaceBefore=8, spaceAfter=3)
-_EN_BODY = ParagraphStyle("kit_en_body", fontName="Times-Roman", fontSize=9, leading=12.5, textColor=NIGHT_BLUE, alignment=TA_LEFT, spaceAfter=6)
-_EN_LEGEND = ParagraphStyle("kit_en_legend", fontName="Times-Italic", fontSize=8.5, leading=12, textColor=STEEL, alignment=TA_LEFT, spaceAfter=4)
+_TITLE = ParagraphStyle(
+    "kit_title",
+    fontName=CARD_TITLE_FONT,
+    fontSize=20,
+    leading=24,
+    textColor=NIGHT_BLUE,
+    alignment=TA_LEFT,
+    spaceAfter=2,
+)
+_META = ParagraphStyle(
+    "kit_meta", fontName="Times-Italic", fontSize=9.5, leading=13, textColor=STEEL, alignment=TA_LEFT, spaceAfter=10
+)
+_REGIMENT = ParagraphStyle(
+    "kit_regiment",
+    fontName="Times-Bold",
+    fontSize=12,
+    leading=15,
+    textColor=GOLD_DIM,
+    alignment=TA_LEFT,
+    spaceBefore=10,
+    spaceAfter=3,
+)
+_WARNING = ParagraphStyle(
+    "kit_warning", fontName="Times-Bold", fontSize=9.5, leading=13, textColor=STEEL, alignment=TA_LEFT, spaceBefore=14
+)
+_EN_BANNER = ParagraphStyle(
+    "kit_en_banner",
+    fontName="Times-Bold",
+    fontSize=15,
+    leading=19,
+    textColor=colors.HexColor("#8c1f1f"),
+    alignment=TA_LEFT,
+    spaceAfter=2,
+)
+_EN_SUBBANNER = ParagraphStyle(
+    "kit_en_subbanner",
+    fontName="Times-Italic",
+    fontSize=9.5,
+    leading=13,
+    textColor=STEEL,
+    alignment=TA_LEFT,
+    spaceAfter=12,
+)
+_EN_SECTION = ParagraphStyle(
+    "kit_en_section",
+    fontName="Times-Bold",
+    fontSize=13,
+    leading=17,
+    textColor=NIGHT_BLUE,
+    alignment=TA_LEFT,
+    spaceBefore=12,
+    spaceAfter=4,
+)
+_EN_SUBSECTION = ParagraphStyle(
+    "kit_en_subsection",
+    fontName="Times-Bold",
+    fontSize=10.5,
+    leading=14,
+    textColor=GOLD_DIM,
+    alignment=TA_LEFT,
+    spaceBefore=8,
+    spaceAfter=3,
+)
+_EN_BODY = ParagraphStyle(
+    "kit_en_body",
+    fontName="Times-Roman",
+    fontSize=9,
+    leading=12.5,
+    textColor=NIGHT_BLUE,
+    alignment=TA_LEFT,
+    spaceAfter=6,
+)
+_EN_LEGEND = ParagraphStyle(
+    "kit_en_legend", fontName="Times-Italic", fontSize=8.5, leading=12, textColor=STEEL, alignment=TA_LEFT, spaceAfter=4
+)
 
 
 def _strip_all_tags(text: str) -> str:
@@ -99,8 +164,6 @@ def _safe_paragraph(text: str, style: ParagraphStyle) -> Paragraph:
         return Paragraph(text, style)
     except Exception:
         return Paragraph(_strip_all_tags(text), style)
-
-
 
 
 #: texture pierre du fond de page — générée par
@@ -154,16 +217,20 @@ def _wrap_in_sheet(story: list, width: float) -> Table:
     rows = [[item] for item in story]
     n = len(rows)
     box = Table(rows, colWidths=[width])
-    box.setStyle(TableStyle([
-        ("BACKGROUND", (0, 0), (-1, -1), colors.white),
-        ("BOX", (0, 0), (-1, -1), 0.8, GOLD_DIM),
-        ("LEFTPADDING", (0, 0), (-1, -1), _SHEET_PADDING),
-        ("RIGHTPADDING", (0, 0), (-1, -1), _SHEET_PADDING),
-        ("TOPPADDING", (0, 0), (-1, -1), 0),
-        ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
-        ("TOPPADDING", (0, 0), (0, 0), _SHEET_PADDING),
-        ("BOTTOMPADDING", (0, n - 1), (0, n - 1), _SHEET_PADDING),
-    ]))
+    box.setStyle(
+        TableStyle(
+            [
+                ("BACKGROUND", (0, 0), (-1, -1), colors.white),
+                ("BOX", (0, 0), (-1, -1), 0.8, GOLD_DIM),
+                ("LEFTPADDING", (0, 0), (-1, -1), _SHEET_PADDING),
+                ("RIGHTPADDING", (0, 0), (-1, -1), _SHEET_PADDING),
+                ("TOPPADDING", (0, 0), (-1, -1), 0),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+                ("TOPPADDING", (0, 0), (0, 0), _SHEET_PADDING),
+                ("BOTTOMPADDING", (0, n - 1), (0, n - 1), _SHEET_PADDING),
+            ]
+        )
+    )
     return box
 
 
@@ -252,13 +319,14 @@ def _append_scenario_pages(writer: PdfWriter, path: Path) -> None:
     margin = _CARD_PAGE_MARGIN
     for start in range(0, len(cards.pages), 4):
         sheet = writer.add_blank_page(width=page_w, height=page_h)
-        for k, card in enumerate(cards.pages[start:start + 4]):
+        for k, card in enumerate(cards.pages[start : start + 4]):
             # La carte occupe la TrimBox (pages A4 avec carte centrée) ; sans
             # TrimBox, pypdf renvoie la CropBox/MediaBox, soit la page entière.
             box = card.trimbox
             cw, ch = float(box.width), float(box.height)
             scale = min(
-                (page_w - 2 * margin - _SCENARIO_GAP) / 2 / cw, (page_h - 2 * margin - _SCENARIO_GAP) / 2 / ch,
+                (page_w - 2 * margin - _SCENARIO_GAP) / 2 / cw,
+                (page_h - 2 * margin - _SCENARIO_GAP) / 2 / ch,
             )
             block_w, block_h = 2 * cw * scale + _SCENARIO_GAP, 2 * ch * scale + _SCENARIO_GAP
             x0, y0 = (page_w - block_w) / 2, (page_h - block_h) / 2
@@ -271,7 +339,9 @@ def _append_scenario_pages(writer: PdfWriter, path: Path) -> None:
             )
 
 
-def _append_pages(writer: PdfWriter, reader: PdfReader, seen_pages: set[int], sections: list[tuple[str, list[int]]]) -> None:
+def _append_pages(
+    writer: PdfWriter, reader: PdfReader, seen_pages: set[int], sections: list[tuple[str, list[int]]]
+) -> None:
     for _label, pages in sections:
         for page_num in pages:
             if page_num in seen_pages:
@@ -306,17 +376,24 @@ def _build_wahapedia_appendix_pdf(
 
     buf = BytesIO()
     doc = SimpleDocTemplate(
-        buf, pagesize=A4,
-        leftMargin=18 * mm, rightMargin=18 * mm, topMargin=18 * mm, bottomMargin=15 * mm,
+        buf,
+        pagesize=A4,
+        leftMargin=18 * mm,
+        rightMargin=18 * mm,
+        topMargin=18 * mm,
+        bottomMargin=15 * mm,
         title="Annexe Wahapedia (EN)",
     )
     story: list = [
         Paragraph(tr("ANNEXE — CONTENU WAHAPEDIA (ANGLAIS)"), _EN_BANNER),
-        Paragraph(tr(
-            "Ce qui suit n'existe dans aucun des PDF fournis (battletomes, Manuel du général) : "
-            "domaines de sorts/manifestations génériques, règles d'armée de renom, Régiments de Renom. "
-            "Repris tel quel depuis data/wahapedia/ (Wahapedia, en anglais) — non traduit pour éviter tout contresens sur des règles de jeu."
-        ), _EN_SUBBANNER),
+        Paragraph(
+            tr(
+                "Ce qui suit n'existe dans aucun des PDF fournis (battletomes, Manuel du général) : "
+                "domaines de sorts/manifestations génériques, règles d'armée de renom, Régiments de Renom. "
+                "Repris tel quel depuis data/wahapedia/ (Wahapedia, en anglais) — non traduit pour éviter tout contresens sur des règles de jeu."
+            ),
+            _EN_SUBBANNER,
+        ),
     ]
 
     for label, entries in wahapedia_lore_blocks:
@@ -338,7 +415,9 @@ def _build_wahapedia_appendix_pdf(
         if ror_data.legend:
             story.append(_safe_paragraph(clean_html(ror_data.legend), _EN_LEGEND))
         if ror_data.composition:
-            story.append(_safe_paragraph("Composition : " + ", ".join(clean_html(c) for c in ror_data.composition), _EN_BODY))
+            story.append(
+                _safe_paragraph("Composition : " + ", ".join(clean_html(c) for c in ror_data.composition), _EN_BODY)
+            )
         _render_ability_entries(story, ror_data.abilities)
 
     doc.build([_wrap_in_sheet(story, doc.width)], onFirstPage=_draw_page_bg, onLaterPages=_draw_page_bg)
@@ -427,9 +506,12 @@ def _build_rule_cards_pdf(cards: list, page_label: str | None = None, label_marg
         return None
     buf = BytesIO()
     doc = SimpleDocTemplate(
-        buf, pagesize=A4,
-        leftMargin=_CARD_PAGE_MARGIN, rightMargin=_CARD_PAGE_MARGIN,
-        topMargin=_PAGE_LABEL_MARGIN if page_label or label_margin else _CARD_PAGE_MARGIN, bottomMargin=_CARD_PAGE_MARGIN,
+        buf,
+        pagesize=A4,
+        leftMargin=_CARD_PAGE_MARGIN,
+        rightMargin=_CARD_PAGE_MARGIN,
+        topMargin=_PAGE_LABEL_MARGIN if page_label or label_margin else _CARD_PAGE_MARGIN,
+        bottomMargin=_CARD_PAGE_MARGIN,
         title="Règles de faction (cartes)",
     )
     story: list = []
@@ -530,8 +612,12 @@ def _build_tactic_cards_pdf(cards: list) -> bytes | None:
         return None
     buf = BytesIO()
     doc = SimpleDocTemplate(
-        buf, pagesize=A4,
-        leftMargin=_CARD_PAGE_MARGIN, rightMargin=_CARD_PAGE_MARGIN, topMargin=_CARD_PAGE_MARGIN, bottomMargin=_CARD_PAGE_MARGIN,
+        buf,
+        pagesize=A4,
+        leftMargin=_CARD_PAGE_MARGIN,
+        rightMargin=_CARD_PAGE_MARGIN,
+        topMargin=_CARD_PAGE_MARGIN,
+        bottomMargin=_CARD_PAGE_MARGIN,
         title="Cartes de tactique de bataille",
     )
     doc.build([_tactic_cards_block(cards)], onFirstPage=_draw_page_bg, onLaterPages=_draw_page_bg)
@@ -543,9 +629,19 @@ def _build_warscroll_cards_pdf(warscrolls: list[WarscrollData], regiment_notes: 
         return None
     buf = BytesIO()
     doc = SimpleDocTemplate(
-        buf, pagesize=A4,
-        leftMargin=_CARD_PAGE_MARGIN, rightMargin=_CARD_PAGE_MARGIN, topMargin=_CARD_PAGE_MARGIN, bottomMargin=_CARD_PAGE_MARGIN,
+        buf,
+        pagesize=A4,
+        leftMargin=_CARD_PAGE_MARGIN,
+        rightMargin=_CARD_PAGE_MARGIN,
+        topMargin=_CARD_PAGE_MARGIN,
+        bottomMargin=_CARD_PAGE_MARGIN,
         title="Profils d'unité (cartes)",
     )
-    doc.build(build_warscroll_cards_flow(warscrolls, width=_UNIT_CARD_WIDTH, gap=_UNIT_CARD_GAP, regiment_notes=regiment_notes), onFirstPage=_draw_page_bg, onLaterPages=_draw_page_bg)
+    doc.build(
+        build_warscroll_cards_flow(
+            warscrolls, width=_UNIT_CARD_WIDTH, gap=_UNIT_CARD_GAP, regiment_notes=regiment_notes
+        ),
+        onFirstPage=_draw_page_bg,
+        onLaterPages=_draw_page_bg,
+    )
     return buf.getvalue()

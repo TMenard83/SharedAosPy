@@ -49,7 +49,7 @@ def _uid(name: str, condition: str, declare: str, effect: str) -> str:
 def _rule_kind(type_name: str, subtype_name: str) -> SourceKind:
     if type_name in _RULE_KINDS:
         return _RULE_KINDS[type_name]
-    if subtype_name in _RULE_KINDS:          # Armée de Renom : catégorie en sous-type
+    if subtype_name in _RULE_KINDS:  # Armée de Renom : catégorie en sous-type
         return _RULE_KINDS[subtype_name]
     return "enhancement" if subtype_name and subtype_name != "_1" else "other"
 
@@ -92,8 +92,9 @@ def bearer_restriction_of(text: str) -> str:
     return m.group(0).strip() if m else ""
 
 
-def load_raw_abilities(data_dir: str | Path = DEFAULT_DATA_DIR,
-                       corrections_path: str | Path = DEFAULT_CORRECTIONS_PATH) -> list[RawAbility]:
+def load_raw_abilities(
+    data_dir: str | Path = DEFAULT_DATA_DIR, corrections_path: str | Path = DEFAULT_CORRECTIONS_PATH
+) -> list[RawAbility]:
     """Toutes les aptitudes du jeu, dédoublonnées, triées par (faction, nom).
 
     Les corrections d'erreurs de source (`importers.corrections`) remplacent les textes Wahapedia
@@ -105,9 +106,9 @@ def load_raw_abilities(data_dir: str | Path = DEFAULT_DATA_DIR,
     legends = legends_warscroll_ids(data_dir)
     canonical = canonical_ids(warscrolls)
     kept = {
-        w["id"]: w for w in warscrolls
-        if w["id"] in canonical and w["id"] not in legends
-        and not is_expired_variant(w.get("name") or "")
+        w["id"]: w
+        for w in warscrolls
+        if w["id"] in canonical and w["id"] not in legends and not is_expired_variant(w.get("name") or "")
     }
 
     merged: dict[str, dict] = {}
@@ -125,8 +126,7 @@ def load_raw_abilities(data_dir: str | Path = DEFAULT_DATA_DIR,
         uid = _uid(fields["name"], fields["condition"], fields["declare"], fields["effect"])
         entry = merged.get(uid)
         if entry is None:
-            entry = merged[uid] = {**fields, "uid": uid, "source_kind": kind,
-                                   "group_name": group, "owners": []}
+            entry = merged[uid] = {**fields, "uid": uid, "source_kind": kind, "group_name": group, "owners": []}
         if owner not in entry["owners"]:
             entry["owners"].append(owner)
 
@@ -135,8 +135,9 @@ def load_raw_abilities(data_dir: str | Path = DEFAULT_DATA_DIR,
         if w is None:
             continue
         fid = w.get("faction_id") or ""
-        owner = AbilityOwner(fid, factions.get(fid, fid), "warscroll", w["name"], w["id"],
-                             (w.get("role") or "").strip())
+        owner = AbilityOwner(
+            fid, factions.get(fid, fid), "warscroll", w["name"], w["id"], (w.get("role") or "").strip()
+        )
         add(_base_fields(row), "warscroll", "", owner)
 
     for row in read_csv(data_dir / "Faction_abilities.csv"):
@@ -149,14 +150,19 @@ def load_raw_abilities(data_dir: str | Path = DEFAULT_DATA_DIR,
         owner = AbilityOwner(fid, factions.get(fid, fid), "faction_rule", group)
         fields = _base_fields(row)
         # le groupe (sous-type) est plus précis que le type : « HERO only » vs « Brazen Mutations are … »
-        fields["bearer_restriction"] = (restrictions.get(("subtype", row.get("subtype_id") or ""))
-                                        or restrictions.get(("type", row.get("type_id") or "")) or "")
+        fields["bearer_restriction"] = (
+            restrictions.get(("subtype", row.get("subtype_id") or ""))
+            or restrictions.get(("type", row.get("type_id") or ""))
+            or ""
+        )
         add(fields, _rule_kind(type_name, subtype), subtype or type_name, owner)
 
     # fautes de l'export corrigées après l'uid (v28) : l'uid, clé des overrides, ne bouge pas
     out = [
-        RawAbility(**{k: (fix_typos(v) if k in ("declare", "effect") else v)
-                      for k, v in e.items() if k != "owners"}, owners=tuple(e["owners"]))
+        RawAbility(
+            **{k: (fix_typos(v) if k in ("declare", "effect") else v) for k, v in e.items() if k != "owners"},
+            owners=tuple(e["owners"]),
+        )
         for e in merged.values()
         if e["name"]
     ]

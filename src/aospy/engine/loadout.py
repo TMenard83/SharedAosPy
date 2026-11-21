@@ -37,11 +37,9 @@ _TAG = re.compile(r"<[^>]+>")
 _PAREN = re.compile(r"\s*\([^)]*\)\s*$")  # parenthétique de fluff : « ... (Volley Gun or Skyhook) »
 
 # Grammaires (sur texte nettoyé) ------------------------------------------------------------
-_RE_CHOICE = re.compile(
-    r"\b(\d+|one|a single)\s+of the following(?:\s+options?)?\s*:?\s*(.+)", re.I
-)
-_RE_QTY_FRAC = re.compile(r"^\s*(\d+)\s*/\s*\d+\b")          # « 1/11 … » → numérateur
-_RE_QTY_N = re.compile(r"^\s*(\d+)\s+models?\b", re.I)       # « 4 models … » → N
+_RE_CHOICE = re.compile(r"\b(\d+|one|a single)\s+of the following(?:\s+options?)?\s*:?\s*(.+)", re.I)
+_RE_QTY_FRAC = re.compile(r"^\s*(\d+)\s*/\s*\d+\b")  # « 1/11 … » → numérateur
+_RE_QTY_N = re.compile(r"^\s*(\d+)\s+models?\b", re.I)  # « 4 models … » → N
 _RE_REPLACE = re.compile(r"(?:can|must)\s+replace\s+(?:their\s+)?(.+?)\s+with\s+(.+)", re.I)
 _RE_CARRY = re.compile(r"\bcan\s+(?:also\s+)?(?:carry|be armed with)\s+(.+)", re.I)
 _RE_ARMED_IN = re.compile(r"\barmed with\s+(.+)", re.I)
@@ -122,14 +120,11 @@ def _qty(clause: str, size: int) -> int:
 def _is_all_weapons(text: str) -> bool:
     """Vrai si ``text`` désigne « toutes les autres armes » (any/their/both/other weapons)."""
     return bool(
-        re.search(r"\b(?:any|their|both|other)\b[^.|]*\bweapons?\b|^\s*(?:both\s+)?weapons?\s*$",
-                  text.strip(), re.I)
+        re.search(r"\b(?:any|their|both|other)\b[^.|]*\bweapons?\b|^\s*(?:both\s+)?weapons?\s*$", text.strip(), re.I)
     )
 
 
-def collapse_modes(
-    weapons: list[Weapon], names: list[str], counts: list[int], notes: list[str]
-) -> None:
+def collapse_modes(weapons: list[Weapon], names: list[str], counts: list[int], notes: list[str]) -> None:
     """Effondre les **modes d'arme exclusifs** (« Arme: ModeA » / « Arme: ModeB »).
 
     Une arme à plusieurs lignes de tir (boulet/mitraille, tir visé/hâtif…) n'utilise **qu'un**
@@ -166,8 +161,12 @@ def _match_all(phrase: str, names: list[str]) -> list[int]:
 
 
 def _apply_exclusive_choices(
-    desc: str, weapons: list[Weapon], names: list[str], size: int,
-    special: dict[int, int], notes: list[str],
+    desc: str,
+    weapons: list[Weapon],
+    names: list[str],
+    size: int,
+    special: dict[int, int],
+    notes: list[str],
 ) -> bool:
     """Clauses « N of the following options: A | B | C » sur la description entière.
 
@@ -185,15 +184,18 @@ def _apply_exclusive_choices(
         best = sorted(idxs, key=lambda i: expected[i], reverse=True)[:keep]
         for i in idxs:
             special[i] = size if i in best else 0
-        notes.append(f"choix exclusif ({len(idxs)} options) → "
-                     + ", ".join(names[i] for i in best) + " retenu(s)")
+        notes.append(f"choix exclusif ({len(idxs)} options) → " + ", ".join(names[i] for i in best) + " retenu(s)")
         touched = True
     return touched
 
 
 def _apply_subgroup_clauses(
-    desc: str, names: list[str], size: int,
-    base_idx: set[int], special: dict[int, int], subtract: dict[int, int],
+    desc: str,
+    names: list[str],
+    size: int,
+    base_idx: set[int],
+    special: dict[int, int],
+    subtract: dict[int, int],
 ) -> tuple[bool, int]:
     """Clauses par sous-groupe (une par « phrase » : séparateurs « | » ou fin de phrase).
 
@@ -207,8 +209,7 @@ def _apply_subgroup_clauses(
         if not clause or "of the following" in low or "cannot" in low or "can not" in low:
             continue
         qty = _qty(clause, size)
-        is_base = bool(_GENERIC.search(clause)) and not _RE_QTY_FRAC.match(clause) \
-            and not _RE_QTY_N.match(clause)
+        is_base = bool(_GENERIC.search(clause)) and not _RE_QTY_FRAC.match(clause) and not _RE_QTY_N.match(clause)
 
         mrep = _RE_REPLACE.search(clause)
         mcarry = _RE_CARRY.search(clause)
@@ -255,8 +256,12 @@ def _apply_subgroup_clauses(
 
 
 def _finalize_counts(
-    n: int, size: int, special: dict[int, int], base_idx: set[int],
-    subtract: dict[int, int], all_base_drop: int,
+    n: int,
+    size: int,
+    special: dict[int, int],
+    base_idx: set[int],
+    subtract: dict[int, int],
+    all_base_drop: int,
 ) -> list[int]:
     """Spéciale (sous-groupe) → ses porteurs ; base / non mentionnée → taille minorée
     des remplacements spécifiques et des figurines ayant lâché toute leur base."""
@@ -289,21 +294,24 @@ def model_counts(unit: Unit, weapons: list[Weapon]) -> tuple[list[int], list[str
         collapse_modes(weapons, names, counts, notes)
         return counts, notes
 
-    base_idx: set[int] = set()                   # armes de base (portées par toute l'unité)
-    special: dict[int, int] = defaultdict(int)   # arme de sous-groupe → nombre de porteurs
+    base_idx: set[int] = set()  # armes de base (portées par toute l'unité)
+    special: dict[int, int] = defaultdict(int)  # arme de sous-groupe → nombre de porteurs
     subtract: dict[int, int] = defaultdict(int)  # arme de base → figurines qui la lâchent
 
     touched = _apply_exclusive_choices(desc, weapons, names, size, special, notes)
     subgroup_touched, all_base_drop = _apply_subgroup_clauses(
-        desc, names, size, base_idx, special, subtract,
+        desc,
+        names,
+        size,
+        base_idx,
+        special,
+        subtract,
     )
     touched = touched or subgroup_touched
 
     counts = _finalize_counts(n, size, special, base_idx, subtract, all_base_drop)
 
-    if not touched and re.search(
-        r"can (?:replace|carry|be armed)|following options?:|armed with", desc, re.I
-    ):
+    if not touched and re.search(r"can (?:replace|carry|be armed)|following options?:|armed with", desc, re.I):
         notes.append("description d'armement non reconnue → défaut (tous profils)")
 
     collapse_modes(weapons, names, counts, notes)

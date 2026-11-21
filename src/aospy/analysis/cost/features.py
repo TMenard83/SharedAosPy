@@ -73,6 +73,7 @@ def unit_type_of(keywords: frozenset[str]) -> str:
             return t
     return "OTHER"
 
+
 #: Héros porte-étendard / porte-icône : contrôle 5 quel que soit leur profil (reconnus par
 #: le nom faute de mot-clé dédié en base — à compléter quand un nouveau battletome en ajoute).
 _BANNER_NAME_RE = re.compile(r"Vexillor|secrator|Bannerblade|Astrolith|banna|Battlesmith")
@@ -200,8 +201,8 @@ class UnitFeatures:
     move: int
     control: int
     control_expected: int  # contrôle « tacite » du profil (`expected_control`) — ne se paie pas
-    control_bonus: int     # max(0, control − attendu) : figurines épiques, leaders nommés — se paie
-    control_deficit: int   # max(0, attendu − control) : héros montés/sur char, Celestant-Prime…
+    control_bonus: int  # max(0, control − attendu) : figurines épiques, leaders nommés — se paie
+    control_deficit: int  # max(0, attendu − control) : héros montés/sur char, Celestant-Prime…
     unit_size: int  # models
     unit_size_sq: int  # unit_size² — terme quadratique : rendement croissant sur la taille
     # d'unité, symétrique de `dmg_vs_save2_sq` sur le pool perçant. Une fois ce terme ajouté,

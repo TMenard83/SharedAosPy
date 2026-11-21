@@ -98,7 +98,7 @@ def melee_plan(unit: Unit, rhythm: Sequence[float] = DEFAULT_RHYTHM) -> Plan:
         gap = max(d - rch, 0.0)
         pch = p_charge_at(gap)
         fire = frozenset(i for i, rg in ranges.items() if rg >= gap)
-        if pch == 0 and not fire:                       # trop loin : il court
+        if pch == 0 and not fire:  # trop loin : il court
             gap = max(d - rch - RUN_MEAN, 0.0)
             acc.add(w * free, frozenset())
         else:

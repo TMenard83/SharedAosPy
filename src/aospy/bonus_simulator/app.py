@@ -41,14 +41,19 @@ def _army_rules():
 def _weapon_table(unit) -> pd.DataFrame:
     if not unit.weapons:
         return pd.DataFrame(columns=["Arme", "Att.", "Toucher", "Blesser", "Rend", "Dégât"])
-    return pd.DataFrame([
-        {
-            "Arme": w.name, "Att.": w.attacks,
-            "Toucher": f"{w.hit}+", "Blesser": f"{w.wound}+",
-            "Rend": f"-{w.rend}" if w.rend else "-", "Dégât": w.damage,
-        }
-        for w in unit.weapons
-    ])
+    return pd.DataFrame(
+        [
+            {
+                "Arme": w.name,
+                "Att.": w.attacks,
+                "Toucher": f"{w.hit}+",
+                "Blesser": f"{w.wound}+",
+                "Rend": f"-{w.rend}" if w.rend else "-",
+                "Dégât": w.damage,
+            }
+            for w in unit.weapons
+        ]
+    )
 
 
 def main() -> None:
@@ -98,8 +103,13 @@ def main() -> None:
     st.subheader("Bonus libre")
     cols = st.columns(7)
     labels = [
-        ("hit", "Toucher"), ("wound", "Blesser"), ("rend", "Rend"), ("save", "Save"),
-        ("ward", "Ward"), ("damage", "Dégât"), ("attacks", "Attaques"),
+        ("hit", "Toucher"),
+        ("wound", "Blesser"),
+        ("rend", "Rend"),
+        ("save", "Save"),
+        ("ward", "Ward"),
+        ("damage", "Dégât"),
+        ("attacks", "Attaques"),
     ]
     free_values = {}
     for col, (field, label) in zip(cols, labels):
@@ -113,11 +123,11 @@ def main() -> None:
     col_before, col_after = st.columns(2)
     with col_before:
         st.markdown("**Avant**")
-        st.dataframe(_weapon_table(base_unit), hide_index=True, width='stretch')
+        st.dataframe(_weapon_table(base_unit), hide_index=True, width="stretch")
         st.caption(f"Save {base_unit.save}+ · Ward {f'{base_unit.ward}+' if base_unit.ward else '—'}")
     with col_after:
         st.markdown("**Après bonus**")
-        st.dataframe(_weapon_table(bonus_unit), hide_index=True, width='stretch')
+        st.dataframe(_weapon_table(bonus_unit), hide_index=True, width="stretch")
         st.caption(f"Save {bonus_unit.save}+ · Ward {f'{bonus_unit.ward}+' if bonus_unit.ward else '—'}")
 
     if delta == StatDelta():
@@ -131,13 +141,20 @@ def main() -> None:
     st.dataframe(
         pd.DataFrame(
             [
-                {"": "Avant", "ROI moyen (plancher 66%)": f"{combat_before.avg_floor_roi_pct:+.1f}%",
-                 "Pts net moyen": f"{combat_before.avg_pts_net:+.1f}"},
-                {"": "Après bonus", "ROI moyen (plancher 66%)": f"{combat_after.avg_floor_roi_pct:+.1f}%",
-                 "Pts net moyen": f"{combat_after.avg_pts_net:+.1f}"},
+                {
+                    "": "Avant",
+                    "ROI moyen (plancher 66%)": f"{combat_before.avg_floor_roi_pct:+.1f}%",
+                    "Pts net moyen": f"{combat_before.avg_pts_net:+.1f}",
+                },
+                {
+                    "": "Après bonus",
+                    "ROI moyen (plancher 66%)": f"{combat_after.avg_floor_roi_pct:+.1f}%",
+                    "Pts net moyen": f"{combat_after.avg_pts_net:+.1f}",
+                },
             ]
         ),
-        hide_index=True, width='stretch',
+        hide_index=True,
+        width="stretch",
     )
 
     st.subheader("Classement combat × coût")
@@ -156,17 +173,23 @@ def main() -> None:
     c1, c2 = st.columns(2)
     c1.metric("Rang avant bonus", f"{result_before.rank} / {result_before.total}")
     c2.metric(
-        "Rang après bonus", f"{result_after.rank} / {result_after.total}",
-        delta=result_before.rank - result_after.rank, delta_color="normal",
+        "Rang après bonus",
+        f"{result_after.rank} / {result_after.total}",
+        delta=result_before.rank - result_after.rank,
+        delta_color="normal",
     )
 
     st.markdown("**Voisins de classement (après bonus)**")
     neighbor_rows = [
-        {"#": n.rank, "Unité": (bonus_unit.name + " (avec bonus)") if n.is_target else n.name,
-         "Armée": n.army or army_name, "Score": f"{n.score:+.2f}"}
+        {
+            "#": n.rank,
+            "Unité": (bonus_unit.name + " (avec bonus)") if n.is_target else n.name,
+            "Armée": n.army or army_name,
+            "Score": f"{n.score:+.2f}",
+        }
         for n in result_after.neighbors
     ]
-    st.dataframe(pd.DataFrame(neighbor_rows), hide_index=True, width='stretch')
+    st.dataframe(pd.DataFrame(neighbor_rows), hide_index=True, width="stretch")
 
 
 if __name__ == "__main__":

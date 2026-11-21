@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from collections import defaultdict
 from io import StringIO
 from typing import Iterable
 
@@ -35,11 +34,8 @@ def _opts_line(label: str, opts: SideOptions) -> str:
 def _side_table(side: SideReport, header: str) -> str:
     buf = StringIO()
     buf.write(f"\n=== {header} ===\n")
-    buf.write(
-        f"  {'Attaquant':<28} {'Défenseur':<28} {'E[dmg]':>8} "
-        f"{'/ HP':>6} {'E[kill]':>9}\n"
-    )
-    buf.write(f"  {'-'*28} {'-'*28} {'-'*8} {'-'*6} {'-'*9}\n")
+    buf.write(f"  {'Attaquant':<28} {'Défenseur':<28} {'E[dmg]':>8} {'/ HP':>6} {'E[kill]':>9}\n")
+    buf.write(f"  {'-' * 28} {'-' * 28} {'-' * 8} {'-' * 6} {'-' * 9}\n")
     for pr in side.pairs:
         att = f"{pr.attacker_label} (x{pr.attacker_models})"
         dfn = f"{pr.defender_label} (HP {pr.defender_total_hp})"
@@ -92,7 +88,7 @@ def format_report(report: BattleReport) -> str:
     a = report.a_to_b.composition
     b = report.b_to_a.composition
 
-    buf.write(f"\n================ Bataille =================\n")
+    buf.write("\n================ Bataille =================\n")
     buf.write(f"  A : #{a.id} {a.name}  ({a.total_points} pts)\n")
     buf.write(f"  B : #{b.id} {b.name}  ({b.total_points} pts)\n")
     buf.write("  Modificateurs :\n")
@@ -117,6 +113,7 @@ def format_report(report: BattleReport) -> str:
 
 # ----- Benchmark unit-vs-unit ----------------------------------------------
 
+
 def _duel_opts_line(opts_a: SideOptions, opts_b: SideOptions) -> str:
     def side(opts: SideOptions) -> str:
         parts = ["charge" if opts.charged else "no charge"]
@@ -125,6 +122,7 @@ def _duel_opts_line(opts_a: SideOptions, opts_b: SideOptions) -> str:
         if opts.all_out_defense:
             parts.append("AoD")
         return ", ".join(parts)
+
     return f"  A : {side(opts_a)}    B : {side(opts_b)}"
 
 
@@ -151,8 +149,9 @@ def format_benchmark_table(
         f"{'E[A→B]':>7} {'%B':>4} {'E[B→A]':>7} {'%A':>4} "
         f"{'Pts net':>8} {'ROI':>6}\n"
     )
-    buf.write(f"  {'-'*28} {'-'*22} {'-'*4} {'-'*4} "
-              f"{'-'*7} {'-'*4} {'-'*7} {'-'*4} {'-'*8} {'-'*6}\n")
+    buf.write(
+        f"  {'-' * 28} {'-' * 22} {'-' * 4} {'-' * 4} {'-' * 7} {'-' * 4} {'-' * 7} {'-' * 4} {'-' * 8} {'-' * 6}\n"
+    )
     for r in items:
         name = r.defender.name + (" (R)" if r.defender_reinforced else "")
         pct_b = 100.0 * r.expected_a_to_b / r.defender_total_hp if r.defender_total_hp else 0.0
@@ -195,13 +194,16 @@ def format_duel_detail(r: DuelResult) -> str:
         f"  Pts perdus chez A   : {r.pts_lost:6.1f} "
         f"({r.attacker.points} pts × {r.expected_b_to_a / max(r.attacker_total_hp, 1):4.0%})\n"
     )
-    buf.write(f"  Pts net   : {r.pts_net:+6.1f}   "
-              f"ROI : {r.roi * 100:+.0f}%\n")
+    buf.write(f"  Pts net   : {r.pts_net:+6.1f}   ROI : {r.roi * 100:+.0f}%\n")
     return buf.getvalue()
 
 
 def format_unit_stats(
-    unit, army_name: str, rows: list[tuple[str, float, float, float]], *, charged: bool,
+    unit,
+    army_name: str,
+    rows: list[tuple[str, float, float, float]],
+    *,
+    charged: bool,
 ) -> str:
     """Moyenne / écart-type / plancher 95 % d'une unité contre des cibles standard."""
     buf = StringIO()
@@ -211,7 +213,7 @@ def format_unit_stats(
         f"{'  (charge)' if charged else ''} ---\n"
     )
     buf.write(f"  {'Cible':<12} {'E[dmg]':>8} {'σ':>7} {'Plancher 95%':>13}\n")
-    buf.write(f"  {'-'*12} {'-'*8} {'-'*7} {'-'*13}\n")
+    buf.write(f"  {'-' * 12} {'-' * 8} {'-' * 7} {'-' * 13}\n")
     for label, mean, std, floor95 in rows:
         buf.write(f"  {label:<12} {mean:8.2f} {std:7.2f} {floor95:13.2f}\n")
     return buf.getvalue()
@@ -248,68 +250,105 @@ def format_list_report(rep) -> str:
     """Fiche couche 4 chiffrée d'une liste (`analysis.layers.listing.ListReport`) en Markdown : la matière que
     l'analyse humaine (concept, plan round par round) reprend — jamais une analyse en soi."""
     out = [f"# {rep.title} — {rep.faction} — fiche couche 4 chiffrée", ""]
-    out += ["## Unités (couche 3)", "",
-            "| unité | pts | × | dég/100 | dur/100 | rang dég | rang dur | ch.comb | bon cas | mêlée | mv | "
-            "engagement | rôle suggéré |",
-            "|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
+    out += [
+        "## Unités (couche 3)",
+        "",
+        "| unité | pts | × | dég/100 | dur/100 | rang dég | rang dur | ch.comb | bon cas | mêlée | mv | "
+        "engagement | rôle suggéré |",
+        "|---|---|---|---|---|---|---|---|---|---|---|---|---|",
+    ]
     for s in rep.sheets:
-        out.append(f"| {s.name} | {s.points} | {s.copies} | {s.off_per_100:.1f} | {s.def_per_100:.1f} | "
-                   f"{s.off_rank:.2f} | {s.def_rank:.2f} | {s.fit_per_100:.1f} | {s.good_per_100:.1f} | "
-                   f"{s.share_melee:.0%} | {s.move}{' vol' if s.fly else ''} | R{s.engage_round} | {s.role} |")
+        out.append(
+            f"| {s.name} | {s.points} | {s.copies} | {s.off_per_100:.1f} | {s.def_per_100:.1f} | "
+            f"{s.off_rank:.2f} | {s.def_rank:.2f} | {s.fit_per_100:.1f} | {s.good_per_100:.1f} | "
+            f"{s.share_melee:.0%} | {s.move}{' vol' if s.fly else ''} | R{s.engage_round} | {s.role} |"
+        )
     weak = [(s.name, w) for s in rep.sheets for w in s.weak_marriages]
     if weak:
         out += ["", "### Aptitudes mal mariées à leur porteur (mariage < 0,4)", ""]
         out += [f"- **{n}** — {a} : {m:.2f} ({e})" for n, (a, m, e) in weak]
     if rep.picks:
-        out += ["", "## Optimisations prises vs meilleurs porteurs de la liste", "",
-                "| optimisation | porteur | valeur | mariage | meilleur dans la liste | valeur | mariage | éligibles |",
-                "|---|---|---|---|---|---|---|---|"]
+        out += [
+            "",
+            "## Optimisations prises vs meilleurs porteurs de la liste",
+            "",
+            "| optimisation | porteur | valeur | mariage | meilleur dans la liste | valeur | mariage | éligibles |",
+            "|---|---|---|---|---|---|---|---|",
+        ]
         f = lambda v: "—" if v is None else f"{v:.2f}"
         for p in rep.picks:
-            out.append(f"| {p.enhancement} | {p.bearer} | {f(p.bearer_value)} | {p.bearer_marriage:.2f} | "
-                       f"{p.best_in_list} | {f(p.best_value)} | {p.best_marriage:.2f} | {p.n_eligible} |")
+            out.append(
+                f"| {p.enhancement} | {p.bearer} | {f(p.bearer_value)} | {p.bearer_marriage:.2f} | "
+                f"{p.best_in_list} | {f(p.best_value)} | {p.best_marriage:.2f} | {p.n_eligible} |"
+            )
     if rep.dead:
         out += ["", "## Règles mortes (composition)", ""]
         out += [f"- {a.name} ({a.source}) — {r}" for a, r in rep.dead]
     if rep.marriages:
-        out += ["", "## Mariages chiffrés (effet de la liste × receveur de la liste)", "",
-                "| aptitude | origine | receveur | dég % | dur % | poids | conditions |", "|---|---|---|---|---|---|---|"]
+        out += [
+            "",
+            "## Mariages chiffrés (effet de la liste × receveur de la liste)",
+            "",
+            "| aptitude | origine | receveur | dég % | dur % | poids | conditions |",
+            "|---|---|---|---|---|---|---|",
+        ]
         for m in rep.marriages[:40]:
             og = "—" if m.off_gain_pct is None else f"{m.off_gain_pct:+.0f}"
             dg = "—" if m.def_gain_pct is None else f"{m.def_gain_pct:+.0f}"
             out.append(f"| {m.ability} | {m.source} | {m.receiver} | {og} | {dg} | {m.weight:.2f} | {m.conditions} |")
     if rep.assault:
         a = rep.assault
-        out += ["", "## Assaut : charges groupées (redondance et secours)", "",
-                "Hypothèse : tous les chargeurs dans les bulles des sources (point de chute groupé) ; "
-                "dissipation adverse non comptée.", ""]
+        out += [
+            "",
+            "## Assaut : charges groupées (redondance et secours)",
+            "",
+            "Hypothèse : tous les chargeurs dans les bulles des sources (point de chute groupé) ; "
+            "dissipation adverse non comptée.",
+            "",
+        ]
         if a.sources:
             out += ["Sources de la liste :", ""]
             for s in a.sources:
-                what = {"bonus": f"+{s.value:g} au jet", "relance": "relance des jets de charge",
-                        "dés": {"3d6": "charge sur 3D6", "3k2": "3 dés, on garde les 2 meilleurs",
-                                "max": "le plus bas des 2D6 aligné sur le plus haut"}.get(s.dice, s.dice)
-                        }[s.kind]
+                what = {
+                    "bonus": f"+{s.value:g} au jet",
+                    "relance": "relance des jets de charge",
+                    "dés": {
+                        "3d6": "charge sur 3D6",
+                        "3k2": "3 dés, on garde les 2 meilleurs",
+                        "max": "le plus bas des 2D6 aligné sur le plus haut",
+                    }.get(s.dice, s.dice),
+                }[s.kind]
                 extra = [f"existe à {s.p_present:.0%}"] if s.p_present < 1 else []
                 if s.per_battle:
                     extra.append("1×/bataille")
-                out.append(f"- **{s.name}** ({s.origin}) : {what} → {', '.join(s.receivers)}"
-                           + (f" ({', '.join(extra)})" if extra else ""))
+                out.append(
+                    f"- **{s.name}** ({s.origin}) : {what} → {', '.join(s.receivers)}"
+                    + (f" ({', '.join(extra)})" if extra else "")
+                )
             out.append("")
         for sc in a.scenarios:
             n = len(sc.cases[0].at_least)
-            out += [f"### {sc.label} — {len(sc.chargers)} chargeurs", "",
-                    "Par chargeur (sec → bonus permanents) : "
-                    + " ; ".join(f"{c} {p:.0%} → {b:.0%}" for c, p, b in sc.chargers), "",
-                    "| cas | " + " | ".join(f"≥ {k}" for k in range(1, n + 1)) + " |",
-                    "|---|" + "---|" * n]
+            out += [
+                f"### {sc.label} — {len(sc.chargers)} chargeurs",
+                "",
+                "Par chargeur (sec → bonus permanents) : "
+                + " ; ".join(f"{c} {p:.0%} → {b:.0%}" for c, p, b in sc.chargers),
+                "",
+                "| cas | " + " | ".join(f"≥ {k}" for k in range(1, n + 1)) + " |",
+                "|---|" + "---|" * n,
+            ]
             out += [f"| {c.label} | " + " | ".join(f"{p:.0%}" for p in c.at_least) + " |" for c in sc.cases]
             out.append("")
         if a.threats:
-            out += ["### À pied : portée de menace (punition des erreurs adverses)", "",
-                    "Mouvement + plus long jet de charge réussi à 50 % : un adversaire plus près se fait charger.", "",
-                    "| chargeur | mouvement | sec | bonus permanents | + relance |", "|---|---|---|---|---|"]
-            out += [f"| {t.unit} | {t.move:g}\" | {t.dry:g}\" | {t.bonus:g}\" | {t.reroll:g}\" |" for t in a.threats]
+            out += [
+                "### À pied : portée de menace (punition des erreurs adverses)",
+                "",
+                "Mouvement + plus long jet de charge réussi à 50 % : un adversaire plus près se fait charger.",
+                "",
+                "| chargeur | mouvement | sec | bonus permanents | + relance |",
+                "|---|---|---|---|---|",
+            ]
+            out += [f'| {t.unit} | {t.move:g}" | {t.dry:g}" | {t.bonus:g}" | {t.reroll:g}" |' for t in a.threats]
             out.append("")
     if rep.conflicts:
         out += ["", "## Limites d'armée (un seul usage pour plusieurs porteurs)", ""]

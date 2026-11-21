@@ -81,8 +81,13 @@ def _rule_card_columns(abilities: list[AbilityEntry]) -> int:
 
 
 def render_rule_card(
-    title: str, abilities: list[AbilityEntry], width: float = 88 * mm, subtitle: str | None = None,
-    phase_order: list[str] | None = None, hide_turn_qualifier: bool = False, sectioned: bool = False,
+    title: str,
+    abilities: list[AbilityEntry],
+    width: float = 88 * mm,
+    subtitle: str | None = None,
+    phase_order: list[str] | None = None,
+    hide_turn_qualifier: bool = False,
+    sectioned: bool = False,
     base_last: bool = False,
 ) -> Flowable | list[Flowable] | None:
     """Carte de règle — même grammaire visuelle que `render_warscroll_card`
@@ -120,25 +125,39 @@ def render_rule_card(
     with render_options_override(hide_turn_qualifier=hide_turn_qualifier, sectioned=sectioned, base_last=base_last):
         if sectioned:
             header = Table(rows, colWidths=[width])
-            header.setStyle(TableStyle([
-                ("BOX", (0, 0), (-1, -1), 0.8, _STEEL_LINE),
-                ("LEFTPADDING", (0, 0), (-1, -1), 0), ("RIGHTPADDING", (0, 0), (-1, -1), 0),
-                ("TOPPADDING", (0, 0), (-1, -1), 0), ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
-                *styles,
-            ]))
+            header.setStyle(
+                TableStyle(
+                    [
+                        ("BOX", (0, 0), (-1, -1), 0.8, _STEEL_LINE),
+                        ("LEFTPADDING", (0, 0), (-1, -1), 0),
+                        ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+                        ("TOPPADDING", (0, 0), (-1, -1), 0),
+                        ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+                        *styles,
+                    ]
+                )
+            )
             # l'en-tête de carte ne reste jamais seul en bas de page
             header.keepWithNext = True
             return [header] + _sectioned_phase_groups(abilities, width, phase_order=phase_order)
-        _append_ability_groups(rows, styles, abilities, width, columns=_rule_card_columns(abilities), phase_order=phase_order)
+        _append_ability_groups(
+            rows, styles, abilities, width, columns=_rule_card_columns(abilities), phase_order=phase_order
+        )
 
     card = Table(rows, colWidths=[width])
-    card.setStyle(TableStyle([
-        ("BOX", (0, 0), (-1, -1), 0.8, _STEEL_LINE),
-        ("BACKGROUND", (0, 0), (-1, -1), _CARD_BG),
-        ("LEFTPADDING", (0, 0), (-1, -1), 0), ("RIGHTPADDING", (0, 0), (-1, -1), 0),
-        ("TOPPADDING", (0, 0), (-1, -1), 0), ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
-        *styles,
-    ]))
+    card.setStyle(
+        TableStyle(
+            [
+                ("BOX", (0, 0), (-1, -1), 0.8, _STEEL_LINE),
+                ("BACKGROUND", (0, 0), (-1, -1), _CARD_BG),
+                ("LEFTPADDING", (0, 0), (-1, -1), 0),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+                ("TOPPADDING", (0, 0), (-1, -1), 0),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+                *styles,
+            ]
+        )
+    )
     return card
 
 
@@ -153,16 +172,22 @@ _WEAPON_ROW_RIGHT_PAD = 6
 _PLACE_WHOLLY_RE = re.compile(r"entièrement à (\d+)\"|wholly within (\d+)\"", re.I)
 _PLACE_WITHIN_RE = re.compile(r"\bà (\d+)\"|\bwithin (\d+)\"", re.I)
 _PLACE_EDGE_RE = re.compile(r"d['’]un bord|battlefield edge", re.I)
-_PLACE_ENEMY_RE = re.compile(r"à plus de (\d+)\" (?:de toutes les |des )unités ennemies|more than (\d+)\" from all enemy units", re.I)
+_PLACE_ENEMY_RE = re.compile(
+    r"à plus de (\d+)\" (?:de toutes les |des )unités ennemies|more than (\d+)\" from all enemy units", re.I
+)
 _PLACE_PARTS_RE = re.compile(
     r"(?:a|se compose de) (\d+) parties qui doivent être placées à (\d+)\" l['’]une de l['’]autre"
-    r"|has (\d+) parts that must be set up within (\d+)\" of each other", re.I,
+    r"|has (\d+) parts that must be set up within (\d+)\" of each other",
+    re.I,
 )
 _PLACE_EACH_PART_RE = re.compile(
     r"(?:a|se compose de) (\d+) parties chacune devant être placée à (\d+)\" d['’]au moins 1 autre partie"
-    r"|has (\d+) parts that must each be set up within (\d+)\" of at least 1 other part", re.I,
+    r"|has (\d+) parts that must each be set up within (\d+)\" of at least 1 other part",
+    re.I,
 )
-_PLACE_CIRCLE_RE = re.compile(r"(\d+) parties qui doivent être placées en contact|(\d+) parts that must be set up touching", re.I)
+_PLACE_CIRCLE_RE = re.compile(
+    r"(\d+) parties qui doivent être placées en contact|(\d+) parts that must be set up touching", re.I
+)
 _PLACE_TRIANGLE_RE = re.compile(r"exactement (\d+)\" de la première|exactly (\d+)\" from the first part", re.I)
 
 
@@ -197,7 +222,9 @@ def summon_placement_note(summon: AbilityEntry) -> list[str]:
         who = "du prêtre" if is_priest else "du lanceur"
         visible = " et visible" if re.search(r"visible", first_sentence, re.I) else ""
     if _PLACE_EDGE_RE.search(first_sentence) and (n := _first(_PLACE_WHOLLY_RE.search(first_sentence))):
-        lines.append(f'Wholly within {n[0]}" of a battlefield edge' if en else f'Entièrement à {n[0]}" d\'un bord de table')
+        lines.append(
+            f'Wholly within {n[0]}" of a battlefield edge' if en else f"Entièrement à {n[0]}\" d'un bord de table"
+        )
     elif n := _first(_PLACE_WHOLLY_RE.search(first_sentence)):
         lines.append(f'Wholly within {n[0]}"{visible} {who}' if en else f'Entièrement à {n[0]}"{visible} {who}')
     elif n := _first(_PLACE_WITHIN_RE.search(first_sentence)):
@@ -205,15 +232,23 @@ def summon_placement_note(summon: AbilityEntry) -> list[str]:
     if not lines:
         return []
     if n := _first(_PLACE_ENEMY_RE.search(effect)):
-        lines.append(f'More than {n[0]}" from the enemy' if en else f'À plus de {n[0]}" de l\'ennemi')
+        lines.append(f'More than {n[0]}" from the enemy' if en else f"À plus de {n[0]}\" de l'ennemi")
     if n := _first(_PLACE_PARTS_RE.search(effect)):
-        lines.append(f'{n[0]} parts within {n[1]}" of each other' if en else f'{n[0]} parties à {n[1]}" l\'une de l\'autre')
+        lines.append(
+            f'{n[0]} parts within {n[1]}" of each other' if en else f"{n[0]} parties à {n[1]}\" l'une de l'autre"
+        )
     elif n := _first(_PLACE_EACH_PART_RE.search(effect)):
-        lines.append(f'{n[0]} parts, each within {n[1]}" of another' if en else f'{n[0]} parties, chacune à {n[1]}" d\'une autre')
+        lines.append(
+            f'{n[0]} parts, each within {n[1]}" of another' if en else f"{n[0]} parties, chacune à {n[1]}\" d'une autre"
+        )
     elif n := _first(_PLACE_CIRCLE_RE.search(effect)):
         lines.append(f"{n[0]} parts touching, in a circle" if en else f"{n[0]} parties en contact, en cercle")
     elif n := _first(_PLACE_TRIANGLE_RE.search(effect)):
-        lines.append(f'3 parts exactly {n[0]}" from each other, in a triangle' if en else f'3 parties à exactement {n[0]}" l\'une de l\'autre, en triangle')
+        lines.append(
+            f'3 parts exactly {n[0]}" from each other, in a triangle'
+            if en
+            else f"3 parties à exactement {n[0]}\" l'une de l'autre, en triangle"
+        )
     return lines
 
 
@@ -223,7 +258,10 @@ def _summon_badge(summon: AbilityEntry) -> _CastBadge | None:
     if pts_type not in ("Spell", "Prayer") or not value:
         return None
     return _CastBadge(
-        _CAST_BADGE_SHAPES[pts_type], f"{value}+", _CAST_BADGE_COLORS[pts_type], _CAST_BADGE_FG[pts_type],
+        _CAST_BADGE_SHAPES[pts_type],
+        f"{value}+",
+        _CAST_BADGE_COLORS[pts_type],
+        _CAST_BADGE_FG[pts_type],
         size=_CASTER_BADGE_SIZE,
     )
 
@@ -259,11 +297,18 @@ def render_warscroll_card(ws: WarscrollData, width: float = 88 * mm, regiment_no
         badge_flow, badge_w = _caster_badge_row(caster_badges)
         name_col_w = width - 8 - 8 - badge_w - 6  # 8+8 = LEFTPADDING/RIGHTPADDING posés plus bas sur cette ligne
         header_inner = Table([[name_role_cell, badge_flow]], colWidths=[name_col_w, badge_w + 6])
-        header_inner.setStyle(TableStyle([
-            ("VALIGN", (0, 0), (-1, -1), "MIDDLE"), ("ALIGN", (1, 0), (1, 0), "RIGHT"),
-            ("LEFTPADDING", (0, 0), (-1, -1), 0), ("RIGHTPADDING", (0, 0), (-1, -1), 0),
-            ("TOPPADDING", (0, 0), (-1, -1), 0), ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
-        ]))
+        header_inner.setStyle(
+            TableStyle(
+                [
+                    ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                    ("ALIGN", (1, 0), (1, 0), "RIGHT"),
+                    ("LEFTPADDING", (0, 0), (-1, -1), 0),
+                    ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+                    ("TOPPADDING", (0, 0), (-1, -1), 0),
+                    ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+                ]
+            )
+        )
         header_cell = [header_inner]
     else:
         header_cell = name_role_cell
@@ -281,12 +326,18 @@ def render_warscroll_card(ws: WarscrollData, width: float = 88 * mm, regiment_no
         for k, v in zip(stat_labels, stat_values)
     ]
     stat_table = Table([stat_cells], colWidths=[width / 5] * 5)
-    stat_table.setStyle(TableStyle([
-        ("LINEAFTER", (0, 0), (-2, 0), 0.4, _STEEL_LINE),
-        ("LINEBEFORE", (2, 0), (2, 0), 1, _STEEL),
-        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"), ("ALIGN", (0, 0), (-1, -1), "CENTER"),
-        ("TOPPADDING", (0, 0), (-1, -1), 3), ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
-    ]))
+    stat_table.setStyle(
+        TableStyle(
+            [
+                ("LINEAFTER", (0, 0), (-2, 0), 0.4, _STEEL_LINE),
+                ("LINEBEFORE", (2, 0), (2, 0), 1, _STEEL),
+                ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+                ("TOPPADDING", (0, 0), (-1, -1), 3),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
+            ]
+        )
+    )
     rows.append([stat_table])
     styles.append(("LINEBELOW", (0, len(rows) - 1), (-1, len(rows) - 1), 0.6, _STEEL_LINE))
 
@@ -294,7 +345,15 @@ def render_warscroll_card(ws: WarscrollData, width: float = 88 * mm, regiment_no
     # une manifestation/un sort vivant n'a pas de coût en points (invoqué en
     # jeu, jamais acheté dans la liste) — `ws.points` y est vide.
     meta_right = f"{ws.points} pts" if ws.points else tr("Invoquée")
-    meta_table = Table([[Paragraph(meta_left, _META_STYLE), Paragraph(meta_right, ParagraphStyle("wc_metar", parent=_META_STYLE, alignment=2))]], colWidths=[width / 2] * 2)
+    meta_table = Table(
+        [
+            [
+                Paragraph(meta_left, _META_STYLE),
+                Paragraph(meta_right, ParagraphStyle("wc_metar", parent=_META_STYLE, alignment=2)),
+            ]
+        ],
+        colWidths=[width / 2] * 2,
+    )
     meta_table.setStyle(TableStyle([("LEFTPADDING", (0, 0), (-1, -1), 8), ("RIGHTPADDING", (0, 0), (-1, -1), 8)]))
     rows.append([meta_table])
     styles.append(("LINEBELOW", (0, len(rows) - 1), (-1, len(rows) - 1), 0.6, _STEEL_LINE))
@@ -322,7 +381,11 @@ def render_warscroll_card(ws: WarscrollData, width: float = 88 * mm, regiment_no
         # rien. Une arme de mêlée sur une carte qui en a une la laisse vide
         # plutôt que d'y répéter un tiret.
         has_ranged = any(w.range for w in ws.weapons)
-        whd = ["", tr("Portée"), "Atk", "Hit", "Wnd", "Rnd", "Dmg"] if has_ranged else ["", "Atk", "Hit", "Wnd", "Rnd", "Dmg"]
+        whd = (
+            ["", tr("Portée"), "Atk", "Hit", "Wnd", "Rnd", "Dmg"]
+            if has_ranged
+            else ["", "Atk", "Hit", "Wnd", "Rnd", "Dmg"]
+        )
         wrows = [[Paragraph(h, _WHD_STYLE) for h in whd]]
         stat_col_w = 9 * mm
         n_stat_cols = 6 if has_ranged else 5
@@ -353,12 +416,18 @@ def render_warscroll_card(ws: WarscrollData, width: float = 88 * mm, regiment_no
                 # dessous, pour ne pas désaligner le nom par rapport aux
                 # colonnes Atk/Hit/Wnd/Rnd/Dmg de la même ligne.
                 name_line = Table([[name_para, ratio_pill]])
-                name_line.setStyle(TableStyle([
-                    ("LEFTPADDING", (0, 0), (-1, -1), 0), ("RIGHTPADDING", (0, 0), (0, 0), 5),
-                    ("RIGHTPADDING", (1, 0), (1, 0), 0),
-                    ("TOPPADDING", (0, 0), (-1, -1), 0), ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
-                    ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
-                ]))
+                name_line.setStyle(
+                    TableStyle(
+                        [
+                            ("LEFTPADDING", (0, 0), (-1, -1), 0),
+                            ("RIGHTPADDING", (0, 0), (0, 0), 5),
+                            ("RIGHTPADDING", (1, 0), (1, 0), 0),
+                            ("TOPPADDING", (0, 0), (-1, -1), 0),
+                            ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+                            ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                        ]
+                    )
+                )
                 name_cell: list = [name_line]
             else:
                 name_cell = [name_para]
@@ -371,8 +440,11 @@ def render_warscroll_card(ws: WarscrollData, width: float = 88 * mm, regiment_no
             if has_ranged:
                 row.append(Paragraph(w.range, _WVAL_STYLE) if w.range else Paragraph("", _WVAL_STYLE))
             row += [
-                Paragraph(w.attacks, _WVAL_STYLE), Paragraph(w.hit, _WVAL_STYLE), Paragraph(w.wound, _WVAL_STYLE),
-                Paragraph(w.rend, _WVAL_STYLE), Paragraph(w.damage, _WVAL_STYLE),
+                Paragraph(w.attacks, _WVAL_STYLE),
+                Paragraph(w.hit, _WVAL_STYLE),
+                Paragraph(w.wound, _WVAL_STYLE),
+                Paragraph(w.rend, _WVAL_STYLE),
+                Paragraph(w.damage, _WVAL_STYLE),
             ]
             wrows.append(row)
             underline_color = _PHASE_COLORS["shoot"][0] if w.range else _PHASE_COLORS["melee"][0]
@@ -380,9 +452,12 @@ def render_warscroll_card(ws: WarscrollData, width: float = 88 * mm, regiment_no
         weapons_table = Table(wrows, colWidths=col_widths)
         weapon_styles: list[tuple] = [
             ("VALIGN", (0, 0), (-1, -1), "TOP"),
-            ("TOPPADDING", (0, 0), (-1, -1), 2), ("BOTTOMPADDING", (0, 0), (-1, -1), 2),
-            ("LEFTPADDING", (1, 0), (-1, -1), 1), ("RIGHTPADDING", (1, 0), (-1, -1), 1),
-            ("LEFTPADDING", (0, 0), (0, -1), 0), ("RIGHTPADDING", (0, 0), (0, -1), 3),
+            ("TOPPADDING", (0, 0), (-1, -1), 2),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 2),
+            ("LEFTPADDING", (1, 0), (-1, -1), 1),
+            ("RIGHTPADDING", (1, 0), (-1, -1), 1),
+            ("LEFTPADDING", (0, 0), (0, -1), 0),
+            ("RIGHTPADDING", (0, 0), (0, -1), 3),
         ]
         for row_i, color in row_underlines:
             weapon_styles.append(("LINEBELOW", (0, row_i), (-1, row_i), 1, colors.HexColor(color)))
@@ -397,23 +472,43 @@ def render_warscroll_card(ws: WarscrollData, width: float = 88 * mm, regiment_no
     visible_keywords = _visible_keywords(ws.keywords)
     if visible_keywords:
         kw_text = " · ".join(k.upper() for k in visible_keywords)
-        kw_table = Table([[Paragraph(kw_text, _KW_STYLE), Paragraph("Wahapedia (EN)", _PROV_STYLE)]], colWidths=[width * 0.75, width * 0.25])
-        kw_table.setStyle(TableStyle([("LEFTPADDING", (0, 0), (-1, -1), 8), ("RIGHTPADDING", (0, 0), (-1, -1), 8), ("TOPPADDING", (0, 0), (-1, -1), 3), ("BOTTOMPADDING", (0, 0), (-1, -1), 3)]))
+        kw_table = Table(
+            [[Paragraph(kw_text, _KW_STYLE), Paragraph("Wahapedia (EN)", _PROV_STYLE)]],
+            colWidths=[width * 0.75, width * 0.25],
+        )
+        kw_table.setStyle(
+            TableStyle(
+                [
+                    ("LEFTPADDING", (0, 0), (-1, -1), 8),
+                    ("RIGHTPADDING", (0, 0), (-1, -1), 8),
+                    ("TOPPADDING", (0, 0), (-1, -1), 3),
+                    ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
+                ]
+            )
+        )
         rows.append([kw_table])
 
     card = Table(rows, colWidths=[width])
-    card.setStyle(TableStyle([
-        ("BOX", (0, 0), (-1, -1), 0.8, _STEEL_LINE),
-        ("BACKGROUND", (0, 0), (-1, -1), _CARD_BG),
-        ("LEFTPADDING", (0, 0), (-1, -1), 0), ("RIGHTPADDING", (0, 0), (-1, -1), 0),
-        ("TOPPADDING", (0, 0), (-1, -1), 0), ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
-        *styles,
-    ]))
+    card.setStyle(
+        TableStyle(
+            [
+                ("BOX", (0, 0), (-1, -1), 0.8, _STEEL_LINE),
+                ("BACKGROUND", (0, 0), (-1, -1), _CARD_BG),
+                ("LEFTPADDING", (0, 0), (-1, -1), 0),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+                ("TOPPADDING", (0, 0), (-1, -1), 0),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+                *styles,
+            ]
+        )
+    )
     return card
 
 
 def build_warscroll_cards_flow(
-    warscrolls: list[WarscrollData], width: float = 88 * mm, gap: float = 5 * mm,
+    warscrolls: list[WarscrollData],
+    width: float = 88 * mm,
+    gap: float = 5 * mm,
     regiment_notes: dict[str, str] | None = None,
 ) -> list:
     """`regiment_notes` (clé = `WarscrollData.name`) ajoute la petite note de
@@ -475,12 +570,23 @@ _TACTIC_KIND_COLORS: dict[str, tuple[str, str]] = {
 _POINTS_GOLD = "#c9a227"
 _POINTS_INK = "#2a2005"
 
-_TACTIC_HEAD_STYLE = ParagraphStyle("tc_head", fontName=CARD_TITLE_FONT, fontSize=13, leading=15, textColor=colors.white)
+_TACTIC_HEAD_STYLE = ParagraphStyle(
+    "tc_head", fontName=CARD_TITLE_FONT, fontSize=13, leading=15, textColor=colors.white
+)
 _TACTIC_SPECIAL_STYLE = ParagraphStyle("tc_special", fontName="Helvetica", fontSize=7.8, leading=10, textColor=_STEEL)
 _TACTIC_NAME_STYLE = ParagraphStyle("tc_name", fontName="Helvetica-Bold", fontSize=9, leading=11, textColor=_INK)
 _TACTIC_COND_STYLE = ParagraphStyle("tc_cond", fontName="Helvetica", fontSize=7.8, leading=10, textColor=_STEEL)
-_TACTIC_POINTS_STYLE = ParagraphStyle("tc_points", fontName="Helvetica-Bold", fontSize=13, leading=15, textColor=colors.HexColor(_POINTS_INK), alignment=1)
-_TACTIC_POINTS_LABEL_STYLE = ParagraphStyle("tc_points_lbl", fontName="Helvetica-Bold", fontSize=5.4, leading=6.4, textColor=colors.HexColor(_POINTS_INK), alignment=1)
+_TACTIC_POINTS_STYLE = ParagraphStyle(
+    "tc_points", fontName="Helvetica-Bold", fontSize=13, leading=15, textColor=colors.HexColor(_POINTS_INK), alignment=1
+)
+_TACTIC_POINTS_LABEL_STYLE = ParagraphStyle(
+    "tc_points_lbl",
+    fontName="Helvetica-Bold",
+    fontSize=5.4,
+    leading=6.4,
+    textColor=colors.HexColor(_POINTS_INK),
+    alignment=1,
+)
 
 
 def _points_badge(points: int, width: float) -> Table:
@@ -489,21 +595,37 @@ def _points_badge(points: int, width: float) -> Table:
     c'est le seul badge de la carte que le lecteur doit pouvoir repérer sans
     lire le texte qui l'entoure."""
     inner = Table(
-        [[Paragraph(str(points), _TACTIC_POINTS_STYLE)], [Paragraph(tr("PTS DE<br/>VICTOIRE"), _TACTIC_POINTS_LABEL_STYLE)]],
+        [
+            [Paragraph(str(points), _TACTIC_POINTS_STYLE)],
+            [Paragraph(tr("PTS DE<br/>VICTOIRE"), _TACTIC_POINTS_LABEL_STYLE)],
+        ],
         colWidths=[width],
     )
-    inner.setStyle(TableStyle([
-        ("ALIGN", (0, 0), (-1, -1), "CENTER"),
-        ("TOPPADDING", (0, 0), (-1, -1), 0), ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
-        ("LEFTPADDING", (0, 0), (-1, -1), 0), ("RIGHTPADDING", (0, 0), (-1, -1), 0),
-    ]))
+    inner.setStyle(
+        TableStyle(
+            [
+                ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+                ("TOPPADDING", (0, 0), (-1, -1), 0),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+                ("LEFTPADDING", (0, 0), (-1, -1), 0),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+            ]
+        )
+    )
     box = Table([[inner]], colWidths=[width])
-    box.setStyle(TableStyle([
-        ("BACKGROUND", (0, 0), (-1, -1), colors.HexColor(_POINTS_GOLD)),
-        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"), ("ALIGN", (0, 0), (-1, -1), "CENTER"),
-        ("TOPPADDING", (0, 0), (-1, -1), 6), ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
-        ("LEFTPADDING", (0, 0), (-1, -1), 2), ("RIGHTPADDING", (0, 0), (-1, -1), 2),
-    ]))
+    box.setStyle(
+        TableStyle(
+            [
+                ("BACKGROUND", (0, 0), (-1, -1), colors.HexColor(_POINTS_GOLD)),
+                ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+                ("TOPPADDING", (0, 0), (-1, -1), 6),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
+                ("LEFTPADDING", (0, 0), (-1, -1), 2),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 2),
+            ]
+        )
+    )
     return box
 
 
@@ -530,11 +652,17 @@ def _sub_tactic_block(sub: SubTactic, width: float) -> Table:
         [[_pill(tr(sub.kind.upper()), kind_bg, kind_fg), _safe_paragraph(f"<b>{sub.name}</b>", _TACTIC_NAME_STYLE)]],
         colWidths=[kind_col, name_col],
     )
-    header.setStyle(TableStyle([
-        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
-        ("LEFTPADDING", (0, 0), (-1, -1), 0), ("RIGHTPADDING", (0, 0), (-1, -1), 0),
-        ("TOPPADDING", (0, 0), (-1, -1), 0), ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
-    ]))
+    header.setStyle(
+        TableStyle(
+            [
+                ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                ("LEFTPADDING", (0, 0), (-1, -1), 0),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+                ("TOPPADDING", (0, 0), (-1, -1), 0),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+            ]
+        )
+    )
 
     # pas de ligne d'ambiance (`sub.flavor`, gardé dans le JSON) : les
     # cartes ne portent que les règles (demande explicite de l'utilisateur).
@@ -542,20 +670,34 @@ def _sub_tactic_block(sub: SubTactic, width: float) -> Table:
         [[header], [_safe_paragraph(sub.condition, _TACTIC_COND_STYLE)]],
         colWidths=[left_content_width],
     )
-    left.setStyle(TableStyle([
-        ("LEFTPADDING", (0, 0), (-1, -1), 0), ("RIGHTPADDING", (0, 0), (-1, -1), 0),
-        ("TOPPADDING", (0, 0), (0, 0), 0), ("BOTTOMPADDING", (0, 0), (0, 0), 2),
-        ("TOPPADDING", (0, 1), (0, 1), 1), ("BOTTOMPADDING", (0, 1), (0, 1), 0),
-    ]))
+    left.setStyle(
+        TableStyle(
+            [
+                ("LEFTPADDING", (0, 0), (-1, -1), 0),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+                ("TOPPADDING", (0, 0), (0, 0), 0),
+                ("BOTTOMPADDING", (0, 0), (0, 0), 2),
+                ("TOPPADDING", (0, 1), (0, 1), 1),
+                ("BOTTOMPADDING", (0, 1), (0, 1), 0),
+            ]
+        )
+    )
 
     block = Table([[left, _points_badge(sub.points, points_col - 4 * mm)]], colWidths=[left_width, points_col])
-    block.setStyle(TableStyle([
-        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
-        ("BOX", (0, 0), (-1, -1), 0.7, _STEEL_LINE),
-        ("LEFTPADDING", (0, 0), (0, -1), 7), ("RIGHTPADDING", (0, 0), (0, -1), 6),
-        ("LEFTPADDING", (1, 0), (1, -1), 2), ("RIGHTPADDING", (1, 0), (1, -1), 7),
-        ("TOPPADDING", (0, 0), (-1, -1), 5), ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
-    ]))
+    block.setStyle(
+        TableStyle(
+            [
+                ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                ("BOX", (0, 0), (-1, -1), 0.7, _STEEL_LINE),
+                ("LEFTPADDING", (0, 0), (0, -1), 7),
+                ("RIGHTPADDING", (0, 0), (0, -1), 6),
+                ("LEFTPADDING", (1, 0), (1, -1), 2),
+                ("RIGHTPADDING", (1, 0), (1, -1), 7),
+                ("TOPPADDING", (0, 0), (-1, -1), 5),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
+            ]
+        )
+    )
     return block
 
 
@@ -571,17 +713,22 @@ def render_tactic_card(card: TacticCard, width: float = 188 * mm) -> Flowable:
     rows: list[list] = []
     styles: list[tuple] = []
 
-    header_cell = [
-        Paragraph(card.title_fr, _TACTIC_HEAD_STYLE),
-        Paragraph(f"CARTE DE TACTIQUE {card.number} · {card.name_en}", _ROLE_STYLE),
-    ] if not card.english else [
-        Paragraph(card.name_en, _TACTIC_HEAD_STYLE),
-        Paragraph(f"BATTLE TACTIC CARD {card.number}", _ROLE_STYLE),
-    ]
+    header_cell = (
+        [
+            Paragraph(card.title_fr, _TACTIC_HEAD_STYLE),
+            Paragraph(f"CARTE DE TACTIQUE {card.number} · {card.name_en}", _ROLE_STYLE),
+        ]
+        if not card.english
+        else [
+            Paragraph(card.name_en, _TACTIC_HEAD_STYLE),
+            Paragraph(f"BATTLE TACTIC CARD {card.number}", _ROLE_STYLE),
+        ]
+    )
     rows.append([header_cell])
     styles += [
         ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#161a2b")),
-        ("TOPPADDING", (0, 0), (-1, 0), 6), ("BOTTOMPADDING", (0, 0), (-1, 0), 6),
+        ("TOPPADDING", (0, 0), (-1, 0), 6),
+        ("BOTTOMPADDING", (0, 0), (-1, 0), 6),
         ("LEFTPADDING", (0, 0), (-1, 0), 8),
     ]
 
@@ -590,19 +737,31 @@ def render_tactic_card(card: TacticCard, width: float = 188 * mm) -> Flowable:
 
     if card.special_rule:
         special_box = Table(
-            [[_pill(tr("RÈGLE SPÉCIALE"), _BADGE_NEUTRAL, "#eaf1f8")], [_safe_paragraph(card.special_rule, _TACTIC_SPECIAL_STYLE)]],
+            [
+                [_pill(tr("RÈGLE SPÉCIALE"), _BADGE_NEUTRAL, "#eaf1f8")],
+                [_safe_paragraph(card.special_rule, _TACTIC_SPECIAL_STYLE)],
+            ],
             colWidths=[width - 16],
         )
-        special_box.setStyle(TableStyle([
-            ("LEFTPADDING", (0, 0), (-1, -1), 0), ("RIGHTPADDING", (0, 0), (-1, -1), 0),
-            ("TOPPADDING", (0, 0), (0, 0), 0), ("BOTTOMPADDING", (0, 0), (0, 0), 3),
-            ("TOPPADDING", (0, 1), (0, 1), 0), ("BOTTOMPADDING", (0, 1), (0, 1), 0),
-        ]))
+        special_box.setStyle(
+            TableStyle(
+                [
+                    ("LEFTPADDING", (0, 0), (-1, -1), 0),
+                    ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+                    ("TOPPADDING", (0, 0), (0, 0), 0),
+                    ("BOTTOMPADDING", (0, 0), (0, 0), 3),
+                    ("TOPPADDING", (0, 1), (0, 1), 0),
+                    ("BOTTOMPADDING", (0, 1), (0, 1), 0),
+                ]
+            )
+        )
         rows.append([special_box])
         r = len(rows) - 1
         styles += [
-            ("LEFTPADDING", (0, r), (-1, r), 8), ("RIGHTPADDING", (0, r), (-1, r), 8),
-            ("TOPPADDING", (0, r), (-1, r), 5), ("BOTTOMPADDING", (0, r), (-1, r), 5),
+            ("LEFTPADDING", (0, r), (-1, r), 8),
+            ("RIGHTPADDING", (0, r), (-1, r), 8),
+            ("TOPPADDING", (0, r), (-1, r), 5),
+            ("BOTTOMPADDING", (0, r), (-1, r), 5),
             ("LINEBELOW", (0, r), (-1, r), 0.5, _STEEL_LINE),
         ]
 
@@ -610,16 +769,24 @@ def render_tactic_card(card: TacticCard, width: float = 188 * mm) -> Flowable:
         rows.append([_sub_tactic_block(sub, width - 16)])
         r = len(rows) - 1
         styles += [
-            ("LEFTPADDING", (0, r), (-1, r), 8), ("RIGHTPADDING", (0, r), (-1, r), 8),
-            ("TOPPADDING", (0, r), (-1, r), 4), ("BOTTOMPADDING", (0, r), (-1, r), 4),
+            ("LEFTPADDING", (0, r), (-1, r), 8),
+            ("RIGHTPADDING", (0, r), (-1, r), 8),
+            ("TOPPADDING", (0, r), (-1, r), 4),
+            ("BOTTOMPADDING", (0, r), (-1, r), 4),
         ]
 
     card_table = Table(rows, colWidths=[width])
-    card_table.setStyle(TableStyle([
-        ("BOX", (0, 0), (-1, -1), 0.8, _STEEL_LINE),
-        ("BACKGROUND", (0, 0), (-1, -1), _CARD_BG),
-        ("LEFTPADDING", (0, 0), (-1, -1), 0), ("RIGHTPADDING", (0, 0), (-1, -1), 0),
-        ("TOPPADDING", (0, 0), (-1, -1), 0), ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
-        *styles,
-    ]))
+    card_table.setStyle(
+        TableStyle(
+            [
+                ("BOX", (0, 0), (-1, -1), 0.8, _STEEL_LINE),
+                ("BACKGROUND", (0, 0), (-1, -1), _CARD_BG),
+                ("LEFTPADDING", (0, 0), (-1, -1), 0),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+                ("TOPPADDING", (0, 0), (-1, -1), 0),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+                *styles,
+            ]
+        )
+    )
     return card_table

@@ -33,6 +33,7 @@ plafond optimiste). `avg_floor_roi_pct` (moyenne simple des trois, pas le ROI
 moyen brut `avg_roi_pct`) est le critère de tri des registres de combat
 (combat_unites.py/combat_heros.py) et sert aussi de composante « combat » z_roi
 au score combiné de best_unites.py/best_heros.py (cf. `analysis/cost/scoring.combined_score`)."""
+
 import json
 
 from ..persistence import db, repository
@@ -43,7 +44,6 @@ con = db.connect()
 data = sorted(repository.get_ranking_pool(con), key=lambda r: r["avg_floor_roi_pct"], reverse=True)
 with open(OUT_PATH, "w", encoding="utf-8") as f:
     json.dump(data, f, ensure_ascii=False)
-print(OUT_PATH, len(data), "unites (dont",
-      sum(1 for r in data if r["is_hero"]), "heros)")
+print(OUT_PATH, len(data), "unites (dont", sum(1 for r in data if r["is_hero"]), "heros)")
 
 con.close()

@@ -29,11 +29,11 @@ RUN_IN = 3.5
 FLY_IN = 2.0
 #: Équivalent en pouces d'une aptitude de mouvement de la charte (avant probabilité et fréquence).
 MOVE_ABILITY_IN = {
-    "deep_strike": 3.0,       # arriver où l'on veut
+    "deep_strike": 3.0,  # arriver où l'on veut
     "redeploy": 3.0,
     "extra_move": 3.0,
-    "run_and_charge": 1.5,    # courir sans renoncer à la charge
-    "free_retreat": 1.0,      # se désengager sans perte
+    "run_and_charge": 1.5,  # courir sans renoncer à la charge
+    "free_retreat": 1.0,  # se désengager sans perte
 }
 #: Plafond d'un bonus de caractéristique de mouvement (« +N" »).
 MAX_MOVE_BONUS_IN = 6.0

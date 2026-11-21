@@ -14,12 +14,23 @@ def _mean_reading(monkeypatch):
     """Pondérations vérifiées sur les moyennes ; le plancher a ses tests dans test_encounter.py."""
     monkeypatch.setattr("aospy.analysis.layers.encounter.FLOOR_COVERAGE", None)
 
+
 SWORD = Weapon("Sword", "melee", attacks=2, hit=3, wound=3, damage=1)
 
 
 def _unit(**kw):
-    base = dict(name="U", army_id=1, move=5, save=4, health=2, control=1, models=5, points=100,
-                keywords=frozenset({"INFANTRY"}), weapons=[SWORD])
+    base = dict(
+        name="U",
+        army_id=1,
+        move=5,
+        save=4,
+        health=2,
+        control=1,
+        models=5,
+        points=100,
+        keywords=frozenset({"INFANTRY"}),
+        weapons=[SWORD],
+    )
     base.update(kw)
     return Unit(**base)
 
@@ -30,7 +41,7 @@ def _eff(spec, freq="passive", p=1.0, name="A"):
 
 def test_coverage_weights():
     assert coverage("passive", "permanent") == 1.0
-    assert coverage("once_per_turn_army", "tour") == 1.0          # anti-spam : compte en liste, pas ici
+    assert coverage("once_per_turn_army", "tour") == 1.0  # anti-spam : compte en liste, pas ici
     # une fois par bataille, effet court : 1/2 (kairos) réparti sur la part du round couverte (frise, 2026-11-20)
     assert coverage("once_per_battle", "round") == ONCE_PER_BATTLE_SHORT == 0.5
     assert coverage("once_per_battle", "tour") == pytest.approx(0.25)
@@ -39,8 +50,13 @@ def test_coverage_weights():
 
 def test_permanent_effects_combine_multiplicatively():
     u = _unit()
-    both = realize(u, [_eff(EffectSpec("stat_mod", "damage", 1.0, weapon_scope="melee")),
-                       _eff(EffectSpec("stat_mod", "attacks", 1.0, weapon_scope="melee"))])
+    both = realize(
+        u,
+        [
+            _eff(EffectSpec("stat_mod", "damage", 1.0, weapon_scope="melee")),
+            _eff(EffectSpec("stat_mod", "attacks", 1.0, weapon_scope="melee")),
+        ],
+    )
     assert both.off_realized == pytest.approx(both.off_chassis * 2 * 1.5)
 
 
@@ -73,7 +89,7 @@ def test_applicable_respects_target_and_excludes_self():
     assert applicable(u, [("self", "", False, "A", e)], vocab) == [e]
     assert applicable(u, [("friendly_aura", "INFANTRY", False, "A", e)], vocab) == [e]
     assert applicable(u, [("friendly_aura", "non-HERO INFANTRY", False, "A", e)], vocab) == []
-    assert applicable(u, [("one_friendly", "", True, "A", e)], vocab) == []      # « another friendly »
+    assert applicable(u, [("one_friendly", "", True, "A", e)], vocab) == []  # « another friendly »
     assert applicable(u, [("one_enemy", "", False, "A", e)], vocab) == []
 
 

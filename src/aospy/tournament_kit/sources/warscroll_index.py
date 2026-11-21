@@ -128,7 +128,9 @@ def load_index(path: str | Path = DEFAULT_INDEX_PATH) -> WarscrollIndex:
             for entry in data.get("units", [])
         }
         factions[faction] = FactionIndex(
-            file=data["file"], units=units, rules=_parse_faction_rules(data.get("rules", {})),
+            file=data["file"],
+            units=units,
+            rules=_parse_faction_rules(data.get("rules", {})),
         )
 
     tactic_cards = None
@@ -151,11 +153,15 @@ def load_index(path: str | Path = DEFAULT_INDEX_PATH) -> WarscrollIndex:
             for name, data in raw_generic.get("lores", {}).items()
         }
         generic_manifestation_lores = GenericManifestationLoresIndex(
-            dir=raw_generic["dir"], file=raw_generic["file"], lores=lores,
+            dir=raw_generic["dir"],
+            file=raw_generic["file"],
+            lores=lores,
         )
 
     return WarscrollIndex(
-        factions=factions, tactic_cards=tactic_cards, generic_manifestation_lores=generic_manifestation_lores,
+        factions=factions,
+        tactic_cards=tactic_cards,
+        generic_manifestation_lores=generic_manifestation_lores,
     )
 
 
@@ -175,7 +181,10 @@ def _find_unit_entry(index: WarscrollIndex, faction: str, unit_name: str) -> Uni
 
 
 def unit_pdf_path(
-    index: WarscrollIndex, faction: str, unit_name: str, battletome_dir: str | Path = DEFAULT_BATTLETOME_DIR,
+    index: WarscrollIndex,
+    faction: str,
+    unit_name: str,
+    battletome_dir: str | Path = DEFAULT_BATTLETOME_DIR,
 ) -> Path | None:
     """Chemin du PDF où trouver les pages de `unit_name` pour `faction` — le
     battletome principal de la faction, sauf si l'unité vient d'un supplément
@@ -227,7 +236,9 @@ def find_generic_manifestation_lore(index: WarscrollIndex, lore_name: str) -> Ge
     return None
 
 
-def battletome_path(index: WarscrollIndex, faction: str, battletome_dir: str | Path = DEFAULT_BATTLETOME_DIR) -> Path | None:
+def battletome_path(
+    index: WarscrollIndex, faction: str, battletome_dir: str | Path = DEFAULT_BATTLETOME_DIR
+) -> Path | None:
     faction_index = index.factions.get(faction)
     if faction_index is None:
         return None
@@ -244,5 +255,7 @@ def tactic_cards_path(index: WarscrollIndex, manuel_dir: str | Path | None = Non
 def generic_manifestation_lores_path(index: WarscrollIndex, manuel_dir: str | Path | None = None) -> Path | None:
     if index.generic_manifestation_lores is None:
         return None
-    base_dir = Path(manuel_dir) if manuel_dir is not None else _REPO_ROOT / "data" / index.generic_manifestation_lores.dir
+    base_dir = (
+        Path(manuel_dir) if manuel_dir is not None else _REPO_ROOT / "data" / index.generic_manifestation_lores.dir
+    )
     return base_dir / index.generic_manifestation_lores.file

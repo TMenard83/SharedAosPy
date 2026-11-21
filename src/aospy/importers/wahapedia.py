@@ -33,17 +33,26 @@ from .bsdata import KNOWN_ARMIES, ImportSummary, parse_dice, parse_target
 
 #: Alliance de grande faction, dérivée du mapping déjà tenu par `bsdata.py`
 #: (les noms d'armée correspondent exactement aux noms de faction Wahapedia).
-FACTION_GRAND_ALLIANCE: dict[str, str] = {
-    name: alliance for name, (_main, _lib, alliance) in KNOWN_ARMIES.items()
-}
+FACTION_GRAND_ALLIANCE: dict[str, str] = {name: alliance for name, (_main, _lib, alliance) in KNOWN_ARMIES.items()}
 
 #: Rôles représentant une unité de combat classique (placée sur table, achetée
 #: en points) — cf. limitations en tête de module.
-INGESTIBLE_ROLES: frozenset[str] = frozenset({
-    "Infantry", "Infantry Hero", "Cavalry", "Cavalry Hero",
-    "Beast", "Beast Hero", "Monster", "Monster Hero",
-    "War Machine", "War Machine Hero", "Hero",
-})
+INGESTIBLE_ROLES: frozenset[str] = frozenset(
+    {
+        "Infantry",
+        "Infantry Hero",
+        "Cavalry",
+        "Cavalry Hero",
+        "Beast",
+        "Beast Hero",
+        "Monster",
+        "Monster Hero",
+        "War Machine",
+        "War Machine Hero",
+        "Hero",
+    }
+)
+
 
 def keyword_variants(row: dict[str, str]) -> set[str]:
     """Mot-clé d'une ligne `Warscrolls_keywords.csv`, plus sa forme paramétrée pour les lanceurs.
@@ -60,7 +69,10 @@ def keyword_variants(row: dict[str, str]) -> set[str]:
 
 
 def _parse_unit(
-    row: dict[str, str], army_id: int, weapon_rows: list[dict[str, str]], keywords: set[str],
+    row: dict[str, str],
+    army_id: int,
+    weapon_rows: list[dict[str, str]],
+    keywords: set[str],
 ) -> Unit:
     ward_raw = (row.get("Ward") or "").strip()
     ward = parse_target(ward_raw) if ward_raw and ward_raw != "-" else None
@@ -99,13 +111,14 @@ def _parse_weapon(row: dict[str, str]) -> Weapon:
 
 
 def import_faction(
-    con: duckdb.DuckDBPyConnection, faction_name: str, *, data_dir: Path = DEFAULT_DATA_DIR,
+    con: duckdb.DuckDBPyConnection,
+    faction_name: str,
+    *,
+    data_dir: Path = DEFAULT_DATA_DIR,
 ) -> ImportSummary:
     """Importe une faction depuis les CSV Wahapedia. Remplace les unités existantes (par nom)."""
     if faction_name not in FACTION_GRAND_ALLIANCE:
-        raise ValueError(
-            f"faction inconnue '{faction_name}'. Connues : {', '.join(FACTION_GRAND_ALLIANCE)}"
-        )
+        raise ValueError(f"faction inconnue '{faction_name}'. Connues : {', '.join(FACTION_GRAND_ALLIANCE)}")
 
     factions = read_csv(data_dir / "Factions.csv")
     faction_id = next((f["id"] for f in factions if f.get("name") == faction_name), None)

@@ -3,9 +3,9 @@ de coût (cost_unites.py / cost_heros.py) — factorisé pour ne pas dupliquer e
 les deux modules. Le score composite des registres « meilleures unités »/
 « meilleurs héros » vit dans `analysis/cost/scoring.py` (aussi lu par
 `bonus_simulator/whatif.py`)."""
+
 import re
 
-from reportlab.lib import colors
 from reportlab.lib.units import mm
 from reportlab.platypus import Table, TableStyle
 
@@ -41,8 +41,11 @@ CATEGORICAL_FIELD_LABELS = {
 }
 CATEGORICAL_VALUE_LABELS = {
     "unit_type": {
-        "CAVALRY": "Cavalerie", "INFANTRY": "Infanterie", "MONSTER": "Monstre",
-        "OTHER": "Autre", "WAR MACHINE": "Machine de guerre",
+        "CAVALRY": "Cavalerie",
+        "INFANTRY": "Infanterie",
+        "MONSTER": "Monstre",
+        "OTHER": "Autre",
+        "WAR MACHINE": "Machine de guerre",
     },
     "weapon_mix": {"mixed": "mixte", "ranged": "distance", "melee": "mêlée"},
     "is_hero": {"True": "Héros", "False": "Troupe"},
@@ -69,7 +72,7 @@ def coef_table(result, n_cols: int = 3):
     entries += [(label_for(c.name), c.coef, c.p_value) for c in result.coefficients]
 
     per_col = -(-len(entries) // n_cols)  # ceil
-    blocks = [entries[i * per_col:(i + 1) * per_col] for i in range(n_cols)]
+    blocks = [entries[i * per_col : (i + 1) * per_col] for i in range(n_cols)]
 
     def col(block):
         rows = [["Caractéristique", "Coef.", "p-val."]]

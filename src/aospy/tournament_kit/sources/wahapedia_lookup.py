@@ -62,10 +62,16 @@ _ENHANCEMENT_CATEGORY_LABELS: dict[str, dict[str, str]] = {
     "Monstrous Traits": {"label": "Trait Monstrueux", "kind": "named"},
     "Enhancements": {"label": "Optimisation", "kind": "generic"},
     "Brazen Mutations": {"label": "Mutation d'Airain", "kind": "named"},  # Blades of Khorne (Scourge of Aqshy)
-    "Brands of the Dark Gods": {"label": "Marque des Dieux Sombres", "kind": "named"},  # Slaves to Darkness (Scourge of Aqshy)
+    "Brands of the Dark Gods": {
+        "label": "Marque des Dieux Sombres",
+        "kind": "named",
+    },  # Slaves to Darkness (Scourge of Aqshy)
     "Ensorcelled Banners": {"label": "Bannière Ensorcelée", "kind": "named"},  # Slaves to Darkness (Scourge of Aqshy)
     "Decorations for Valour": {"label": "Médaille de Bravoure", "kind": "named"},  # Cities of Sigmar (Scourge of Aqshy)
-    "Origins of terrifying Folk Tales": {"label": "Fable Terrifiante", "kind": "named"},  # Soulblight Gravelords (Scourge of Aqshy)
+    "Origins of terrifying Folk Tales": {
+        "label": "Fable Terrifiante",
+        "kind": "named",
+    },  # Soulblight Gravelords (Scourge of Aqshy)
 }
 
 _POINTS_SUFFIX_RE = re.compile(r"\s*-?\s*\(\d+\)\s*points?\s*$", re.IGNORECASE)
@@ -142,9 +148,10 @@ def normalize_name(name: str) -> str:
 #: (glyphe manquant), ex. "LUMINETH REALM‑LORDS" (U+2011) dans les mots-clés.
 #: Fait une fois ici, au chargement, plutôt qu'à chaque site de rendu.
 _UNSUPPORTED_GLYPHS = {
-    "‐": "-", "‑": "-",  # tiret / tiret insécable
-    "⁄": "/",                # barre de fraction
-    "→": "->",               # flèche
+    "‐": "-",
+    "‑": "-",  # tiret / tiret insécable
+    "⁄": "/",  # barre de fraction
+    "→": "->",  # flèche
 }
 
 
@@ -180,11 +187,17 @@ def _ability_entry(row: dict[str, str]) -> "AbilityEntry":
     ou `Faction_abilities.csv` — les deux partagent le même schéma d'aptitude
     (cf. `Export Data Specs.xlsx`)."""
     return AbilityEntry(
-        name=row["name"], description=row["description"], legend=row["legend"],
-        ability_type=row.get("ability_type", ""), is_reaction=row.get("is_reaction", "") == "true",
-        condition=row.get("condition", ""), keywords=row.get("keywords", ""),
-        ability_phase=row.get("ability_phase", ""), points_type=row.get("points_type", ""),
-        points=row.get("points", ""), wahapedia_type=row.get("type_name", ""),
+        name=row["name"],
+        description=row["description"],
+        legend=row["legend"],
+        ability_type=row.get("ability_type", ""),
+        is_reaction=row.get("is_reaction", "") == "true",
+        condition=row.get("condition", ""),
+        keywords=row.get("keywords", ""),
+        ability_phase=row.get("ability_phase", ""),
+        points_type=row.get("points_type", ""),
+        points=row.get("points", ""),
+        wahapedia_type=row.get("type_name", ""),
     )
 
 
@@ -408,7 +421,8 @@ class WahapediaLookup:
     def find_generic_lore(self, lore_name: str) -> list[AbilityEntry] | None:
         target = normalize_name(lore_name.split("(", 1)[0].strip())
         rows = [
-            r for r in self.faction_abilities
+            r
+            for r in self.faction_abilities
             if r["faction_id"] == _GENERIC_FACTION_ID and normalize_name(r["subtype_name"]) == target
         ]
         if not rows:
@@ -419,7 +433,10 @@ class WahapediaLookup:
     # -- Règles propres d'une faction normale (pas une armée de renom) --
 
     def find_faction_category(
-        self, faction_name: str, type_name: str, subtype_name: str | None = None,
+        self,
+        faction_name: str,
+        type_name: str,
+        subtype_name: str | None = None,
     ) -> list[AbilityEntry] | None:
         """Aptitudes d'une faction pour une catégorie donnée (`"Battle
         Traits"`, `"Battle Formations"`, `"Heroic Traits"`, `"Artefacts of
@@ -485,7 +502,8 @@ class WahapediaLookup:
             return None
         target = normalize_name(key)
         matches = [
-            r for r in self.faction_abilities
+            r
+            for r in self.faction_abilities
             if r["faction_id"] == fid
             and r["type_name"] not in _ENHANCEMENT_EXCLUDED_TYPES
             and r["subtype_name"] not in _ENHANCEMENT_EXCLUDED_SUBTYPES
@@ -523,22 +541,21 @@ class WahapediaLookup:
     def find_regiment_of_renown(self, name: str) -> RegimentOfRenownData | None:
         target = normalize_name(name)
         candidates = [
-            r for r in self.warscrolls
-            if r.get("role") == "Regiment of Renown" and normalize_name(r["name"]) == target
+            r for r in self.warscrolls if r.get("role") == "Regiment of Renown" and normalize_name(r["name"]) == target
         ]
         if not candidates:
             return None
         # plusieurs lignes existent (une par faction pouvant inclure ce régiment) ;
         # celle de la faction d'origine porte le texte complet (legend non vide).
         row = next((r for r in candidates if r.get("legend")), candidates[0])
-        composition = [
-            org["unit"] for org in self.organisation
-            if org["warscroll_id"] == row["id"]
-        ]
+        composition = [org["unit"] for org in self.organisation if org["warscroll_id"] == row["id"]]
         own_abilities = [_ability_entry(a) for a in self.abilities if a["warscroll_id"] == row["id"]]
         return RegimentOfRenownData(
-            name=row["name"], legend=row.get("legend", ""), points=row.get("Cost", ""),
-            composition=composition, abilities=own_abilities,
+            name=row["name"],
+            legend=row.get("legend", ""),
+            points=row.get("Cost", ""),
+            composition=composition,
+            abilities=own_abilities,
             faction_id=row.get("faction_id", ""),
         )
 
@@ -557,12 +574,18 @@ class WahapediaLookup:
         alors sur l'ancien comportement (premier candidat avec un `Move`
         renseigné, ordre `Warscrolls.csv`)."""
         target = normalize_name(name)
-        candidates = [r for r in self.warscrolls if normalize_name(r["name"]) == target and r.get("role") != "Regiment of Renown"]
+        candidates = [
+            r for r in self.warscrolls if normalize_name(r["name"]) == target and r.get("role") != "Regiment of Renown"
+        ]
         if not candidates:
             alias = _WARSCROLL_NAME_ALIASES.get(target)
             if alias is None:
                 return None
-            candidates = [r for r in self.warscrolls if normalize_name(r["name"]) == alias and r.get("role") != "Regiment of Renown"]
+            candidates = [
+                r
+                for r in self.warscrolls
+                if normalize_name(r["name"]) == alias and r.get("role") != "Regiment of Renown"
+            ]
             if not candidates:
                 return None
         row = None
@@ -575,10 +598,16 @@ class WahapediaLookup:
         wid = row["id"]
         weapons = [
             WeaponEntry(
-                name=w["name"], range=w.get("Rng", ""), attacks=w.get("Atk", ""), hit=w.get("Hit", ""),
-                kind=w.get("type", ""), abilities=w.get("abilities", ""), **_wound_rend_damage(w),
+                name=w["name"],
+                range=w.get("Rng", ""),
+                attacks=w.get("Atk", ""),
+                hit=w.get("Hit", ""),
+                kind=w.get("type", ""),
+                abilities=w.get("abilities", ""),
+                **_wound_rend_damage(w),
             )
-            for w in self.weapons if w["warscroll_id"] == wid
+            for w in self.weapons
+            if w["warscroll_id"] == wid
         ]
         abilities = [_ability_entry(a) for a in self.abilities if a["warscroll_id"] == wid]
         # `WIZARD`/`PRIEST` portent leur niveau de magie/de prière dans la
@@ -596,10 +625,20 @@ class WahapediaLookup:
                 kw = f"{kw} ({param})"
             keywords.append(kw)
         return WarscrollData(
-            name=row["name"], faction_id=row["faction_id"], legend=row.get("legend", ""), role=row.get("role", ""),
-            move=row.get("Move", ""), save=row.get("Save", ""), control=row.get("Control", ""),
-            health=row.get("Health", ""), ward=row.get("Ward", ""), unit_size=row.get("UnitSize", ""),
-            points=row.get("Cost", ""), keywords=keywords, weapons=weapons, abilities=abilities,
+            name=row["name"],
+            faction_id=row["faction_id"],
+            legend=row.get("legend", ""),
+            role=row.get("role", ""),
+            move=row.get("Move", ""),
+            save=row.get("Save", ""),
+            control=row.get("Control", ""),
+            health=row.get("Health", ""),
+            ward=row.get("Ward", ""),
+            unit_size=row.get("UnitSize", ""),
+            points=row.get("Cost", ""),
+            keywords=keywords,
+            weapons=weapons,
+            abilities=abilities,
             description=row.get("description", ""),
         )
 

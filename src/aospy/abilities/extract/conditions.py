@@ -13,25 +13,44 @@ CHARGE_OURS = ("doit avoir chargé", 1.0)
 CHARGE_ENEMY = ("dépend d'une charge ennemie", 0.5)
 CONDITION_RULES: list[tuple[str, str, float]] = [
     (r"\bin ambush\b|\bin reserve\b", "unité en réserve", 0.25),
-    (r"friendly [^.]*?(?:within (?:this unit's|its|the) combat range(?: of this unit)?|within [1-3]\" of this unit)",
-     "coordination rapprochée (déplacements et charges liés, porteur exposé)", 1.0),
-    (r"(?:were|was|has been|is) (?:slain|destroyed) (?:this turn |this phase )?by|"
-     r"if any (?:enemy )?models? (?:were|was) slain|if (?:it|this unit) destroyed",
-     "dépend d'un kill préalable", 0.75),
-    (r"[Ii]n the first battle round|[Ii]n battle rounds? \d(?: and \d)?\b|[Ii]n the (?:third|fourth|fifth) battle round",
-     "limité à certains rounds", 0.5),
-    (r"contesting an objective|within \d+\" of an objective|objectives? you control|"
-     r"objective you do not control|wholly within (?:friendly|enemy) territory|"
-     r"(?:on|within) (?:an? )?(?:objective|terrain feature)",
-     "position (objectif/territoire/décor)", 0.5),
+    (
+        r"friendly [^.]*?(?:within (?:this unit's|its|the) combat range(?: of this unit)?|within [1-3]\" of this unit)",
+        "coordination rapprochée (déplacements et charges liés, porteur exposé)",
+        1.0,
+    ),
+    (
+        r"(?:were|was|has been|is) (?:slain|destroyed) (?:this turn |this phase )?by|"
+        r"if any (?:enemy )?models? (?:were|was) slain|if (?:it|this unit) destroyed",
+        "dépend d'un kill préalable",
+        0.75,
+    ),
+    (
+        r"[Ii]n the first battle round|[Ii]n battle rounds? \d(?: and \d)?\b|[Ii]n the (?:third|fourth|fifth) battle round",
+        "limité à certains rounds",
+        0.5,
+    ),
+    (
+        r"contesting an objective|within \d+\" of an objective|objectives? you control|"
+        r"objective you do not control|wholly within (?:friendly|enemy) territory|"
+        r"(?:on|within) (?:an? )?(?:objective|terrain feature)",
+        "position (objectif/territoire/décor)",
+        0.5,
+    ),
     (r"\b(\d+) or more models\b", "effectif minimal", 0.5),
     (r"\bnot in combat\b", "hors combat", 0.25),
-    (r"ha(?:s|ve) not (?:used|moved|shot|charged)|did not (?:use|move|run|retreat|charge)|"
-     r"has not been picked", "contrainte d'action préalable", 0.25),
+    (
+        r"ha(?:s|ve) not (?:used|moved|shot|charged)|did not (?:use|move|run|retreat|charge)|"
+        r"has not been picked",
+        "contrainte d'action préalable",
+        0.25,
+    ),
     (r"(?:is|was|has been) destroyed|is slain|was slain|last model", "déclenché par une mort", 0.75),
     (r"damage points? allocated|has (?:\d+|any) damage points|damaged this", "doit avoir subi des dégâts", 0.5),
-    (r"you must use this ability|cannot be used again|for the rest of the battle,? (?:this|that) unit cannot",
-     "contrepartie / usage contraint", 0.25),
+    (
+        r"you must use this ability|cannot be used again|for the rest of the battle,? (?:this|that) unit cannot",
+        "contrepartie / usage contraint",
+        0.25,
+    ),
     (r"\bset up\b.*\bmore than (\d+)\" from all enemy", "placement hors de portée ennemie", 0.0),
 ]
 
@@ -43,7 +62,9 @@ _WHOLLY_RE = re.compile(r"wholly within (\d+)\"")
 #: deployed in reserve » : la réserve élargit le choix de la CIBLE, ce n'est pas une contrainte.
 _RESERVE_TARGET_RE = re.compile(
     r"[^.]*\bpick\b[^.]*\benemy\b[^.]*\bin reserve\b[^.]*\.?|"
-    r"you can (?:also )?pick (?:a|an enemy) unit that (?:has been|is) (?:deployed )?in reserve[^.]*\.?", re.I)
+    r"you can (?:also )?pick (?:a|an enemy) unit that (?:has been|is) (?:deployed )?in reserve[^.]*\.?",
+    re.I,
+)
 #: Segment secondaire d'un texte en plusieurs lignes/puces : « If the target is destroyed… ».
 _SECONDARY_IF_RE = re.compile(r"^\s*(?:-\s*)?If\b")
 

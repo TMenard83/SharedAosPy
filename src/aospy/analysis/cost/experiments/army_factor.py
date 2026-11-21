@@ -8,6 +8,7 @@ par ce script).
 l'inverse, pour que la comparaison reste valide indépendamment des évolutions futures de
 CATEGORICAL_FEATURES. `army_name`/`grand_alliance` sont déjà deux champs natifs de
 `UnitFeatures` (résolus par `all_features`), pas besoin de les recalculer via `repository`."""
+
 from aospy.analysis.cost import cost_model
 from aospy.persistence import db
 
@@ -39,8 +40,12 @@ terms_a_prime = feats + [f"C({c})" for c in cats_a_prime] + inter
 formula_a_prime = "points ~ " + " + ".join(terms_a_prime)
 model_a_prime = smf.ols(formula_a_prime, data=frame).fit()
 
-print(f"Modèle A' (grand_alliance, 4 modalités, contre-exemple) : R² = {model_a_prime.rsquared:.4f}  R² ajusté = {model_a_prime.rsquared_adj:.4f}  n_params = {len(model_a_prime.params)}")
-print(f"Modèle B (army_name, {frame['army_name'].nunique()} modalités, officiel actuel)   : R² = {model_b.rsquared:.4f}  R² ajusté = {model_b.rsquared_adj:.4f}  n_params = {len(model_b.params)}")
+print(
+    f"Modèle A' (grand_alliance, 4 modalités, contre-exemple) : R² = {model_a_prime.rsquared:.4f}  R² ajusté = {model_a_prime.rsquared_adj:.4f}  n_params = {len(model_a_prime.params)}"
+)
+print(
+    f"Modèle B (army_name, {frame['army_name'].nunique()} modalités, officiel actuel)   : R² = {model_b.rsquared:.4f}  R² ajusté = {model_b.rsquared_adj:.4f}  n_params = {len(model_b.params)}"
+)
 print()
 print(f"Gain de R² (brut)     : {model_b.rsquared - model_a_prime.rsquared:+.4f}")
 print(f"Gain de R² ajusté     : {model_b.rsquared_adj - model_a_prime.rsquared_adj:+.4f}")
@@ -58,7 +63,11 @@ print()
 
 print("Coefficients par armée (vs modalité de référence), triés par effet :")
 army_coefs = sorted(
-    ((name, model_b.params[name], model_b.pvalues[name]) for name in model_b.params.index if name.startswith("C(army_name)")),
+    (
+        (name, model_b.params[name], model_b.pvalues[name])
+        for name in model_b.params.index
+        if name.startswith("C(army_name)")
+    ),
     key=lambda t: t[1],
 )
 for name, coef, p in army_coefs:

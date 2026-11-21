@@ -63,31 +63,43 @@ def cmd_roster_analyze(args: argparse.Namespace) -> int:
     return 0
 
 
-
 def register(sub: argparse._SubParsersAction) -> None:
     """Sous-commande `roster` : compile une liste + ses profils d'unité en PDF
     (nécessite l'extra `[roster]`)."""
     p_roster = sub.add_parser("roster", help="Kit de tournoi (liste + profils d'unité) en PDF.")
     sr = p_roster.add_subparsers(dest="action", required=True)
-    p = sr.add_parser("analyze", help="Fiche couche 4 chiffrée d'une liste (unités, optimisations, règles "
-                                      "mortes, mariages, limites d'armée, magie) en Markdown.")
+    p = sr.add_parser(
+        "analyze",
+        help="Fiche couche 4 chiffrée d'une liste (unités, optimisations, règles "
+        "mortes, mariages, limites d'armée, magie) en Markdown.",
+    )
     p.add_argument("--list", dest="list", required=True, help="Fichier de liste (export texte de l'App).")
     p.add_argument("--out", help="Fichier Markdown de sortie (défaut : affichage).")
     p.set_defaults(func=cmd_roster_analyze)
     p = sr.add_parser("pdf", help="Compile une liste (export brut de l'App) en PDF.")
-    p.add_argument("--list", dest="list", required=True,
-                   help="Chemin du fichier de liste (export texte de Warhammer Age of Sigmar: The App).")
-    p.add_argument("--out", help="Chemin du PDF de sortie (défaut : scratch/output/roster/<équipe>/<liste>/<liste> (<mode>).pdf, "
-                                  "<équipe> = sous-dossier de data/Proposition de listes/, "
-                                  "<mode> = 'defaut' pour --mode hybrid).")
-    p.add_argument("--mode", choices=list(MODES),
-                   default="hybrid",
-                   help="hybrid (défaut, FR/EN historique) / en (Wahapedia uniquement) / "
-                        "fr (vérbatim français intégral, repli Wahapedia) / "
-                        "fr-extended (fr + aptitudes génériques MdG) / "
-                        "fr-split (fr-extended, aptitudes de toute l'armée en 2 cartes Mon tour / "
-                        "Tour adverse par phase, warscrolls réduits aux profils) / "
-                        "fr-split-simple (fr-split + simplifications propres à la liste) / "
-                        "en-split-simple (même mise en page, en anglais : Wahapedia, Core Rules GW, "
-                        "simplifications de la section « en »).")
+    p.add_argument(
+        "--list",
+        dest="list",
+        required=True,
+        help="Chemin du fichier de liste (export texte de Warhammer Age of Sigmar: The App).",
+    )
+    p.add_argument(
+        "--out",
+        help="Chemin du PDF de sortie (défaut : scratch/output/roster/<équipe>/<liste>/<liste> (<mode>).pdf, "
+        "<équipe> = sous-dossier de data/Proposition de listes/, "
+        "<mode> = 'defaut' pour --mode hybrid).",
+    )
+    p.add_argument(
+        "--mode",
+        choices=list(MODES),
+        default="hybrid",
+        help="hybrid (défaut, FR/EN historique) / en (Wahapedia uniquement) / "
+        "fr (vérbatim français intégral, repli Wahapedia) / "
+        "fr-extended (fr + aptitudes génériques MdG) / "
+        "fr-split (fr-extended, aptitudes de toute l'armée en 2 cartes Mon tour / "
+        "Tour adverse par phase, warscrolls réduits aux profils) / "
+        "fr-split-simple (fr-split + simplifications propres à la liste) / "
+        "en-split-simple (même mise en page, en anglais : Wahapedia, Core Rules GW, "
+        "simplifications de la section « en »).",
+    )
     p.set_defaults(func=cmd_roster_pdf)

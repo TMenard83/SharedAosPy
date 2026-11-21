@@ -89,21 +89,31 @@ def find_absent_references(parsed, base_dir: str | Path = DEFAULT_WAHAPEDIA_DIR)
     dont le texte anglais cite un warscroll de la faction absent de la liste."""
     base = str(base_dir)
     fids, warscrolls, in_list, _, sources = _list_context(parsed, base)
-    terrain = parsed.faction_terrain if isinstance(parsed.faction_terrain, list) else (
-        [parsed.faction_terrain] if parsed.faction_terrain else []
+    terrain = (
+        parsed.faction_terrain
+        if isinstance(parsed.faction_terrain, list)
+        else ([parsed.faction_terrain] if parsed.faction_terrain else [])
     )
     present = {_base(n) for n in in_list} | {_base(t) for t in terrain}
 
     # candidats : warscrolls de la faction, hors liste, hors manifestations
     # (citées par leur propre domaine) et hors décors de faction
-    candidates = sorted({
-        r["name"] for r in warscrolls
-        if r["faction_id"] in fids and _base(r["name"]) not in present
-        and r.get("role") not in ("Manifestation", "Endless Spell", "Faction Terrain")
-    }, key=len, reverse=True)
+    candidates = sorted(
+        {
+            r["name"]
+            for r in warscrolls
+            if r["faction_id"] in fids
+            and _base(r["name"]) not in present
+            and r.get("role") not in ("Manifestation", "Endless Spell", "Faction Terrain")
+        },
+        key=len,
+        reverse=True,
+    )
     if not candidates:
         return []
-    patterns = [(name, re.compile(rf"(?<![\w']){re.escape(name.replace('’', chr(39)))}(?![\w'])")) for name in candidates]
+    patterns = [
+        (name, re.compile(rf"(?<![\w']){re.escape(name.replace('’', chr(39)))}(?![\w'])")) for name in candidates
+    ]
 
     found: dict[AbsentReference, None] = {}
     for ability, owner, text in sources:

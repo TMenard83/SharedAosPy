@@ -227,8 +227,14 @@ def build_roster_pdf(
     # à ce PDF : rien ne fuit vers le suivant
     with render_session():
         return _build_roster_pdf(
-            list_path, out_path, index_path, battletome_dir, wahapedia_dir, mode,
-            faction_rules_fr_path, generic_core_abilities_path,
+            list_path,
+            out_path,
+            index_path,
+            battletome_dir,
+            wahapedia_dir,
+            mode,
+            faction_rules_fr_path,
+            generic_core_abilities_path,
         )
 
 
@@ -251,7 +257,8 @@ def _build_roster_pdf(
     # optimisations, règles de faction, manifestations).
     simplifications = (
         load_roster_simplifications(list_path.stem.strip(), lang="en" if spec.english else "fr")
-        if spec.simple else None
+        if spec.simple
+        else None
     )
     parsed, alias_sources = _apply_unit_aliases(parsed, simplifications)
     index = load_index(index_path) if index_path is not None else load_index()
@@ -304,12 +311,16 @@ def _build_roster_pdf(
         # Renown", stats différentes) — sans indice de faction,
         # `find_warscroll` retombait sur la première ligne du CSV (la
         # version de base, erronée ici), signalé par l'utilisateur.
-        ws = wh.find_warscroll(alias_sources.get(name, name), prefer_faction=parsed.base_faction) if wh.available else None
+        ws = (
+            wh.find_warscroll(alias_sources.get(name, name), prefer_faction=parsed.base_faction)
+            if wh.available
+            else None
+        )
         if ws is None and wh.available and renown_prefix and name.startswith(renown_prefix):
             # les unités d'une armée de renom sont listées préfixées par son
             # nom (ex. "Legion of the First Prince Bloodletters") mais leur
             # warscroll Wahapedia est enregistré sous son nom nu ("Bloodletters").
-            ws = wh.find_warscroll(name[len(renown_prefix):].strip(), prefer_faction=parsed.base_faction)
+            ws = wh.find_warscroll(name[len(renown_prefix) :].strip(), prefer_faction=parsed.base_faction)
         if ws is not None:
             warscrolls_by_name[name] = ws
             matched.append(name)
@@ -337,13 +348,17 @@ def _build_roster_pdf(
             overrides = get_unit_ability_overrides(frf, unit_faction, name, ws.name)
             if overrides:
                 ws = _dc_replace(ws, abilities=apply_fr_overrides(ws.abilities, overrides))
-            warscrolls_by_name[name] = _apply_display_fr(ws, get_unit_display_overrides(frf, unit_faction, name, ws.name))
+            warscrolls_by_name[name] = _apply_display_fr(
+                ws, get_unit_display_overrides(frf, unit_faction, name, ws.name)
+            )
     elif mode_spec(mode).french_names:
         # `hybrid` : noms seulement (sous-titre français, armes françaises),
         # le texte des aptitudes reste celui de Wahapedia.
         for name, ws in list(warscrolls_by_name.items()):
             unit_faction = wh.faction_name(ws.faction_id) or parsed.base_faction
-            warscrolls_by_name[name] = _apply_display_fr(ws, get_unit_display_overrides(frf, unit_faction, name, ws.name))
+            warscrolls_by_name[name] = _apply_display_fr(
+                ws, get_unit_display_overrides(frf, unit_faction, name, ws.name)
+            )
 
     # Armée de Renom : ses propres règles (Faction_abilities.csv, groupées
     # par catégorie) remplacent tout ou partie de celles de la faction de
@@ -357,9 +372,27 @@ def _build_roster_pdf(
             renown_army = (renown_prefix, grouped)
             renown_categories = frozenset(grouped)
 
-    battletome_rules, generic_manifestation_sections, tactic_sections, wahapedia_lore_blocks, rules_unmatched, lore_wahapedia_used, rule_card_labels, rule_ability_pool, manifestation_warscrolls = resolve_rules(
-        parsed, faction_index, index, wh, tactic_cards, renown_categories, mode=mode, frf=frf,
-        renown_army=renown_army, tactic_card_width=_TACTIC_CARD_WIDTH,
+    (
+        battletome_rules,
+        generic_manifestation_sections,
+        tactic_sections,
+        wahapedia_lore_blocks,
+        rules_unmatched,
+        lore_wahapedia_used,
+        rule_card_labels,
+        rule_ability_pool,
+        manifestation_warscrolls,
+    ) = resolve_rules(
+        parsed,
+        faction_index,
+        index,
+        wh,
+        tactic_cards,
+        renown_categories,
+        mode=mode,
+        frf=frf,
+        renown_army=renown_army,
+        tactic_card_width=_TACTIC_CARD_WIDTH,
     )
     wahapedia_used.extend(lore_wahapedia_used)
 
@@ -453,7 +486,8 @@ def _build_roster_pdf(
         # à une entrée unique plutôt qu'un pool entier).
         heroic_overrides = (
             get_faction_category_overrides(frf, parsed.base_faction, "heroic_traits_artefacts")
-            if mode_spec(mode).curated_patch else []
+            if mode_spec(mode).curated_patch
+            else []
         )
         # Cf. `find_pledge_battle_trait` : unités StD qui commencent la
         # bataille déjà marquées (Prince Démon, porteur de Bannière
@@ -470,7 +504,11 @@ def _build_roster_pdf(
                         label, entry = match
                         entry_name = entry.name.strip().upper()
                         if heroic_overrides:
-                            matching = [o for o in heroic_overrides if ability_join_key(o.get("wahapedia_name")) == ability_join_key(entry_name)]
+                            matching = [
+                                o
+                                for o in heroic_overrides
+                                if ability_join_key(o.get("wahapedia_name")) == ability_join_key(entry_name)
+                            ]
                             if matching:
                                 entry = apply_fr_overrides([entry], matching)[0]
                         unit_enhancements.setdefault(unit.name, []).extend(tag_ability_origin([entry], label))
@@ -487,7 +525,9 @@ def _build_roster_pdf(
                 pledge_entry = find_pledge_battle_trait(wh, frf, parsed.base_faction, mode, god)
                 if pledge_entry is None:
                     continue
-                unit_enhancements.setdefault(unit_name, []).extend(tag_ability_origin([pledge_entry], "Trait de Bataille"))
+                unit_enhancements.setdefault(unit_name, []).extend(
+                    tag_ability_origin([pledge_entry], "Trait de Bataille")
+                )
                 enhancements_included.append(f"Trait de Bataille : {pledge_entry.name} → {unit_name}")
 
     # options payantes (« Brand of Unbreakable Bonds - (10) Points ») :
@@ -521,7 +561,8 @@ def _build_roster_pdf(
             ws = _dc_replace(ws, abilities=list(ws.abilities) + extras)
         if simplifications is not None:
             ws = _dc_replace(
-                ws, abilities=[simplifications.rewrite_unit(name, ab) for ab in ws.abilities],
+                ws,
+                abilities=[simplifications.rewrite_unit(name, ab) for ab in ws.abilities],
                 keywords=_merge_unit_keywords(ws.keywords, simplifications.unit_keywords.get(name, ())),
                 weapons=[
                     _dc_replace(w, **simplifications.unit_weapons.get(name, {}).get(w.name, {})) for w in ws.weapons
@@ -553,33 +594,38 @@ def _build_roster_pdf(
         patched_manifestations = []
         for ws in manifestation_warscrolls:
             ws = _mark_self_profile(ws)
-            overrides = (
-                get_unit_ability_overrides(frf, wh.faction_name(ws.faction_id) or parsed.base_faction, ws.name)
-                or get_unit_ability_overrides(frf, parsed.base_faction, ws.name)
-            )
+            overrides = get_unit_ability_overrides(
+                frf, wh.faction_name(ws.faction_id) or parsed.base_faction, ws.name
+            ) or get_unit_ability_overrides(frf, parsed.base_faction, ws.name)
             if overrides:
                 ws = _dc_replace(ws, abilities=apply_fr_overrides(ws.abilities, overrides))
-            display = (
-                get_unit_display_overrides(frf, wh.faction_name(ws.faction_id) or parsed.base_faction, ws.name)
-                or get_unit_display_overrides(frf, parsed.base_faction, ws.name)
-            )
+            display = get_unit_display_overrides(
+                frf, wh.faction_name(ws.faction_id) or parsed.base_faction, ws.name
+            ) or get_unit_display_overrides(frf, parsed.base_faction, ws.name)
             patched_manifestations.append(_apply_display_fr(ws, display))
         manifestation_warscrolls = patched_manifestations
     elif mode_spec(mode).french_names:
         manifestation_warscrolls = [
-            _apply_display_fr(ws, (
-                get_unit_display_overrides(frf, wh.faction_name(ws.faction_id) or parsed.base_faction, ws.name)
-                or get_unit_display_overrides(frf, parsed.base_faction, ws.name)
-            ))
+            _apply_display_fr(
+                ws,
+                (
+                    get_unit_display_overrides(frf, wh.faction_name(ws.faction_id) or parsed.base_faction, ws.name)
+                    or get_unit_display_overrides(frf, parsed.base_faction, ws.name)
+                ),
+            )
             for ws in manifestation_warscrolls
         ]
     warscrolls_for_cards.extend(manifestation_warscrolls)
     if simplifications is not None:
         warscrolls_for_cards = [
-            _dc_replace(ws, abilities=[simplifications.rewrite(ab) for ab in ws.abilities if not simplifications.is_removed(ab)])
+            _dc_replace(
+                ws, abilities=[simplifications.rewrite(ab) for ab in ws.abilities if not simplifications.is_removed(ab)]
+            )
             for ws in warscrolls_for_cards
         ]
-        rule_ability_pool = [simplifications.rewrite(ab) for ab in rule_ability_pool if not simplifications.is_removed(ab)]
+        rule_ability_pool = [
+            simplifications.rewrite(ab) for ab in rule_ability_pool if not simplifications.is_removed(ab)
+        ]
         regiment_ability_pool = [
             simplifications.rewrite(ab) for ab in regiment_ability_pool if not simplifications.is_removed(ab)
         ]
@@ -612,14 +658,18 @@ def _build_roster_pdf(
     # mot-clé "Asterism" (propre à Seraphon) : aucun effet pour aucune autre
     # faction/liste.
     battle_traits_entries = [
-        ab for ab in rule_ability_pool
+        ab
+        for ab in rule_ability_pool
         if any(kw.strip().lower() == "traits de bataille" for kw in (ab.keywords or "").split(","))
     ]
     separate_battle_traits_card = None
     if battle_traits_entries and any("asterism" in (ab.keywords or "").lower() for ab in rule_ability_pool):
         rule_ability_pool = [ab for ab in rule_ability_pool if ab not in battle_traits_entries]
         separate_battle_traits_card = render_rule_card(
-            tr("Traits de Bataille"), battle_traits_entries, width=_RULE_CARD_WIDTH, subtitle=parsed.base_faction,
+            tr("Traits de Bataille"),
+            battle_traits_entries,
+            width=_RULE_CARD_WIDTH,
+            subtitle=parsed.base_faction,
         )
 
     # `section` : sous-section de la carte en mode `fr-split` (règles de base
@@ -636,9 +686,12 @@ def _build_roster_pdf(
     if season_entries:
         # « Saison » dit que la règle change chaque saison ; sa source (badge
         # source, cf. `render/pills._TEXT_SOURCE_KEYWORDS`) est le MdG
-        combined_pool.extend(_with_section(
-            tag_ability_origin(tag_ability_origin(season_entries, "Saison"), "MdG"), SECTION_BASE,
-        ))
+        combined_pool.extend(
+            _with_section(
+                tag_ability_origin(tag_ability_origin(season_entries, "Saison"), "MdG"),
+                SECTION_BASE,
+            )
+        )
 
     # Aptitudes Génériques (modes `fr-extended`/`fr-split`) : superset complet
     # de `MdG26-27 Aptitudes.pdf`, pas seulement les 4 règles de saison — cf.
@@ -665,17 +718,24 @@ def _build_roster_pdf(
             generic_entries = [ab for ab in generic_entries if not simplifications.is_removed(ab)]
         if generic_entries:
             # source « MdG » sauf pour celles déjà sourcées « Core Rules »
-            generic_tagged = _with_section([
-                ab if CORE_RULES_SOURCE.lower() in ab.keywords.lower() else tag_ability_origin([ab], "MdG")[0]
-                for ab in generic_entries
-            ], SECTION_BASE)
+            generic_tagged = _with_section(
+                [
+                    ab if CORE_RULES_SOURCE.lower() in ab.keywords.lower() else tag_ability_origin([ab], "MdG")[0]
+                    for ab in generic_entries
+                ],
+                SECTION_BASE,
+            )
             # les règles de saison du Déploiement (ex. « Souffler sur les
             # Braises ») suivent directement « Placez le Champ de Bataille »,
             # qui désigne attaquant et défenseur dont elles dépendent (demande
             # de l'utilisateur), plutôt que la fin des aptitudes génériques.
             anchor = next(
-                (i + 1 for i, ab in enumerate(generic_tagged)
-                 if ab.name in ("Placez le Champ de Bataille", "Set Up the Battlefield")), None,
+                (
+                    i + 1
+                    for i, ab in enumerate(generic_tagged)
+                    if ab.name in ("Placez le Champ de Bataille", "Set Up the Battlefield")
+                ),
+                None,
             )
             if anchor is not None:
                 season_tail = combined_pool[generic_insert_at:]
@@ -684,9 +744,12 @@ def _build_roster_pdf(
                 generic_tagged[anchor:anchor] = season_deploy
             combined_pool[generic_insert_at:generic_insert_at] = generic_tagged
 
-    combined_pool.extend(_with_section(
-        tag_ability_origin(tag_ability_origin(_tactic_special_rules(parsed, tactic_cards), "Tactique"), "MdG"), SECTION_BASE,
-    ))
+    combined_pool.extend(
+        _with_section(
+            tag_ability_origin(tag_ability_origin(_tactic_special_rules(parsed, tactic_cards), "Tactique"), "MdG"),
+            SECTION_BASE,
+        )
+    )
 
     # Mode `fr-split` : les aptitudes des warscrolls quittent leur carte
     # d'unité (qui ne garde que stats + armes + mots-clés) pour rejoindre le
@@ -713,9 +776,9 @@ def _build_roster_pdf(
         def kept(ab: AbilityEntry) -> bool:
             return simplifications is not None and simplifications.keeps_on_warscroll(ab)
 
-        full_pool = combined_pool + _warscroll_ability_pool([
-            _dc_replace(ws, abilities=[ab for ab in ws.abilities if not kept(ab)]) for ws in warscrolls_for_cards
-        ])
+        full_pool = combined_pool + _warscroll_ability_pool(
+            [_dc_replace(ws, abilities=[ab for ab in ws.abilities if not kept(ab)]) for ws in warscrolls_for_cards]
+        )
         full_pool = _collapse_alias_pills(full_pool, alias_sources)
         if simplifications is not None:
             # règles de base/saison, ajoutées au bassin après le premier
@@ -725,13 +788,17 @@ def _build_roster_pdf(
         full_pool = _apply_choice_clusters(_fold_warscroll_copies(full_pool), mode)
         if simplifications is not None:
             full_pool = simplifications.expand_phases(
-                full_pool, lambda ab: ab.ability_category in CHOICE_CATEGORIES,
+                full_pool,
+                lambda ab: ab.ability_category in CHOICE_CATEGORIES,
             )
             full_pool = _apply_section_order(full_pool, simplifications.section_order)
         warscrolls_for_cards = [
-            _dc_replace(ws, abilities=[
-                ab for ab in ws.abilities if kept(ab) or is_self_profile_modifier(ab, [w.name for w in ws.weapons])
-            ])
+            _dc_replace(
+                ws,
+                abilities=[
+                    ab for ab in ws.abilities if kept(ab) or is_self_profile_modifier(ab, [w.name for w in ws.weapons])
+                ],
+            )
             for ws in warscrolls_for_cards
         ]
         warscrolls_for_cards = _drop_identical_alias_cards(warscrolls_for_cards, alias_sources)
@@ -740,8 +807,13 @@ def _build_roster_pdf(
 
         def turn_card(title: str, abilities: list[AbilityEntry]):
             return render_rule_card(
-                title, abilities, width=_RULE_CARD_WIDTH, subtitle=parsed.base_faction, phase_order=SPLIT_PHASE_ORDER,
-                hide_turn_qualifier=True, sectioned=True,
+                title,
+                abilities,
+                width=_RULE_CARD_WIDTH,
+                subtitle=parsed.base_faction,
+                phase_order=SPLIT_PHASE_ORDER,
+                hide_turn_qualifier=True,
+                sectioned=True,
                 base_last=simplifications is not None and simplifications.base_rules_last,
             )
 
@@ -750,28 +822,46 @@ def _build_roster_pdf(
         any_phase = [ab for ab in full_pool if classify_phase(ab) == "any"]
         in_turn = _order_deploy([ab for ab in full_pool if classify_phase(ab) not in ("deploy", "any")])
         mine = [ab for ab in in_turn if TURN_MINE in _turn_sides(ab, in_turn)]
-        enemy = _drop_enemy_charge_reroll([
-            ab for ab in in_turn
-            if TURN_ENEMY in _turn_sides(ab, in_turn) and ability_join_key(ab.name) not in _MINE_ONLY_KEYS
-        ])
+        enemy = _drop_enemy_charge_reroll(
+            [
+                ab
+                for ab in in_turn
+                if TURN_ENEMY in _turn_sides(ab, in_turn) and ability_join_key(ab.name) not in _MINE_ONLY_KEYS
+            ]
+        )
         ability_cards = {
-            "deploy": deploy, "any": any_phase, "mine": mine, "enemy": enemy,
-            "warscrolls": [_dc_replace(ab, warscrolls=(ws.name,)) for ws in warscrolls_for_cards for ab in ws.abilities],
+            "deploy": deploy,
+            "any": any_phase,
+            "mine": mine,
+            "enemy": enemy,
+            "warscrolls": [
+                _dc_replace(ab, warscrolls=(ws.name,)) for ws in warscrolls_for_cards for ab in ws.abilities
+            ],
             "battle_traits": battle_traits_entries if separate_battle_traits_card is not None else [],
         }
 
         # « N'importe quelle phase » : sa propre carte (demande de
         # l'utilisateur), à la suite de « Déploiement » sur les mêmes pages.
-        rule_card_groups.append((None, [
-            turn_card(tr("Déploiement"), deploy), turn_card(tr("N'importe quelle phase"), any_phase),
-        ]))
-        rule_card_groups.append((
-            tr("Mon tour"),
-            [
-                turn_card(tr("Mon tour"), mine),
-                _tactic_cards_block([flowable for _label, flowable in tactic_sections], min_scale=_TACTIC_MIN_SCALE),
-            ],
-        ))
+        rule_card_groups.append(
+            (
+                None,
+                [
+                    turn_card(tr("Déploiement"), deploy),
+                    turn_card(tr("N'importe quelle phase"), any_phase),
+                ],
+            )
+        )
+        rule_card_groups.append(
+            (
+                tr("Mon tour"),
+                [
+                    turn_card(tr("Mon tour"), mine),
+                    _tactic_cards_block(
+                        [flowable for _label, flowable in tactic_sections], min_scale=_TACTIC_MIN_SCALE
+                    ),
+                ],
+            )
+        )
         rule_card_groups.append((tr("Tour de l'adversaire"), [turn_card(tr("Tour adverse"), enemy)]))
         rule_card_groups = [(label, [c for c in group if c is not None]) for label, group in rule_card_groups]
         tactics_in_turn_card = True
@@ -789,10 +879,16 @@ def _build_roster_pdf(
             # coupe de page), « N'importe quelle phase » (vert) juste après
             # le Déploiement (`SPLIT_PHASE_ORDER`) — demande de l'utilisateur ;
             # la carte reste unique, pastilles de tour comprises.
-            rule_cards.append(render_rule_card(
-                tr("Aptitudes"), combined_pool, width=_RULE_CARD_WIDTH, subtitle=parsed.base_faction,
-                phase_order=SPLIT_PHASE_ORDER, sectioned=True,
-            ))
+            rule_cards.append(
+                render_rule_card(
+                    tr("Aptitudes"),
+                    combined_pool,
+                    width=_RULE_CARD_WIDTH,
+                    subtitle=parsed.base_faction,
+                    phase_order=SPLIT_PHASE_ORDER,
+                    sectioned=True,
+                )
+            )
         rule_card_groups.append((None, rule_cards))
 
     rules_included = (
@@ -807,7 +903,8 @@ def _build_roster_pdf(
         + ([f"{renown_army[0]} — Army of Renown Rules"] if renown_army else [])
         + [
             f"Régiment de Renom : {name} (FR)" if name in regiment_curated else f"Regiment of Renown : {name}"
-            for name, data in regiments_of_renown if data is not None
+            for name, data in regiments_of_renown
+            if data is not None
         ]
     )
 
@@ -823,12 +920,17 @@ def _build_roster_pdf(
     )
     cards_bytes = _build_warscroll_cards_pdf(warscrolls_for_cards, regiment_notes)
     appendix_bytes = _build_wahapedia_appendix_pdf(
-        wahapedia_lore_blocks, renown_army, grouped_regiments,
+        wahapedia_lore_blocks,
+        renown_army,
+        grouped_regiments,
     )
 
     writer = PdfWriter()
     cover = _build_cover_pdf(
-        _relabel_options(parsed, simplifications), unmatched_units, rules_unmatched, wahapedia_used,
+        _relabel_options(parsed, simplifications),
+        unmatched_units,
+        rules_unmatched,
+        wahapedia_used,
         badge_shapes=drawn_badge_shapes(),
     )
     for page in PdfReader(BytesIO(cover)).pages:

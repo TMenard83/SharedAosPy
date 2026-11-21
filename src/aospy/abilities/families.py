@@ -51,20 +51,61 @@ _DEF_STATS = {"save", "ward", "health"}
 _MOVE_STATS = {"move", "run", "charge"}
 _MAGIC_STATS = {"cast", "chant", "unbind", "banish", "power_level"}
 
-_OFF_KINDS = {"crit", "anti", "charge_bonus", "reroll", "strike_first", "extra_fight", "fight_twice",
-              "extra_shoot", "shoot_in_combat", "stat_set", "keyword_gain", "range_bonus", "ignore_debuff",
-              "snipe"}
+_OFF_KINDS = {
+    "crit",
+    "anti",
+    "charge_bonus",
+    "reroll",
+    "strike_first",
+    "extra_fight",
+    "fight_twice",
+    "extra_shoot",
+    "shoot_in_combat",
+    "stat_set",
+    "keyword_gain",
+    "range_bonus",
+    "ignore_debuff",
+    "snipe",
+}
 _DEF_KINDS = {"ward", "damage_ignore", "negate_attack", "untargetable", "damage_redirect"}
-_DEBUFF_KINDS = {"strike_last", "restriction", "lockout", "move_debuff", "no_crit", "no_ward",
-                 "no_weapon_abilities", "taunt", "anti_heal",
-                 "strip_enhancement"}
-_MOBILITY_KINDS = {"move", "redeploy", "deep_strike", "run_and_charge", "run_and_shoot", "fly",
-                   "extra_move", "pile_in", "free_retreat"}
+_DEBUFF_KINDS = {
+    "strike_last",
+    "restriction",
+    "lockout",
+    "move_debuff",
+    "no_crit",
+    "no_ward",
+    "no_weapon_abilities",
+    "taunt",
+    "anti_heal",
+    "strip_enhancement",
+}
+_MOBILITY_KINDS = {
+    "move",
+    "redeploy",
+    "deep_strike",
+    "run_and_charge",
+    "run_and_shoot",
+    "fly",
+    "extra_move",
+    "pile_in",
+    "free_retreat",
+}
 _MAGIC_KINDS = {"anti_magic", "cp_gain", "resource", "summon", "extra_use", "tactic_cards"}
 
 #: Départage de la famille principale à égalité d'effets (ordre d'importance pour le mariage).
-_PRIORITY = ("buff-donne", "debuff", "degats-directs", "buff-perso-offensif", "buff-perso-defensif",
-             "mobilite", "soin", "controle", "magie-ressource", "autre")
+_PRIORITY = (
+    "buff-donne",
+    "debuff",
+    "degats-directs",
+    "buff-perso-offensif",
+    "buff-perso-defensif",
+    "mobilite",
+    "soin",
+    "controle",
+    "magie-ressource",
+    "autre",
+)
 
 
 def _buff(scope: str, offensive: bool) -> str:
@@ -102,7 +143,7 @@ def effect_family(e: Effect, scope: str) -> str:
         return "degats-directs" if side == "enemy" else "autre"
     if k == "slay":
         return "degats-directs"
-    if k == "no_buff":                       # v21 : ignorer les modificateurs positifs de la cible
+    if k == "no_buff":  # v21 : ignorer les modificateurs positifs de la cible
         return "debuff"
     if k in ("heal", "return_models", "rally"):
         return "soin"
@@ -112,17 +153,23 @@ def effect_family(e: Effect, scope: str) -> str:
         return "debuff"
     if k in _MOBILITY_KINDS:
         return "debuff" if side == "enemy" else "mobilite"
-    if k == "range_bonus" and st == "spell":     # v28 : relais de sort
+    if k == "range_bonus" and st == "spell":  # v28 : relais de sort
         return "magie-ressource"
-    if k == "keyword_gain" and st == "caster":   # v28 : niveau de lanceur gagné
+    if k == "keyword_gain" and st == "caster":  # v28 : niveau de lanceur gagné
         return "magie-ressource"
-    if k == "dice_count":                        # v28 : dé en plus (ami) / en moins (ennemi)
+    if k == "dice_count":  # v28 : dé en plus (ami) / en moins (ennemi)
         if side == "enemy":
             return "debuff"
         if e.value < 0:
             return "autre"
-        return "mobilite" if st in _MOVE_STATS | {"redeploy"} else "magie-ressource" if st in _MAGIC_STATS | {"chant"} else "autre"
-    if k == "reroll" and st in _MOVE_STATS:      # v25 : relance de course/charge
+        return (
+            "mobilite"
+            if st in _MOVE_STATS | {"redeploy"}
+            else "magie-ressource"
+            if st in _MAGIC_STATS | {"chant"}
+            else "autre"
+        )
+    if k == "reroll" and st in _MOVE_STATS:  # v25 : relance de course/charge
         return "mobilite"
     if k == "reroll" and st in ("save", "ward"):
         return _buff(scope, offensive=False)

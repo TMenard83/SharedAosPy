@@ -41,8 +41,7 @@ def cmd_army_list(args: argparse.Namespace) -> int:
 def _register_init_reset(sub: argparse._SubParsersAction) -> None:
     """Sous-commandes `init` et `reset` (gestion du fichier DuckDB)."""
     p = sub.add_parser("init", help="Initialise la DB et seed les données JSON.")
-    p.add_argument("--no-compositions", action="store_true",
-                   help="Ne charge pas data/json/compositions.json.")
+    p.add_argument("--no-compositions", action="store_true", help="Ne charge pas data/json/compositions.json.")
     p.set_defaults(func=cmd_init)
 
     p = sub.add_parser("reset", help="Supprime la base existante.")

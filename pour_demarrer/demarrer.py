@@ -66,10 +66,16 @@ def choisir_unite(con, role: str):
 def _args_communs(**overrides) -> dict:
     base = dict(
         db=DB_PATH,
-        charge="none", aoa="none", aod="none", ran_and_charged="none",
-        rule_double_shoot=True, rule_charge_threshold=True,
-        charge_dist=7.0, run_dist=3.5,
-        attacker_mode="mean", defender_mode="mean",
+        charge="none",
+        aoa="none",
+        aod="none",
+        ran_and_charged="none",
+        rule_double_shoot=True,
+        rule_charge_threshold=True,
+        charge_dist=7.0,
+        run_dist=3.5,
+        attacker_mode="mean",
+        defender_mode="mean",
     )
     base.update(overrides)
     return base
@@ -77,8 +83,10 @@ def _args_communs(**overrides) -> dict:
 
 def _args_duel(**overrides) -> argparse.Namespace:
     base = _args_communs(
-        attacker_army=None, defender_army=None,
-        attacker_reinforced=False, defender_reinforced=False,
+        attacker_army=None,
+        defender_army=None,
+        attacker_reinforced=False,
+        defender_reinforced=False,
     )
     base.update(overrides)
     return argparse.Namespace(**base)
@@ -86,9 +94,14 @@ def _args_duel(**overrides) -> argparse.Namespace:
 
 def _args_benchmark(**overrides) -> argparse.Namespace:
     base = _args_communs(
-        attacker_army=None, vs_army=None, include_heroes=False,
-        attacker_reinforced=False, defender_reinforced=False,
-        sort_by="pts-net", top=None, detail=False,
+        attacker_army=None,
+        vs_army=None,
+        include_heroes=False,
+        attacker_reinforced=False,
+        defender_reinforced=False,
+        sort_by="pts-net",
+        top=None,
+        detail=False,
     )
     base.update(overrides)
     return argparse.Namespace(**base)
@@ -127,9 +140,12 @@ def action_duel() -> None:
     attaquant_charge = ask_yes_no("L'attaquant charge-t-il ?")
 
     args = _args_duel(
-        attacker=attaquant.name, attacker_army=armee_attaquant,
-        defender=defenseur.name, defender_army=armee_defenseur,
-        attacker_reinforced=attaquant_renforce, defender_reinforced=defenseur_renforce,
+        attacker=attaquant.name,
+        attacker_army=armee_attaquant,
+        defender=defenseur.name,
+        defender_army=armee_defenseur,
+        attacker_reinforced=attaquant_renforce,
+        defender_reinforced=defenseur_renforce,
         charge="a" if attaquant_charge else "none",
     )
     cmd_unit_duel(args)
@@ -148,10 +164,12 @@ def action_benchmark() -> None:
     detail = ask_yes_no("Afficher le détail de chaque duel ?")
 
     args = _args_benchmark(
-        attacker=attaquant.name, attacker_army=armee_attaquant,
+        attacker=attaquant.name,
+        attacker_army=armee_attaquant,
         attacker_reinforced=attaquant_renforce,
         charge="a" if attaquant_charge else "none",
-        include_heroes=inclure_heros, detail=detail,
+        include_heroes=inclure_heros,
+        detail=detail,
     )
     cmd_unit_benchmark(args)
 

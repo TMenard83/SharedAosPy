@@ -20,8 +20,9 @@ _FRIENDLY_FILLERS = {"or", "and", "unified", "anointed", "other", "damaged", "vi
 _FRIENDLY_STOPS = {"unit", "units", "model", "models"}
 
 
-_OTHER_FRIENDLY = re.compile(r"\b(?:another|other) friendly\b|friendly [^.]*?\bother than (?:this|that) (?:unit|model)",
-                             re.I)
+_OTHER_FRIENDLY = re.compile(
+    r"\b(?:another|other) friendly\b|friendly [^.]*?\bother than (?:this|that) (?:unit|model)", re.I
+)
 
 
 def excludes_self_of(declare: str, effect: str) -> bool:
@@ -41,7 +42,7 @@ def friendly_target_of(declare: str, effect: str) -> str:
     seg = _target_clause(declare) or (_target_clause(effect) if _TARGET_PHRASE.search(effect) else "")
     for text in (seg, declare, effect):
         for m in re.finditer(r"\b[Ff]riendly\b", text):
-            words = text[m.end():].split()
+            words = text[m.end() :].split()
             out: list[str] = []
             for w in words[:12]:
                 wc = w.strip(",;:.")
@@ -52,7 +53,7 @@ def friendly_target_of(declare: str, effect: str) -> str:
                 out.append(wc)
                 if wc != w:
                     break
-            rest = " ".join(words[len(out):len(out) + 2]).lower()
+            rest = " ".join(words[len(out) : len(out) + 2]).lower()
             if rest.startswith(("to cast", "to chant", "to use", "to summon")):
                 continue
             while out and out[-1].lower() in _FRIENDLY_FILLERS:
@@ -73,7 +74,7 @@ def _line_of(sentence: str, text: str) -> str:
         return sentence
     start = text.rfind("\n", 0, i) + 1
     end = text.find("\n", i)
-    return text[start:end if end >= 0 else len(text)]
+    return text[start : end if end >= 0 else len(text)]
 
 
 def effect_friendly_target(sentence: str, text: str) -> str:
@@ -82,12 +83,12 @@ def effect_friendly_target(sentence: str, text: str) -> str:
     doit l'emporter sur la cible de l'aptitude."""
     kept = sentence
     for m in re.finditer(r"\b[Ff]riendly\b", kept):
-        if _FRIENDLY_LANDMARK.search(kept[max(0, m.start() - 20):m.start()]):
+        if _FRIENDLY_LANDMARK.search(kept[max(0, m.start() - 20) : m.start()]):
             continue
-        ft = friendly_target_of("", kept[m.start():])
+        ft = friendly_target_of("", kept[m.start() :])
         option = bool(_OPTION_LINE.match(_line_of(sentence, text)))
-        if not ft and option and re.match(r"friendly units?\b", kept[m.start():], re.I):
-            ft = "*"   # v27 : « for friendly units » sur une ligne d'option = toute unité amie (≠ repli)
+        if not ft and option and re.match(r"friendly units?\b", kept[m.start() :], re.I):
+            ft = "*"  # v27 : « for friendly units » sur une ligne d'option = toute unité amie (≠ repli)
         if ft:
             return ("option:" if option else "") + ft
         return ""

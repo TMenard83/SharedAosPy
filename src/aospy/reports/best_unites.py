@@ -11,6 +11,7 @@ global conservé, pas de renumérotation locale).
 Pendant : best_heros.py (même méthode, plan de coût héros séparé). Mécanique
 partagée via best_report.py — ce fichier ne garde que le texte propre aux
 unités de troupe."""
+
 from . import best_report
 from .best_report import compute_ranked
 
@@ -92,14 +93,14 @@ METHOD_PARAGRAPHS_HTML = [
 
 def render(joined: list[dict], out_path: str, *, faction: str | None = None, universe_n: int = 0) -> None:
     best_report.render(
-        joined, out_path,
+        joined,
+        out_path,
         label="Unité",
         band_text=BAND_TEXT,
         cover_title_doc="Age of Sigmar — Meilleures unités, combat × coût (TM)",
         cover_subtitle_plain_template="Unités de troupe — {n_armies} armées, {n} unités — édition TM",
         cover_subtitle_faction_template=(
-            "Unités de troupe — {faction} — {n} unités (extrait du registre global, {universe_n} unités) "
-            "— édition TM"
+            "Unités de troupe — {faction} — {n} unités (extrait du registre global, {universe_n} unités) — édition TM"
         ),
         cover_body_intro_html=COVER_BODY_INTRO_HTML,
         cover_body_plain_template=COVER_BODY_PLAIN_TEMPLATE,

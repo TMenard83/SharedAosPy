@@ -6,6 +6,7 @@ texte (French, propre à chaque rôle) et quelques libellés varient : ce module
 porte la mécanique (ajustement, filtrage, mise en page PDF) commune ; les
 fichiers cost_unites.py/cost_heros.py ne gardent que leur texte et appellent
 `build()`."""
+
 from reportlab.lib.units import mm
 from reportlab.platypus import NextPageTemplate, PageBreak, Paragraph, Spacer
 
@@ -23,7 +24,6 @@ from .common import (
     cover_title,
     ranked_table,
     section_note,
-    section_title,
     subhead,
     today_str,
 )
@@ -95,13 +95,18 @@ def build(
     story.append(Spacer(1, 6 * mm))
     story.append(Paragraph(f"Registre établi le {today_str()} — Édition TM", cover_meta))
     story.append(Spacer(1, 6 * mm))
-    story.append(Paragraph(
-        method_body_html.format(
-            r=result.r_squared ** 0.5, r2=result.r_squared, adj_r2=result.adj_r_squared,
-            n=result.n_obs, min_predicted=MIN_PREDICTED,
-        ),
-        cover_body,
-    ))
+    story.append(
+        Paragraph(
+            method_body_html.format(
+                r=result.r_squared**0.5,
+                r2=result.r_squared,
+                adj_r2=result.adj_r_squared,
+                n=result.n_obs,
+                min_predicted=MIN_PREDICTED,
+            ),
+            cover_body,
+        )
+    )
 
     story.append(NextPageTemplate("Data"))
     story.append(SectionMarker(doc, section_title_coef))
@@ -117,8 +122,17 @@ def build(
     story.append(Paragraph(table_note_html, section_note))
     story.append(Paragraph(table_count_template.format(n=len(undercosted)), subhead))
     story.append(Spacer(1, 2))
-    story.append(ranked_table(header, col_widths, undercosted, fmt_row, alliance_of,
-                              colored_cols=[(6, resid_color), (7, resid_color)], font_size=8))
+    story.append(
+        ranked_table(
+            header,
+            col_widths,
+            undercosted,
+            fmt_row,
+            alliance_of,
+            colored_cols=[(6, resid_color), (7, resid_color)],
+            font_size=8,
+        )
+    )
 
     doc.build(story)
     print("PDF genere:", out_path)

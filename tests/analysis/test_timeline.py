@@ -10,8 +10,8 @@ from aospy.analysis.layers.timeline import DEF_SHARE_ENEMY_TURN, KAIROS_SHORT, c
 def test_relevance_sums_to_one_per_round():
     for pol in ("off", "def", "autre"):
         assert sum(relevance(pol, 0.6)) == pytest.approx(1.0)
-    assert relevance("off", 0.0) == (1.0, 0.0)          # tir : seulement à mon tour
-    assert relevance("off", 1.0) == (0.5, 0.5)          # mêlée : combat + riposte
+    assert relevance("off", 0.0) == (1.0, 0.0)  # tir : seulement à mon tour
+    assert relevance("off", 1.0) == (0.5, 0.5)  # mêlée : combat + riposte
 
 
 def test_spans():

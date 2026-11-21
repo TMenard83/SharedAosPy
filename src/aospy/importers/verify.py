@@ -52,8 +52,14 @@ def compare_units(waha: dict, bs: dict) -> list[Discrepancy]:
         bk_full = bk | {k.split(" (", 1)[0] for k in bk if k.startswith(("WIZARD (", "PRIEST ("))}
         missing, extra = sorted(bk_full - wk), sorted(wk - bk_full)
         if missing or extra:
-            out.append(Discrepancy(name, "mots-clés", "+" + ",".join(extra) if extra else "",
-                                   "+" + ",".join(missing) if missing else ""))
+            out.append(
+                Discrepancy(
+                    name,
+                    "mots-clés",
+                    "+" + ",".join(extra) if extra else "",
+                    "+" + ",".join(missing) if missing else "",
+                )
+            )
         bw = {_norm(x.name): x for x in b.weapons}
         for x in w.weapons:
             y = bw.get(_norm(x.name))
@@ -78,9 +84,9 @@ def verify_faction(con, faction: str, bsdata_dir: str | Path = DEFAULT_BSDATA_DI
     if not path.exists():
         raise FileNotFoundError(
             f"{path} absent : télécharger « {library} » depuis github.com/BSData/age-of-sigmar-4th "
-            f"et le déposer dans {bsdata_dir}/")
-    bs = {u.name: u for u in parse_library_units(path.read_text(encoding="utf-8")).values()
-          if not u.is_legends}
+            f"et le déposer dans {bsdata_dir}/"
+        )
+    bs = {u.name: u for u in parse_library_units(path.read_text(encoding="utf-8")).values() if not u.is_legends}
     army = repository.get_army_by_name(con, faction)
     units = repository.load_all_units_with_weapons(con).get(army.id, []) if army else []
     return compare_units({u.name: u for u in units if u.points > 0}, bs)

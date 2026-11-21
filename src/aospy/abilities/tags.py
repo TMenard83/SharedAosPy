@@ -52,10 +52,10 @@ ALL_TAGS: dict[str, str] = {
     "armee": "profite à toute l'armée",
     "une-cible-ennemie": "vise une unité ennemie",
     "aura-ennemie": "touche plusieurs unités ennemies",
-    "bulle-courte": "bulle amie ≤ 6\"",
-    "bulle-9": "bulle amie de 7 à 11\"",
-    "bulle-12": "bulle amie de 12 à 17\"",
-    "bulle-18": "bulle amie ≥ 18\"",
+    "bulle-courte": 'bulle amie ≤ 6"',
+    "bulle-9": 'bulle amie de 7 à 11"',
+    "bulle-12": 'bulle amie de 12 à 17"',
+    "bulle-18": 'bulle amie ≥ 18"',
     # fiabilité / usage
     "fiable": "déclenchement automatique et effet fixe",
     "aleatoire": "déclenchement < 70 % ou effet très variable",
@@ -122,16 +122,41 @@ def tags_for(raw: RawAbility, ex: Extraction, sc: Score) -> list[str]:
         elif e.kind == "move" and e.side == "enemy":
             t.add("debuff")
     mapping = {
-        "strike_first": "frappe-en-premier", "redeploy": "teleportation", "run_and_charge": "charge",
-        "run_and_shoot": "tir", "free_retreat": "mobilite", "fixed_roll": "relance", "rally": "resurrection", "no_buff": "debuff", "extra_fight": "combat-supplementaire", "fight_twice": "combat-supplementaire", "extra_shoot": "combat-supplementaire",
-        "shoot_in_combat": "tir", "crit": "critique", "reroll": "relance", "cp_gain": "commandement",
-        "anti_magic": "magie", "summon": "invocation", "control": "controle", "anti": "anti-cible",
-        "charge_bonus": "charge", "fly": "mobilite", "extra_move": "mobilite",
-        "deep_strike": "teleportation", "no_ward": "debuff", "slay": "degats", "negate_attack": "buff-defensif",
-        "damage_ignore": "buff-defensif", "no_weapon_abilities": "debuff", "resource": "ressource-faction",
-        "battle_damaged": "profil-degrade", "range_bonus": "tir", "taunt": "debuff",
-        "snipe": "tir", "anti_heal": "debuff",   # v28
-        "strip_enhancement": "debuff",   # v31
+        "strike_first": "frappe-en-premier",
+        "redeploy": "teleportation",
+        "run_and_charge": "charge",
+        "run_and_shoot": "tir",
+        "free_retreat": "mobilite",
+        "fixed_roll": "relance",
+        "rally": "resurrection",
+        "no_buff": "debuff",
+        "extra_fight": "combat-supplementaire",
+        "fight_twice": "combat-supplementaire",
+        "extra_shoot": "combat-supplementaire",
+        "shoot_in_combat": "tir",
+        "crit": "critique",
+        "reroll": "relance",
+        "cp_gain": "commandement",
+        "anti_magic": "magie",
+        "summon": "invocation",
+        "control": "controle",
+        "anti": "anti-cible",
+        "charge_bonus": "charge",
+        "fly": "mobilite",
+        "extra_move": "mobilite",
+        "deep_strike": "teleportation",
+        "no_ward": "debuff",
+        "slay": "degats",
+        "negate_attack": "buff-defensif",
+        "damage_ignore": "buff-defensif",
+        "no_weapon_abilities": "debuff",
+        "resource": "ressource-faction",
+        "battle_damaged": "profil-degrade",
+        "range_bonus": "tir",
+        "taunt": "debuff",
+        "snipe": "tir",
+        "anti_heal": "debuff",  # v28
+        "strip_enhancement": "debuff",  # v31
     }
     for k, tag in mapping.items():
         if k in kinds:
@@ -147,12 +172,19 @@ def tags_for(raw: RawAbility, ex: Extraction, sc: Score) -> list[str]:
             t |= {"restriction", "debuff"}
         if e.kind == "untargetable" and e.side == "friendly":
             t.add("protection")
-        if e.kind == "dice_count":   # v28 : dé en plus (ami) / en moins (ennemi)
+        if e.kind == "dice_count":  # v28 : dé en plus (ami) / en moins (ennemi)
             if e.side == "enemy":
                 t.add("debuff")
             elif e.value > 0:
-                t.add("charge" if e.stat == "charge" else "magie" if e.stat in ("cast", "unbind", "banish")
-                      else "mobilite" if e.stat == "run" else "relance")
+                t.add(
+                    "charge"
+                    if e.stat == "charge"
+                    else "magie"
+                    if e.stat in ("cast", "unbind", "banish")
+                    else "mobilite"
+                    if e.stat == "run"
+                    else "relance"
+                )
     if raw.wahapedia_type == "Shooting" or raw.phase == "Shooting Phase":
         t.add("tir")
     if raw.cost_type == "Spell" or raw.source_kind in ("spell", "manifestation"):
@@ -160,9 +192,14 @@ def tags_for(raw: RawAbility, ex: Extraction, sc: Score) -> list[str]:
     if raw.cost_type == "Prayer" or raw.source_kind == "prayer":
         t.add("priere")
 
-    scope_tags = {"self": "soi-meme", "one_friendly": "une-unite-amie", "army": "armee",
-                  "one_enemy": "une-cible-ennemie", "enemy_aura": "aura-ennemie",
-                  "all_enemies": "aura-ennemie"}
+    scope_tags = {
+        "self": "soi-meme",
+        "one_friendly": "une-unite-amie",
+        "army": "armee",
+        "one_enemy": "une-cible-ennemie",
+        "enemy_aura": "aura-ennemie",
+        "all_enemies": "aura-ennemie",
+    }
     if ex.scope in scope_tags:
         t.add(scope_tags[ex.scope])
     if ex.scope == "friendly_aura" and ex.range_inches:
@@ -189,9 +226,15 @@ def tags_for(raw: RawAbility, ex: Extraction, sc: Score) -> list[str]:
         t.add("requiert-objectif")
     if ex.scales_with_size or "effectif minimal" in ex.conditions:
         t.add("depend-effectif")
-    offense = [e for e in ex.effects if e.side == "enemy" and (
-        e.kind in ("no_crit", "strike_last", "no_weapon_abilities")
-        or (e.kind == "stat_mod" and e.detail == "defensif"))]
+    offense = [
+        e
+        for e in ex.effects
+        if e.side == "enemy"
+        and (
+            e.kind in ("no_crit", "strike_last", "no_weapon_abilities")
+            or (e.kind == "stat_mod" and e.detail == "defensif")
+        )
+    ]
     if any(e.detail == "marquage" for e in ex.effects):
         t |= {"marquage", "buff-offensif", "degats"}
     if ex.scope == "one_enemy" and len(offense) >= 2:

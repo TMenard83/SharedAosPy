@@ -18,6 +18,7 @@ dérive donc le contre-exemple "avant adoption" (wounds_total/save_num/ward_num 
 pas de terme quadratique, interaction héros sur wounds_total) à partir du jeu officiel
 actuel plutôt que l'inverse, pour que la comparaison reste valide indépendamment des
 évolutions futures de MODEL_FEATURES."""
+
 from aospy.analysis.cost import cost_model
 from aospy.persistence import db
 
@@ -33,8 +34,7 @@ FEATURES_BEFORE = tuple(
 )
 FEATURES_BEFORE = tuple(x for group in FEATURES_BEFORE for x in group)  # aplatit
 INTERACTIONS_BEFORE = tuple(
-    "C(is_hero):wounds_total" if t == "C(is_hero):effective_wounds" else t
-    for t in cost_model.FACTORIAL_INTERACTIONS
+    "C(is_hero):wounds_total" if t == "C(is_hero):effective_wounds" else t for t in cost_model.FACTORIAL_INTERACTIONS
 )
 
 FEATURES_ONLY_EW = tuple(f for f in FEATURES_BEFORE if f not in ("wounds_total", "save_num", "ward_num")) + (
@@ -43,20 +43,34 @@ FEATURES_ONLY_EW = tuple(f for f in FEATURES_BEFORE if f not in ("wounds_total",
 FEATURES_ONLY_SQ = FEATURES_BEFORE + ("dmg_vs_save2_sq",)
 
 model_a = cost_model.fit_cost_model_factorial(
-    features=FEATURES_BEFORE, interactions=INTERACTIONS_BEFORE, frame=frame.copy(),
+    features=FEATURES_BEFORE,
+    interactions=INTERACTIONS_BEFORE,
+    frame=frame.copy(),
 )  # avant adoption : wounds_total/save_num/ward_num séparés, pas de terme quadratique
 model_b = cost_model.fit_cost_model_factorial(
-    features=FEATURES_ONLY_EW, interactions=cost_model.FACTORIAL_INTERACTIONS, frame=frame.copy(),
+    features=FEATURES_ONLY_EW,
+    interactions=cost_model.FACTORIAL_INTERACTIONS,
+    frame=frame.copy(),
 )  # + effective_wounds seul (remplace le trio)
 model_c = cost_model.fit_cost_model_factorial(
-    features=FEATURES_ONLY_SQ, interactions=INTERACTIONS_BEFORE, frame=frame.copy(),
+    features=FEATURES_ONLY_SQ,
+    interactions=INTERACTIONS_BEFORE,
+    frame=frame.copy(),
 )  # + dmg_vs_save2_sq seul (trio inchangé)
 model_d = cost_model.fit_cost_model_factorial(frame=frame.copy())  # officiel actuel : les deux combinés
 
-print(f"Modèle A (avant adoption, trio wounds/save/ward, pas de terme quadratique) : R² = {model_a.r_squared:.4f}  R² ajusté = {model_a.adj_r_squared:.4f}")
-print(f"Modèle B (+ effective_wounds seul)                                         : R² = {model_b.r_squared:.4f}  R² ajusté = {model_b.adj_r_squared:.4f}  (gain {model_b.adj_r_squared - model_a.adj_r_squared:+.4f})")
-print(f"Modèle C (+ dmg_vs_save2_sq seul)                                          : R² = {model_c.r_squared:.4f}  R² ajusté = {model_c.adj_r_squared:.4f}  (gain {model_c.adj_r_squared - model_a.adj_r_squared:+.4f})")
-print(f"Modèle D (officiel actuel, les deux + interaction héros sur effective_wounds) : R² = {model_d.r_squared:.4f}  R² ajusté = {model_d.adj_r_squared:.4f}  (gain {model_d.adj_r_squared - model_a.adj_r_squared:+.4f})")
+print(
+    f"Modèle A (avant adoption, trio wounds/save/ward, pas de terme quadratique) : R² = {model_a.r_squared:.4f}  R² ajusté = {model_a.adj_r_squared:.4f}"
+)
+print(
+    f"Modèle B (+ effective_wounds seul)                                         : R² = {model_b.r_squared:.4f}  R² ajusté = {model_b.adj_r_squared:.4f}  (gain {model_b.adj_r_squared - model_a.adj_r_squared:+.4f})"
+)
+print(
+    f"Modèle C (+ dmg_vs_save2_sq seul)                                          : R² = {model_c.r_squared:.4f}  R² ajusté = {model_c.adj_r_squared:.4f}  (gain {model_c.adj_r_squared - model_a.adj_r_squared:+.4f})"
+)
+print(
+    f"Modèle D (officiel actuel, les deux + interaction héros sur effective_wounds) : R² = {model_d.r_squared:.4f}  R² ajusté = {model_d.adj_r_squared:.4f}  (gain {model_d.adj_r_squared - model_a.adj_r_squared:+.4f})"
+)
 print()
 
 for label, model in [("A", model_a), ("B", model_b), ("C", model_c), ("D", model_d)]:

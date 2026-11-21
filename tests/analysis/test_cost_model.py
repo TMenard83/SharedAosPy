@@ -19,15 +19,41 @@ from aospy.analysis.cost.features import UnitFeatures
 
 def _uf(i: int, **overrides) -> UnitFeatures:
     base = dict(
-        unit_id=i, army_id=1, name=f"U{i}", points=100, is_hero=False,
-        dmg_vs_save2=1.0, dmg_vs_save4=2.0, dmg_vs_save6=3.0, dmg_melee_vs_save6=3.0, dmg_vs_save2_sq=1.0,
-        dmg_ranged_vs_save6=0.0, dmg_melee_vs_save2=1.0, dmg_ranged_vs_save2=0.0,
-        dmg_pen=0.33, dmg_cv_vs_save4=0.5, charge_bonus_save2=0.0,
-        wounds_total=10, save_num=4, ward_num=7, effective_wounds=20.0, move=5, control=1,
-        control_expected=1, control_bonus=0, control_deficit=0,
-        unit_size=5, unit_size_sq=25,
-        grand_alliance="Order", army_name="TestArmy", weapon_mix="melee",
-        unit_type="INFANTRY", is_flying=False, wizard_level=0, priest_level=0, is_unique=False,
+        unit_id=i,
+        army_id=1,
+        name=f"U{i}",
+        points=100,
+        is_hero=False,
+        dmg_vs_save2=1.0,
+        dmg_vs_save4=2.0,
+        dmg_vs_save6=3.0,
+        dmg_melee_vs_save6=3.0,
+        dmg_vs_save2_sq=1.0,
+        dmg_ranged_vs_save6=0.0,
+        dmg_melee_vs_save2=1.0,
+        dmg_ranged_vs_save2=0.0,
+        dmg_pen=0.33,
+        dmg_cv_vs_save4=0.5,
+        charge_bonus_save2=0.0,
+        wounds_total=10,
+        save_num=4,
+        ward_num=7,
+        effective_wounds=20.0,
+        move=5,
+        control=1,
+        control_expected=1,
+        control_bonus=0,
+        control_deficit=0,
+        unit_size=5,
+        unit_size_sq=25,
+        grand_alliance="Order",
+        army_name="TestArmy",
+        weapon_mix="melee",
+        unit_type="INFANTRY",
+        is_flying=False,
+        wizard_level=0,
+        priest_level=0,
+        is_unique=False,
         crit_type="none",
     )
     base.update(overrides)
@@ -84,44 +110,60 @@ def test_fit_cost_model_raises_on_too_few_units():
 
 def _residual(unit_id, predicted, residual_pct):
     return UnitResidual(
-        unit_id=unit_id, army_id=1, name=f"U{unit_id}", points=100,
-        predicted=predicted, residual=predicted * residual_pct / 100, residual_pct=residual_pct,
+        unit_id=unit_id,
+        army_id=1,
+        name=f"U{unit_id}",
+        points=100,
+        predicted=predicted,
+        residual=predicted * residual_pct / 100,
+        residual_pct=residual_pct,
     )
 
 
 def _dummy_result(residuals: list[UnitResidual]) -> CostModelResult:
     coef = Coefficient("const", 0.0, 0.0, 1.0)
     return CostModelResult(
-        features=[], intercept=coef, coefficients=[], r_squared=1.0,
-        adj_r_squared=1.0, n_obs=len(residuals), residuals=residuals,
+        features=[],
+        intercept=coef,
+        coefficients=[],
+        r_squared=1.0,
+        adj_r_squared=1.0,
+        n_obs=len(residuals),
+        residuals=residuals,
     )
 
 
 def test_undercosted_sorts_by_most_negative_residual_pct():
-    result = _dummy_result([
-        _residual(1, 100.0, -5.0),
-        _residual(2, 100.0, -40.0),
-        _residual(3, 100.0, 10.0),
-    ])
+    result = _dummy_result(
+        [
+            _residual(1, 100.0, -5.0),
+            _residual(2, 100.0, -40.0),
+            _residual(3, 100.0, 10.0),
+        ]
+    )
     top = result.undercosted(n=2)
     assert [r.unit_id for r in top] == [2, 1]
 
 
 def test_overcosted_sorts_by_most_positive_residual_pct():
-    result = _dummy_result([
-        _residual(1, 100.0, -5.0),
-        _residual(2, 100.0, 60.0),
-        _residual(3, 100.0, 10.0),
-    ])
+    result = _dummy_result(
+        [
+            _residual(1, 100.0, -5.0),
+            _residual(2, 100.0, 60.0),
+            _residual(3, 100.0, 10.0),
+        ]
+    )
     top = result.overcosted(n=2)
     assert [r.unit_id for r in top] == [2, 3]
 
 
 def test_undercosted_filters_out_low_predicted_units():
-    result = _dummy_result([
-        _residual(1, 5.0, -90.0),  # prédiction trop faible : dénominateur non fiable
-        _residual(2, 100.0, -20.0),
-    ])
+    result = _dummy_result(
+        [
+            _residual(1, 5.0, -90.0),  # prédiction trop faible : dénominateur non fiable
+            _residual(2, 100.0, -20.0),
+        ]
+    )
     top = result.undercosted(min_predicted=40.0)
     assert [r.unit_id for r in top] == [2]
 

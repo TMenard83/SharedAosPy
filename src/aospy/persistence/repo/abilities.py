@@ -11,22 +11,70 @@ from ._sql import _insert_rows
 # ----- Analyse des aptitudes (src/aospy/abilities/) ---------------------------
 
 ABILITY_COLS = (
-    "uid", "name", "source_kind", "group_name", "faction_id", "faction_name", "condition_text",
-    "phase", "wahapedia_type", "is_reaction", "ability_keywords", "cost_type", "cost_value",
-    "declare_text", "effect_text", "frequency", "turn_side", "scope", "range_inches",
-    "wholly_within", "activation_prob", "variance", "scales_with_size", "target_keywords",
-    "conditions", "ease", "power", "reliability", "interaction", "verdict", "rationale",
-    "understood", "overridden", "analyzer_version", "analyzed_at",
-    "resource_cost", "available_round", "friendly_target", "excludes_self", "family",
+    "uid",
+    "name",
+    "source_kind",
+    "group_name",
+    "faction_id",
+    "faction_name",
+    "condition_text",
+    "phase",
+    "wahapedia_type",
+    "is_reaction",
+    "ability_keywords",
+    "cost_type",
+    "cost_value",
+    "declare_text",
+    "effect_text",
+    "frequency",
+    "turn_side",
+    "scope",
+    "range_inches",
+    "wholly_within",
+    "activation_prob",
+    "variance",
+    "scales_with_size",
+    "target_keywords",
+    "conditions",
+    "ease",
+    "power",
+    "reliability",
+    "interaction",
+    "verdict",
+    "rationale",
+    "understood",
+    "overridden",
+    "analyzer_version",
+    "analyzed_at",
+    "resource_cost",
+    "available_round",
+    "friendly_target",
+    "excludes_self",
+    "family",
     "bearer_restriction",
 )
 ABILITY_OWNER_COLS = ("ability_uid", "faction_id", "faction_name", "owner_kind", "owner_name", "warscroll_id")
 ABILITY_TAG_COLS = ("ability_uid", "tag")
-ABILITY_EFFECT_COLS = ("ability_uid", "seq", "kind", "stat", "value", "dice", "side", "detail",
-                       "weapon_scope", "weapon_name", "includes_companion", "target_keywords",
-                       "target_condition", "requires", "duration", "family", "friendly_target")
+ABILITY_EFFECT_COLS = (
+    "ability_uid",
+    "seq",
+    "kind",
+    "stat",
+    "value",
+    "dice",
+    "side",
+    "detail",
+    "weapon_scope",
+    "weapon_name",
+    "includes_companion",
+    "target_keywords",
+    "target_condition",
+    "requires",
+    "duration",
+    "family",
+    "friendly_target",
+)
 _ABILITY_TABLES = ("ability_effect", "ability_tag", "ability_owner", "ability")
-
 
 
 def replace_ability_analyses(
@@ -105,7 +153,7 @@ def search_abilities(
                (SELECT string_agg(tag, ',' ORDER BY tag) FROM ability_tag t WHERE t.ability_uid = a.uid) AS tags,
                (SELECT string_agg(DISTINCT owner_name, ' ; ') FROM ability_owner o WHERE o.ability_uid = a.uid) AS owners
         FROM ability a
-        WHERE {' AND '.join(where)}
+        WHERE {" AND ".join(where)}
         ORDER BY {order}
         LIMIT ?
         """,
@@ -120,7 +168,7 @@ def ability_stats(con: duckdb.DuckDBPyConnection) -> dict[str, list[tuple]]:
     q = {
         "verdict": "SELECT verdict, count(*) FROM ability GROUP BY 1 ORDER BY 2 DESC",
         "source_kind": "SELECT source_kind, count(*), count(*) FILTER (WHERE NOT understood) "
-                       "FROM ability GROUP BY 1 ORDER BY 2 DESC",
+        "FROM ability GROUP BY 1 ORDER BY 2 DESC",
         "tag": "SELECT tag, count(*) FROM ability_tag GROUP BY 1 ORDER BY 2 DESC",
         "version": "SELECT analyzer_version, max(analyzed_at), count(*) FROM ability GROUP BY 1",
     }
@@ -139,33 +187,42 @@ def get_ability_effects(con: duckdb.DuckDBPyConnection, ability_uid: str) -> lis
 #: Familles de cas suspects à revoir avec l'utilisateur (`aospy ability review`) : clé →
 #: (libellé, condition SQL sur `a` = ability). L'ordre est celui de la revue.
 ABILITY_REVIEW_CATEGORIES: dict[str, tuple[str, str]] = {
-    "contresens": ("effet ami sur une cible ennemie (sens mal lu ?)",
-                   "a.scope = 'one_enemy' AND EXISTS (SELECT 1 FROM ability_effect e WHERE e.ability_uid = a.uid "
-                   # un buff offensif de « this unit » contre la cible qu'elle désigne est le cas normal
-                   "AND e.kind = 'stat_mod' AND e.side = 'friendly' "
-                   "AND coalesce(e.detail, '') NOT IN ('marquage', 'offensif'))"),
-    "malus": ("malus détecté (vraie contrepartie ou contresens ?)",
-              "EXISTS (SELECT 1 FROM ability_effect e WHERE e.ability_uid = a.uid AND e.detail = 'malus')"),
-    "duree": ("buff ami dont la durée n'est pas écrite",
-              "EXISTS (SELECT 1 FROM ability_effect e WHERE e.ability_uid = a.uid AND e.kind = 'stat_mod' "
-              "AND e.side = 'friendly' AND e.duration = 'non précisée')"),
+    "contresens": (
+        "effet ami sur une cible ennemie (sens mal lu ?)",
+        "a.scope = 'one_enemy' AND EXISTS (SELECT 1 FROM ability_effect e WHERE e.ability_uid = a.uid "
+        # un buff offensif de « this unit » contre la cible qu'elle désigne est le cas normal
+        "AND e.kind = 'stat_mod' AND e.side = 'friendly' "
+        "AND coalesce(e.detail, '') NOT IN ('marquage', 'offensif'))",
+    ),
+    "malus": (
+        "malus détecté (vraie contrepartie ou contresens ?)",
+        "EXISTS (SELECT 1 FROM ability_effect e WHERE e.ability_uid = a.uid AND e.detail = 'malus')",
+    ),
+    "duree": (
+        "buff ami dont la durée n'est pas écrite",
+        "EXISTS (SELECT 1 FROM ability_effect e WHERE e.ability_uid = a.uid AND e.kind = 'stat_mod' "
+        "AND e.side = 'friendly' AND e.duration = 'non précisée')",
+    ),
     "portee": ("effet reconnu mais portée inconnue", "a.scope = 'unknown' AND a.understood"),
     "a-revoir": ("aucun effet reconnu", "a.verdict = 'a-revoir'"),
 }
 
 
-def ability_review_queue(con: duckdb.DuckDBPyConnection, category: str,
-                         exclude_uids: Iterable[str] = (), limit: int = 15) -> tuple[int, list[dict]]:
+def ability_review_queue(
+    con: duckdb.DuckDBPyConnection, category: str, exclude_uids: Iterable[str] = (), limit: int = 15
+) -> tuple[int, list[dict]]:
     """(nombre restant, lot d'aptitudes) d'une famille de cas suspects, hors uids déjà revus."""
     if category not in ABILITY_REVIEW_CATEGORIES:
         raise ValueError(f"famille inconnue : {category} ({', '.join(ABILITY_REVIEW_CATEGORIES)})")
     where = ABILITY_REVIEW_CATEGORIES[category][1]
     excluded = list(exclude_uids)
-    not_in = f" AND a.uid NOT IN (SELECT unnest(?::VARCHAR[]))" if excluded else ""
+    not_in = " AND a.uid NOT IN (SELECT unnest(?::VARCHAR[]))" if excluded else ""
     params = [excluded] if excluded else []
     total = con.execute(f"SELECT count(*) FROM ability a WHERE {where}{not_in}", params).fetchone()[0]
     rows = con.execute(
         f"SELECT a.uid, a.name, a.faction_id, a.verdict, a.condition_text, a.declare_text, a.effect_text "
-        f"FROM ability a WHERE {where}{not_in} ORDER BY a.faction_id, a.name LIMIT ?", params + [limit])
+        f"FROM ability a WHERE {where}{not_in} ORDER BY a.faction_id, a.name LIMIT ?",
+        params + [limit],
+    )
     cols = [d[0] for d in rows.description]
     return total, [dict(zip(cols, r)) for r in rows.fetchall()]

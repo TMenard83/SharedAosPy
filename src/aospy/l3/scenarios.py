@@ -10,6 +10,7 @@ score = écart prévu contre ce 2e contre + 2 pts de victoire par cran de note s
 
 Usage : aospy l3 scenarios [--team Melusior|"Vae Victis Vernou"]
 """
+
 import argparse
 import json
 from pathlib import Path
@@ -58,10 +59,13 @@ def best_defenders(players, maps, safety):
 
 def scen_block(s, again):
     rep = f" *(revient en ronde {', '.join(map(str, again))})*" if again else ""
-    lines = [f"### {s['fr']} ({s['vo']}){rep}", "",
-             f"- **Objectifs** : {s['objectifs']}",
-             f"- **Score** (fin de chacun de ses tours) : {s['score']}",
-             "- **Aptitudes du scénario** :"]
+    lines = [
+        f"### {s['fr']} ({s['vo']}){rep}",
+        "",
+        f"- **Objectifs** : {s['objectifs']}",
+        f"- **Score** (fin de chacun de ses tours) : {s['score']}",
+        "- **Aptitudes du scénario** :",
+    ]
     lines += [f"  - {a}" for a in s["aptitudes"]]
     lines += [f"- **Ce qui gagne** : {s['gagne']}", ""]
     return lines
@@ -73,20 +77,32 @@ def build(team, S, N):
     cal = {int(k): v for k, v in S["calendrier"][team].items()}
     ours = N["equipes"][team]["joueurs"]
     T = N["equipes"][team]
-    out = [f"# {FILE_NAME[team]} — nos listes face aux scénarios (L3 Centre 2026-27, aller)", "",
-           "*Généré par `aospy l3 scenarios` à partir de `Données/scenarios.json` (cartes), `Données/notes_scenarios.json` (notes par liste, à corriger avec les joueurs) "
-           "et des grilles de `Matchups/`. Ne pas modifier ce fichier : corriger les données puis relancer. Chaque ronde se lit seule, quitte à répéter un scénario qui revient.*", "",
-           "## À savoir avant de lire", ""]
+    out = [
+        f"# {FILE_NAME[team]} — nos listes face aux scénarios (L3 Centre 2026-27, aller)",
+        "",
+        "*Généré par `aospy l3 scenarios` à partir de `Données/scenarios.json` (cartes), `Données/notes_scenarios.json` (notes par liste, à corriger avec les joueurs) "
+        "et des grilles de `Matchups/`. Ne pas modifier ce fichier : corriger les données puis relancer. Chaque ronde se lit seule, quitte à répéter un scénario qui revient.*",
+        "",
+        "## À savoir avant de lire",
+        "",
+    ]
     out += [f"- {r}" for r in S["rappels"]]
-    out += ["- **Notes** : ++ très favorable · + favorable · = neutre · − défavorable · −− très défavorable.",
-            f"- **Défenseur conseillé** : un défenseur joue contre le 2e meilleur contre adverse. Score = écart prévu contre ce 2e contre (grille du moteur) + {K} pts de victoire par cran de note scénario. Indicatif : le moteur ne voit pas le scénario, la note le corrige.", ""]
+    out += [
+        "- **Notes** : ++ très favorable · + favorable · = neutre · − défavorable · −− très défavorable.",
+        f"- **Défenseur conseillé** : un défenseur joue contre le 2e meilleur contre adverse. Score = écart prévu contre ce 2e contre (grille du moteur) + {K} pts de victoire par cran de note scénario. Indicatif : le moteur ne voit pas le scénario, la note le corrige.",
+        "",
+    ]
     for n in range(1, 6):
         opp = cal.get(n)
         maps = rondes[n]
         if not opp:
-            out += [f"## Ronde {n} — pas de match (BYE)", "",
-                    f"{FILE_NAME[team]} ne joue pas cette ronde : la poule compte un nombre impair d'équipes, donc chaque ronde une équipe attend. "
-                    f"Scénarios de la ronde : {', '.join(scen[m]['fr'] for m in maps)} (voir l'annexe pour nos notes).", ""]
+            out += [
+                f"## Ronde {n} — pas de match (BYE)",
+                "",
+                f"{FILE_NAME[team]} ne joue pas cette ronde : la poule compte un nombre impair d'équipes, donc chaque ronde une équipe attend. "
+                f"Scénarios de la ronde : {', '.join(scen[m]['fr'] for m in maps)} (voir l'annexe pour nos notes).",
+                "",
+            ]
             continue
         theirs = N["equipes"][opp]["joueurs"]
         g = grid(team, n)
@@ -95,27 +111,51 @@ def build(team, S, N):
         their_safety = {q: -sorted((g[(p, q)] for p in ours), reverse=True)[1] for q in theirs}
         out += [f"## Ronde {n} — contre {opp}", ""]
         # nos défenseurs
-        out += ["### Nos défenseurs conseillés", "",
-                "| Map | Défenseur conseillé (score) | Autres candidats | À éviter (note −) |", "|---|---|---|---|"]
+        out += [
+            "### Nos défenseurs conseillés",
+            "",
+            "| Map | Défenseur conseillé (score) | Autres candidats | À éviter (note −) |",
+            "|---|---|---|---|",
+        ]
         roles = ["Map 1 (étape 1)", "Map 2 (étape 2)", "Map 3 (notre oublié)"]
         for i, (mp, ranked, sc) in enumerate(best_defenders(ours, maps, our_safety)):
             avoid = [p for p in ours if NUM[note(ours, p, mp)[0]] < 0]
-            out.append(f"| {roles[i]} — {scen[mp]['fr']} | **{ranked[0]}** ({sgn(sc[ranked[0]])}) | "
-                       + ", ".join(f"{p} ({sgn(sc[p])})" for p in ranked[1:3]) + " | " + (", ".join(avoid) or "—") + " |")
-        out += ["", "*Map 3 : c'est notre oublié (la liste restée en main à l'étape 2) qui la joue. Choix séquentiel : une liste déjà posée n'est plus proposée ensuite.*", ""]
+            out.append(
+                f"| {roles[i]} — {scen[mp]['fr']} | **{ranked[0]}** ({sgn(sc[ranked[0]])}) | "
+                + ", ".join(f"{p} ({sgn(sc[p])})" for p in ranked[1:3])
+                + " | "
+                + (", ".join(avoid) or "—")
+                + " |"
+            )
+        out += [
+            "",
+            "*Map 3 : c'est notre oublié (la liste restée en main à l'étape 2) qui la joue. Choix séquentiel : une liste déjà posée n'est plus proposée ensuite.*",
+            "",
+        ]
         # leurs défenseurs
         out += [f"### Leurs défenseurs probables ({opp})", ""]
         for i, (mp, ranked, sc) in enumerate(best_defenders(theirs, maps, their_safety)):
             pick = ranked[0]
             att = sorted(ours, key=lambda u: -(g[(u, pick)] + K * NUM[note(ours, u, mp)[0]]))
             att_txt = ", ".join(f"**{u}** (matchup {sgn(g[(u, pick)])}, map {note(ours, u, mp)[0]})" for u in att[:3])
-            out.append(f"- **{roles[i].replace('notre', 'leur')} — {scen[mp]['fr']}** : **{pick}** ({theirs[pick]['faction']}, score {sgn(sc[pick])}) ; sinon "
-                       + ", ".join(f"{p} ({sgn(sc[p])})" for p in ranked[1:3]) + f". → Nos meilleurs attaquants contre lui (on en propose 2) : {att_txt}.")
-        out += ["", "*Une liste n'attaque qu'une fois : si la même revient en tête sur plusieurs maps, la garder là où son avance est la plus nette.*", "",
-                "| Joueur | Faction | Écart contre notre 2e contre | " + " | ".join(scen[m]["fr"] for m in maps) + " |",
-                "|---|---|---|" + "---|" * len(maps)]
+            out.append(
+                f"- **{roles[i].replace('notre', 'leur')} — {scen[mp]['fr']}** : **{pick}** ({theirs[pick]['faction']}, score {sgn(sc[pick])}) ; sinon "
+                + ", ".join(f"{p} ({sgn(sc[p])})" for p in ranked[1:3])
+                + f". → Nos meilleurs attaquants contre lui (on en propose 2) : {att_txt}."
+            )
+        out += [
+            "",
+            "*Une liste n'attaque qu'une fois : si la même revient en tête sur plusieurs maps, la garder là où son avance est la plus nette.*",
+            "",
+            "| Joueur | Faction | Écart contre notre 2e contre | " + " | ".join(scen[m]["fr"] for m in maps) + " |",
+            "|---|---|---|" + "---|" * len(maps),
+        ]
         for q in sorted(theirs, key=lambda q: -their_safety[q]):
-            out.append(f"| **{q}** | {theirs[q]['faction']} | {sgn(their_safety[q])} | " + " | ".join(note(theirs, q, m)[0] for m in maps) + " |")
+            out.append(
+                f"| **{q}** | {theirs[q]['faction']} | {sgn(their_safety[q])} | "
+                + " | ".join(note(theirs, q, m)[0] for m in maps)
+                + " |"
+            )
         out.append("")
         # les maps
         for i, mp in enumerate(maps):
@@ -127,7 +167,13 @@ def build(team, S, N):
             for p in sorted(ours, key=lambda p: -NUM[note(ours, p, mp)[0]]):
                 nt, tx = note(ours, p, mp)
                 out.append(f"| **{p}** | {nt} | {tx} |")
-            out += ["", f"**Chez eux ({opp})**", "", "| Joueur | Note | Ce qu'ils feront sur cette map |", "|---|---|---|"]
+            out += [
+                "",
+                f"**Chez eux ({opp})**",
+                "",
+                "| Joueur | Note | Ce qu'ils feront sur cette map |",
+                "|---|---|---|",
+            ]
             for q in sorted(theirs, key=lambda q: (-NUM[note(theirs, q, mp)[0]], -their_safety[q])):
                 nt, tx = note(theirs, q, mp)
                 out.append(f"| **{q}** ({theirs[q]['faction']}) | {nt} | {tx} |")
@@ -135,8 +181,12 @@ def build(team, S, N):
     # annexes
     order = [m for n in range(1, 6) for m in rondes[n]]
     order = list(dict.fromkeys(order))
-    out += ["## Annexe — nos listes sur les 12 scénarios", "",
-            "| | " + " | ".join(scen[m]["fr"] for m in order) + " |", "|---|" + "---|" * len(order)]
+    out += [
+        "## Annexe — nos listes sur les 12 scénarios",
+        "",
+        "| | " + " | ".join(scen[m]["fr"] for m in order) + " |",
+        "|---|" + "---|" * len(order),
+    ]
     for p, j in ours.items():
         cells = []
         for m in order:

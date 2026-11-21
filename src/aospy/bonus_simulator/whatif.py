@@ -23,7 +23,7 @@ import duckdb
 import numpy as np
 
 from ..analysis.cost import cost_model
-from ..analysis.cost.features import UnitFeatures, compute_features
+from ..analysis.cost.features import compute_features
 from ..analysis.cost.scoring import combined_score
 from ..domain.models import Unit
 from ..orchestration.benchmark import DuelRules, benchmark_attacker
@@ -79,16 +79,21 @@ class WhatIfResult:
 
 
 def live_combat_row(
-    con: duckdb.DuckDBPyConnection, unit: Unit, *, include_heroes: bool = True,
+    con: duckdb.DuckDBPyConnection,
+    unit: Unit,
+    *,
+    include_heroes: bool = True,
 ) -> CombatRow:
     """Duel `unit` contre toutes les unités des autres armées (méthodologie de
     `reports/aggregate.py`) et agrège en direct — fonctionne pour une `Unit` en
     mémoire, jamais persistée (aucune écriture DB)."""
     results = benchmark_attacker(
-        con, unit,
+        con,
+        unit,
         exclude_army_id=unit.army_id,
         include_heroes=include_heroes,
-        mode_a="floor66", mode_b="mean",
+        mode_a="floor66",
+        mode_b="mean",
         rules=RANKING_DUEL_RULES,
     )
     if not results:
@@ -134,14 +139,18 @@ def _z_pool(pool_rows: list[dict], cost_by_id: dict[int, "cost_model.UnitResidua
         z_roi = z(c["avg_floor_roi_pct"], roi_mean, roi_std)
         z_undercost = -z(r.residual_pct, resid_mean, resid_std)
         z_impact = z(c["avg_pts_net"], impact_mean, impact_std)
-        joined.append({
-            "unit_id": r.unit_id, "name": c["name"], "army": c["army"],
-            "residual_pct": r.residual_pct,
-            "score": combined_score(
-                [(z_roi, ROI_WEIGHT), (z_undercost, 1.0), (z_impact, IMPACT_WEIGHT)],
-                IMBALANCE_WEIGHT,
-            ),
-        })
+        joined.append(
+            {
+                "unit_id": r.unit_id,
+                "name": c["name"],
+                "army": c["army"],
+                "residual_pct": r.residual_pct,
+                "score": combined_score(
+                    [(z_roi, ROI_WEIGHT), (z_undercost, 1.0), (z_impact, IMPACT_WEIGHT)],
+                    IMBALANCE_WEIGHT,
+                ),
+            }
+        )
     joined.sort(key=lambda r: r["score"], reverse=True)
     for rank, r in enumerate(joined, start=1):
         r["rank"] = rank
@@ -149,7 +158,10 @@ def _z_pool(pool_rows: list[dict], cost_by_id: dict[int, "cost_model.UnitResidua
 
 
 def rank_against_pool(
-    con: duckdb.DuckDBPyConnection, unit: Unit, *, neighbors: int = 3,
+    con: duckdb.DuckDBPyConnection,
+    unit: Unit,
+    *,
+    neighbors: int = 3,
 ) -> WhatIfResult:
     """Classe `unit` (hypothétique ou réelle) dans le même pool que
     `reports/best_unites.py`/`best_heros.py::compute_ranked()` (troupes et héros
@@ -162,7 +174,7 @@ def rank_against_pool(
     combat = live_combat_row(con, unit)
 
     frame = cost_model.feature_frame(con)
-    is_hero = unit.is_hero
+    is_hero = unit.is_hero  # noqa: F841 — lu par frame.query("@is_hero")
     segment_frame = frame.query("is_hero == @is_hero").copy()
     cost_result = cost_model.fit_cost_model_factorial(con, frame=segment_frame)
     cost_by_id: dict = {r.unit_id: r for r in cost_result.residuals}
@@ -181,8 +193,13 @@ def rank_against_pool(
     residual = unit.points - predicted
     residual_pct = (residual / predicted * 100.0) if predicted else 0.0
     hyp_residual = cost_model.UnitResidual(
-        unit_id=None, army_id=unit.army_id, name=unit.name, points=unit.points,
-        predicted=predicted, residual=residual, residual_pct=residual_pct,
+        unit_id=None,
+        army_id=unit.army_id,
+        name=unit.name,
+        points=unit.points,
+        predicted=predicted,
+        residual=residual,
+        residual_pct=residual_pct,
     )
     cost_by_id[None] = hyp_residual
 
@@ -193,13 +210,22 @@ def rank_against_pool(
             "pool de classement vide — lancer `aospy unit benchmark-all --charge none "
             "--attacker-mode floor66 --defender-mode mean --include-heroes` d'abord"
         )
-    pool_rows.append({
-        "unit_id": None, "name": unit.name, "army": "", "grand_alliance": "",
-        "points": unit.points, "is_hero": unit.is_hero,
-        "avg_roi_pct": combat.avg_roi_pct, "avg_pts_net": combat.avg_pts_net,
-        "roi_floor95_pct": combat.roi_floor95_pct, "roi_floor66_pct": combat.roi_floor66_pct,
-        "roi_floor20_pct": combat.roi_floor20_pct, "avg_floor_roi_pct": combat.avg_floor_roi_pct,
-    })
+    pool_rows.append(
+        {
+            "unit_id": None,
+            "name": unit.name,
+            "army": "",
+            "grand_alliance": "",
+            "points": unit.points,
+            "is_hero": unit.is_hero,
+            "avg_roi_pct": combat.avg_roi_pct,
+            "avg_pts_net": combat.avg_pts_net,
+            "roi_floor95_pct": combat.roi_floor95_pct,
+            "roi_floor66_pct": combat.roi_floor66_pct,
+            "roi_floor20_pct": combat.roi_floor20_pct,
+            "avg_floor_roi_pct": combat.avg_floor_roi_pct,
+        }
+    )
 
     joined = _z_pool(pool_rows, cost_by_id)
     if not joined:
@@ -212,13 +238,16 @@ def rank_against_pool(
     target = joined[target_idx]
     lo, hi = max(0, target_idx - neighbors), min(len(joined), target_idx + neighbors + 1)
     neighbor_rows = [
-        RankedNeighbor(rank=r["rank"], name=r["name"], army=r["army"], score=r["score"],
-                        is_target=(i == target_idx))
+        RankedNeighbor(rank=r["rank"], name=r["name"], army=r["army"], score=r["score"], is_target=(i == target_idx))
         for i, r in enumerate(joined[lo:hi], start=lo)
     ]
 
     return WhatIfResult(
-        rank=target["rank"], total=len(joined), score=target["score"],
-        combat=combat, predicted_points=predicted, residual_pct=residual_pct,
+        rank=target["rank"],
+        total=len(joined),
+        score=target["score"],
+        combat=combat,
+        predicted_points=predicted,
+        residual_pct=residual_pct,
         neighbors=neighbor_rows,
     )

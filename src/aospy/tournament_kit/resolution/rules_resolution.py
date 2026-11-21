@@ -104,9 +104,7 @@ _RENOWN_ARMY_CATEGORY: dict[str, str] = {
 #: `WahapediaLookup.find_unit_enhancement` et les rattache à la carte de
 #: l'unité concernée (cf. plus bas) ; une optimisation non choisie
 #: n'apparaît nulle part, tout comme une unité non choisie.
-_WAHAPEDIA_RULE_CATEGORIES = (
-    ("Traits de Bataille", "Battle Traits", "battle_traits"),
-)
+_WAHAPEDIA_RULE_CATEGORIES = (("Traits de Bataille", "Battle Traits", "battle_traits"),)
 
 
 #: Slaves to Darkness only — a unit can carry a "PLEDGED TO <GOD>" keyword
@@ -141,7 +139,11 @@ _BANNER_PLEDGED_GOD = {
 
 
 def find_pledge_battle_trait(
-    wh: WahapediaLookup, frf: FactionRulesFr, faction: str, mode: str, god: str,
+    wh: WahapediaLookup,
+    frf: FactionRulesFr,
+    faction: str,
+    mode: str,
+    god: str,
 ) -> AbilityEntry | None:
     """The "Voué à <Dieu>" Battle Trait entry for `god` (`"KHORNE"` etc.),
     French-patched like `_fr_patch` does for the merged rule card — mirrors
@@ -208,7 +210,7 @@ _ABILITY_TEXT_OVERRIDES: dict[tuple[str, str], tuple[str, str]] = {
         "• Tant qu'Alaithi, la Rune de la Montagne est inscrite dans votre verset guerrier, ignorez les "
         "modificateurs négatifs aux jets de touche et de blessure pour les attaques des cibles.<br/>"
         "• Si Oreali, la Rune du Vent est inscrite dans votre verset guerrier, chaque cible peut se "
-        "déplacer immédiatement de 3\" maximum. Chaque cible peut passer à portée de mêlée des unités "
+        'déplacer immédiatement de 3" maximum. Chaque cible peut passer à portée de mêlée des unités '
         "ennemies et peut finir ce mouvement en mêlée."
         "<br/><br/>"
         "<b>Oreali, la Rune du Vent :</b> Choisissez comme cibles jusqu'à 2 unités de "
@@ -216,14 +218,14 @@ _ABILITY_TEXT_OVERRIDES: dict[tuple[str, str], tuple[str, str]] = {
         "guerrier. Soustrayez 1 aux jets de touche pour les attaques des unités ennemies tant qu'elles "
         "sont en mêlée avec une ou plusieurs des cibles. De plus, les effets améliorés suivants "
         "s'appliquent :<br/>"
-        "• Tant que Varinor, la Rune de Force est inscrite dans votre verset guerrier, ajoutez 4\" à la "
+        '• Tant que Varinor, la Rune de Force est inscrite dans votre verset guerrier, ajoutez 4" à la '
         "caractéristique de Mouvement de chaque cible.<br/>"
         "• Tant qu'Alaithi, la Rune de la Montagne est inscrite dans votre verset guerrier, ajoutez 5 au "
         "score de contrôle de chaque cible."
         "<br/><br/>"
         "<b>Thalari, la Rune du Zénith :</b> Ajoutez 2 aux jets de lancement pour les unités de "
         "<b>SUZERAINS LUMINETHS</b> amies. De plus, si vous avez au moins 4 runes uniques inscrites dans "
-        "votre verset guerrier, ajoutez 4\" à la caractéristique de Mouvement des unités de "
+        'votre verset guerrier, ajoutez 4" à la caractéristique de Mouvement des unités de '
         "<b>SUZERAINS LUMINETHS</b> amies et les attaques de ces unités causent des touches critiques sur "
         "les jets non modifiés de 5+."
         "<br/><br/>"
@@ -262,7 +264,9 @@ def _apply_ability_text_overrides(entries: list[AbilityEntry], faction: str) -> 
 #: points.
 _TARGET_REQUIREMENTS: dict[tuple[str, str], tuple[frozenset[str], frozenset[str], frozenset[str]]] = {
     ("Slaves to Darkness", name): (
-        frozenset({"HERO"}), frozenset({"WARRIORS OF CHAOS", "DARKOATH"}), frozenset({"UNIQUE"}),
+        frozenset({"HERO"}),
+        frozenset({"WARRIORS OF CHAOS", "DARKOATH"}),
+        frozenset({"UNIQUE"}),
     )
     # noms Wahapedia et français (`faction_rules_fr.json`) : le filtre passe
     # après `_fr_patch`, qui sinon rajouterait le correctif d'une entrée
@@ -298,7 +302,9 @@ def _spawned_manifestations(
 
 
 def _drop_untargetable(
-    entries: list[AbilityEntry] | None, parsed: ParsedList, wh: WahapediaLookup,
+    entries: list[AbilityEntry] | None,
+    parsed: ParsedList,
+    wh: WahapediaLookup,
 ) -> list[AbilityEntry] | None:
     """Retire de `entries` (après `_fr_patch`) les aptitudes
     de `_TARGET_REQUIREMENTS` sans aucune cible éligible dans la liste."""
@@ -321,8 +327,12 @@ def _drop_untargetable(
 
 
 def _fr_patch(
-    mode: RosterMode, frf: FactionRulesFr, entries: list[AbilityEntry] | None,
-    faction: str, category: str, scope: str | None = None,
+    mode: RosterMode,
+    frf: FactionRulesFr,
+    entries: list[AbilityEntry] | None,
+    faction: str,
+    category: str,
+    scope: str | None = None,
 ) -> list[AbilityEntry] | None:
     """Corrige/complète `entries` (pool déjà résolu via Wahapedia,
     éventuellement `None`/vide) avec les correctifs/additions vérbatim
@@ -346,7 +356,10 @@ def _fr_patch(
 
 
 def _renown_army_pool(
-    mode: RosterMode, frf: FactionRulesFr, faction: str, renown_name: str,
+    mode: RosterMode,
+    frf: FactionRulesFr,
+    faction: str,
+    renown_name: str,
     grouped: dict[str, list[AbilityEntry]],
 ) -> list[AbilityEntry] | None:
     """`grouped` (`WahapediaLookup.find_renown_army_rules`, Wahapedia EN,
@@ -391,14 +404,27 @@ def _renown_army_pool(
 
 
 def resolve_rules(
-    parsed: ParsedList, faction_index: FactionIndex | None, index: WarscrollIndex, wh: WahapediaLookup,
-    tactic_cards: dict[str, TacticCard], renown_categories: frozenset[str] = frozenset(),
-    *, mode: RosterMode = "hybrid", frf: FactionRulesFr = FactionRulesFr(),
+    parsed: ParsedList,
+    faction_index: FactionIndex | None,
+    index: WarscrollIndex,
+    wh: WahapediaLookup,
+    tactic_cards: dict[str, TacticCard],
+    renown_categories: frozenset[str] = frozenset(),
+    *,
+    mode: RosterMode = "hybrid",
+    frf: FactionRulesFr = FactionRulesFr(),
     renown_army: tuple[str, dict[str, list[AbilityEntry]]] | None = None,
     tactic_card_width: float = 0,
 ) -> tuple[
-    list[tuple[str, list[int]]], list[tuple[str, list[int]]], list[tuple[str, object]],
-    list[tuple[str, list[AbilityEntry]]], list[str], list[str], list[str], list[AbilityEntry], list[WarscrollData],
+    list[tuple[str, list[int]]],
+    list[tuple[str, list[int]]],
+    list[tuple[str, object]],
+    list[tuple[str, list[AbilityEntry]]],
+    list[str],
+    list[str],
+    list[str],
+    list[AbilityEntry],
+    list[WarscrollData],
 ]:
     """Résout les sections de règles à inclure. Renvoie
     `(sections_battletome, sections_manifestations_génériques, sections_cartes_tactique, blocs_wahapedia, non_trouvé, sources_wahapedia, labels_carte_de_regle, bassin_aptitudes, manifestations_invoquables)`
@@ -507,7 +533,9 @@ def resolve_rules(
 
     for label, type_name, static_attr in _WAHAPEDIA_RULE_CATEGORIES:
         if _AOR_REPLACES.get(static_attr, frozenset()) & renown_categories:
-            covered_static_attrs.add(static_attr)  # remplacée par l'armée de renom (annexe), rien à copier ni à dessiner ici
+            covered_static_attrs.add(
+                static_attr
+            )  # remplacée par l'armée de renom (annexe), rien à copier ni à dessiner ici
             continue
         entries = wh.find_faction_category(parsed.base_faction, type_name) if wh.available else None
         # `_fr_patch` d'abord, contre le nom Wahapedia d'origine (sa clé de
@@ -538,7 +566,11 @@ def resolve_rules(
 
     if parsed.allegiance and not (_AOR_REPLACES.get("formations", frozenset()) & renown_categories):
         formation_name = parsed.allegiance.split("(", 1)[0].strip()
-        entries = wh.find_faction_category(parsed.base_faction, "Battle Formations", parsed.allegiance) if wh.available else None
+        entries = (
+            wh.find_faction_category(parsed.base_faction, "Battle Formations", parsed.allegiance)
+            if wh.available
+            else None
+        )
         entries = _fr_patch(mode, frf, entries, parsed.base_faction, "formations", parsed.allegiance)
         if entries:
             rule_ability_pool.extend(tag_ability_origin(entries, f"Formation : {formation_name}"))
@@ -572,7 +604,8 @@ def resolve_rules(
         else:
             pages = (
                 find_lore_pages(faction_index, faction_index.rules.spell_lores, lore_name)
-                if faction_index and allow_page_copy else None
+                if faction_index and allow_page_copy
+                else None
             )
             if pages:
                 battletome_sections.append((f"Domaine de Sorts — {lore_name}", pages))
@@ -624,7 +657,9 @@ def resolve_rules(
     manifestation_warscrolls: list[WarscrollData] = []
     if parsed.manifestation_lore:
         lore_name = parsed.manifestation_lore
-        entries = wh.find_faction_category(parsed.base_faction, "Manifestation Lore", lore_name) if wh.available else None
+        entries = (
+            wh.find_faction_category(parsed.base_faction, "Manifestation Lore", lore_name) if wh.available else None
+        )
         if not entries:
             entries = wh.find_generic_lore(lore_name) if wh.available else None
         resolved: list[WarscrollData] = []
@@ -663,9 +698,12 @@ def resolve_rules(
             # Wahapedia « Summon » et du nom du domaine, qui n'apportent rien
             # en jeu.
             entries = [
-                _dc_replace(ab, keywords=",".join(
-                    kw for kw in (ab.keywords or "").split(",") if kw.strip() and kw.strip().lower() != "summon"
-                ))
+                _dc_replace(
+                    ab,
+                    keywords=",".join(
+                        kw for kw in (ab.keywords or "").split(",") if kw.strip() and kw.strip().lower() != "summon"
+                    ),
+                )
                 for ab in entries
             ]
             tagged = set_ability_category(tag_ability_origin(entries, "Manifestation"), "manifestation")
@@ -679,7 +717,8 @@ def resolve_rules(
         else:
             pages = (
                 find_lore_pages(faction_index, faction_index.rules.manifestation_lores, lore_name)
-                if faction_index and allow_page_copy else None
+                if faction_index and allow_page_copy
+                else None
             )
             if pages:
                 battletome_sections.append((f"Domaine de Manifestations — {lore_name}", pages))
@@ -714,6 +753,13 @@ def resolve_rules(
             unmatched.append(f"Carte de tactique : {card_name}")
 
     return (
-        battletome_sections, generic_manifestation_sections, tactic_sections, wahapedia_blocks, unmatched,
-        wahapedia_used, rule_card_labels, rule_ability_pool, manifestation_warscrolls,
+        battletome_sections,
+        generic_manifestation_sections,
+        tactic_sections,
+        wahapedia_blocks,
+        unmatched,
+        wahapedia_used,
+        rule_card_labels,
+        rule_ability_pool,
+        manifestation_warscrolls,
     )

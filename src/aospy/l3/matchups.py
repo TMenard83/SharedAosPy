@@ -55,49 +55,98 @@ WAHAPEDIA = ROOT / "data" / "wahapedia"
 RELIABILITY_COVERAGE = 0.66
 RELIABILITY_WEIGHT = 0.5
 COMBAT_MAX = 6  # poids max du combat (était 10 : il écrasait mobilité et aptitudes)
-FURY_ATTACKS = 1.5 # Explosion de Fureur (fin de tour) : ~3 attaques sur 2 tours, meilleur profil
+FURY_ATTACKS = 1.5  # Explosion de Fureur (fin de tour) : ~3 attaques sur 2 tours, meilleur profil
 DB = ROOT / "data" / "aospy.duckdb"
 
 # Joueur -> (équipe, faction en base)
 PLAYERS: dict[str, tuple[str, str]] = {}
 _TEAMS = {
     "L'hydre de la petite Creuse": {
-        "DamienW": "Skaven", "Dunkhan": "Ogor Mawtribes", "GabrielSab": "Slaves to Darkness",
-        "Kazerole": "Sylvaneth", "Seraph": "Disciples of Tzeentch", "Zieg": "Stormcast Eternals"},
+        "DamienW": "Skaven",
+        "Dunkhan": "Ogor Mawtribes",
+        "GabrielSab": "Slaves to Darkness",
+        "Kazerole": "Sylvaneth",
+        "Seraph": "Disciples of Tzeentch",
+        "Zieg": "Stormcast Eternals",
+    },
     "La Tour du Cygor": {
-        "Fabien": "Stormcast Eternals", "Karrman": "Ossiarch Bonereapers", "Kross": "Seraphon",
-        "SGO": "Soulblight Gravelords", "TyraNounours": "Lumineth Realm-lords", "Waarde": "Ogor Mawtribes"},
+        "Fabien": "Stormcast Eternals",
+        "Karrman": "Ossiarch Bonereapers",
+        "Kross": "Seraphon",
+        "SGO": "Soulblight Gravelords",
+        "TyraNounours": "Lumineth Realm-lords",
+        "Waarde": "Ogor Mawtribes",
+    },
     "Le Bastion du Wargame": {
-        "Von glutten": "Flesh-eater Courts", "microFlow": "Idoneth Deepkin", "cynwall": "Skaven",
-        "Gex": "Slaves to Darkness", "Darkane": "Lumineth Realm-lords", "Gravity": "Ogor Mawtribes"},
+        "Von glutten": "Flesh-eater Courts",
+        "microFlow": "Idoneth Deepkin",
+        "cynwall": "Skaven",
+        "Gex": "Slaves to Darkness",
+        "Darkane": "Lumineth Realm-lords",
+        "Gravity": "Ogor Mawtribes",
+    },
     "Limoges Wargame": {
-        "Cromba": "Seraphon", "WereMonkey": "Ogor Mawtribes", "Antoine": "Blades of Khorne",
-        "Darkjawz": "Ironjawz", "Thiradil": "Stormcast Eternals", "Skarbrand": "Daughters of Khaine"},
+        "Cromba": "Seraphon",
+        "WereMonkey": "Ogor Mawtribes",
+        "Antoine": "Blades of Khorne",
+        "Darkjawz": "Ironjawz",
+        "Thiradil": "Stormcast Eternals",
+        "Skarbrand": "Daughters of Khaine",
+    },
     "Melusior": {
-        "Hibou_2": "Skaven", "Martoni": "Kruleboyz", "Shadow": "Slaves to Darkness",
-        "Sharowkyn": "Ogor Mawtribes", "SoDarkSnow": "Flesh-eater Courts", "Totosai": "Lumineth Realm-lords"},
+        "Hibou_2": "Skaven",
+        "Martoni": "Kruleboyz",
+        "Shadow": "Slaves to Darkness",
+        "Sharowkyn": "Ogor Mawtribes",
+        "SoDarkSnow": "Flesh-eater Courts",
+        "Totosai": "Lumineth Realm-lords",
+    },
     "Méta des Boiteux": {
-        "Moctezuma": "Sons of Behemat", "Brunehildr": "Daughters of Khaine", "T-rence": "Cities of Sigmar",
-        "Syffe": "Nighthaunt", "Aeorl": "Hedonites of Slaanesh", "Lautre": "Blades of Khorne"},
+        "Moctezuma": "Sons of Behemat",
+        "Brunehildr": "Daughters of Khaine",
+        "T-rence": "Cities of Sigmar",
+        "Syffe": "Nighthaunt",
+        "Aeorl": "Hedonites of Slaanesh",
+        "Lautre": "Blades of Khorne",
+    },
     "Team Maelstrom": {
-        "Otter": "Kharadron Overlords", "Kalirath": "Cities of Sigmar", "Draz": "Skaven",
-        "Yaratchiku": "Daughters of Khaine", "Juval": "Idoneth Deepkin", "Zoko": "Sylvaneth"},
+        "Otter": "Kharadron Overlords",
+        "Kalirath": "Cities of Sigmar",
+        "Draz": "Skaven",
+        "Yaratchiku": "Daughters of Khaine",
+        "Juval": "Idoneth Deepkin",
+        "Zoko": "Sylvaneth",
+    },
     "Torgnoles et Traditions": {
-        "Hyrielle": "Idoneth Deepkin", "Cheveux": "Nighthaunt", "Joe Rampage": "Stormcast Eternals",
-        "POP": "Maggotkin of Nurgle", "Arakzadhum": "Ironjawz", "KnoKosS": "Ogor Mawtribes"},
+        "Hyrielle": "Idoneth Deepkin",
+        "Cheveux": "Nighthaunt",
+        "Joe Rampage": "Stormcast Eternals",
+        "POP": "Maggotkin of Nurgle",
+        "Arakzadhum": "Ironjawz",
+        "KnoKosS": "Ogor Mawtribes",
+    },
     "Vae Victis Vernou": {
-        "Cartoone": "Seraphon", "Haldahir": "Blades of Khorne", "Laytorne": "Stormcast Eternals",
-        "MuaD_Dib": "Ossiarch Bonereapers", "Pierrodactyl": "Sylvaneth", "Razemme": "Daughters of Khaine"},
+        "Cartoone": "Seraphon",
+        "Haldahir": "Blades of Khorne",
+        "Laytorne": "Stormcast Eternals",
+        "MuaD_Dib": "Ossiarch Bonereapers",
+        "Pierrodactyl": "Sylvaneth",
+        "Razemme": "Daughters of Khaine",
+    },
 }
 for _team, _players in _TEAMS.items():
     for _p, _f in _players.items():
         PLAYERS[_p] = (_team, _f)
 
 SCHEDULE = {
-    "Melusior": ["Limoges Wargame", None, "Méta des Boiteux", "L'hydre de la petite Creuse",
-                 "Torgnoles et Traditions"],
-    "Vae Victis Vernou": ["Le Bastion du Wargame", "Team Maelstrom", "Torgnoles et Traditions",
-                          "La Tour du Cygor", "Limoges Wargame"],
+    "Melusior": ["Limoges Wargame", None, "Méta des Boiteux", "L'hydre de la petite Creuse", "Torgnoles et Traditions"],
+    "Vae Victis Vernou": [
+        "Le Bastion du Wargame",
+        "Team Maelstrom",
+        "Torgnoles et Traditions",
+        "La Tour du Cygor",
+        "Limoges Wargame",
+    ],
 }
 OUTPUT = {"Melusior": "Matchups/Matchups Melusior.md", "Vae Victis Vernou": "Matchups/Matchups Vae Victis.md"}
 
@@ -129,8 +178,14 @@ BT_RULES = {
         # Mountains (Avalenor : +1 instance aux ALARITH entièrement à 12") : +2 au round 1 -> +6 au
         # round 5 avec une rune par round, +4 de moyenne retenue par l'utilisateur (2026-11-18).
         "melee_attacks": {"Avalenor, The Stoneheart King": 4, "Alarith Spirit of the Mountain": 4},
-        "aptitudes": [("protection", 2.0, "Alaithi, la Rune de la Montagne (BT, Inscription de Rune) : "
-                                         "Protection (5+) sur Avalenor et les 3 Spirits of the Mountain")],
+        "aptitudes": [
+            (
+                "protection",
+                2.0,
+                "Alaithi, la Rune de la Montagne (BT, Inscription de Rune) : "
+                "Protection (5+) sur Avalenor et les 3 Spirits of the Mountain",
+            )
+        ],
     },
     "Shadow": {
         # Pledged to Khorne (+1 Attaque aux armes de mêlée, trait de bataille Slaves to Darkness) :
@@ -162,10 +217,28 @@ BT_RULES = {
 # Lignes qui ressemblent à une unité mais n'en sont pas (décor de faction, formation).
 NOT_UNITS = {"Charnel Throne", "Akhelian Beastmasters", "Aspect of Heartwood"}
 
-_UNIT_RE = re.compile(r"^(?:(?P<aqshy>Scourge of Aqshy:\s*|SoA\s+))?(?:\d+x\s+)?(?P<name>.+?)\s*\((?P<pts>\d+)(?:\s*pts)?\)")
-_SKIP_PREFIXES = ("Manifestation Lore", "Spell Lore", "Prayer Lore", "Faction Terrain", "Battle Tactic",
-                  "General", "Regiment", "Drops", "Points", "Grand Alliance", "Faction:", "Formation:",
-                  "•", "~", "-", "===", "Wounds")
+_UNIT_RE = re.compile(
+    r"^(?:(?P<aqshy>Scourge of Aqshy:\s*|SoA\s+))?(?:\d+x\s+)?(?P<name>.+?)\s*\((?P<pts>\d+)(?:\s*pts)?\)"
+)
+_SKIP_PREFIXES = (
+    "Manifestation Lore",
+    "Spell Lore",
+    "Prayer Lore",
+    "Faction Terrain",
+    "Battle Tactic",
+    "General",
+    "Regiment",
+    "Drops",
+    "Points",
+    "Grand Alliance",
+    "Faction:",
+    "Formation:",
+    "•",
+    "~",
+    "-",
+    "===",
+    "Wounds",
+)
 
 
 @dataclass
@@ -175,9 +248,9 @@ class Entry:
     reinforced: bool
     points: int
     label: str
-    damage_cap: int | None = None   # Damage max des armes qui ciblent cette unité (BT_RULES)
+    damage_cap: int | None = None  # Damage max des armes qui ciblent cette unité (BT_RULES)
     extra_direct: list = field(default_factory=list)  # mortelles venant de règles d'armée (ex. Eat 'Em Alive)
-    ignore_first: bool = False      # « ignore le 1er dégât alloué à chaque phase » (ex. Stone Skeleton)
+    ignore_first: bool = False  # « ignore le 1er dégât alloué à chaque phase » (ex. Stone Skeleton)
 
     @property
     def hp(self) -> int:
@@ -191,12 +264,12 @@ class ArmyList:
     faction: str
     entries: list[Entry] = field(default_factory=list)
     unmatched: list[str] = field(default_factory=list)
-    header: list[str] = field(default_factory=list)    # en-tête de la liste (formation, domaines)
-    options: list[str] = field(default_factory=list)   # améliorations (« • Nom »)
-    prof: object = None        # l3_aptitudes.Profile
-    mob: float = 0.0           # indice de mobilité (z-score sur les 54 listes)
-    apt: float = 0.0           # indice d'aptitudes (z-score sur les 54 listes)
-    plan: int = 2              # note de plan de jeu (0-3), combos/<équipe>.json
+    header: list[str] = field(default_factory=list)  # en-tête de la liste (formation, domaines)
+    options: list[str] = field(default_factory=list)  # améliorations (« • Nom »)
+    prof: object = None  # l3_aptitudes.Profile
+    mob: float = 0.0  # indice de mobilité (z-score sur les 54 listes)
+    apt: float = 0.0  # indice d'aptitudes (z-score sur les 54 listes)
+    plan: int = 2  # note de plan de jeu (0-3), combos/<équipe>.json
 
     @property
     def points(self) -> int:
@@ -251,6 +324,7 @@ def _apply_blood_drenched(al: "ArmyList") -> None:
             if effect == "rend":
                 return dataclasses.replace(w, rend=w.rend + 1)
             return dataclasses.replace(w, abilities=re.sub(r"Crit \([^)]*\)", "Crit (Mortal)", w.abilities))
+
         e.unit = dataclasses.replace(e.unit, weapons=[drench(w) for w in e.unit.weapons])
 
 
@@ -262,9 +336,13 @@ def _apply_pack_hunters(al: "ArmyList") -> None:
         return
     for e in al.entries:
         if e.unit.name == "Claws of Karanak":
-            e.unit = dataclasses.replace(e.unit, weapons=[
-                dataclasses.replace(w, abilities=f"{w.abilities}, Crits on 5+") if w.kind == "melee" else w
-                for w in e.unit.weapons])
+            e.unit = dataclasses.replace(
+                e.unit,
+                weapons=[
+                    dataclasses.replace(w, abilities=f"{w.abilities}, Crits on 5+") if w.kind == "melee" else w
+                    for w in e.unit.weapons
+                ],
+            )
 
 
 def _norm(s: str) -> str:
@@ -299,8 +377,11 @@ def build_lists(con) -> dict[str, ArmyList]:
         al = ArmyList(player, team, faction)
         cut = next((k for k, ln in enumerate(lines) if ln.startswith("General's Regiment")), len(lines))
         al.header = lines[:cut]
-        al.options = [ln.lstrip("•~ ").strip() for ln in lines if ln.startswith("•")
-                      and ln.lstrip("•~ ").strip() not in ("General", "Reinforced")]
+        al.options = [
+            ln.lstrip("•~ ").strip()
+            for ln in lines
+            if ln.startswith("•") and ln.lstrip("•~ ").strip() not in ("General", "Reinforced")
+        ]
         pool = by_army.get(armies[faction], [])
         index = {_norm(u.name): u for u in pool}
         last: Entry | None = None
@@ -331,8 +412,9 @@ def build_lists(con) -> dict[str, ArmyList]:
                 last = None
                 continue
             reinforced = bool(re.search(r"\bReinforced\b", ln))
-            last = Entry(unit, unit.models * (2 if reinforced else 1), reinforced, pts,
-                         raw + (" R" if reinforced else ""))
+            last = Entry(
+                unit, unit.models * (2 if reinforced else 1), reinforced, pts, raw + (" R" if reinforced else "")
+            )
             al.entries.append(last)
         _add_companions(al, all_units)
         used: dict[str, int] = {}
@@ -342,9 +424,13 @@ def build_lists(con) -> dict[str, ArmyList]:
                 used[e.label] = used.get(e.label, 0) + 1
                 bonus = bonus[0] if used[e.label] <= bonus[1] else None
             if bonus:
-                e.unit = dataclasses.replace(e.unit, weapons=[
-                    dataclasses.replace(w, attacks=w.attacks + bonus) if w.kind == "melee" else w
-                    for w in e.unit.weapons])
+                e.unit = dataclasses.replace(
+                    e.unit,
+                    weapons=[
+                        dataclasses.replace(w, attacks=w.attacks + bonus) if w.kind == "melee" else w
+                        for w in e.unit.weapons
+                    ],
+                )
             ward = BT_RULES.get(player, {}).get("ward", {}).get(e.unit.name)
             if ward and (not e.unit.ward or e.unit.ward > ward):
                 e.unit = dataclasses.replace(e.unit, ward=ward)
@@ -393,8 +479,10 @@ def rate_lists(lists: dict[str, ArmyList]) -> None:
     mob = _z({p: al.prof.score["mobilité"] ** 0.5 for p, al in lists.items()})
     for p, al in lists.items():
         al.mob = (move[p] + fly[p] + mob[p]) / 3
-    magic = {p: (1.5 * al.prof.wizard_levels + al.prof.priest_levels + al.prof.score["magie"]) ** 0.5
-             for p, al in lists.items()}
+    magic = {
+        p: (1.5 * al.prof.wizard_levels + al.prof.priest_levels + al.prof.score["magie"]) ** 0.5
+        for p, al in lists.items()
+    }
     aptz = _z({p: sum(al.prof.score[f] ** 0.5 for f in APT_FAMILIES) + magic[p] for p, al in lists.items()})
     for p, al in lists.items():
         al.apt = aptz[p]
@@ -443,14 +531,15 @@ def charge_prob(ea: "Entry", a: "ArmyList", eb: "Entry", b: "ArmyList") -> float
 
 # --- Aptitudes à dégâts directs (texte Wahapedia) -----------------------------------------
 
+
 @dataclass
 class DirectAbility:
     name: str
-    amount: float               # dégâts mortels attendus par utilisation, cible valide
-    per_target_model: bool      # « roll a dice for each model in the target »
-    per_own_model: bool         # « ... for each model in this unit »
+    amount: float  # dégâts mortels attendus par utilisation, cible valide
+    per_target_model: bool  # « roll a dice for each model in the target »
+    per_own_model: bool  # « ... for each model in this unit »
     target_keyword: str | None  # « pick an enemy MONSTER ... » -> MONSTER
-    frequency: float            # utilisations par round
+    frequency: float  # utilisations par round
     needs_charge: bool = False  # « if this unit charged this turn/phase » : nul quand l'unité n'a pas chargé
     vs_keyword: tuple[str, float] | None = None  # (mot-clé, montant) : option meilleure contre ce mot-clé
 
@@ -475,14 +564,26 @@ def parse_direct_ability(name: str, condition: str, html: str) -> DirectAbility 
         return None
     low = text.lower()
     # Déclencheurs défensifs / conditionnels rares : on ne les compte pas comme dégâts infligés.
-    if any(k in low for k in ("is slain", "is destroyed", "targets this unit", "save roll of 6",
-                              "uses a move ability", "on this unit", "friendly unit")):
+    if any(
+        k in low
+        for k in (
+            "is slain",
+            "is destroyed",
+            "targets this unit",
+            "save roll of 6",
+            "uses a move ability",
+            "on this unit",
+            "friendly unit",
+        )
+    ):
         return None
     effect = text.split("Effect:", 1)[-1]
     per_target = per_own = False
     amount = 0.0
     m_each = re.search(r"For each (\d)(?:-(\d))?\+?, inflict (D3|D6|\d+) mortal damage", effect)
-    m_roll = re.search(r"Roll a (D3|dice)\b.{0,90}?On a (\d)\+, inflict an amount of mortal damage .{0,40}?equal to the roll", effect)
+    m_roll = re.search(
+        r"Roll a (D3|dice)\b.{0,90}?On a (\d)\+, inflict an amount of mortal damage .{0,40}?equal to the roll", effect
+    )
     m_on = re.search(r"On a (\d)\+, inflict (D3|D6|\d+) mortal damage", effect)
     m_flat = re.search(r"[Ii]nflict (D3|D6|2D3|\d+) mortal damage", effect)
     if m_each:
@@ -514,7 +615,9 @@ def parse_direct_ability(name: str, condition: str, html: str) -> DirectAbility 
         return None
     cast = re.search(r"casting roll of 2D6.*?On a (\d+)\+", text)
     if cast:
-        amount *= _p_2d6(int(cast[1])) / max(_p_plus(int(m_on[1])) if m_on else 1.0, 1e-9) if m_on else _p_2d6(int(cast[1]))
+        amount *= (
+            _p_2d6(int(cast[1])) / max(_p_plus(int(m_on[1])) if m_on else 1.0, 1e-9) if m_on else _p_2d6(int(cast[1]))
+        )
     cond = condition.lower()
     freq = 1.0
     if "once per battle" in cond:
@@ -604,12 +707,12 @@ def _ward_fail(defender) -> float:
 
 @dataclass
 class Attrition:
-    index: float                 # part (en points) de l'armée adverse retirée par round
+    index: float  # part (en points) de l'armée adverse retirée par round
     best: list[tuple[str, float]]  # meilleures unités : (nom, points retirés par round)
     ranged_share: float
     direct_share: float
     direct_names: list[str]
-    charge_share: float = 0.5    # probabilité moyenne que nos unités aient chargé leurs combats
+    charge_share: float = 0.5  # probabilité moyenne que nos unités aient chargé leurs combats
 
 
 def unit_damage(attacker, models: int, defender, charged: bool = True, extra_direct=()) -> tuple[float, float, float]:
@@ -636,8 +739,9 @@ def unit_damage(attacker, models: int, defender, charged: bool = True, extra_dir
     weapons_dmg = mean_dmg * factor
     ranged = sum(b[0] for b in best.values() if b[1] == "ranged") * factor
     # Explosion de Fureur : FURY_ATTACKS attaques en plus avec le meilleur profil, par round.
-    per_attack = max((expected_weapon_damage(w, 1, defender, mods) / max(w.attacks, 1)
-                      for w in attacker.weapons), default=0.0)
+    per_attack = max(
+        (expected_weapon_damage(w, 1, defender, mods) / max(w.attacks, 1) for w in attacker.weapons), default=0.0
+    )
     fury = FURY_ATTACKS * per_attack
     # Aptitudes à dégâts directs (dégâts mortels : pas de sauvegarde, la ward s'applique).
     direct = 0.0
@@ -664,13 +768,24 @@ def _profile_sig(unit) -> int:
 
 def _damage(ea: Entry, eb: Entry, charged: bool, cache: dict) -> tuple[float, float, float]:
     """`unit_damage` de ea sur eb, mis en cache (et plafonné par le Damage max de eb, s'il en a un)."""
-    key = (ea.unit.id, ea.models, _profile_sig(ea.unit), tuple(ab.name for ab in ea.extra_direct),
-           eb.unit.id, eb.unit.ward, eb.damage_cap, eb.ignore_first, charged)
+    key = (
+        ea.unit.id,
+        ea.models,
+        _profile_sig(ea.unit),
+        tuple(ab.name for ab in ea.extra_direct),
+        eb.unit.id,
+        eb.unit.ward,
+        eb.damage_cap,
+        eb.ignore_first,
+        charged,
+    )
     if key not in cache:
         attacker = ea.unit
         if eb.damage_cap:  # ex. Darkflame Pendant : Damage plafonné pour toutes les armes qui le ciblent
-            attacker = dataclasses.replace(attacker, weapons=[
-                dataclasses.replace(w, damage=min(w.damage, eb.damage_cap)) for w in attacker.weapons])
+            attacker = dataclasses.replace(
+                attacker,
+                weapons=[dataclasses.replace(w, damage=min(w.damage, eb.damage_cap)) for w in attacker.weapons],
+            )
         dmg, ranged, direct = unit_damage(attacker, ea.models, eb.unit, charged, ea.extra_direct)
         if eb.ignore_first and dmg:
             # 1 dégât ignoré par phase où l'attaquant blesse : tir, mêlée, mortelles d'aptitude
@@ -701,19 +816,25 @@ def pair_damage(ea: Entry, a: ArmyList, eb: Entry, b: ArmyList, cache: dict) -> 
 DOUBLE_FIGHT = True
 # Aptitude sur l'unité elle-même : nom -> (fréquence par round, 2e combat contre un HÉROS seulement).
 DOUBLE_FIGHT_SELF = {
-    "Relentless Killers": (0.2, False),      # Varanguard, une fois par bataille (par bloc)
-    "Heralds of Ruination": (0.2, False),    # Chaos Chosen, une fois par bataille
-    "Storm of Blades": (0.2, False),         # Ikon of the Storm, une fois par bataille
-    "Excitable Followers": (0.7, False),     # Mancrusher, entièrement à 12" d'un HÉROS Sons of Behemat
-    "Carve a Path To Glory": (0.5, True),    # Gunnar Brand, en combat avec un HÉROS ennemi
+    "Relentless Killers": (0.2, False),  # Varanguard, une fois par bataille (par bloc)
+    "Heralds of Ruination": (0.2, False),  # Chaos Chosen, une fois par bataille
+    "Storm of Blades": (0.2, False),  # Ikon of the Storm, une fois par bataille
+    "Excitable Followers": (0.7, False),  # Mancrusher, entièrement à 12" d'un HÉROS Sons of Behemat
+    "Carve a Path To Glory": (0.5, True),  # Gunnar Brand, en combat avec un HÉROS ennemi
 }
 # Aptitude donnée à une autre unité amie : nom -> (fréquence par round, mots-clés exigés de la
 # cible, au moins un des groupes complet). On donne le doublé à la meilleure unité éligible.
 DOUBLE_FIGHT_GRANT = {
-    "Vanhel’s Danse Macabre": (0.7, [{"DEATHRATTLE"}, {"DEADWALKERS"}]),           # Necromancer, à 12"
-    "Supreme Lord of the Bonereaper Legions": (0.3, [{"OSSIARCH BONEREAPERS"}]),  # Katakros, coûte la Santé en points RD
-    "The Death Frenzy": (0.6, [{"SKAVEN", "INFANTRY"}]),                           # Vizzik, jet de chant
-    "Front-Line Commander": (0.14, [{"SIGMARITE", "INFANTRY"}, {"SIGMARITE", "MONSTER"}]),  # Marshal, 1/bataille, sous ordres
+    "Vanhel’s Danse Macabre": (0.7, [{"DEATHRATTLE"}, {"DEADWALKERS"}]),  # Necromancer, à 12"
+    "Supreme Lord of the Bonereaper Legions": (
+        0.3,
+        [{"OSSIARCH BONEREAPERS"}],
+    ),  # Katakros, coûte la Santé en points RD
+    "The Death Frenzy": (0.6, [{"SKAVEN", "INFANTRY"}]),  # Vizzik, jet de chant
+    "Front-Line Commander": (
+        0.14,
+        [{"SIGMARITE", "INFANTRY"}, {"SIGMARITE", "MONSTER"}],
+    ),  # Marshal, 1/bataille, sous ordres
 }
 _UNIT_ABILITY_NAMES: dict[str, set[str]] | None = None
 
@@ -743,14 +864,20 @@ def ignore_first_names() -> set[str]:
     if _IGNORE_FIRST is None:
         csv.field_size_limit(10**8)
         with open(WAHAPEDIA / "Warscrolls_abilities.csv", encoding="utf-8-sig") as fh:
-            _IGNORE_FIRST = {r["name"].strip() for r in csv.DictReader(fh, delimiter="|")
-                             if re.search(r"Ignore the first damage point that would be allocated to this unit in each phase",
-                                          re.sub(r"<[^>]+>", "", r["description"]))}
+            _IGNORE_FIRST = {
+                r["name"].strip()
+                for r in csv.DictReader(fh, delimiter="|")
+                if re.search(
+                    r"Ignore the first damage point that would be allocated to this unit in each phase",
+                    re.sub(r"<[^>]+>", "", r["description"]),
+                )
+            }
     return _IGNORE_FIRST
 
 
-def double_fights(a: ArmyList, b: ArmyList, melee: dict[str, float], melee_hero: dict[str, float]
-                  ) -> list[tuple[str, float, str]]:
+def double_fights(
+    a: ArmyList, b: ArmyList, melee: dict[str, float], melee_hero: dict[str, float]
+) -> list[tuple[str, float, str]]:
     """(libellé de l'unité, valeur ajoutée par round, aptitude) des 2es combats de la liste a."""
     out = []
     if not DOUBLE_FIGHT:
@@ -809,10 +936,14 @@ def attrition(a: ArmyList, b: ArmyList, cache: dict) -> Attrition:
         per_unit.append((label + " (2e combat)", extra))
     total = sum(v for _, v in per_unit)
     per_unit.sort(key=lambda x: -x[1])
-    return Attrition(total / total_b, per_unit[:2], ranged_val / total if total else 0.0,
-                     direct_val / total if total else 0.0,
-                     sorted({ab.name for e in a.entries for ab in [*direct_abilities(e.unit), *e.extra_direct]}),
-                     p_sum / p_w if p_w else 0.5)
+    return Attrition(
+        total / total_b,
+        per_unit[:2],
+        ranged_val / total if total else 0.0,
+        direct_val / total if total else 0.0,
+        sorted({ab.name for e in a.entries for ab in [*direct_abilities(e.unit), *e.extra_direct]}),
+        p_sum / p_w if p_w else 0.5,
+    )
 
 
 def load_adjustments() -> dict:
@@ -825,8 +956,8 @@ def load_adjustments() -> dict:
 class Matchup:
     score: int
     combat: float
-    board: float       # jeu de scénario : contrôle, activations, mobilité
-    apt: float         # aptitudes et plan de jeu
+    board: float  # jeu de scénario : contrôle, activations, mobilité
+    apt: float  # aptitudes et plan de jeu
     adj: list[tuple[float, str]]
     att_a: Attrition
     att_b: Attrition
@@ -837,16 +968,23 @@ def evaluate(a: ArmyList, b: ArmyList, adjustments: dict, cache: dict) -> Matchu
     ratio = (att_a.index + 1e-6) / (att_b.index + 1e-6)
     combat = COMBAT_MAX * math.tanh(math.log(ratio) / 1.0)
     ctrl_ratio = (a.control + 1) / (b.control + 1)
-    board = (2 * math.tanh(math.log(ctrl_ratio) / 0.9) + 1 * math.tanh((a.n_units - b.n_units) / 4)
-             + 4 * math.tanh((a.mob - b.mob) / 1.5))
+    board = (
+        2 * math.tanh(math.log(ctrl_ratio) / 0.9)
+        + 1 * math.tanh((a.n_units - b.n_units) / 4)
+        + 4 * math.tanh((a.mob - b.mob) / 1.5)
+    )
     aptitudes = 4 * math.tanh((a.apt - b.apt) / 1.5) + 1.2 * (a.plan - b.plan)
     adj: list[tuple[float, str]] = []
     for al, sign in ((a, 1), (b, -1)):
         if al.missing_points:
             # L'unité absente manque à l'attaque de sa liste : ~14 pts d'écart pour une armée entière.
             bonus = round(14 * al.missing_points / 2000 * 2) / 2
-            adj.append((sign * bonus, f"{al.player} : {', '.join(al.unmatched)} absent de la base, "
-                                      "compté au prorata de ses points"))
+            adj.append(
+                (
+                    sign * bonus,
+                    f"{al.player} : {', '.join(al.unmatched)} absent de la base, compté au prorata de ses points",
+                )
+            )
     for player, sign in ((a.player, 1), (b.player, -1)):
         for item in adjustments.get("listes", {}).get(player, []):
             adj.append((sign * item["bonus"], f"{player} : {item['raison']}"))
@@ -855,6 +993,7 @@ def evaluate(a: ArmyList, b: ArmyList, adjustments: dict, cache: dict) -> Matchu
             adj.append((sign * item["bonus"], item["raison"]))
     total = combat + board + aptitudes + sum(v for v, _ in adj)
     return Matchup(max(-20, min(20, round(total))), combat, board, aptitudes, adj, att_a, att_b)
+
 
 # --- Profil offensif / défensif d'une liste ---------------------------------------------------
 
@@ -865,20 +1004,20 @@ _ANTI_RE = re.compile(r"Anti-([A-Za-z][A-Za-z \-]*?) \(\+(\d+) (\w+)\)")
 
 @dataclass
 class Offense:
-    rend: float                 # perforation moyenne, pondérée par les dégâts
-    rend2_share: float          # part des dégâts à perforation 2 ou plus
-    mortal_share: float         # part qui ignore la sauvegarde (critiques mortels + aptitudes directes)
-    anti: list[tuple[str, str, str]]   # (unité, MOT-CLÉ, bonus)
-    anti_charge: list[str]      # unités avec Anti-charge (bonus contre qui les charge)
+    rend: float  # perforation moyenne, pondérée par les dégâts
+    rend2_share: float  # part des dégâts à perforation 2 ou plus
+    mortal_share: float  # part qui ignore la sauvegarde (critiques mortels + aptitudes directes)
+    anti: list[tuple[str, str, str]]  # (unité, MOT-CLÉ, bonus)
+    anti_charge: list[str]  # unités avec Anti-charge (bonus contre qui les charge)
     max_range: int
 
 
 @dataclass
 class Defense:
-    save: float                 # sauvegarde moyenne, pondérée par les points
-    heavy_share: float          # part des points en sauvegarde 3+ ou mieux
-    ward_share: float           # part des points avec une ward
-    ward_avg: float             # ward moyenne de ces unités
+    save: float  # sauvegarde moyenne, pondérée par les points
+    heavy_share: float  # part des points en sauvegarde 3+ ou mieux
+    ward_share: float  # part des points avec une ward
+    ward_avg: float  # ward moyenne de ces unités
 
 
 def _best_weapons(unit, models: int):
@@ -917,8 +1056,14 @@ def offense(al: ArmyList) -> Offense:
             amount = ab.amount * (min(e.models, 10) if ab.per_own_model else 1)
             mortal += amount * ab.frequency
             total += amount * ab.frequency
-    return Offense(rend_sum / total if total else 0.0, rend2 / total if total else 0.0,
-                   min(mortal / total, 1.0) if total else 0.0, anti, anti_charge, max_range)
+    return Offense(
+        rend_sum / total if total else 0.0,
+        rend2 / total if total else 0.0,
+        min(mortal / total, 1.0) if total else 0.0,
+        anti,
+        anti_charge,
+        max_range,
+    )
 
 
 def defense(al: ArmyList) -> Defense:
@@ -973,8 +1118,9 @@ def _rend_txt(x: float) -> str:
     return f"−{x:.1f}".replace(".", ",")
 
 
-def lecture(a: ArmyList, b: ArmyList, oa: Offense, ob: Offense, da: Defense, db: Defense,
-            m, hits_a, hits_b) -> list[str]:
+def lecture(
+    a: ArmyList, b: ArmyList, oa: Offense, ob: Offense, da: Defense, db: Defense, m, hits_a, hits_b
+) -> list[str]:
     out = []
     # Perforation contre armure, dans les deux sens.
     for us, off, dfn, who in ((True, oa, db, b.player), (False, ob, da, a.player)):
@@ -983,27 +1129,42 @@ def lecture(a: ArmyList, b: ArmyList, oa: Offense, ob: Offense, da: Defense, db:
             if off.rend >= 1.3:
                 out.append(f"{subj} perforation ({_rend_txt(off.rend)}) est adaptée à {obj} armure lourde.")
             elif off.mortal_share >= 0.15:
-                out.append(f"{subj} perforation est faible ({_rend_txt(off.rend)}) contre {obj} armure lourde, "
-                           f"mais les mortelles ({off.mortal_share:.0%} des dégâts) compensent.")
+                out.append(
+                    f"{subj} perforation est faible ({_rend_txt(off.rend)}) contre {obj} armure lourde, "
+                    f"mais les mortelles ({off.mortal_share:.0%} des dégâts) compensent."
+                )
             else:
-                out.append(f"{subj} perforation est faible ({_rend_txt(off.rend)}) contre {obj} armure lourde "
-                           f"({_save_txt(dfn.save)}) : " + ("point noir du matchup pour nous." if us
-                                                             else "ils auront du mal à nous entamer."))
+                out.append(
+                    f"{subj} perforation est faible ({_rend_txt(off.rend)}) contre {obj} armure lourde "
+                    f"({_save_txt(dfn.save)}) : "
+                    + ("point noir du matchup pour nous." if us else "ils auront du mal à nous entamer.")
+                )
         elif dfn.save >= 4.6 and off.rend < 1:
-            out.append(f"{obj.capitalize()} armure est légère ({_save_txt(dfn.save)}) : même sans perforation, "
-                       f"{'nos' if us else 'leurs'} profils passent.")
+            out.append(
+                f"{obj.capitalize()} armure est légère ({_save_txt(dfn.save)}) : même sans perforation, "
+                f"{'nos' if us else 'leurs'} profils passent."
+            )
     if db.ward_share >= 0.3:
-        out.append(f"Leur ward ({_save_txt(db.ward_avg)} sur {db.ward_share:.0%} des points) réduit aussi nos mortelles.")
+        out.append(
+            f"Leur ward ({_save_txt(db.ward_avg)} sur {db.ward_share:.0%} des points) réduit aussi nos mortelles."
+        )
     if da.ward_share >= 0.3:
         out.append(f"Notre ward ({_save_txt(da.ward_avg)} sur {da.ward_share:.0%} des points) amortit leurs mortelles.")
     for hits, al, us in ((hits_a, b, True), (hits_b, a, False)):
         pts = sum(h[3] for h in hits[:1])
         if hits and pts / (al.points or 1) >= 0.4:
-            out.append((f"Nos Anti-{hits[0][0]} touchent {pts / al.points:.0%} de leur armée : vrai levier."
-                        if us else f"Attention : leurs Anti-{hits[0][0]} touchent {pts / al.points:.0%} de notre armée."))
+            out.append(
+                (
+                    f"Nos Anti-{hits[0][0]} touchent {pts / al.points:.0%} de leur armée : vrai levier."
+                    if us
+                    else f"Attention : leurs Anti-{hits[0][0]} touchent {pts / al.points:.0%} de notre armée."
+                )
+            )
     if ob.anti_charge and m.att_a.ranged_share < 0.3:
-        out.append(f"Leurs unités Anti-charge ({', '.join(ob.anti_charge[:3])}) punissent nos charges : "
-                   "les engager en contre-charge ou les tirer d'abord.")
+        out.append(
+            f"Leurs unités Anti-charge ({', '.join(ob.anti_charge[:3])}) punissent nos charges : "
+            "les engager en contre-charge ou les tirer d'abord."
+        )
     if oa.anti_charge and m.att_b.ranged_share < 0.3:
         out.append(f"Nos unités Anti-charge ({', '.join(oa.anti_charge[:3])}) punissent leurs charges.")
     if m.att_a.ranged_share >= 0.4 and m.att_b.ranged_share <= 0.15:
@@ -1036,9 +1197,11 @@ def fmt(score: int) -> str:
 
 def profile_row(al: ArmyList) -> str:
     o, d = offense(al), defense(al)
-    return (f"| **{al.player}** | {al.faction} | {al.n_units} | {al.hp} | {_save_txt(d.save)} | "
-            f"{d.ward_share:.0%} | {_rend_txt(o.rend)} | {o.mortal_share:.0%} | {al.control} | "
-            f"{al.avg_move:.0f}\" | {al.monsters} |")
+    return (
+        f"| **{al.player}** | {al.faction} | {al.n_units} | {al.hp} | {_save_txt(d.save)} | "
+        f"{d.ward_share:.0%} | {_rend_txt(o.rend)} | {o.mortal_share:.0%} | {al.control} | "
+        f'{al.avg_move:.0f}" | {al.monsters} |'
+    )
 
 
 def match_text(a: ArmyList, b: ArmyList, m: Matchup, cache: dict) -> str:
@@ -1054,9 +1217,12 @@ def match_text(a: ArmyList, b: ArmyList, m: Matchup, cache: dict) -> str:
         f"(part de l'armée adverse, en points, retirée par round si toutes les unités frappent ; "
         f"nous chargeons dans ~{m.att_a.charge_share:.0%} des combats, eux dans ~{m.att_b.charge_share:.0%}). "
         f"Nos meilleures unités ici : {best_a}. Leurs menaces : {best_b}."
-        + (f" Part de tir : {m.att_a.ranged_share:.0%} chez nous (portée max {oa.max_range}\"), "
-           f"{m.att_b.ranged_share:.0%} chez eux (portée max {ob.max_range}\")."
-           if max(m.att_a.ranged_share, m.att_b.ranged_share) >= 0.2 else ""),
+        + (
+            f' Part de tir : {m.att_a.ranged_share:.0%} chez nous (portée max {oa.max_range}"), '
+            f'{m.att_b.ranged_share:.0%} chez eux (portée max {ob.max_range}").'
+            if max(m.att_a.ranged_share, m.att_b.ranged_share) >= 0.2
+            else ""
+        ),
         f"- *Perforation contre armure* : nos dégâts ont une perforation moyenne de {_rend_txt(oa.rend)} "
         f"({oa.rend2_share:.0%} à −2 ou mieux) face à une armure moyenne de {_save_txt(db.save)} "
         f"({db.heavy_share:.0%} de leurs points en 3+ ou mieux), soit une sauvegarde effective "
@@ -1066,7 +1232,9 @@ def match_text(a: ArmyList, b: ArmyList, m: Matchup, cache: dict) -> str:
         f"- *Dégâts qui ignorent l'armure* (critiques mortels + aptitudes) : {oa.mortal_share:.0%} des nôtres, "
         f"{ob.mortal_share:.0%} des leurs. Wards : {db.ward_share:.0%} de leurs points"
         + (f" ({_save_txt(db.ward_avg)})" if db.ward_share else "")
-        + f", {da.ward_share:.0%} des nôtres" + (f" ({_save_txt(da.ward_avg)})" if da.ward_share else "") + ".",
+        + f", {da.ward_share:.0%} des nôtres"
+        + (f" ({_save_txt(da.ward_avg)})" if da.ward_share else "")
+        + ".",
     ]
     anti_lines = []
     for kw, carriers, hit, pts in hits_a:
@@ -1082,15 +1250,19 @@ def match_text(a: ArmyList, b: ArmyList, m: Matchup, cache: dict) -> str:
         f"- *Cibles* : leur unité la plus dure à retirer est {hard_b[0]} (~{hard_b[1]:.1f} activation(s) de {hard_b[2]}), "
         f"la plus facile {easy_b[0]} (~{easy_b[1]:.1f} activation(s) de {easy_b[2]}). "
         f"Chez nous, ils peinent le plus sur {hard_a[0]} (~{hard_a[1]:.1f} activation(s) de {hard_a[2]}) "
-        f"et retirent le plus vite {easy_a[0]} (~{easy_a[1]:.1f} activation(s) de {easy_a[2]}).")
+        f"et retirent le plus vite {easy_a[0]} (~{easy_a[1]:.1f} activation(s) de {easy_a[2]})."
+    )
     lines.append(
         f"- *Scénario ({m.board:+.1f})* : contrôle {a.control} contre {b.control}, "
-        f"{a.n_units} unités contre {b.n_units}, mouvement moyen {a.avg_move:.0f}\" contre {b.avg_move:.0f}\", "
+        f'{a.n_units} unités contre {b.n_units}, mouvement moyen {a.avg_move:.0f}" contre {b.avg_move:.0f}", '
         f"vol {a.prof.fly_share:.0%} contre {b.prof.fly_share:.0%} ; indice de mobilité {a.mob:+.1f} contre {b.mob:+.1f}"
-        + _mob_detail(a, b) + ".")
+        + _mob_detail(a, b)
+        + "."
+    )
     lines.append(
         f"- *Aptitudes et plan ({m.apt:+.1f})* : indice d'aptitudes {a.apt:+.1f} contre {b.apt:+.1f} "
-        f"({_apt_summary(a)} ; contre {_apt_summary(b)}), note de plan {a.plan} contre {b.plan}.")
+        f"({_apt_summary(a)} ; contre {_apt_summary(b)}), note de plan {a.plan} contre {b.plan}."
+    )
     lec = lecture(a, b, oa, ob, da, db, m, hits_a, hits_b)
     if lec:
         lines.append("- *Lecture* : " + " ".join(lec))
@@ -1110,6 +1282,7 @@ def _apt_summary(al: ArmyList) -> str:
 def _mob_detail(a: ArmyList, b: ArmyList) -> str:
     def names(al):
         return sorted({d.split(" (")[0] for d in al.prof.detail["mobilité"]})[:4]
+
     na, nb = names(a), names(b)
     if not na and not nb:
         return ""
@@ -1154,24 +1327,33 @@ def method_body() -> list[str]:
         "à zéro : l'axe aptitudes les remplace.",
         "- **Limites** : la lecture des textes est un compteur d'expressions, pas une lecture des règles. "
         "Certains textes Wahapedia sont tronqués (Depict Rune des Lumineth : la note de plan compense). "
-        "Le scénario de chaque ronde n'est pas pris en compte.", ""]
+        "Le scénario de chaque ronde n'est pas pris en compte.",
+        "",
+    ]
 
 
 def _method() -> list[str]:
     return [
-           "## Méthode", "",
-           "- **Score** = écart de points de victoire attendu pour **notre** liste sur une partie "
-           "(+ = on gagne de tant). Échelle de −20 à +20 : ±3 équilibré, ±8 net.",
-           *method_body()]
+        "## Méthode",
+        "",
+        "- **Score** = écart de points de victoire attendu pour **notre** liste sur une partie "
+        "(+ = on gagne de tant). Échelle de −20 à +20 : ±3 équilibré, ±8 net.",
+        *method_body(),
+    ]
 
 
 def _grid_lines(ours, theirs, grid) -> list[str]:
-    out = ["| Nous \\ Eux | " + " | ".join(b.player for b in theirs) + " | Moy. |",
-           "|---|" + "---|" * (len(theirs) + 1)]
+    out = [
+        "| Nous \\ Eux | " + " | ".join(b.player for b in theirs) + " | Moy. |",
+        "|---|" + "---|" * (len(theirs) + 1),
+    ]
     for a in ours:
         scores = [grid[(a.player, b.player)].score for b in theirs]
-        out.append(f"| **{a.player}** | " + " | ".join(fmt(s) for s in scores)
-                   + f" | {fmt(round(sum(scores) / len(scores)))} |")
+        out.append(
+            f"| **{a.player}** | "
+            + " | ".join(fmt(s) for s in scores)
+            + f" | {fmt(round(sum(scores) / len(scores)))} |"
+        )
     return out
 
 
@@ -1181,11 +1363,16 @@ def build_reports(team: str, lists: dict[str, ArmyList], adjustments: dict, cach
     ours = [lists[p] for p in _TEAMS[team]]
     folder = OUTPUT[team].removesuffix(".md")
     local = folder.rsplit("/", 1)[-1]  # chemins relatifs à l'index, rangé dans le même dossier
-    index = [f"# Matchups {team} — L3 Centre 2026-27, rondes 1 à 5", "",
-             "*Grille de travail : chaque score est une estimation à discuter et corriger. "
-             "La stratégie de pairing se construira sur la version validée.*", "",
-             f"Le détail est rangé sous `{local}/` : un dossier par ronde, avec la grille et les profils, "
-             "puis un fichier par joueur (ses 6 matchups).", ""] + _method()
+    index = [
+        f"# Matchups {team} — L3 Centre 2026-27, rondes 1 à 5",
+        "",
+        "*Grille de travail : chaque score est une estimation à discuter et corriger. "
+        "La stratégie de pairing se construira sur la version validée.*",
+        "",
+        f"Le détail est rangé sous `{local}/` : un dossier par ronde, avec la grille et les profils, "
+        "puis un fichier par joueur (ses 6 matchups).",
+        "",
+    ] + _method()
     files: dict[str, str] = {}
     for i, opp_team in enumerate(SCHEDULE[team], 1):
         if opp_team is None:
@@ -1198,13 +1385,19 @@ def build_reports(team: str, lists: dict[str, ArmyList], adjustments: dict, cach
         index += [f"## Ronde {i} — contre {opp_team}", "", f"Détail : [{name}]({link})", ""]
         index += _grid_lines(ours, theirs, grid) + [""]
         back = f"[Matchups {team}](../../{local.replace(' ', '%20')}.md)"
-        out = [f"# Matchups {team} — Ronde {i}, contre {opp_team}", "",
-               f"*Méthode, échelle et biais connus : voir {back}.*", "",
-               "Détail des matchups, un fichier par joueur : "
-               + " · ".join(f"[{a.player}]({_md_link(a.player + '.md')})" for a in ours), "",
-               "## Profils", "",
-               "| Joueur | Faction | Unités | PV | Svg moy. | Ward (pts) | Perf. moy. | Mortelles | Contrôle | Mvt | Monstres |",
-               "|---|---|---|---|---|---|---|---|---|---|---|"]
+        out = [
+            f"# Matchups {team} — Ronde {i}, contre {opp_team}",
+            "",
+            f"*Méthode, échelle et biais connus : voir {back}.*",
+            "",
+            "Détail des matchups, un fichier par joueur : "
+            + " · ".join(f"[{a.player}]({_md_link(a.player + '.md')})" for a in ours),
+            "",
+            "## Profils",
+            "",
+            "| Joueur | Faction | Unités | PV | Svg moy. | Ward (pts) | Perf. moy. | Mortelles | Contrôle | Mvt | Monstres |",
+            "|---|---|---|---|---|---|---|---|---|---|---|",
+        ]
         out += [profile_row(al) for al in ours] + ["|  |  |  |  |  |  |  |  |  |  |  |"]
         out += [profile_row(al) for al in theirs] + [""]
         missing = [f"{al.player} : {', '.join(al.unmatched)}" for al in theirs if al.unmatched]
@@ -1214,9 +1407,15 @@ def build_reports(team: str, lists: dict[str, ArmyList], adjustments: dict, cach
         files[f"{folder}/{name}/{SUMMARY}"] = "\n".join(out)
         for a in ours:
             scores = " · ".join(f"{b.player} {fmt(grid[(a.player, b.player)].score)}" for b in theirs)
-            det = [f"# {a.player} — Ronde {i}, contre {opp_team}", "",
-                   f"*Grille et profils de la ronde : [{SUMMARY.removesuffix('.md')}]({_md_link(SUMMARY)}). "
-                   f"Méthode : {back}.*", "", f"Scores : {scores}.", ""]
+            det = [
+                f"# {a.player} — Ronde {i}, contre {opp_team}",
+                "",
+                f"*Grille et profils de la ronde : [{SUMMARY.removesuffix('.md')}]({_md_link(SUMMARY)}). "
+                f"Méthode : {back}.*",
+                "",
+                f"Scores : {scores}.",
+                "",
+            ]
             for b in theirs:
                 det += [match_text(a, b, grid[(a.player, b.player)], cache), ""]
             files[f"{folder}/{name}/{a.player}.md"] = "\n".join(det)

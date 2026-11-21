@@ -68,7 +68,10 @@ def test_unit_pdf_path_uses_per_unit_file_override():
     index = load_index(_INDEX_PATH)
     faction_file = index.factions["Disciples of Tzeentch"].file
     path = unit_pdf_path(
-        index, "Disciples of Tzeentch", "Ogroid Thaumaturge (Scourge of Aqshy)", "data/Battle tome/Done",
+        index,
+        "Disciples of Tzeentch",
+        "Ogroid Thaumaturge (Scourge of Aqshy)",
+        "data/Battle tome/Done",
     )
     assert path is not None
     assert path.name != faction_file

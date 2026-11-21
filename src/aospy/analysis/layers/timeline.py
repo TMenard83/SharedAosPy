@@ -69,7 +69,7 @@ def _sides(turn_side: str) -> tuple[int, ...]:
     if turn_side == "enemy":
         return (ENEMY,)
     if turn_side in ("deployment", "round_start"):
-        return (MINE,)   # avant les deux tours du round : l'empan « round » couvre aussi le tour adverse
+        return (MINE,)  # avant les deux tours du round : l'empan « round » couvre aussi le tour adverse
     return (MINE, ENEMY)
 
 
@@ -89,7 +89,7 @@ def activity(frequency: str, duration: str, turn_side: str) -> list[float]:
     act = [0.0] * N_SLOTS
     if frequency == "passive":
         return [1.0] * N_SLOTS
-    if turn_side == "deployment":            # joué une fois, avant le round 1
+    if turn_side == "deployment":  # joué une fois, avant le round 1
         for s in span(0, duration):
             act[s] = 1.0
         return act
@@ -101,9 +101,16 @@ def activity(frequency: str, duration: str, turn_side: str) -> list[float]:
     return act
 
 
-def coverage(frequency: str, duration: str, turn_side: str, polarity: str, share_melee: float = 1.0,
-             rhythm: Sequence[float] = DEFAULT_RHYTHM, alive: Optional[Sequence[float]] = None,
-             start_round: int = 1) -> float:
+def coverage(
+    frequency: str,
+    duration: str,
+    turn_side: str,
+    polarity: str,
+    share_melee: float = 1.0,
+    rhythm: Sequence[float] = DEFAULT_RHYTHM,
+    alive: Optional[Sequence[float]] = None,
+    start_round: int = 1,
+) -> float:
     """Part de la partie couverte (0-1) par rapport à un effet permanent, pondérée par la pertinence et le rythme.
 
     `alive` (par round, `marriage.alive_profile`) : le porteur doit être en vie dans la case pour que l'effet
@@ -131,7 +138,7 @@ def coverage(frequency: str, duration: str, turn_side: str, polarity: str, share
             if s < first:
                 continue
             r = s // 2
-            round_val = (rel[0] + rel[1])
+            round_val = rel[0] + rel[1]
             covered = sum(rel[x % 2] * live[x] for x in span(s, duration) if x // 2 == r)
             best = max(best, covered / round_val if round_val else 0.0)
         return KAIROS_SHORT * best

@@ -34,17 +34,21 @@ def cmd_import_bsdata(args: argparse.Namespace) -> int:
                 print(f"  échec : {exc}")
                 totals["failed"] += 1
                 continue
-            print(f"  insérées={s.inserted}  mises à jour={s.updated}  "
-                  f"ignorées={s.skipped_no_profile}  legends={s.skipped_legends}  terrain={s.skipped_terrain}")
+            print(
+                f"  insérées={s.inserted}  mises à jour={s.updated}  "
+                f"ignorées={s.skipped_no_profile}  legends={s.skipped_legends}  terrain={s.skipped_terrain}"
+            )
             totals["inserted"] += s.inserted
             totals["updated"] += s.updated
             totals["skipped"] += s.skipped_no_profile
             totals["legends"] += s.skipped_legends
             totals["terrain"] += s.skipped_terrain
-        print(f"\nTotal : insérées={totals['inserted']}  "
-              f"mises à jour={totals['updated']}  "
-              f"ignorées={totals['skipped']}  legends={totals['legends']}  "
-              f"terrain={totals['terrain']}  échecs={totals['failed']}")
+        print(
+            f"\nTotal : insérées={totals['inserted']}  "
+            f"mises à jour={totals['updated']}  "
+            f"ignorées={totals['skipped']}  legends={totals['legends']}  "
+            f"terrain={totals['terrain']}  échecs={totals['failed']}"
+        )
         if args.clean_stale:
             removed = repository.delete_units_imported_before(con, cutoff)
             print(f"Nettoyage : {removed} unités non retouchées supprimées.")
@@ -86,16 +90,20 @@ def cmd_import_wahapedia(args: argparse.Namespace) -> int:
                 print(f"  échec : {exc}")
                 totals["failed"] += 1
                 continue
-            print(f"  insérées={s.inserted}  mises à jour={s.updated}  "
-                  f"ignorées={s.skipped_no_points}  legends={s.skipped_legends}")
+            print(
+                f"  insérées={s.inserted}  mises à jour={s.updated}  "
+                f"ignorées={s.skipped_no_points}  legends={s.skipped_legends}"
+            )
             totals["inserted"] += s.inserted
             totals["updated"] += s.updated
             totals["skipped"] += s.skipped_no_points
             totals["legends"] += s.skipped_legends
-        print(f"\nTotal : insérées={totals['inserted']}  "
-              f"mises à jour={totals['updated']}  "
-              f"ignorées={totals['skipped']}  legends={totals['legends']}  "
-              f"échecs={totals['failed']}")
+        print(
+            f"\nTotal : insérées={totals['inserted']}  "
+            f"mises à jour={totals['updated']}  "
+            f"ignorées={totals['skipped']}  legends={totals['legends']}  "
+            f"échecs={totals['failed']}"
+        )
         if args.clean_stale:
             removed = repository.delete_units_imported_before(con, cutoff)
             print(f"Nettoyage : {removed} unités non retouchées supprimées.")
@@ -142,7 +150,6 @@ def cmd_import_wahapedia_list(args: argparse.Namespace) -> int:
     return 0
 
 
-
 def register(sub: argparse._SubParsersAction) -> None:
     """Sous-commande `import` : bsdata/bsdata-list/wahapedia/wahapedia-list."""
     p_import = sub.add_parser("import", help="Import de données externes.")
@@ -150,28 +157,31 @@ def register(sub: argparse._SubParsersAction) -> None:
     p = si.add_parser("bsdata", help="Importe une armée depuis BSData (GitHub).")
     g = p.add_mutually_exclusive_group(required=True)
     g.add_argument("--army", help="Nom de l'armée (ex: 'Stormcast Eternals').")
-    g.add_argument("--all", dest="all_armies", action="store_true",
-                   help="Importe toutes les armées connues.")
-    p.add_argument("--clean-stale", action="store_true",
-                   help="Purge après import les unités non retouchées (plus dans la source).")
+    g.add_argument("--all", dest="all_armies", action="store_true", help="Importe toutes les armées connues.")
+    p.add_argument(
+        "--clean-stale", action="store_true", help="Purge après import les unités non retouchées (plus dans la source)."
+    )
     p.set_defaults(func=cmd_import_bsdata)
-    si.add_parser("bsdata-list",
-                  help="Liste les armées disponibles à l'import.").set_defaults(
-        func=cmd_import_bsdata_list)
+    si.add_parser("bsdata-list", help="Liste les armées disponibles à l'import.").set_defaults(
+        func=cmd_import_bsdata_list
+    )
     p = si.add_parser("wahapedia", help="Importe une faction depuis les CSV Wahapedia.")
     g = p.add_mutually_exclusive_group(required=True)
     g.add_argument("--faction", help="Nom de la faction (ex: 'Stormcast Eternals').")
-    g.add_argument("--all", dest="all_factions", action="store_true",
-                   help="Importe toutes les factions connues.")
-    p.add_argument("--clean-stale", action="store_true",
-                   help="Purge après import les unités non retouchées (plus dans la source).")
+    g.add_argument("--all", dest="all_factions", action="store_true", help="Importe toutes les factions connues.")
+    p.add_argument(
+        "--clean-stale", action="store_true", help="Purge après import les unités non retouchées (plus dans la source)."
+    )
     p.set_defaults(func=cmd_import_wahapedia)
-    si.add_parser("wahapedia-list",
-                  help="Liste les factions disponibles à l'import Wahapedia.").set_defaults(
-        func=cmd_import_wahapedia_list)
-    p = si.add_parser("verify", help="Compare Wahapedia (en base) et BSData (.cat local) pour une faction : "
-                                     "écarts à trancher sur le scan, puis à consigner dans "
-                                     "data/json/source_corrections.json.")
+    si.add_parser("wahapedia-list", help="Liste les factions disponibles à l'import Wahapedia.").set_defaults(
+        func=cmd_import_wahapedia_list
+    )
+    p = si.add_parser(
+        "verify",
+        help="Compare Wahapedia (en base) et BSData (.cat local) pour une faction : "
+        "écarts à trancher sur le scan, puis à consigner dans "
+        "data/json/source_corrections.json.",
+    )
     p.add_argument("--faction", required=True)
     p.add_argument("--bsdata-dir", default="data/bsdata", help="Dossier des .cat BSData (défaut data/bsdata).")
     p.set_defaults(func=cmd_import_verify)

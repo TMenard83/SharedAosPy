@@ -27,75 +27,117 @@ AIDS = ROOT / "data" / "2026-27 L3 Aller" / "Aides de jeu"
 FR_RULES = ROOT / "data" / "json" / "faction_rules_fr.json"
 
 # (famille, poids, motif) ; un texte compte au plus une fois par famille.
-RULES: list[tuple[str, float, re.Pattern]] = [(f, w, re.compile(p)) for f, w, p in [
-    # Mobilité
-    # Set-up (frappe en profondeur, téléportation, arrivée par un bord) : utile pour prendre un
-    # objectif ou sauver une unité, mais la charge à 9" qui suit est un pari (~50 % avec la
-    # relance, une seule relance par tour), pas un plan : poids réduit de 2 à 1.
-    ("mobilité", 1.0, r"set (?:it|this unit|them|that unit|the unit) up (?:again )?anywhere on the battlefield"),
-    ("mobilité", 1.0, r"remove (?:(?:this|that|the|those) units?|the targets?|it|them) from the battlefield and set (?:it|them) up again"),
-    ("mobilité", 1.0, r"wholly within \d+\" of (?:a|any) battlefield edge"),
-    ("mobilité", 1.5, r"can (?:immediately )?(?:make a normal move|move up to|move a distance)"),
-    ("mobilité", 1.0, r"can (?:still )?(?:charge|shoot and/or charge|use charge abilities) (?:later )?in the same turn|run and still charge"),
-    ("mobilité", 1.0, r"retreat and still (?:charge|shoot)"),
-    ("mobilité", 0.75, r"add \d+ to (?:run|charge) rolls|add \d+\" to (?:its|their|the) move"),
-    # Soins
-    ("soins", 1.5, r"\bheal \(|return (?:\d+|d3|d6|a number of) slain models|return slain models"),
-    # Protection
-    ("protection", 1.5, r"(?:has|have) ward \( ?\d\+ ?\)|ward \( ?\d\+ ?\) (?:for|while)"),
-    ("protection", 1.5, r"subtract 1 from (?:hit|wound) rolls for (?:combat |shooting )?attacks that target"),
-    ("protection", 1.5, r"add 1 to save rolls"),
-    ("protection", 1.0, r"cannot be (?:picked as the target|targeted)|not visible"),
-    # Buffs
-    ("buff", 1.5, r"add 1 to (?:hit|wound) rolls for (?:(?:this|that|the target's|each) unit's )?(?:combat |shooting )?attacks"),
-    ("buff", 1.5, r"add 1 to the rend|add \d+ to the attacks characteristic|add 1 to the damage"),
-    ("buff", 1.0, r"\bstrike-first\b"),
-    ("buff", 1.0, r"has crit \(|have crit \("),
-    # Débuffs
-    ("débuff", 1.5, r"subtract 1 from (?:hit|wound) rolls for (?:combat |shooting )?attacks made by"),
-    ("débuff", 1.0, r"\bstrike-last\b"),
-    ("débuff", 1.0, r"subtract \d+ from (?:charge|run) rolls|subtract 1 from save rolls|subtract 1 from the rend"),
-    ("débuff", 1.0, r"cannot use commands|cannot be picked to use|cannot use (?:fight|shoot|move) abilities"),
-    # Objectifs
-    ("objectifs", 1.5, r"add \d+ to (?:the|its|their) control characteristic|control score"),
-    ("objectifs", 1.0, r"contest(?:ing|s)? objectives|objective you control|counts? as (?:contesting|controlling)"),
-    # Anti-magie / anti-soin (servent aux interactions de matchup)
-    ("anti-magie", 1.0, r"unbinding roll|\bunbind\b|cannot cast|casting rolls for enemy|has no effect.{0,20}spell|banish"),
-    ("anti-soin", 1.0, r"cannot be healed|cannot (?:heal|return slain models)|subtract .{0,20}heal"),
-    # Bonus de lancement / de prière
-    ("magie", 1.0, r"add 1 to casting rolls|add 1 to chanting rolls|cast (?:1|one|an) additional spell"),
-]]
+RULES: list[tuple[str, float, re.Pattern]] = [
+    (f, w, re.compile(p))
+    for f, w, p in [
+        # Mobilité
+        # Set-up (frappe en profondeur, téléportation, arrivée par un bord) : utile pour prendre un
+        # objectif ou sauver une unité, mais la charge à 9" qui suit est un pari (~50 % avec la
+        # relance, une seule relance par tour), pas un plan : poids réduit de 2 à 1.
+        ("mobilité", 1.0, r"set (?:it|this unit|them|that unit|the unit) up (?:again )?anywhere on the battlefield"),
+        (
+            "mobilité",
+            1.0,
+            r"remove (?:(?:this|that|the|those) units?|the targets?|it|them) from the battlefield and set (?:it|them) up again",
+        ),
+        ("mobilité", 1.0, r"wholly within \d+\" of (?:a|any) battlefield edge"),
+        ("mobilité", 1.5, r"can (?:immediately )?(?:make a normal move|move up to|move a distance)"),
+        (
+            "mobilité",
+            1.0,
+            r"can (?:still )?(?:charge|shoot and/or charge|use charge abilities) (?:later )?in the same turn|run and still charge",
+        ),
+        ("mobilité", 1.0, r"retreat and still (?:charge|shoot)"),
+        ("mobilité", 0.75, r"add \d+ to (?:run|charge) rolls|add \d+\" to (?:its|their|the) move"),
+        # Soins
+        ("soins", 1.5, r"\bheal \(|return (?:\d+|d3|d6|a number of) slain models|return slain models"),
+        # Protection
+        ("protection", 1.5, r"(?:has|have) ward \( ?\d\+ ?\)|ward \( ?\d\+ ?\) (?:for|while)"),
+        ("protection", 1.5, r"subtract 1 from (?:hit|wound) rolls for (?:combat |shooting )?attacks that target"),
+        ("protection", 1.5, r"add 1 to save rolls"),
+        ("protection", 1.0, r"cannot be (?:picked as the target|targeted)|not visible"),
+        # Buffs
+        (
+            "buff",
+            1.5,
+            r"add 1 to (?:hit|wound) rolls for (?:(?:this|that|the target's|each) unit's )?(?:combat |shooting )?attacks",
+        ),
+        ("buff", 1.5, r"add 1 to the rend|add \d+ to the attacks characteristic|add 1 to the damage"),
+        ("buff", 1.0, r"\bstrike-first\b"),
+        ("buff", 1.0, r"has crit \(|have crit \("),
+        # Débuffs
+        ("débuff", 1.5, r"subtract 1 from (?:hit|wound) rolls for (?:combat |shooting )?attacks made by"),
+        ("débuff", 1.0, r"\bstrike-last\b"),
+        ("débuff", 1.0, r"subtract \d+ from (?:charge|run) rolls|subtract 1 from save rolls|subtract 1 from the rend"),
+        ("débuff", 1.0, r"cannot use commands|cannot be picked to use|cannot use (?:fight|shoot|move) abilities"),
+        # Objectifs
+        ("objectifs", 1.5, r"add \d+ to (?:the|its|their) control characteristic|control score"),
+        ("objectifs", 1.0, r"contest(?:ing|s)? objectives|objective you control|counts? as (?:contesting|controlling)"),
+        # Anti-magie / anti-soin (servent aux interactions de matchup)
+        (
+            "anti-magie",
+            1.0,
+            r"unbinding roll|\bunbind\b|cannot cast|casting rolls for enemy|has no effect.{0,20}spell|banish",
+        ),
+        ("anti-soin", 1.0, r"cannot be healed|cannot (?:heal|return slain models)|subtract .{0,20}heal"),
+        # Bonus de lancement / de prière
+        ("magie", 1.0, r"add 1 to casting rolls|add 1 to chanting rolls|cast (?:1|one|an) additional spell"),
+    ]
+]
 
 # Effets qui peuvent viser les deux camps : on exige que le texte vise un ami (buff) ou un ennemi (débuff).
 FRIENDLY = re.compile(r"\b(?:friendly|this unit|that unit|each unit in this|this hero|units? in your army)\b")
 ENEMY = re.compile(r"\benemy\b")
 
 # Mêmes familles et mêmes poids, pour le texte français des battletomes (aide de jeu).
-RULES_FR: list[tuple[str, float, re.Pattern]] = [(f, w, re.compile(p)) for f, w, p in [
-    ("mobilité", 1.0, r"placez-(?:la|le|les) (?:à nouveau|de nouveau)|retirez (?:cette unité|la cible|l'unité|les cibles?).{0,30}du champ de bataille"),
-    ("mobilité", 1.0, r"entièrement à \d+\" d'un bord du champ de bataille"),
-    ("mobilité", 1.5, r"peut (?:immédiatement )?(?:se déplacer|parcourir) (?:de |jusqu'à )?(?:\d|d3|d6)"),
-    ("mobilité", 1.0, r"même si elle a utilisé une aptitude de (?:course|repli)|peut (?:quand même )?charger"),
-    ("mobilité", 0.75, r"ajoutez \d aux jets de (?:course|charge)|ajoutez \d\" à la caractéristique de mouvement"),
-    ("soins", 1.5, r"\bsoignez|soins? \(\s?(?:\d|d3|d6)|ramenez .{0,30}figurines? tuées?"),
-    ("protection", 1.5, r"protection \( ?\d\+ ?\)"),
-    ("protection", 1.5, r"soustrayez 1 aux jets de (?:touche|blessure) pour les attaques (?:de [a-z ]+ )?qui ciblent"),
-    ("protection", 1.5, r"ajoutez 1 aux jets de sauvegarde"),
-    ("protection", 1.0, r"ne peut pas être (?:choisie|ciblée)|n'est pas visible"),
-    ("buff", 1.5, r"ajoutez 1 aux jets de (?:touche|blessure) pour les attaques"),
-    ("buff", 1.5, r"ajoutez 1 à la (?:caractéristique de )?perf|ajoutez \d à la caractéristique d'attaques|ajoutez 1 à la caractéristique de dégâts"),
-    ("buff", 1.0, r"frappe en premier"),
-    ("buff", 1.0, r"ont critique \(|a critique \("),
-    ("débuff", 1.5, r"soustrayez 1 aux jets de (?:touche|blessure) pour les attaques (?:faites par|des unités ennemies|de la cible|de cette unité ennemie)"),
-    ("débuff", 1.0, r"frappe en dernier"),
-    ("débuff", 1.0, r"soustrayez \d aux jets de (?:charge|course)|soustrayez 1 aux jets de sauvegarde|soustrayez 1 à la (?:caractéristique de )?perf"),
-    ("débuff", 1.0, r"ne peut pas utiliser d'ordres|ne peut pas être choisie pour utiliser"),
-    ("objectifs", 1.5, r"ajoutez \d à (?:la|sa|leur) caractéristique de contrôle|score de contrôle"),
-    ("objectifs", 1.0, r"contest(?:e|ent|er) (?:un |des |l')?objectif|objectif que vous contrôlez"),
-    ("anti-magie", 1.0, r"dissip|jets de lancement (?:pour|des) (?:les )?(?:unités )?ennemi|bannir"),
-    ("anti-soin", 1.0, r"ne (?:peut|peuvent) pas être soignée?s?|ne (?:peut|peuvent) pas ramener"),
-    ("magie", 1.0, r"ajoutez 1 aux jets de (?:lancement|récitation)|lancer un sort supplémentaire"),
-]]
+RULES_FR: list[tuple[str, float, re.Pattern]] = [
+    (f, w, re.compile(p))
+    for f, w, p in [
+        (
+            "mobilité",
+            1.0,
+            r"placez-(?:la|le|les) (?:à nouveau|de nouveau)|retirez (?:cette unité|la cible|l'unité|les cibles?).{0,30}du champ de bataille",
+        ),
+        ("mobilité", 1.0, r"entièrement à \d+\" d'un bord du champ de bataille"),
+        ("mobilité", 1.5, r"peut (?:immédiatement )?(?:se déplacer|parcourir) (?:de |jusqu'à )?(?:\d|d3|d6)"),
+        ("mobilité", 1.0, r"même si elle a utilisé une aptitude de (?:course|repli)|peut (?:quand même )?charger"),
+        ("mobilité", 0.75, r"ajoutez \d aux jets de (?:course|charge)|ajoutez \d\" à la caractéristique de mouvement"),
+        ("soins", 1.5, r"\bsoignez|soins? \(\s?(?:\d|d3|d6)|ramenez .{0,30}figurines? tuées?"),
+        ("protection", 1.5, r"protection \( ?\d\+ ?\)"),
+        (
+            "protection",
+            1.5,
+            r"soustrayez 1 aux jets de (?:touche|blessure) pour les attaques (?:de [a-z ]+ )?qui ciblent",
+        ),
+        ("protection", 1.5, r"ajoutez 1 aux jets de sauvegarde"),
+        ("protection", 1.0, r"ne peut pas être (?:choisie|ciblée)|n'est pas visible"),
+        ("buff", 1.5, r"ajoutez 1 aux jets de (?:touche|blessure) pour les attaques"),
+        (
+            "buff",
+            1.5,
+            r"ajoutez 1 à la (?:caractéristique de )?perf|ajoutez \d à la caractéristique d'attaques|ajoutez 1 à la caractéristique de dégâts",
+        ),
+        ("buff", 1.0, r"frappe en premier"),
+        ("buff", 1.0, r"ont critique \(|a critique \("),
+        (
+            "débuff",
+            1.5,
+            r"soustrayez 1 aux jets de (?:touche|blessure) pour les attaques (?:faites par|des unités ennemies|de la cible|de cette unité ennemie)",
+        ),
+        ("débuff", 1.0, r"frappe en dernier"),
+        (
+            "débuff",
+            1.0,
+            r"soustrayez \d aux jets de (?:charge|course)|soustrayez 1 aux jets de sauvegarde|soustrayez 1 à la (?:caractéristique de )?perf",
+        ),
+        ("débuff", 1.0, r"ne peut pas utiliser d'ordres|ne peut pas être choisie pour utiliser"),
+        ("objectifs", 1.5, r"ajoutez \d à (?:la|sa|leur) caractéristique de contrôle|score de contrôle"),
+        ("objectifs", 1.0, r"contest(?:e|ent|er) (?:un |des |l')?objectif|objectif que vous contrôlez"),
+        ("anti-magie", 1.0, r"dissip|jets de lancement (?:pour|des) (?:les )?(?:unités )?ennemi|bannir"),
+        ("anti-soin", 1.0, r"ne (?:peut|peuvent) pas être soignée?s?|ne (?:peut|peuvent) pas ramener"),
+        ("magie", 1.0, r"ajoutez 1 aux jets de (?:lancement|récitation)|lancer un sort supplémentaire"),
+    ]
+]
 FRIENDLY_FR = re.compile(r"\bamie?s?\b|cette unité|cette cible")
 ENEMY_FR = re.compile(r"\bennemie?s?\b")
 TELEPORT_FR = re.compile(r"retirez (?:la cible|cette unité|l'unité|les cibles?).{0,40}du champ de bataille et placez")
@@ -115,32 +157,33 @@ def _norm(s: str) -> str:
 
 def _text(html: str) -> str:
     t = re.sub(r"<[^>]+>", " ", html or "")
-    return re.sub(r"\s+", " ", t).replace("’", "'").replace("“", "\"").replace("”", "\"").lower()
+    return re.sub(r"\s+", " ", t).replace("’", "'").replace("“", '"').replace("”", '"').lower()
 
 
 @dataclass
 class Ability:
-    source: str       # « unité Foo », « trait de bataille », « domaine Bar »...
+    source: str  # « unité Foo », « trait de bataille », « domaine Bar »...
     name: str
     condition: str
     text: str
-    cost: str = ""   # « Command:1 », « Spell:7 »... (colonnes points_type/points de Wahapedia)
+    cost: str = ""  # « Command:1 », « Spell:7 »... (colonnes points_type/points de Wahapedia)
     keywords: str = ""  # mots-clés de l'aptitude (« Spell, Unlimited »...)
-    lang: str = "en"    # « fr » : texte de l'aide de jeu (battletome) sans équivalent Wahapedia
+    lang: str = "en"  # « fr » : texte de l'aide de jeu (battletome) sans équivalent Wahapedia
 
 
 @dataclass
 class Profile:
     """Familles d'effets d'une liste : total pondéré et détail (source, aptitude)."""
+
     score: dict[str, float] = field(default_factory=lambda: defaultdict(float))
     detail: dict[str, list[str]] = field(default_factory=lambda: defaultdict(list))
-    charge_army: float = 0.0                              # pouces de charge en plus pour toute la liste
+    charge_army: float = 0.0  # pouces de charge en plus pour toute la liste
     charge_unit: dict[str, float] = field(default_factory=lambda: defaultdict(float))  # par unité (nom)
     charge_detail: list[str] = field(default_factory=list)
-    from_aid: bool = False        # aptitudes filtrées par l'aide de jeu de la liste
-    cp_costs: list[str] = field(default_factory=list)   # aptitudes qui coûtent des points de commandement
-    cp_gains: list[str] = field(default_factory=list)   # ordres rendus gratuits (économie de PC)
-    cp_deny: list[str] = field(default_factory=list)    # déni ou taxe sur les ordres adverses
+    from_aid: bool = False  # aptitudes filtrées par l'aide de jeu de la liste
+    cp_costs: list[str] = field(default_factory=list)  # aptitudes qui coûtent des points de commandement
+    cp_gains: list[str] = field(default_factory=list)  # ordres rendus gratuits (économie de PC)
+    cp_deny: list[str] = field(default_factory=list)  # déni ou taxe sur les ordres adverses
     wizard_levels: int = 0
     priest_levels: int = 0
     fly_share: float = 0.0
@@ -194,8 +237,9 @@ class Library:
                 if key in seen:  # doublons de warscroll (versions RoR, etc.)
                     continue
                 seen.add(key)
-                self.unit[_norm(name)].append(Ability(f"unité {name}", r["name"], r.get("condition") or "",
-                                                      _text(r.get("description")), _cost(r)))
+                self.unit[_norm(name)].append(
+                    Ability(f"unité {name}", r["name"], r.get("condition") or "", _text(r.get("description")), _cost(r))
+                )
         self.all_names = {_norm(ab.name) for abs_ in self.unit.values() for ab in abs_}
         self.faction: list[dict] = []
         with open(WAHAPEDIA / "Faction_abilities.csv", encoding="utf-8-sig") as fh:
@@ -214,14 +258,24 @@ class Library:
             n = _norm(r["name"])
             if n in names and n not in seen and r["faction_id"] in (fid, "EnS"):
                 seen.add(n)
-                out.append(Ability(f"aide de jeu ({r.get('type_name')})", r["name"], r.get("condition") or "",
-                                   r["_text"], _cost(r), r.get("keywords") or ""))
+                out.append(
+                    Ability(
+                        f"aide de jeu ({r.get('type_name')})",
+                        r["name"],
+                        r.get("condition") or "",
+                        r["_text"],
+                        _cost(r),
+                        r.get("keywords") or "",
+                    )
+                )
         for abilities in self.unit.values():
             for ab in abilities:
                 n = _norm(ab.name)
                 if n in names and n not in seen:
                     seen.add(n)
-                    out.append(Ability(f"aide de jeu ({ab.source})", ab.name, ab.condition, ab.text, ab.cost, ab.keywords))
+                    out.append(
+                        Ability(f"aide de jeu ({ab.source})", ab.name, ab.condition, ab.text, ab.cost, ab.keywords)
+                    )
         return out
 
     def unit_abilities(self, unit_name: str) -> list[Ability]:
@@ -233,8 +287,11 @@ class Library:
         fid = self.faction_id.get(faction)
         heads = {_norm(h) for h in header}
         head_blob = " | ".join(heads)
-        lores = {_norm(h.split(" - ", 1)[1].split("(")[0]) for h in header
-                 if h.startswith(("Spell Lore", "Prayer Lore", "Manifestation Lore")) and " - " in h}
+        lores = {
+            _norm(h.split(" - ", 1)[1].split("(")[0])
+            for h in header
+            if h.startswith(("Spell Lore", "Prayer Lore", "Manifestation Lore")) and " - " in h
+        }
         opts = {_norm(re.sub(r"^\d+x\s+", "", o)) for o in options}
         out: list[Ability] = []
         for r in self.faction:
@@ -248,8 +305,11 @@ class Library:
                 ab.source = "marque du Chaos" if r["name"].lower().startswith("pledged to") else "trait de bataille"
             elif r["faction_id"] == fid and typ == "Battle Formations" and sub and sub in head_blob:
                 ab.source = f"formation {r['subtype_name']}"
-            elif typ in ("Spell Lore", "Prayer Lore", "Manifestation Lore") and sub in lores \
-                    and r["faction_id"] in (fid, "EnS"):
+            elif (
+                typ in ("Spell Lore", "Prayer Lore", "Manifestation Lore")
+                and sub in lores
+                and r["faction_id"] in (fid, "EnS")
+            ):
                 ab.source = f"domaine {r['subtype_name']}"
             elif r["faction_id"] == fid and _norm(r["name"]) in opts:
                 ab.source = f"amélioration ({typ})"
@@ -308,10 +368,14 @@ def charge_inches(ab: Ability) -> float:
 TELEPORT = re.compile(r"remove (?:the target|this unit|that unit|it) from the battlefield and set (?:it|them) up again")
 
 # Économie de PC en AoS4 : peu de « gains », surtout des ordres gratuits et du déni d'ordres adverses.
-CP_FREE = re.compile(r"no command points? (?:are|is) spent|without any command points being spent"
-                     r"|do not spend any command points|command points spent to use it are regained(?! by your opponent)")
-CP_DENY = re.compile(r"(?:command|it) (?:has|have) no effect|unless (?:your opponent|they) spends? \d+ "
-                     r"(?:additional )?command point")
+CP_FREE = re.compile(
+    r"no command points? (?:are|is) spent|without any command points being spent"
+    r"|do not spend any command points|command points spent to use it are regained(?! by your opponent)"
+)
+CP_DENY = re.compile(
+    r"(?:command|it) (?:has|have) no effect|unless (?:your opponent|they) spends? \d+ "
+    r"(?:additional )?command point"
+)
 
 
 def _fr_to_en() -> dict[str, str]:
@@ -327,6 +391,7 @@ def _fr_to_en() -> dict[str, str]:
         elif isinstance(o, list):
             for v in o:
                 walk(v)
+
     walk(json.loads(FR_RULES.read_text(encoding="utf-8")))
     return out
 
@@ -343,6 +408,7 @@ def _generic_names() -> set[str]:
     global _GENERIC
     if _GENERIC is None:
         from collections import Counter
+
         files = list(AIDS.glob("*/*.json"))
         c = Counter()
         for f in files:
@@ -411,8 +477,15 @@ def profile(lib: Library, al, header: list[str], options: list[str]) -> Profile:
     by_unit: dict[str, list[Ability]] = defaultdict(list)
     loose_fr: list[Ability] = []
     for a in fr_entries:
-        ab = Ability("aide de jeu (battletome)", re.sub(r"<[^>]+>", "", a["name"]), a.get("condition") or "",
-                     _text(a.get("description")), a.get("cost", "").strip(":"), a.get("keywords") or "", "fr")
+        ab = Ability(
+            "aide de jeu (battletome)",
+            re.sub(r"<[^>]+>", "", a["name"]),
+            a.get("condition") or "",
+            _text(a.get("description")),
+            a.get("cost", "").strip(":"),
+            a.get("keywords") or "",
+            "fr",
+        )
         units = [u for u in a.get("unites", []) if any(e.unit.name == u for e in al.entries)]
         if units:
             for u in units:
@@ -463,21 +536,24 @@ def profile(lib: Library, al, header: list[str], options: list[str]) -> Profile:
         target = "la cible" in ab.text if ab.lang == "fr" else "the target" in ab.text
         if (AURA_FR if ab.lang == "fr" else AURA_EN).search(ab.text):
             pr.charge_army += 0.6 * inch
-            pr.charge_detail.append(f"{ab.name.title()} ({e.unit.name}, aura) +{0.6 * inch:.1f}\"")
+            pr.charge_detail.append(f'{ab.name.title()} ({e.unit.name}, aura) +{0.6 * inch:.1f}"')
         elif target:
             pr.charge_army += 0.5 * inch
-            pr.charge_detail.append(f"{ab.name.title()} ({e.unit.name}, cible) +{0.5 * inch:.1f}\"")
+            pr.charge_detail.append(f'{ab.name.title()} ({e.unit.name}, cible) +{0.5 * inch:.1f}"')
         else:
             pr.charge_unit[e.unit.name] = max(pr.charge_unit[e.unit.name], inch)
-            pr.charge_detail.append(f"{ab.name.title()} ({e.unit.name}) +{inch:.1f}\"")
+            pr.charge_detail.append(f'{ab.name.title()} ({e.unit.name}) +{inch:.1f}"')
     for ab in list_abs:
         inch = charge_inches(ab)
         if inch and (ab.lang == "fr" or _target_exists(ab.text, al)):
-            friendly = ("amie" in ab.text and "la cible" not in ab.text) if ab.lang == "fr" else \
-                ("friendly" in ab.text and "the target" not in ab.text)
+            friendly = (
+                ("amie" in ab.text and "la cible" not in ab.text)
+                if ab.lang == "fr"
+                else ("friendly" in ab.text and "the target" not in ab.text)
+            )
             k = 1.0 if friendly else 0.5
             pr.charge_army += k * inch
-            pr.charge_detail.append(f"{ab.name.title()} ({ab.source}) +{k * inch:.1f}\"")
+            pr.charge_detail.append(f'{ab.name.title()} ({ab.source}) +{k * inch:.1f}"')
     seen_cp = set()
     for ab, _ in weighted:
         label = f"{ab.name.title()} ({ab.source}, {ab.condition or 'sans condition'})"

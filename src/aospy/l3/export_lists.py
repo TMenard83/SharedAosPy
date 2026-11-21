@@ -53,13 +53,25 @@ def _faction_ids() -> dict[str, str]:
         return {r["name"]: r["id"] for r in csv.DictReader(fh, delimiter="|")}
 
 
-TACTIC_CARDS = [c["name_en"].replace("Smoke Screen", "Smokescreen") for c in json.loads(
-    (mx.ROOT / "data" / "json" / "battle_tactic_cards.json").read_text(encoding="utf-8"))]
+TACTIC_CARDS = [
+    c["name_en"].replace("Smoke Screen", "Smokescreen")
+    for c in json.loads((mx.ROOT / "data" / "json" / "battle_tactic_cards.json").read_text(encoding="utf-8"))
+]
 # Noms de terrain mal orthographiés dans les listes -> nom Wahapedia.
 TERRAIN_ALIASES = {"Dawner's Triumph": "Dawners Triumph"}
 
-STANDARD_TYPES = {"Battle Traits", "Battle Formations", "Heroic Traits", "Artefacts of Power", "Spell Lore",
-                  "Prayer Lore", "Manifestation Lore", "Enhancements", "Regiment Abilities", "Monstrous Traits"}
+STANDARD_TYPES = {
+    "Battle Traits",
+    "Battle Formations",
+    "Heroic Traits",
+    "Artefacts of Power",
+    "Spell Lore",
+    "Prayer Lore",
+    "Manifestation Lore",
+    "Enhancements",
+    "Regiment Abilities",
+    "Monstrous Traits",
+}
 
 
 def convert(player: str, lines: list[str], rows: list[dict], fids: dict[str, str]) -> tuple[str, list[str]]:
@@ -68,26 +80,48 @@ def convert(player: str, lines: list[str], rows: list[dict], fids: dict[str, str
     fid = fids.get(faction)
     blob = _norm(" | ".join(lines))
     notes: list[str] = []
-    formations = sorted({r["subtype_name"].split("(")[0].strip() for r in rows
-                         if r["faction_id"] == fid and r["type_name"] == "Battle Formations"}, key=len, reverse=True)
+    formations = sorted(
+        {
+            r["subtype_name"].split("(")[0].strip()
+            for r in rows
+            if r["faction_id"] == fid and r["type_name"] == "Battle Formations"
+        },
+        key=len,
+        reverse=True,
+    )
     formation = next((f for f in formations if _norm(f) and _norm(f) in blob), None)
-    renowns = sorted({r["type_name"] for r in rows if r["faction_id"] == fid and r["type_name"] not in STANDARD_TYPES
-                      and r["type_name"] == r["type_name"].strip()}, key=len, reverse=True)
+    renowns = sorted(
+        {
+            r["type_name"]
+            for r in rows
+            if r["faction_id"] == fid
+            and r["type_name"] not in STANDARD_TYPES
+            and r["type_name"] == r["type_name"].strip()
+        },
+        key=len,
+        reverse=True,
+    )
     renown = next((a for a in renowns if _norm(a) and len(_norm(a)) > 6 and _norm(a) in blob), None)
     fac_line = APP_FACTION.get(faction, faction) + (f" | {renown}" if renown else "")
     if not formation:
         notes.append("formation non reconnue")
     head = [f"{player} - {team}", "", fac_line] + ([formation] if formation else []) + ["General's Handbook 2026-27"]
-    drops = next((re.search(r"(\d+)\s*drops?|drops?\s*[:\-]\s*(\d+)", ln, re.I) for ln in lines
-                  if re.search(r"\bdrops?\b", ln, re.I)), None)
+    drops = next(
+        (
+            re.search(r"(\d+)\s*drops?|drops?\s*[:\-]\s*(\d+)", ln, re.I)
+            for ln in lines
+            if re.search(r"\bdrops?\b", ln, re.I)
+        ),
+        None,
+    )
     if drops:
         head.append(f"Drops: {drops[1] or drops[2]}")
     for key in ("Spell Lore", "Prayer Lore", "Manifestation Lore"):
         line = next((ln for ln in lines if ln.lower().startswith(key.lower())), None)
         if line:
-            value = line[len(key):].strip(" -:–")
+            value = line[len(key) :].strip(" -:–")
             if value.lower().startswith(key.lower()):  # « Spell Lore - Spell Lore: X »
-                value = value[len(key):].strip(" -:–")
+                value = value[len(key) :].strip(" -:–")
             head.append(f"{key} - {value}")
     # Cartes de tactique : reconnues par leur nom dans tout l'en-tête (une ligne coupée en deux
     # dans le PDF, « Legend of the » / « Parch », ne doit pas les faire rater).
@@ -115,11 +149,13 @@ def convert(player: str, lines: list[str], rows: list[dict], fids: dict[str, str
             continue
         if ln.lower().startswith("faction terrain"):
             section = "terrain"
-            rest = ln[len("faction terrain"):].strip(" :")
+            rest = ln[len("faction terrain") :].strip(" :")
             if rest:
                 terrain.append(re.sub(r"\s*\((\d+)\)$", r" (\1 Points)", rest))
             continue
-        if ln.startswith(("Created with", "App:")) or any(_norm(team_name)[:12] in _norm(ln) for team_name in mx._TEAMS):
+        if ln.startswith(("Created with", "App:")) or any(
+            _norm(team_name)[:12] in _norm(ln) for team_name in mx._TEAMS
+        ):
             continue
         if section == "terrain":
             if not ln.startswith(("•", "-")) and len(terrain) < 2:
@@ -178,25 +214,44 @@ def main(argv: list[str] | None = None) -> int:
         report[player] = {"txt": str(path.relative_to(mx.ROOT)), "notes": notes}
         if args.pdf:
             from aospy.tournament_kit.pdf_builder import build_roster_pdf
+
             out = PDF_DIR / team / f"{player} ({args.mode}).pdf"
             out.parent.mkdir(parents=True, exist_ok=True)
             try:
                 res = build_roster_pdf(path, out, mode=args.mode)
                 if res.scenario_output_path and Path(res.scenario_output_path).exists():
                     Path(res.scenario_output_path).unlink()  # variante avec les 12 scénarios : inutile ici
-                cards = {k: [{"name": ab.name, "description": ab.description, "condition": ab.condition,
-                              "phase": ab.ability_phase, "keywords": ab.keywords, "cost": f"{ab.points_type}:{ab.points}",
-                              "unites": list(ab.warscrolls)} for ab in v] for k, v in res.ability_cards.items()}
+                cards = {
+                    k: [
+                        {
+                            "name": ab.name,
+                            "description": ab.description,
+                            "condition": ab.condition,
+                            "phase": ab.ability_phase,
+                            "keywords": ab.keywords,
+                            "cost": f"{ab.points_type}:{ab.points}",
+                            "unites": list(ab.warscrolls),
+                        }
+                        for ab in v
+                    ]
+                    for k, v in res.ability_cards.items()
+                }
                 out.with_suffix(".json").write_text(json.dumps(cards, ensure_ascii=False, indent=1), encoding="utf-8")
-                report[player].update(pdf=str(out.relative_to(mx.ROOT)), units_unmatched=res.units_unmatched,
-                                      rules_unmatched=res.rules_unmatched)
+                report[player].update(
+                    pdf=str(out.relative_to(mx.ROOT)),
+                    units_unmatched=res.units_unmatched,
+                    rules_unmatched=res.rules_unmatched,
+                )
             except Exception as exc:  # une liste mal convertie ne doit pas bloquer les autres
                 report[player]["erreur"] = f"{type(exc).__name__}: {exc}"
         r = report[player]
-        print(f"{player:13s} {', '.join(r['notes']) or 'ok'}"
-              + (f" | non trouvés : {r.get('units_unmatched')}" if r.get("units_unmatched") else "")
-              + (f" | règles manquantes : {r.get('rules_unmatched')}" if r.get("rules_unmatched") else "")
-              + (f" | ERREUR {r['erreur']}" if r.get("erreur") else ""), flush=True)
+        print(
+            f"{player:13s} {', '.join(r['notes']) or 'ok'}"
+            + (f" | non trouvés : {r.get('units_unmatched')}" if r.get("units_unmatched") else "")
+            + (f" | règles manquantes : {r.get('rules_unmatched')}" if r.get("rules_unmatched") else "")
+            + (f" | ERREUR {r['erreur']}" if r.get("erreur") else ""),
+            flush=True,
+        )
     (TXT_DIR / "rapport.json").write_text(json.dumps(report, ensure_ascii=False, indent=1), encoding="utf-8")
     return 0
 

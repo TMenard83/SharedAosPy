@@ -11,8 +11,17 @@ from aospy.engine.combat import CombatModifiers, unit_damage_moments
 
 def _unit(**overrides):
     base = dict(
-        name="T", army_id=1, move=6, save=4, health=2, control=2,
-        models=5, points=150, is_hero=False, ward=None, weapons=[],
+        name="T",
+        army_id=1,
+        move=6,
+        save=4,
+        health=2,
+        control=2,
+        models=5,
+        points=150,
+        is_hero=False,
+        ward=None,
+        weapons=[],
     )
     base.update(overrides)
     return Unit(**base)
@@ -170,13 +179,17 @@ def test_charge_bonus_save2_zero_without_charge_ability():
 
 
 def test_charge_bonus_save2_reflects_weapon_charge_ability():
-    weapon = Weapon(name="w", kind="melee", attacks=2, hit=3, wound=3, rend=1, damage=2,
-                    wielders=5, abilities="Charge (+1 Damage)")
+    weapon = Weapon(
+        name="w", kind="melee", attacks=2, hit=3, wound=3, rend=1, damage=2, wielders=5, abilities="Charge (+1 Damage)"
+    )
     unit = _unit(weapons=[weapon])
     feats = compute_features(unit)
     mean2, _, _ = unit_damage_moments(unit, unit.models, _PROBE_SAVE2, CombatModifiers())
     mean2_charged, _, _ = unit_damage_moments(
-        unit, unit.models, _PROBE_SAVE2, CombatModifiers(attacker_charged=True),
+        unit,
+        unit.models,
+        _PROBE_SAVE2,
+        CombatModifiers(attacker_charged=True),
     )
     assert feats.charge_bonus_save2 == pytest.approx(mean2_charged - mean2)
     assert feats.charge_bonus_save2 > 0.0
@@ -192,10 +205,8 @@ def test_crit_type_none_without_weapons_or_crit_text():
 def test_crit_type_picks_the_highest_damage_weapon_profile():
     # "main" cogne beaucoup plus fort que "side" : le crit dominant doit être celui
     # de "main" (Mortal), pas celui de "side" (2 Hits), même si "side" est listé en premier.
-    side = Weapon(name="side", kind="melee", attacks=1, hit=5, wound=5, damage=1,
-                  wielders=5, abilities="Crit (2 Hits)")
-    main = Weapon(name="main", kind="melee", attacks=4, hit=3, wound=3, damage=3,
-                  wielders=5, abilities="Crit (Mortal)")
+    side = Weapon(name="side", kind="melee", attacks=1, hit=5, wound=5, damage=1, wielders=5, abilities="Crit (2 Hits)")
+    main = Weapon(name="main", kind="melee", attacks=4, hit=3, wound=3, damage=3, wielders=5, abilities="Crit (Mortal)")
     unit = _unit(weapons=[side, main])
     assert compute_features(unit).crit_type == "mortal"
 
@@ -204,33 +215,46 @@ def test_crit_type_picks_the_highest_damage_weapon_profile():
 
 import pytest as _pytest
 
-from aospy.analysis.cost.features import compute_features, expected_control
+from aospy.analysis.cost.features import expected_control
 from aospy.domain.models import Unit as _Unit
 
 
 def _u(name="U", models=1, health=5, control=2, hero=False, kw=()):
-    return _Unit(name=name, army_id=1, move=5, save=4, health=health, control=control,
-                 models=models, points=100, is_hero=hero, keywords=frozenset(kw))
+    return _Unit(
+        name=name,
+        army_id=1,
+        move=5,
+        save=4,
+        health=health,
+        control=control,
+        models=models,
+        points=100,
+        is_hero=hero,
+        keywords=frozenset(kw),
+    )
 
 
-@_pytest.mark.parametrize("unit,expected", [
-    (_u(models=10, health=1, kw=("INFANTRY",)), 1),                              # infanterie légère
-    (_u(models=3, health=5, kw=("INFANTRY",)), 2),                               # grosse infanterie (5 PV)
-    (_u(models=3, health=4, kw=("INFANTRY", "OGOR MAWTRIBES")), 2),              # Ogors : 2 dès 4 PV
-    (_u(models=3, health=3, hero=True, kw=("INFANTRY", "HERO")), 2),             # équipe de héros
-    (_u(health=8, kw=("BEAST",)), 1),                                            # bête
-    (_u(health=8, kw=("MONSTER",)), 5),                                          # monstre, même léger
-    (_u(health=14, kw=("MONSTER", "OGOR MAWTRIBES")), 10),                       # monstre Ogor
-    (_u(health=12, kw=("MONSTER", "SONS OF BEHEMAT", "LITTLE")), 5),             # petit Gargant
-    (_u(health=25, kw=("MONSTER", "SONS OF BEHEMAT", "BIG")), 10),               # Mega-Gargant
-    (_u(name="Knight-Vexillor", health=6, hero=True, kw=("INFANTRY", "HERO")), 5),  # porte-étendard
-    (_u(health=8, hero=True, kw=("INFANTRY", "HERO", "OGOR MAWTRIBES")), 3),     # héros Ogor à pied
-    (_u(health=10, kw=("WAR MACHINE",)), 2),                                     # char / artillerie
-    (_u(health=12, kw=("WAR MACHINE",)), 5),                                     # autel / grosse machine
-    (_u(health=9, hero=True, kw=("INFANTRY", "HERO")), 2),
-    (_u(health=10, hero=True, kw=("CAVALRY", "HERO")), 5),                       # héros monté : 2 = déficit voulu
-    (_u(name="Loonboss on Giant Cave Squig", health=6, hero=True, kw=("CAVALRY", "HERO")), 5),
-])
+@_pytest.mark.parametrize(
+    "unit,expected",
+    [
+        (_u(models=10, health=1, kw=("INFANTRY",)), 1),  # infanterie légère
+        (_u(models=3, health=5, kw=("INFANTRY",)), 2),  # grosse infanterie (5 PV)
+        (_u(models=3, health=4, kw=("INFANTRY", "OGOR MAWTRIBES")), 2),  # Ogors : 2 dès 4 PV
+        (_u(models=3, health=3, hero=True, kw=("INFANTRY", "HERO")), 2),  # équipe de héros
+        (_u(health=8, kw=("BEAST",)), 1),  # bête
+        (_u(health=8, kw=("MONSTER",)), 5),  # monstre, même léger
+        (_u(health=14, kw=("MONSTER", "OGOR MAWTRIBES")), 10),  # monstre Ogor
+        (_u(health=12, kw=("MONSTER", "SONS OF BEHEMAT", "LITTLE")), 5),  # petit Gargant
+        (_u(health=25, kw=("MONSTER", "SONS OF BEHEMAT", "BIG")), 10),  # Mega-Gargant
+        (_u(name="Knight-Vexillor", health=6, hero=True, kw=("INFANTRY", "HERO")), 5),  # porte-étendard
+        (_u(health=8, hero=True, kw=("INFANTRY", "HERO", "OGOR MAWTRIBES")), 3),  # héros Ogor à pied
+        (_u(health=10, kw=("WAR MACHINE",)), 2),  # char / artillerie
+        (_u(health=12, kw=("WAR MACHINE",)), 5),  # autel / grosse machine
+        (_u(health=9, hero=True, kw=("INFANTRY", "HERO")), 2),
+        (_u(health=10, hero=True, kw=("CAVALRY", "HERO")), 5),  # héros monté : 2 = déficit voulu
+        (_u(name="Loonboss on Giant Cave Squig", health=6, hero=True, kw=("CAVALRY", "HERO")), 5),
+    ],
+)
 def test_expected_control_rule(unit, expected):
     assert expected_control(unit) == expected
 

@@ -35,9 +35,13 @@ def current() -> dict:
                 continue
             grids[team][f"Ronde {i} — {opp}"] = {
                 p: {q: mx.evaluate(lists[p], lists[q], adj, cache).score for q in mx._TEAMS[opp]}
-                for p in mx._TEAMS[team]}
-    return {"date": datetime.now().isoformat(timespec="minutes"), "grids": grids,
-            "league": {p: {"score": round(stats[p][0], 2), "rang": order.index(p) + 1} for p in lists}}
+                for p in mx._TEAMS[team]
+            }
+    return {
+        "date": datetime.now().isoformat(timespec="minutes"),
+        "grids": grids,
+        "league": {p: {"score": round(stats[p][0], 2), "rang": order.index(p) + 1} for p in lists},
+    }
 
 
 def load(name: str) -> dict:
@@ -63,8 +67,12 @@ def diff(a: dict, b: dict, name_a: str, name_b: str) -> list[str]:
         out.append("")
         for rnd, rows in rounds.items():
             old = a["grids"][team].get(rnd, {})
-            cells = [f"{p}–{q} {f(old[p][q])}→{f(s)}" for p, r in rows.items() for q, s in r.items()
-                     if p in old and old[p][q] != s]
+            cells = [
+                f"{p}–{q} {f(old[p][q])}→{f(s)}"
+                for p, r in rows.items()
+                for q, s in r.items()
+                if p in old and old[p][q] != s
+            ]
             ma = sum(s for r in old.values() for s in r.values()) / 36 if old else 0
             mb = sum(s for r in rows.values() for s in r.values()) / 36
             out.append(f"- **{rnd}** (moy. {ma:+.1f} → {mb:+.1f}) : " + ("; ".join(cells) or "aucun changement"))

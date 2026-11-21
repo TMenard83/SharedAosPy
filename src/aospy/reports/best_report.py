@@ -6,6 +6,7 @@ module porte la mécanique (jointure, z-scores, mise en page PDF) commune ;
 `compute_ranked()` est aussi réutilisé directement par best_by_faction.py.
 Les fichiers best_unites.py/best_heros.py ne gardent que leur texte et
 appellent `render()`."""
+
 import statistics
 
 from reportlab.lib.units import mm
@@ -67,10 +68,7 @@ def compute_ranked(is_hero: bool) -> list[dict]:
     cost_result = cost_model.fit_cost_model_factorial(con, frame=role_frame)
     con.close()
 
-    pool = [
-        r for r in cost_result.residuals
-        if r.predicted >= MIN_PREDICTED and r.unit_id in combat_by_id
-    ]
+    pool = [r for r in cost_result.residuals if r.predicted >= MIN_PREDICTED and r.unit_id in combat_by_id]
 
     roi_values = [combat_by_id[r.unit_id]["avg_floor_roi_pct"] for r in pool]
     resid_values = [r.residual_pct for r in pool]
@@ -88,15 +86,21 @@ def compute_ranked(is_hero: bool) -> list[dict]:
         z_roi = z(c["avg_floor_roi_pct"], roi_mean, roi_std)
         z_undercost = -z(r.residual_pct, resid_mean, resid_std)  # un résidu négatif profite au score
         z_impact = z(c["avg_pts_net"], impact_mean, impact_std)
-        joined.append({
-            "name": c["name"], "army": c["army"], "grand_alliance": c["grand_alliance"],
-            "points": c["points"], "avg_floor_roi_pct": c["avg_floor_roi_pct"],
-            "residual_pct": r.residual_pct, "avg_pts_net": c["avg_pts_net"],
-            "score": combined_score(
-                [(z_roi, ROI_WEIGHT), (z_undercost, 1.0), (z_impact, IMPACT_WEIGHT)],
-                IMBALANCE_WEIGHT,
-            ),
-        })
+        joined.append(
+            {
+                "name": c["name"],
+                "army": c["army"],
+                "grand_alliance": c["grand_alliance"],
+                "points": c["points"],
+                "avg_floor_roi_pct": c["avg_floor_roi_pct"],
+                "residual_pct": r.residual_pct,
+                "avg_pts_net": c["avg_pts_net"],
+                "score": combined_score(
+                    [(z_roi, ROI_WEIGHT), (z_undercost, 1.0), (z_impact, IMPACT_WEIGHT)],
+                    IMBALANCE_WEIGHT,
+                ),
+            }
+        )
     joined.sort(key=lambda r: r["score"], reverse=True)
     for rank, r in enumerate(joined, start=1):
         r["rank"] = rank
@@ -105,9 +109,15 @@ def compute_ranked(is_hero: bool) -> list[dict]:
 
 def fmt_row(rank, r):
     return [
-        str(rank), r["name"], r["army"], alliance_badge(r["grand_alliance"]), str(r["points"]),
-        f"{r['avg_floor_roi_pct']:+.1f}%", f"{r['residual_pct']:+.0f}%",
-        f"{r['avg_pts_net']:+.1f}", f"{r['score']:+.2f}",
+        str(rank),
+        r["name"],
+        r["army"],
+        alliance_badge(r["grand_alliance"]),
+        str(r["points"]),
+        f"{r['avg_floor_roi_pct']:+.1f}%",
+        f"{r['residual_pct']:+.0f}%",
+        f"{r['avg_pts_net']:+.1f}",
+        f"{r['score']:+.2f}",
     ]
 
 
@@ -150,22 +160,26 @@ def render(
     story.append(Spacer(1, 20 * mm))
     story.append(Paragraph("Panthéon des Champions", cover_title))
     if faction:
-        story.append(Paragraph(
-            cover_subtitle_faction_template.format(faction=faction, n=n_units, universe_n=universe_n),
-            cover_subtitle,
-        ))
+        story.append(
+            Paragraph(
+                cover_subtitle_faction_template.format(faction=faction, n=n_units, universe_n=universe_n),
+                cover_subtitle,
+            )
+        )
     else:
-        story.append(Paragraph(
-            cover_subtitle_plain_template.format(n_armies=n_armies, n=n_units),
-            cover_subtitle,
-        ))
+        story.append(
+            Paragraph(
+                cover_subtitle_plain_template.format(n_armies=n_armies, n=n_units),
+                cover_subtitle,
+            )
+        )
     story.append(Spacer(1, 8 * mm))
     story.append(Paragraph(f"Registre établi le {today_str()} — Édition TM", cover_meta))
     story.append(Spacer(1, 10 * mm))
     tail = (
         cover_body_faction_template.format(faction=faction, n=n_units, universe_n=universe_n)
-        if faction else
-        cover_body_plain_template.format(n=n_units)
+        if faction
+        else cover_body_plain_template.format(n=n_units)
     )
     story.append(Paragraph(cover_body_intro_html + tail, cover_body))
 
@@ -173,16 +187,20 @@ def render(
     story.append(SectionMarker(doc, method_section_marker))
     story.append(PageBreak())
     story.append(Paragraph("Méthode", section_title))
-    story.append(Paragraph(
-        "Construction des trois indicateurs croisés dans ce registre, puis du score combiné qui en résulte.",
-        section_note,
-    ))
+    story.append(
+        Paragraph(
+            "Construction des trois indicateurs croisés dans ce registre, puis du score combiné qui en résulte.",
+            section_note,
+        )
+    )
     story.append(Spacer(1, 2 * mm))
     for p in method_paragraphs_html:
-        story.append(Paragraph(
-            p.format(min_predicted=MIN_PREDICTED, roi_weight=ROI_WEIGHT, imbalance_weight=IMBALANCE_WEIGHT),
-            body_text,
-        ))
+        story.append(
+            Paragraph(
+                p.format(min_predicted=MIN_PREDICTED, roi_weight=ROI_WEIGHT, imbalance_weight=IMBALANCE_WEIGHT),
+                body_text,
+            )
+        )
 
     story.append(SectionMarker(doc, data_section_title))
     story.append(PageBreak())
@@ -191,8 +209,17 @@ def render(
     story.append(Paragraph(table_count_template.format(n=n_units), subhead))
     story.append(Spacer(1, 2))
     header = [label if h is None else h for h in HEADER_TEMPLATE]
-    story.append(ranked_table(header, COL_WIDTHS, joined, fmt_row, lambda r: r["grand_alliance"],
-                              colored_cols=[(8, score_color)], ranks=[r["rank"] for r in joined]))
+    story.append(
+        ranked_table(
+            header,
+            COL_WIDTHS,
+            joined,
+            fmt_row,
+            lambda r: r["grand_alliance"],
+            colored_cols=[(8, score_color)],
+            ranks=[r["rank"] for r in joined],
+        )
+    )
 
     doc.build(story)
     print("PDF genere:", out_path)

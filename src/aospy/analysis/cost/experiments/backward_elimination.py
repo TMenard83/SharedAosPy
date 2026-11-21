@@ -16,6 +16,7 @@ doublons éliminés.
 `cost_model.MODEL_FEATURES` a déjà retiré `dmg_cv_vs_save4`/`move` : ce script dérive donc la
 variante « avant élimination » (les deux réintégrés) à partir du jeu officiel actuel plutôt
 que l'inverse."""
+
 from aospy.analysis.cost import cost_model
 from aospy.persistence import db
 
@@ -27,7 +28,10 @@ frame = frame.reset_index(drop=True)
 
 def _fit(feats, cats, inter):
     return cost_model.fit_cost_model_factorial(
-        features=tuple(feats), categorical=tuple(cats), interactions=tuple(inter), frame=frame.copy(),
+        features=tuple(feats),
+        categorical=tuple(cats),
+        interactions=tuple(inter),
+        frame=frame.copy(),
     )
 
 
@@ -38,8 +42,12 @@ INTER = list(cost_model.FACTORIAL_INTERACTIONS)
 model_before = _fit(FEATS_BEFORE, CATS, INTER)
 model_after = _fit(cost_model.MODEL_FEATURES, CATS, INTER)
 
-print(f"Avant élimination (+ dmg_cv_vs_save4, + move) : R² = {model_before.r_squared:.4f}  R² ajusté = {model_before.adj_r_squared:.4f}")
-print(f"Après élimination (officiel actuel)            : R² = {model_after.r_squared:.4f}  R² ajusté = {model_after.adj_r_squared:.4f}  (gain {model_after.adj_r_squared - model_before.adj_r_squared:+.4f})")
+print(
+    f"Avant élimination (+ dmg_cv_vs_save4, + move) : R² = {model_before.r_squared:.4f}  R² ajusté = {model_before.adj_r_squared:.4f}"
+)
+print(
+    f"Après élimination (officiel actuel)            : R² = {model_after.r_squared:.4f}  R² ajusté = {model_after.adj_r_squared:.4f}  (gain {model_after.adj_r_squared - model_before.adj_r_squared:+.4f})"
+)
 print()
 
 print("-- Recherche pas-à-pas complète (log), depuis le jeu 'avant élimination' --")

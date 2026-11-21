@@ -43,10 +43,15 @@ def resolve_resource_costs(raws: list[RawAbility], extractions: list[Extraction]
     def cumulative(i: int, seen: frozenset[int] = frozenset()) -> int:
         if i in memo:
             return memo[i]
-        own = int(re.match(r"\d+", raws[i].cost_value or "0").group() if re.match(r"\d+", raws[i].cost_value or "") else 0)
+        own = int(
+            re.match(r"\d+", raws[i].cost_value or "0").group() if re.match(r"\d+", raws[i].cost_value or "") else 0
+        )
         fid = raws[i].owners[0].faction_id if raws[i].owners else ""
-        prereq = [by_key[(fid, n.lower())] for n in extractions[i].unlock_prereqs
-                  if (fid, n.lower()) in by_key and by_key[(fid, n.lower())] not in seen]
+        prereq = [
+            by_key[(fid, n.lower())]
+            for n in extractions[i].unlock_prereqs
+            if (fid, n.lower()) in by_key and by_key[(fid, n.lower())] not in seen
+        ]
         total = own + (min(cumulative(j, seen | {i}) for j in prereq) if prereq else 0)
         memo[i] = total
         return total
@@ -60,29 +65,47 @@ def resolve_resource_costs(raws: list[RawAbility], extractions: list[Extraction]
 
 #: Rôles Wahapedia d'une unité « normale » ; tout autre rôle de warscroll (Manifestation,
 #: Endless Spell, nom d'un domaine générique…) est une manifestation à invoquer.
-_NON_MANIFESTATION_ROLES = frozenset({
-    "Infantry", "Infantry Hero", "Cavalry", "Cavalry Hero", "Beast", "Beast Hero", "Monster",
-    "Monster Hero", "War Machine", "War Machine Hero", "Hero", "Regiment of Renown", "Faction Terrain", "",
-})
+_NON_MANIFESTATION_ROLES = frozenset(
+    {
+        "Infantry",
+        "Infantry Hero",
+        "Cavalry",
+        "Cavalry Hero",
+        "Beast",
+        "Beast Hero",
+        "Monster",
+        "Monster Hero",
+        "War Machine",
+        "War Machine Hero",
+        "Hero",
+        "Regiment of Renown",
+        "Faction Terrain",
+        "",
+    }
+)
 #: Valeur de lancement supposée quand le sort d'invocation n'est pas retrouvé.
 DEFAULT_SUMMON_VALUE = 7
 #: Une manifestation invoquée reste en jeu plusieurs tours : l'échec d'invocation ne pèse
 #: que pour moitié sur chaque utilisation (facteur = 1 − (1 − P(invocation)) × poids).
 SUMMON_FAILURE_WEIGHT = 0.5
-MANIFESTATION_PLACE_PENALTY = 0.25      # il faut l'invoquer et la placer
-MANIFESTATION_MELEE_PENALTY = 0.5       # … puis l'amener au corps à corps
+MANIFESTATION_PLACE_PENALTY = 0.25  # il faut l'invoquer et la placer
+MANIFESTATION_MELEE_PENALTY = 0.5  # … puis l'amener au corps à corps
 
 
-def resolve_manifestations(raws: list[RawAbility], extracted: list[tuple[Extraction, float]]
-                           ) -> list[tuple[Extraction, float]]:
+def resolve_manifestations(
+    raws: list[RawAbility], extracted: list[tuple[Extraction, float]]
+) -> list[tuple[Extraction, float]]:
     """Aptitude portée par une manifestation : fiabilité × P(invocation), mise en place pénalisée.
 
     La valeur du sort « SUMMON <nom> » est cherchée parmi toutes les aptitudes ;
     à défaut `DEFAULT_SUMMON_VALUE`. Une aptitude passive ou de placement
     (« Summon ») n'est pas concernée par le coût de sa propre invocation.
     """
-    summon = {r.name.lower().removeprefix("summon ").strip(): r.cost_value
-              for r in raws if r.name.lower().startswith("summon ") and r.cost_value}
+    summon = {
+        r.name.lower().removeprefix("summon ").strip(): r.cost_value
+        for r in raws
+        if r.name.lower().startswith("summon ") and r.cost_value
+    }
     out = []
     for raw, (ex, penalty) in zip(raws, extracted):
         carriers = [o for o in raw.owners if o.owner_kind == "warscroll"]
@@ -93,8 +116,9 @@ def resolve_manifestations(raws: list[RawAbility], extracted: list[tuple[Extract
             prob = p_2d6(value)
             factor = 1 - (1 - prob) * SUMMON_FAILURE_WEIGHT
             ex.activation_prob = round(ex.activation_prob * factor, 4)
-            ex.activation_notes.insert(0, f"manifestation à invoquer (sort à {value} : {prob:.0%}, "
-                                          f"reste en jeu → facteur {factor:.0%})")
+            ex.activation_notes.insert(
+                0, f"manifestation à invoquer (sort à {value} : {prob:.0%}, reste en jeu → facteur {factor:.0%})"
+            )
             if re.search(r"in combat with this|combat range of this", raw.declare + " " + raw.effect):
                 ex.conditions.append("manifestation à amener au corps à corps")
                 penalty += MANIFESTATION_PLACE_PENALTY + MANIFESTATION_MELEE_PENALTY
@@ -136,27 +160,60 @@ def analyze_all(
     return out, sorted(set(overrides) - known)
 
 
-def to_rows(analyses: list[AbilityAnalysis], analyzed_at: datetime | None = None
-            ) -> tuple[list[tuple], list[tuple], list[tuple], list[tuple]]:
+def to_rows(
+    analyses: list[AbilityAnalysis], analyzed_at: datetime | None = None
+) -> tuple[list[tuple], list[tuple], list[tuple], list[tuple]]:
     """`AbilityAnalysis` → tuples des 4 tables (ordre de `repository.ABILITY_*_COLS`)."""
     when = analyzed_at or datetime.now()
     abilities, owners, tags, effects = [], [], [], []
     for a in analyses:
         r, ex, sc = a.raw, a.extraction, a.score
         first = r.owners[0] if r.owners else None
-        abilities.append((
-            r.uid, r.name, r.source_kind, r.group_name or None,
-            first.faction_id if first else None, first.faction_name if first else None,
-            r.condition, r.phase, r.wahapedia_type, r.is_reaction, r.keywords or None,
-            r.cost_type or None, r.cost_value or None, r.declare or None, r.effect,
-            ex.frequency, ex.turn, ex.scope, ex.range_inches, ex.wholly_within,
-            ex.activation_prob, ex.variance, ex.scales_with_size,
-            ",".join(ex.target_keywords) or None, " | ".join(ex.conditions) or None,
-            sc.ease, sc.power, sc.reliability, sc.interaction, sc.verdict,
-            "\n".join(sc.rationale), a.understood, a.overridden, ANALYZER_VERSION, when,
-            ex.resource_cost, ex.available_round, ex.friendly_target or None, ex.excludes_self,
-            main_family(effect_family(e, ex.scope) for e in ex.effects), r.bearer_restriction or None,
-        ))
+        abilities.append(
+            (
+                r.uid,
+                r.name,
+                r.source_kind,
+                r.group_name or None,
+                first.faction_id if first else None,
+                first.faction_name if first else None,
+                r.condition,
+                r.phase,
+                r.wahapedia_type,
+                r.is_reaction,
+                r.keywords or None,
+                r.cost_type or None,
+                r.cost_value or None,
+                r.declare or None,
+                r.effect,
+                ex.frequency,
+                ex.turn,
+                ex.scope,
+                ex.range_inches,
+                ex.wholly_within,
+                ex.activation_prob,
+                ex.variance,
+                ex.scales_with_size,
+                ",".join(ex.target_keywords) or None,
+                " | ".join(ex.conditions) or None,
+                sc.ease,
+                sc.power,
+                sc.reliability,
+                sc.interaction,
+                sc.verdict,
+                "\n".join(sc.rationale),
+                a.understood,
+                a.overridden,
+                ANALYZER_VERSION,
+                when,
+                ex.resource_cost,
+                ex.available_round,
+                ex.friendly_target or None,
+                ex.excludes_self,
+                main_family(effect_family(e, ex.scope) for e in ex.effects),
+                r.bearer_restriction or None,
+            )
+        )
         seen = set()
         for o in r.owners:
             key = (o.faction_id, o.owner_kind, o.owner_name)
@@ -165,10 +222,25 @@ def to_rows(analyses: list[AbilityAnalysis], analyzed_at: datetime | None = None
                 owners.append((r.uid, o.faction_id, o.faction_name, o.owner_kind, o.owner_name, o.warscroll_id))
         tags.extend((r.uid, t) for t in a.tags)
         effects.extend(
-            (r.uid, i, e.kind, e.stat or None, float(e.value), e.dice or None, e.side or None, e.detail or None,
-             e.weapon_scope or None, e.weapon_name or None, e.includes_companion, e.target_keywords or None,
-             e.target_condition or None, e.requires or None, e.duration or None, effect_family(e, ex.scope),
-             e.friendly_target or None)
+            (
+                r.uid,
+                i,
+                e.kind,
+                e.stat or None,
+                float(e.value),
+                e.dice or None,
+                e.side or None,
+                e.detail or None,
+                e.weapon_scope or None,
+                e.weapon_name or None,
+                e.includes_companion,
+                e.target_keywords or None,
+                e.target_condition or None,
+                e.requires or None,
+                e.duration or None,
+                effect_family(e, ex.scope),
+                e.friendly_target or None,
+            )
             for i, e in enumerate(ex.effects)
         )
     return abilities, owners, tags, effects

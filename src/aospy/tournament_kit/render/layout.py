@@ -189,11 +189,18 @@ def _ability_row_flowables(ab: AbilityEntry, name_col: float, cond_col: float, f
     # imbriqués dans une mini-table qui, elle, tient toute seule dans cette
     # cellule.
     name_cond = Table([[name_cell, badge_cell if badge_cell else ""]], colWidths=[name_col, cond_col])
-    name_cond.setStyle(TableStyle([
-        ("VALIGN", (0, 0), (-1, -1), "TOP"), ("ALIGN", (1, 0), (1, 0), "RIGHT"),
-        ("LEFTPADDING", (0, 0), (-1, -1), 0), ("RIGHTPADDING", (0, 0), (-1, -1), 0),
-        ("TOPPADDING", (0, 0), (-1, -1), 0), ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
-    ]))
+    name_cond.setStyle(
+        TableStyle(
+            [
+                ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                ("ALIGN", (1, 0), (1, 0), "RIGHT"),
+                ("LEFTPADDING", (0, 0), (-1, -1), 0),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+                ("TOPPADDING", (0, 0), (-1, -1), 0),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+            ]
+        )
+    )
     entries.append(([name_cond], "top" if first else "top-rule"))
 
     text = _clean_text(strip_flavor(_bold_set_up(ab.description) if render_options().bold_set_up else ab.description))
@@ -238,12 +245,19 @@ def _ability_text_flowable(text: str, width: float, min_sections: int = _MIN_TEX
     if len(sections) < min_sections and not steps:
         return _safe_paragraph(text, _TEXT_STYLE)
     t = Table([[_safe_paragraph(sec, _TEXT_STYLE)] for sec in sections], colWidths=[width])
-    t.setStyle(TableStyle([
-        ("LEFTPADDING", (0, 0), (-1, -1), 0), ("RIGHTPADDING", (0, 0), (-1, -1), 0),
-        ("TOPPADDING", (0, 0), (-1, -1), 3), ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
-        ("TOPPADDING", (0, 0), (-1, 0), 0), ("BOTTOMPADDING", (0, -1), (-1, -1), 0),
-        ("LINEBELOW", (0, 0), (-1, -2), 0.4, _SECTION_RULE),
-    ]))
+    t.setStyle(
+        TableStyle(
+            [
+                ("LEFTPADDING", (0, 0), (-1, -1), 0),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+                ("TOPPADDING", (0, 0), (-1, -1), 3),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
+                ("TOPPADDING", (0, 0), (-1, 0), 0),
+                ("BOTTOMPADDING", (0, -1), (-1, -1), 0),
+                ("LINEBELOW", (0, 0), (-1, -2), 0.4, _SECTION_RULE),
+            ]
+        )
+    )
     return t
 
 
@@ -264,7 +278,8 @@ def _ability_rows_body(abilities: list[AbilityEntry], width: float) -> Table:
     cond_col = content_width - name_col
     rows: list[list] = []
     styles: list[tuple] = [
-        ("LEFTPADDING", (0, 0), (-1, -1), 8), ("RIGHTPADDING", (0, 0), (-1, -1), 8),
+        ("LEFTPADDING", (0, 0), (-1, -1), 8),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 8),
         ("VALIGN", (0, 0), (-1, -1), "TOP"),
     ]
     for i, ab in enumerate(abilities):
@@ -301,13 +316,21 @@ def _category_cluster_row(category: str, abilities: list[AbilityEntry], width: f
     _, body_height = body.wrap(body_width, 0xFFFF)
     rail_height = max(body_height, _rail_label_min_height(tr(_CATEGORY_LABELS_FR.get(category, category)).upper()))
     bg, fg = _CATEGORY_RAIL_COLORS.get(category, _CATEGORY_RAIL_COLORS["normal"])
-    rail = _PhaseRail(tr(_CATEGORY_LABELS_FR.get(category, category)).upper(), bg, fg, rail_height, width=_CATEGORY_RAIL_WIDTH)
+    rail = _PhaseRail(
+        tr(_CATEGORY_LABELS_FR.get(category, category)).upper(), bg, fg, rail_height, width=_CATEGORY_RAIL_WIDTH
+    )
     row = Table([[rail, body]], colWidths=[_CATEGORY_RAIL_WIDTH, body_width])
-    row.setStyle(TableStyle([
-        ("VALIGN", (0, 0), (-1, -1), "TOP"),
-        ("LEFTPADDING", (0, 0), (-1, -1), 0), ("RIGHTPADDING", (0, 0), (-1, -1), 0),
-        ("TOPPADDING", (0, 0), (-1, -1), 0), ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
-    ]))
+    row.setStyle(
+        TableStyle(
+            [
+                ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                ("LEFTPADDING", (0, 0), (-1, -1), 0),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+                ("TOPPADDING", (0, 0), (-1, -1), 0),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+            ]
+        )
+    )
     return row
 
 
@@ -344,8 +367,10 @@ def _ability_group_body(group: list[AbilityEntry], width: float, show_category_h
     clusters = _category_clusters(group)
     rows: list[list] = []
     styles: list[tuple] = [
-        ("LEFTPADDING", (0, 0), (-1, -1), 0), ("RIGHTPADDING", (0, 0), (-1, -1), 0),
-        ("BOTTOMPADDING", (0, 0), (-1, -1), 0), ("VALIGN", (0, 0), (-1, -1), "TOP"),
+        ("LEFTPADDING", (0, 0), (-1, -1), 0),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+        ("VALIGN", (0, 0), (-1, -1), "TOP"),
     ]
     for i, (category, abilities) in enumerate(clusters):
         rows.append([_category_cluster_row(category, abilities, width)])
@@ -390,7 +415,10 @@ _MAX_CARD_HEIGHT = A4[1] - 2 * (5.5 * mm) - 20
 
 
 def _chunk_group(
-    group: list[AbilityEntry], body_width: float, show_category_headers: bool = False, n_cols: int = 1,
+    group: list[AbilityEntry],
+    body_width: float,
+    show_category_headers: bool = False,
+    n_cols: int = 1,
     max_height: float = _MAX_GROUP_HEIGHT,
 ) -> list[list[AbilityEntry]]:
     """Découpe `group` en tronçons dont le corps assemblé (cf.
@@ -429,8 +457,11 @@ def _chunk_group(
     donc *pas* un majorant sûr. Les grosses phases du mode `fr-split` (règles
     + aptitudes de tous les warscrolls réunies) dépassaient ainsi une page
     (`LayoutError`)."""
+
     def height(abilities: list[AbilityEntry]) -> float:
-        return _ability_group_body_columns(abilities, body_width, n_cols, show_category_headers).wrap(body_width, 0xFFFF)[1]
+        return _ability_group_body_columns(abilities, body_width, n_cols, show_category_headers).wrap(
+            body_width, 0xFFFF
+        )[1]
 
     if show_category_headers:
         # une grappe plus haute qu'une page à elle seule (jamais vu avant le
@@ -506,7 +537,7 @@ def _split_group_columns(group: list[AbilityEntry], col_width: float, n_cols: in
         boundaries.append(best_idx)
     boundaries.append(n)
     for i in range(active_cols):
-        columns[i] = group[boundaries[i]:boundaries[i + 1]]
+        columns[i] = group[boundaries[i] : boundaries[i + 1]]
     return columns
 
 
@@ -599,10 +630,11 @@ def _split_long_ability_columns(ab: AbilityEntry, body_width: float, n_cols: int
     cells: list = []
     col_widths: list[float] = []
     for i in range(n_cols):
-        seg_text = "<br/><br/>".join(chunks[boundaries[i]:boundaries[i + 1]])
+        seg_text = "<br/><br/>".join(chunks[boundaries[i] : boundaries[i + 1]])
         seg_rows: list[list] = []
         seg_styles: list[tuple] = [
-            ("LEFTPADDING", (0, 0), (-1, -1), 8), ("RIGHTPADDING", (0, 0), (-1, -1), 8),
+            ("LEFTPADDING", (0, 0), (-1, -1), 8),
+            ("RIGHTPADDING", (0, 0), (-1, -1), 8),
             ("VALIGN", (0, 0), (-1, -1), "TOP"),
         ]
         if i == 0:
@@ -613,7 +645,9 @@ def _split_long_ability_columns(ab: AbilityEntry, body_width: float, n_cols: int
             text_row = 0
         # une colonne n'est qu'un morceau du texte : filets dès 2 sections
         # quand le texte entier est sectionné, pour rester homogène
-        seg_rows.append([_ability_text_flowable(seg_text, col_width - 16, min_sections=2 if sectioned else _MIN_TEXT_SECTIONS)])
+        seg_rows.append(
+            [_ability_text_flowable(seg_text, col_width - 16, min_sections=2 if sectioned else _MIN_TEXT_SECTIONS)]
+        )
         seg_styles += [
             ("TOPPADDING", (0, text_row), (-1, text_row), 2 if i == 0 else 5),
             ("BOTTOMPADDING", (0, text_row), (-1, text_row), 6),
@@ -626,16 +660,25 @@ def _split_long_ability_columns(ab: AbilityEntry, body_width: float, n_cols: int
             cells.append(Spacer(_COLUMN_GAP, 0))
             col_widths.append(_COLUMN_GAP)
     t = Table([cells], colWidths=col_widths)
-    t.setStyle(TableStyle([
-        ("VALIGN", (0, 0), (-1, -1), "TOP"),
-        ("LEFTPADDING", (0, 0), (-1, -1), 0), ("RIGHTPADDING", (0, 0), (-1, -1), 0),
-        ("TOPPADDING", (0, 0), (-1, -1), 0), ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
-    ]))
+    t.setStyle(
+        TableStyle(
+            [
+                ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                ("LEFTPADDING", (0, 0), (-1, -1), 0),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+                ("TOPPADDING", (0, 0), (-1, -1), 0),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+            ]
+        )
+    )
     return t
 
 
 def _ability_group_body_columns(
-    chunk: list[AbilityEntry], body_width: float, n_cols: int, show_category_headers: bool = False,
+    chunk: list[AbilityEntry],
+    body_width: float,
+    n_cols: int,
+    show_category_headers: bool = False,
 ) -> Table:
     """Comme `_ability_group_body`, mais réparti sur `n_cols` colonnes côte à
     côte plutôt qu'empilé dans une seule — la carte de règles fusionnée
@@ -678,11 +721,17 @@ def _ability_group_body_columns(
             cells.append(Spacer(_COLUMN_GAP, 0))
             col_widths.append(_COLUMN_GAP)
     t = Table([cells], colWidths=col_widths)
-    t.setStyle(TableStyle([
-        ("VALIGN", (0, 0), (-1, -1), "TOP"),
-        ("LEFTPADDING", (0, 0), (-1, -1), 0), ("RIGHTPADDING", (0, 0), (-1, -1), 0),
-        ("TOPPADDING", (0, 0), (-1, -1), 0), ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
-    ]))
+    t.setStyle(
+        TableStyle(
+            [
+                ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                ("LEFTPADDING", (0, 0), (-1, -1), 0),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+                ("TOPPADDING", (0, 0), (-1, -1), 0),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+            ]
+        )
+    )
     return t
 
 
@@ -691,7 +740,10 @@ def _is_long_ability(ab: AbilityEntry) -> bool:
 
 
 def _ability_group_body_columns_mixed(
-    chunk: list[AbilityEntry], body_width: float, n_cols: int, show_category_headers: bool,
+    chunk: list[AbilityEntry],
+    body_width: float,
+    n_cols: int,
+    show_category_headers: bool,
 ) -> Table:
     """Repli de `_ability_group_body_columns` pour un tronçon qui mélange au
     moins une aptitude longue (cf. `_LONG_ABILITY_THRESHOLD`) avec d'autres
@@ -717,8 +769,10 @@ def _ability_group_body_columns_mixed(
 
     rows: list[list] = []
     styles: list[tuple] = [
-        ("LEFTPADDING", (0, 0), (-1, -1), 0), ("RIGHTPADDING", (0, 0), (-1, -1), 0),
-        ("TOPPADDING", (0, 0), (-1, -1), 0), ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+        ("LEFTPADDING", (0, 0), (-1, -1), 0),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+        ("TOPPADDING", (0, 0), (-1, -1), 0),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
     ]
     for i, run in enumerate(runs):
         if len(run) == 1 and _is_long_ability(run[0]):
@@ -763,7 +817,11 @@ def _choice_segments(group: list[AbilityEntry]) -> list[tuple[list[AbilityEntry]
 
 
 def _append_ability_groups(
-    rows: list[list], styles: list[tuple], abilities: list[AbilityEntry], width: float, columns: int = 1,
+    rows: list[list],
+    styles: list[tuple],
+    abilities: list[AbilityEntry],
+    width: float,
+    columns: int = 1,
     phase_order: list[str] | None = None,
 ) -> None:
     """Ajoute au corps de carte (unité ou règle) un groupe par bandeau de
@@ -825,11 +883,17 @@ def _append_ability_groups(
             rail = _PhaseRail(tr(_PHASE_LABELS[key]).upper(), bg, fg, height=rail_height, width=_RAIL_WIDTH)
 
             group_row = Table([[rail, body]], colWidths=[_RAIL_WIDTH, body_width])
-            group_row.setStyle(TableStyle([
-                ("VALIGN", (0, 0), (-1, -1), "TOP"),
-                ("LEFTPADDING", (0, 0), (-1, -1), 0), ("RIGHTPADDING", (0, 0), (-1, -1), 0),
-                ("TOPPADDING", (0, 0), (-1, -1), 0), ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
-            ]))
+            group_row.setStyle(
+                TableStyle(
+                    [
+                        ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                        ("LEFTPADDING", (0, 0), (-1, -1), 0),
+                        ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+                        ("TOPPADDING", (0, 0), (-1, -1), 0),
+                        ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+                    ]
+                )
+            )
             # Un tronçon de phase (déjà garanti tenir sous `_MAX_GROUP_HEIGHT`,
             # donc sous une page pleine, cf. `_chunk_group`) est une ligne à
             # part entière de la table extérieure (`rows`) : `Table.split()`
@@ -847,8 +911,10 @@ def _append_ability_groups(
             rows.append([group_row])
             r = len(rows) - 1
             styles += [
-                ("LEFTPADDING", (0, r), (-1, r), 0), ("RIGHTPADDING", (0, r), (-1, r), 0),
-                ("TOPPADDING", (0, r), (-1, r), 0), ("BOTTOMPADDING", (0, r), (-1, r), 0),
+                ("LEFTPADDING", (0, r), (-1, r), 0),
+                ("RIGHTPADDING", (0, r), (-1, r), 0),
+                ("TOPPADDING", (0, r), (-1, r), 0),
+                ("BOTTOMPADDING", (0, r), (-1, r), 0),
             ]
             if chunk_i == 0 and first_phase_row is not None:
                 # filet épais à la couleur de la phase qui commence : le
@@ -888,11 +954,17 @@ def _pack_section_rows(abilities: list[AbilityEntry]) -> list[list[tuple[Ability
 
 def _section_header(title: str, width: float) -> Table:
     t = Table([[Paragraph(tr(title).upper(), _SECTION_HEADER_STYLE)]], colWidths=[width])
-    t.setStyle(TableStyle([
-        ("BACKGROUND", (0, 0), (-1, -1), _SECTION_HEADER_BG),
-        ("LEFTPADDING", (0, 0), (-1, -1), 8), ("RIGHTPADDING", (0, 0), (-1, -1), 8),
-        ("TOPPADDING", (0, 0), (-1, -1), 2), ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
-    ]))
+    t.setStyle(
+        TableStyle(
+            [
+                ("BACKGROUND", (0, 0), (-1, -1), _SECTION_HEADER_BG),
+                ("LEFTPADDING", (0, 0), (-1, -1), 8),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 8),
+                ("TOPPADDING", (0, 0), (-1, -1), 2),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
+            ]
+        )
+    )
     t._aospy_section_header = True
     return t
 
@@ -936,8 +1008,10 @@ def _section_row(row: list[tuple[AbilityEntry, int]], width: float) -> Table:
     t = Table([cells], colWidths=widths)
     styles = [
         ("VALIGN", (0, 0), (-1, -1), "TOP"),
-        ("LEFTPADDING", (0, 0), (-1, -1), 0), ("RIGHTPADDING", (0, 0), (-1, -1), 0),
-        ("TOPPADDING", (0, 0), (-1, -1), 0), ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+        ("LEFTPADDING", (0, 0), (-1, -1), 0),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+        ("TOPPADDING", (0, 0), (-1, -1), 0),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
     ]
     if len(row) > 1:
         styles.append(("LINEBEFORE", (1, 0), (-1, -1), 0.4, _STEEL_LINE))
@@ -950,6 +1024,7 @@ class _SectionItem:
     """Un élément du corps d'un bandeau de phase sectionné : titre de
     sous-section ou ligne de grille, avec le titre de sa sous-section (pour
     reprendre « (suite) » après une coupe de page)."""
+
     flow: Flowable
     title: str
     is_header: bool
@@ -962,7 +1037,9 @@ _SEQUENCE_PHASES = frozenset({"deploy", "round_start"})
 
 
 def _sectioned_phase_items(
-    group: list[AbilityEntry], body_width: float, phase_key: str = "",
+    group: list[AbilityEntry],
+    body_width: float,
+    phase_key: str = "",
 ) -> list[_SectionItem]:
     """Corps d'un bandeau de phase en sous-sections (titre noir + grille), à
     plat : `_SectionedPhaseGroup` se charge des coupes de page."""
@@ -979,7 +1056,8 @@ def _sectioned_phase_items(
         if base_last and kv[0] == SECTION_BASE:
             return max(_SECTION_RANK.values()) + 2
         return min(
-            (ab.section_rank for ab in kv[1] if ab.section_rank is not None), default=_section_rank(kv[0]),
+            (ab.section_rank for ab in kv[1] if ab.section_rank is not None),
+            default=_section_rank(kv[0]),
         )
 
     ordered = sorted(sections.items(), key=rank)  # tri stable
@@ -1056,8 +1134,12 @@ class _SectionedPhaseGroup(Flowable):
     droit/bas de la carte, que porte ailleurs la `Table` de `render_rule_card`."""
 
     def __init__(
-        self, phase_key: str, items: list[_SectionItem], width: float,
-        space_before: float = 0.0, continued: bool = False,
+        self,
+        phase_key: str,
+        items: list[_SectionItem],
+        width: float,
+        space_before: float = 0.0,
+        continued: bool = False,
     ):
         super().__init__()
         self.phase_key = phase_key
@@ -1129,16 +1211,22 @@ class _SectionedPhaseGroup(Flowable):
         # tiennent ensemble (demande de l'utilisateur) : une coupe entre/dans
         # eux recule au titre « Sorts ».
         cast = [i for i, it in enumerate(self.items) if it.title in _CONTIGUOUS_CAST_SECTIONS]
-        if cast and 0 < cast[0] < k <= cast[-1] and sum(self._heights[cast[0]:cast[-1] + 1]) <= _FULL_PAGE_HEIGHT:
+        if cast and 0 < cast[0] < k <= cast[-1] and sum(self._heights[cast[0] : cast[-1] + 1]) <= _FULL_PAGE_HEIGHT:
             k = cast[0]
-        if k <= 0 or sum(self._heights[:k]) < _min_rail_height(self.phase_key) and _min_rail_height(self.phase_key) > availHeight:
+        if (
+            k <= 0
+            or sum(self._heights[:k]) < _min_rail_height(self.phase_key)
+            and _min_rail_height(self.phase_key) > availHeight
+        ):
             return []
         head, rest = self.items[:k], self.items[k:]
         if not rest:
             return [self]
         if not rest[0].is_header:
             title = rest[0].title
-            rest = [_SectionItem(_section_header(f"{title} (suite)", self.body_width), title, True, rest[0].is_choice)] + rest
+            rest = [
+                _SectionItem(_section_header(f"{title} (suite)", self.body_width), title, True, rest[0].is_choice)
+            ] + rest
         return [
             _SectionedPhaseGroup(self.phase_key, head, self.width, self.spaceBefore, self.continued),
             _SectionedPhaseGroup(self.phase_key, rest, self.width, continued=True),
@@ -1162,7 +1250,8 @@ class _SectionedPhaseGroup(Flowable):
         c.setFillColor(colors.HexColor(fg))
         c.setFont("Helvetica-Bold", _PHASE_HEADER_FONT_SIZE)
         c.drawString(
-            _RAIL_WIDTH + 2, self.height - _PHASE_HEADER_HEIGHT / 2 - _PHASE_HEADER_FONT_SIZE * 0.35,
+            _RAIL_WIDTH + 2,
+            self.height - _PHASE_HEADER_HEIGHT / 2 - _PHASE_HEADER_FONT_SIZE * 0.35,
             f"{label} (SUITE)" if self.continued else label,
         )
         y = self.height - _PHASE_HEADER_HEIGHT
@@ -1186,7 +1275,9 @@ class _SectionedPhaseGroup(Flowable):
 
 
 def _sectioned_phase_groups(
-    abilities: list[AbilityEntry], width: float, phase_order: list[str] | None = None,
+    abilities: list[AbilityEntry],
+    width: float,
+    phase_order: list[str] | None = None,
 ) -> list[Flowable]:
     """Variante de `_append_ability_groups` (mode `fr-split`) : même bandeau
     de phase vertical à gauche, mais le corps est découpé en sous-sections
@@ -1197,11 +1288,13 @@ def _sectioned_phase_groups(
     grouped: dict[str, list[AbilityEntry]] = {}
     for ab in abilities:
         grouped.setdefault(classify_phase(ab), []).append(ab)
-    body_width = width - _RAIL_WIDTH
     keys = [key for key in phase_order or _PHASE_ORDER if grouped.get(key)]
+
     def build(key: str, w: float, space_before: float, with_rebuild: bool) -> _SectionedPhaseGroup:
         group = _SectionedPhaseGroup(
-            key, _sectioned_phase_items(grouped[key], w - _RAIL_WIDTH, phase_key=key), w,
+            key,
+            _sectioned_phase_items(grouped[key], w - _RAIL_WIDTH, phase_key=key),
+            w,
             space_before=space_before,
         )
         if with_rebuild:
@@ -1225,16 +1318,28 @@ def _two_columns_block(columns: list[list[Flowable]], width: float, gap: float) 
     de cartes empilées (une cellule reportlab accepte une liste de
     `Flowable`) : un padding sur la cellule forcerait seulement la table à
     s'élargir, chaque carte ayant sa largeur interne fixe."""
-    return Table([[columns[0], "", columns[1]]], colWidths=[width, gap, width], style=TableStyle([
-        ("VALIGN", (0, 0), (-1, -1), "TOP"),
-        ("LEFTPADDING", (0, 0), (-1, -1), 0), ("RIGHTPADDING", (0, 0), (-1, -1), 0),
-        ("TOPPADDING", (0, 0), (-1, -1), 0), ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
-    ]))
+    return Table(
+        [[columns[0], "", columns[1]]],
+        colWidths=[width, gap, width],
+        style=TableStyle(
+            [
+                ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                ("LEFTPADDING", (0, 0), (-1, -1), 0),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+                ("TOPPADDING", (0, 0), (-1, -1), 0),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+            ]
+        ),
+    )
 
 
 def pack_cards_two_columns(
-    cards: list[Flowable], heights: list[float], width: float = 88 * mm, gap: float = 5 * mm,
-    solo: list[bool] | None = None, page_height: float = _MAX_CARD_HEIGHT,
+    cards: list[Flowable],
+    heights: list[float],
+    width: float = 88 * mm,
+    gap: float = 5 * mm,
+    solo: list[bool] | None = None,
+    page_height: float = _MAX_CARD_HEIGHT,
     groups: list[str | None] | None = None,
 ) -> list:
     """Empile des cartes en 2 colonnes indépendantes, page par page (demande

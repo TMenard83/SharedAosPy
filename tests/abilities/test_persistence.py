@@ -25,8 +25,9 @@ def test_round_trip_search_and_unit_view(tmp_path):
     assert repository.search_abilities(con, verdict="anecdotique")[0]["uid"] == "u2"
 
     army_id = repository.add_army(con, Army(name="Stormcast Eternals", grand_alliance="Order"))
-    repository.add_unit(con, Unit(army_id=army_id, name="Liberators", move=5, save=3, control=1,
-                                  health=2, models=5, points=100))
+    repository.add_unit(
+        con, Unit(army_id=army_id, name="Liberators", move=5, save=3, control=1, health=2, models=5, points=100)
+    )
     view = con.execute("SELECT unit_name, name FROM unit_ability ORDER BY name").fetchall()
     assert view == [("Liberators", "Quick"), ("Liberators", "Shield's Grace")]
 

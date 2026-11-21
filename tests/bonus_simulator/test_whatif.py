@@ -25,7 +25,11 @@ def con(tmp_path: Path):
 @pytest.fixture()
 def con_with_benchmark(con):
     bench.run_all_benchmarks(
-        con, include_heroes=True, mode_a="floor66", mode_b="mean", rules=whatif.RANKING_DUEL_RULES,
+        con,
+        include_heroes=True,
+        mode_a="floor66",
+        mode_b="mean",
+        rules=whatif.RANKING_DUEL_RULES,
     )
     return con
 
@@ -40,8 +44,13 @@ def test_live_combat_row_matches_manual_benchmark(con):
     row = whatif.live_combat_row(con, libs)
 
     results = bench.benchmark_attacker(
-        con, libs, exclude_army_id=libs.army_id, include_heroes=True,
-        mode_a="floor66", mode_b="mean", rules=whatif.RANKING_DUEL_RULES,
+        con,
+        libs,
+        exclude_army_id=libs.army_id,
+        include_heroes=True,
+        mode_a="floor66",
+        mode_b="mean",
+        rules=whatif.RANKING_DUEL_RULES,
     )
     manual_avg_roi = sum(r.roi for r in results) / len(results) * 100.0
     assert row.avg_roi_pct == pytest.approx(manual_avg_roi)
@@ -53,8 +62,13 @@ def test_live_combat_row_matches_manual_benchmark(con):
 def test_live_combat_row_excludes_own_army(con):
     libs = _liberators(con)
     results = bench.benchmark_attacker(
-        con, libs, exclude_army_id=libs.army_id, include_heroes=True,
-        mode_a="floor66", mode_b="mean", rules=whatif.RANKING_DUEL_RULES,
+        con,
+        libs,
+        exclude_army_id=libs.army_id,
+        include_heroes=True,
+        mode_a="floor66",
+        mode_b="mean",
+        rules=whatif.RANKING_DUEL_RULES,
     )
     assert all(r.defender_army_name != "Stormcast Eternals" for r in results)
 

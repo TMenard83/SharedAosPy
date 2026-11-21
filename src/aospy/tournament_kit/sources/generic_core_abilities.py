@@ -66,16 +66,21 @@ def apply_english_layer(rows: list[dict], en_path: str | Path | None, default_so
             continue
         source = en.get("source", default_source)
         keywords = en.get("keywords", row.get("keywords", ""))
-        out.append({
-            **row, "name": en["name"], "description": en["description"],
-            "condition": en.get("condition", row.get("condition", "")),
-            "keywords": ", ".join(k for k in (keywords, source) if k),
-        })
+        out.append(
+            {
+                **row,
+                "name": en["name"],
+                "description": en["description"],
+                "condition": en.get("condition", row.get("condition", "")),
+                "keywords": ", ".join(k for k in (keywords, source) if k),
+            }
+        )
     return out
 
 
 def load_generic_core_abilities(
-    path: str | Path = DEFAULT_GENERIC_CORE_ABILITIES_FILE, unit_keywords: frozenset[str] | None = None,
+    path: str | Path = DEFAULT_GENERIC_CORE_ABILITIES_FILE,
+    unit_keywords: frozenset[str] | None = None,
     en_path: str | Path | None = None,
 ) -> list[AbilityEntry]:
     """`unit_keywords` : mots-clés (majuscules) de toutes les unités de la

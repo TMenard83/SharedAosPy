@@ -27,7 +27,8 @@ _RANGED = re.compile(r"ranged weapons?|shooting attacks?", re.I)
 _NAMED = re.compile(
     r"(?:this unit's|the target's|its|your general's|that unit's|the targets'|each target's|"
     r"this model's|the target unit's) "
-    r"((?:[A-Z][\w'’-]*)(?: (?:and |of |the |with )?[A-Z][\w'’-]*)*)")
+    r"((?:[A-Z][\w'’-]*)(?: (?:and |of |the |with )?[A-Z][\w'’-]*)*)"
+)
 _NOT_A_WEAPON = {"Companion", "Attacks", "Damage", "Rend", "Health", "Move", "Save", "Control"}
 _COMPANION_IN = re.compile(r"including[^.]*Companion", re.I)
 
@@ -38,16 +39,27 @@ _TARGET_KW = re.compile(
     r"(?:[Ii]f|[Ww]hile) (?:this unit|it|this model) is in combat with (?:any|an?|one or more)? ?enemy) "
     # « attacks that target an enemy HERO » (Master of Assassins) : article ET « enemy » (analyseur v24)
     r"(?:an? |the )?(?:enemy )?"
-    r"((?:[A-Z][A-Z'-]{2,}(?: [A-Z][A-Z'-]{2,})*)(?:,? (?:or|and) [A-Z][A-Z'-]{2,}(?: [A-Z][A-Z'-]{2,})*)*)")
-_SINGULAR = {"HEROES": "HERO", "MONSTERS": "MONSTER", "WIZARDS": "WIZARD", "PRIESTS": "PRIEST",
-             "MANIFESTATIONS": "MANIFESTATION", "WAR MACHINES": "WAR MACHINE"}
+    r"((?:[A-Z][A-Z'-]{2,}(?: [A-Z][A-Z'-]{2,})*)(?:,? (?:or|and) [A-Z][A-Z'-]{2,}(?: [A-Z][A-Z'-]{2,})*)*)"
+)
+_SINGULAR = {
+    "HEROES": "HERO",
+    "MONSTERS": "MONSTER",
+    "WIZARDS": "WIZARD",
+    "PRIESTS": "PRIEST",
+    "MANIFESTATIONS": "MANIFESTATION",
+    "WAR MACHINES": "WAR MACHINE",
+}
 _TARGET_CONDITIONS: list[tuple[str, str]] = [
-    (r"that target an enemy unit that has (\d+) or more models|target (?:unit )?has (\d+) or more models",
-     "cible ≥{n} figurines"),
+    (
+        r"that target an enemy unit that has (\d+) or more models|target (?:unit )?has (\d+) or more models",
+        "cible ≥{n} figurines",
+    ),
     (r"(?:target|enemy unit)[^.]*?contesting an objective", "cible sur objectif"),
     (r"(?:target|enemy unit)[^.]*?in combat with (?:this|that) unit", "cible au contact du porteur"),
-    (r"\bquarry\b|\bmarked\b|\bHUNTED\b|\bprey\b|that target (?:that unit|that enemy unit|each target)\b",
-     "cible désignée (proie/marquée)"),
+    (
+        r"\bquarry\b|\bmarked\b|\bHUNTED\b|\bprey\b|that target (?:that unit|that enemy unit|each target)\b",
+        "cible désignée (proie/marquée)",
+    ),
     (r"(?:target|enemy unit)[^.]*?(?:damaged|has (?:any )?damage points)", "cible blessée"),
     (r"(?:target|enemy unit)[^.]*?within \d+\" of (?:this|a) terrain", "cible près d'un décor"),
 ]
@@ -67,19 +79,25 @@ def charge_subjects(text: str, enemy_target: bool) -> set[str]:
     """
     out: set[str] = set()
     for m in _CHARGED.finditer(text):
-        pre = text[max(0, m.start() - 80):m.start()]
+        pre = text[max(0, m.start() - 80) : m.start()]
         if _NEGATED.search(pre) or re.search(r"\bhaving\s*$", pre):
-            continue   # « has not charged » (contrainte d'action) / « count as having charged » (conséquence)
-        post = text[m.end():m.end() + 12]
-        if re.search(r"\b(?:has|have)\s*$", pre) and not re.match(r"\s*(?:this|in the same) turn", post) \
-                and not re.search(r"\bif\b[^.,]*$", pre, re.I):
-            continue   # « If it does so, this unit has charged. » : conséquence, pas condition
+            continue  # « has not charged » (contrainte d'action) / « count as having charged » (conséquence)
+        post = text[m.end() : m.end() + 12]
+        if (
+            re.search(r"\b(?:has|have)\s*$", pre)
+            and not re.match(r"\s*(?:this|in the same) turn", post)
+            and not re.search(r"\bif\b[^.,]*$", pre, re.I)
+        ):
+            continue  # « If it does so, this unit has charged. » : conséquence, pas condition
         clause = re.split(r"[.,:;(\n]|\bthen\b|\bif\b|\bwhile\b", pre)[-1]
         # le sujet est la mention la plus PROCHE de « charged » (« an enemy unit in combat with a
         # friendly GITMOB unit that has charged » : c'est l'unité amie qui a chargé)
         last = None
-        for pat, who in ((r"\benemy\b(?! territory)", "ennemi"), (_TARGET_SUBJECT.pattern, "cible"),
-                         (r"\bfriendly\b|\bthis (?:unit|model|MANIFESTATION|HERO)\b|\byour\b", "nous")):
+        for pat, who in (
+            (r"\benemy\b(?! territory)", "ennemi"),
+            (_TARGET_SUBJECT.pattern, "cible"),
+            (r"\bfriendly\b|\bthis (?:unit|model|MANIFESTATION|HERO)\b|\byour\b", "nous"),
+        ):
             for mm in re.finditer(pat, clause, re.I):
                 if last is None or mm.start() >= last[0]:
                     last = (mm.start(), who)
@@ -100,12 +118,17 @@ _REQUIRES: list[tuple[str, str]] = [
     (_SUBJ + r" in combat", "au combat"),
     (_SUBJ + r" (?:wholly )?within (?:friendly|enemy) territory", "en territoire"),
     (r"(?:has|have) (?:\d+|any)(?: or more)? damage points?|while (?:it|this unit) is damaged", "porteur blessé"),
-    (_SUBJ + r" (?:wholly )?within [^.:]*?\bof (?:a|any|another) (?:visible )?(?:damaged )?friendly",
-     "près d'une unité amie"),
+    (
+        _SUBJ + r" (?:wholly )?within [^.:]*?\bof (?:a|any|another) (?:visible )?(?:damaged )?friendly",
+        "près d'une unité amie",
+    ),
     # « within the combat ranges of any damaged friendly FYRESLAYERS HEROES » ; « while this unit's
     # soul-bonded charge is within this unit's combat range » (héros lié, Questor Soulsworn)
-    (_SUBJ + r" (?:wholly )?within the combat ranges? of [^.:]*?\bfriendly|"
-     r"while this unit's [\w' -]+ is (?:wholly )?within", "près d'une unité amie"),
+    (
+        _SUBJ + r" (?:wholly )?within the combat ranges? of [^.:]*?\bfriendly|"
+        r"while this unit's [\w' -]+ is (?:wholly )?within",
+        "près d'une unité amie",
+    ),
 ]
 #: Prérequis « dépense une ressource de faction » (pondéré par la couche 3, pas une condition de jeu).
 SPENDS_RESOURCE = "dépense une ressource"
@@ -113,18 +136,26 @@ SPENDS_RESOURCE = "dépense une ressource"
 #: Attacks ») : la valeur dépend de l'allocation entre unités, décidée au niveau de la liste (couche 4).
 #: Pondéré comme une ressource au rythme inconnu (analyseur v16).
 RESOURCE_SCALED = "selon ressource allouée"
-_PER_RESOURCE = re.compile(r"\bfor each [\w' -]{0,40}?\bpoints? (?:this unit|it|that unit|this model) has\b|"
-                           r"\bnumber of [\w' -]{0,40}?\bpoints? this unit has\b", re.I)
+_PER_RESOURCE = re.compile(
+    r"\bfor each [\w' -]{0,40}?\bpoints? (?:this unit|it|that unit|this model) has\b|"
+    r"\bnumber of [\w' -]{0,40}?\bpoints? this unit has\b",
+    re.I,
+)
 _SPEND = re.compile(r"\b[Ss]pend (?:a number of |\d+ |up to \d+ |any number of )?[\w' -]{0,40}?\bpoints?\b")
 #: Protection (ou réduction) limitée à une source de dégâts : ne joue pas contre les attaques d'armes.
 _DAMAGE_SOURCES: list[tuple[str, str]] = [
-    (r"against (?:mortal )?damage(?: points)? inflicted by (?:SPELL|PRAYER|abilities used by MANIFESTATIONS?)",
-     "vs sorts/manifestations"),
+    (
+        r"against (?:mortal )?damage(?: points)? inflicted by (?:SPELL|PRAYER|abilities used by MANIFESTATIONS?)",
+        "vs sorts/manifestations",
+    ),
     (r"against mortal damage\b", "vs blessures mortelles"),
 ]
 _DURATIONS: list[tuple[str, str]] = [
-    (r"for the rest of the battle round|until the end of the battle round|"
-     r"until the start of the next battle round", "round"),
+    (
+        r"for the rest of the battle round|until the end of the battle round|"
+        r"until the start of the next battle round",
+        "round",
+    ),
     (r"for the rest of the battle", "bataille"),
     (r"until the start of (?:your|the) next turn", "jusqu'au prochain tour"),
     (r"for the rest of (?:the )?turn|until the end of the turn|this turn\b", "tour"),
@@ -156,7 +187,7 @@ def sentence_at(text: str, pos: int) -> str:
     # (sans « . » avant pos, rfind vaut -1 : ne pas sauter la 1re lettre du texte, « While » → « hile »)
     start = max(dot + 2 if dot != -1 else 0, text.rfind("\n", 0, pos) + 1)
     ends = [i for i in (text.find(". ", pos), text.find("\n", pos)) if i != -1]
-    return text[start:min(ends) + 1 if ends else len(text)].strip()
+    return text[start : min(ends) + 1 if ends else len(text)].strip()
 
 
 def _list_header(text: str, sentence: str) -> str:
@@ -168,13 +199,29 @@ def _list_header(text: str, sentence: str) -> str:
     if head == -1:
         return ""
     dot = text.rfind(". ", 0, head)
-    return text[max(text.rfind("\n", 0, head) + 1, dot + 2 if dot != -1 else 0):head + 1]
+    return text[max(text.rfind("\n", 0, head) + 1, dot + 2 if dot != -1 else 0) : head + 1]
 
 
 #: Effets ponctuels par nature : sans formule de durée, ils sont « immédiats ».
-INSTANT_KINDS = {"mortal_damage", "heal", "return_models", "move", "summon", "redeploy", "deep_strike",
-                 "extra_fight", "fight_twice", "extra_shoot", "extra_move", "pile_in", "slay", "cp_gain", "resource",
-                 "rally", "fixed_roll"}
+INSTANT_KINDS = {
+    "mortal_damage",
+    "heal",
+    "return_models",
+    "move",
+    "summon",
+    "redeploy",
+    "deep_strike",
+    "extra_fight",
+    "fight_twice",
+    "extra_shoot",
+    "extra_move",
+    "pile_in",
+    "slay",
+    "cp_gain",
+    "resource",
+    "rally",
+    "fixed_roll",
+}
 
 
 #: Réaction qui modifie le jet ou l'aptitude déclencheurs (« add 1 to the casting roll for that
@@ -182,19 +229,33 @@ INSTANT_KINDS = {"mortal_damage", "heal", "return_models", "move", "summon", "re
 _TRIGGER_ROLL = re.compile(
     r"\bthat (?:spell|prayer|roll|ability|[A-Z]+ ability)\b|\bthe (?:casting|chanting|unbinding|charge|run) roll\b|"
     r"\b(?:casting|chanting|unbinding|charge|run) roll for that\b|\bas part of that\b|\bthat (?:casting|chanting|"
-    r"unbinding|charge|run) roll\b", re.I)
+    r"unbinding|charge|run) roll\b",
+    re.I,
+)
 #: Choix fait une fois pour toutes avant la bataille (serment, pari, cible désignée au déploiement).
 _SETUP_CONDITION = re.compile(r"deployment phase|start of the first battle round", re.I)
 
 
-def perimeter_of(sentence: str, text: str, passive: bool, offensive: bool, kind: str = "",
-                 enemy_target: bool = False, condition: str = "") -> dict:
+def perimeter_of(
+    sentence: str,
+    text: str,
+    passive: bool,
+    offensive: bool,
+    kind: str = "",
+    enemy_target: bool = False,
+    condition: str = "",
+) -> dict:
     """Champs de périmètre (`Effect.weapon_scope` … `Effect.duration`) pour un effet."""
     out: dict = {}
     if offensive or _MELEE.search(sentence) or _RANGED.search(sentence):
-        named = next((m.group(1) for m in _NAMED.finditer(sentence)
-                      if m.group(1).split()[0] not in _NOT_A_WEAPON
-                      and not re.match(r"(?:melee|ranged)", m.group(1), re.I)), "")
+        named = next(
+            (
+                m.group(1)
+                for m in _NAMED.finditer(sentence)
+                if m.group(1).split()[0] not in _NOT_A_WEAPON and not re.match(r"(?:melee|ranged)", m.group(1), re.I)
+            ),
+            "",
+        )
         if _CHOSEN.search(sentence):
             out["weapon_scope"] = "chosen"
         elif _MELEE.search(sentence) and not _RANGED.search(sentence):
@@ -207,9 +268,11 @@ def perimeter_of(sentence: str, text: str, passive: bool, offensive: bool, kind:
             out["weapon_scope"] = "all"
         out["includes_companion"] = bool(_COMPANION_IN.search(sentence))
 
-    kws = [_SINGULAR.get(k.strip(), k.strip())
-           for m in _TARGET_KW.finditer(sentence)
-           for k in re.split(r",? (?:or|and) |, ", m.group(1))]
+    kws = [
+        _SINGULAR.get(k.strip(), k.strip())
+        for m in _TARGET_KW.finditer(sentence)
+        for k in re.split(r",? (?:or|and) |, ", m.group(1))
+    ]
     if kws:
         out["target_keywords"] = ",".join(dict.fromkeys(kws))
 
@@ -240,8 +303,15 @@ def perimeter_of(sentence: str, text: str, passive: bool, offensive: bool, kind:
         out["requires"] = " | ".join(reqs)
 
     scope_text = f"{_list_header(text, sentence)} {sentence}"
-    out["duration"] = next((label for pat, label in _DURATIONS if re.search(pat, scope_text, re.I)),
-                           next((label for pat, label in _DURATIONS if re.search(pat, text, re.I)),
-                                "permanent" if passive else "immédiat" if kind in INSTANT_KINDS
-                                else _implicit_duration(scope_text, text, condition)))
+    out["duration"] = next(
+        (label for pat, label in _DURATIONS if re.search(pat, scope_text, re.I)),
+        next(
+            (label for pat, label in _DURATIONS if re.search(pat, text, re.I)),
+            "permanent"
+            if passive
+            else "immédiat"
+            if kind in INSTANT_KINDS
+            else _implicit_duration(scope_text, text, condition),
+        ),
+    )
     return out

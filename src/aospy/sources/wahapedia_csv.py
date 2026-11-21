@@ -25,9 +25,11 @@ ROR_ROLE = "Regiment of Renown"
 #: "Scourge of Aqshy" (pack antérieur) n'est PAS filtré : ces entrées ciblent un
 #: `targetId` distinct de l'unité de base (points/profil différents), ce ne sont
 #: donc pas de simples doublons mais des unités à part entière toujours valides.
-EXPIRED_VARIANT_MARKERS: frozenset[str] = frozenset({
-    "scourge of ghyran",
-})
+EXPIRED_VARIANT_MARKERS: frozenset[str] = frozenset(
+    {
+        "scourge of ghyran",
+    }
+)
 
 
 def read_csv(path: Path) -> list[dict[str, str]]:
@@ -46,7 +48,8 @@ def legends_warscrolls(data_dir: Path) -> list[dict[str, str]]:
     sources = read_csv(data_dir / "Source.csv")
     legend_sources = {s["id"] for s in sources if "legends" in (s.get("name") or "").lower()}
     return [
-        w for w in read_csv(data_dir / "Warscrolls.csv")
+        w
+        for w in read_csv(data_dir / "Warscrolls.csv")
         if w.get("source_id") in legend_sources or "legend" in (w.get("notes") or "").lower()
     ]
 
@@ -77,7 +80,8 @@ def canonical_ids(warscrolls: list[dict[str, str]]) -> set[str]:
         has_real = any((w.get("virtual") or "") == "false" for w in ws)
         has_non_ror = any((w.get("role") or "") != ROR_ROLE for w in ws)
         survivors = [
-            w for w in ws
+            w
+            for w in ws
             if not (has_real and (w.get("virtual") or "") != "false")
             and not (has_non_ror and (w.get("role") or "") == ROR_ROLE)
         ] or ws  # filet de sécurité : ne devrait jamais être vide

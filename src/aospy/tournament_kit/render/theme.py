@@ -56,10 +56,17 @@ _PHASE_COLORS: dict[str, tuple[str, str]] = {
     "any": ("#4f6b2e", "#eef2e2"),
 }
 _PHASE_LABELS: dict[str, str] = {
-    "deploy": "Déploiement", "round_start": "Début de round", "asterism": "Astérisme",
-    "start": "Début de tour", "hero": "Phase des héros",
-    "move": "Phase de mouvement", "shoot": "Phase de tir", "charge": "Phase de charge", "melee": "Phase de mêlée",
-    "end": "Fin de tour", "any": "N'importe quelle phase",
+    "deploy": "Déploiement",
+    "round_start": "Début de round",
+    "asterism": "Astérisme",
+    "start": "Début de tour",
+    "hero": "Phase des héros",
+    "move": "Phase de mouvement",
+    "shoot": "Phase de tir",
+    "charge": "Phase de charge",
+    "melee": "Phase de mêlée",
+    "end": "Fin de tour",
+    "any": "N'importe quelle phase",
 }
 
 #: reportlab ne peint pas de fond derrière un texte qui coule dans un
@@ -68,21 +75,23 @@ _PHASE_LABELS: dict[str, str] = {
 #: (gris/noir) pour continuer à se voir comme des badges plutôt que du texte
 #: normal, avec un léger cadrage `[ ]` en plus pour rester lisibles même en
 #: N&B.
-_BADGE_NEUTRAL = "#2e5c8a"   # timing : fréquence, condition, passif — en contour (`outline`), pour ne pas se confondre avec le bleu de la phase de tir
-_BADGE_KEYWORD = "#6e6259"   # classification : mot-clé d'aptitude sans couleur propre — taupe neutre, le jaune étant réservé à la phase des héros (demande de l'utilisateur)
+_BADGE_NEUTRAL = "#2e5c8a"  # timing : fréquence, condition, passif — en contour (`outline`), pour ne pas se confondre avec le bleu de la phase de tir
+_BADGE_KEYWORD = "#6e6259"  # classification : mot-clé d'aptitude sans couleur propre — taupe neutre, le jaune étant réservé à la phase des héros (demande de l'utilisateur)
 _BADGE_MULTI_PHASE = "#56606b"  # mot-clé servant dans plusieurs phases (ATTACK, RAMPAGE) — ardoise, en contour
-_BADGE_STAT = "#1f6b78"      # stat d'arme mise en avant : portée
-_BADGE_REACT = "#8c1f1f"     # alerte : réaction
-_BADGE_SPELL = "#5b3a8f"     # sort — valeur d'incantation (points_type "Spell")
-_BADGE_PRAYER = "#2e6b4f"    # prière — valeur de prière (points_type "Prayer")
-_BADGE_COMMAND = "#7a4a1f"   # point de commandement — coût en PC (points_type "Command")
-_BADGE_RAGE = "#a3300f"      # dé de rage (Règles de Saison 2026-27) — cf. `_resource_badges`
-_BADGE_FURY = "#d9620b"      # point de fureur (Règles de Saison 2026-27)
-_BADGE_SEASON = "#c8451c"    # badge d'origine « Saison » (rouge orangé, demande de l'utilisateur)
-_BADGE_BLOOD = "#7a1620"     # dime de sang — coût en points de sang (points_type "Blood tithe", Blades of Khorne)
-_BADGE_FACTION = "#6b2545"   # mot-clé d'aptitude propre à une seule faction (ex. Delusion, Tidal) — cf. `_keyword_pills`
-_BADGE_SOURCE = "#4a5260"    # source du texte (BT, FP, MdG, SIMPLE, Wahapedia...) — une seule couleur pour toutes (demande de l'utilisateur)
-_BADGE_WARSCROLL = "#161a2b"  # warscroll porteur d'une aptitude sortie de sa carte (mode `fr-split`) — cf. `_warscroll_pills`
+_BADGE_STAT = "#1f6b78"  # stat d'arme mise en avant : portée
+_BADGE_REACT = "#8c1f1f"  # alerte : réaction
+_BADGE_SPELL = "#5b3a8f"  # sort — valeur d'incantation (points_type "Spell")
+_BADGE_PRAYER = "#2e6b4f"  # prière — valeur de prière (points_type "Prayer")
+_BADGE_COMMAND = "#7a4a1f"  # point de commandement — coût en PC (points_type "Command")
+_BADGE_RAGE = "#a3300f"  # dé de rage (Règles de Saison 2026-27) — cf. `_resource_badges`
+_BADGE_FURY = "#d9620b"  # point de fureur (Règles de Saison 2026-27)
+_BADGE_SEASON = "#c8451c"  # badge d'origine « Saison » (rouge orangé, demande de l'utilisateur)
+_BADGE_BLOOD = "#7a1620"  # dime de sang — coût en points de sang (points_type "Blood tithe", Blades of Khorne)
+_BADGE_FACTION = "#6b2545"  # mot-clé d'aptitude propre à une seule faction (ex. Delusion, Tidal) — cf. `_keyword_pills`
+_BADGE_SOURCE = "#4a5260"  # source du texte (BT, FP, MdG, SIMPLE, Wahapedia...) — une seule couleur pour toutes (demande de l'utilisateur)
+_BADGE_WARSCROLL = (
+    "#161a2b"  # warscroll porteur d'une aptitude sortie de sa carte (mode `fr-split`) — cf. `_warscroll_pills`
+)
 
 
 # -- Styles --------------------------------------------------------------
@@ -111,7 +120,9 @@ _HEAD_STYLE = ParagraphStyle("wc_head", fontName=CARD_TITLE_FONT, fontSize=13, l
 _ROLE_STYLE = ParagraphStyle("wc_role", fontName="Helvetica", fontSize=7, leading=9, textColor=colors.white)
 #: nom français sous le nom anglais d'une carte d'unité (`WarscrollData.subtitle`) :
 #: petit et estompé, le nom anglais (celui de l'App) reste le repère.
-_SUBTITLE_STYLE = ParagraphStyle("wc_subtitle", fontName="Helvetica-Oblique", fontSize=7, leading=8.5, textColor=colors.HexColor("#a9adbd"))
+_SUBTITLE_STYLE = ParagraphStyle(
+    "wc_subtitle", fontName="Helvetica-Oblique", fontSize=7, leading=8.5, textColor=colors.HexColor("#a9adbd")
+)
 _STAT_STYLE = ParagraphStyle("wc_stat", fontName="Helvetica", fontSize=6.5, leading=17, textColor=_STEEL, alignment=1)
 _META_STYLE = ParagraphStyle("wc_meta", fontName="Helvetica", fontSize=7.5, leading=10, textColor=_STEEL)
 _WHD_STYLE = ParagraphStyle("wc_whd", fontName="Helvetica", fontSize=6.5, leading=8, textColor=_STEEL, alignment=1)
@@ -119,4 +130,6 @@ _WNAME_STYLE = ParagraphStyle("wc_wname", fontName="Helvetica-Bold", fontSize=8,
 _WTAG_STYLE = ParagraphStyle("wc_wtag", fontName="Helvetica-Oblique", fontSize=6.5, leading=8, textColor=_STEEL)
 _WVAL_STYLE = ParagraphStyle("wc_wval", fontName="Helvetica", fontSize=7.5, leading=9, textColor=_INK, alignment=1)
 _KW_STYLE = ParagraphStyle("wc_kw", fontName="Helvetica", fontSize=6, leading=8, textColor=_STEEL)
-_PROV_STYLE = ParagraphStyle("wc_prov", fontName="Helvetica-Oblique", fontSize=6, leading=8, textColor=_STEEL, alignment=2)
+_PROV_STYLE = ParagraphStyle(
+    "wc_prov", fontName="Helvetica-Oblique", fontSize=6, leading=8, textColor=_STEEL, alignment=2
+)

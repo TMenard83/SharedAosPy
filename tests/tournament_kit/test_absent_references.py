@@ -1,4 +1,3 @@
-
 from aospy.tournament_kit.list_parser import parse_list
 from aospy.tournament_kit.resolution.absent_references import find_absent_references
 

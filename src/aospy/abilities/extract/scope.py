@@ -10,9 +10,11 @@ from .conditions import _RANGE_RE, _WHOLLY_RE
 
 _TARGET_PHRASE = re.compile(r"to be the (?:friendly |enemy )?targets?\b|to be the victim", re.I)
 _FRIENDLY_AURA = re.compile(
-    r"friendly\b[^.]*?\bunits\b[^.]*?(wholly )?within (\d+)\"|while they are (wholly )?within (\d+)\"", re.I)
+    r"friendly\b[^.]*?\bunits\b[^.]*?(wholly )?within (\d+)\"|while they are (wholly )?within (\d+)\"", re.I
+)
 _ENEMY_AURA = re.compile(
-    r"(?:each|all|any) enemy units? (?:that are |that is |while they are )?(wholly )?within (\d+)\"", re.I)
+    r"(?:each|all|any) enemy units? (?:that are |that is |while they are )?(wholly )?within (\d+)\"", re.I
+)
 #: « Friendly SKAVEN INFANTRY HEROES have WARD (5+) while they are within this unit's combat range » :
 #: bulle autour du porteur pour des unités amies désignées par mot-clé au pluriel, sans le mot « units »
 #: (analyseur v16 — lu jusque-là `self`, Elite Bodyguard donnait la protection aux Stormvermin).
@@ -20,29 +22,33 @@ _ENEMY_AURA = re.compile(
 #: faction finissant par S (FYRESLAYERS) ne suffit pas.
 _FRIENDLY_KW_AURA = re.compile(
     r"(?:^|\. )[Ff]riendly (?:[A-Z][A-Z'-]+ )*[A-Z][A-Z'-]+S (?:have|are|can|gain|count)\b[^.]*?"
-    r"(?:(wholly )?within (\d+)\"|within (?:this unit's|this model's|its) combat range)")
+    r"(?:(wholly )?within (\d+)\"|within (?:this unit's|this model's|its) combat range)"
+)
 _ARMY_WIDE = re.compile(r"\bfriendly [A-Z][A-Z' -]+ units\b|\bfriendly units\b")
 #: « Friendly BONESPLITTERZ CAVALRY units have … », « each friendly DAUGHTERS OF KHAINE AELF INFANTRY
 #: unit », « Friendly FLESH-EATER COURTS HEROES », « friendly Freeguild Steelhelms units » : toute
 #: l'armée (restreinte par mot-clé, cf. `friendly_target`), sans rayon (analyseur v20).
 _ARMY_KW = re.compile(
     r"(?<![Aa] )(?<![Tt]he )(?<!that )(?<!other )(?<!another )(?<!visible )\b(?:[Ee]ach |[Aa]ll )?[Ff]riendly "
-    r"(?:non-[A-Z]+ )?(?:[A-Z][\w'’-]* )*(?:units?'?|HEROES|WIZARDS|PRIESTS|MONSTERS|models)\b")
+    r"(?:non-[A-Z]+ )?(?:[A-Z][\w'’-]* )*(?:units?'?|HEROES|WIZARDS|PRIESTS|MONSTERS|models)\b"
+)
 _REGIMENT = re.compile(r"\b(?:units|each unit|a unit) in this Regiment of Renown\b")
 _COMBAT_RANGE = re.compile(r"combat range|in combat with|within 1\" ", re.I)
 _PLACEMENT_RE = re.compile(r"(?:and )?more than \d+\" from all enemy units", re.I)
-_SELF_SUBJECT = re.compile(r"(?:This (?:unit|model|HERO|MANIFESTATION|terrain feature)|Your general|Each time this unit|"
-                           r"While this unit)\b(?![^.]*friendly [^.]*units)")
+_SELF_SUBJECT = re.compile(
+    r"(?:This (?:unit|model|HERO|MANIFESTATION|terrain feature)|Your general|Each time this unit|"
+    r"While this unit)\b(?![^.]*friendly [^.]*units)"
+)
 _SELF_FIGHT_TWICE = re.compile(r"(?:If [^.]*?, )?(?:this unit|it) can use (?:2|two) FIGHT abilities", re.I)
 _MULTI = re.compile(r"\b(?:each|all|any number of|up to \d+|up to \w+|\d+ other)\b", re.I)
 
 
 def _target_clause(declare: str) -> str:
-    """Segment « Pick … to be the target » (le dernier pick avant la formule) ; sinon le 1er « Pick … ». """
+    """Segment « Pick … to be the target » (le dernier pick avant la formule) ; sinon le 1er « Pick … »."""
     m = _TARGET_PHRASE.search(declare)
     if m:
         start = max(declare.rfind("Pick", 0, m.start()), declare.rfind("pick", 0, m.start()))
-        return declare[max(start, 0):m.start()]
+        return declare[max(start, 0) : m.start()]
     m = re.search(r"[Pp]ick [^.]*", declare)
     return m.group(0) if m else ""
 
@@ -59,7 +65,7 @@ def _enemy_first(seg: str) -> bool:
     if picks:
         seg = picks[-1]
     if re.search(r"friendly (?:and|or) enemy|enemy (?:and|or) friendly", seg):
-        return True   # « each unit (friendly and enemy) within 3" » : effet indiscriminé, lu côté ennemi
+        return True  # « each unit (friendly and enemy) within 3" » : effet indiscriminé, lu côté ennemi
     e, f = re.search(r"\benemy\b", seg), re.search(r"\bfriendly\b", seg)
     return bool(e) and (not f or e.start() < f.start())
 
@@ -80,8 +86,9 @@ def scope_of(declare: str, effect: str) -> tuple[Scope, Optional[int], bool]:
         # « Pick a friendly PRIEST to chant this prayer, pick a visible friendly X … that has not been
         # picked to be the target of this ability … to be the target » : la cible est la dernière
         # clause « pick … to be the target » de l'Annonce (analyseur v20)
-        picks = re.findall(r"\b[Pp]ick ((?:(?!\b[Pp]ick\b)[^.;])*?)\bto be the targets?\b(?! of this)",
-                           declare or effect)
+        picks = re.findall(
+            r"\b[Pp]ick ((?:(?!\b[Pp]ick\b)[^.;])*?)\bto be the targets?\b(?! of this)", declare or effect
+        )
         seg = picks[-1] if picks and not re.search(r"to (?:cast|chant|use) this", picks[-1]) else ""
     if seg:
         rm = _RANGE_RE.search(seg)
@@ -112,17 +119,16 @@ def scope_of(declare: str, effect: str) -> tuple[Scope, Optional[int], bool]:
     if m:
         # « each friendly X unit wholly within 12" of this unit » : bulle, pas armée
         end = effect.find(".", m.end())
-        tail = effect[m.end():end if end != -1 else len(effect)]
+        tail = effect[m.end() : end if end != -1 else len(effect)]
         rm = re.search(r"(wholly )?within (\d+)\"", tail)
         if rm:
             return "friendly_aura", int(rm.group(2)), bool(rm.group(1))
         if re.search(r"within (?:this unit's|this model's|its|their) combat range", tail):
             return "friendly_aura", 1, False
-    if _ARMY_WIDE.search(full) or re.search(r"\b(?:your|friendly) units\b", full) \
-            or m or _REGIMENT.search(effect):
+    if _ARMY_WIDE.search(full) or re.search(r"\b(?:your|friendly) units\b", full) or m or _REGIMENT.search(effect):
         return "army", None, False
     if re.match(r"\s*Used By:", effect):
-        return "one_friendly", None, False   # réaction : l'unité qui a déclaré l'aptitude
+        return "one_friendly", None, False  # réaction : l'unité qui a déclaré l'aptitude
     if _enemy_first(seg or "") or re.search(r"\bthe target\b", effect) and _enemy_first(declare):
         return "one_enemy", None, False
     if re.search(r"\b(?:this|that) (?:unit|model|HERO|MANIFESTATION)\b|\bit\b|your general", full):
@@ -138,21 +144,27 @@ def scope_of(declare: str, effect: str) -> tuple[Scope, Optional[int], bool]:
 def _fallback_scope(effect: str) -> Optional[Scope]:
     """Bénéficiaire lu dans des tournures sans clause de cible (analyseur v20, revue « portee »)."""
     # « within 18" of the caster » (convocation) n'est qu'un repère de placement
-    if re.search(r"\b(?:for|by|to|target) the (?:caster|chanter)\b|\bthe (?:caster|chanter)'s\b|"
-                 r"\bthe unit using (?:this|that)\b|\b[Tt]he unit in this Regiment of Renown\b", effect):
+    if re.search(
+        r"\b(?:for|by|to|target) the (?:caster|chanter)\b|\bthe (?:caster|chanter)'s\b|"
+        r"\bthe unit using (?:this|that)\b|\b[Tt]he unit in this Regiment of Renown\b",
+        effect,
+    ):
         return "self"
     # personnage nommé : « the friendly Sigvald », « While a friendly Brokk Grungsson is … »
-    if re.search(r"(?:\b[Tt]he|\b(?:While|If) a) friendly [A-Z][a-z][\w'’-]*(?: [A-Z][a-z][\w'’-]*)*\b(?! units)",
-                 effect):
+    if re.search(
+        r"(?:\b[Tt]he|\b(?:While|If) a) friendly [A-Z][a-z][\w'’-]*(?: [A-Z][a-z][\w'’-]*)*\b(?! units)", effect
+    ):
         return "self"
-    if re.search(r"\b(?:for|by|of) enemy (?:[A-Z][\w'’-]* )*units\b|\benemy (?:[A-Z][\w'’-]* )*units have\b",
-                 effect):
+    if re.search(r"\b(?:for|by|of) enemy (?:[A-Z][\w'’-]* )*units\b|\benemy (?:[A-Z][\w'’-]* )*units have\b", effect):
         return "all_enemies"
     if re.search(r"\byou (?:receive|gain) (?:\d+|D\d|an?|one)\b", effect):
-        return "army"   # ressource de faction : profite au joueur
+        return "army"  # ressource de faction : profite au joueur
     if re.search(r"\b(?:[Ee]ach time an?|[Ee]ach) friendly (?:non-[A-Z]+ )?[A-Z][\w'’-]*", effect):
         return "army"
-    if re.search(r"\b(?:re-roll|[Rr]e-roll 1 dice in) (?:the|that) (?:charge|casting|chanting|unbinding|delusion) "
-                 r"roll\b|\bthat (?:charge|casting|chanting|unbinding) roll\b|for that (?:ability|spell)\b", effect):
-        return "one_friendly"   # réaction : l'unité qui fait le jet
+    if re.search(
+        r"\b(?:re-roll|[Rr]e-roll 1 dice in) (?:the|that) (?:charge|casting|chanting|unbinding|delusion) "
+        r"roll\b|\bthat (?:charge|casting|chanting|unbinding) roll\b|for that (?:ability|spell)\b",
+        effect,
+    ):
+        return "one_friendly"  # réaction : l'unité qui fait le jet
     return None

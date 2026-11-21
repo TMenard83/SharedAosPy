@@ -7,7 +7,6 @@ from pathlib import Path
 
 import duckdb
 
-from . import repository
 from ..domain.models import (
     Army,
     Artefact,
@@ -17,6 +16,7 @@ from ..domain.models import (
     Unit,
     Weapon,
 )
+from . import repository
 
 DEFAULT_DATA_FILE = Path("data") / "json" / "armies.json"
 DEFAULT_COMPOSITIONS_FILE = Path("data") / "json" / "compositions.json"
@@ -50,31 +50,39 @@ def load_armies_from_json(
                 con, HeroicTrait(army_id=army_id, name=t["name"], description=t.get("description"))
             )
         for a in entry.get("artefacts", []):
-            repository.add_artefact(
-                con, Artefact(army_id=army_id, name=a["name"], description=a.get("description"))
-            )
+            repository.add_artefact(con, Artefact(army_id=army_id, name=a["name"], description=a.get("description")))
 
         for u in entry.get("units", []):
             weapons = [
                 Weapon(
-                    name=w["name"], kind=w["kind"], range_in=w.get("range_in", 1),
-                    attacks=w["attacks"], hit=w["hit"], wound=w["wound"],
-                    rend=w.get("rend", 0), damage=w["damage"],
+                    name=w["name"],
+                    kind=w["kind"],
+                    range_in=w.get("range_in", 1),
+                    attacks=w["attacks"],
+                    hit=w["hit"],
+                    wound=w["wound"],
+                    rend=w.get("rend", 0),
+                    damage=w["damage"],
                     abilities=w.get("abilities"),
                 )
                 for w in u.get("weapons", [])
             ]
             unit = Unit(
-                name=u["name"], army_id=army_id,
-                move=u["move"], save=u["save"], health=u["health"],
-                control=u["control"], models=u["models"], points=u["points"],
-                is_hero=u.get("is_hero", False), ward=u.get("ward"),
+                name=u["name"],
+                army_id=army_id,
+                move=u["move"],
+                save=u["save"],
+                health=u["health"],
+                control=u["control"],
+                models=u["models"],
+                points=u["points"],
+                is_hero=u.get("is_hero", False),
+                ward=u.get("ward"),
                 weapons=weapons,
             )
             repository.add_unit(con, unit)
 
     return army_ids
-
 
 
 def load_compositions_from_json(
@@ -126,18 +134,24 @@ def load_compositions_from_json(
                 if a is None:
                     raise ValueError(f"Artefact inconnu: {raw['artefact']}")
                 artefact_id = a.id
-            comp_entries.append(CompositionUnit(
-                unit_id=unit.id,
-                reinforced=raw.get("reinforced", False),
-                is_general=raw.get("is_general", False),
-                heroic_trait_id=trait_id,
-                artefact_id=artefact_id,
-            ))
+            comp_entries.append(
+                CompositionUnit(
+                    unit_id=unit.id,
+                    reinforced=raw.get("reinforced", False),
+                    is_general=raw.get("is_general", False),
+                    heroic_trait_id=trait_id,
+                    artefact_id=artefact_id,
+                )
+            )
 
         composition = Composition(
-            army_id=army.id, name=entry["name"], kind=entry["kind"],
-            format_points=entry["format_points"], source=entry.get("source"),
-            notes=entry.get("notes"), entries=comp_entries,
+            army_id=army.id,
+            name=entry["name"],
+            kind=entry["kind"],
+            format_points=entry["format_points"],
+            source=entry.get("source"),
+            notes=entry.get("notes"),
+            entries=comp_entries,
         )
         comp_ids[entry["name"]] = repository.add_composition(con, composition)
 

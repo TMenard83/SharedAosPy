@@ -21,6 +21,7 @@ sans passer par `dmg_ranged_vs_save6`) plutôt que de la dériver de
 `cost_model.MODEL_FEATURES`, qui porte déjà la conclusion adoptée — sinon la
 comparaison deviendrait un no-op une fois le changement en place.
 """
+
 from aospy.analysis.cost import cost_model
 from aospy.persistence import db
 
@@ -39,9 +40,15 @@ model_merged = cost_model.fit_cost_model_factorial(features=FEATURES_MERGED, fra
 model_official = cost_model.fit_cost_model_factorial(features=FEATURES_OFFICIAL, frame=frame.copy())
 model_split = cost_model.fit_cost_model_factorial(features=FEATURES_SPLIT, frame=frame.copy())
 
-print(f"Modèle A (dmg_vs_save6 seul, avant cet essai)                  : R² = {model_merged.r_squared:.4f}  R² ajusté = {model_merged.adj_r_squared:.4f}")
-print(f"Modèle B (dmg_ranged_vs_save6 seul, officiel actuel)           : R² = {model_official.r_squared:.4f}  R² ajusté = {model_official.adj_r_squared:.4f}  (gain {model_official.adj_r_squared - model_merged.adj_r_squared:+.4f})")
-print(f"Modèle C (dmg_melee_vs_save6 + dmg_ranged_vs_save6, scindé)    : R² = {model_split.r_squared:.4f}  R² ajusté = {model_split.adj_r_squared:.4f}  (gain {model_split.adj_r_squared - model_merged.adj_r_squared:+.4f})")
+print(
+    f"Modèle A (dmg_vs_save6 seul, avant cet essai)                  : R² = {model_merged.r_squared:.4f}  R² ajusté = {model_merged.adj_r_squared:.4f}"
+)
+print(
+    f"Modèle B (dmg_ranged_vs_save6 seul, officiel actuel)           : R² = {model_official.r_squared:.4f}  R² ajusté = {model_official.adj_r_squared:.4f}  (gain {model_official.adj_r_squared - model_merged.adj_r_squared:+.4f})"
+)
+print(
+    f"Modèle C (dmg_melee_vs_save6 + dmg_ranged_vs_save6, scindé)    : R² = {model_split.r_squared:.4f}  R² ajusté = {model_split.adj_r_squared:.4f}  (gain {model_split.adj_r_squared - model_merged.adj_r_squared:+.4f})"
+)
 print()
 
 for label, model in [("A", model_merged), ("B", model_official), ("C", model_split)]:

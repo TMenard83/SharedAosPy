@@ -15,6 +15,7 @@ coïncide avec ce qu'on observe dans les données plutôt que d'être un choix a
 variante "avant adoption" (Rend 0) en recalculant `effective_wounds` à la main depuis les
 champs bruts (`wounds_total`/`save_num`/`ward_num`, déjà dans `UnitFeatures`) plutôt que
 l'inverse, pour rester valide si `_REPRESENTATIVE_REND` change à l'avenir."""
+
 from aospy.analysis.cost import cost_model
 from aospy.persistence import db
 
@@ -35,7 +36,8 @@ def _effective_wounds(wounds_total, save_num, ward_num, rend):
 for rend in (0, 1, 2, 3):
     col = f"ew_rend{rend}"
     frame[col] = frame.apply(
-        lambda r, rend=rend: _effective_wounds(r["wounds_total"], r["save_num"], r["ward_num"], rend), axis=1,
+        lambda r, rend=rend: _effective_wounds(r["wounds_total"], r["save_num"], r["ward_num"], rend),
+        axis=1,
     )
     feats = tuple(col if f == "effective_wounds" else f for f in cost_model.MODEL_FEATURES)
     inter = tuple(t.replace("effective_wounds", col) for t in cost_model.FACTORIAL_INTERACTIONS)

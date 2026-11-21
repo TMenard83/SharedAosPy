@@ -16,6 +16,7 @@ grosses hordes (contrôle d'objectif, difficulté à les effacer), pas seulement
 continu. `cost_model.MODEL_FEATURES` utilise déjà `unit_size_sq` : ce script dérive donc la
 variante « avant adoption » (`unit_size` seul) à partir du jeu officiel actuel plutôt que
 l'inverse."""
+
 from aospy.analysis.cost import cost_model
 from aospy.persistence import db
 
@@ -31,7 +32,9 @@ model_before = cost_model.fit_cost_model_factorial(features=FEATURES_BEFORE, fra
 model_after = cost_model.fit_cost_model_factorial(features=FEATURES_AFTER, frame=frame.copy())
 
 print(f"Avant (unit_size seul)      : R² = {model_before.r_squared:.4f}  R² ajusté = {model_before.adj_r_squared:.4f}")
-print(f"Après (+ unit_size_sq)      : R² = {model_after.r_squared:.4f}  R² ajusté = {model_after.adj_r_squared:.4f}  (gain {model_after.adj_r_squared - model_before.adj_r_squared:+.4f})")
+print(
+    f"Après (+ unit_size_sq)      : R² = {model_after.r_squared:.4f}  R² ajusté = {model_after.adj_r_squared:.4f}  (gain {model_after.adj_r_squared - model_before.adj_r_squared:+.4f})"
+)
 print()
 for label, model in [("avant", model_before), ("après", model_after)]:
     print(f"-- {label} --")

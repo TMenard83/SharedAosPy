@@ -21,8 +21,21 @@ def _unit(move: int, health: int = 5, models: int = 1, hero: bool = True, fly: b
     kws = {"HERO"} if hero else set()
     if fly:
         kws.add("FLY")
-    return Unit(id=1, army_id=1, name="U", move=move, save=4, control=1, health=health, ward=None, points=100,
-                models=models, is_hero=hero, keywords=frozenset(kws), weapons=[])
+    return Unit(
+        id=1,
+        army_id=1,
+        name="U",
+        move=move,
+        save=4,
+        control=1,
+        health=health,
+        ward=None,
+        points=100,
+        models=models,
+        is_hero=hero,
+        keywords=frozenset(kws),
+        weapons=[],
+    )
 
 
 def test_p_2d6():
@@ -58,8 +71,10 @@ def test_charge_bonus_implies_charging():
 
 def test_objective_more_likely_for_troops():
     troop = _unit(5, models=10, hero=False)
-    assert trigger(troop, "sur objectif", "sur objectif", 1.0, False).p > \
-        trigger(_unit(5), "sur objectif", "sur objectif", 1.0, False).p
+    assert (
+        trigger(troop, "sur objectif", "sur objectif", 1.0, False).p
+        > trigger(_unit(5), "sur objectif", "sur objectif", 1.0, False).p
+    )
 
 
 def test_staged_pressure_one_two_two_one_one():

@@ -137,6 +137,7 @@ def _char(profile: ET.Element, name: str) -> str:
 
 # ----- Téléchargement ---------------------------------------------------------
 
+
 def download(filename: str, *, timeout: float = 30.0) -> str:
     """Télécharge un fichier .cat depuis le dépôt BSData (raw)."""
     url = BASE_URL + urllib.parse.quote(filename)
@@ -146,6 +147,7 @@ def download(filename: str, *, timeout: float = 30.0) -> str:
 
 
 # ----- Parsing ----------------------------------------------------------------
+
 
 def parse_main_costs(xml_text: str) -> dict[str, int]:
     """Extrait {targetId: points} des entryLinks racines avec un coût en pts.
@@ -347,8 +349,8 @@ _KNOWN_WEAPON_FIXUPS: dict[str, dict[str, object]] = {
 
 def _apply_known_weapon_fixups(weapons: list[ParsedWeapon]) -> None:
     for w in weapons:
-        for field, value in _KNOWN_WEAPON_FIXUPS.get(w.name, {}).items():
-            setattr(w, field, value)
+        for attr, value in _KNOWN_WEAPON_FIXUPS.get(w.name, {}).items():
+            setattr(w, attr, value)
 
 
 def _extract_weapons(unit_entry: ET.Element) -> list[ParsedWeapon]:
@@ -395,7 +397,9 @@ def _extract_weapons(unit_entry: ET.Element) -> list[ParsedWeapon]:
             range_in = parse_dice(rng) if kind == "ranged" else 1
             ability = _char(profile, "Ability")
             w = ParsedWeapon(
-                name=name, kind=kind, range_in=max(1, range_in),
+                name=name,
+                kind=kind,
+                range_in=max(1, range_in),
                 attacks=parse_dice(_char(profile, "Atk")),
                 hit=parse_target(_char(profile, "Hit")),
                 wound=parse_target(_char(profile, "Wnd")),
@@ -504,7 +508,8 @@ def parse_library_units(xml_text: str) -> dict[str, ParsedUnit]:
         if unit_profile is None:
             continue
         units[uid] = ParsedUnit(
-            target_id=uid, name=name,
+            target_id=uid,
+            name=name,
             move=parse_dice(_char(unit_profile, "Move")),
             save=parse_target(_char(unit_profile, "Save")),
             health=parse_dice(_char(unit_profile, "Health")),
@@ -536,6 +541,7 @@ def _is_legends_entry(entry: ET.Element) -> bool:
 
 
 # ----- Filtrage Legends / packs narratifs périmés ------------------------------
+
 
 def _normalize_name(name: str) -> str:
     """Casse + apostrophes typographiques -> ASCII, pour comparer un nom BSData
@@ -576,6 +582,7 @@ def _wahapedia_legends_names(data_dir: Path = WAHAPEDIA_DATA_DIR) -> set[str]:
 
 
 # ----- Unités "agglomérat" (un warscroll payant + sous-entrées gratuites qui en dépendent) ---
+
 
 def _entrylink_pts(link: ET.Element) -> float:
     for c in link.findall(_ns("costs") + "/" + _ns("cost")):
@@ -648,7 +655,8 @@ def _detect_composite_units(main_xml: str) -> dict[str, tuple[str, Optional[str]
 
 
 def _merge_composite_units(
-    units: dict[str, ParsedUnit], composite: dict[str, tuple[str, Optional[str]]],
+    units: dict[str, ParsedUnit],
+    composite: dict[str, tuple[str, Optional[str]]],
 ) -> None:
     """Fusionne in-place les sous-entrées gratuites dans leur parent payant.
 
@@ -672,6 +680,7 @@ def _merge_composite_units(
 
 # ----- Import dans la base ----------------------------------------------------
 
+
 @dataclass
 class ImportSummary:
     army: str
@@ -684,13 +693,12 @@ class ImportSummary:
 
 
 def import_army(
-    con: duckdb.DuckDBPyConnection, army_name: str,
+    con: duckdb.DuckDBPyConnection,
+    army_name: str,
 ) -> ImportSummary:
     """Importe une armée depuis BSData. Remplace les unités existantes (par nom)."""
     if army_name not in KNOWN_ARMIES:
-        raise ValueError(
-            f"armée inconnue '{army_name}'. Connues : {', '.join(KNOWN_ARMIES)}"
-        )
+        raise ValueError(f"armée inconnue '{army_name}'. Connues : {', '.join(KNOWN_ARMIES)}")
     main_file, lib_file, alliance = KNOWN_ARMIES[army_name]
     main_xml = download(main_file)
     summary = ImportSummary(army=army_name)
@@ -713,11 +721,7 @@ def import_army(
         if parsed is None:
             summary.skipped_no_profile += 1
             continue
-        if (
-            parsed.is_legends
-            or _normalize_name(parsed.name) in legends_names
-            or is_expired_variant(parsed.name)
-        ):
+        if parsed.is_legends or _normalize_name(parsed.name) in legends_names or is_expired_variant(parsed.name):
             summary.skipped_legends += 1
             continue
         if "FACTION TERRAIN" in parsed.keywords:
@@ -728,16 +732,33 @@ def import_army(
             summary.skipped_terrain += 1
             continue
         unit = Unit(
-            name=parsed.name, army_id=army_id,
-            move=parsed.move, save=parsed.save, health=parsed.health,
-            control=parsed.control, models=parsed.models, points=points,
-            is_hero=parsed.is_hero, ward=parsed.ward, keywords=parsed.keywords,
-            weapons=[Weapon(
-                name=w.name, kind=w.kind, range_in=w.range_in,  # type: ignore[arg-type]
-                attacks=w.attacks, hit=w.hit, wound=w.wound,
-                rend=w.rend, damage=w.damage, abilities=w.abilities,
-                wielders=w.wielders, is_companion=w.is_companion,
-            ) for w in parsed.weapons],
+            name=parsed.name,
+            army_id=army_id,
+            move=parsed.move,
+            save=parsed.save,
+            health=parsed.health,
+            control=parsed.control,
+            models=parsed.models,
+            points=points,
+            is_hero=parsed.is_hero,
+            ward=parsed.ward,
+            keywords=parsed.keywords,
+            weapons=[
+                Weapon(
+                    name=w.name,
+                    kind=w.kind,
+                    range_in=w.range_in,  # type: ignore[arg-type]
+                    attacks=w.attacks,
+                    hit=w.hit,
+                    wound=w.wound,
+                    rend=w.rend,
+                    damage=w.damage,
+                    abilities=w.abilities,
+                    wielders=w.wielders,
+                    is_companion=w.is_companion,
+                )
+                for w in parsed.weapons
+            ],
         )
         was_update = repository.replace_unit(con, unit)
         if was_update:

@@ -42,6 +42,7 @@ class CombatModifiers:
     `RANGED_DOUBLE_MULT` le dégât espéré des profils d'arme `ranged` de
     l'attaquant (mêlée non affectée).
     """
+
     attacker_all_out_attack: bool = False
     attacker_charged: bool = False
     defender_all_out_defense: bool = False
@@ -127,11 +128,14 @@ ANTI_RE = re.compile(r"Anti-([A-Za-z ]+?)\s*\(\s*\+(\d+)\s+(\w+)\s*\)", re.IGNOR
 #: lui-même, alors que ce sont deux mécaniques distinctes.
 CHARGE_RE = re.compile(r"(?<!anti-)Charge\s*\(\s*\+(\d+)\s+(\w+)\s*\)", re.IGNORECASE)
 _STAT_FIELD = {
-    "attacks": "attacks", "atk": "attacks",
+    "attacks": "attacks",
+    "atk": "attacks",
     "hit": "hit",
-    "wound": "wound", "wounds": "wound",
+    "wound": "wound",
+    "wounds": "wound",
     "rend": "rend",
-    "damage": "damage", "dmg": "damage",
+    "damage": "damage",
+    "dmg": "damage",
 }
 
 
@@ -147,7 +151,10 @@ class _IntrinsicBonus:
 
 
 def _intrinsic_bonus(
-    abilities: Optional[str], *, charged: bool, defender_keywords: frozenset[str],
+    abilities: Optional[str],
+    *,
+    charged: bool,
+    defender_keywords: frozenset[str],
 ) -> _IntrinsicBonus:
     """Résout les bonus Anti-<MOT-CLÉ>/Charge d'un texte d'aptitudes.
 
@@ -192,7 +199,9 @@ def expected_weapon_damage(
     déjà scalée (voir `expected_unit_damage`).
     """
     bonus = _intrinsic_bonus(
-        weapon.abilities, charged=modifiers.attacker_charged, defender_keywords=defender.keywords,
+        weapon.abilities,
+        charged=modifiers.attacker_charged,
+        defender_keywords=defender.keywords,
     )
     total_attacks = (weapon.attacks + bonus.attacks) * attacker_models
     if total_attacks <= 0:
@@ -249,7 +258,7 @@ def expected_weapon_damage(
         e_crit_hits = total_attacks * p_crit
         e_normal_unsaved = e_normal_hits * p_wound * p_unsaved
         e_damage_normal = e_normal_unsaved * dmg
-        e_damage_mortal = e_crit_hits * dmg   # bypass wound + save
+        e_damage_mortal = e_crit_hits * dmg  # bypass wound + save
         return (e_damage_normal + e_damage_mortal) * ward_mult * ranged_mult
 
     # standard
@@ -274,8 +283,14 @@ def reference_expected_damage(weapons: list[Weapon]) -> list[float]:
     plutôt qu'un vrai défenseur.
     """
     probe = Unit(
-        name="_probe", army_id=0, move=0, save=REFERENCE_SAVE, health=1, control=0,
-        models=1, points=0,
+        name="_probe",
+        army_id=0,
+        move=0,
+        save=REFERENCE_SAVE,
+        health=1,
+        control=0,
+        models=1,
+        points=0,
     )
     mods = CombatModifiers()
     out: list[float] = []
@@ -332,10 +347,7 @@ def expected_unit_damage(
     description, ou wielders BattleScribe à défaut).
     """
     counts = effective_counts(attacker, attacker_models)
-    return sum(
-        expected_weapon_damage(w, c, defender, modifiers)
-        for w, c in zip(attacker.weapons, counts, strict=True)
-    )
+    return sum(expected_weapon_damage(w, c, defender, modifiers) for w, c in zip(attacker.weapons, counts, strict=True))
 
 
 def weapon_damage_moments(
@@ -353,7 +365,9 @@ def weapon_damage_moments(
     la variance de l'unité est donc `total_attacks` fois celle d'une attaque.
     """
     bonus = _intrinsic_bonus(
-        weapon.abilities, charged=modifiers.attacker_charged, defender_keywords=defender.keywords,
+        weapon.abilities,
+        charged=modifiers.attacker_charged,
+        defender_keywords=defender.keywords,
     )
     total_attacks = (weapon.attacks + bonus.attacks) * attacker_models
     if total_attacks <= 0:
@@ -532,7 +546,9 @@ def weapon_damage_distribution(
     deux premiers moments seulement. Sert de brique à `distribution_floor`.
     """
     bonus = _intrinsic_bonus(
-        weapon.abilities, charged=modifiers.attacker_charged, defender_keywords=defender.keywords,
+        weapon.abilities,
+        charged=modifiers.attacker_charged,
+        defender_keywords=defender.keywords,
     )
     total_attacks = (weapon.attacks + bonus.attacks) * attacker_models
     if total_attacks <= 0:

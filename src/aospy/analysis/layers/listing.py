@@ -46,7 +46,7 @@ class ListAbility:
 
     uid: str
     name: str
-    source: str            # « charte : Avalenor… », « formation : Warhost of Duality », « domaine : … »
+    source: str  # « charte : Avalenor… », « formation : Warhost of Duality », « domaine : … »
     source_kind: str
     carriers: tuple[str, ...]  # unités de la liste qui la portent (vide pour une règle d'armée)
     scope: str
@@ -107,7 +107,7 @@ class Conflict:
 
 @dataclass(frozen=True)
 class MagicBudget:
-    casters: tuple[tuple[str, int], ...]   # (sorcier, lancers par tour)
+    casters: tuple[tuple[str, int], ...]  # (sorcier, lancers par tour)
     spells: tuple[tuple[str, str, float, float], ...]  # (sort, origine, valeur de lancement, P(réussite))
 
     @property
@@ -128,10 +128,11 @@ class ListReport:
     dead: list[tuple[ListAbility, str]] = field(default_factory=list)
     sheets: list["UnitSheet"] = field(default_factory=list)
     picks: list["EnhancementPick"] = field(default_factory=list)
-    assault: Optional[object] = None      # `assault.Assault` : charges groupées, redondance et secours
+    assault: Optional[object] = None  # `assault.Assault` : charges groupées, redondance et secours
 
 
 # ----- cœur pur ------------------------------------------------------------------
+
 
 def wizard_level(unit: Unit) -> int:
     lv = [int(m.group(1)) for k in unit.keywords for m in [_WIZARD_LEVEL_RE.search(k)] if m]
@@ -147,12 +148,15 @@ def list_receivers(ab: ListAbility, units: list[Unit], vocab: frozenset[str]) ->
         if ab.scope in ("self", "unknown"):
             return [(u, "porteur") for u in carriers]
         if ab.scope in ("one_friendly", "friendly_aura", "army"):
-            return [(u, "porteur" if u in carriers else "allié") for u in units
-                    if matches_friendly_target(u, ab.friendly_target, vocab)
-                    and not (ab.excludes_self and u in carriers)]
+            return [
+                (u, "porteur" if u in carriers else "allié")
+                for u in units
+                if matches_friendly_target(u, ab.friendly_target, vocab) and not (ab.excludes_self and u in carriers)
+            ]
         return []
-    return receivers(ab.source_kind, ab.scope, "faction_rule", ab.source, units, ab.friendly_target, vocab,
-                     ab.excludes_self)
+    return receivers(
+        ab.source_kind, ab.scope, "faction_rule", ab.source, units, ab.friendly_target, vocab, ab.excludes_self
+    )
 
 
 def effect_ability(ab: ListAbility, effect_target: str) -> ListAbility:
@@ -160,11 +164,17 @@ def effect_ability(ab: ListAbility, effect_target: str) -> ListAbility:
     if not effect_target or effect_target == ab.friendly_target:
         return ab
     from dataclasses import replace
+
     return replace(ab, friendly_target=effect_target)
 
 
-def marriages(abilities: list[ListAbility], units: list[Unit], vocab: frozenset[str],
-              share_melee: Optional[dict[str, float]] = None, dead: frozenset[str] = frozenset()) -> list[Marriage]:
+def marriages(
+    abilities: list[ListAbility],
+    units: list[Unit],
+    vocab: frozenset[str],
+    share_melee: Optional[dict[str, float]] = None,
+    dead: frozenset[str] = frozenset(),
+) -> list[Marriage]:
     """Effets traduisibles posés sur chaque receveur de la liste, pondérés sur la frise (`timeline`) : tour où
     l'aptitude se joue, durée, pertinence attaque/défense, × P(déclenchement) × D (conditions du porteur
     remplies par CE châssis, `marriage.trigger`). Les conditions tenues par d'autres restent affichées."""
@@ -178,10 +188,14 @@ def marriages(abilities: list[ListAbility], units: list[Unit], vocab: frozenset[
         if not effs or ab.uid in dead:
             continue
         by_target: dict[str, list[EffectSpec]] = {}
-        for eff in effs:   # cible amie propre à l'effet (option), sinon celle de l'aptitude
+        for eff in effs:  # cible amie propre à l'effet (option), sinon celle de l'aptitude
             by_target.setdefault(eff.friendly_target, []).append(eff)
-        pairs = [(unit, rel, eff) for ft, group in by_target.items()
-                 for unit, rel in list_receivers(effect_ability(ab, ft), units, vocab) for eff in group]
+        pairs = [
+            (unit, rel, eff)
+            for ft, group in by_target.items()
+            for unit, rel in list_receivers(effect_ability(ab, ft), units, vocab)
+            for eff in group
+        ]
         for unit, rel, eff in pairs:
             sm = share_melee.get(unit.name, 1.0)
             key = (ab.uid, eff, unit.name)
@@ -193,15 +207,27 @@ def marriages(abilities: list[ListAbility], units: list[Unit], vocab: frozenset[
                 continue
             conds = eff.conditions
             if ab.charge_required and "a chargé" not in conds:
-                conds = " | ".join(c for c in (conds, "a chargé") if c)   # condition lue dans l'Annonce
+                conds = " | ".join(c for c in (conds, "a chargé") if c)  # condition lue dans l'Annonce
             t = trigger(unit, eff.requires, conds, sm, melee_effect=eff.weapon_scope == "melee", kind=eff.kind)
             pol = "off" if (enc.off_gain_pct or 0) >= (enc.def_gain_pct or 0) else "def"
-            w = coverage(ab.frequency, eff.duration, ab.available_round,
-                         turn_side=t.turn_side(ab.turn_side or "any"),
-                         polarity=pol, share_melee=sm, start_round=t.start) * ab.activation_prob
+            w = (
+                coverage(
+                    ab.frequency,
+                    eff.duration,
+                    ab.available_round,
+                    turn_side=t.turn_side(ab.turn_side or "any"),
+                    polarity=pol,
+                    share_melee=sm,
+                    start_round=t.start,
+                )
+                * ab.activation_prob
+            )
             w *= t.p if t.bearer_only else 1.0
-            out.append(Marriage(ab.name, ab.source, unit.name, rel, eff.kind, enc.off_gain_pct,
-                                enc.def_gain_pct, round(w, 3), conds))
+            out.append(
+                Marriage(
+                    ab.name, ab.source, unit.name, rel, eff.kind, enc.off_gain_pct, enc.def_gain_pct, round(w, 3), conds
+                )
+            )
     return sorted(out, key=lambda m: -m.score)
 
 
@@ -217,8 +243,12 @@ def dead_rules(abilities: list[ListAbility], units: list[Unit], vocab: frozenset
             out.append((ab, "aucun PRÊTRE dans la liste"))
         elif ct == "spell" and not ab.carriers and not wizards:
             out.append((ab, "aucun SORCIER dans la liste"))
-        elif ab.scope in ("one_friendly", "friendly_aura") and ab.friendly_target and ab.carriers \
-                and not list_receivers(ab, units, vocab):
+        elif (
+            ab.scope in ("one_friendly", "friendly_aura")
+            and ab.friendly_target
+            and ab.carriers
+            and not list_receivers(ab, units, vocab)
+        ):
             out.append((ab, f"aucune cible « {ab.friendly_target} » dans la liste"))
     return out
 
@@ -230,21 +260,34 @@ def conflicts(abilities: list[ListAbility], unit_counts: dict[str, int]) -> list
         if ab.frequency in ARMY_LIMITED and ab.carriers:
             n = sum(unit_counts.get(c, 1) for c in ab.carriers)
             if n > 1:
-                out.append(Conflict(ab.name, ab.frequency, tuple(
-                    f"{c} ×{unit_counts.get(c, 1)}" if unit_counts.get(c, 1) > 1 else c for c in ab.carriers)))
+                out.append(
+                    Conflict(
+                        ab.name,
+                        ab.frequency,
+                        tuple(f"{c} ×{unit_counts.get(c, 1)}" if unit_counts.get(c, 1) > 1 else c for c in ab.carriers),
+                    )
+                )
     return out
 
 
 def magic_budget(abilities: list[ListAbility], units: list[Unit]) -> MagicBudget:
     casters = tuple((u.name, wizard_level(u)) for u in units if wizard_level(u) > 0)
-    spells = tuple((ab.name, ab.source, ab.cost_value or 0.0, round(ab.activation_prob, 2))
-                   for ab in abilities if (ab.cost_type or "").lower() == "spell")
+    spells = tuple(
+        (ab.name, ab.source, ab.cost_value or 0.0, round(ab.activation_prob, 2))
+        for ab in abilities
+        if (ab.cost_type or "").lower() == "spell"
+    )
     return MagicBudget(casters, spells)
 
 
-def analyse(title: str, faction: str, entries: list[tuple[str, int, Optional[Unit]]],
-            abilities: list[ListAbility], vocab: frozenset[str],
-            share_melee: Optional[dict[str, float]] = None) -> ListReport:
+def analyse(
+    title: str,
+    faction: str,
+    entries: list[tuple[str, int, Optional[Unit]]],
+    abilities: list[ListAbility],
+    vocab: frozenset[str],
+    share_melee: Optional[dict[str, float]] = None,
+) -> ListReport:
     units = [u for _n, _p, u in entries if u is not None]
     distinct = list({u.name: u for u in units}.values())
     counts: dict[str, int] = {}
@@ -256,34 +299,85 @@ def analyse(title: str, faction: str, entries: list[tuple[str, int, Optional[Uni
     rep.conflicts = conflicts(abilities, counts)
     rep.magic = magic_budget(abilities, units)
     dead_uids = {a.uid for a, _r in rep.dead}
-    rep.unresolved = [a for a in abilities if a.uid not in dead_uids
-                      and (not a.translatable and a.scope != "one_enemy" or a.verdict == "a-revoir")]
+    rep.unresolved = [
+        a
+        for a in abilities
+        if a.uid not in dead_uids and (not a.translatable and a.scope != "one_enemy" or a.verdict == "a-revoir")
+    ]
     return rep
 
 
 # ----- lecture en base -------------------------------------------------------------
+
 
 def _rule_groups(parsed) -> list[tuple[str, str]]:
     """(groupe `ability_owner.owner_name`, libellé d'origine) des règles d'armée choisies."""
     groups = [("Battle Traits › Battle Traits", "trait de bataille")]
     if parsed.allegiance:
         groups.append((f"Battle Formations › {_base_name(parsed.allegiance)}", "formation"))
-    for lore, label in ((parsed.spell_lore, "domaine de sorts"), (parsed.prayer_lore, "domaine de prières"),
-                        (parsed.manifestation_lore, "domaine de manifestations")):
+    for lore, label in (
+        (parsed.spell_lore, "domaine de sorts"),
+        (parsed.prayer_lore, "domaine de prières"),
+        (parsed.manifestation_lore, "domaine de manifestations"),
+    ):
         if lore:
-            kind = {"domaine de sorts": "Spell Lore", "domaine de prières": "Prayer Lore",
-                    "domaine de manifestations": "Manifestation Lore"}[label]
+            kind = {
+                "domaine de sorts": "Spell Lore",
+                "domaine de prières": "Prayer Lore",
+                "domaine de manifestations": "Manifestation Lore",
+            }[label]
             groups.append((f"{kind} › {_base_name(lore)}", label))
     return groups
 
 
 def _ability_from_row(row, source: str, carriers: tuple[str, ...], effects) -> ListAbility:
-    (uid, name, source_kind, scope, freq, turn, phase, ctype, cval, prob, avail, ft, excl, verdict,
-     power, rel, ease, inter, charge, text) = row
-    return ListAbility(uid, name, source, source_kind or "", carriers, scope or "", freq or "", turn or "",
-                       phase or "", ctype or "", cval, prob if prob is not None else 1.0, avail, ft or "",
-                       bool(excl), verdict or "", power or 0.0, rel or 0.0, ease or 0.0, inter or 0.0,
-                       tuple(effects.get(uid, ())), bool(charge), text or "")
+    (
+        uid,
+        name,
+        source_kind,
+        scope,
+        freq,
+        turn,
+        phase,
+        ctype,
+        cval,
+        prob,
+        avail,
+        ft,
+        excl,
+        verdict,
+        power,
+        rel,
+        ease,
+        inter,
+        charge,
+        text,
+    ) = row
+    return ListAbility(
+        uid,
+        name,
+        source,
+        source_kind or "",
+        carriers,
+        scope or "",
+        freq or "",
+        turn or "",
+        phase or "",
+        ctype or "",
+        cval,
+        prob if prob is not None else 1.0,
+        avail,
+        ft or "",
+        bool(excl),
+        verdict or "",
+        power or 0.0,
+        rel or 0.0,
+        ease or 0.0,
+        inter or 0.0,
+        tuple(effects.get(uid, ())),
+        bool(charge),
+        text or "",
+    )
 
 
 _ABILITY_SELECT = """SELECT DISTINCT a.uid, a.name, a.source_kind, a.scope, a.frequency, a.turn_side, a.phase,
@@ -297,15 +391,29 @@ def _effects(con, uids: list[str]) -> dict[str, list[EffectSpec]]:
     if not uids:
         return {}
     out: dict[str, list[EffectSpec]] = {}
-    for (uid, kind, stat, value, detail, side, wscope, wname, comp, tkw, tcond, req, dur, ft) in con.execute(
-            """SELECT ability_uid, kind, stat, value, detail, side, weapon_scope, weapon_name, includes_companion,
+    for uid, kind, stat, value, detail, side, wscope, wname, comp, tkw, tcond, req, dur, ft in con.execute(
+        """SELECT ability_uid, kind, stat, value, detail, side, weapon_scope, weapon_name, includes_companion,
                       target_keywords, target_condition, requires, duration, friendly_target
-               FROM ability_effect WHERE ability_uid IN ? ORDER BY ability_uid, seq""", [uids]).fetchall():
-        out.setdefault(uid, []).append(EffectSpec(
-            kind=kind, stat=stat or "", value=value or 0.0, detail=detail or "", side=side or "",
-            weapon_scope=wscope or "", weapon_name=wname or "", includes_companion=bool(comp),
-            target_keywords=tkw or "", target_condition=tcond or "", requires=req or "", duration=dur or "",
-            friendly_target=ft or ""))
+               FROM ability_effect WHERE ability_uid IN ? ORDER BY ability_uid, seq""",
+        [uids],
+    ).fetchall():
+        out.setdefault(uid, []).append(
+            EffectSpec(
+                kind=kind,
+                stat=stat or "",
+                value=value or 0.0,
+                detail=detail or "",
+                side=side or "",
+                weapon_scope=wscope or "",
+                weapon_name=wname or "",
+                includes_companion=bool(comp),
+                target_keywords=tkw or "",
+                target_condition=tcond or "",
+                requires=req or "",
+                duration=dur or "",
+                friendly_target=ft or "",
+            )
+        )
     return out
 
 
@@ -329,17 +437,25 @@ def collect(con, parsed) -> tuple[list[tuple[str, int, Optional[Unit]]], list[Li
     rows: list[tuple[tuple, str, tuple[str, ...]]] = []
     carriers = sorted({n for n, _p, _u in entries} | set(parsed.faction_terrain))
     for name in carriers:
-        for row in con.execute(_ABILITY_SELECT + " WHERE o.owner_kind = 'warscroll' AND o.faction_name = ? "
-                               "AND lower(o.owner_name) = lower(?)", [faction, name]).fetchall():
+        for row in con.execute(
+            _ABILITY_SELECT + " WHERE o.owner_kind = 'warscroll' AND o.faction_name = ? "
+            "AND lower(o.owner_name) = lower(?)",
+            [faction, name],
+        ).fetchall():
             rows.append((row, f"charte : {name}", (name,)))
     for group, label in _rule_groups(parsed):
-        for row in con.execute(_ABILITY_SELECT + " WHERE o.owner_kind = 'faction_rule' AND o.owner_name = ? "
-                               "AND (o.faction_name = ? OR o.faction_name = 'Endless Spells')",
-                               [group, faction]).fetchall():
+        for row in con.execute(
+            _ABILITY_SELECT + " WHERE o.owner_kind = 'faction_rule' AND o.owner_name = ? "
+            "AND (o.faction_name = ? OR o.faction_name = 'Endless Spells')",
+            [group, faction],
+        ).fetchall():
             rows.append((row, f"{label} : {group.split(' › ', 1)[1]}", ()))
     for unit_name, opt in options:
-        for row in con.execute(_ABILITY_SELECT + " WHERE o.owner_kind = 'faction_rule' AND o.faction_name = ? "
-                               "AND upper(a.name) = upper(?)", [faction, opt]).fetchall():
+        for row in con.execute(
+            _ABILITY_SELECT + " WHERE o.owner_kind = 'faction_rule' AND o.faction_name = ? "
+            "AND upper(a.name) = upper(?)",
+            [faction, opt],
+        ).fetchall():
             rows.append((row, f"amélioration : {opt}", (unit_name,)))
     # Aptitudes des manifestations invocables (domaine choisi) : elles n'existent que si l'invocation passe.
     summon_p: dict[str, float] = {}
@@ -347,9 +463,12 @@ def collect(con, parsed) -> tuple[list[tuple[str, int, Optional[Unit]]], list[Li
         name, ctype, prob = row[1], row[7], row[9]
         if not (name or "").upper().startswith("SUMMON ") or (ctype or "").lower() != "spell":
             continue
-        manif = name[len("SUMMON "):].strip()
-        for mrow in con.execute(_ABILITY_SELECT + " WHERE o.owner_kind = 'warscroll' AND lower(o.owner_name) = "
-                                "lower(?) AND o.faction_name IN (?, 'Endless Spells')", [manif, faction]).fetchall():
+        manif = name[len("SUMMON ") :].strip()
+        for mrow in con.execute(
+            _ABILITY_SELECT + " WHERE o.owner_kind = 'warscroll' AND lower(o.owner_name) = "
+            "lower(?) AND o.faction_name IN (?, 'Endless Spells')",
+            [manif, faction],
+        ).fetchall():
             src = f"manifestation : {manif.title()}"
             summon_p[src] = prob if prob is not None else 1.0
             rows.append((mrow, src, (manif.title(),)))
@@ -363,12 +482,17 @@ def collect(con, parsed) -> tuple[list[tuple[str, int, Optional[Unit]]], list[Li
             ab = _ability_from_row(row, source, carr, effects)
             if source in summon_p:
                 from dataclasses import replace
+
                 ab = replace(ab, summon_prob=summon_p[source])
             merged[key] = ab
         else:  # même aptitude sur plusieurs chartes de la liste (ex. Battle Damaged)
             from dataclasses import replace
-            merged[key] = replace(prev, carriers=tuple(dict.fromkeys(prev.carriers + carr)),
-                                  source=prev.source if carr[0] in prev.source else f"{prev.source}, {carr[0]}")
+
+            merged[key] = replace(
+                prev,
+                carriers=tuple(dict.fromkeys(prev.carriers + carr)),
+                source=prev.source if carr[0] in prev.source else f"{prev.source}, {carr[0]}",
+            )
     return entries, list(merged.values()), vocab
 
 
@@ -390,7 +514,7 @@ class UnitSheet:
     fly: bool
     engage_round: int
     role: str
-    weak_marriages: tuple[tuple[str, float, str], ...]   # (aptitude, mariage, exposition)
+    weak_marriages: tuple[tuple[str, float, str], ...]  # (aptitude, mariage, exposition)
 
 
 @dataclass(frozen=True)
@@ -408,8 +532,15 @@ class EnhancementPick:
 
 
 #: Rôle suggéré (à confirmer par la lecture humaine) : rangs centiles couche 3 dans le segment héros/troupes.
-def suggest_role(off_rank: float, def_rank: float, share_melee: float, is_hero: bool, models: int,
-                 gives_buffs: bool, caster_level: int = 0) -> str:
+def suggest_role(
+    off_rank: float,
+    def_rank: float,
+    share_melee: float,
+    is_hero: bool,
+    models: int,
+    gives_buffs: bool,
+    caster_level: int = 0,
+) -> str:
     if share_melee < 0.4 and off_rank >= 0.5:
         return "artillerie / tir"
     if caster_level >= 2:
@@ -447,12 +578,18 @@ def unit_sheets(con, entries, abilities: list[ListAbility], share_melee: dict[st
     tele = teleporters(abilities, units)
     out: list[UnitSheet] = []
     for u in {x.name: x for x in units}.values():
-        r = con.execute("SELECT off_realized_per_100, def_realized_per_100, combined_fit_per_100, "
-                        "off_good_per_100, def_good_per_100, off_pct_rank, def_pct_rank FROM unit_realized "
-                        "WHERE unit_id = ?", [u.id]).fetchone() or (0, 0, 0, 0, 0, 0, 0)
-        weak = con.execute("SELECT ability_name, marriage, exposure FROM ability_marriage WHERE unit_id = ? "
-                           "AND marriage < 0.4 AND verdict IN ('plan', 'correct', 'bonus', 'pari') "
-                           "ORDER BY marriage", [u.id]).fetchall()
+        r = con.execute(
+            "SELECT off_realized_per_100, def_realized_per_100, combined_fit_per_100, "
+            "off_good_per_100, def_good_per_100, off_pct_rank, def_pct_rank FROM unit_realized "
+            "WHERE unit_id = ?",
+            [u.id],
+        ).fetchone() or (0, 0, 0, 0, 0, 0, 0)
+        weak = con.execute(
+            "SELECT ability_name, marriage, exposure FROM ability_marriage WHERE unit_id = ? "
+            "AND marriage < 0.4 AND verdict IN ('plan', 'correct', 'bonus', 'pari') "
+            "ORDER BY marriage",
+            [u.id],
+        ).fetchall()
         sm = share_melee.get(u.name, 1.0)
         fly = "FLY" in u.keywords
         engage = 1 if u.name in tele else territory_round(u, with_charge=True)
@@ -461,9 +598,25 @@ def unit_sheets(con, entries, abilities: list[ListAbility], share_melee: dict[st
         if r[2] and good >= 1.3 * r[2]:
             # gros écart réalisé / bon cas : l'unité vaut surtout sous condition (vs HÉROS, a chargé…)
             role = f"spécialiste (bon cas ×{good / r[2]:.1f})"
-        out.append(UnitSheet(u.name, u.points, counts[u.name], r[0] or 0, r[1] or 0, r[2] or 0, good,
-                             r[5] or 0, r[6] or 0, sm, u.move, fly, engage, role,
-                             tuple((n, m, e) for n, m, e in weak)))
+        out.append(
+            UnitSheet(
+                u.name,
+                u.points,
+                counts[u.name],
+                r[0] or 0,
+                r[1] or 0,
+                r[2] or 0,
+                good,
+                r[5] or 0,
+                r[6] or 0,
+                sm,
+                u.move,
+                fly,
+                engage,
+                role,
+                tuple((n, m, e) for n, m, e in weak),
+            )
+        )
     return out
 
 
@@ -477,26 +630,44 @@ def enhancement_picks(con, entries, abilities: list[ListAbility]) -> list[Enhanc
         rows = con.execute(
             "SELECT u.name, b.value, b.marriage FROM enhancement_bearer b JOIN unit u ON u.id = b.unit_id "
             "WHERE b.ability_uid = ? AND b.unit_id IN ? ORDER BY b.value DESC NULLS LAST, b.marriage DESC, "
-            "b.bearer_combined DESC", [a.uid, list(ids.values()) or [-1]]).fetchall()
+            "b.bearer_combined DESC",
+            [a.uid, list(ids.values()) or [-1]],
+        ).fetchall()
         if not rows:
             continue
         mine = next((r for r in rows if r[0] == a.carriers[0]), (a.carriers[0], None, 0.0))
-        out.append(EnhancementPick(a.name, a.carriers[0], mine[1], mine[2] or 0.0, rows[0][0], rows[0][1],
-                                   rows[0][2] or 0.0, len(rows)))
+        out.append(
+            EnhancementPick(
+                a.name, a.carriers[0], mine[1], mine[2] or 0.0, rows[0][0], rows[0][1], rows[0][2] or 0.0, len(rows)
+            )
+        )
     return out
 
 
 def analyse_list(con, parsed) -> ListReport:
     entries, abilities, vocab = collect(con, parsed)
-    sm = {u.name: (con.execute("SELECT coalesce(share_melee, 1.0) FROM unit_chassis WHERE unit_id = ?",
-                               [u.id]).fetchone() or (1.0,))[0] for _n, _p, u in entries if u is not None}
+    sm = {
+        u.name: (
+            con.execute("SELECT coalesce(share_melee, 1.0) FROM unit_chassis WHERE unit_id = ?", [u.id]).fetchone()
+            or (1.0,)
+        )[0]
+        for _n, _p, u in entries
+        if u is not None
+    }
     rep = analyse(parsed.title, parsed.base_faction, entries, abilities, vocab, sm)
     rep.sheets = unit_sheets(con, entries, abilities, sm)
     rep.picks = enhancement_picks(con, entries, abilities)
     from .assault import assault
+
     units = [u for _n, _p, u in entries if u is not None]
-    dmg = {u.name: (con.execute("SELECT coalesce(dmg_melee, 0) FROM unit_chassis WHERE unit_id = ?",
-                                [u.id]).fetchone() or (0.0,))[0] for u in units}
-    rep.assault = assault(abilities, units, vocab, sm, teleporters(abilities, units),
-                          frozenset(a.uid for a, _r in rep.dead), dmg)
+    dmg = {
+        u.name: (
+            con.execute("SELECT coalesce(dmg_melee, 0) FROM unit_chassis WHERE unit_id = ?", [u.id]).fetchone()
+            or (0.0,)
+        )[0]
+        for u in units
+    }
+    rep.assault = assault(
+        abilities, units, vocab, sm, teleporters(abilities, units), frozenset(a.uid for a, _r in rep.dead), dmg
+    )
     return rep

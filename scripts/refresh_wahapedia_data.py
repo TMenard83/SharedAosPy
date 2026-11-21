@@ -129,7 +129,9 @@ def run_import(db: str | None) -> int:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--check", action="store_true", help="Comparer les dates locale/distante sans rien télécharger.")
+    parser.add_argument(
+        "--check", action="store_true", help="Comparer les dates locale/distante sans rien télécharger."
+    )
     parser.add_argument("--force", action="store_true", help="Télécharger même si Last_update.csv n'a pas changé.")
     parser.add_argument("--no-import", action="store_true", help="Télécharger seulement, ne pas réimporter en DB.")
     parser.add_argument("--db", default=None, help="Chemin du fichier DuckDB (défaut : data/aospy.duckdb).")

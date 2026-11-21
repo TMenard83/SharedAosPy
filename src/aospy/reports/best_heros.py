@@ -9,6 +9,7 @@ global conservé, pas de renumérotation locale).
 Pendant : best_unites.py (même méthode, plan de coût troupes séparé). Mécanique
 partagée via best_report.py — ce fichier ne garde que le texte propre aux
 héros."""
+
 from . import best_report
 from .best_report import compute_ranked
 
@@ -92,7 +93,8 @@ METHOD_PARAGRAPHS_HTML = [
 
 def render(joined: list[dict], out_path: str, *, faction: str | None = None, universe_n: int = 0) -> None:
     best_report.render(
-        joined, out_path,
+        joined,
+        out_path,
         label="Héros",
         band_text=BAND_TEXT,
         cover_title_doc="Age of Sigmar — Meilleurs héros, combat × coût (TM)",

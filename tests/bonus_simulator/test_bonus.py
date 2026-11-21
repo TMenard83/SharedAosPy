@@ -8,8 +8,16 @@ from aospy.domain.models import Unit, Weapon
 
 def _unit(save=4, ward=None, weapons=None):
     return Unit(
-        name="T", army_id=1, move=5, save=save, health=2, control=1,
-        models=5, points=100, ward=ward, weapons=weapons or [_weapon()],
+        name="T",
+        army_id=1,
+        move=5,
+        save=save,
+        health=2,
+        control=1,
+        models=5,
+        points=100,
+        ward=ward,
+        weapons=weapons or [_weapon()],
     )
 
 

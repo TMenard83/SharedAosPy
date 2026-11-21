@@ -50,12 +50,15 @@ def load_corrections(path: str | Path = DEFAULT_CORRECTIONS_PATH) -> dict:
 
 def correct_unit(unit, entry: dict):
     """Copie corrigée d'une `Unit` (cœur pur)."""
-    kws = (set(unit.keywords) | {k.upper() for k in entry.get("keywords_add", [])}) \
-        - {k.upper() for k in entry.get("keywords_remove", [])}
+    kws = (set(unit.keywords) | {k.upper() for k in entry.get("keywords_add", [])}) - {
+        k.upper() for k in entry.get("keywords_remove", [])
+    }
     stats = {k: v for k, v in entry.get("stats", {}).items() if k in _UNIT_STATS}
     wfix = entry.get("weapons", {})
-    weapons = [dataclasses.replace(w, **{k: v for k, v in wfix[w.name].items() if k in _WEAPON_STATS})
-               if w.name in wfix else w for w in unit.weapons]
+    weapons = [
+        dataclasses.replace(w, **{k: v for k, v in wfix[w.name].items() if k in _WEAPON_STATS}) if w.name in wfix else w
+        for w in unit.weapons
+    ]
     return dataclasses.replace(unit, keywords=frozenset(kws), is_hero="HERO" in kws, weapons=weapons, **stats)
 
 

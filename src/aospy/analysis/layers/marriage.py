@@ -72,14 +72,14 @@ P_STILL_SHOOTER, P_STILL_MELEE = 0.6, 0.2
 EXPOSURE = {
     "contact": (1.0, 1.0),
     "courte": (0.5, 1.0),
-    "longue": (0.15, 0.6),   # derrière un écran : chargé rarement, visé seulement si visible
+    "longue": (0.15, 0.6),  # derrière un écran : chargé rarement, visé seulement si visible
 }
 
 ROUND_WEIGHTS = (1 / 3, 1.0, 1.0, 1 / 3, 1 / 3)
 
 
 def p_2d6_at_least(n: float) -> float:
-    n = int(-(-n // 1))   # plafond
+    n = int(-(-n // 1))  # plafond
     if n <= 2:
         return 1.0
     if n > 12:
@@ -98,8 +98,13 @@ def p_charge(unit: Unit, start: int = 1) -> float:
     tot = sum(ROUND_WEIGHTS[r - 1] for r in rounds)
     if not tot:
         return 0.0
-    return sum(ROUND_WEIGHTS[r - 1] * p_2d6_at_least((ENGAGE_GAP_ROUND1 if r == 1 else ENGAGE_GAP) - reach(unit))
-               for r in rounds) / tot
+    return (
+        sum(
+            ROUND_WEIGHTS[r - 1] * p_2d6_at_least((ENGAGE_GAP_ROUND1 if r == 1 else ENGAGE_GAP) - reach(unit))
+            for r in rounds
+        )
+        / tot
+    )
 
 
 def territory_round(unit: Unit, with_charge: bool) -> int:
@@ -118,7 +123,7 @@ class Trigger:
 
     p: float
     start: int = 1
-    bearer_only: bool = True   # False : une condition ne dépend pas du porteur (reste « bon cas »)
+    bearer_only: bool = True  # False : une condition ne dépend pas du porteur (reste « bon cas »)
     #: « a chargé » : l'effet ne joue qu'au combat du tour de charge, donc à MON tour. Sur la frise
     #: (`timeline`), forcer `turn_side="yours"` ; hors frise, multiplier par `CHARGE_FIGHT_SHARE`.
     charged: bool = False
@@ -132,8 +137,9 @@ class Trigger:
         return self.p * (CHARGE_FIGHT_SHARE if self.charged else 1.0)
 
 
-def trigger(unit: Unit, requires: str, conditions: str, share_melee: float, melee_effect: bool,
-            kind: str = "") -> Trigger:
+def trigger(
+    unit: Unit, requires: str, conditions: str, share_melee: float, melee_effect: bool, kind: str = ""
+) -> Trigger:
     """D pour un effet : `requires` = prérequis de l'effet, `conditions` = toutes ses conditions.
 
     Un « Charge (+N) » (`kind == "charge_bonus"`) n'existe que si l'unité a chargé, même sans
@@ -153,7 +159,7 @@ def trigger(unit: Unit, requires: str, conditions: str, share_melee: float, mele
         elif c == "sur objectif":
             p *= P_OBJECTIVE_HERO if unit.is_hero or unit.models < 3 else P_OBJECTIVE_TROOP
         elif c == "au combat":
-            if not (melee_effect or charged):   # un buff de mêlée ne joue de toute façon qu'au combat
+            if not (melee_effect or charged):  # un buff de mêlée ne joue de toute façon qu'au combat
                 p *= P_IN_COMBAT_MELEE if melee_unit else P_IN_COMBAT_SHOOTER
         elif c == "sans charge":
             p *= P_NOT_CHARGED_MELEE if melee_unit else P_NOT_CHARGED_SHOOTER
@@ -205,7 +211,7 @@ def alive_profile(hp_total: float, dmg_one_unit: float, start: int = 1) -> list[
 def rounds_alive(hp_total: float, melee_in: float, ranged_in: float, exposure: str, start: int = 1) -> float:
     """Rounds de survie attendus à partir de `start` (somme des parts de vie), sous la pression par étapes."""
     prof = alive_profile(hp_total, damage_per_round(melee_in, ranged_in, exposure), start)
-    return sum(prof[start - 1:]) if start <= 5 else 0.0
+    return sum(prof[start - 1 :]) if start <= 5 else 0.0
 
 
 def survival_coverage(profile: list[float], start: int = 1, lasting: bool = True) -> float:
@@ -265,7 +271,6 @@ _LASTING_DURATIONS = {"bataille", "permanent", "conditionnelle"}
 _LASTING_FREQUENCIES = {"passive"}
 
 
-
 def _lasting(frequency: str, durations: set[str]) -> bool:
     """Le porteur doit-il rester en vie sur plusieurs rounds pour que l'aptitude rapporte ?
 
@@ -291,14 +296,24 @@ def load_effects(con) -> dict[str, list[tuple]]:
     """ability_uid → [(kind, requires, target_condition, target_keywords, duration, weapon_scope)]."""
     effs: dict[str, list[tuple]] = {}
     for uid, kind, req, tcond, tkw, dur, wscope in con.execute(
-            "SELECT ability_uid, kind, requires, target_condition, target_keywords, duration, weapon_scope "
-            "FROM ability_effect").fetchall():
+        "SELECT ability_uid, kind, requires, target_condition, target_keywords, duration, weapon_scope "
+        "FROM ability_effect"
+    ).fetchall():
         effs.setdefault(uid, []).append((kind, req or "", tcond or "", tkw or "", dur or "", wscope or ""))
     return effs
 
 
-def marriage_of(u: Unit, e_list: list[tuple], family: str, scope: str, rng: Optional[int], freq: str,
-                share_melee: float, incoming: tuple[float, float], turn_side: str = "any") -> Marriage:
+def marriage_of(
+    u: Unit,
+    e_list: list[tuple],
+    family: str,
+    scope: str,
+    rng: Optional[int],
+    freq: str,
+    share_melee: float,
+    incoming: tuple[float, float],
+    turn_side: str = "any",
+) -> Marriage:
     """D × S d'une aptitude (ses effets `load_effects`) portée par `u`."""
     from .timeline import start_share
 
@@ -308,8 +323,14 @@ def marriage_of(u: Unit, e_list: list[tuple], family: str, scope: str, rng: Opti
     conds = list(dict.fromkeys(conds))
     kinds = {e[0] for e in e_list}
     melee = bool(e_list) and all(e[5] == "melee" for e in e_list if e[5])
-    t = trigger(u, reqs, " | ".join(conds), share_melee, melee_effect=melee,
-                kind="charge_bonus" if "charge_bonus" in kinds else "")
+    t = trigger(
+        u,
+        reqs,
+        " | ".join(conds),
+        share_melee,
+        melee_effect=melee,
+        kind="charge_bonus" if "charge_bonus" in kinds else "",
+    )
     fam = family or "autre"
     if fam in ("buff-perso-offensif", "buff-perso-defensif"):
         expo = "contact" if share_melee >= 0.5 else "longue"
@@ -325,8 +346,9 @@ def marriage_of(u: Unit, e_list: list[tuple], family: str, scope: str, rng: Opti
     surv = survival_coverage(profile, use, lasting=lasting)
     dur = next((e[4] for e in e_list if e[4]), "permanent" if lasting else "")
     d = t.p_off_timeline * start_share(freq or "", dur, turn_side or "any", t.start)
-    return Marriage(expo, t.p, t.start, t.bearer_only, alive, surv, d * surv,
-                    tuple(c for c in conds if c not in BEARER_CONDITIONS))
+    return Marriage(
+        expo, t.p, t.start, t.bearer_only, alive, surv, d * surv, tuple(c for c in conds if c not in BEARER_CONDITIONS)
+    )
 
 
 def build_marriage_rows(con) -> list[tuple]:
@@ -337,9 +359,12 @@ def build_marriage_rows(con) -> list[tuple]:
     elles sont listées (`good_case_conditions`) et relèvent de la couche 4 / des matchups."""
     from ...persistence import repository
 
-    units = {(army, u.name.lower()): u
-             for army, us in _units_by_army_name(con, repository).items()
-             for u in us if u.points > 0}
+    units = {
+        (army, u.name.lower()): u
+        for army, us in _units_by_army_name(con, repository).items()
+        for u in us
+        if u.points > 0
+    }
     chassis = share_melee_by_unit(con)
     incoming = incoming_damage(con)
     effs = load_effects(con)
@@ -356,17 +381,43 @@ def build_marriage_rows(con) -> list[tuple]:
         if u is None or (u.id, uid) in seen:
             continue
         seen.add((u.id, uid))
-        m = marriage_of(u, effs.get(uid, []), family or "autre", scope or "", rng, freq or "",
-                        chassis.get(u.id, 1.0), incoming.get(u.id, (0.0, 0.0)), tside or "any")
-        rows.append((u.id, uid, name, family or "autre", power, verdict, m.exposure, round(m.p_trigger, 3),
-                     m.start_round, m.bearer_only, round(m.rounds_alive, 2), round(m.survival, 3),
-                     round(m.marriage, 3), " | ".join(m.others) or None))
+        m = marriage_of(
+            u,
+            effs.get(uid, []),
+            family or "autre",
+            scope or "",
+            rng,
+            freq or "",
+            chassis.get(u.id, 1.0),
+            incoming.get(u.id, (0.0, 0.0)),
+            tside or "any",
+        )
+        rows.append(
+            (
+                u.id,
+                uid,
+                name,
+                family or "autre",
+                power,
+                verdict,
+                m.exposure,
+                round(m.p_trigger, 3),
+                m.start_round,
+                m.bearer_only,
+                round(m.rounds_alive, 2),
+                round(m.survival, 3),
+                round(m.marriage, 3),
+                " | ".join(m.others) or None,
+            )
+        )
     return rows
 
 
 def share_melee_by_unit(con) -> dict[int, float]:
-    return {uid: (sm if sm is not None else 1.0)
-            for uid, sm in con.execute("SELECT unit_id, share_melee FROM unit_chassis").fetchall()}
+    return {
+        uid: (sm if sm is not None else 1.0)
+        for uid, sm in con.execute("SELECT unit_id, share_melee FROM unit_chassis").fetchall()
+    }
 
 
 def _units_by_army_name(con, repository) -> dict[str, list[Unit]]:

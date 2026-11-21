@@ -133,7 +133,11 @@ def _normalize_compact(lines: list[str], title: str | None) -> list[str]:
             if not opt:
                 continue
             paid = _COMPACT_PAID_OPTION_RE.match(opt)
-            out.append(f"{_OPTION_PREFIX}{paid.group('name')} - ({paid.group('points')}) Points" if paid else f"{_OPTION_PREFIX}{opt}")
+            out.append(
+                f"{_OPTION_PREFIX}{paid.group('name')} - ({paid.group('points')}) Points"
+                if paid
+                else f"{_OPTION_PREFIX}{opt}"
+            )
     if terrain:
         out += ["", "Faction Terrain", *terrain]
     return out
@@ -231,7 +235,11 @@ def parse_list(text: str, *, title: str | None = None) -> ParsedList:
     idx = _next_nonblank(lines, idx + 1)
 
     header_keywords = (
-        "General's Handbook", "Drops:", "Spell Lore -", "Prayer Lore -", "Manifestation Lore -",
+        "General's Handbook",
+        "Drops:",
+        "Spell Lore -",
+        "Prayer Lore -",
+        "Manifestation Lore -",
         "Battle Tactic Cards:",
     )
     allegiance = None
@@ -306,7 +314,9 @@ def parse_list(text: str, *, title: str | None = None) -> ParsedList:
                 entry_stripped = entry_raw.strip()
                 if entry_stripped.startswith(_OPTION_PREFIX):
                     if units:
-                        units[-1].options.append(_BARE_OPTION_COST_RE.sub(r" - (\g<points>) Points", entry_stripped[1:].strip()))
+                        units[-1].options.append(
+                            _BARE_OPTION_COST_RE.sub(r" - (\g<points>) Points", entry_stripped[1:].strip())
+                        )
                 else:
                     m = _UNIT_RE.match(entry_stripped)
                     if m:

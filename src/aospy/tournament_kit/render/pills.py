@@ -96,21 +96,33 @@ def _reaction_trigger(ability: AbilityEntry) -> str | None:
 
 #: types d'aptitude cités par un déclencheur de réaction Wahapedia
 _TRIGGER_ABILITY_FR = {
-    "fight": "Corps à Corps", "shoot": "Tir", "charge": "Charge", "move": "Mouvement", "run": "Course",
-    "retreat": "Repli", "spell": "Sort", "unlimited spell": "Sort Illimité", "prayer": "Prière",
-    "attack": "Attaque", "rampage": "Rampage",
+    "fight": "Corps à Corps",
+    "shoot": "Tir",
+    "charge": "Charge",
+    "move": "Mouvement",
+    "run": "Course",
+    "retreat": "Repli",
+    "spell": "Sort",
+    "unlimited spell": "Sort Illimité",
+    "prayer": "Prière",
+    "attack": "Attaque",
+    "rampage": "Rampage",
 }
 _TRIGGER_HEADS = [
     (re.compile(r"^You declared an? (?P<kw>[\w ]+?) ability", re.IGNORECASE), "Vous avez annoncé une aptitude"),
-    (re.compile(r"^Opponent declared an? (?P<kw>[\w ]+?) ability", re.IGNORECASE),
-     "L’adversaire a annoncé une aptitude"),
+    (
+        re.compile(r"^Opponent declared an? (?P<kw>[\w ]+?) ability", re.IGNORECASE),
+        "L’adversaire a annoncé une aptitude",
+    ),
 ]
 _TRIGGER_TAILS = [
     (re.compile(r"^ for this unit\.?$"), " pour cette unité"),
     (re.compile(r"^ for your general\.?$"), " pour votre général"),
     (re.compile(r'^ for a unit within (\d+)" of this unit\.?$'), r' pour une unité à \1" de cette unité'),
-    (re.compile(r'^ for a friendly unit wholly within (\d+)" of this unit\.?$'),
-     r' pour une unité amie entièrement à \1" de cette unité'),
+    (
+        re.compile(r'^ for a friendly unit wholly within (\d+)" of this unit\.?$'),
+        r' pour une unité amie entièrement à \1" de cette unité',
+    ),
     (re.compile(r"^\.?$"), ""),
 ]
 
@@ -128,7 +140,7 @@ def _translate_trigger(text: str) -> str:
         if not m:
             continue
         kw = _TRIGGER_ABILITY_FR.get(m.group("kw").strip().lower())
-        rest = plain[m.end():]
+        rest = plain[m.end() :]
         for tail_re, tail_fr in _TRIGGER_TAILS:
             if kw is not None and tail_re.match(rest):
                 of = "d’" if kw[0] in "AEIOUÉ" else "de "
@@ -137,7 +149,7 @@ def _translate_trigger(text: str) -> str:
     m = _NAMED_TRIGGER_RE.match(plain)
     if m:
         name = _TRIGGER_NAMED_FR.get(m.group("name").strip().lower())
-        rest = plain[m.end():]
+        rest = plain[m.end() :]
         for tail_re, tail_fr in _TRIGGER_TAILS:
             if name is not None and tail_re.match(rest):
                 return f"{_TRIGGER_WHO_FR[m.group('who').lower()]} « {name} »{tail_re.sub(tail_fr, rest)}"
@@ -148,10 +160,13 @@ def _translate_trigger(text: str) -> str:
 #: ‘Eruption of Fury’ ability… ») : traduite seulement si le nom est connu
 _NAMED_TRIGGER_RE = re.compile(
     r"^(?P<who>You or your opponent|You|Your opponent|Opponent) declared the [‘'’\"](?P<name>[^‘'’\"]+)[‘'’\"] ability",
-    re.IGNORECASE)
+    re.IGNORECASE,
+)
 _TRIGGER_WHO_FR = {
-    "you or your opponent": "Vous ou l’adversaire avez annoncé", "you": "Vous avez annoncé",
-    "your opponent": "L’adversaire a annoncé", "opponent": "L’adversaire a annoncé",
+    "you or your opponent": "Vous ou l’adversaire avez annoncé",
+    "you": "Vous avez annoncé",
+    "your opponent": "L’adversaire a annoncé",
+    "opponent": "L’adversaire a annoncé",
 }
 _TRIGGER_NAMED_FR = {"eruption of fury": "Éruption de Fureur"}
 
@@ -233,16 +248,28 @@ def _freq_pill(ability: AbilityEntry, max_width: float) -> tuple[Table, float] |
 #: silhouette unique : dé (carré arrondi) et flamme.
 _CAST_BADGE_LABELS = {"Spell": "SORT", "Prayer": "PRIÈRE", "Command": "ORDRE", "Blood tithe": "DIME DE SANG"}
 _CAST_BADGE_COLORS = {
-    "Spell": _BADGE_SPELL, "Prayer": _BADGE_PRAYER, "Command": _BADGE_COMMAND, "Blood tithe": _BADGE_BLOOD,
-    "Rage": _BADGE_RAGE, "Fury": _BADGE_FURY,
+    "Spell": _BADGE_SPELL,
+    "Prayer": _BADGE_PRAYER,
+    "Command": _BADGE_COMMAND,
+    "Blood tithe": _BADGE_BLOOD,
+    "Rage": _BADGE_RAGE,
+    "Fury": _BADGE_FURY,
 }
 _CAST_BADGE_SHAPES = {
-    "Spell": "circle", "Prayer": "diamond", "Command": "hexagon", "Blood tithe": "drop",
-    "Rage": "die", "Fury": "flame",
+    "Spell": "circle",
+    "Prayer": "diamond",
+    "Command": "hexagon",
+    "Blood tithe": "drop",
+    "Rage": "die",
+    "Fury": "flame",
 }
 _CAST_BADGE_FG = {
-    "Spell": "#f3eefa", "Prayer": "#e6f3ec", "Command": "#f7ecd6", "Blood tithe": "#f9e3e3",
-    "Rage": "#fff1ea", "Fury": "#fff6e5",
+    "Spell": "#f3eefa",
+    "Prayer": "#e6f3ec",
+    "Command": "#f7ecd6",
+    "Blood tithe": "#f9e3e3",
+    "Rage": "#fff1ea",
+    "Fury": "#fff6e5",
 }
 
 
@@ -284,8 +311,10 @@ def _cast_pill(ability: AbilityEntry, max_width: float) -> tuple[Flowable, float
 _KEYWORD_PILL_COLORS: dict[str, tuple[str, str]] = {
     # un sort, une manifestation ou une convocation (qui se lance comme un
     # sort) : même violet (demande de l'utilisateur) — EN et FR curé
-    **{kw: (_BADGE_SPELL, _CAST_BADGE_FG["Spell"])
-       for kw in ("spell", "sort", "manifestation", "summon", "convocation")},
+    **{
+        kw: (_BADGE_SPELL, _CAST_BADGE_FG["Spell"])
+        for kw in ("spell", "sort", "manifestation", "summon", "convocation")
+    },
     # prière sans valeur (avec valeur, le losange vert la masque) : vert prière
     **{kw: (_BADGE_PRAYER, _CAST_BADGE_FG["Prayer"]) for kw in ("prayer", "prière")},
     "saison": (_BADGE_SEASON, "#fff1ea"),
@@ -293,17 +322,20 @@ _KEYWORD_PILL_COLORS: dict[str, tuple[str, str]] = {
     # (demande de l'utilisateur) — EN Wahapedia et FR curé. ATTACK/RAMPAGE
     # servent dans plusieurs phases : pas de couleur de phase, cf.
     # `_MULTI_PHASE_KEYWORDS`.
-    **{kw: _PHASE_COLORS[phase] for phase, kws in {
-        "move": ("move", "mouvement", "run", "course", "retreat", "repli"),
-        "shoot": ("shoot", "tir"),
-        "charge": ("charge",),
-        "melee": ("fight", "corps à corps"),
-        "deploy": ("deploy", "déploiement", "deploy terrain", "déploiement de terrain"),
-    }.items() for kw in kws},
+    **{
+        kw: _PHASE_COLORS[phase]
+        for phase, kws in {
+            "move": ("move", "mouvement", "run", "course", "retreat", "repli"),
+            "shoot": ("shoot", "tir"),
+            "charge": ("charge",),
+            "melee": ("fight", "corps à corps"),
+            "deploy": ("deploy", "déploiement", "deploy terrain", "déploiement de terrain"),
+        }.items()
+        for kw in kws
+    },
     # bannissement/dissipation relèvent de la magie : violet des sorts
     # (demande de l'utilisateur)
-    **{kw: (_BADGE_SPELL, _CAST_BADGE_FG["Spell"])
-       for kw in ("banish", "bannissement", "unbind", "dissipation")},
+    **{kw: (_BADGE_SPELL, _CAST_BADGE_FG["Spell"]) for kw in ("banish", "bannissement", "unbind", "dissipation")},
     # aptitude de base (CORE) : noir (demande de l'utilisateur)
     "core": ("#141414", "#f2ecdb"),
     "base": ("#141414", "#f2ecdb"),
@@ -317,7 +349,9 @@ _KEYWORD_PILL_COLORS: dict[str, tuple[str, str]] = {
 #: mots-clés servant dans plusieurs phases : ardoise en contour, sans lien
 #: avec aucune phase (demande de l'utilisateur).
 _MULTI_PHASE_KEYWORDS = frozenset({"attack", "attaque", "rampage", "saccage"})
-_TEXT_SOURCE_KEYWORDS = frozenset({"bt", "bt (trad.)", "fp", "aqshy", "mdg", "core rules", "gw app", "simple", "wahapedia"})
+_TEXT_SOURCE_KEYWORDS = frozenset(
+    {"bt", "bt (trad.)", "fp", "aqshy", "mdg", "core rules", "gw app", "simple", "wahapedia"}
+)
 _DEFAULT_TEXT_SOURCE = "Wahapedia"
 #: badges d'origine « sous-source » (catégorie de règles d'armée dont vient
 #: l'aptitude, cf. `tag_ability_origin`) : même couleur que les badges source
@@ -352,9 +386,7 @@ def _keyword_pills(ability: AbilityEntry) -> list[tuple[Table, float]]:
     # le badge de valeur (cercle violet « 7+ », losange vert) dit déjà sort/
     # prière : la pastille SPELL/PRAYER ferait doublon (demande de l'utilisateur)
     pts_type = (ability.points_type or "").strip()
-    cast_keywords = (
-        _CAST_TYPE_KEYWORDS.get(pts_type, frozenset()) if (ability.points or "").strip() else frozenset()
-    )
+    cast_keywords = _CAST_TYPE_KEYWORDS.get(pts_type, frozenset()) if (ability.points or "").strip() else frozenset()
     out = []
     for kw in ability.keywords.split(","):
         kw = kw.strip().upper()
@@ -366,7 +398,11 @@ def _keyword_pills(ability: AbilityEntry) -> list[tuple[Table, float]]:
         # « Déploiement » ; une aptitude jouée une fois par partie se lit en
         # entier (demande de l'utilisateur)
         if is_deployment_condition and kw.lower() in (
-            "deploy", "deployment", "déploiement", "déploiement de terrain", "deploy terrain",
+            "deploy",
+            "deployment",
+            "déploiement",
+            "déploiement de terrain",
+            "deploy terrain",
         ):
             continue
         if kw.lower() == section_keyword:
@@ -467,14 +503,19 @@ def _pill(text: str, bg_hex: str, fg_hex: str, width: float | None = None, outli
     if width is None:
         width = _pill_natural_width(text)
     style = ParagraphStyle(
-        f"wc_pill_{bg_hex}_{outline}", fontName="Helvetica", fontSize=6.6, leading=8.4,
+        f"wc_pill_{bg_hex}_{outline}",
+        fontName="Helvetica",
+        fontSize=6.6,
+        leading=8.4,
         textColor=colors.HexColor(bg_hex if outline else fg_hex),
     )
     inner = _safe_paragraph(text, style)
     t = Table([[inner]], colWidths=[width])
     cell_style = [
-        ("LEFTPADDING", (0, 0), (-1, -1), 5), ("RIGHTPADDING", (0, 0), (-1, -1), 5),
-        ("TOPPADDING", (0, 0), (-1, -1), 2), ("BOTTOMPADDING", (0, 0), (-1, -1), 2),
+        ("LEFTPADDING", (0, 0), (-1, -1), 5),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 5),
+        ("TOPPADDING", (0, 0), (-1, -1), 2),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 2),
         ("ROUNDEDCORNERS", [_PILL_RADIUS] * 4),
     ]
     if outline:
@@ -552,17 +593,24 @@ def _pill_row(pills: list[tuple[Flowable, float]]) -> Table | None:
     # évitent ce chemin de code entièrement.
     widths = [w + (_PILL_GAP if i < len(pills) - 1 else 0) for i, (_, w) in enumerate(pills)]
     t = Table([[fl for fl, _ in pills]], colWidths=widths)
-    t.setStyle(TableStyle([
-        # le petit espace entre 2 pastilles voisines est réservé dans `widths`
-        # ci-dessus (colonnes 0..avant-dernière) puis rendu visible ici via
-        # RIGHTPADDING sur ces mêmes colonnes — jamais sur la dernière, dont
-        # le bord droit doit rester exactement au bord de la ligne (repère de
-        # l'alignement à droite de `_ability_row_flowables`).
-        ("LEFTPADDING", (0, 0), (-1, -1), 0), ("RIGHTPADDING", (0, 0), (-2, -1), _PILL_GAP),
-        ("RIGHTPADDING", (-1, 0), (-1, -1), 0),
-        ("TOPPADDING", (0, 0), (-1, -1), 0), ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
-        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"), ("ALIGN", (0, 0), (-1, -1), "LEFT"),
-    ]))
+    t.setStyle(
+        TableStyle(
+            [
+                # le petit espace entre 2 pastilles voisines est réservé dans `widths`
+                # ci-dessus (colonnes 0..avant-dernière) puis rendu visible ici via
+                # RIGHTPADDING sur ces mêmes colonnes — jamais sur la dernière, dont
+                # le bord droit doit rester exactement au bord de la ligne (repère de
+                # l'alignement à droite de `_ability_row_flowables`).
+                ("LEFTPADDING", (0, 0), (-1, -1), 0),
+                ("RIGHTPADDING", (0, 0), (-2, -1), _PILL_GAP),
+                ("RIGHTPADDING", (-1, 0), (-1, -1), 0),
+                ("TOPPADDING", (0, 0), (-1, -1), 0),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+                ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                ("ALIGN", (0, 0), (-1, -1), "LEFT"),
+            ]
+        )
+    )
     return t
 
 
@@ -591,33 +639,57 @@ def reset_drawn_pills() -> None:
 #: déclenchent, pastilles d'exemple (texte, fond, texte, contour),
 #: explication). Ordre : source, propriétés, timing, mots-clés.
 _PILL_LEGEND: list[tuple[frozenset[str], list[tuple[str, str, str, bool]], str]] = [
-    (frozenset({_BADGE_SOURCE}), [("MDG", _BADGE_SOURCE, "#eef0f3", False)],
-     "Source du texte : MDG (Manuel du Général), BT (battletome), FP (faction pack), AQSHY, WAHAPEDIA "
-     "(anglais). Traits de Bataille, Formation : catégorie de règles d'armée."),
-    (frozenset({_BADGE_SOURCE}), [("SIMPLE", _BADGE_SOURCE, "#eef0f3", False)],
-     "Texte adapté, pas le verbatim : en cas de litige, revenir à la règle d'origine."),
-    (frozenset({"#141414", _BADGE_SEASON}), [("BASE", "#141414", "#f2ecdb", False),
-                                            ("SAISON", _BADGE_SEASON, "#fff1ea", False)],
-     "Aptitude de base du jeu (Core) ; règle de la saison en cours (MdG 2026-27)."),
-    (frozenset({_BADGE_NEUTRAL}), [("×1 / TOUR (ARMÉE)", _BADGE_NEUTRAL, "#eaf1f8", True),
-                                   ("PASSIF", _BADGE_NEUTRAL, "#eaf1f8", True)],
-     "Fréquence — (ARMÉE) : une seule fois pour toute l'armée ; passif : toujours actif, rien à déclarer."),
-    (frozenset({_BADGE_REACT}), [("RÉACTION", _BADGE_REACT, "#fbeaec", False)],
-     "Réaction : utilisée en réponse à l'aptitude indiquée."),
-    (frozenset(_PHASE_COLORS[k][0] for k in ("move", "shoot", "charge", "melee")),
-     [("TIR", *_PHASE_COLORS["shoot"], False), ("CHARGE", *_PHASE_COLORS["charge"], False)],
-     "Mot-clé d'aptitude, à la couleur de sa phase (Mouvement, Tir, Charge, Corps à Corps)."),
-    (frozenset({_BADGE_MULTI_PHASE}), [("ATTAQUE", _BADGE_MULTI_PHASE, "#eef0f3", True),
-                                       ("SACCAGE", _BADGE_MULTI_PHASE, "#eef0f3", True)],
-     "Mot-clé d'aptitude valable dans plusieurs phases."),
-    (frozenset({_BADGE_SPELL, _BADGE_PRAYER}), [("SORT", _BADGE_SPELL, "#f3eefb", False),
-                                                ("PRIÈRE", _BADGE_PRAYER, "#eaf5ef", False)],
-     "Magie (sort, manifestation, bannissement…) ; prière. Illimité : utilisable plusieurs fois par tour."),
-    (frozenset({_BADGE_WARSCROLL}), [("NOM D'UNITÉ", _BADGE_WARSCROLL, "#f2ecdb", False)],
-     "Unité qui porte l'aptitude (pour un sort signature : son lanceur)."),
-    (frozenset({_BADGE_KEYWORD, _BADGE_FACTION}), [("TACTIQUE", _BADGE_KEYWORD, "#f2eeea", False),
-                                                   ("MOT-CLÉ", _BADGE_FACTION, "#f7e6ee", False)],
-     "Autre mot-clé d'aptitude (Tactique : règle spéciale d'une carte de tactique) ; bordeaux : propre à la faction."),
+    (
+        frozenset({_BADGE_SOURCE}),
+        [("MDG", _BADGE_SOURCE, "#eef0f3", False)],
+        "Source du texte : MDG (Manuel du Général), BT (battletome), FP (faction pack), AQSHY, WAHAPEDIA "
+        "(anglais). Traits de Bataille, Formation : catégorie de règles d'armée.",
+    ),
+    (
+        frozenset({_BADGE_SOURCE}),
+        [("SIMPLE", _BADGE_SOURCE, "#eef0f3", False)],
+        "Texte adapté, pas le verbatim : en cas de litige, revenir à la règle d'origine.",
+    ),
+    (
+        frozenset({"#141414", _BADGE_SEASON}),
+        [("BASE", "#141414", "#f2ecdb", False), ("SAISON", _BADGE_SEASON, "#fff1ea", False)],
+        "Aptitude de base du jeu (Core) ; règle de la saison en cours (MdG 2026-27).",
+    ),
+    (
+        frozenset({_BADGE_NEUTRAL}),
+        [("×1 / TOUR (ARMÉE)", _BADGE_NEUTRAL, "#eaf1f8", True), ("PASSIF", _BADGE_NEUTRAL, "#eaf1f8", True)],
+        "Fréquence — (ARMÉE) : une seule fois pour toute l'armée ; passif : toujours actif, rien à déclarer.",
+    ),
+    (
+        frozenset({_BADGE_REACT}),
+        [("RÉACTION", _BADGE_REACT, "#fbeaec", False)],
+        "Réaction : utilisée en réponse à l'aptitude indiquée.",
+    ),
+    (
+        frozenset(_PHASE_COLORS[k][0] for k in ("move", "shoot", "charge", "melee")),
+        [("TIR", *_PHASE_COLORS["shoot"], False), ("CHARGE", *_PHASE_COLORS["charge"], False)],
+        "Mot-clé d'aptitude, à la couleur de sa phase (Mouvement, Tir, Charge, Corps à Corps).",
+    ),
+    (
+        frozenset({_BADGE_MULTI_PHASE}),
+        [("ATTAQUE", _BADGE_MULTI_PHASE, "#eef0f3", True), ("SACCAGE", _BADGE_MULTI_PHASE, "#eef0f3", True)],
+        "Mot-clé d'aptitude valable dans plusieurs phases.",
+    ),
+    (
+        frozenset({_BADGE_SPELL, _BADGE_PRAYER}),
+        [("SORT", _BADGE_SPELL, "#f3eefb", False), ("PRIÈRE", _BADGE_PRAYER, "#eaf5ef", False)],
+        "Magie (sort, manifestation, bannissement…) ; prière. Illimité : utilisable plusieurs fois par tour.",
+    ),
+    (
+        frozenset({_BADGE_WARSCROLL}),
+        [("NOM D'UNITÉ", _BADGE_WARSCROLL, "#f2ecdb", False)],
+        "Unité qui porte l'aptitude (pour un sort signature : son lanceur).",
+    ),
+    (
+        frozenset({_BADGE_KEYWORD, _BADGE_FACTION}),
+        [("TACTIQUE", _BADGE_KEYWORD, "#f2eeea", False), ("MOT-CLÉ", _BADGE_FACTION, "#f7e6ee", False)],
+        "Autre mot-clé d'aptitude (Tactique : règle spéciale d'une carte de tactique) ; bordeaux : propre à la faction.",
+    ),
 ]
 
 
@@ -731,7 +803,10 @@ class _CastBadge(Flowable):
 #: `cast_badge_legend`), dans l'ordre de `_CAST_BADGE_SHAPES`, avec la
 #: valeur d'exemple inscrite dans le picto.
 _CAST_BADGE_LEGEND = {
-    "Spell": ("7+", "Aptitude : valeur de lancement. Warscroll : niveau de Sorcier ; manifestation : valeur de lancement de sa convocation."),
+    "Spell": (
+        "7+",
+        "Aptitude : valeur de lancement. Warscroll : niveau de Sorcier ; manifestation : valeur de lancement de sa convocation.",
+    ),
     "Prayer": ("4+", "Aptitude : valeur de récitation. Warscroll : niveau de Prêtre."),
     "Command": ("1", "Ordre : coût en points d’ordre"),
     "Blood tithe": ("2", "Dîme de sang : coût en points de dîme de sang"),
@@ -743,9 +818,12 @@ _CAST_BADGE_LEGEND = {
 def cast_badge_legend(shapes: frozenset[str]) -> list[tuple[Flowable, str]]:
     """(picto d'exemple, explication) pour chaque silhouette de `shapes`."""
     return [
-        (_CastBadge(shape, _CAST_BADGE_LEGEND[kind][0], _CAST_BADGE_COLORS[kind], _CAST_BADGE_FG[kind]),
-         tr(_CAST_BADGE_LEGEND[kind][1]))
-        for kind, shape in _CAST_BADGE_SHAPES.items() if shape in shapes
+        (
+            _CastBadge(shape, _CAST_BADGE_LEGEND[kind][0], _CAST_BADGE_COLORS[kind], _CAST_BADGE_FG[kind]),
+            tr(_CAST_BADGE_LEGEND[kind][1]),
+        )
+        for kind, shape in _CAST_BADGE_SHAPES.items()
+        if shape in shapes
     ]
 
 
@@ -776,7 +854,9 @@ def _caster_badges(keywords: list[str]) -> list[_CastBadge]:
         if kind == "WIZARD":
             badges.append(_CastBadge("circle", level, _BADGE_SPELL, _CAST_BADGE_FG["Spell"], size=_CASTER_BADGE_SIZE))
         else:
-            badges.append(_CastBadge("diamond", level, _BADGE_PRAYER, _CAST_BADGE_FG["Prayer"], size=_CASTER_BADGE_SIZE))
+            badges.append(
+                _CastBadge("diamond", level, _BADGE_PRAYER, _CAST_BADGE_FG["Prayer"], size=_CASTER_BADGE_SIZE)
+            )
     return badges
 
 
@@ -802,9 +882,16 @@ def _caster_badge_row(badges: list[_CastBadge]) -> tuple[Table, float]:
         cells.append(b)
         col_widths.append(b.size)
     t = Table([cells], colWidths=col_widths)
-    t.setStyle(TableStyle([
-        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"), ("ALIGN", (0, 0), (-1, -1), "CENTER"),
-        ("LEFTPADDING", (0, 0), (-1, -1), 0), ("RIGHTPADDING", (0, 0), (-1, -1), 0),
-        ("TOPPADDING", (0, 0), (-1, -1), 0), ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
-    ]))
+    t.setStyle(
+        TableStyle(
+            [
+                ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+                ("LEFTPADDING", (0, 0), (-1, -1), 0),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+                ("TOPPADDING", (0, 0), (-1, -1), 0),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+            ]
+        )
+    )
     return t, sum(col_widths)
