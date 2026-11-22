@@ -173,3 +173,10 @@ def test_marriage_combines_grid_factors_and_keeps_bearing():
         u, [_eff()], "debuff", "one_enemy", 12, "unlimited", 1.0, (0.0, 0.0), "yours", amplification=3.0, role=1.4
     )
     assert d.marriage == pytest.approx(d.bearing)
+
+
+def test_chained_fight_counts_at_its_share():
+    from aospy.analysis.layers.marriage import CHAINED_FIGHT_SHARE
+
+    t = trigger(_unit(5), "combat enchaîné", "combat enchaîné", share_melee=1.0, melee_effect=True)
+    assert t.p == pytest.approx(CHAINED_FIGHT_SHARE) and t.bearer_only

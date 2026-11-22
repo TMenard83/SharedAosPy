@@ -50,9 +50,12 @@ from .encounter import (
     probe_for_effect,
     unit_durability,
 )
-from .marriage import trigger
+from .marriage import CHAINED_FIGHT_SHARE, trigger
 from .timeline import DEFAULT_RHYTHM, KAIROS_SHORT
 from .timeline import coverage as timeline_coverage
+
+#: prérequis « combat enchaîné » (`abilities.perimeter`) : compté à `CHAINED_FIGHT_SHARE`, pas écarté
+CHAINED = "combat enchaîné"
 
 #: Poids des rounds 1 à 5 (somme 3) = rythme par défaut de la frise (`timeline.DEFAULT_RHYTHM`).
 ROUND_WEIGHTS = DEFAULT_RHYTHM
@@ -525,13 +528,16 @@ def support_values(con, share_melee: dict[int, float]) -> dict[tuple[str, str], 
         option,
     ) in rows:
         tokens = {c for c in conds.split(" | ") if c}
+        # combat enchaîné (Brawlerguts, Lead Da Brutes…) : compté, à la part `CHAINED_FIGHT_SHARE` (utilisateur)
+        chained = CHAINED_FIGHT_SHARE if CHAINED in tokens else 1.0
+        tokens.discard(CHAINED)
         if tokens - resource or kind == "charge_bonus":
             continue
         spends = bool(tokens & resource)
         sm = share_melee.get(unit_id, 1.0)
         args = (freq or "", dur or "", avail, spends, tside or "any")
-        w_off = coverage(*args, polarity="off", share_melee=sm) * prob
-        w_def = coverage(*args, polarity="def", share_melee=sm) * prob
+        w_off = coverage(*args, polarity="off", share_melee=sm) * prob * chained
+        w_def = coverage(*args, polarity="def", share_melee=sm) * prob * chained
         key = (fac, owner, name)
         meta[key] = (scope, rng, _channel(cost, scope or ""))
         per = gains.setdefault(key, {}).setdefault(unit_id, {})

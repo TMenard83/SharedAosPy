@@ -65,7 +65,20 @@ CHARGE_MEAN = 7.0
 
 #: Conditions tenues par le porteur → probabilité estimée d'après le châssis. Les autres libellés
 #: (`perimeter._REQUIRES` / `_TARGET_CONDITIONS`) ne dépendent pas de lui.
-BEARER_CONDITIONS = ("a chargé", "en territoire", "sur objectif", "au combat", "sans mouvement", "sans charge")
+BEARER_CONDITIONS = (
+    "a chargé",
+    "en territoire",
+    "sur objectif",
+    "au combat",
+    "sans mouvement",
+    "sans charge",
+    "combat enchaîné",
+)
+#: « The target can be picked to fight immediately after this unit… If it is picked to do so, add 1… »
+#: (Brawlerguts, Lead Da Brutes, Infantry Overseer…) : le bonus ne joue que si le héros et l'unité combattent
+#: l'un après l'autre. Part des combats où c'est le cas : choix utilisateur 2026-11-22 (option « ×0,5 »,
+#: hypothèse à calibrer) — ni plein (il faut être collés), ni nul (sinon tout l'archétype perd son soutien).
+CHAINED_FIGHT_SHARE = 0.5
 #: Un bonus « a chargé » ne joue qu'au combat du tour de charge ; une unité au corps à corps combat aussi
 #: au tour adverse et en combat prolongé → environ la moitié de ses combats (choix utilisateur, 2026-11-20 :
 #: « il faut mitiger les dégâts »).
@@ -177,6 +190,8 @@ def trigger(
             p *= P_NOT_CHARGED_MELEE if melee_unit else P_NOT_CHARGED_SHOOTER
         elif c == "sans mouvement":
             p *= P_STILL_MELEE if melee_unit else P_STILL_SHOOTER
+        elif c == "combat enchaîné":
+            p *= CHAINED_FIGHT_SHARE
     return Trigger(p=p, start=start, bearer_only=not others, charged=charged)
 
 

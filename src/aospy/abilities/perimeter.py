@@ -120,6 +120,9 @@ _REQUIRES: list[tuple[str, str]] = [
     (_SUBJ + r" in combat", "au combat"),
     (_SUBJ + r" (?:wholly )?within (?:friendly|enemy) territory", "en territoire"),
     (r"(?:has|have) (?:\d+|any)(?: or more)? damage points?|while (?:it|this unit) is damaged", "porteur blessé"),
+    # v33 : « If it is picked to do so, add 1 to hit rolls… » (Brawlerguts) : bonus du seul combat enchaîné
+    # juste après celui du porteur, pondéré par `analysis.layers.marriage.CHAINED_FIGHT_SHARE`
+    (r"\bif (?:it|the target|that unit) is picked to do so\b", "combat enchaîné"),
     # v33 : « add 1 to wound rolls … while they have STRIKE-FIRST » (Rune of Fury)
     (r"\b(?:while|if) (?:they|it|this unit) (?:has|have) STRIKE-FIRST", "frappe en premier"),
     (
