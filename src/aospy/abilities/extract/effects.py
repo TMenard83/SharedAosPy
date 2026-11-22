@@ -274,6 +274,11 @@ def effects_of(
         for m in re.finditer(pat, full):
             if kind == "anti":
                 target_kw.append(m.group(1).upper())
+            if kind in ("strike_first", "strike_last") and re.search(
+                r"\b(?:while|if) (?:they|it|this unit|the target|that unit) (?:has|have) $",
+                full[max(0, m.start() - 40) : m.start()],
+            ):
+                continue  # v33 : « … while they have STRIKE-FIRST » (Rune of Fury) : condition, pas un gain
             if re.search(r"(?:casting|chanting) roll was \d+\+[^.]*$", full[max(0, m.start() - 160) : m.start()]):
                 continue  # bonus sur un jet élevé (« If the chanting roll was 8+, in addition … ») : pas acquis
             if kind == "no_weapon_abilities" and re.search(

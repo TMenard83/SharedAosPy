@@ -213,6 +213,21 @@ def default_output_path(
     return out_dir / stem / f"{stem} ({mode_spec(mode).file_label}).pdf"
 
 
+def compact_renown(parsed, wh):
+    """Export compact « Faction | X » : X arrive dans `allegiance` (place de la formation). Si X est une Armée
+    de Renom et qu'aucune formation de base ne porte ce nom (Sylvaneth « Lords of the Clan » est les deux : la
+    formation l'emporte), la liste est ramenée à la forme complète « Faction | AoR », sans formation — même
+    règle que l'analyse de liste (`analysis/layers/listing.py::collect`)."""
+    if not (wh.available and parsed.allegiance) or "|" in parsed.faction:
+        return parsed
+    aor_name = parsed.allegiance.split("(", 1)[0].strip()
+    if wh.find_renown_army_rules(aor_name) and not wh.find_faction_category(
+        parsed.base_faction, "Battle Formations", parsed.allegiance
+    ):
+        return _dc_replace(parsed, faction=f"{parsed.faction} | {aor_name}", allegiance=None)
+    return parsed
+
+
 def build_roster_pdf(
     list_path: str | Path,
     out_path: str | Path | None = None,
@@ -288,6 +303,7 @@ def _build_roster_pdf(
     )
     english = spec.english
     tactic_cards = load_tactic_cards(en_path=DEFAULT_TACTIC_CARDS_EN_FILE if english else None)
+    parsed = compact_renown(parsed, wh)
     renown_prefix = parsed.faction.split("|", 1)[1].strip() if "|" in parsed.faction else None
 
     # Profils d'unité : rendus en carte maison (render/) à partir

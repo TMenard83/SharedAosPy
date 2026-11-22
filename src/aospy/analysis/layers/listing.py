@@ -91,6 +91,7 @@ class Marriage:
     def_gain_pct: Optional[float]
     weight: float
     conditions: str
+    option: str = ""  # option retenue d'une aptitude à choix exclusif (analyseur v33)
 
     @property
     def score(self) -> float:
@@ -225,10 +226,35 @@ def marriages(
             w *= t.p if t.bearer_only else 1.0
             out.append(
                 Marriage(
-                    ab.name, ab.source, unit.name, rel, eff.kind, enc.off_gain_pct, enc.def_gain_pct, round(w, 3), conds
+                    ab.name,
+                    ab.source,
+                    unit.name,
+                    rel,
+                    eff.kind,
+                    enc.off_gain_pct,
+                    enc.def_gain_pct,
+                    round(w, 3),
+                    conds,
+                    eff.option_group,
                 )
             )
-    return sorted(out, key=lambda m: -m.score)
+    return sorted(_best_options(out), key=lambda m: -m.score)
+
+
+def _best_options(rows: list[Marriage]) -> list[Marriage]:
+    """Options exclusives (« pick 1 of the following », runes) : par aptitude et receveur, seule la meilleure
+    option reste — elles ne se cumulent pas (analyseur v33)."""
+    totals: dict[tuple[str, str, str], float] = {}
+    for m in rows:
+        if m.option:
+            k = (m.ability, m.source, m.receiver)
+            totals.setdefault(k + (m.option,), 0.0)
+            totals[k + (m.option,)] += m.score
+    best: dict[tuple[str, str, str], tuple[str, float]] = {}
+    for (a, src, r, opt), sc in totals.items():
+        if (a, src, r) not in best or sc > best[(a, src, r)][1]:
+            best[(a, src, r)] = (opt, sc)
+    return [m for m in rows if not m.option or best[(m.ability, m.source, m.receiver)][0] == m.option]
 
 
 def dead_rules(abilities: list[ListAbility], units: list[Unit], vocab: frozenset[str]) -> list[tuple[ListAbility, str]]:
@@ -470,9 +496,10 @@ def _effects(con, uids: list[str]) -> dict[str, list[EffectSpec]]:
     if not uids:
         return {}
     out: dict[str, list[EffectSpec]] = {}
-    for uid, kind, stat, value, detail, side, wscope, wname, comp, tkw, tcond, req, dur, ft in con.execute(
+    for uid, kind, stat, value, detail, side, wscope, wname, comp, tkw, tcond, req, dur, ft, opt in con.execute(
         """SELECT ability_uid, kind, stat, value, detail, side, weapon_scope, weapon_name, includes_companion,
-                      target_keywords, target_condition, requires, duration, friendly_target
+                      target_keywords, target_condition, requires, duration, friendly_target,
+                      coalesce(option_group, '')
                FROM ability_effect WHERE ability_uid IN ? ORDER BY ability_uid, seq""",
         [uids],
     ).fetchall():
@@ -491,6 +518,7 @@ def _effects(con, uids: list[str]) -> dict[str, list[EffectSpec]]:
                 requires=req or "",
                 duration=dur or "",
                 friendly_target=ft or "",
+                option_group=opt,
             )
         )
     return out

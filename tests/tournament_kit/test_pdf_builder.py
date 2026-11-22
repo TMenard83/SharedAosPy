@@ -538,3 +538,27 @@ def test_split_enemy_turn_card_drops_at_the_double(tmp_path, monkeypatch):
     names = {title: {ab.name for ab in abilities} for title, abilities in cards}
     assert "Au Pas de Course" in names["Mon tour"]
     assert "Au Pas de Course" not in names["Tour adverse"]
+
+
+def test_compact_export_army_of_renown_becomes_full_form():
+    from types import SimpleNamespace
+
+    from aospy.tournament_kit.list_parser import ParsedList
+    from aospy.tournament_kit.pdf_builder import compact_renown
+
+    def parsed(faction, allegiance):
+        return ParsedList("t", faction, allegiance, None, None, None, None, [], [], [], [])
+
+    wh = SimpleNamespace(
+        available=True,
+        find_renown_army_rules=lambda n: {"Battle Traits": [1]} if n in ("Zainthar Kai", "Lords of the Clan") else None,
+        find_faction_category=lambda f, t, s: [1] if s == "Lords of the Clan" else None,
+    )
+    p = compact_renown(parsed("Daughters of Khaine", "Zainthar Kai"), wh)
+    assert (p.faction, p.allegiance, p.army_of_renown) == ("Daughters of Khaine | Zainthar Kai", None, "Zainthar Kai")
+    # formation de base homonyme : la formation l'emporte
+    p = compact_renown(parsed("Sylvaneth", "Lords of the Clan"), wh)
+    assert (p.faction, p.allegiance) == ("Sylvaneth", "Lords of the Clan")
+    # format complet : inchangé
+    p = compact_renown(parsed("Sylvaneth | Lords of the Clan", "Lords of the Clan"), wh)
+    assert p.allegiance == "Lords of the Clan"

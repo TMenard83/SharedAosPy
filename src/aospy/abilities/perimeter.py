@@ -120,6 +120,8 @@ _REQUIRES: list[tuple[str, str]] = [
     (_SUBJ + r" in combat", "au combat"),
     (_SUBJ + r" (?:wholly )?within (?:friendly|enemy) territory", "en territoire"),
     (r"(?:has|have) (?:\d+|any)(?: or more)? damage points?|while (?:it|this unit) is damaged", "porteur blessé"),
+    # v33 : « add 1 to wound rolls … while they have STRIKE-FIRST » (Rune of Fury)
+    (r"\b(?:while|if) (?:they|it|this unit) (?:has|have) STRIKE-FIRST", "frappe en premier"),
     (
         _SUBJ + r" (?:wholly )?within [^.:]*?\bof (?:a|any|another) (?:visible )?(?:damaged )?friendly",
         "près d'une unité amie",

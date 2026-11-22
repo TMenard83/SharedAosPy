@@ -1619,3 +1619,15 @@ def test_sentenced_target_and_passed_across():
     )
     assert not any(e.kind == "fly" for e in ex.effects)
     assert "a survolé la cible" in _mortals(ex)[0].requires and "doit survoler la cible" in ex.conditions
+
+
+def test_strike_first_as_a_condition_is_not_a_gain():
+    ex, _ = extract(
+        _raw(
+            "For the rest of the battle round, add 1 to wound rolls for combat attacks made by friendly FYRESLAYERS "
+            "units while they have STRIKE-FIRST.",
+            condition="Your Hero Phase",
+        )
+    )
+    assert not any(e.kind == "strike_first" for e in ex.effects)
+    assert "frappe en premier" in next(e for e in ex.effects if e.kind == "stat_mod").requires

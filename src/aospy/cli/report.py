@@ -295,7 +295,8 @@ def format_list_report(rep) -> str:
         for m in rep.marriages[:40]:
             og = "—" if m.off_gain_pct is None else f"{m.off_gain_pct:+.0f}"
             dg = "—" if m.def_gain_pct is None else f"{m.def_gain_pct:+.0f}"
-            out.append(f"| {m.ability} | {m.source} | {m.receiver} | {og} | {dg} | {m.weight:.2f} | {m.conditions} |")
+            name = f"{m.ability} ({m.option})" if m.option else m.ability
+            out.append(f"| {name} | {m.source} | {m.receiver} | {og} | {dg} | {m.weight:.2f} | {m.conditions} |")
     if rep.assault:
         a = rep.assault
         out += [

@@ -70,6 +70,8 @@ class EffectSpec:
     duration: str = ""
     #: cible amie propre à l'effet (ligne d'option, analyseur v26) ; vide = celle de l'aptitude
     friendly_target: str = ""
+    #: option d'une aptitude à choix exclusif (`ability_effect.option_group`, analyseur v33) ; '' = hors option
+    option_group: str = ""
 
     @property
     def conditions(self) -> str:

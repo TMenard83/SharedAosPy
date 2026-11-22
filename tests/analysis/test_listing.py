@@ -121,3 +121,37 @@ def test_army_of_renown_categories_replace_base_ones():
     assert "Ruination Brotherhood › Prayer Lore" in aor and "Prayer Lore › Prayers of the Stormhosts" not in aor
     assert "Spell Lore › Lore of the Storm" in aor  # catégorie que l'AoR ne porte pas : celle de base
     assert "Battle Formations › Thunderhead Host" in aor
+
+
+def test_exclusive_options_keep_the_best_one_per_receiver():
+    from aospy.analysis.layers.listing import Marriage, _best_options
+
+    rows = [
+        Marriage(
+            "Master of the Runes",
+            "Auric Runemaster",
+            "Hearthguard",
+            "allié",
+            "stat_mod",
+            10.0,
+            None,
+            1.0,
+            "",
+            "Rune of Fury",
+        ),
+        Marriage(
+            "Master of the Runes",
+            "Auric Runemaster",
+            "Hearthguard",
+            "allié",
+            "stat_mod",
+            None,
+            25.0,
+            1.0,
+            "",
+            "Rune of Fiery Determination",
+        ),
+        Marriage("Lodge Leader", "Auric Runefather", "Hearthguard", "allié", "stat_mod", 5.0, None, 1.0, ""),
+    ]
+    kept = _best_options(rows)
+    assert {m.option for m in kept} == {"Rune of Fiery Determination", ""}
