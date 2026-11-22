@@ -83,6 +83,7 @@ ABILITY_EFFECT_COLS = (
     "duration",
     "family",
     "friendly_target",
+    "option_group",
 )
 _ABILITY_TABLES = ("ability_effect", "ability_tag", "ability_owner", "ability")
 

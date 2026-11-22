@@ -57,7 +57,9 @@ _TARGET_CONDITIONS: list[tuple[str, str]] = [
     (r"(?:target|enemy unit)[^.]*?contesting an objective", "cible sur objectif"),
     (r"(?:target|enemy unit)[^.]*?in combat with (?:this|that) unit", "cible au contact du porteur"),
     (
-        r"\bquarry\b|\bmarked\b|\bHUNTED\b|\bprey\b|that target (?:that unit|that enemy unit|each target)\b",
+        # v33 : « if all of its attacks target the same SENTENCED enemy unit » (Judge, Jury and Executioner)
+        r"\bquarry\b|\bmarked\b|\bHUNTED\b|\bSENTENCED\b|\bprey\b|"
+        r"that target (?:that unit|that enemy unit|each target)\b",
         "cible désignée (proie/marquée)",
     ),
     (r"(?:target|enemy unit)[^.]*?(?:damaged|has (?:any )?damage points)", "cible blessée"),

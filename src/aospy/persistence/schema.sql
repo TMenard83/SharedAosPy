@@ -265,6 +265,9 @@ ALTER TABLE ability_effect ADD COLUMN IF NOT EXISTS duration VARCHAR;           
 ALTER TABLE ability_effect ADD COLUMN IF NOT EXISTS family VARCHAR;
 -- cible amie propre à l'effet (option d'une aptitude à choix) ; NULL = ability.friendly_target (analyseur v26)
 ALTER TABLE ability_effect ADD COLUMN IF NOT EXISTS friendly_target VARCHAR;
+-- option d'une aptitude à choix exclusif (« pick 1 of the following ») : les options ne se cumulent pas ;
+-- NULL = hors option (analyseur v33)
+ALTER TABLE ability_effect ADD COLUMN IF NOT EXISTS option_group VARCHAR;
 ALTER TABLE ability ADD COLUMN IF NOT EXISTS family VARCHAR;                     -- famille principale
 ALTER TABLE ability ADD COLUMN IF NOT EXISTS bearer_restriction VARCHAR;         -- optimisations : à qui la donner (« HERO only »…)
 -- Origine de chaque porteur (analyseur v32, abilities/source.py::origin_of) : warscroll / regiment_of_renown /

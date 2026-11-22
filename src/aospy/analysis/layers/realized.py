@@ -101,6 +101,8 @@ class OwnEffect:
     available_round: Optional[int] = None
     uses_resource: bool = False
     turn_side: str = "any"
+    #: option d'une aptitude à choix exclusif (`ability_effect.option_group`, analyseur v33) ; '' = hors option
+    option: str = ""
 
     def weight(
         self, polarity: str = "autre", share_melee: float = 1.0, start_round: int = 1, turn_side: Optional[str] = None
@@ -232,7 +234,7 @@ def own_effects(con) -> dict[tuple[str, str], list[tuple[str, str, bool, str, Ow
                   a.frequency, a.activation_prob, a.available_round,
                   FALSE, a.turn_side,
                   e.kind, e.stat, e.value, e.detail, e.side, e.weapon_scope, e.weapon_name, e.includes_companion,
-                  e.target_keywords, e.target_condition, e.requires, e.duration
+                  e.target_keywords, e.target_condition, e.requires, e.duration, coalesce(e.option_group, '')
            FROM ability_owner o JOIN ability a ON a.uid = o.ability_uid
            JOIN ability_effect e ON e.ability_uid = a.uid
            WHERE o.owner_kind = 'warscroll' AND e.side = 'friendly'
@@ -263,6 +265,7 @@ def own_effects(con) -> dict[tuple[str, str], list[tuple[str, str, bool, str, Ow
         tcond,
         req,
         dur,
+        option,
     ) in rows:
         spec = EffectSpec(
             kind=kind,
@@ -294,6 +297,7 @@ def own_effects(con) -> dict[tuple[str, str], list[tuple[str, str, bool, str, Ow
                     available_round=avail,
                     uses_resource=bool(resource),
                     turn_side=tside or "any",
+                    option=option,
                 ),
             )
         )
@@ -311,7 +315,16 @@ def applicable(unit: Unit, entries: list, vocab: frozenset[str]) -> list[OwnEffe
 
 def strongest_alternatives(effects: list[OwnEffect]) -> list[OwnEffect]:
     """Dans une même aptitude, des effets de même nature sont des paliers ou des options
-    (« +1 Damage … +2 instead ») : on garde le plus fort, on ne les additionne pas."""
+    (« +1 Damage … +2 instead ») : on garde le plus fort, on ne les additionne pas. Options exclusives
+    (`OwnEffect.option`, analyseur v33 : runes de Master of the Runes) : une seule option par aptitude, celle
+    qui porte le plus d'effets traduisibles (la première à égalité) — approximation, pas une mesure."""
+    by_ability: dict[str, dict[str, int]] = {}
+    for e in effects:
+        if e.option:
+            opts = by_ability.setdefault(e.ability, {})
+            opts[e.option] = opts.get(e.option, 0) + 1
+    chosen = {a: max(opts, key=lambda o: opts[o]) for a, opts in by_ability.items()}
+    effects = [e for e in effects if not e.option or chosen.get(e.ability) == e.option]
     best: dict[tuple, OwnEffect] = {}
     for e in effects:
         s = e.spec
@@ -456,17 +469,29 @@ class Support:
     def_: float
 
 
+def _best_option(gains: dict[tuple, tuple[float, float]]) -> tuple[float, float]:
+    """(Δoff, Δdef) d'un receveur : effets hors option + la meilleure option exclusive (clé[0] = option, v33)."""
+    base = [g for k, g in gains.items() if not k[0]]
+    by_opt: dict[str, list[tuple[float, float]]] = {}
+    for k, g in gains.items():
+        if k[0]:
+            by_opt.setdefault(k[0], []).append(g)
+    best = max(by_opt.values(), key=lambda gs: sum(a + b for a, b in gs), default=[])
+    return sum(g[0] for g in base + best), sum(g[1] for g in base + best)
+
+
 def support_values(con, share_melee: dict[int, float]) -> dict[tuple[str, str], list[Support]]:
     """Buffs de charte donnés aux autres unités amies, par (faction, charte en minuscules).
 
-    Par aptitude : par receveur, somme des effets (paliers d'un même type : le plus fort) pondérés comme
+    Par aptitude : par receveur, somme des effets (paliers d'un même type : le plus fort ; options exclusives :
+    la meilleure) pondérés comme
     les effets propres (frise × P(déclenchement), sans les effets conditionnels) ; puis quantile
     `SUPPORT_RECEIVER_QUANTILE` des receveurs × `support_receivers`."""
     rows = con.execute(
         """SELECT o.faction_name, lower(o.owner_name), a.name, a.scope, a.range_inches, a.cost_type,
                   a.frequency, coalesce(a.activation_prob, 1.0), a.available_round, a.turn_side,
                   e.kind, e.stat, e.weapon_scope, e.weapon_name, e.duration, coalesce(x.conditions, ''),
-                  x.unit_id, x.off_after - x.off_before, x.def_after - x.def_before
+                  x.unit_id, x.off_after - x.off_before, x.def_after - x.def_before, coalesce(e.option_group, '')
            FROM ability_encounter x
            JOIN ability a ON a.uid = x.ability_uid
            JOIN ability_effect e ON e.ability_uid = x.ability_uid AND e.seq = x.seq
@@ -497,6 +522,7 @@ def support_values(con, share_melee: dict[int, float]) -> dict[tuple[str, str], 
         unit_id,
         d_off,
         d_def,
+        option,
     ) in rows:
         tokens = {c for c in conds.split(" | ") if c}
         if tokens - resource or kind == "charge_bonus":
@@ -509,7 +535,7 @@ def support_values(con, share_melee: dict[int, float]) -> dict[tuple[str, str], 
         key = (fac, owner, name)
         meta[key] = (scope, rng, _channel(cost, scope or ""))
         per = gains.setdefault(key, {}).setdefault(unit_id, {})
-        k = (kind, stat, wscope, wname)
+        k = (option, kind, stat, wscope, wname)
         cur = per.get(k, (0.0, 0.0))
         g = (max(d_off or 0.0, 0.0) * w_off, max(d_def or 0.0, 0.0) * w_def)
         if g[0] + g[1] > cur[0] + cur[1]:
@@ -521,8 +547,7 @@ def support_values(con, share_melee: dict[int, float]) -> dict[tuple[str, str], 
         n = min(support_receivers(scope or "", rng), len(by_unit))
         if n <= 0:
             continue
-        offs = [sum(g[0] for g in d.values()) for d in by_unit.values()]
-        defs = [sum(g[1] for g in d.values()) for d in by_unit.values()]
+        offs, defs = zip(*(_best_option(d) for d in by_unit.values()))
         off = n * _quantile(offs, SUPPORT_RECEIVER_QUANTILE)
         dfn = n * _quantile(defs, SUPPORT_RECEIVER_QUANTILE)
         if off > 0 or dfn > 0:

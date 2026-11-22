@@ -77,6 +77,29 @@ def _line_of(sentence: str, text: str) -> str:
     return text[start : end if end >= 0 else len(text)]
 
 
+#: Annonce d'un choix exclusif entre les lignes qui suivent (analyseur v33).
+_EXCLUSIVE = re.compile(
+    r"\b[Pp]ick (?:1|one)(?: of the following)?(?: effects?)?:|\b(?:1|one) of the following\b|"
+    r"\bthe effect below that corresponds\b|\b[Cc]hoose (?:1|one)\b"
+)
+_OPTION_LABEL = re.compile(r"^(?:([A-Z][^:\n.]{2,45}): |- )")
+
+
+def option_of(sentence: str, text: str) -> str:
+    """Option exclusive qui porte la phrase (« Rune of Fury », « - Inflict … »), '' hors choix exclusif :
+    seules comptent les lignes d'option/puce situées APRÈS l'annonce du choix."""
+    ex = _EXCLUSIVE.search(text)
+    if not ex:
+        return ""
+    line = _line_of(sentence, text)
+    if text.find(line) <= ex.start():
+        return ""
+    m = _OPTION_LABEL.match(line)
+    if not m:
+        return ""
+    return m.group(1) or line[2:42].strip()
+
+
 def effect_friendly_target(sentence: str, text: str) -> str:
     """Cible amie propre à un effet (analyseur v26) : « friendly X » de sa phrase, hors repères de position.
     Marquée « option: » quand la phrase est une ligne d'option/puce, pour que `extract` sache si elle

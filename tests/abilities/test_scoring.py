@@ -258,3 +258,13 @@ def test_v28_dice_count_weights():
     assert summed > keep  # 3D6 : 9" à 74 %
     assert _effect_weight(Effect("dice_count", "charge", -1.0, "", "enemy", "somme"))[0] == DICE_ENEMY_WEIGHTS["charge"]
     assert _effect_weight(Effect("dice_count", "charge", -1.0, "", "friendly", "somme"))[0] == 0.0  # contrepartie
+
+
+def test_exclusive_options_score_their_best_option_only():
+    rune = (
+        "Rune of Fury: Add 1 to wound rolls for combat attacks made by friendly FYRESLAYERS units.\n"
+        "Rune of Fiery Determination: Add 1 to save rolls for friendly FYRESLAYERS units."
+    )
+    both = analyze_one(_raw(rune.replace("\n", " "), condition="Your Hero Phase"))
+    one = analyze_one(_raw("Pick 1 of the following effects:\n" + rune, condition="Your Hero Phase"))
+    assert one.score.power < both.score.power

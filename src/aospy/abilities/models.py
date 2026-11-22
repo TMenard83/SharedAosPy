@@ -118,6 +118,14 @@ class Effect:
     # restriction de cible amie lue dans la phrase de l'effet (aptitude à options : chaque option vise ses
     # propres unités) ; '' = celle de l'aptitude (`Extraction.friendly_target`) s'applique (analyseur v26)
     friendly_target: str = ""
+    #: option d'une aptitude à choix exclusif (« pick 1 of the following », « the effect below that
+    #: corresponds to… ») : les effets d'options différentes ne se cumulent pas ; '' = hors option (v33)
+    option_group: str = ""
+
+
+#: `Effect.friendly_target` provisoire « le porteur lui-même » (« … and this unit has WARD (4+) » dans une
+#: aptitude qui vise une autre unité amie) ; `extract` le remplace par le nom de la charte porteuse (v33).
+BEARER_TARGET = "@porteur"
 
 
 @dataclass

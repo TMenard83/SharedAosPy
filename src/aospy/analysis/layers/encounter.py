@@ -402,7 +402,8 @@ def matches_friendly_target(unit: Unit, phrase: str, vocab: frozenset[str]) -> b
 
     Alternatives séparées par « or » ; « non-X » exclut ; MAJUSCULES = mots-clés exigés (tous) ;
     Casse De Titre = nom de charte. Un mot-clé absent de toute charte (ex. « PLEDGED TO KHORNE »,
-    gagné en jeu) ne restreint rien : on ne sait pas qui le portera. `'*'` (analyseur v27, cible d'un effet
+    gagné en jeu) ne restreint rien : on ne sait pas qui le portera — sauf un possessif (« DROGGZ'S GITMOB »,
+    mot-clé de régiment de renom) : aucune unité de l'armée ne correspond. `'*'` (analyseur v27, cible d'un effet
     écrite « friendly units » sans mot-clé) = toute unité amie.
     """
     if not phrase or phrase.strip() == "*":
@@ -438,7 +439,11 @@ def matches_friendly_target(unit: Unit, phrase: str, vocab: frozenset[str]) -> b
             else:
                 title.append(t)
             k += 1
-        kws, _unknown = parse_keywords(req, vocab)
+        kws, unknown = parse_keywords(req, vocab)
+        # Mot-clé de régiment de renom (« ZOGGROK'S IRONMONGERZ ») : porté par les seules unités du régiment,
+        # qu'aucune charte de l'armée ne porte — ne pas l'étendre à toute l'armée.
+        if any(re.search(r"['’]S$", t) for t in unknown):
+            continue
         if any(e in unit.keywords for e in excl):
             continue
         if not all(kw in unit.keywords for kw in kws):

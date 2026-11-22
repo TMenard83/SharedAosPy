@@ -121,6 +121,8 @@ def test_friendly_target_resolution():
     assert matches_friendly_target(knights, "Chaos Knights", VOCAB)
     assert matches_friendly_target(knights, "INFANTRY or CAVALRY", VOCAB)
     assert matches_friendly_target(knights, "PLEDGED TO SOMEONE", VOCAB)  # mot-clé acquis en jeu : ne filtre pas
+    # mot-clé de régiment de renom : aucune charte de l'armée ne le porte, il ne s'étend pas à toute l'armée
+    assert not matches_friendly_target(knights, "DROGGZ'S GITMOB", VOCAB)
     got = receivers("warscroll", "one_friendly", "warscroll", "Chaos Lord", [warriors, lord, knights], phrase, VOCAB)
     assert [u.name for u, _ in got] == ["Chaos Warriors"]
     self_only = receivers("warscroll", "self", "warscroll", "Chaos Lord", [warriors, lord, knights])

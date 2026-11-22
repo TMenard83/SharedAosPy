@@ -7,7 +7,9 @@ import re
 _MORTAL_RE = re.compile(
     r"[Ii]nflict (\d+|\d?D[36](?:\+[\dX])?|an amount of|a number of|that many|X)?\s*(?:mortal )?damage\b(?! point)"
 )
-_MORTAL_PER_ROLL = re.compile(r"[Ff]or each (?:\d\+|roll[^,]*|dice[^,]*),[^.]*?inflict (\d+) mortal damage")
+_MORTAL_PER_ROLL = re.compile(
+    r"[Ff]or each (?:\d\+|roll[^,]*|dice[^,]*),[^.]*?(?:inflict|allocate) (\d+) mortal damage"
+)
 _WARD_RE = re.compile(r"WARD \((\d)\+\)", re.I)
 _HEAL_RE = re.compile(r"\b[Hh]eal \(?(\d+|\d?D[36](?:\+\d)?|X)\)?")
 _RETURN_RE = re.compile(
@@ -276,7 +278,7 @@ QUALITATIVE_RULES: list[tuple[str, str, str]] = [
         "",
     ),
     (
-        r"\bFLY\b|can pass through (?:enemy )?(?:models|the combat ranges)|can move through (?:the combat ranges|models|terrain)",
+        r"(?<!not have )(?<!not )(?<!non-)(?<!without )\bFLY\b|can pass through (?:enemy )?(?:models|the combat ranges)|can move through (?:the combat ranges|models|terrain)",
         "fly",
         "",
     ),

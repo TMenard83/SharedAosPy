@@ -21,8 +21,9 @@ ce module garde `extract()` et réexporte l'API publique.
 from __future__ import annotations
 
 import dataclasses
+import re
 
-from ..models import Extraction, RawAbility
+from ..models import BEARER_TARGET, Extraction, RawAbility
 from ..perimeter import charge_subjects
 from .activation import OPPOSED_TEST_PROB, OPPOSED_TEST_PROBS, activation_of, p_prayer_banked  # noqa: F401
 from .conditions import CHARGE_ENEMY, CHARGE_OURS, CONDITION_RULES, conditions_of, split_main_secondary  # noqa: F401
@@ -77,12 +78,29 @@ def extract(raw: RawAbility) -> tuple[Extraction, float]:
             friendly_target=(
                 e.friendly_target[7:]
                 if e.friendly_target.startswith("option:")
+                else e.friendly_target
+                if e.friendly_target == BEARER_TARGET
                 else ("" if ability_ft else e.friendly_target)
             ),
         )
         for e in effects
     ]
     effects = [e if e.friendly_target != ability_ft else dataclasses.replace(e, friendly_target="") for e in effects]
+    # v33 : effet réservé au porteur → nom(s) de sa charte, que la couche 3 résout comme un nom de charte ;
+    # porté par une règle de faction (pas de nom de charte), on retombe sur la cible de l'aptitude
+    bearer_names = " or ".join(dict.fromkeys(o.owner_name for o in raw.owners if o.owner_kind == "warscroll"))
+    effects = [
+        e if e.friendly_target != BEARER_TARGET else dataclasses.replace(e, friendly_target=bearer_names or "")
+        for e in effects
+    ]
+    # v33 : cible ennemie à survoler (« an enemy unit that this unit passed across this phase », Bomb Racks)
+    if re.search(r"\bpassed across\b", raw.declare):
+        effects = [
+            e
+            if e.side != "enemy" or "a survolé la cible" in (e.requires or "")
+            else dataclasses.replace(e, requires=" | ".join(filter(None, [e.requires, "a survolé la cible"])))
+            for e in effects
+        ]
     ex = Extraction(
         frequency=frequency_of(raw.condition),
         turn=turn_of(raw.condition, raw.phase),

@@ -119,6 +119,10 @@ def cmd_ability_show(args: argparse.Namespace) -> int:
                     e["target_condition"] or "",
                     f"si : {e['requires']}" if e["requires"] else "",
                     f"durée : {e['duration']}" if e["duration"] else "",
+                    f"moy. {e['value']:g}" if e["dice"] and e["value"] else "",
+                    e.get("detail") or "" if e["kind"] == "mortal_damage" else "",
+                    f"pour : {e['friendly_target']}" if e.get("friendly_target") else "",
+                    f"option : {e['option_group']}" if e.get("option_group") else "",
                 )
                 if b
             ]

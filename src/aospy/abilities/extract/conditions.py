@@ -37,6 +37,8 @@ CONDITION_RULES: list[tuple[str, str, float]] = [
         0.5,
     ),
     (r"\b(\d+) or more models\b", "effectif minimal", 0.5),
+    # v33 : la cible doit avoir été survolée pendant le mouvement (Bomb Racks) : FLY + trajectoire au-dessus
+    (r"\bpassed across (?:this|that) (?:phase|turn)\b", "doit survoler la cible", 0.5),
     (r"\bnot in combat\b", "hors combat", 0.25),
     (
         r"ha(?:s|ve) not (?:used|moved|shot|charged)|did not (?:use|move|run|retreat|charge)|"

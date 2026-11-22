@@ -210,6 +210,8 @@ def _effect_weight(e: Effect) -> tuple[float, str]:
     if e.kind == "mortal_damage":
         if e.side == "friendly":
             return 0.0, ""
+        if e.detail == "par dé":  # v33 : nombre de dés selon la cible/le contexte, `value` = par dé
+            return 1.5, f"BM par dé ({e.value:.2g} par dé)"
         if e.value:
             return min(3.0, 0.5 * e.value + 0.3), f"{e.dice or int(e.value)} BM (moy. {e.value:g})"
         return 1.5, "BM variables"
@@ -261,8 +263,19 @@ def _effect_weight(e: Effect) -> tuple[float, str]:
 
 
 def power_of(ex: Extraction, effect_text: str) -> tuple[float, list[str]]:
+    """Puissance ; une aptitude à options exclusives (« pick 1 of the following », runes de Master of the
+    Runes, analyseur v33 : `Effect.option_group`) vaut sa meilleure option, pas leur somme."""
+    groups = list(dict.fromkeys(e.option_group for e in ex.effects if e.option_group))
+    if len(groups) < 2:
+        return _power(ex, ex.effects, effect_text)
+    variants = [_power(ex, [e for e in ex.effects if e.option_group in ("", g)], effect_text) for g in groups]
+    value, notes = max(variants, key=lambda v: v[0])
+    return value, notes + [f"options exclusives : la meilleure des {len(groups)}"]
+
+
+def _power(ex: Extraction, effects: list[Effect], effect_text: str) -> tuple[float, list[str]]:
     best: dict[str, tuple[float, str]] = {}  # un même type d'effet ne compte qu'une fois (le meilleur)
-    for e in ex.effects:
+    for e in effects:
         w = _effect_weight(e)
         key = f"{e.kind}:{e.stat}:{e.side}"
         if w[0] > best.get(key, (0.0, ""))[0]:
@@ -272,7 +285,7 @@ def power_of(ex: Extraction, effect_text: str) -> tuple[float, list[str]]:
         return 0.0, ["aucun effet chiffrable"]
     offense_debuffs = sum(
         1
-        for e in ex.effects
+        for e in effects
         if e.side == "enemy" and (e.kind in _OFFENSE_DEBUFF_KINDS or (e.kind == "stat_mod" and e.detail == "defensif"))
     )
     factor = OFFENSE_STACK_FACTOR if offense_debuffs >= 2 and ex.scope == "one_enemy" else STACK_FACTOR
@@ -285,7 +298,7 @@ def power_of(ex: Extraction, effect_text: str) -> tuple[float, list[str]]:
     freq = 1.0 if once_lasting else _FREQ_MULT.get(ex.frequency, 1.0)
     mult = _SCOPE_MULT.get(ex.scope, 1.0) * freq
     notes = [f"effets : {', '.join(lbl for _, lbl in weights[:4] if lbl)}"]
-    if any(e.detail == "marquage" for e in ex.effects):
+    if any(e.detail == "marquage" for e in effects):
         mult *= MARK_MULT
         notes.append("marquage : profite à toute unité amie qui attaque la cible")
     if ex.turn == "any" and ex.frequency not in ("passive", "once_per_battle", "once_per_battle_army"):

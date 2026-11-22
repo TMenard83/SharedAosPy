@@ -5,13 +5,14 @@ from __future__ import annotations
 import dataclasses
 import re
 
-from ..models import Effect, Scope
+from ..models import BEARER_TARGET, Effect, Scope
 from ..perimeter import perimeter_of, sentence_at
+from .activation import _BINOMIAL, _GATE_D6
 from .dice import dice_mean
 from .qualitative import _HEAL_RE, _MORTAL_PER_ROLL, _MORTAL_RE, _MOVE_RE, _RETURN_RE, _WARD_RE, QUALITATIVE_RULES
 from .rolls import _MAKE_MOVE_RE, dice_count_of, rerolls_of
 from .stat_mods import _LOCAL_ENEMY, _LOCAL_FRIENDLY, _stat_mods
-from .targets import effect_friendly_target
+from .targets import effect_friendly_target, option_of
 
 _OFFENSIVE_STATS = ("hit", "wound", "attacks", "rend", "damage")
 #: effets qualitatifs qui portent sur des attaques (périmètre d'armes pertinent)
@@ -27,8 +28,62 @@ def _annotate(
     )
     ft = effect_friendly_target(sentence, text) if e.side == "friendly" else ""
     return dataclasses.replace(
-        e, friendly_target=ft, **perimeter_of(sentence, text, passive, offensive, e.kind, enemy_target, condition)
+        e,
+        friendly_target=e.friendly_target or ft,
+        option_group=option_of(sentence, text),
+        **perimeter_of(sentence, text, passive, offensive, e.kind, enemy_target, condition),
     )
+
+
+#: « Roll 8 dice » / « Roll either 5 dice or … » : nombre de dés fixe d'un effet « for each N+ » (v33).
+_FIXED_DICE = re.compile(r"\b[Rr]oll (?:either )?(\d+) dice\b(?! for each)")
+#: Nombre de dés qui dépend du contexte (figurines de la cible, PV, ressource…).
+_VARIABLE_DICE = re.compile(
+    r"\b[Rr]oll (?:a number of dice|a dice for each|\d+ dice for each|a D6 for each)|\bmake a number of\b|"
+    r"\broll of D6 for each\b",
+    re.I,
+)
+
+
+def per_roll_mortals(effect: str, m: re.Match) -> tuple[float, str]:
+    """(espérance, détail) d'un « For each N+, inflict K mortal damage » (analyseur v33).
+
+    Nombre de dés fixe → espérance N × P(N+) × K ; nombre de dés selon le contexte → P(N+) × K par dé,
+    détail « par dé » (la couche 3 relit le texte contre une cible type, `analysis/layers/mortals.py`)."""
+    k = int(m.group(1))
+    t = re.search(r"(\d)\+", m.group(0))
+    p = (7 - int(t.group(1))) / 6 if t else 0.5
+    before = effect[max(0, m.start() - 220) : m.start()]
+    either = re.search(r"\b[Rr]oll either (\d+) dice\b", before)
+    fixed = list(_FIXED_DICE.finditer(before))
+    variable = list(_VARIABLE_DICE.finditer(before))
+    if either:
+        return round(int(either.group(1)) * p * k, 3), ""
+    if fixed and (not variable or fixed[-1].start() > variable[-1].start()):
+        return round(int(fixed[-1].group(1)) * p * k, 3), ""
+    return round(p * k, 3), "par dé"
+
+
+def equal_to_roll_mortals(effect: str, pos: int) -> tuple[float | None, str]:
+    """(espérance, dé) d'un « inflict an amount of mortal damage equal to the roll » (analyseur v33).
+
+    Le dé lancé (D3 ou D6) et son seuil (« On a 2+ ») sont lus juste avant. Un seuil de D6 déjà compté
+    comme jet de déclenchement (`activation_of`) donne la moyenne sachant le seuil passé ; sinon
+    l'espérance inclut le seuil (D3 sur 2+ : (2 + 3) / 3)."""
+    if not re.match(r"[^.]{0,60}?\bequal to the (?:D3 |D6 |dice )?roll\b", effect[pos : pos + 90]):
+        return None, ""
+    before = effect[max(0, pos - 220) : pos]
+    rolls = list(re.finditer(r"\b[Rr]oll (?:a |an )?(D3|D6|dice)\b", before))
+    if not rolls:
+        return None, ""
+    r = rolls[-1]
+    faces = 3 if r.group(1) == "D3" else 6
+    gate = re.search(r"\b[Oo]n an? (\d)\+", before[r.end() :])
+    n = int(gate.group(1)) if gate else 1
+    outcomes = list(range(n, faces + 1))
+    gated = faces == 6 and gate is not None and bool(_GATE_D6.search(effect)) and not _BINOMIAL.search(effect)
+    die = f"D{faces}" + (f" sur {n}+" if n > 1 else "")
+    return round(sum(outcomes) / (len(outcomes) if gated else faces), 3), die
 
 
 #: Sujet de la proposition qui subit une restriction (v29) : « Enemy MONSTERS cannot… » = ennemi, « They cannot use
@@ -91,25 +146,38 @@ def effects_of(
         )
 
     seen_mortal = False
+    per_roll_spans: list[tuple[int, int]] = []
     for m in _MORTAL_PER_ROLL.finditer(effect):
-        add(Effect("mortal_damage", "", 0.0, "par jet", "enemy", "binomial"), effect, m.start())
+        mean, det = per_roll_mortals(effect, m)
+        add(Effect("mortal_damage", "", mean, "", "enemy", det), effect, m.start())
+        per_roll_spans.append((m.start(), m.end()))
         seen_mortal = True
+    friendly_declared = scope in ("one_friendly", "friendly_aura", "army")
     for m in _MORTAL_RE.finditer(effect):
+        if any(a <= m.start() < b for a, b in per_roll_spans):
+            continue  # v33 : déjà compté par « For each N+ » (doublon à 1 avant)
         expr = m.group(1) or ""
         if seen_mortal and not expr[:1].isdigit() and "D" not in expr:
             continue
         mean = dice_mean(expr.replace("+X", "+1")) if expr else None  # « D3+X » : X = 1 (v27)
-        target_us = bool(
-            re.search(r"mortal damage on (?:this unit|it|that friendly)", effect[m.start() : m.end() + 40])
+        rolled, die = equal_to_roll_mortals(effect, m.end()) if mean is None else (None, "")
+        after = effect[m.start() : m.end() + 40]
+        # v33 : « On a 1, inflict D3 mortal damage on the target » quand la cible déclarée est amie (Foul
+        # Elixirs) : contrepartie, sauf re-désignation d'une cible ennemie entre-temps
+        target_us = bool(re.search(r"mortal damage on (?:this unit|it|that friendly)", after)) or (
+            friendly_declared
+            and bool(re.search(r"mortal damage on (?:the|each) target\b", after))
+            and not re.search(r"\b[Pp]ick\b[^.]*\benemy\b", effect[: m.start()])
         )
+        value = mean if mean is not None else rolled
         add(
             Effect(
                 "mortal_damage",
                 "",
-                mean or 0.0,
-                expr if "D" in expr else "",
+                value or 0.0,
+                expr if "D" in expr else die,
                 "friendly" if target_us else "enemy",
-                "auto-infligé" if target_us else ("variable" if mean is None else ""),
+                "auto-infligé" if target_us else ("variable" if value is None else ""),
             ),
             effect,
             m.start(),
@@ -154,7 +222,24 @@ def effects_of(
             if re.search(r"target[^.]*enemy|enemy units have", effect) and default_side == "enemy"
             else "friendly"
         )
-        add(Effect("ward", "", int(m.group(1)), "", side, "fragile" if fragile else ""), effect, m.start())
+        # v33 : « … and this unit has WARD (4+) » dans une aptitude qui vise une autre unité amie (Royal
+        # Retinue) : « this unit » est le porteur (terminologie GW), pas la cible désignée
+        bearer = friendly_declared and bool(
+            re.search(r"\bthis (?:unit|model) (?:has|have|gains?) $", effect[max(0, m.start() - 30) : m.start()])
+        )
+        add(
+            Effect(
+                "ward",
+                "",
+                int(m.group(1)),
+                "",
+                side,
+                "fragile" if fragile else "",
+                friendly_target=BEARER_TARGET if bearer and side == "friendly" else "",
+            ),
+            effect,
+            m.start(),
+        )
     for m in _HEAL_RE.finditer(effect):
         mean = dice_mean(m.group(1))
         add(Effect("heal", "", mean or 0.0, m.group(1) if "D" in m.group(1) else "", "friendly"), effect, m.start())

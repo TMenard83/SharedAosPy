@@ -1523,3 +1523,99 @@ def test_v31_strip_enhancement():
         declare="Pick an enemy HERO in combat with this unit to be the target.",
     )["strip_enhancement"]
     assert e.side == "enemy"
+
+
+# ----- analyseur v33 : défauts relevés par la couche 3 -----
+
+
+def _mortals(ex):
+    return [e for e in ex.effects if e.kind == "mortal_damage"]
+
+
+def test_per_roll_mortals_fixed_count_is_an_expectation():
+    ex, _ = extract(
+        _raw("Roll 10 dice. For each 4+, inflict 1 mortal damage on the target.", condition="Your Hero Phase")
+    )
+    (e,) = _mortals(ex)  # plus de doublon à 1
+    assert e.side == "enemy" and e.value == pytest.approx(5.0) and e.detail == ""
+
+
+def test_per_roll_mortals_variable_count_is_per_die():
+    ex, _ = extract(
+        _raw("Roll a dice for each model in the target unit. For each 5+, inflict 1 mortal damage on the target.")
+    )
+    (e,) = _mortals(ex)
+    assert e.detail == "par dé" and e.value == pytest.approx(1 / 3, abs=1e-3)
+
+
+def test_mortals_equal_to_the_roll():
+    ex, _ = extract(_raw("Roll a D3. On a 2+, inflict an amount of mortal damage on the target equal to the roll."))
+    (e,) = _mortals(ex)
+    assert e.value == pytest.approx(5 / 3, abs=1e-3)
+    # seuil de D6 déjà compté en déclenchement : moyenne sachant le seuil passé
+    ex, _ = extract(_raw("Roll a dice. On a 2+, inflict an amount of mortal damage on the target equal to the roll."))
+    assert ex.activation_prob == pytest.approx(5 / 6, abs=1e-3)
+    assert _mortals(ex)[0].value == pytest.approx(4.0)
+
+
+def test_mortals_on_a_friendly_target_are_a_drawback():
+    ex, _ = extract(
+        _raw(
+            "Roll a dice. On a 2+, add 1 to save rolls for the target for the rest of the turn. "
+            "On a 1, inflict D3 mortal damage on the target.",
+            declare='Pick a friendly KRULEBOYZ INFANTRY unit wholly within 12" of this unit to be the target.',
+            condition="Your Hero Phase",
+        )
+    )
+    (e,) = _mortals(ex)
+    assert e.side == "friendly"
+
+
+def test_ward_of_this_unit_goes_to_the_bearer():
+    raw = _raw(
+        'For the rest of the battle, while the royal retinue is wholly within 6" of this unit, add 1 to hit rolls '
+        "for attacks made by the royal retinue and this unit has WARD (4+).",
+        declare="Pick a friendly non-HERO FYRESLAYERS INFANTRY unit within this unit's combat range to be the "
+        "royal retinue.",
+        condition="Once Per Battle (Army), Deployment Phase",
+    )
+    from aospy.abilities.models import AbilityOwner
+
+    raw = raw.__class__(**{**raw.__dict__, "owners": (AbilityOwner("f", "F", "warscroll", "Auric Runefather"),)})
+    ex, _ = extract(raw)
+    ward = next(e for e in ex.effects if e.kind == "ward")
+    hit = next(e for e in ex.effects if e.kind == "stat_mod")
+    assert ward.friendly_target == "Auric Runefather" and hit.friendly_target == ""
+
+
+def test_exclusive_options_are_grouped():
+    ex, _ = extract(
+        _raw(
+            "Apply the effect below that corresponds to the rune used:\n"
+            "Rune of Fury: Add 1 to wound rolls for combat attacks made by friendly FYRESLAYERS units.\n"
+            "Rune of Fiery Determination: Add 1 to save rolls for friendly FYRESLAYERS units.",
+            condition="Your Hero Phase",
+        )
+    )
+    groups = {e.stat: e.option_group for e in ex.effects if e.kind == "stat_mod"}
+    assert groups == {"wound": "Rune of Fury", "save": "Rune of Fiery Determination"}
+
+
+def test_sentenced_target_and_passed_across():
+    ex, _ = extract(
+        _raw(
+            "Each time a friendly NIGHTHAUNT INFANTRY unit uses a FIGHT ability, if all of its attacks target the "
+            "same SENTENCED enemy unit, that friendly unit's melee weapons have Crit (Mortal) for that FIGHT ability."
+        )
+    )
+    assert "cible désignée" in next(e for e in ex.effects if e.kind == "crit").target_condition
+    ex, _ = extract(
+        _raw(
+            "Roll 4 dice. For each 4+, inflict 1 mortal damage on the target.",
+            declare="Pick an enemy unit that does not have FLY and that this unit passed across this phase to be the "
+            "target.",
+            condition="Your Movement Phase",
+        )
+    )
+    assert not any(e.kind == "fly" for e in ex.effects)
+    assert "a survolé la cible" in _mortals(ex)[0].requires and "doit survoler la cible" in ex.conditions
