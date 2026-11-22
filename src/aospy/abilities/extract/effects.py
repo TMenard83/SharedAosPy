@@ -203,14 +203,21 @@ def effects_of(
     ):
         expr = m.group(1)
         mean = dice_mean(expr) if expr != "a number of" else None
+        # v35 : « Allocate 3 damage points to the target » quand la cible déclarée est AMIE (Offering of Blood,
+        # Atrocious Ministrations) : un coût payé par notre unité, pas des dégâts à l'ennemi
+        ours = (
+            friendly_declared
+            and m.group(0).endswith(("the target", "each target"))
+            and not re.search(r"\b[Pp]ick\b[^.]*\benemy\b", effect[: m.start()])
+        )
         add(
             Effect(
                 "mortal_damage",
                 "",
                 mean or 0.0,
                 expr if "D" in expr else "",
-                "enemy",
-                "variable" if mean is None else "",
+                "friendly" if ours else "enemy",
+                "auto-infligé" if ours else ("variable" if mean is None else ""),
             ),
             effect,
             m.start(),
@@ -311,6 +318,14 @@ def effects_of(
             side = default_side
             if kind in ("no_ward", "slay", "no_weapon_abilities", "no_crit", "no_buff"):
                 side = "enemy"
+                if kind == "slay" and re.search(
+                    r"\bwould be automatically destroyed, it is not\b", full[max(0, m.start() - 120) : m.end() + 20]
+                ):
+                    side = "friendly"  # v35 : protection contre l'élimination (Avatar of Destruction)
+                if kind == "no_ward" and re.match(r"(?:it|this unit)\b", full[m.end() : m.end() + 12]) and re.search(
+                    r"\bthis unit has [^.]*\bbut $", full[max(0, m.start() - 80) : m.start()]
+                ):
+                    side = "friendly"  # v35 : « this unit has STRIKE-FIRST but ward rolls cannot be made for it »
             if kind in ("strike_last", "restriction", "lockout", "move_debuff", "untargetable"):
                 side = _subject_side(full, m.start(), default_side) or (
                     "enemy" if re.search(r"target|enemy", full[max(0, m.start() - 80) : m.start()]) else "friendly"

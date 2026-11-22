@@ -22,9 +22,10 @@ from __future__ import annotations
 
 import dataclasses
 import re
+from typing import Optional
 
 from ..models import BEARER_TARGET, Extraction, RawAbility
-from ..perimeter import charge_subjects, once_trigger_clause
+from ..perimeter import ON_OWN_ATTACKS, RETALIATION, SHOT_BY_BEARER, charge_subjects, once_trigger_clause
 from ..resources import resource_usage
 from .activation import OPPOSED_TEST_PROB, OPPOSED_TEST_PROBS, activation_of, p_prayer_banked  # noqa: F401
 from .conditions import CHARGE_ENEMY, CHARGE_OURS, CONDITION_RULES, conditions_of, split_main_secondary  # noqa: F401
@@ -46,6 +47,65 @@ from .timing import frequency_of, turn_of
 #: déclencheur à réussir une seule fois sur la partie (`perimeter.once_trigger_clause`).
 ONCE_TRIGGER_PENALTY_FACTOR = 0.5
 ONCE_TRIGGER_LABEL = "déclencheur unique (pénalités ÷ 2)"
+
+
+#: Les dégâts directs gardent leur lecture (realized.direct_damage exclut tout prérequis inconnu).
+_NO_SHOT_LABEL = {"mortal_damage", "slay"}
+_SHOT_TEXT = re.compile(
+    r"\bthis unit's shooting attacks?\b|\bshooting attacks? made by this unit\b|"
+    r"\bSHOOT ability (?:for|used by) this unit\b|\bthis unit (?:used|uses) a SHOOT ability\b",
+    re.I,
+)
+_SHOT_WEAPON = re.compile(r"\b(?:attacks made with|targeted by(?: all of)?) this unit's\b", re.I)
+_ENEMY_AURA = re.compile(
+    r"\benemy\b[^.:]{0,60}?\bwithin (\d+)\"\s*of this (?:unit|model)\b|"
+    r"\bdeclared an? [^.:]{0,40}?\bfor (?:a|an|any)(?: visible)?(?: enemy)?(?: [A-Z]+)? (?:unit|units|HERO|MONSTER)\s+"
+    r"within (\d+)\"\s*of this unit\b|"
+    # cible amie OU ennemie (« Pick a visible unit within 12" of the caster », Aethershock)
+    r"\b[Pp]ick (?:a|any|up to \d+)(?: visible)? units? within (\d+)\"\s*of (?:this unit|the caster|the chanter)\b",
+)
+
+
+_RETALIATION_TEXT = re.compile(
+    r"\bcombat attacks? that targets? this unit\b|\bmodel in this unit is slain by a combat attack\b|"
+    r"\binflicted by a combat attack is allocated to this unit\b|\bward roll for this unit for a damage point "
+    r"inflicted by a combat attack\b",
+    re.I,
+)
+_OWN_ATTACKS_TEXT = re.compile(
+    r"\beach time (?:an attack made (?:by|with) this unit\b|this unit attacks with its\b)[^.]*?"
+    r"\bscores? a (?:hit|critical hit|wound)",
+    re.I,
+)
+#: Condition en tête de l'effet, qui vaut pour toute la suite (« If this unit charged this turn, roll a dice.
+#: On a 3+, this unit can move 2D6"… Inflict D3 mortal damage », Destructive Bulk).
+_HEAD_CHARGED = re.compile(r"^\s*If this unit (?:has )?charged this (?:turn|phase)\b", re.I)
+_HEAD_IN_COMBAT = re.compile(r"^\s*If this unit is in combat\b", re.I)
+
+
+def _add_requires(e, labels: list[str]):
+    new = [lab for lab in labels if lab not in (e.requires or "").split(" | ")]
+    return dataclasses.replace(e, requires=" | ".join(filter(None, [e.requires, *new]))) if new else e
+
+
+def declare_requires(declare: str, who: set[str]) -> list[str]:
+    """Prérequis de charge écrits dans l'Annonce, qui valent pour la cible ennemie choisie (v35)."""
+    out = (["a chargé"] if "nous" in who else []) + (["charge ennemie"] if "ennemi" in who else [])
+    if re.search(r"\b(?:has|have|had|did) not charged?\b", declare, re.I):
+        out.append("sans charge")
+    return out
+
+
+def shot_by_bearer(condition: str, text: str) -> bool:
+    """Effet déclenché par les tirs du porteur (v35) : formule « this unit's shooting attacks », ou phase de
+    tir et « attacks made with / targeted by this unit's <arme> » (Star-venom, Starstone Bolas)."""
+    return bool(_SHOT_TEXT.search(text) or ("shooting phase" in condition.lower() and _SHOT_WEAPON.search(text)))
+
+
+def enemy_aura_range(text: str) -> Optional[int]:
+    """Rayon d'une aura ennemie écrite autour du porteur (« enemy units within 9" of this unit »), sinon None."""
+    m = _ENEMY_AURA.search(text)
+    return int(next(g for g in m.groups() if g)) if m else None
 
 
 def extract(raw: RawAbility) -> tuple[Extraction, float]:
@@ -75,13 +135,54 @@ def extract(raw: RawAbility) -> tuple[Extraction, float]:
     )
     # condition de charge portée par l'Annonce (« Pick up to 3 friendly Verminus units that charged this
     # turn ») : elle vaut pour tous les effets amis, pas seulement pour la phrase qui les porte (v23)
-    if "nous" in charge_subjects(raw.declare, enemy_target):
+    who = charge_subjects(raw.declare, enemy_target)
+    if "nous" in who:
         effects = [
             e
             if e.side != "friendly" or "a chargé" in (e.requires or "")
             else dataclasses.replace(e, requires=" | ".join(filter(None, ["a chargé", e.requires])))
             for e in effects
         ]
+    # v35 : idem pour les effets ENNEMIS (« If this unit charged this turn, pick an enemy unit in combat with
+    # it… », Chilling Onslaught ; « Pick an enemy unit that charged this turn… », Dance of Death ; « If this
+    # unit did not charge this turn, pick… », Deafening Drone) — la condition de l'Annonce vaut pour la cible
+    effects = [
+        e if e.side != "enemy" else _add_requires(e, declare_requires(raw.declare, who)) for e in effects
+    ]
+    # v35 : débuff déclenché par les tirs du porteur (Hurricane Winds, Deathly Barrage…) : la couche 3 lit
+    # l'exposition sur la portée de ses armes de tir, pas « au contact » faute de portée écrite
+    if shot_by_bearer(raw.condition, f"{raw.declare} {raw.effect}"):
+        effects = [
+            _add_requires(e, [SHOT_BY_BEARER]) if e.side == "enemy" and e.kind not in _NO_SHOT_LABEL else e
+            for e in effects
+        ]
+    # v35 : riposte (BM à l'attaquant quand le porteur est frappé au combat) / BM sur ses propres attaques
+    mortal_label = (
+        RETALIATION
+        if _RETALIATION_TEXT.search(raw.effect)
+        else ON_OWN_ATTACKS
+        if _OWN_ATTACKS_TEXT.search(raw.effect)
+        else ""
+    )
+    if mortal_label:
+        effects = [
+            _add_requires(e, [mortal_label]) if e.kind == "mortal_damage" and e.side == "enemy" else e for e in effects
+        ]
+    # v35 : condition en tête de l'effet (« If this unit charged this turn, … ») : elle vaut pour tous ses effets
+    head = (
+        ["a chargé"]
+        if _HEAD_CHARGED.search(raw.effect)
+        else ["au combat"]
+        if _HEAD_IN_COMBAT.search(raw.effect)
+        else []
+    )
+    if head:
+        # (un déclencheur unique v34 — Oath of the Marauder — porte déjà sa charge : ne pas la recompter)
+        effects = [e if "déclencheur unique" in (e.requires or "") else _add_requires(e, head) for e in effects]
+    if scope in ("self", "unknown") and rng is None:
+        # v35 : aura ennemie sans portée lue (« Subtract 1 from charge rolls for enemy units within 9" of this
+        # unit », réaction « for a unit within 12" of this unit ») : la portée sert l'exposition (couche 3)
+        rng = enemy_aura_range(f"{raw.condition} {raw.declare} {raw.effect}")
     # cible amie par effet (v26) : une ligne d'option l'emporte ; ailleurs, seulement si l'aptitude n'en a pas
     ability_ft = friendly_target_of(raw.declare, raw.effect)
     effects = [

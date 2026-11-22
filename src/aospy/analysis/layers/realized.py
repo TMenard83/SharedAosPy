@@ -56,6 +56,8 @@ from .timeline import coverage as timeline_coverage
 
 #: prérequis « combat enchaîné » (`abilities.perimeter`) : compté à `CHAINED_FIGHT_SHARE`, pas écarté
 CHAINED = "combat enchaîné"
+#: Prérequis « au combat » (couche 1, `abilities.perimeter`).
+IN_COMBAT = "au combat"
 
 #: Poids des rounds 1 à 5 (somme 3) = rythme par défaut de la frise (`timeline.DEFAULT_RHYTHM`).
 ROUND_WEIGHTS = DEFAULT_RHYTHM
@@ -595,6 +597,9 @@ def direct_damage(con) -> dict[tuple[str, str], list[tuple]]:
         if "doit avoir chargé" in setup or CHARGED_RE.match(" ".join((text or "").split())):
             tokens.add("a chargé")
         tokens |= {c for c in setup if c in _INTERACTION_CONDITIONS}
+        # « au combat » (Carve a Path…) : contrainte de jeu que l'unité remplit elle-même en mêlée, comme ses
+        # armes de mêlée — sans condition (hypothèse à challenger)
+        tokens.discard(IN_COMBAT)
         out.setdefault((fac, owner), []).append(
             (
                 name,

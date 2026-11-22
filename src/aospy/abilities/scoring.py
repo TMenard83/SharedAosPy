@@ -278,6 +278,8 @@ def _effect_weight(e: Effect) -> tuple[float, str]:
             return 2.0, "inciblable"
         if e.side == "friendly" and e.kind != "untargetable":
             return 0.0, ""  # contrepartie sur sa propre unité
+    if e.kind == "no_ward" and e.side == "friendly":
+        return 0.0, ""  # v35 : contrepartie sur sa propre unité (Elite Guardians)
     w = EFFECT_WEIGHTS.get(e.kind, 0.5)
     return w, e.kind.replace("_", " ")
 

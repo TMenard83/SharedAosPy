@@ -66,3 +66,25 @@ def test_main_family_ignores_autre_and_breaks_ties_by_priority():
     assert main_family(["autre"]) == "autre"
     assert main_family(["soin", "debuff"]) == "debuff"
     assert set(FAMILIES) >= {"buff-donne", "debuff", "mobilite"}
+
+
+def test_v35_enemy_bonus_is_a_counterpart_not_a_debuff():
+    """Dark Temptations : « Add 1 to hit rolls for attacks made by that enemy unit that target this unit »."""
+    fams = _families(
+        "Add 1 to hit rolls for attacks made by that enemy unit that target this unit.",
+        declare="Pick an enemy unit in combat with this unit to be the target.",
+        condition="Any Combat Phase",
+    )
+    assert "debuff" not in fams and "autre" in fams
+
+
+def test_v35_weapon_abilities_negated_against_a_friendly_unit_is_a_given_protection():
+    """Miasma of Pestilence : les aptitudes d'arme des attaques qui ciblent cette unité AMIE n'ont pas d'effet."""
+    fams = _families(
+        "Until the start of your next turn, other than the Companion weapon ability, weapon abilities for attacks "
+        "that target that friendly unit have no effect.",
+        declare='Pick a visible friendly unit within 12" of this unit to be the target, '
+        "then make a casting roll of 2D6.",
+        condition="Your Hero Phase",
+    )
+    assert fams == ["buff-donne"]

@@ -25,6 +25,10 @@ D × S × F × A × R, `bearing` = D × S seul :
 * **R — rôle** (borné 0,5-1,5) : rang offensif pour un buff offensif, rang défensif et contact pour un buff
   défensif, « le porteur suit ses receveurs » (allonge) pour un buff donné.
 
+Débuffs (2026-11-22, réponses utilisateur) : D × P(au combat) au contact, F règle des buffs selon la
+polarité du débuff, R selon qui en profite (rang défensif / offensif au contact, neutre à distance), A neutre.
+Dégâts directs (2026-11-22, réponses utilisateur) : D × P(au combat) au contact, survol par l'allonge, riposte au
+contact avec R = 0,5 + rang défensif, BM sur ses attaques jugées comme un buff offensif perso ; F et A neutres.
 Les autres familles restent neutres (A = R = F = 1) : critères proposés dans analysis/README.md.
 
 **Toutes les constantes ci-dessous sont des hypothèses de travail à challenger** (règle utilisateur :
@@ -36,7 +40,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Optional
 
-from ...abilities.perimeter import CHARGE_EITHER, ONCE_TRIGGER
+from ...abilities.perimeter import CHARGE_EITHER, ON_OWN_ATTACKS, ONCE_TRIGGER, RETALIATION, SHOT_BY_BEARER
 from ...domain.models import Unit
 
 #: Géométrie de la table PAR SAISON (remarque utilisateur, 2026-11-20 : « ça dépend des saisons » — plans de
@@ -66,6 +70,7 @@ CHARGE_MEAN = 7.0
 
 #: Conditions tenues par le porteur → probabilité estimée d'après le châssis. Les autres libellés
 #: (`perimeter._REQUIRES` / `_TARGET_CONDITIONS`) ne dépendent pas de lui.
+OVERFLY = "a survolé la cible"
 BEARER_CONDITIONS = (
     "a chargé",
     "en territoire",
@@ -77,7 +82,16 @@ BEARER_CONDITIONS = (
     # v34 (Brutal Troof) : notre charge OU une charge ennemie = le combat d'un tour de charge, quel que
     # soit le camp ; ne dépend pas de la réussite d'une charge du porteur.
     CHARGE_EITHER,
+    # v35 : débuff posé par les tirs du porteur — il tire (p = 1), l'exposition suit sa portée de tir
+    SHOT_BY_BEARER,
+    # v35 (dégâts directs, réponses utilisateur du 2026-11-22) : survoler la cible → `p_overfly` ; riposte et BM
+    # sur ses attaques : p = 1 ici, le contact et le rôle sont lus dans `marriage_of`
+    OVERFLY,
+    RETALIATION,
+    ON_OWN_ATTACKS,
 )
+#: Épaisseur de cible à dépasser pour la survoler (« an enemy unit that this unit passed across »).
+OVERFLY_DEPTH = 3.0
 #: « The target can be picked to fight immediately after this unit… If it is picked to do so, add 1… »
 #: (Brawlerguts, Lead Da Brutes, Infantry Overseer…) : le bonus ne joue que si le héros et l'unité combattent
 #: l'un après l'autre. Part des combats où c'est le cas : choix utilisateur 2026-11-22 (option « ×0,5 »,
@@ -137,6 +151,15 @@ def p_charge(unit: Unit, start: int = 1) -> float:
         )
         / tot
     )
+
+
+def p_overfly(unit: Unit) -> float:
+    """P(passer au-dessus d'une cible ennemie dans un round), pondérée par les rounds (réponse utilisateur,
+    2026-11-22) : possible quand mouvement (+ vol) + course + `OVERFLY_DEPTH` ≥ l'écart — 18" au round 1, 14"
+    ensuite. Ironclad (12" de vol) 1,0 ; Hellflayer (10", sans vol) 0,89, le round 1 lui est hors de portée."""
+    span = reach(unit) + RUN_MEAN + OVERFLY_DEPTH
+    ok = [1.0 if span >= (ENGAGE_GAP_ROUND1 if r == 1 else ENGAGE_GAP) else 0.0 for r in range(1, 6)]
+    return sum(w * k for w, k in zip(ROUND_WEIGHTS, ok)) / sum(ROUND_WEIGHTS)
 
 
 def territory_round(unit: Unit, with_charge: bool) -> int:
@@ -208,18 +231,32 @@ def trigger(
             p *= P_STILL_MELEE if melee_unit else P_STILL_SHOOTER
         elif c == "combat enchaîné":
             p *= CHAINED_FIGHT_SHARE
+        elif c == OVERFLY:
+            p *= p_overfly(unit)
     return Trigger(p=p, start=start, bearer_only=not others, charged=charged)
 
 
-def exposure_of(scope: str, range_inches: Optional[int], requires: str, family: str) -> str:
-    """Exposition imposée au porteur pour tenir l'effet."""
-    if "au combat" in requires or "a chargé" in requires:
+def _range_exposure(inches: float) -> str:
+    if inches <= 3:
         return "contact"
+    return "courte" if inches <= 9 else "longue"
+
+
+def exposure_of(
+    scope: str, range_inches: Optional[int], requires: str, family: str, shoot_range: Optional[float] = None
+) -> str:
+    """Exposition imposée au porteur pour tenir l'effet.
+
+    v35 : un débuff posé par les tirs du porteur (`SHOT_BY_BEARER`) l'expose à la portée de sa plus longue
+    arme de tir (`shoot_range`), pas au contact faute de portée écrite."""
+    if "au combat" in requires or "a chargé" in requires or RETALIATION in requires:
+        return "contact"
+    if SHOT_BY_BEARER in requires and shoot_range:
+        return _range_exposure(shoot_range)
     if range_inches is None:
-        return "contact" if family == "debuff" else "longue"
-    if range_inches <= 3:
-        return "contact"
-    return "courte" if range_inches <= 9 else "longue"
+        # une règle d'armée (The One True King : −1 charge aux ennemis) ne demande pas d'aller au contact
+        return "contact" if family == "debuff" and scope != "army" else "longue"
+    return _range_exposure(range_inches)
 
 
 #: Nombre d'unités ennemies qui frappent le porteur à chaque round (choix utilisateur, 2026-11-20) :
@@ -339,8 +376,15 @@ def _lasting(frequency: str, durations: set[str]) -> bool:
 
 #: Bornes des multiplicateurs A et R (choix de travail, à challenger).
 FACTOR_BOUNDS = (0.5, 1.5)
-#: Familles notées par la grille (les autres : A = R = F = 1).
-GRID_FAMILIES = ("buff-perso-offensif", "buff-perso-defensif", "buff-donne")
+#: Buffs : grille complète (A mesuré dans `ability_encounter`).
+BUFF_FAMILIES = ("buff-perso-offensif", "buff-perso-defensif", "buff-donne")
+#: Familles notées par la grille (les autres : A = R = F = 1). Dégâts directs (2026-11-22, réponses utilisateur) :
+#: D × P(au combat) au contact, survol par l'allonge (`p_overfly`), riposte : contact + R = 0,5 + rang défensif,
+#: BM sur ses attaques : exposition et R d'un buff offensif perso ; F et A neutres (effets immédiats).
+#: Débuffs (2026-11-22, réponses utilisateur) :
+#: D × P(au combat) au contact, F règle des buffs selon la polarité, R selon qui en profite ; A neutre
+#: (débuffs non traduits par le moteur).
+GRID_FAMILIES = (*BUFF_FAMILIES, "debuff", "degats-directs")
 #: Polarité de la frise (`timeline.relevance`) par famille notée.
 FAMILY_POLARITY = {"buff-perso-offensif": "off", "buff-perso-defensif": "def", "buff-donne": "autre"}
 #: Durées courtes dont la fenêtre peut manquer une partie de ce que fait le châssis ; la durée « idéale » de
@@ -360,6 +404,77 @@ _DEF_KINDS = {"ward", "damage_ignore", "negate_attack", "untargetable", "damage_
 _DEF_STATS = {"save", "ward", "health"}
 
 
+#: Débuff des ATTAQUES ennemies : il nous protège (polarité « def » de la frise : 70 % des coups au tour adverse).
+_DEBUFF_ENEMY_OFFENCE_KINDS = {"strike_last", "no_crit", "no_weapon_abilities"}
+_ENEMY_OFFENCE_STATS = {"hit", "wound", "attacks", "damage", "rend"}
+#: Débuff de la DÉFENSE ennemie : il sert nos attaques (polarité « off »).
+_ENEMY_DEFENCE_STATS = {"save", "ward"}
+
+
+def debuff_polarity(e_list: list[tuple]) -> str:
+    """Polarité d'un débuff d'après ses effets de famille « debuff » (index 7 de `load_effects`).
+
+    « def » = il affaiblit les attaques ennemies (il protège) ; « off » = il affaiblit leur défense (il sert nos
+    coups) ; "" = ni l'un ni l'autre (ordres, contrôle, magie, mouvement) ou égalité → tempo et rôle neutres."""
+    n_off = n_def = 0
+    for e in e_list:
+        if len(e) <= 7 or e[7] != "debuff":
+            continue
+        kind, wscope, stat = e[0], e[5], e[6]
+        if kind in _DEBUFF_ENEMY_OFFENCE_KINDS or (kind == "stat_mod" and stat in _ENEMY_OFFENCE_STATS):
+            n_def += 1
+        elif kind == "no_buff" and wscope == "melee":  # Charge (+1 Damage) ennemi ignoré (Anticipated Strike)
+            n_def += 1
+        elif kind in ("no_ward", "no_buff") or (kind == "stat_mod" and stat in _ENEMY_DEFENCE_STATS):
+            n_off += 1
+    if n_def > n_off:
+        return "def"
+    return "off" if n_off > n_def else ""
+
+
+def debuff_role_fit(polarity: str, exposure: str, prof: ChassisProfile) -> float:
+    """R d'un débuff (réponse utilisateur, 2026-11-22) : au contact, il profite surtout au porteur.
+
+    * débuff des attaques ennemies : c'est lui qu'elles frappent → 0,5 + rang défensif ;
+    * débuff de la défense ennemie : ce sont ses coups qui en profitent → 0,5 + rang offensif ;
+    * à distance (sorts à 12-18"…) ou autre effet : 1, le bénéficiaire se choisit dans la liste (couche 4)."""
+    if exposure != "contact":
+        return 1.0
+    if polarity == "def" and prof.def_rank is not None:
+        return _bound(0.5 + prof.def_rank)
+    if polarity == "off" and prof.off_rank is not None:
+        return _bound(0.5 + prof.off_rank)
+    return 1.0
+
+
+#: Conditions qui disent déjà comment le porteur arrive au combat (D × P(au combat) ne s'y ajoute pas).
+_ENGAGED_CONDITIONS = ("a chargé", "au combat", CHARGE_EITHER, "charge ennemie", SHOT_BY_BEARER, OVERFLY)
+#: Familles dont un effet « une unité ennemie au combat avec cette unité » exige d'être au combat.
+_CONTACT_FAMILIES = ("debuff", "degats-directs")
+
+
+def direct_damage_role_fit(requires: str, prof: ChassisProfile) -> float:
+    """R d'un dégât direct (réponses utilisateur, 2026-11-22) : une riposte vaut par la durabilité du porteur
+    (0,5 + rang défensif : une enclume riposte plus souvent), des BM sur ses attaques par son offense (0,5 + rang
+    offensif, comme un buff offensif perso) ; sinon 1."""
+    if RETALIATION in requires and prof.def_rank is not None:
+        return _bound(0.5 + prof.def_rank)
+    if ON_OWN_ATTACKS in requires and prof.off_rank is not None:
+        return _bound(0.5 + prof.off_rank)
+    return 1.0
+
+
+def p_in_combat(share_melee: float) -> float:
+    """P(le porteur est au combat) quand l'effet l'exige : mêmes constantes que les buffs « au combat »
+    (réponse utilisateur 2026-11-22 pour les débuffs « une unité ennemie au combat avec cette unité »)."""
+    return P_IN_COMBAT_MELEE if share_melee >= 0.5 else P_IN_COMBAT_SHOOTER
+
+
+def shoot_range(u: Unit) -> Optional[float]:
+    """Portée de la plus longue arme de tir du porteur (None sans arme de tir)."""
+    return max((w.range_in for w in u.weapons if w.kind == "ranged"), default=None)
+
+
 def effect_timing(family: str, e_list: list[tuple], bearer_share_melee: float) -> tuple[str, float]:
     """(polarité, part de mêlée) qui fixent les demi-tours utiles d'un effet (`timeline.relevance`).
 
@@ -367,6 +482,14 @@ def effect_timing(family: str, e_list: list[tuple], bearer_share_melee: float) -
     (une protection sert surtout au tour adverse, un buff de tir à mon seul tour) ; les armes visées
     (`weapon_scope`) fixent la part de mêlée — tir → 0, mêlée → 1, sinon celle du porteur."""
     pol = FAMILY_POLARITY.get(family, "autre")
+    if family == "degats-directs":
+        return "", bearer_share_melee  # effet immédiat : pas de fenêtre à couvrir, F = 1
+    if family == "debuff":
+        dpol = debuff_polarity(e_list)
+        scopes = {e[5] for e in e_list if len(e) > 7 and e[7] == "debuff" and e[5]}
+        if dpol == "off" and scopes <= {"melee"} and scopes:
+            return dpol, 1.0
+        return dpol, bearer_share_melee
     if family == "buff-donne" and e_list:
         n_def = sum(1 for e in e_list if e[0] in _DEF_KINDS or (len(e) > 6 and e[6] in _DEF_STATS))
         pol = "def" if 2 * n_def > len(e_list) else "off"
@@ -505,13 +628,15 @@ class Marriage:
 
 
 def load_effects(con) -> dict[str, list[tuple]]:
-    """ability_uid → [(kind, requires, target_condition, target_keywords, duration, weapon_scope, stat)]."""
+    """ability_uid → [(kind, requires, target_condition, target_keywords, duration, weapon_scope, stat, family)]."""
     effs: dict[str, list[tuple]] = {}
-    for uid, kind, req, tcond, tkw, dur, wscope, stat in con.execute(
-        "SELECT ability_uid, kind, requires, target_condition, target_keywords, duration, weapon_scope, stat "
+    for uid, kind, req, tcond, tkw, dur, wscope, stat, fam in con.execute(
+        "SELECT ability_uid, kind, requires, target_condition, target_keywords, duration, weapon_scope, stat, family "
         "FROM ability_effect"
     ).fetchall():
-        effs.setdefault(uid, []).append((kind, req or "", tcond or "", tkw or "", dur or "", wscope or "", stat or ""))
+        effs.setdefault(uid, []).append(
+            (kind, req or "", tcond or "", tkw or "", dur or "", wscope or "", stat or "", fam or "")
+        )
     return effs
 
 
@@ -527,10 +652,13 @@ def marriage_of(
     turn_side: str = "any",
     amplification: Optional[float] = None,
     role: float = 1.0,
+    chassis_profile: Optional[ChassisProfile] = None,
 ) -> Marriage:
     """Mariage d'une aptitude (ses effets `load_effects`) portée par `u` : D × S × F × A × R.
 
-    `amplification` = A brut (`amplification_ratios`, None = non mesuré → neutre), `role` = R (`role_fit`)."""
+    `amplification` = A brut (`amplification_ratios`, None = non mesuré → neutre), `role` = R (`role_fit`).
+    Débuff : R est calculé ici (`debuff_role_fit`, il dépend de l'exposition et de la polarité) depuis
+    `chassis_profile` ; sans profil, R = 1."""
     from .timeline import start_share
 
     reqs = " | ".join(dict.fromkeys(r for e in e_list for r in e[1].split(" | ") if r))
@@ -548,10 +676,10 @@ def marriage_of(
         kind="charge_bonus" if "charge_bonus" in kinds else "",
     )
     fam = family or "autre"
-    if fam in ("buff-perso-offensif", "buff-perso-defensif"):
+    if fam in ("buff-perso-offensif", "buff-perso-defensif") or (fam == "degats-directs" and ON_OWN_ATTACKS in reqs):
         expo = "contact" if share_melee >= 0.5 else "longue"
     else:
-        expo = exposure_of(scope or "", rng, reqs, fam)
+        expo = exposure_of(scope or "", rng, reqs, fam, shoot_range(u))
     m_in, r_in = incoming
     lasting = _lasting(freq, {e[4] for e in e_list})
     # une fois par bataille courte : jouée au kairos (round 2 au plus tôt, cf. realized.py)
@@ -562,13 +690,26 @@ def marriage_of(
     surv = survival_coverage(profile, use, lasting=lasting)
     dur = next((e[4] for e in e_list if e[4]), "permanent" if lasting else "")
     d = t.p_off_timeline * start_share(freq or "", dur, turn_side or "any", t.start)
+    p_trig = t.p
+    contact_target = rng is not None and rng <= 3
+    if fam == "degats-directs" and RETALIATION in reqs:
+        contact_target = True  # riposte : il faut se faire frapper au combat
+    if fam in _CONTACT_FAMILIES and contact_target and not any(c in conds for c in _ENGAGED_CONDITIONS):
+        # débuff « une unité ennemie au combat avec cette unité » : ne sert que si le porteur est au combat
+        d *= p_in_combat(share_melee)
+        p_trig *= p_in_combat(share_melee)
     pol, sm_t = effect_timing(fam, e_list, share_melee)
     f = tempo(fam, freq or "", dur, turn_side or "any", sm_t, pol)
-    a = _bound(amplification) if amplification is not None and fam in GRID_FAMILIES else 1.0
-    r = role if fam in GRID_FAMILIES else 1.0
+    a = _bound(amplification) if amplification is not None and fam in BUFF_FAMILIES else 1.0
+    if fam == "debuff":
+        r = debuff_role_fit(pol, expo, chassis_profile) if chassis_profile is not None else 1.0
+    elif fam == "degats-directs":
+        r = direct_damage_role_fit(reqs, chassis_profile) if chassis_profile is not None else 1.0
+    else:
+        r = role if fam in GRID_FAMILIES else 1.0
     return Marriage(
         expo,
-        t.p,
+        p_trig,
         t.start,
         t.bearer_only,
         alive,
@@ -618,6 +759,7 @@ def build_marriage_rows(con) -> list[tuple]:
             continue
         seen.add((u.id, uid))
         fam = family or "autre"
+        prof = profiles.get(u.id, ChassisProfile(share_melee=chassis.get(u.id, 1.0)))
         m = marriage_of(
             u,
             effs.get(uid, []),
@@ -629,7 +771,8 @@ def build_marriage_rows(con) -> list[tuple]:
             incoming.get(u.id, (0.0, 0.0)),
             tside or "any",
             amplification=amps.get((u.id, uid)),
-            role=role_fit(fam, profiles.get(u.id, ChassisProfile(share_melee=chassis.get(u.id, 1.0))), recv.get(uid)),
+            role=role_fit(fam, prof, recv.get(uid)),
+            chassis_profile=prof,
         )
         rows.append(
             (

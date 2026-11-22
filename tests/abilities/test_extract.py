@@ -1751,3 +1751,198 @@ def test_would_heal_or_return_is_an_anti_heal_not_a_return():
     )
     kinds = {e.kind for e in ex.effects}
     assert "anti_heal" in kinds and "return_models" not in kinds
+
+
+# ----- analyseur v35 : conditions de l'Annonce sur les cibles ennemies, tirs du porteur, auras ennemies ------
+
+
+def test_v35_coordinated_relative_charged_is_the_enemy_unit():
+    """« an enemy unit in combat with this unit and that charged this turn » : c'est l'ennemi qui a chargé."""
+    from aospy.abilities.perimeter import charge_subjects
+
+    bulwark = "Pick an enemy unit in combat with this unit and that charged this turn to be the target."
+    assert charge_subjects(bulwark, True) == {"ennemi"}
+    grapple = (
+        "If this unit did not charge this turn, pick an enemy unit in combat with this unit and that charged this "
+        "turn to be the target."
+    )
+    assert charge_subjects(grapple, True) == {"ennemi"}
+    horn = (
+        "Pick an enemy unit that has no more than 1 model, that is in combat with this unit and that has charged "
+        "this turn to be the target."
+    )
+    assert charge_subjects(horn, True) == {"ennemi"}
+    # la mention la plus proche reste la règle sans « and that »
+    gitmob = "Pick an enemy unit in combat with a friendly GITMOB unit that has charged this turn."
+    assert charge_subjects(gitmob, True) == {"nous"}
+
+
+def test_v35_declare_charge_conditions_reach_enemy_effects():
+    """Chilling Onslaught / Dance of Death / Deafening Drone : la condition de charge de l'Annonce vaut pour
+    l'effet posé sur la cible ennemie (avant v35 : seulement pour les effets amis)."""
+    cond = "Once Per Turn (Army), Any Combat Phase"
+    ex, _ = extract(
+        _raw(
+            "Roll a dice. On a 4+, for the rest of the turn, subtract 1 from hit rolls for the target's attacks.",
+            declare="If this unit charged this turn, pick an enemy unit in combat with it to be the target.",
+            condition=cond,
+        )
+    )
+    assert [e.requires for e in ex.effects if e.side == "enemy"] == ["a chargé"]
+    ex, _ = extract(
+        _raw(
+            "Subtract 1 from hit rolls and wound rolls for the target's combat attacks for the rest of the turn.",
+            declare="Pick an enemy unit that charged this turn and is in combat with this unit to be the target.",
+            condition=cond,
+        )
+    )
+    assert {e.requires for e in ex.effects} == {"charge ennemie"}
+    ex, _ = extract(
+        _raw(
+            "Subtract 1 from the Attacks characteristic of the target's melee weapons for the rest of the turn.",
+            declare="If this unit did not charge this turn, pick an enemy unit in combat with it to be the target.",
+            condition=cond,
+        )
+    )
+    assert {e.requires for e in ex.effects} == {"sans charge"}
+
+
+def test_v35_debuff_set_by_the_bearers_shooting():
+    """Hurricane Winds : la cible est désignée par les tirs du porteur → prérequis « après tir du porteur »
+    (la couche 3 en tire l'exposition) ; jamais sur des dégâts directs (lecture de realized.direct_damage)."""
+    from aospy.abilities.perimeter import SHOT_BY_BEARER
+
+    ex, _ = extract(
+        _raw(
+            "Roll a dice. On a 3+, the target has STRIKE-LAST for the rest of the turn.",
+            declare="Pick an enemy unit that had any damage points allocated to it this turn by this unit's shooting "
+            "attacks to be the target.",
+            condition="Once Per Turn (Army), Any Shooting Phase",
+        )
+    )
+    assert [e.requires for e in ex.effects] == [SHOT_BY_BEARER]
+    ex, _ = extract(
+        _raw(
+            "Roll a dice. On a 2+, subtract 1 from wound rolls for the target's combat attacks "
+            "for the rest of the turn.",
+            declare="Pick an enemy unit that had any damage points allocated to it this turn by attacks made with this "
+            "unit's Dartpipe to be the target.",
+            condition="Any Shooting Phase",
+        )
+    )
+    assert all(SHOT_BY_BEARER in e.requires for e in ex.effects)
+    ex, _ = extract(
+        _raw(
+            "If any damage points are allocated to an enemy unit by a SHOOT ability used by this unit, inflict 1 "
+            "mortal damage on that unit."
+        )
+    )
+    assert all(SHOT_BY_BEARER not in (e.requires or "") for e in ex.effects if e.kind == "mortal_damage")
+
+
+@pytest.mark.parametrize(
+    "condition,declare,effect,expected",
+    [
+        ("Passive", "", 'Subtract 1 from charge rolls for enemy units within 9" of this unit.', 9),
+        (
+            'Reaction: Opponent declared a command for a unit within 12" of this unit',
+            "",
+            "Roll a dice. On a 5+, that command has no effect.",
+            12,
+        ),
+        (
+            "Your Hero Phase",
+            'Pick a visible unit within 12" of the caster to be the target, then make a casting roll of 2D6.',
+            "If the target is an enemy unit, it has STRIKE-LAST for the rest of the turn.",
+            12,
+        ),
+    ],
+)
+def test_v35_enemy_aura_radius_written_around_the_bearer(condition, declare, effect, expected):
+    """Atmospheric Isolation, Network of Spies, Aethershock : portée lue pour l'exposition (couche 3)."""
+    ex, _ = extract(_raw(effect, declare=declare, condition=condition))
+    assert ex.range_inches == expected
+
+
+def test_v35_ward_lost_by_this_unit_is_a_drawback():
+    """Elite Guardians : « this unit has STRIKE-FIRST but ward rolls cannot be made for it »."""
+    from aospy.abilities.scoring import _effect_weight as effect_weight
+
+    ex, _ = extract(
+        _raw(
+            "If this unit is in combat with any enemy units that charged this turn, roll a dice. On a 3+, for the "
+            "rest of the turn, this unit has STRIKE-FIRST but ward rolls cannot be made for it.",
+            condition="Once Per Turn (Army), Any Combat Phase",
+        )
+    )
+    nw = [e for e in ex.effects if e.kind == "no_ward"]
+    assert nw and all(e.side == "friendly" for e in nw)
+    assert all(effect_weight(e)[0] == 0.0 for e in nw)
+
+
+def test_v35_retaliation_and_own_attack_riders_are_labelled():
+    """Riposte (Extremis Chamber, Squigs Gone Wild, Blood of Molten Varanite) / BM sur ses attaques
+    (Cometstrike Sceptre, Outrageous Carnage) : libellés lus par la couche 3 (exposition et rôle)."""
+    from aospy.abilities.perimeter import ON_OWN_ATTACKS, RETALIATION
+
+    for text in (
+        "Each time you make an unmodified save roll of 6 for a combat attack that targets this unit, inflict 1 "
+        "mortal damage on the attacking unit after the FIGHT ability has been resolved.",
+        "Each time a model in this unit is slain by a combat attack and that model was in combat with the attacking "
+        "unit, roll a dice. On a 5+, inflict 1 mortal damage on the attacking unit after the FIGHT ability has been "
+        "resolved.",
+        "Roll a dice each time a damage point inflicted by a combat attack is allocated to this unit. On a 4+, inflict "
+        "1 mortal damage on the attacking unit after the FIGHT ability has been resolved.",
+    ):
+        ex, _ = extract(_raw(text))
+        assert [e.requires for e in ex.effects if e.kind == "mortal_damage"] == [RETALIATION]
+    for text in (
+        "Each time this unit attacks with its Cometstrike Sceptre, if the attack scores a hit, inflict D3 mortal "
+        "damage on the target.",
+        'Each time an attack made by this unit scores a critical hit, inflict D3 mortal damage on each enemy unit '
+        'within 8" of it after the FIGHT ability has been resolved (and continue the attack sequence).',
+    ):
+        ex, _ = extract(_raw(text))
+        assert [e.requires for e in ex.effects if e.kind == "mortal_damage"] == [ON_OWN_ATTACKS]
+
+
+def test_v35_condition_heading_the_effect_applies_to_all_its_effects():
+    """Soaring Terror : « If this unit charged this turn, roll a dice. On a 3+, … move 2D6" … Inflict D3 » ;
+    un serment à déclencheur unique garde sa seule lecture v34."""
+    ex, _ = extract(
+        _raw(
+            'If this unit charged this turn, roll a dice. On a 3+, this unit can move 2D6". It can pass through the '
+            "combat ranges of enemy units but must end that move in combat. Then, pick an enemy unit that this unit "
+            "passed across during that move. Inflict D3 mortal damage on that enemy unit.",
+            condition="Once Per Turn (Army), Any Combat Phase",
+        )
+    )
+    assert all("a chargé" in e.requires for e in ex.effects)
+    ex, _ = extract(
+        _raw(
+            "If this unit charged this phase and the unmodified charge roll was 8+, add 1 to the Rend characteristic "
+            "of this unit's weapons for the rest of the battle.",
+            condition="Once Per Battle, Any Charge Phase",
+        )
+    )
+    assert all("a chargé" not in e.requires.split(" | ") for e in ex.effects)
+
+
+def test_v35_damage_allocated_to_a_friendly_target_is_a_cost():
+    """Offering of Blood : « Allocate 3 damage points to the target » avec une cible amie ; Avatar of
+    Destruction : « If this unit would be automatically destroyed, it is not » = protection du porteur."""
+    ex, _ = extract(
+        _raw(
+            "Allocate 3 damage points to the target (ward rolls cannot be made for those damage points).",
+            declare='Pick a friendly unit within 3" of this unit to be the target.',
+            condition="Once Per Turn (Army), Your Hero Phase",
+        )
+    )
+    assert [(e.side, e.detail) for e in ex.effects if e.kind == "mortal_damage"] == [("friendly", "auto-infligé")]
+    ex, _ = extract(
+        _raw(
+            "If this unit would be automatically destroyed, it is not automatically destroyed. Instead, allocate 6 "
+            "damage points to it (ward rolls cannot be made for those damage points)."
+        )
+    )
+    assert all(e.side == "friendly" for e in ex.effects)

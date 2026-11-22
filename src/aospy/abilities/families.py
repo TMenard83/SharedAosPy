@@ -126,6 +126,10 @@ def effect_family(e: Effect, scope: str) -> str:
                 return _buff(scope, offensive=False)
             if e.detail == "debuff" and st in ("save", "ward") and scope not in _ENEMY_SCOPES:
                 return _buff(scope, offensive=True)
+            if st in _OFF_STATS and e.value > 0:
+                # v35 : +1 pour toucher aux attaques ennemies contre cette unité (Dark Temptations) : une
+                # contrepartie, pas un débuff à aller poser
+                return "autre"
             return "debuff"
         if e.detail == "marquage":
             return "buff-donne"
@@ -143,13 +147,18 @@ def effect_family(e: Effect, scope: str) -> str:
     if k == "mortal_damage":
         return "degats-directs" if side == "enemy" else "autre"
     if k == "slay":
-        return "degats-directs"
+        # v35 : « If this unit would be automatically destroyed, it is not » : protection du porteur
+        return "degats-directs" if side == "enemy" else "buff-perso-defensif"
     if k == "no_buff":  # v21 : ignorer les modificateurs positifs de la cible
         return "debuff"
     if k in ("heal", "return_models", "rally"):
         return "soin"
     if k == "control":
         return "controle"
+    if k in ("no_weapon_abilities", "no_crit") and scope == "one_friendly":
+        # v35 : « weapon abilities for attacks that target that friendly unit have no effect » (Miasma of
+        # Pestilence, Weapon Curse) : protection donnée à une unité amie
+        return "buff-donne"
     if k in _DEBUFF_KINDS and side == "enemy":
         return "debuff"
     if k in _MOBILITY_KINDS:

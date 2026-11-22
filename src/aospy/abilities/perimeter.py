@@ -100,7 +100,15 @@ def charge_subjects(text: str, enemy_target: bool) -> set[str]:
             continue  # « If it does so, this unit has charged. » : conséquence, pas condition
         clause = re.split(r"[.,:;(\n]|\bthen\b|\bif\b|\bwhile\b", pre)[-1]
         # le sujet est la mention la plus PROCHE de « charged » (« an enemy unit in combat with a
-        # friendly GITMOB unit that has charged » : c'est l'unité amie qui a chargé)
+        # friendly GITMOB unit that has charged » : c'est l'unité amie qui a chargé) — sauf après « and
+        # that » (v35 : « an enemy unit in combat with this unit and that charged » : la relative coordonnée
+        # reprend le nom de tête, l'unité ennemie, pas le complément « this unit »)
+        head = bool(re.search(r"\band (?:that|which)(?: has| have)?\s*$", pre))
+        if head:  # relatives en série séparées par des virgules (HORN TOSS) : le nom de tête est dans la phrase,
+            # après le dernier « pick » (GRAPPLE-NET LAUNCHER : « If this unit did not charge…, pick an enemy… »)
+            sent = re.split(r"[.:;\n]|\bthen\b", text[: m.start()])[-1]
+            picks = [mm.end() for mm in re.finditer(r"\bpick(?:ed)?\b", sent, re.I)]
+            clause = sent[picks[-1] :] if picks else sent
         last = None
         for pat, who in (
             (r"\benemy\b(?! territory)", "ennemi"),
@@ -108,7 +116,7 @@ def charge_subjects(text: str, enemy_target: bool) -> set[str]:
             (r"\bfriendly\b|\bthis (?:unit|model|MANIFESTATION|HERO)\b|\byour\b", "nous"),
         ):
             for mm in re.finditer(pat, clause, re.I):
-                if last is None or mm.start() >= last[0]:
+                if last is None or (mm.start() < last[0] if head else mm.start() >= last[0]):
                     last = (mm.start(), who)
         who = last[1] if last else "nous"
         out.add(("ennemi" if enemy_target else "nous") if who == "cible" else who)
@@ -120,6 +128,15 @@ def charge_subjects(text: str, enemy_target: bool) -> set[str]:
 _CHARGE_OR = re.compile(r"\bcharged\b[^.]*?\bor\b[^.]*?\bcharged\b", re.I)
 #: Prérequis « l'une ou l'autre charge » (contient « a chargé » : la couche 3 le traite en bon cas de charge).
 CHARGE_EITHER = "a chargé ou charge ennemie"
+#: v35 : prérequis des effets ennemis d'un débuff déclenché par les tirs du porteur (Hurricane Winds…) ; la
+#: couche 3 (`marriage.exposure_of`) en tire l'exposition sur la portée de tir du porteur.
+SHOT_BY_BEARER = "après tir du porteur"
+#: v35 : BM infligées à l'attaquant quand le porteur se fait frapper au combat (sauvegarde de 6, figurine tuée,
+#: point de dégâts alloué) : jouent au contact, valent par sa durabilité (couche 3, `marriage`).
+RETALIATION = "riposte au contact"
+#: v35 : BM ajoutées aux attaques du porteur (« each time an attack made with its X scores a hit ») : un bonus
+#: d'arme, jugé comme un buff offensif perso (couche 3).
+ON_OWN_ATTACKS = "sur ses attaques"
 
 
 def charge_either(text: str, enemy_target: bool) -> bool:

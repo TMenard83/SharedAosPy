@@ -135,8 +135,9 @@ def test_tempo_melee_buff_for_the_turn_misses_the_riposte():
     assert tempo("buff-perso-offensif", "unlimited", "jusqu'au prochain tour", "yours", 1.0) == 1.0
     assert tempo("buff-perso-offensif", "unlimited", "tour", "yours", 0.0) == pytest.approx(1.0)
     assert tempo("buff-perso-offensif", "passive", "permanent", "any", 1.0) == 1.0
-    # familles hors grille : neutres
+    # débuff sans polarité (ordres, contrôle…) : neutre
     assert tempo("debuff", "unlimited", "tour", "yours", 1.0) == 1.0
+    assert tempo("soin", "unlimited", "tour", "yours", 1.0) == 1.0
 
 
 def test_effect_timing_reads_given_buffs_from_their_effects():
@@ -187,7 +188,7 @@ def test_marriage_combines_grid_factors_and_keeps_bearing():
     assert m.marriage == pytest.approx(0.5 * FACTOR_BOUNDS[1] * 1.2)
     # famille hors grille : A et R ignorés
     d = marriage_of(
-        u, [_eff()], "debuff", "one_enemy", 12, "unlimited", 1.0, (0.0, 0.0), "yours", amplification=3.0, role=1.4
+        u, [_eff()], "soin", "one_friendly", 12, "unlimited", 1.0, (0.0, 0.0), "yours", amplification=3.0, role=1.4
     )
     assert d.marriage == pytest.approx(d.bearing)
 
@@ -197,3 +198,129 @@ def test_chained_fight_counts_at_its_share():
 
     t = trigger(_unit(5), "combat enchaîné", "combat enchaîné", share_melee=1.0, melee_effect=True)
     assert t.p == pytest.approx(CHAINED_FIGHT_SHARE) and t.bearer_only
+
+
+# ----- grille des débuffs (réponses utilisateur du 2026-11-22) -----------------------------------------------
+
+
+def _deb(kind="stat_mod", stat="hit", duration="tour", wscope="all", requires=""):
+    return (kind, requires, "", "", duration, wscope, stat, "debuff")
+
+
+def test_debuff_polarity():
+    """Débuff des attaques ennemies = protection (« def ») ; de leur défense = sert nos coups (« off »)."""
+    from aospy.analysis.layers.marriage import debuff_polarity
+
+    assert debuff_polarity([_deb(stat="hit"), _deb(kind="strike_last", stat="")]) == "def"
+    assert debuff_polarity([_deb(stat="save")]) == debuff_polarity([_deb(kind="no_ward", stat="")]) == "off"
+    assert debuff_polarity([_deb(kind="lockout", stat="")]) == ""
+    assert debuff_polarity([_deb(stat="control")]) == ""
+    # les effets d'une autre famille ne comptent pas
+    assert debuff_polarity([("stat_mod", "", "", "", "tour", "melee", "hit", "buff-perso-offensif")]) == ""
+
+
+def test_debuff_tempo_follows_the_buff_rule():
+    """Whispers of Desire : sort de mon tour, −1 Attaque en mêlée « pour le reste du tour » → F = 0,3 ;
+    « jusqu'au prochain tour » → 1 ; joué en « n'importe quelle phase de combat » → 1."""
+    pol, sm = effect_timing("debuff", [_deb(stat="attacks", wscope="melee")], 1.0)
+    assert pol == "def"
+    assert tempo("debuff", "unlimited", "tour", "yours", sm, pol) == pytest.approx(0.3)
+    assert tempo("debuff", "unlimited", "jusqu'au prochain tour", "yours", sm, pol) == 1.0
+    assert tempo("debuff", "unlimited", "tour", "any", sm, pol) == 1.0
+
+
+def test_debuff_role_fit_rewards_the_one_who_profits():
+    """Au contact : débuff des attaques → rang défensif (Abraxia 1,5) ; de la défense → rang offensif ;
+    à distance → neutre."""
+    from aospy.analysis.layers.marriage import debuff_role_fit
+
+    lo, hi = FACTOR_BOUNDS
+    abraxia, executioner = ChassisProfile(off_rank=0.78, def_rank=1.0), ChassisProfile(off_rank=0.41, def_rank=0.11)
+    assert debuff_role_fit("def", "contact", abraxia) == hi
+    assert debuff_role_fit("def", "contact", executioner) == pytest.approx(0.61)
+    assert debuff_role_fit("off", "contact", ChassisProfile(off_rank=0.77)) == pytest.approx(1.27)
+    assert debuff_role_fit("def", "longue", executioner) == 1.0
+    assert debuff_role_fit("", "contact", executioner) == 1.0
+    assert debuff_role_fit("def", "contact", ChassisProfile(def_rank=0.0)) >= lo
+
+
+def test_contact_debuff_needs_the_bearer_in_combat():
+    """Netters : « an enemy INFANTRY unit in combat with this unit » → D × 0,8 (mêlée) / × 0,3 (tir), mêmes
+    constantes que les buffs « au combat » ; pas en plus d'une charge, qui dit déjà comment on y arrive."""
+    from aospy.analysis.layers.marriage import P_IN_COMBAT_MELEE, P_IN_COMBAT_SHOOTER
+
+    u = _unit(5, health=1, models=10, hero=False)
+    args = ("one_enemy", 1, "unlimited")
+    melee = marriage_of(u, [_deb()], "debuff", *args, 1.0, (0.0, 0.0), "any")
+    shoot = marriage_of(u, [_deb()], "debuff", *args, 0.3, (0.0, 0.0), "any")
+    assert melee.p_trigger == pytest.approx(P_IN_COMBAT_MELEE)
+    assert shoot.p_trigger == pytest.approx(P_IN_COMBAT_SHOOTER)
+    ranged = marriage_of(u, [_deb()], "debuff", "one_enemy", 18, "unlimited", 1.0, (0.0, 0.0), "any")
+    assert ranged.p_trigger == 1.0
+    charged = marriage_of(u, [_deb(requires="a chargé")], "debuff", *args, 1.0, (0.0, 0.0), "any")
+    assert charged.p_trigger == pytest.approx(p_charge(u))
+    prof = ChassisProfile(off_rank=0.5, def_rank=0.9)
+    m = marriage_of(u, [_deb()], "debuff", *args, 1.0, (0.0, 0.0), "any", chassis_profile=prof)
+    assert m.role_fit == pytest.approx(1.4) and m.marriage == pytest.approx(m.bearing * 1.4)
+
+
+def test_debuff_set_by_shooting_is_held_at_shooting_range():
+    """Hurricane Winds : la cible est désignée par les tirs du porteur → exposition à sa portée de tir."""
+    from aospy.abilities.perimeter import SHOT_BY_BEARER
+    from aospy.analysis.layers.marriage import exposure_of
+
+    assert exposure_of("one_enemy", None, SHOT_BY_BEARER, "debuff", 24) == "longue"
+    assert exposure_of("one_enemy", None, SHOT_BY_BEARER, "debuff", 8) == "courte"
+    assert exposure_of("one_enemy", None, "", "debuff", 24) == "contact"
+    # règle d'armée (The One True King) : pas de contact à tenir
+    assert exposure_of("army", None, "", "debuff") == "longue"
+
+
+# ----- grille des dégâts directs (réponses utilisateur du 2026-11-22) ------------------------------------------
+
+
+def _dd(requires="", kind="mortal_damage"):
+    return (kind, requires, "", "", "immédiat", "", "", "degats-directs")
+
+
+def test_overfly_by_reach():
+    """Survoler la cible : rounds où mouvement + vol + course + 3" ≥ l'écart (18" puis 14")."""
+    from aospy.analysis.layers.marriage import p_overfly
+
+    assert p_overfly(_unit(10, fly=True)) == 1.0  # Ironclad : 12" de vol
+    assert p_overfly(_unit(10)) == pytest.approx((8 / 3) / 3)  # Hellflayer : pas au round 1
+    assert p_overfly(_unit(4)) == 0.0
+    t = trigger(_unit(10), "a survolé la cible", "a survolé la cible", 1.0, False)
+    assert t.bearer_only and t.p == pytest.approx(p_overfly(_unit(10)))
+
+
+def test_direct_damage_at_contact_and_retaliation():
+    """BM « au combat avec cette unité » : D × P(au combat) ; riposte : au contact, R = 0,5 + rang défensif ;
+    BM sur ses attaques : R = 0,5 + rang offensif, exposition selon la part de mêlée ; F = A = 1."""
+    from aospy.abilities.perimeter import ON_OWN_ATTACKS, RETALIATION
+    from aospy.analysis.layers.marriage import P_IN_COMBAT_MELEE, P_IN_COMBAT_SHOOTER
+
+    u = _unit(5, health=1, models=10, hero=False)
+    anvil = ChassisProfile(off_rank=0.2, def_rank=1.0)
+    m = marriage_of(u, [_dd()], "degats-directs", "one_enemy", 1, "unlimited", 0.3, (0.0, 0.0), "any")
+    assert m.p_trigger == pytest.approx(P_IN_COMBAT_SHOOTER) and m.tempo == 1.0
+    r = marriage_of(
+        u, [_dd(RETALIATION)], "degats-directs", "self", None, "passive", 1.0, (0.0, 0.0), "any", chassis_profile=anvil
+    )
+    assert r.exposure == "contact" and r.p_trigger == pytest.approx(P_IN_COMBAT_MELEE)
+    assert r.role_fit == FACTOR_BOUNDS[1]
+    w = marriage_of(
+        u,
+        [_dd(ON_OWN_ATTACKS)],
+        "degats-directs",
+        "self",
+        None,
+        "passive",
+        0.0,
+        (0.0, 0.0),
+        "any",
+        chassis_profile=anvil,
+    )
+    assert w.exposure == "longue" and w.p_trigger == 1.0 and w.role_fit == pytest.approx(0.7)
+    far = marriage_of(u, [_dd()], "degats-directs", "one_enemy", 18, "unlimited", 1.0, (0.0, 0.0), "yours")
+    assert far.marriage == pytest.approx(far.bearing) and far.p_trigger == 1.0

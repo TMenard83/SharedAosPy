@@ -205,6 +205,7 @@ def build_bearer_rows(con) -> list[tuple]:
             if not eligible(u, restr or "", kind, vocab):
                 continue
             s_m = sm.get(u.id, 1.0)
+            prof = profiles.get(u.id, ChassisProfile(share_melee=s_m))
             m = marriage_of(
                 u,
                 e_list,
@@ -215,7 +216,8 @@ def build_bearer_rows(con) -> list[tuple]:
                 s_m,
                 incoming.get(u.id, (0.0, 0.0)),
                 tside or "any",
-                role=role_fit(family or "autre", profiles.get(u.id, ChassisProfile(share_melee=s_m)), recv.get(uid)),
+                role=role_fit(family or "autre", prof, recv.get(uid)),
+                chassis_profile=prof,
             )
             cov_off = coverage(freq or "", dur, avail, False, tside or "any", "off", s_m) * p_act
             cov_def = coverage(freq or "", dur, avail, False, tside or "any", "def", s_m) * p_act
