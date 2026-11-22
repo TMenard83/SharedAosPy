@@ -174,6 +174,12 @@ QUALITATIVE_RULES: list[tuple[str, str, str]] = [
         "",
     ),
     (r"coherency range of \d+\"", "coherency", ""),
+    # v34 (C, validé) : baisser le niveau de fureur ADVERSE = 0,5 (−1) ; le remettre à 0 = 1,0
+    (
+        r"your opponent must reduce their fury level (?:by \d|to 0)|reduce your opponent's fury level by",
+        "fury_debuff",
+        "",
+    ),
     # v31, validé par l'utilisateur (2026-11-21) : un héros ennemi perd son artefact de pouvoir = 1,0
     (r"no longer has (?:that|any|the|its) artefacts? of power|no longer has any artefacts", "strip_enhancement", ""),
     # v30 : règles de fonctionnement sans effet propre (comme le choix de profil, validé à 0 par l'utilisateur) :
@@ -223,7 +229,10 @@ QUALITATIVE_RULES: list[tuple[str, str, str]] = [
     (r"ignore the effects? of the 'Guarded Hero'|cannot be affected by the 'Guarded Hero'", "snipe", ""),
     # v28 : soins et retours de figurines interdits à l'ennemi
     (
-        r"cannot be healed|cannot (?:have slain models|be) returned|[Mm]odels cannot be returned to enemy",
+        # v34 : « If an ability would heal or return any slain models to the target unit, that ability does not
+        # heal any damage points or return any slain models to it » (Seething Blight, Plague Progenitor, Rotigus)
+        r"cannot be healed|cannot (?:have slain models|be) returned|[Mm]odels cannot be returned to enemy|"
+        r"does not heal(?: any damage points)? or return any slain models",
         "anti_heal",
         "",
     ),

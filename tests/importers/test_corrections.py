@@ -51,6 +51,13 @@ def test_ability_correction_replaces_text_only_where_given():
     assert ability_correction(fixes, "Skaven", "DEPICT RUNE") is None
 
 
+def test_ability_correction_limited_to_one_owner():
+    """« Peal of Doom » : même nom, deux chartes (BT et Scourge of Aqshy), deux textes."""
+    fixes = [{"faction": "Skaven", "name": "Peal of Doom", "owner": "Grey Seer on Screaming Bell", "effect": "t"}]
+    assert ability_correction(fixes, "Skaven", "Peal of Doom", "Grey Seer on Screaming Bell") is fixes[0]
+    assert ability_correction(fixes, "Skaven", "Peal of Doom", "Scourge of Aqshy Grey Seer on Screaming Bell") is None
+
+
 def test_compare_units_flags_lost_caster_level_and_weapon_stats():
     waha = {"Thanquol": _unit()}
     bs = {

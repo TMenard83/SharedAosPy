@@ -244,6 +244,12 @@ def effects_of(
         mean = dice_mean(m.group(1))
         add(Effect("heal", "", mean or 0.0, m.group(1) if "D" in m.group(1) else "", "friendly"), effect, m.start())
     for m in _RETURN_RE.finditer(effect):
+        # v34 : retour nié ou hypothétique (« would heal or return … does not heal … or return ») = anti-soin
+        if re.search(
+            r"(?:would|does not|do not|cannot)(?: heal(?: any damage points)?)?(?: or)?\s*$",
+            effect[max(0, m.start() - 45) : m.start()],
+        ):
+            continue
         expr = (m.group(1) or "").replace("up to ", "")
         mean = dice_mean(expr) if expr else None
         add(Effect("return_models", "", mean or 0.0, expr if "D" in expr else "", "friendly"), effect, m.start())
@@ -311,7 +317,7 @@ def effects_of(
                 )
                 if "has no effect" in m.group(0):
                     side = "enemy"  # v27 : on annule une capacité adverse
-            if kind in ("taunt", "anti_heal", "strip_enhancement"):
+            if kind in ("taunt", "anti_heal", "strip_enhancement", "fury_debuff"):
                 side = "enemy"
             if kind in (
                 "strike_first",

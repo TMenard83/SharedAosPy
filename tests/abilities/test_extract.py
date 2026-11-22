@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import dataclasses
+
 import pytest
 
 from aospy.abilities.extract import extract, p_2d6, p_d6
@@ -1489,8 +1491,9 @@ def test_v30_rules_self_damage_summon_and_declare_only():
         "This unit's Klutcha-grot is a token. If it is removed from the battlefield, "
         "this unit cannot use the 'A Tough Grot to Swallow' ability."
     )
-    # jeton posé par une aptitude active : pas une simple règle de fonctionnement
-    assert "warscroll_rule" not in _kinds28(
+    # jeton posé par une aptitude active : v34 (validé par l'utilisateur 2026-11-22), règle de fonctionnement aussi,
+    # la valeur est dans l'aptitude-sœur qui lit le jeton (tests/abilities/test_references.py)
+    assert "warscroll_rule" in _kinds28(
         "Place this unit's Bomb Rat next to the target.",
         declare="This unit's Bomb Rats are tokens.",
         condition="Once Per Turn (Army), Any Combat Phase",
@@ -1631,3 +1634,120 @@ def test_strike_first_as_a_condition_is_not_a_gain():
     )
     assert not any(e.kind == "strike_first" for e in ex.effects)
     assert "frappe en premier" in next(e for e in ex.effects if e.kind == "stat_mod").requires
+
+
+# ----- analyseur v34 : fin de la couche 1 (D) -----
+
+
+def test_ignoring_enemy_charge_weapon_ability_depends_on_an_enemy_charge():
+    """Anticipated Strike / Protective Pike-Wall : neutraliser Charge (+1 Damage) ne sert que si l'ennemi a chargé ;
+    « has not charged » reste la contrainte du porteur."""
+    ex, _ = extract(
+        _raw(
+            "If this unit has not charged this turn, ignore the effect of the Charge (+1 Damage) ability for combat "
+            "attacks made by enemy units that target this unit."
+        )
+    )
+    reqs = next(e for e in ex.effects if e.kind == "no_buff").requires
+    assert "charge ennemie" in reqs and "sans charge" in reqs and "a chargé" not in reqs
+    assert "dépend d'une charge ennemie" in ex.conditions and "doit avoir chargé" not in ex.conditions
+
+
+def test_our_charge_or_enemy_charge_is_one_condition():
+    """Brutal Troof : deux charges en OU → une seule condition, la plus facile (0,5)."""
+    from aospy.abilities.extract.conditions import CHARGE_EITHER
+
+    ex, pen = extract(
+        _raw(
+            "Until the start of your next turn, add 1 to wound rolls for the target's attacks if it charged in the "
+            "same turn or if it is in combat with an enemy unit that charged in the same turn.",
+            declare="Pick a visible friendly IRONSUNZ unit wholly within 12\" of them to be the target, then make a "
+            "casting roll of 2D6.",
+            condition="Your Hero Phase",
+            cost_type="Spell",
+            cost_value="6",
+        )
+    )
+    assert ex.conditions == [CHARGE_EITHER[0]] and pen == pytest.approx(0.5)
+    assert next(e for e in ex.effects if e.kind == "stat_mod").requires.startswith("a chargé ou charge ennemie")
+
+
+def test_once_per_battle_trigger_for_the_rest_of_the_battle():
+    """Oath of Supremacy : les conditions du « If » se remplissent une fois (pénalités ÷ 2) et ne sont pas des
+    conditions de chaque combat (prérequis « déclencheur unique », sans « a chargé »)."""
+    text = (
+        "If this unit is wholly within enemy territory and charged this phase, for the rest of the battle, add 1 to "
+        "hit rolls for combat attacks made by friendly DARKOATH units while they are wholly within 12\" of this unit."
+    )
+    once, pen_once = extract(_raw(text, condition="Once Per Battle, Any Charge Phase"))
+    each, pen_each = extract(_raw(text, condition="Any Charge Phase"))
+    assert pen_once == pytest.approx(pen_each / 2)
+    req = next(e for e in once.effects if e.kind == "stat_mod").requires
+    assert req == "déclencheur unique (charge, en territoire)" and "a chargé" not in req
+    assert "a chargé" in next(e for e in each.effects if e.kind == "stat_mod").requires
+
+
+def test_random_table_rows_are_weighted_by_their_dice_range():
+    """Prized Creations : 1-2 BM sur soi, 3-4 +1 Attaques, 5-6 « en plus de 3-4 » Protection (5+) → une option
+    par plage de dé, puissance = espérance des lignes (pas leur somme, pas la meilleure)."""
+    from aospy.abilities.scoring import power_of
+
+    text = (
+        "Roll a dice for each target and apply the corresponding effect:\n"
+        "- 1-2 - Baneful Fury: Inflict D3 mortal damage on the target.\n"
+        "- 3-4 - Adrenal Injection: Add 1 to the Attacks characteristic of the target's melee weapons until your "
+        "next turn.\n"
+        "- 5-6 - Blind Frenzy: In addition to the effect of 'Adrenal Injection', the target has WARD (5+) until the "
+        "start of your next turn."
+    )
+    ex, _ = extract(_raw(text, declare="Pick up to 3 friendly non-HERO MOULDER units to be the targets.",
+                         condition="Your Hero Phase"))
+    groups = {e.kind: e.option_group for e in ex.effects}
+    assert groups == {"mortal_damage": "dé 1-2", "stat_mod": "dé 3-4", "ward": "dé 5-6 +préc"}
+    table, _ = power_of(ex, text)
+    rows = {
+        g: power_of(dataclasses.replace(ex, effects=[dataclasses.replace(e, option_group="") for e in effs]), text)[0]
+        for g, effs in (
+            ("3-4", [e for e in ex.effects if e.kind == "stat_mod"]),
+            ("5-6", [e for e in ex.effects if e.kind in ("stat_mod", "ward")]),
+        )
+    }
+    assert table == pytest.approx((rows["3-4"] + rows["5-6"]) / 3, abs=0.01)
+
+
+def test_heat_token_costs_are_not_a_random_table():
+    """Cogforts : « 1 Launch Countermeasures!: … » est un coût en jetons de chaleur, choisi, pas un jet."""
+    ex, _ = extract(
+        _raw(
+            "Pick 1 or more of the following effects. For each effect you pick, give this unit a number of heat "
+            "tokens equal to the number beside it.\n"
+            "1 Launch Countermeasures!: Until the start of your next turn, subtract 1 from hit rolls for shooting "
+            "attacks that target other friendly SIGMARITE units while they are wholly within 12\" of this unit.\n"
+            "2 Full Throttle!: For the rest of the turn, this unit's Move characteristic is 10\".",
+            condition="Your Hero Phase",
+        )
+    )
+    assert not any(e.option_group.startswith("dé ") for e in ex.effects)
+
+
+def test_roll_several_dice_and_pick_one_takes_the_best_row():
+    from aospy.abilities.scoring import _picked_dice
+
+    assert _picked_dice("Roll 2 dice, pick either result, then apply the corresponding effect") == 2
+    assert _picked_dice("Roll 3 dice. You must pick 1 of those dice and apply the effect that corresponds") == 3
+    assert _picked_dice("If X, you can roll 2 dice instead, pick either result") == 1
+
+
+def test_would_heal_or_return_is_an_anti_heal_not_a_return():
+    """Seething Blight / Plague Progenitor : « If an ability would heal or return any slain models to the target unit,
+    that ability does not heal any damage points or return any slain models to it » = anti-soin, pas un retour."""
+    ex, _ = extract(
+        _raw(
+            "For the rest of the battle:\n- If an ability would heal or return any slain models to the target unit, "
+            "that ability does not heal any damage points or return any slain models to it.",
+            declare="Pick an enemy unit within 13\" of this unit to be the target.",
+            condition="Your Hero Phase",
+        )
+    )
+    kinds = {e.kind for e in ex.effects}
+    assert "anti_heal" in kinds and "return_models" not in kinds

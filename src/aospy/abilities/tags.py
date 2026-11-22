@@ -157,6 +157,7 @@ def tags_for(raw: RawAbility, ex: Extraction, sc: Score) -> list[str]:
         "snipe": "tir",
         "anti_heal": "debuff",  # v28
         "strip_enhancement": "debuff",  # v31
+        "fury_debuff": "debuff",  # v34
     }
     for k, tag in mapping.items():
         if k in kinds:

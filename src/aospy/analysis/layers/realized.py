@@ -78,18 +78,21 @@ def coverage(
     polarity: str = "autre",
     share_melee: float = 1.0,
     start_round: int = 1,
+    resource_usage: Optional[float] = None,
 ) -> float:
     """Part de la partie couverte par l'effet (0-1) : frise de 10 demi-tours (`timeline.coverage`) — fréquence,
     tour où on le joue, durée écrite, pertinence offensive/défensive de chaque demi-tour.
 
     `available_round` (Dîme de Sang…, cf. `abilities.pipeline.RESOURCE_RATES`) : l'effet ne couvre que
-    les rounds à partir de celui-là. Ressource sans rythme connu : `UNKNOWN_RESOURCE`."""
+    les rounds à partir de celui-là. Ressource dépensée à chaque usage au rythme connu (`ability.resource_usage`
+    = min(1, rythme/coût), analyseur v34, validé par l'utilisateur) : la couverture × ce facteur ; sans rythme
+    connu : plafonnée à `UNKNOWN_RESOURCE`."""
     start = max(start_round, available_round or 1)
     base = timeline_coverage(
         frequency or "", duration or "", turn_side or "any", polarity, share_melee, start_round=min(start, 6)
     )
     if uses_resource and not (available_round and available_round > 1):
-        base = min(base, UNKNOWN_RESOURCE)
+        base = base * resource_usage if resource_usage is not None else min(base, UNKNOWN_RESOURCE)
     return base
 
 
@@ -104,6 +107,8 @@ class OwnEffect:
     available_round: Optional[int] = None
     uses_resource: bool = False
     turn_side: str = "any"
+    #: facteur d'usage de la ressource dépensée (`ability.resource_usage`) ; None = rythme inconnu
+    resource_usage: Optional[float] = None
     #: option d'une aptitude à choix exclusif (`ability_effect.option_group`, analyseur v33) ; '' = hors option
     option: str = ""
 
@@ -123,6 +128,7 @@ class OwnEffect:
                 polarity,
                 share_melee,
                 start_round,
+                self.resource_usage,
             )
             * self.activation_prob
         )
@@ -235,7 +241,7 @@ def own_effects(con) -> dict[tuple[str, str], list[tuple[str, str, bool, str, Ow
         """SELECT o.faction_name, lower(o.owner_name), a.name, a.scope,
                   coalesce(e.friendly_target, a.friendly_target), a.excludes_self,
                   a.frequency, a.activation_prob, a.available_round,
-                  FALSE, a.turn_side,
+                  FALSE, a.turn_side, a.resource_usage,
                   e.kind, e.stat, e.value, e.detail, e.side, e.weapon_scope, e.weapon_name, e.includes_companion,
                   e.target_keywords, e.target_condition, e.requires, e.duration, coalesce(e.option_group, '')
            FROM ability_owner o JOIN ability a ON a.uid = o.ability_uid
@@ -256,6 +262,7 @@ def own_effects(con) -> dict[tuple[str, str], list[tuple[str, str, bool, str, Ow
         avail,
         resource,
         tside,
+        usage,
         kind,
         stat,
         value,
@@ -300,6 +307,7 @@ def own_effects(con) -> dict[tuple[str, str], list[tuple[str, str, bool, str, Ow
                     available_round=avail,
                     uses_resource=bool(resource),
                     turn_side=tside or "any",
+                    resource_usage=usage,
                     option=option,
                 ),
             )
@@ -492,7 +500,7 @@ def support_values(con, share_melee: dict[int, float]) -> dict[tuple[str, str], 
     `SUPPORT_RECEIVER_QUANTILE` des receveurs × `support_receivers`."""
     rows = con.execute(
         """SELECT o.faction_name, lower(o.owner_name), a.name, a.scope, a.range_inches, a.cost_type,
-                  a.frequency, coalesce(a.activation_prob, 1.0), a.available_round, a.turn_side,
+                  a.frequency, coalesce(a.activation_prob, 1.0), a.available_round, a.turn_side, a.resource_usage,
                   e.kind, e.stat, e.weapon_scope, e.weapon_name, e.duration, coalesce(x.conditions, ''),
                   x.unit_id, x.off_after - x.off_before, x.def_after - x.def_before, coalesce(e.option_group, '')
            FROM ability_encounter x
@@ -516,6 +524,7 @@ def support_values(con, share_melee: dict[int, float]) -> dict[tuple[str, str], 
         prob,
         avail,
         tside,
+        usage,
         kind,
         stat,
         wscope,
@@ -536,8 +545,8 @@ def support_values(con, share_melee: dict[int, float]) -> dict[tuple[str, str], 
         spends = bool(tokens & resource)
         sm = share_melee.get(unit_id, 1.0)
         args = (freq or "", dur or "", avail, spends, tside or "any")
-        w_off = coverage(*args, polarity="off", share_melee=sm) * prob * chained
-        w_def = coverage(*args, polarity="def", share_melee=sm) * prob * chained
+        w_off = coverage(*args, polarity="off", share_melee=sm, resource_usage=usage) * prob * chained
+        w_def = coverage(*args, polarity="def", share_melee=sm, resource_usage=usage) * prob * chained
         key = (fac, owner, name)
         meta[key] = (scope, rng, _channel(cost, scope or ""))
         per = gains.setdefault(key, {}).setdefault(unit_id, {})
@@ -564,11 +573,11 @@ def support_values(con, share_melee: dict[int, float]) -> dict[tuple[str, str], 
 def direct_damage(con) -> dict[tuple[str, str], list[tuple]]:
     """Aptitudes de charte qui infligent des blessures mortelles à l'ennemi (étape 2 de la variante B), par
     (faction, charte en minuscules) : [(aptitude, canal, portée, texte, portée d'aptitude, fréquence,
-    P(déclenchement), round dispo, ressource, côté du tour, conditionnelle)]. L'espérance se lit dans
+    P(déclenchement), round dispo, ressource, côté du tour, conditionnelle, facteur d'usage de la ressource)]. L'espérance se lit dans
     `mortals.mortal_pmf` (le montant de la couche 1 n'est pas fiable pour ces textes)."""
     rows = con.execute(
         """SELECT o.faction_name, lower(o.owner_name), a.name, a.cost_type, a.scope, a.range_inches, a.effect_text,
-                  a.frequency, coalesce(a.activation_prob, 1.0), a.available_round, a.turn_side,
+                  a.frequency, coalesce(a.activation_prob, 1.0), a.available_round, a.turn_side, a.resource_usage,
                   string_agg(DISTINCT coalesce(e.requires, ''), ' | '), coalesce(a.conditions, '')
            FROM ability_owner o JOIN ability a ON a.uid = o.ability_uid
            JOIN ability_effect e ON e.ability_uid = a.uid
@@ -580,7 +589,7 @@ def direct_damage(con) -> dict[tuple[str, str], list[tuple]]:
 
     resource = {SPENDS_RESOURCE, RESOURCE_SCALED}
     out: dict[tuple[str, str], list[tuple]] = {}
-    for fac, owner, name, cost, scope, rng, text, freq, prob, avail, tside, reqs, aconds in rows:
+    for fac, owner, name, cost, scope, rng, text, freq, prob, avail, tside, usage, reqs, aconds in rows:
         tokens = {r.strip() for r in (reqs or "").split("|") if r.strip()}
         setup = {c.strip() for c in aconds.split("|") if c.strip()}
         if "doit avoir chargé" in setup or CHARGED_RE.match(" ".join((text or "").split())):
@@ -599,6 +608,7 @@ def direct_damage(con) -> dict[tuple[str, str], list[tuple]]:
                 bool(tokens & resource),
                 tside or "any",
                 " | ".join(sorted(tokens - resource)),
+                usage,
             )
         )
     return out
@@ -625,7 +635,7 @@ def unit_direct_damage(unit: Unit, entries: list, share_melee: float = 1.0) -> t
 
     out: list[Support] = []
     fit = 0.0
-    for name, chan, rng, text, scope, freq, prob, avail, spends, tside, conds in entries:
+    for name, chan, rng, text, scope, freq, prob, avail, spends, tside, conds, usage in entries:
         p_fit = 1.0
         if conds:
             if conds != "a chargé":
@@ -641,7 +651,7 @@ def unit_direct_damage(unit: Unit, entries: list, share_melee: float = 1.0) -> t
         e = mean(q) if cov is None else encounter.smooth_floor(q, cov)
         if e <= 0:
             continue
-        w = coverage(freq, "", avail, spends, tside, "off", share_melee) * prob
+        w = coverage(freq, "", avail, spends, tside, "off", share_melee, resource_usage=usage) * prob
         if w <= 0:
             continue
         if conds:

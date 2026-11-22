@@ -166,3 +166,17 @@ def test_friendly_target_matches_curly_apostrophe_keyword():
     other = dataclasses.replace(base, keywords=frozenset({"INFANTRY"}))
     assert matches_friendly_target(kin, "GUNNAR'S OATHSWORN", vocab)
     assert not matches_friendly_target(other, "GUNNAR'S OATHSWORN", vocab)
+
+
+def test_coverage_resource_usage():
+    """Ressource au rythme connu (`ability.resource_usage`) : la couverture × le facteur ; inconnu : forfait."""
+    from aospy.analysis.layers.realized import UNKNOWN_RESOURCE, coverage
+
+    base = coverage("chaque tour", "", polarity="off")
+    assert coverage("chaque tour", "", uses_resource=True, polarity="off", resource_usage=0.5) == pytest.approx(
+        base * 0.5
+    )
+    assert coverage("chaque tour", "", uses_resource=True, polarity="off", resource_usage=1.0) == pytest.approx(base)
+    assert coverage("chaque tour", "", uses_resource=True, polarity="off") == pytest.approx(
+        min(base, UNKNOWN_RESOURCE)
+    )

@@ -79,6 +79,7 @@ _DEBUFF_KINDS = {
     "taunt",
     "anti_heal",
     "strip_enhancement",
+    "fury_debuff",
 }
 _MOBILITY_KINDS = {
     "move",

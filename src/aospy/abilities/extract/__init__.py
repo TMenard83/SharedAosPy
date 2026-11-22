@@ -24,12 +24,14 @@ import dataclasses
 import re
 
 from ..models import BEARER_TARGET, Extraction, RawAbility
-from ..perimeter import charge_subjects
+from ..perimeter import charge_subjects, once_trigger_clause
+from ..resources import resource_usage
 from .activation import OPPOSED_TEST_PROB, OPPOSED_TEST_PROBS, activation_of, p_prayer_banked  # noqa: F401
 from .conditions import CHARGE_ENEMY, CHARGE_OURS, CONDITION_RULES, conditions_of, split_main_secondary  # noqa: F401
 from .dice import dice_mean, p_2d6, p_d6  # noqa: F401
 from .effects import effects_of
 from .qualitative import QUALITATIVE_RULES  # noqa: F401
+from .references import engine_factors, reference_effects
 from .rolls import dice_count_of, rerolls_of  # noqa: F401
 from .scope import scope_of
 from .targets import (
@@ -39,6 +41,11 @@ from .targets import (
     unlock_prereqs_of,
 )
 from .timing import frequency_of, turn_of
+
+#: v34 : « Once Per Battle » + « If …, … for the rest of the battle » : les conditions du « If » sont un
+#: déclencheur à réussir une seule fois sur la partie (`perimeter.once_trigger_clause`).
+ONCE_TRIGGER_PENALTY_FACTOR = 0.5
+ONCE_TRIGGER_LABEL = "déclencheur unique (pénalités ÷ 2)"
 
 
 def extract(raw: RawAbility) -> tuple[Extraction, float]:
@@ -50,6 +57,11 @@ def extract(raw: RawAbility) -> tuple[Extraction, float]:
     scope, rng, wholly = scope_of(raw.declare, raw.effect)
     enemy_target = scope in ("one_enemy", "enemy_aura", "all_enemies")
     conditions, penalty = conditions_of(f"{raw.condition} {raw.declare} {main}", enemy_target)
+    if penalty and once_trigger_clause(main, raw.condition):
+        # v34 : conditions à réussir UNE fois pour un effet qui dure toute la bataille (Oath of Supremacy) :
+        # une seule réussite sur la partie suffit → pénalités de mise en place divisées par 2
+        penalty *= ONCE_TRIGGER_PENALTY_FACTOR
+        conditions = conditions + [ONCE_TRIGGER_LABEL]
     if secondary:
         # prérequis propres à un effet secondaire : notés, sans pénalité de mise en place
         conditions += [
@@ -101,7 +113,22 @@ def extract(raw: RawAbility) -> tuple[Extraction, float]:
             else dataclasses.replace(e, requires=" | ".join(filter(None, [e.requires, "a survolé la cible"])))
             for e in effects
         ]
+    # v34 (B) : mécanique de faction dont la valeur est dans d'autres aptitudes (méta, statut, décor…),
+    # résolue en seconde passe par `abilities.references` ; seulement si rien d'autre n'a été reconnu
+    if all(e.kind == "warscroll_rule" for e in effects):
+        effects = reference_effects(raw) or effects
+    factor, factor_note, act, act_note = engine_factors(raw)
+    usage, usage_note = resource_usage(raw)
+    if usage is not None and usage < 1:
+        factor *= usage
+        factor_note = "; ".join(filter(None, [factor_note, usage_note]))
+    if act != 1.0:
+        p *= act
+        notes = notes + [act_note]
     ex = Extraction(
+        power_factor=factor,
+        power_factor_note=factor_note,
+        resource_usage=usage,
         frequency=frequency_of(raw.condition),
         turn=turn_of(raw.condition, raw.phase),
         scope=scope,

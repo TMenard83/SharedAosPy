@@ -269,7 +269,10 @@ ALTER TABLE ability_effect ADD COLUMN IF NOT EXISTS friendly_target VARCHAR;
 -- NULL = hors option (analyseur v33)
 ALTER TABLE ability_effect ADD COLUMN IF NOT EXISTS option_group VARCHAR;
 ALTER TABLE ability ADD COLUMN IF NOT EXISTS family VARCHAR;                     -- famille principale
-ALTER TABLE ability ADD COLUMN IF NOT EXISTS bearer_restriction VARCHAR;         -- optimisations : à qui la donner (« HERO only »…)
+ALTER TABLE ability ADD COLUMN IF NOT EXISTS bearer_restriction VARCHAR;
+-- Analyseur v34 (C) : facteur d'usage min(1, rythme/coût) d'une ressource dépensée à chaque usage
+-- (abilities/resources.py) ; NULL = aucune ressource au rythme connu. Table reconstruite : sans danger.
+ALTER TABLE ability ADD COLUMN IF NOT EXISTS resource_usage DOUBLE;         -- optimisations : à qui la donner (« HERO only »…)
 -- Origine de chaque porteur (analyseur v32, abilities/source.py::origin_of) : warscroll / regiment_of_renown /
 -- base / army_of_renown / spearhead / path_to_glory. Spearhead et Path to Glory sont hors jeu égal.
 ALTER TABLE ability_owner ADD COLUMN IF NOT EXISTS origin_kind VARCHAR;

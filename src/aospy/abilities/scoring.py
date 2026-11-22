@@ -26,6 +26,9 @@ aptitude « soi-même » peut être un excellent plan ; il sert aux combos.
 
 from __future__ import annotations
 
+import re
+
+from .extract.targets import DICE_ROW_CUMUL, DICE_ROW_PREFIX, OPPONENT_PICKS
 from .models import Effect, Extraction, Score
 
 MIN_POWER = 1.25  # en dessous : effet trop faible pour peser
@@ -129,6 +132,18 @@ EFFECT_WEIGHTS: dict[str, float] = {
     # v31, validé par l'utilisateur (2026-11-21) : artefact retiré à un héros ennemi = 1,0 (plus bas que ma
     # proposition 1,5 : contre-combo, beaucoup de héros adverses n'en ont pas)
     "strip_enhancement": 1.0,
+    # v34 (C), validé par l'utilisateur (2026-11-22) : −1 au niveau de fureur adverse = 0,5 (remise à 0 : 1,0)
+    "fury_debuff": 0.5,
+}
+FURY_RESET_WEIGHT = 1.0
+
+#: v34 (B) : effets dont la valeur est dans d'AUTRES aptitudes, résolue en seconde passe
+#: (`abilities.references.resolve_references`, règles validées par l'utilisateur le 2026-11-22).
+RESOLVED_KINDS: dict[str, str] = {
+    "ability_ref": "modifie",
+    "status_grant": "statut",
+    "free_enhancement": "enhancement gratuit",
+    "terrain_setup": "décor en plus",
 }
 
 #: Dé en plus / en moins sur un jet (analyseur v28, validé par l'utilisateur 2026-11-20). « garder » (3 dés, on en retire 1) ≈ une relance du jet
@@ -253,6 +268,11 @@ def _effect_weight(e: Effect) -> tuple[float, str]:
         w = base * (DICE_SUM_MULT if e.detail == "somme" else 1.0)  # « max » (dé bas = dé haut) ≈ « garder »
         how = {"somme": "tous comptent", "max": "le plus bas devient le plus haut"}.get(e.detail, "on en retire un")
         return w, f"un dé de plus ({name}, {how})"
+    if e.kind == "fury_debuff" and "to 0" in e.detail:
+        return FURY_RESET_WEIGHT, "fureur adverse remise à 0"
+    if e.kind in RESOLVED_KINDS:
+        # v34 (B) : valeur résolue par `abilities.references` d'après les aptitudes citées (0 si non retrouvées)
+        return e.value, f"{RESOLVED_KINDS[e.kind]} {e.detail} ({e.value:.2g})"
     if e.kind in ("strike_last", "restriction", "lockout", "move_debuff", "untargetable"):
         if e.kind == "untargetable" and e.side == "friendly":
             return 2.0, "inciblable"
@@ -265,12 +285,97 @@ def _effect_weight(e: Effect) -> tuple[float, str]:
 def power_of(ex: Extraction, effect_text: str) -> tuple[float, list[str]]:
     """Puissance ; une aptitude à options exclusives (« pick 1 of the following », runes de Master of the
     Runes, analyseur v33 : `Effect.option_group`) vaut sa meilleure option, pas leur somme."""
+    value, notes = _options_power(ex, effect_text)
+    if ex.power_factor != 1.0:
+        value = round(value * ex.power_factor, 2)
+        notes = notes + [ex.power_factor_note]
+    return value, notes
+
+
+def _options_power(ex: Extraction, effect_text: str) -> tuple[float, list[str]]:
     groups = list(dict.fromkeys(e.option_group for e in ex.effects if e.option_group))
+    if groups and all(g.startswith(DICE_ROW_PREFIX) for g in groups):
+        return _table_power(ex, groups, effect_text)
     if len(groups) < 2:
         return _power(ex, ex.effects, effect_text)
     variants = [_power(ex, [e for e in ex.effects if e.option_group in ("", g)], effect_text) for g in groups]
+    if OPPONENT_PICKS.search(effect_text):
+        # v34 (B1, proposition de l'utilisateur) : l'adversaire choisit → l'option la plus faible pour nous
+        value, notes = min(variants, key=lambda v: v[0])
+        return value, notes + [f"options exclusives choisies par l'adversaire : la plus faible des {len(groups)}"]
     value, notes = max(variants, key=lambda v: v[0])
     return value, notes + [f"options exclusives : la meilleure des {len(groups)}"]
+
+
+def _p_range(lo: int, hi: int, two_d6: bool) -> float:
+    if two_d6:
+        return sum(1 for a in range(1, 7) for b in range(1, 7) if lo <= a + b <= hi) / 36
+    return max(0, min(hi, 6) - max(lo, 1) + 1) / 6
+
+
+def _table_power(ex: Extraction, groups: list[str], effect_text: str) -> tuple[float, list[str]]:
+    """v34 : table de résultats aléatoires (« Roll a dice and apply the corresponding effect: 1 - …, 2-4 - … »)
+    → espérance des lignes, chacune pondérée par la probabilité de sa plage (D6, ou 2D6 si une plage dépasse 6).
+    Une ligne « In addition to the effect of … » reprend les effets de la ligne précédente. Les lignes sans
+    effet reconnu (« No effect », contrepartie) valent 0."""
+    def _range(g: str) -> tuple[int, int]:
+        lo, hi = g[len(DICE_ROW_PREFIX) :].split(" ")[0].split("-")
+        return int(lo), int(hi)
+
+    groups = sorted(groups, key=_range)  # ordre du dé : « +préc » reprend la ligne juste en dessous
+    ranges = [_range(g) for g in groups]
+    two_d6 = max(hi for _, hi in ranges) > 6
+    common = [e for e in ex.effects if not e.option_group]
+    rows, prev = [], []
+    for g, (lo, hi) in zip(groups, ranges):
+        row = [e for e in ex.effects if e.option_group == g]
+        effects = common + row + (prev if g.endswith(DICE_ROW_CUMUL) else [])
+        rows.append((lo, hi, _power(ex, effects, effect_text)[0]))
+        prev = row + (prev if g.endswith(DICE_ROW_CUMUL) else [])
+    # v34 (B3) : ligne « Pick any other effect » (Aura of Mutation) = la meilleure des autres lignes, au lieu de 0
+    for lo, hi in _free_pick_rows(effect_text):
+        if not any(r[0] == lo and r[1] == hi for r in rows):
+            ranges.append((lo, hi))
+        best = max((v for a, b, v in rows if (a, b) != (lo, hi)), default=0.0)
+        rows = [r for r in rows if (r[0], r[1]) != (lo, hi)] + [(lo, hi, best)]
+    two_d6 = max(hi for _, hi in ranges) > 6
+    _, notes = _power(ex, ex.effects, effect_text)
+    k = _picked_dice(effect_text)
+    if k > 1 and not two_d6:
+        # « Roll 2 dice, pick either result » (Radiant Transmogrification) : meilleur des k dés
+        face = sorted((next((v for lo, hi, v in rows if lo <= f <= hi), 0.0) for f in range(1, 7)), reverse=True)
+        value = sum(v * ((1 - ((6 - i - 1) / 6) ** k) - (1 - ((6 - i) / 6) ** k)) for i, v in enumerate(face))
+        return round(value, 2), notes + [f"table aléatoire (meilleur de {k} dés) : espérance des {len(groups)} lignes"]
+    value = sum(_p_range(lo, hi, two_d6) * v for lo, hi, v in rows)
+    die = "2D6" if two_d6 else "D6"
+    return round(value, 2), notes + [f"table aléatoire ({die}) : espérance des {len(groups)} lignes"]
+
+
+_FREE_PICK_ROW = re.compile(
+    r"^\s*(?:-\s*)?(\d{1,2})(?:\s*[-–]\s*(\d{1,2}))?\b[^\n]*?\b(?:[Pp]ick|[Cc]hoose) "
+    r"(?:any other|1 of the other|one of "
+    r"the other|another) (?:effect|result|row)",
+    re.M,
+)
+
+
+def _free_pick_rows(text: str) -> list[tuple[int, int]]:
+    """Lignes de table « 6 - Mutant Tide: Pick any other effect » : plages (lo, hi)."""
+    return [(int(m.group(1)), int(m.group(2) or m.group(1))) for m in _FREE_PICK_ROW.finditer(text)]
+
+
+#: « Roll 2 dice, pick either result » / « Roll 3 dice. You must pick 1 of those dice » ; un « you can roll 2 dice
+#: instead » conditionnel (Aura of Mutation, près d'un sorcier de Tzeentch) n'en est pas un : « Roll » en tête.
+_PICK_DICE = re.compile(r"\bRoll (\d|two|three) dice\b(?:\.\s*)?[^.]*?\bpick (?:either|1|one)\b")
+
+
+def _picked_dice(text: str) -> int:
+    """Nombre de dés lancés parmi lesquels on choisit le résultat de la table (1 = tirage simple)."""
+    m = _PICK_DICE.search(text)
+    if not m:
+        return 1
+    n = m.group(1).lower()
+    return {"two": 2, "three": 3}.get(n) or int(n)
 
 
 def _power(ex: Extraction, effects: list[Effect], effect_text: str) -> tuple[float, list[str]]:
@@ -294,9 +399,15 @@ def _power(ex: Extraction, effects: list[Effect], effect_text: str) -> tuple[flo
     # « Once Per Battle » + effet « for the rest of the battle » : la limite n'est qu'un déclencheur
     # (garde-fou anti-cumul, cf. deux Warqueen dans la même armée), l'effet est permanent une
     # fois lancé → ni pénalité de fréquence ni bonus de durée, comme une passive (avis utilisateur).
-    once_lasting = lasting and ex.frequency.startswith("once_per_battle")
+    # v34 : un enhancement donné au déploiement reste toute la partie (validé : pas de malus « une fois »)
+    once_lasting = (lasting or any(e.kind == "free_enhancement" for e in effects)) and ex.frequency.startswith(
+        "once_per_battle"
+    )
     freq = 1.0 if once_lasting else _FREQ_MULT.get(ex.frequency, 1.0)
-    mult = _SCOPE_MULT.get(ex.scope, 1.0) * freq
+    scope_mult = _SCOPE_MULT.get(ex.scope, 1.0)
+    if ex.scope in ("enemy_aura", "all_enemies") and all(e.kind in RESOLVED_KINDS for e in effects):
+        scope_mult = 1.0  # v34 : statut/renvoi donné à NOS unités, la portée ennemie n'est qu'un décompte
+    mult = scope_mult * freq
     notes = [f"effets : {', '.join(lbl for _, lbl in weights[:4] if lbl)}"]
     if any(e.detail == "marquage" for e in effects):
         mult *= MARK_MULT

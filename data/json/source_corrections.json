@@ -44,6 +44,1293 @@
       "effect": "Remove 3 of this unit's magmic power tokens. If you do so, apply the effect below that corresponds to the UR-GOLD RUNE ability that was used:\nRune of Fury: For the rest of the battle round, add 1 to wound rolls for combat attacks made by friendly FYRESLAYERS units while they have STRIKE-FIRST.\nRune of Fiery Determination: Add 1 to save rolls for friendly FYRESLAYERS units for the rest of the battle round.\nRune of Relentless Zeal: Add 1 to run rolls and charge rolls for friendly FYRESLAYERS units for the rest of the battle round.\nRune of Searing Heat: Add 1 to the Rend characteristic of melee weapons used by friendly FYRESLAYERS units for the rest of the battle round.\nRune of Farsight: The range of the 'Rune of Farsight' ability is 16\".",
       "source": "Faction Pack Fyreslayers FR (août 2026) p.13, « Maîtrise des Runes » : Rune d'Incandescence, Rune de Prescience",
       "note": "Wahapedia : texte coupé à « Rune of Searing Heat: Add 1 to t » (Rune of Farsight absente). Fin traduite du scan français ; les trois premières runes gardent le texte Wahapedia. Mise à jour d'octobre 2026 : rien sur cette aptitude (ses changements Fyreslayers visent le Battletome Khazalite Holds)."
+    },
+    {
+      "faction": "Cities of Sigmar",
+      "name": "Consecrate the Land",
+      "condition": null,
+      "declare": null,
+      "effect": "If there are no enemy units contesting the target objective, it is considered by you to be consecrated. Otherwise, roll a dice. On a 3+, the target objective is considered by you to be consecrated.\nWhile they are wholly within 6\" of a consecrated objective and under orders:\n- Friendly non-WAR MACHINE SIGMARITE units have WARD (5+).\n- Friendly SIGMARITE WAR MACHINES have WARD (6+).\nIf your opponent gains control of a consecrated objective, it is no longer consecrated.",
+      "source": "BT Cités de Sigmar FR p.75 (scan, page PDF 12), charte Forgeprêtre de Mallus, « Consacrer la Terre »",
+      "note": "Wahapedia : texte coupé à « have WARD ( ». Fin traduite du scan (vérifié sur l'image). Aucune mise à jour de règles (août, octobre 2026) sur cette aptitude."
+    },
+    {
+      "faction": "Cities of Sigmar",
+      "name": "THE SPHERE CELESTIAL",
+      "condition": null,
+      "declare": null,
+      "effect": "Remove this unit from the battlefield and set it up again within 1\" of the target unit and not in combat. Then, remove the target unit from the battlefield and set it up again within 1\" of the target point and not in combat. This unit and the target unit can use MOVE abilities in the following movement phase (this is an exception to Core Rules, 24.0).",
+      "source": "BT Cités de Sigmar FR, Artefacts de Pouvoir, « La Sphère Céleste » (verbatim relevé dans data/json/faction_rules_fr.json) ; annonce : Mises à jour de règles août 2026 p.37",
+      "note": "Wahapedia : effet coupé à « Remove this unit from the battlefield and ». Fin traduite du français. L'annonce Wahapedia suit déjà l'errata d'août 2026 ; octobre 2026 ne change rien."
+    },
+    {
+      "faction": "Seraphon",
+      "name": "FURTHER THE GREAT PLAN",
+      "condition": null,
+      "declare": "You cannot use this ability in the first battle round. Pick an ASTERISM that you have prophesied. You cannot pick an ASTERISM that you have previously picked this battle. If you do not meet the condition below that corresponds to that ASTERISM, this ability has no effect.\n- Itzl the Tamer: 3 or more enemy units have been destroyed.\n- Quetzl the Preserver: There are no enemy units wholly within friendly territory.\n- Sotek the Deliverer: The enemy general is in combat or has been destroyed.\n- Tepok the Seer: There are any friendly SLANN units on the battlefield and no friendly SLANN units are in combat or have been destroyed.",
+      "effect": "Pick an ASTERISM ability to be prophesied. Its effects apply in addition to those of all other prophesied ASTERISM abilities.",
+      "source": "Rules updates octobre 2026 (eng_28-10_aos_core_rules_and_key_downloads_rules_updates) p.26, « Change 'Further the Great Plan' to » (texte anglais complet)",
+      "note": "Wahapedia : annonce coupée à « or have be », effet vide."
+    },
+    {
+      "faction": "Flesh-eater Courts",
+      "name": "THE SUMMERKING'S FAVOUR",
+      "condition": null,
+      "declare": null,
+      "effect": "Resolve the effect of 'Renowned Might' below. If the chanting roll was 10+, resolve the effect of either 'Renowned Might' or 'Righteous Tenacity' instead.\nRenowned Might: Add 1 to the Damage characteristic of the target's melee weapons for the rest of the turn.\nRighteous Tenacity: The target can use 2 FIGHT abilities this turn. However, after the first is used, the target has STRIKE-LAST for the rest of the turn.",
+      "source": "BT Cours des Mangechairs FR, domaine de prières Rites du Délire, « Faveur du Roi de l'Été » (verbatim relevé dans data/json/faction_rules_fr.json)",
+      "note": "Wahapedia : texte coupé à « Ren ». Fin traduite du français (Puissance Réputée / Ténacité Légitime). Aucune mise à jour de règles d'octobre 2026."
+    },
+    {
+      "faction": "Hedonites of Slaanesh",
+      "name": "BEGUILING GLANCE",
+      "condition": null,
+      "declare": null,
+      "effect": "If the unit using this ability is a PARAGON, pick 1 of the effects below. Otherwise, your opponent must pick 1 of the effects below.\nSuccumb: For the rest of the turn, when the target is using a CHARGE ability, it must end that charge move no further from the HERO using this ability.\nResist: For the rest of the turn, subtract 2 from charge rolls for the target.",
+      "source": "BT Hédonites de Slaanesh FR, traits de bataille, « Danse Enjôleuse » (scan, page PDF 4, vérifié sur l'image)",
+      "note": "Wahapedia : coupé à « no further from the ». Fin traduite du scan (« Succomber » / « Résister »)."
+    },
+    {
+      "faction": "Hedonites of Slaanesh",
+      "name": "ENTHRALLING VANITY",
+      "condition": null,
+      "declare": null,
+      "effect": "If the unit using this ability is a PARAGON, pick 1 of the effects below. Otherwise, your opponent must pick 1 of the effects below.\nMesmerised: For the rest of the turn, weapons used by friendly HEDONITES OF SLAANESH units, including Companion weapons, have Crit (2 Hits) for attacks that target the target.\nAvert Gaze: For the rest of the turn, weapon abilities (excluding Companion) of the target's melee weapons have no effect.",
+      "source": "BT Hédonites de Slaanesh FR, traits de bataille, « Vanité Captivante » (scan, page PDF 4, vérifié sur l'image)",
+      "note": "Wahapedia : coupé à « friendly HEDONITES OF SLAANESH ». Fin traduite du scan (« Fascinés » / « Détourner le Regard »)."
+    },
+    {
+      "faction": "Hedonites of Slaanesh",
+      "name": "SPEW FORTH SIN",
+      "condition": null,
+      "declare": null,
+      "effect": "Pick a friendly HEDONITES OF SLAANESH MANIFESTATION that is not on the battlefield and that was not removed from play earlier in the same turn.\nIf you picked a Dreadful Visage or Wheels of Excruciation, set it up wholly within 12\" of the caster, visible to them and more than 9\" from all enemy units. If you picked a Hypnotic Mirror, set it up wholly within 12\" of the caster and visible to them.",
+      "source": "Règles de renom Hédonites de Slaanesh FR (fre_17-06_aos4_rulesofrenown_hedonites_of_slaanesh) p.2, « Bouffées de Péchés »",
+      "note": "Wahapedia : coupé à « wholly within 12\" of ». Fin traduite du français."
+    },
+    {
+      "faction": "Hedonites of Slaanesh",
+      "name": "SUMMON MANIFESTATION OF DEPRAVITY",
+      "condition": null,
+      "declare": null,
+      "effect": "Pick a friendly HEDONITES OF SLAANESH MANIFESTATION that is not on the battlefield and that was not removed from play earlier in the same turn.\nIf you picked a Dreadful Visage or Wheels of Excruciation, set it up wholly within 12\" of the caster, visible to them and more than 9\" from all enemy units. If you picked a Hypnotic Mirror, set it up wholly within 12\" of the caster and visible to them.",
+      "source": "Armée de renom Court of the Godlings FR, « Convocation de Manifestations de Dépravation » (verbatim relevé dans data/json/faction_rules_fr.json)",
+      "note": "Wahapedia : coupé à « or Wheels of Excruciation ». Fin traduite du français."
+    },
+    {
+      "faction": "Hedonites of Slaanesh",
+      "name": "SUMMON MANIFESTATIONS OF DEPRAVITY",
+      "condition": null,
+      "declare": null,
+      "effect": "Pick a friendly HEDONITES OF SLAANESH MANIFESTATION that is not on the battlefield and that was not removed from play earlier in the same turn.\nIf you picked a Dreadful Visage or Wheels of Excruciation, set it up wholly within 12\" of the caster, visible to them and more than 9\" from all enemy units. If you picked a Hypnotic Mirror, set it up wholly within 12\" of the caster and visible to them.",
+      "source": "Armée de renom The Decadent Host FR, « Convocation de Manifestations de Dépravation » (verbatim relevé dans data/json/faction_rules_fr.json)",
+      "note": "Wahapedia : coupé à « or Wheels of Excruciation, ». Fin traduite du français."
+    },
+    {
+      "faction": "Idoneth Deepkin",
+      "name": "TWIN TIDES",
+      "condition": null,
+      "declare": null,
+      "effect": "Used By: The friendly AKHELIAN unit using that ATTACK ability. Pick a visible friendly NAMARTI unit that has not used an ATTACK ability this phase to be the target.\n- If this unit used a SHOOT ability, immediately after the Shoot ability used by this unit has been resolved, the target can be picked to use a SHOOT ability as if it were your shooting phase.\n- If this unit used a FIGHT ability, immediately after the FIGHT ability used by this unit has been resolved, the target can be picked to use a FIGHT ability. If the target does so, for the rest of the phase, add 1 to the Attacks characteristic of its weapons but all of its attacks must target enemy units that had any damage points allocated to it this phase by this unit's attacks.",
+      "source": "Rules updates octobre 2026 (eng_28-10_aos_core_rules_and_key_downloads_rules_updates) p.51, Battletome Idoneth Deepkin, « Add the following ability: Twin Tides » (texte anglais complet)",
+      "note": "Wahapedia : coupé à « immediately after the »."
+    },
+    {
+      "faction": "Skaven",
+      "name": "Peal of Doom",
+      "owner": "Grey Seer on Screaming Bell",
+      "condition": null,
+      "declare": null,
+      "effect": "Roll a dice and apply the corresponding effect:\n- 1 - Magical Backlash: Inflict D3 mortal damage on this unit.\n- 2-4 - Unholy Wall of Sound: Until the start of your next turn, subtract 1 from hit rolls for combat attacks made by enemy units while they are within 13\" of this unit.\n- 5-6 - Apocalyptic Doom: Roll a D3 for each enemy unit within 13\" of this unit. On a 2+, inflict an amount of mortal damage on that enemy unit equal to the roll.",
+      "source": "BT Skaven FR, charte Prophète Gris sur Cloche Hurlante, « Carillon Funeste » (verbatim relevé dans data/json/faction_rules_fr.json)",
+      "note": "Wahapedia : table d'effets absente (« apply the corresponding »). Traduite du français. Limitée à ce porteur : la variante Scourge of Aqshy a un autre texte."
+    },
+    {
+      "faction": "Skaven",
+      "name": "Prized Creations",
+      "condition": null,
+      "declare": null,
+      "effect": "Roll a dice for each target and apply the corresponding effect:\n- 1-2 - Baneful Fury: Inflict D3 mortal damage on the target.\n- 3-4 - Adrenal Injection: Add 1 to the Attacks characteristic of the target's melee weapons until your next turn.\n- 5-6 - Blind Frenzy: In addition to the effect of 'Adrenal Injection', the target has WARD (5+) until the start of your next turn.",
+      "source": "BT Skaven FR, formation Ménagerie de Chair Mêlée, « Créations Prisées » (verbatim relevé dans data/json/faction_rules_fr.json)",
+      "note": "Wahapedia : table d'effets absente. Traduite du français."
+    },
+    {
+      "faction": "Skaven",
+      "name": "Skryre Prototypes",
+      "condition": null,
+      "declare": null,
+      "effect": "Roll a dice for each target and apply the corresponding effect:\n- 1 - Kaboom!: Inflict D3 mortal damage on the target.\n- 2-5 - More Power!: Add 1 to wound rolls for the target's shooting attacks for the rest of the turn.\n- 6 - More-More Power!: In addition to the effect of 'More Power!', add 1 to the Rend characteristic of the target's ranged weapons for the rest of the turn.",
+      "source": "BT Skaven FR, formation Convocation Rouages-Malefiques, « Prototypes Skryre » (verbatim relevé dans data/json/faction_rules_fr.json)",
+      "note": "Wahapedia : table d'effets absente. Traduite du français."
+    },
+    {
+      "faction": "Skaven",
+      "name": "Too Horrible To Die",
+      "condition": null,
+      "declare": null,
+      "effect": "The first time this unit would be destroyed, before removing it from the battlefield, roll a dice and apply the corresponding effect:\n- 1 - Dead: This unit is destroyed.\n- 2-4 - The Rats Burst Out: Roll a D3 for each enemy unit in combat with this unit. On a 2+, inflict an amount of mortal damage on that enemy unit equal to the roll. Then, this unit is destroyed.\n- 5-6 - It's Alive!: This unit is not destroyed and any remaining damage points it would have been allocated have no effect. Then, Heal (D6) this unit.",
+      "source": "BT Skaven FR, charte Abomination de Malefosse, « Trop Horrible pour Mourir » (verbatim relevé dans data/json/faction_rules_fr.json)",
+      "note": "Wahapedia : table d'effets absente. Traduite du français. Octobre 2026 : seulement une FAQ (Rampaging Demise), texte inchangé."
+    },
+    {
+      "faction": "Slaves to Darkness",
+      "name": "BRAND OF THE UNALIGNED",
+      "condition": null,
+      "declare": "This unit cannot use this ability if it has an Ensorcelled Banner.",
+      "effect": "Remove all of this unit's Pledge to Chaos keywords. Then, pick 1 of the following Pledge to Chaos keywords. You cannot pick a keyword you picked for this unit earlier in the battle.\n- PLEDGED TO KHORNE\n- PLEDGED TO TZEENTCH\n- PLEDGED TO NURGLE\n- PLEDGED TO SLAANESH\nThis unit has that keyword for the rest of the battle.",
+      "source": "Fléau d'Aqshy Esclaves des Ténèbres FR (fre_23-09_aos_scourge_of_aqshy_slaves_to_darkness) p.1, « Marque des Non-Alignés » ; annonce : Rules updates octobre 2026 (eng_28-10_aos_core_rules_and_key_downloads_rules_updates) p.32",
+      "note": "Wahapedia : balises HTML et texte coupés. Fin traduite du français ; annonce ajoutée par la mise à jour d'octobre 2026."
+    },
+    {
+      "faction": "Slaves to Darkness",
+      "name": "PLEDGE TO CHAOS",
+      "condition": null,
+      "declare": null,
+      "effect": "Pick 1 of the following Pledge to Chaos keywords:\n- PLEDGED TO KHORNE\n- PLEDGED TO TZEENTCH\n- PLEDGED TO NURGLE\n- PLEDGED TO SLAANESH\nThe target has that keyword for the rest of the battle.",
+      "source": "BT Esclaves des Ténèbres FR, traits de bataille, « Vocation au Chaos » (verbatim relevé dans data/json/faction_rules_fr.json)",
+      "note": "Wahapedia : coupé après « PLEDGED TO NURGLE ». Fin traduite du français. Octobre 2026 : FAQ et « You Will Serve! » seulement."
+    },
+    {
+      "faction": "Stormcast Eternals",
+      "name": "SUMMON DAIS ARCANUM",
+      "condition": null,
+      "declare": null,
+      "effect": "Set up a Dais Arcanum within ½\" of the target, visible to the caster and not in combat. Then, remove the target from the battlefield and set it up on the platform of that Dais Arcanum.",
+      "source": "BT Éternels de l'Orage FR, domaine de manifestations, « Convocation de Dais Arcanum » (verbatim relevé dans data/json/faction_rules_fr.json)",
+      "note": "Wahapedia : coupé à « visible to ». Fin traduite du français. Octobre 2026 : seul le résumé de la référence des règles change."
+    },
+    {
+      "faction": "Sylvaneth",
+      "name": "ROUSED TO FURY",
+      "condition": null,
+      "declare": null,
+      "effect": "Pick 1 of the following units:\n- A friendly LORDS OF THE CLAN unit that is in reserve as a dormant forest spirit.\n- A friendly LORDS OF THE CLAN MONSTER that has been destroyed.\nSet up the unit you picked, or a replacement unit if you picked a destroyed unit, within 9\" of the target, wholly within 6\" of that friendly Awakened Wyldwood and not in combat. If you set up a replacement unit, allocate 6 damage points to it (ward rolls cannot be made for those damage points).\nThen, remove that friendly Awakened Wyldwood from the battlefield.",
+      "source": "BT Sylvaneth (scan ANGLAIS) p.92, armée de renom Lords of the Clan (page PDF 23, lue sur l'image)",
+      "note": "Wahapedia : coupé à « Set up the unit you picked, or a ». Texte anglais du scan."
+    },
+    {
+      "faction": "Sylvaneth",
+      "name": "Regenesis",
+      "condition": null,
+      "declare": null,
+      "effect": "If the chanting roll was 6+, you can pick another eligible unit to be a second target. If a target is a non-HERO REVENANT INFANTRY or Dryads unit, return up to D3 models to the target unit. Otherwise, Heal (3) that target.",
+      "source": "Rules updates octobre 2026 (eng_28-10_aos_core_rules_and_key_downloads_rules_updates) p.75, Grove Guardian, « Change the effect of Regenesis to »",
+      "note": "Wahapedia : coupé à « Othe »."
+    },
+    {
+      "faction": "Sylvaneth",
+      "name": "SONG OF PERSISTENCE",
+      "condition": null,
+      "declare": null,
+      "effect": "Until the start of your next turn, ignore the effect of the 'Battle Damaged' ability on the target. In addition, if the chanting roll was 6+, the target has WARD (6+) until the start of your next turn.",
+      "source": "BT Sylvaneth (scan ANGLAIS) p.93, armée de renom Lords of the Clan, domaine de prières (page PDF 24, lue sur l'image)",
+      "note": "Wahapedia : coupé à « In additi ». Texte anglais du scan."
+    },
+    {
+      "faction": "Blades of Khorne",
+      "name": "BLOOD-DRENCHED",
+      "owner": "Battle Traits › Battle Traits",
+      "condition": null,
+      "declare": null,
+      "effect": "After that ability has been resolved, if you unlocked a BLOOD TITHE ability this turn, pick a friendly BLADES OF KHORNE unit to be the target. The following effects apply to the target for the rest of the battle:\nWild-eyed Brutality: Ignore positive modifiers to save rolls for the target.\nBlood Haze: If the target is BLOODBOUND, its Blood-hungry weapons have Crit (Mortal).\nWeapons of Murder: If the target is a non-MONSTER DAEMON unit, add 1 to the Rend characteristic of its Blood-hungry weapons, including Blood-hungry Companion weapons.\nBloodlords Supreme: If the target is a MONSTER, add 1 to the Damage characteristic of its Blood-hungry weapons.",
+      "source": "Rules updates octobre 2026 (eng_28-10_aos_core_rules_and_key_downloads_rules_updates) p.35, « Change the timing of the 'Blood-drenched' ability as shown » (texte anglais complet)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Blades of Khorne",
+      "name": "FETTERS OF BLOOD",
+      "condition": null,
+      "declare": null,
+      "effect": "If the chanting roll was 8+, you can pick another eligible unit to be a second target. Until the start of your next turn:\n- The targets cannot use RETREAT or RUN abilities.\n- The targets cannot be removed from the battlefield by an ability that would allow them to be set up elsewhere on the battlefield or in reserve.",
+      "source": "BT Blades of Khorne, « Fers de Sang » (verbatim relevé dans data/json/faction_rules_fr.json, rules > prayer_lores > 5)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Blades of Khorne",
+      "name": "FINAL ACT OF VIOLENCE",
+      "condition": null,
+      "declare": null,
+      "effect": "Until the start of your next turn, each time a model in the target unit is slain by a combat attack and that model was in combat with the attacking unit, roll a dice. If the chanting roll was 8+, roll 2 dice instead. For each 5+, inflict 1 mortal damage on the attacking unit after the FIGHT ability has been resolved.",
+      "source": "BT Blades of Khorne, « Acte Final de Violence » (verbatim relevé dans data/json/faction_rules_fr.json, rules > prayer_lores > 2)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Blades of Khorne",
+      "name": "RUNES OF LOATHING",
+      "condition": null,
+      "declare": null,
+      "effect": "Until the start of your next turn, the target has WARD (3+) against damage inflicted by SPELL abilities, PRAYER abilities and abilities used by MANIFESTATIONS.",
+      "source": "complétion évidente (dernier mot coupé : « MANIFESTAT »)",
+      "note": "Wahapedia : description coupée à 1024 caractères ; seul le mot final manquait."
+    },
+    {
+      "faction": "Blades of Khorne",
+      "name": "Words of Hate",
+      "condition": null,
+      "declare": null,
+      "effect": "While this terrain feature has an Invoker:\n- Add l to chanting rolls for the Invoker.\n- The Invoker cannot use MOVE abilities.\n- Instead of measuring range or visibility to the Invoker, measure to this terrain feature instead.\n- All attacks that would target the Invoker target this terrain feature instead.\n- If this terrain feature is destroyed, before removing it from the battlefield, inflict D3 mortal damage on the Invoker. Then, set up the Invoker on the battlefield wholly within 3\" of this terrain feature and not in combat. That unit is no longer the Invoker. If the Invoker cannot be set up, it is slain.",
+      "source": "BT Blades of Khorne, « Mots de Haine » (verbatim relevé dans data/json/faction_rules_fr.json, units > Skull Altar > abilities > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Cities of Sigmar",
+      "name": "DIVINE MANDATE",
+      "condition": null,
+      "declare": null,
+      "effect": "If the chanting roll was 10+, you can pick another eligible unit to be a second target. Until the start of your next turn, enemy units have a maximum control score of 1 while they are in combat with any of the targets.",
+      "source": "BT Cities of Sigmar, « Mandat Divin » (verbatim relevé dans data/json/faction_rules_fr.json, renown_armies > Allies of the Free Cities > prayer_lores > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Cities of Sigmar",
+      "name": "FORCES OF ORDER",
+      "condition": null,
+      "declare": null,
+      "effect": "While 3 friendly ALLIES OF THE FREE CITIES units are wholly within 12\" of each other and 1 of those units has the AELF keyword, 1 of those units has the DUARDIN keyword and 1 of those units has the SIGMARITE keyword:\n- Those units have WARD (5+) against shooting attacks.\n- Add 3 to the control scores of those units.\n- Add 1 to wound rolls for combat attacks made by those units.",
+      "source": "BT Cities of Sigmar, « Forces de l'Ordre » (verbatim relevé dans data/json/faction_rules_fr.json, renown_armies > Allies of the Free Cities > battle_traits > 1)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Cities of Sigmar",
+      "name": "Field Surgery",
+      "condition": null,
+      "declare": null,
+      "effect": "Roll a dice. On a 3+:\n- If the target is a NON-HERO INFANTRY unit, return D3 slain models to it.\n- If the target is a non-HERO CAVALRY unit, return 1 slain model to it.\n- If the target is a HERO or MONSTER, Heal (D3) the target.",
+      "source": "BT Cities of Sigmar, « Chirurgie de Terrain » (verbatim relevé dans data/json/faction_rules_fr.json, units > Freeguild Command Corps Auxiliaries > abilities > 1)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Cities of Sigmar",
+      "name": "Front-Line Commander",
+      "condition": null,
+      "declare": null,
+      "effect": "If this unit is under orders, pick a friendly SIGMARITE INFANTRY or MONSTER unit that is wholly within 12\" of this unit or has this unit's Relic Envoy next to it and that has not used a FIGHT ability this turn to be the target. The target can be picked to use a FIGHT ability immediately after the FIGHT ability used by this unit has been resolved. If it is picked to do so, the target can use 2 FIGHT abilities this phase. After the first is used, the target has STRIKE-LAST for the rest of the turn.",
+      "source": "BT Cities of Sigmar, « Commandant de Première Ligne » (verbatim relevé dans data/json/faction_rules_fr.json, units > Freeguild Marshal and Relic Envoy > abilities > 1)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Cities of Sigmar",
+      "name": "Full Power!",
+      "condition": null,
+      "declare": null,
+      "effect": "Pick 1 or more of the following effects. For each effect you pick, give this unit a number of heat tokens equal to the number beside it.\n1 Launch Countermeasures!: Until the start of your next turn, subtract 1 from hit rolls for shooting attacks that target other friendly SIGMARITE units while they are wholly within 12\" of this unit and are under orders.\n2 Full Throttle!: For the rest of the turn, this unit's Move characteristic is 10\".\n3 Calculate Firing Solution!: For the rest of the turn, each time this unit uses a SHOOT ability, you can re-roll 1 hit roll and 1 wound roll for shooting attacks made with this unit's Godbreaker Cannon.\n6 Get Us Out of Here!: For the rest of the turn, this unit can use SHOOT abilities even if it used a RETREAT ability in the same turn.",
+      "source": "BT Cities of Sigmar, « Pleine Puissance ! » (verbatim relevé dans data/json/faction_rules_fr.json, units > Cannonade Cogfort > abilities > 1)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Cities of Sigmar",
+      "name": "INTO THEM, YOU DOGS!",
+      "condition": null,
+      "declare": null,
+      "effect": "For the rest of the turn, the first time the field officer uses a FIGHT ability, you can pick a target that has not used a FIGHT ability this turn. That target is inspirited and the other target is emboldened. The inspirited target can be picked to use a FIGHT ability immediately after the FIGHT ability used by the field officer has been resolved. Then, if the emboldened target has not used a FIGHT ability this turn, it can be picked to use a FIGHT ability immediately after the FIGHT ability used by the inspirited target has been resolved.",
+      "source": "BT Cities of Sigmar, « Allez, Tous sur Eux ! » (verbatim relevé dans data/json/faction_rules_fr.json, rules > battle_traits > 3)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Cities of Sigmar",
+      "name": "OUTPUT TO MAXIMUM!",
+      "condition": null,
+      "declare": null,
+      "effect": "Pick 1 or more of the following effects to apply for the rest of the turn. For each effect you pick, give this unit a number of heat tokens equal to the number beside it.\n1 - Trample Them to Dust!: This unit's Crushing Iron Feet have Anti-MONSTER (+1 Rend).\n1 - Go, Go, Go!: When making charge rolls for this unit, add 1 to the number of dice rolled, to a maximum of 3, then remove 1 dice of your choice and use the remaining dice as the charge roll.\n2 - Get Us In There!: This unit's Crushing Iron Feet have Charge (+1 Damage).\n2 - Load Heavy Shot!: Add 1 to the Rend characteristic of this unit's Godbreaker Cannon, but all of this unit's attacks made with that weapon this turn must target the same enemy unit.\n2 - Full Throttle!: This unit's Move characteristic is 10\".",
+      "source": "BT Cities of Sigmar, « Rendement Maximum ! » (verbatim relevé dans data/json/faction_rules_fr.json, units > Linebreaker Cogfort > abilities > 3)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Cities of Sigmar",
+      "name": "Power to Maximum!",
+      "condition": null,
+      "declare": null,
+      "effect": "Pick 1 or more of the following effects to apply for the rest of the turn. For each effect you pick, give this unit a number of heat tokens equal to the number beside it.\n1 - Load Triple Shot!: This unit's Breacher Cannon has Crit (2 Hits).\n1 - Go, Go, Go!: When making charge rolls for this unit, add 1 to the number of dice rolled, to a maximum of 3, then remove 1 dice of your choice and use the remaining dice as the charge roll.\n2 - Get Us In There!: This unit's Crushing Iron Feet have Charge (+1 Damage).\n3 - Load Chain Shot! Each time this unit uses a Shoot ability, after that ability has been resolved, if any enemy models were slain by attacks made with this unit's Breacher Cannon, for each model slain by those attacks, inflict 1 mortal damage on that model's unit.\n4 - Disengage Safeties!: The Attacks characteristic of this unit's Realmscorcher Flame Cannon is 22.",
+      "source": "BT Cities of Sigmar, « Puissance au Maximum ! » (verbatim relevé dans data/json/faction_rules_fr.json, units > Immolator Cogfort > abilities > 1)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Cities of Sigmar",
+      "name": "Realmsphere Mastery",
+      "condition": null,
+      "declare": null,
+      "effect": "Make an arcane manipulation roll of 2D6. If the roll equals or exceeds the target's banishment value, set up an ENDLESS SPELL that can be summoned using a SUMMON spell that this unit can cast within 1\" of the target and more than 3\" from all enemy units and other enemy MANIFESTATIONS. If that ENDLESS SPELL has multiple parts, both parts must be set up within 1\" of the target. This unit has summoned that ENDLESS SPELL. If there is already a friendly ENDLESS SPELL of the same type on the battlefield, it is immediately banished and removed from play before being set up as described above. Then, the target is banished and removed from play.",
+      "source": "Rules updates octobre 2026 (eng_28-10_aos_core_rules_and_key_downloads_rules_updates) p.38, « Change the effect of 'Realmsphere Mastery' to » (texte anglais complet)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Cities of Sigmar",
+      "name": "THE CHANT OF IRON",
+      "condition": null,
+      "declare": null,
+      "effect": "If you picked an enemy unit:\n- If the chanting roll was 8+, you can pick another eligible enemy unit to be a second target.\n- Subtract 2\" from each target's Move characteristic until the start of your next turn.\nIf you picked a friendly unit, Heal (D3) the target and the unit chanting this prayer. Instead, if the chanting roll was 8+, Heal (D3) each visible friendly IRON MARCH unit wholly within 12\" of the unit chanting this prayer that has not already been healed by this ability this turn.",
+      "source": "BT Cities of Sigmar, « Le Chant de Fer » (verbatim relevé dans data/json/faction_rules_fr.json, renown_armies > The Iron March > prayer_lores > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Cities of Sigmar",
+      "name": "Vessel of Sigmar",
+      "condition": null,
+      "declare": null,
+      "effect": "Pick 1 of the following effects. Pick up to 2 different effects instead if the chanting roll was 10+.\nSanctified Ground: Until the start of your next turn, visible enemy units that use a CHARGE ability while they are within 9\" of this unit have STRIKE-LAST for the rest of the turn.\nArdent Prayers: Add 1 to zealotry rolls for friendly SIGMARITE units until the start of your next turn.\nCast Out Evil: Roll a D3 for each visible enemy WIZARD and PRIEST on the battlefield. On a 2+, inflict an amount of mortal damage on it equal to the roll.",
+      "source": "BT Cities of Sigmar, « Réceptacle de Sigmar » (verbatim relevé dans data/json/faction_rules_fr.json, units > Pontifex Zenestra, Matriarch of the Great Wheel > abilities > 1)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Daughters of Khaine",
+      "name": "AUSPICIOUS STRIKE",
+      "condition": null,
+      "declare": null,
+      "effect": "Until the start of your next turn, each time the unmodified hit roll for an attack made against the target is 1, inflict 1 mortal damage on the attacking unit after the FIGHT ability has been resolved. If the chanting roll was 10+, inflict 1 mortal damage for each unmodified hit roll of 1-2 instead of 1.",
+      "source": "Règles de renom, armées de renom FR octobre 2026 (fre_28-10_aos_rules_of_renown_armies-of-renown) p.2, Les Parias de l'Oracle-sorcière, « Frappe Propice »",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Daughters of Khaine",
+      "name": "BLESSINGS OF KHAINE",
+      "condition": null,
+      "declare": null,
+      "effect": "Pick 1 of the following blessings that is not active. That blessing is active. While a blessing is active, its effect applies to friendly DAUGHTERS OF KHAINE units. The effects of more than 1 blessing can apply to a unit at the same time.\n- Blessing of Ruthlessness: Add 1 to hit rolls for those units' combat attacks.\n- Blessing of Hatred: Add 1 to wound rolls for those units' combat attacks.\n- Blessing of Haste: Add 3\" to those units' Move characteristic.\n- Blessing of Zeal: If those units charged in the same turn, they have WARD (5+) for the rest of the turn.\n- Blessing of Shadow: Subtract 1 from hit rolls for shooting attacks that target those units.\n- Blessing of Cruelty: Those units can use CHARGE and/or SHOOT abilities even if they used a RETREAT ability in the same turn.\n- Blessing of Clarity: Add 1 to chanting rolls and casting rolls for those units.",
+      "source": "BT Daughters of Khaine, « Bénédictions de Khaine » (verbatim relevé dans data/json/faction_rules_fr.json, rules > battle_traits > 2)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Daughters of Khaine",
+      "name": "BLOOD RITES",
+      "condition": null,
+      "declare": null,
+      "effect": "Only one blood rite can be performed per unit destroyed. You perform a blood rite each time:\n- An enemy unit is destroyed and any damage points were allocated to that unit by a friendly anointed unit's combat attacks in the same turn.\n- A friendly anointed unit is destroyed.\n- A friendly unit contesting an objective you control is destroyed.\n- An enemy unit is destroyed by a friendly DAUGHTERS OF KHAINE unit's attacks and any models in that enemy unit were contesting an objective you do not control in the same phase.\n- A unit (friendly or enemy) is destroyed and it was within 3\" of a Place of Power at the start of the phase.\nOnly one blood rite can be performed per unit destroyed.",
+      "source": "Rules updates octobre 2026 (eng_28-10_aos_core_rules_and_key_downloads_rules_updates) p.40, « Add the following to the 'Blood Rites' ability »",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Daughters of Khaine",
+      "name": "BLOODY-HANDED WORSHIPPERS",
+      "condition": null,
+      "declare": null,
+      "effect": "Used By: That anointed unit. Pick a friendly non-HERO DAUGHTERS OF KHAINE unit that has not used a FIGHT ability this turn and is within that anointed unit's combat range to be the target. The target can be picked to use a FIGHT ability immediately after the FIGHT ability used by that anointed unit has been resolved. If it is picked to do so, the target's melee weapons have Crit (Auto-wound) for the rest of the turn. If its melee weapons already have Crit (Auto-wound), they have Crit (Mortal) for the rest of the turn instead.",
+      "source": "BT Daughters of Khaine, « Meurtrières Sans Cœur » (verbatim relevé dans data/json/faction_rules_fr.json, rules > formations > 2)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Daughters of Khaine",
+      "name": "Crown of Serpents",
+      "condition": null,
+      "declare": null,
+      "effect": "Roll 5 dice. Add 2 to each roll if the target is constricted. For each 5+, pick 1 of the following effects. You cannot pick the same effect more than once per turn.\n- Subtract 1 from hit rolls for the target's combat attacks for the rest of the turn.\n- Subtract 1 from wound rolls for the target's combat attacks for the rest of the turn.\n- Random characteristic rolls for the Damage characteristic of the target's melee weapons are treated as unmodified rolls of 1 for the rest of the turn.\n- Inflict D3 mortal damage on the target.\n- The target cannot be healed or have slain models returned to it for the rest of the turn.",
+      "source": "BT Daughters of Khaine, « Couronne de Serpents » (verbatim relevé dans data/json/faction_rules_fr.json, units > The Shadow Queen > abilities > 3)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Daughters of Khaine",
+      "name": "DANCE OF DOOM",
+      "condition": null,
+      "declare": null,
+      "effect": "Add 1 to the Attacks characteristic of the target's melee weapons for the rest of the turn. In addition, if the chanting roll was 10+, the target can use 2 FIGHT abilities this turn. However, after the first is used, it has STRIKE-LAST for the rest of the turn.",
+      "source": "BT Daughters of Khaine, « Danse d’Agonie » (verbatim relevé dans data/json/faction_rules_fr.json, rules > prayer_lores > 2)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Daughters of Khaine",
+      "name": "Omens of Doom",
+      "condition": null,
+      "declare": null,
+      "effect": "Pick 1 of the following effects. If the chanting roll was 10+, pick up to 2 different effects instead.\nProphecy of Exile: Pick a visible enemy WIZARD or PRIEST within 18\" of this unit. Subtract 1 from that unit's power level until the start of your next turn.\nProphecy of Dark Wings: Pick a visible friendly DAUGHTERS OF KHAINE INFANTRY unit wholly within 12\" of this unit. That unit can immediately use the 'Normal Move' ability as if it were your movement phase, and it counts as having used a RUN ability this turn.\nProphecy of Futile Efforts: Pick a visible enemy unit within 12\" of this unit. Until the start of your next turn, that unit's attacks cannot score critical hits (treat them as regular hits instead).",
+      "source": "BT Daughters of Khaine, « Présages de Malheur » (verbatim relevé dans data/json/faction_rules_fr.json, units > Krethusa the Croneseer > abilities > 1)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Daughters of Khaine",
+      "name": "PLUMES OF AUSPICIOUS SMOKE",
+      "condition": null,
+      "declare": null,
+      "effect": "Friendly CAULDRON OF BLOOD units are either empty or full. They start the battle empty.\nWhile a friendly CAULDRON OF BLOOD unit is full:\n- That CAULDRON OF BLOOD has WARD (4+) against damage points inflicted by shooting attacks.\n- Subtract 1 from hit rolls for shooting attacks that target friendly CRONESEER'S PARIAHS units while they are wholly within 9\" of it.",
+      "source": "Règles de renom, armées de renom FR octobre 2026 (fre_28-10_aos_rules_of_renown_armies-of-renown) p.1, Les Parias de l'Oracle-sorcière, « Plumets de Fumée des Auspices »",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Daughters of Khaine",
+      "name": "Surge of Hatred",
+      "condition": null,
+      "declare": null,
+      "effect": "If the target is a friendly Shadow Queen, it can immediately use a FIGHT ability as if it were your combat phase. Otherwise, inflict D3 mortal damage on each enemy unit in combat with the target.",
+      "source": "BT Daughters of Khaine, « Accès de Haine » (verbatim relevé dans data/json/faction_rules_fr.json, units > Morathi-Khaine > abilities > 2)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Daughters of Khaine",
+      "name": "The Iron Heart of Khaine",
+      "condition": null,
+      "declare": null,
+      "effect": "Each time you perform a blood rite, immediately after the ability that destroyed a unit has been resolved, pick 1 of the following effects:\n- Until the start of your next turn, this unit is only visible to enemy units while those units are within its combat range.\n- Heal (D6) this unit or a friendly Shadow Queen.\n- A friendly Shadow Queen can immediately use the 'Normal Move' or 'Retreat' ability as if it was your movement phase even if it has already used that ability or another CORE ability this phase.\n- Remove this unit from the battlefield and set it up again on the battlefield more than 9\" from all enemy units.\n- For the rest of the turn, the Control characteristic of this unit is 5 and the Control characteristic of a friendly Shadow Queen is 15.\nDesigner's Note: If the Shadow Queen retreats with the 'Iron Heart of Khaine' ability, she cannot subsequently use the 'Fight' ability in the same combat phase.",
+      "source": "BT Daughters of Khaine, « Le Cœur de Fer de Khaine » (verbatim relevé dans data/json/faction_rules_fr.json, units > Morathi-Khaine > abilities > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères. Fin traduite du français ; 3e puce et note du concepteur : rules updates octobre 2026 p.40."
+    },
+    {
+      "faction": "Disciples of Tzeentch",
+      "name": "FOLD REALITY",
+      "owner": "Spell Lore › Lore of Change",
+      "condition": null,
+      "declare": "Pick a DISCIPLES OF TZEENTCH WIZARD to cast this spell, then you can pick a friendly non-MONSTER DISCIPLES OF TZEENTCH unit wholly within 12\" of the caster to be the target. Then, make a casting roll of 2D6.",
+      "effect": "Set the target up in reserve masked by illusion. Then, you can pick a friendly unit that is masked by illusion and set it up wholly within 12\" of the caster or a friendly Argent Shard and more than 9\" from all enemy units.\nDesigner's Note: Both parts of the effect are optional; you can carry out either part or both.",
+      "source": "Rules updates octobre 2026 (eng_28-10_aos_core_rules_and_key_downloads_rules_updates) p.41, « Change the declare step and effect of 'Fold Reality' to » (texte anglais complet)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Disciples of Tzeentch",
+      "name": "MASTERS OF DESTINY",
+      "owner": "The Oracles of Fate › Battle Traits",
+      "condition": null,
+      "declare": null,
+      "effect": "Roll 9 dice and place them to one side. These are your destiny dice. Destiny dice can be spent during the battle to change certain dice rolls. You can never have more than 9 destiny dice at once.\nDuring the battle, instead of making a roll from the list below for a friendly ORACLES OF FATE unit, you can spend your destiny dice. The roll you would have made is replaced with the roll on the destiny dice you spend. If you want to replace a 2D6 roll, 3D6 roll, etc. you must spend a number of destiny dice equal to the number before 'D6'. Any rolls that have been replaced count as unmodified rolls, and they cannot be re-rolled or modified by other friendly abilities except for those that apply negative modifiers (but they can be modified by enemy abilities). You cannot spend destiny dice to replace re-rolls.\nThe following rolls can be replaced with destiny dice:\n- Casting rolls\n- Unbinding rolls\n- Banishment rolls\n- Run rolls\n- Charge rolls in your turn\n- Hit rolls\n- Wound rolls\n- Save rolls",
+      "source": "BT Disciples of Tzeentch, « Maîtres du Destin » (verbatim relevé dans data/json/faction_rules_fr.json, renown_armies > The Oracles of Fate > battle_traits > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Disciples of Tzeentch",
+      "name": "Radiant Transmogrification",
+      "condition": null,
+      "declare": null,
+      "effect": "Roll 2 dice, pick either result, then apply the corresponding effect for the rest of the turn:\n1: No effect.\n2-3: Heal (D3) each friendly DISCIPLES OF TZEENTCH target. Inflict D3 mortal damage on each enemy target.\n4: Friendly DISCIPLES OF TZEENTCH targets can use CHARGE abilities even if they used a RUN ability in the same turn. Enemy targets cannot use RUN abilities.\n5: Add 1 to hit rolls for attacks made by friendly DISCIPLES OF TZEENTCH targets. Subtract 1 from hit rolls for attacks made by enemy targets.\n6: Add 1 to wound rolls for attacks made by friendly DISCIPLES OF TZEENTCH targets. Subtract 1 from wound rolls for attacks made by enemy targets.",
+      "source": "BT Disciples of Tzeentch, « Transmutation Imprévisible » (verbatim relevé dans data/json/faction_rules_fr.json, units > Burning Sigil of Tzeentch > abilities > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Disciples of Tzeentch",
+      "name": "SHIFTING MANIFESTATIONS",
+      "owner": "Change-Cult Uprising › Manifestation Lore",
+      "condition": null,
+      "declare": null,
+      "effect": "If there is already a friendly MANIFESTATION from the list above on the battlefield, it is immediately banished and removed from play. Then, set up the MANIFESTATION you picked within 1\" of the caster and visible to them.",
+      "source": "BT Disciples of Tzeentch, « Manifestations Changeantes » (verbatim relevé dans data/json/faction_rules_fr.json, renown_armies > Change-Cult Uprising > manifestation_lores > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères. Fin traduite du français ; 1re phrase conforme aux rules updates octobre 2026 p.41."
+    },
+    {
+      "faction": "Disciples of Tzeentch",
+      "name": "SHIFTING MANIFESTATIONS",
+      "owner": "The Oracles of Fate › Manifestation Lore",
+      "condition": null,
+      "declare": null,
+      "effect": "If there is already a friendly MANIFESTATION from the list above on the battlefield, it is immediately banished and removed from play. Then, set up the MANIFESTATION you picked within 1\" of the caster and visible to them.",
+      "source": "BT Disciples of Tzeentch, « Manifestations Changeantes » (verbatim relevé dans data/json/faction_rules_fr.json, renown_armies > Change-Cult Uprising > manifestation_lores > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères. Fin traduite du français ; 1re phrase conforme aux rules updates octobre 2026 p.41."
+    },
+    {
+      "faction": "Disciples of Tzeentch",
+      "name": "SKILLED SUMMONER",
+      "condition": null,
+      "declare": null,
+      "effect": "If there is already a friendly MANIFESTATION from the list above on the battlefield, it is immediately banished. Then, set up the MANIFESTATION you picked within 1\" of the caster and visible to them. If that MANIFESTATION is a Daemonic Simulacrum, it must be set up more than 9\" from all enemy units.",
+      "source": "Régiments de Renom FR septembre 2025 (fre_sept25_aos_regiments_of_renown) p.9, La Coterie de Thryx, « Invocateur Accompli »",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Disciples of Tzeentch",
+      "name": "TRANSFORMED TO SPAWN",
+      "condition": null,
+      "declare": null,
+      "effect": "Inflict D3 mortal damage on the target. If any models are slain by this ability, you can pick a friendly Chaos Spawn of Tzeentch unit that is masked by illusion and set it up on the battlefield in combat only with the target (and no other enemy units).",
+      "source": "BT Disciples of Tzeentch, « Métamorphose en Rejeton » (verbatim relevé dans data/json/faction_rules_fr.json, rules > spell_lores > 5)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Flesh-eater Courts",
+      "name": "A SPLENDID PAGEANT",
+      "condition": null,
+      "declare": null,
+      "effect": "While you believe this DELUSION:\n- Each time a friendly FLESH-EATER COURTS unit wholly within 12\" of a friendly FLESH-EATER COURTS HERO uses a RUN ability, if you roll a 1-3 when determining the distance that unit can move, you can use a value of 4 instead.\n- While a friendly FLESH-EATER COURTS INFANTRY HERO is within the combat range of a friendly FLESH-EATER COURTS INFANTRY unit that has 5 or more models, it is not visible to enemy units more than 6\" away.",
+      "source": "BT Flesh-eater Courts, « Cortège Splendide » (verbatim relevé dans data/json/faction_rules_fr.json, rules > battle_traits > 1)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Flesh-eater Courts",
+      "name": "DERANGED TRANSFORMATION",
+      "owner": "Spell Lore › Lore of Madness",
+      "condition": null,
+      "declare": null,
+      "effect": "Until the start of your next turn:\n- Add 2\" to the target's Move characteristic.\n- Add 1 to wound rolls for the target's combat attacks.",
+      "source": "BT Flesh-eater Courts, « Transformation Démente » (verbatim relevé dans data/json/faction_rules_fr.json, rules > spell_lores > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Flesh-eater Courts",
+      "name": "DERANGED TRANSFORMATION",
+      "owner": "The Knights of New Summercourt › Spell Lore",
+      "condition": null,
+      "declare": null,
+      "effect": "Until the start of your next turn:\n- Add 2\" to the target's Move characteristic.\n- Add 1 to wound rolls for the target's combat attacks.",
+      "source": "BT Flesh-eater Courts, « Transformation Démente » (verbatim relevé dans data/json/faction_rules_fr.json, rules > spell_lores > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Flesh-eater Courts",
+      "name": "For The Kingdom!",
+      "condition": null,
+      "declare": null,
+      "effect": "While you believe this DELUSION, add 1 to charge rolls for friendly KNIGHTS units and friendly FLEASH-EATER COURTS MONSTERS while they are wholly within 12\" of any friendly FLEASH-EATER COURTS HEROES.\nAdd 2 to charge rolls for friendly KNIGHTS units and friendly FLESH-EATER COURTS MONSTERS instead while they are wholly within 12\" of any friendly Abhorrant Ghoul Kings on Royal Zombie Dragons.",
+      "source": "Rules updates octobre 2026 (eng_28-10_aos_core_rules_and_key_downloads_rules_updates) p.43, « Change the effect of 'For the Kingdom!' to » (texte anglais complet)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Flesh-eater Courts",
+      "name": "HEADS ON PIKES",
+      "condition": null,
+      "declare": null,
+      "effect": "Spend 1 rage dice. If your opponent's fury level is lower than yours, they must increase their fury level by 1, to a maximum of 7. Then, for the rest of the turn, subtract 5 from the control scores of enemy units while they are contesting the target objective or terrain feature.",
+      "source": "Fléau d'Aqshy Flesh-eater Courts, « Au Bout d'une Pique » (verbatim relevé dans data/json/faction_rules_fr.json, units > Scourge of Aqshy Royal Decapitator > abilities > 1)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Flesh-eater Courts",
+      "name": "INDULGE, MY PRETTIES",
+      "condition": null,
+      "declare": null,
+      "effect": "While a friendly non-HERO FLESH-EATER COURTS MONSTER or BEAST is wholly within 12\" of any friendly FLESH-EATER COURTS HEROES:\n- That non-HERO unit can use a RAMPAGE ability on its warscroll even if that ability has already been used by another friendly MONSTER in the same turn.\n- If that non-HERO unit charged in the same turn and the unmodified charge roll was 9+, it has STRIKE-FIRST for the rest of the turn.",
+      "source": "BT Flesh-eater Courts, « Mangez, mes Jolis » (verbatim relevé dans data/json/faction_rules_fr.json, rules > formations > 3)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Flesh-eater Courts",
+      "name": "Sir Felgryn is Abroad!",
+      "condition": null,
+      "declare": null,
+      "effect": "While you believe this <SPAN CLASS=\"KWB KWBU\">DELUSION</SPAN>, subtract 10 from the control scores of enemy units while they are in combat with any friendly SERFS units or any friendly non-HERO FLESH-EATER COURTS MONSTER or BEAST units.",
+      "source": "BT Flesh-eater Courts, « Messire Felgryn est des Nôtres ! » (verbatim relevé dans data/json/faction_rules_fr.json, units > High Falconer Felgryn > abilities > 2)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Flesh-eater Courts",
+      "name": "Trampled Underfoot",
+      "condition": null,
+      "declare": null,
+      "effect": "This MANIFESTATION can move a distance up to the value of the stampede roll in a straight line directly towards the target. It can move through the combat ranges of enemy units. It cannot end that move in combat unless it ends that move within ½\" of a visible enemy unit. If it does so, this MANIFESTATION has charged.\nRoll a D3 for each enemy unit that this MANIFESTATION passed across during that move. On a 2+, inflict an amount of mortal damage on that enemy unit equal to the roll.\nIn addition, if this MANIFESTATION charged this turn, add the stampede roll to the Attacks characteristic of this MANIFESTATION's Corpsemare Trample for the rest of the turn.",
+      "source": "BT Flesh-eater Courts, « Piétiné » (verbatim relevé dans data/json/faction_rules_fr.json, units > Corpsemare Stampede > abilities > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Fyreslayers",
+      "name": "Grimwrath Oaths",
+      "condition": null,
+      "declare": null,
+      "effect": "Pick 1 of the following oaths for this unit to swear:\n'I will guard them with my life!': While this unit is wholly within 6\" of another friendly FYRESLAYERS HERO:\n- Add 1 to hit rolls for this unit's attacks.\n- Add 1 to ward rolls for this unit.\nIf a friendly FYRESLAYERS HERO wholly within 6\" of this unit is destroyed, this effect no longer applies.\n'I will not be stopped!': Add 1 to charge rolls for this unit, and add 1 to save rolls for this unit while it is in combat. If this unit uses the 'Retreat' or 'Rally' abilities, this effect no longer applies.",
+      "source": "Faction Pack Fyreslayers, « Serments d'Âpre-Colère » (verbatim relevé dans data/json/faction_rules_fr.json, units > Grimwrath Berzerker > abilities > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères ; seule la fin de phrase manquait (le FR donne +2 à la charge, Wahapedia +1 : texte Wahapedia conservé)."
+    },
+    {
+      "faction": "Fyreslayers",
+      "name": "ICHOR OF THE UR‑SALAMANDER",
+      "condition": null,
+      "declare": null,
+      "effect": "If the chanting roll was 6+, you can pick another eligible unit to be a second target. Until the start of your next turn:\n- If the target is a MAGMADROTH, each time its 'Volcanic Blood' ability would inflict 1 mortal damage on an enemy unit, inflict D3 mortal damage instead.\n- If the target is a non-MAGMADROTH unit, each time you make an unmodified save roll of 1 for a combat attack that targets that unit, inflict 1 mortal damage on the attacking unit after the FIGHT ability has been resolved.",
+      "source": "Fléau d'Aqshy Pyrotueurs FR, domaine de prières, « Ichor de l'Ur-Salamandre » (verbatim relevé dans data/json/faction_rules_fr.json, rules > prayer_lores > 3)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Fyreslayers",
+      "name": "Masterflame Rune",
+      "condition": null,
+      "declare": null,
+      "effect": "Roll a dice. If the roll is equal to or less than the number of FYRESLAYERS units that have been destroyed during the battle, pick 1 of the following effects to apply until the start of your next turn:\nGrimnir's Grit: The target has WARD (5+).\nGrimnir's Resolve: Add 2 to charge rolls for the target.\nGrimnir's Vengeance: Add 1 to the Damage characteristic of the target's melee weapons.",
+      "source": "Faction Pack Fyreslayers, « Rune Majeure de Flamme » (verbatim relevé dans data/json/faction_rules_fr.json, units > Auric Flamekeeper > abilities > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Gloomspite Gitz",
+      "name": "DA KING'S GUARDS",
+      "condition": null,
+      "declare": null,
+      "effect": "While a friendly TROGGOTH unit is within the combat range of a friendly HERO:\n- That HERO has WARD (4+).\n- Each time you make a successful ward roll for that HERO, allocate 1 damage point to a friendly TROGGOTH unit within that HERO's combat range after the damage sequence for that HERO has been resolved (ward rolls cannot be made for those damage points).",
+      "source": "complétion évidente : formule standard du garde du corps « … has been resolved (ward rolls cannot be made for those damage points) »",
+      "note": "Wahapedia : description coupée ; seule la fin de la formule standard manquait."
+    },
+    {
+      "faction": "Gloomspite Gitz",
+      "name": "GLITZY BITZ ROLLA",
+      "condition": null,
+      "declare": null,
+      "effect": "Spend 1 rage dice. If your opponent's fury level is lower than yours, they must increase their fury level by 1, to a maximum of 7.\nIf this unit is a non-TROGGOTH unit, add 1 to wound rolls for its attacks for the rest of the turn.\nIf this unit is a TROGGOTH, pick 1 of the following effects to apply for the rest of the turn:\n- Set the Damage characteristic of this unit's Colossal Boulder Club to 6.\n- Set the Damage characteristic of this unit's Throwin' Boulders to 3.\n- Set the Attacks characteristic of this unit's Noxious Vomit to 3.",
+      "source": "Fléau d'Aqshy Vils du Fielobscur FR (fre_03-07_warhammer_age_of_sigmar_scourge_of_aqshy_gloomspite_gitz) p.1, Trucs-Bidules Spéciaux, « Kube d'la Chanss' »",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Gloomspite Gitz",
+      "name": "Slice and Soar",
+      "condition": null,
+      "declare": null,
+      "effect": "Roll a dice for each model in the target unit. If there are 2 models in this unit, add 1 to each roll. If there are 3 or more models in this unit, add 2 to each roll. For each 6+, inflict 1 mortal damage on the target.\nThen, you can spend 1 rage dice. If you do:\n- Roll 2D6. This unit can move a distance in inches up to the value of the roll. It can move through the combat ranges of enemy units but cannot end that move in combat.\n- If your opponent's fury level is lower than yours, they must increase their fury level by 1, to a maximum of 7.",
+      "source": "Fléau d'Aqshy Vils du Fielobscur FR (fre_03-07_warhammer_age_of_sigmar_scourge_of_aqshy_gloomspite_gitz) p.2, Rouleurs Fauchesoleil, « Élan Tranchant »",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Hedonites of Slaanesh",
+      "name": "ALL FOR THE PRINCE",
+      "condition": null,
+      "declare": null,
+      "effect": "While the friendly Sigvald is within the combat range of another friendly DECADENT HOST SYBARITE unit:\n- He has WARD (2+).\n- Each time you make a successful ward roll for him, allocate 1 damage point to another friendly DECADENT HOST unit within his combat range after the damage sequence for him has been resolved (ward rolls cannot be made for those damage points).",
+      "source": "BT Hedonites of Slaanesh, « Tous pour le Prince » (verbatim relevé dans data/json/faction_rules_fr.json, renown_armies > The Decadent Host > battle_traits > 3)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Hedonites of Slaanesh",
+      "name": "CUTTING BARBS",
+      "condition": null,
+      "declare": null,
+      "effect": "If the unit using this ability is a PARAGON, pick 1 of the effects below. Otherwise, your opponent must pick 1 of the effects below.\nRise to the Insults: For the rest of the turn, the target has a maximum control score of 1.\nTurn the Other Cheek: For the rest of the turn, add 1 to hit rolls for attacks made by friendly HEDONITES OF SLAANESH units that target the target.",
+      "source": "BT Hedonites of Slaanesh, « Piques Cinglantes » (verbatim relevé dans data/json/faction_rules_fr.json, rules > battle_traits > 3)",
+      "note": "Wahapedia : description coupée à 1024 caractères. Fin traduite du français (« Ignorer l'affront » : nom de l'option traduit librement)."
+    },
+    {
+      "faction": "Hedonites of Slaanesh",
+      "name": "ECSTATIC FURORE",
+      "condition": null,
+      "declare": null,
+      "effect": "Until the start of your next turn, add 1 to wound rolls for combat attacks made by friendly COURT OF THE GODLINGS units while they are visible to and wholly within 12\" of the target.",
+      "source": "BT Hedonites of Slaanesh, « Clameur Extatique » (verbatim relevé dans data/json/faction_rules_fr.json, renown_armies > Court of the Godlings > spell_lores > 2)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Hedonites of Slaanesh",
+      "name": "ESSENCE TRANSFUSION",
+      "condition": null,
+      "declare": null,
+      "effect": "Allocate any number of damage points to the donor (ward rolls cannot be made for those damage points). Then, Heal (X) the target, where X is double the number of damage points allocated to the donor at the start of this effect.",
+      "source": "BT Hedonites of Slaanesh, « Transfusion d'Essence » (verbatim relevé dans data/json/faction_rules_fr.json, renown_armies > Court of the Godlings > spell_lores > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Hedonites of Slaanesh",
+      "name": "LAST ECSTASY",
+      "condition": null,
+      "declare": null,
+      "effect": "Until the start of your next turn, each time a model in the target unit is slain by a combat attack and that model was in combat with the attacking unit, roll a dice. If the target unit is a MONSTER, roll 10 dice instead. For each 4+, inflict 1 mortal damage on the attacking unit after the FIGHT ability has been resolved.",
+      "source": "BT Hedonites of Slaanesh, « Ultime Extase » (verbatim relevé dans data/json/faction_rules_fr.json, rules > spell_lores > 1)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Hedonites of Slaanesh",
+      "name": "Maestros of Discordance",
+      "condition": null,
+      "declare": null,
+      "effect": "Roll a number of dice equal to the number of models in the enemy target unit. For each 6, inflict 1 mortal damage on the enemy target.\nThen, you can pick 1 of the following effects:\n- Heal (X) the friendly target, where X is the number of enemy models slain by this ability this phase.\n- Return a number of slain models to the friendly target unit with a combined Health characteristic of up to the number of enemy models slain by this ability this phase.",
+      "source": "BT Hedonites of Slaanesh, « Maestria de la Discordance » (verbatim relevé dans data/json/faction_rules_fr.json, units > Infernal Enrapturess, Herald of Slaanesh > abilities > 1)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Hedonites of Slaanesh",
+      "name": "Paragon of Gluttony",
+      "condition": null,
+      "declare": null,
+      "effect": "Pick 1 of the following delicacies for Glutos to savour. You cannot pick a delicacy that you picked in the previous turn. The effect applies for the rest of the turn:\nHeart of a Shadow Daemon: While they are wholly within 12\" of this unit, friendly non-MONSTER HEDONITES OF SLAANESH units are not visible to enemy units more than 12\" from them.\nBlood of an Aelven Princeling: Each time a friendly HEDONITES OF SLAANESH unit wholly within 12\" of this unit uses a RUN ability, if you roll a 1-3 when determining the distance that unit can move, you can use a value of 4 instead.\nEssence of a Shattered Incarnate: Add 1 to unbinding rolls and banishment rolls for this unit.\nAppalling Viscera: Inflict D6 mortal damage on each other unit (friendly and enemy) within this unit's combat range.",
+      "source": "BT Hedonites of Slaanesh, « Parangon de la Gloutonnerie » (verbatim relevé dans data/json/faction_rules_fr.json, units > Glutos Orscollion, Lord of Gluttony > abilities > 2)",
+      "note": "Wahapedia : description coupée à 1024 caractères. Fin traduite du français (noms des mets traduits librement)."
+    },
+    {
+      "faction": "Hedonites of Slaanesh",
+      "name": "SIBILANT WHISPERS",
+      "condition": null,
+      "declare": null,
+      "effect": "Until the start of your next turn, while a friendly TWIN is visible to the target, halve the target's Move characteristic. In addition, while 2 friendly TWINS are visible to the target, your opponent must roll 1 fewer dice, to a minimum of 1, when making charge rolls for the target.",
+      "source": "BT Hedonites of Slaanesh, « Murmures Sibilants » (verbatim relevé dans data/json/faction_rules_fr.json, renown_armies > Court of the Godlings > spell_lores > 1)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Hedonites of Slaanesh",
+      "name": "Thricefold Court",
+      "condition": null,
+      "declare": null,
+      "effect": "Pick 1 of the following effects that you did not pick in the previous turn. The effect applies for the rest of the turn:\nSins of Soul: While an enemy WIZARD or PRIEST is visible to this unit, add 1 to this unit's power level.\nSins of Flesh: This unit's attacks score critical hits on unmodifed hit rolls of 5+.\nSins of Mind: Each time a visible friendly HEDONITES OF SLAANESH unit wholly within 12\" of this unit uses the 'Rally' command, you receive 3 additional rally points.",
+      "source": "BT Hedonites of Slaanesh, « Triple Cour » (verbatim relevé dans data/json/faction_rules_fr.json, units > Thricefold Discord > abilities > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Hedonites of Slaanesh",
+      "name": "Unholy Symbiosis",
+      "condition": null,
+      "declare": null,
+      "effect": "If you picked a SYBARITE target, subtract 1 from ward rolls for damage points inflicted by its combat attacks until the start of your next turn. If you picked a DAEMON target, it has WARD (5+) until the start of your next turn.",
+      "source": "BT Hedonites of Slaanesh, « Symbiose Impie » (verbatim relevé dans data/json/faction_rules_fr.json, units > Syll’Esske, the Vengeful Allegiance > abilities > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Hedonites of Slaanesh",
+      "name": "You First, I Insist...",
+      "condition": null,
+      "declare": null,
+      "effect": "Your opponent must decide whether the target will accept or decline this unit's challenge:\nIf they accept, for the rest of the turn, if this unit is in combat with the target when the target is picked to use a FIGHT ability, subtract 1 from hit rolls for the target's attacks and all of the target's attacks must target this unit.\nIf they decline, for the rest of the turn:\n- The target has STRIKE-LAST.\n- Add 1 to the Damage characteristic of this unit's melee weapons for attacks that target the target.",
+      "source": "BT Hedonites of Slaanesh, « Vous d'Abord, J'insiste… » (verbatim relevé dans data/json/faction_rules_fr.json, units > Lord of Hubris > abilities > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Idoneth Deepkin",
+      "name": "AQSHIAN SEA NETTLES",
+      "condition": null,
+      "declare": null,
+      "effect": "Spend 1 rage dice. If your opponent's fury level is lower than yours, they must increase their fury level by 1, to a maximum of 7.\nThen, for the rest of the turn:\n- Other enemy units cannot use FIGHT abilities if the target is eligible to be picked.\n- If possible, this unit must be picked to be the target of pile-in moves made by the target.\n- All attacks made by models in the target unit within this unit's combat range must target this unit.\nDesigner's Note: This ability does not override the restrictions of STRIKE-FIRST or STRIKE-LAST.",
+      "source": "Fléau d'Aqshy Idoneth Deepkin, « Méduses d'Aqshy » (verbatim relevé dans data/json/faction_rules_fr.json, rules > heroic_traits_artefacts > 8)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Idoneth Deepkin",
+      "name": "Master of the Ethersea",
+      "owner": "Scourge of Aqshy Isharann Tidecaster",
+      "condition": null,
+      "declare": null,
+      "effect": "If the target is NAMARTI, pick 1 of the following effects to apply until the start of your next turn. Otherwise, make an Isharann ritual roll of D6. On a 3+, pick 1 of the following effects to apply until the start of your next turn.\nTorrent of Blows: Pick 1 of the target's melee weapons. That weapon has Crit (2 Hits).\nProtection of the Waves: While this unit is within 3\" of and visible to the target, both units have WARD (5+).\nFrenzy of the Ethersea: Each time an unmodified hit roll for a combat attack that targets the target is 1, inflict 1 mortal damage on the attacking unit after the FIGHT ability has been resolved.",
+      "source": "Fléau d'Aqshy Idoneth Deepkin, « Maître de l'Éthermer » (verbatim relevé dans data/json/faction_rules_fr.json, units > Scourge of Aqshy Isharann Tidecaster > abilities > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères. Fin traduite du français (nom de l'effet traduit librement)."
+    },
+    {
+      "faction": "Ironjawz",
+      "name": "Bellowing Waaagh!-Cries",
+      "condition": null,
+      "declare": null,
+      "effect": "Pick either 1 or 2 to add to casting rolls or chanting rolls for the target until the start of your next turn. Then, roll a number of dice equal to the number picked. For each 1-2, allocate 1 damage point to the target (ward rolls cannot be made for those damage points). For each 5+, until the start of your next turn, add 1 to charge rolls for friendly KRULEBOYZ or IRONJAWZ units while they are wholly within 12\" of this MANIFESTATION. Friendly units can be affected by this ability multiple times and the effects are cumulative.",
+      "source": "BT Ironjawz, « Cris de Waaagh! Tonitruants » (verbatim relevé dans data/json/faction_rules_fr.json, units > Gork-Roara > abilities > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères. Fin traduite du français ; dernière phrase : rules updates octobre 2026 p.63."
+    },
+    {
+      "faction": "Ironjawz",
+      "name": "UNSTOPPABLE WAAAGH!-BEATS",
+      "condition": null,
+      "declare": null,
+      "effect": "The target can use 2 FIGHT abilities this turn. After the first is used, however, the target has STRIKE-LAST for the rest of the turn.",
+      "source": "complétion évidente : formule standard « After the first is used, the target has STRIKE-LAST for the rest of the turn »",
+      "note": "Wahapedia : description coupée à 1024 caractères ; seule la fin de la formule standard manquait."
+    },
+    {
+      "faction": "Kharadron Overlords",
+      "name": "Assault Boat",
+      "owner": "Arkanaut Frigate",
+      "condition": null,
+      "declare": null,
+      "effect": "This unit can move a distance up to the value of the charge roll and must end the move within ½\" of a visible enemy unit. If it does so:\n- Remove the targets from the battlefield and set them up again wholly within this unit's combat range. The targets can be set up in combat.\n- This unit and the targets have charged, and the targets cannot use another CORE ability this phase.\n- Pick up to 1 of the targets to have STRIKE-FIRST for the rest of the turn.",
+      "source": "Rules updates octobre 2026 (eng_28-10_aos_core_rules_and_key_downloads_rules_updates) p.53, « Change the effect of 'Assault Boat' to » (texte anglais complet)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Kruleboyz",
+      "name": "Bellowing Waaagh!-Cries",
+      "condition": null,
+      "declare": null,
+      "effect": "Pick either 1 or 2 to add to casting rolls or chanting rolls for the target until the start of your next turn. Then, roll a number of dice equal to the number picked. For each 1-2, allocate 1 damage point to the target (ward rolls cannot be made for those damage points). For each 5+, until the start of your next turn, add 1 to charge rolls for friendly KRULEBOYZ or IRONJAWZ units while they are wholly within 12\" of this MANIFESTATION. Friendly units can be affected by this ability multiple times and the effects are cumulative.",
+      "source": "BT Kruleboyz, « Cris de Waaagh! Tonitruants » (verbatim relevé dans data/json/faction_rules_fr.json, units > Gork-Roara > abilities > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères. Fin traduite du français ; dernière phrase : rules updates octobre 2026 p.63."
+    },
+    {
+      "faction": "Kruleboyz",
+      "name": "UNSTOPPABLE WAAAGH!-BEATS",
+      "condition": null,
+      "declare": null,
+      "effect": "The target can use 2 FIGHT abilities this turn. After the first is used, however, the target has STRIKE-LAST for the rest of the turn.",
+      "source": "complétion évidente : formule standard « After the first is used, the target has STRIKE-LAST for the rest of the turn »",
+      "note": "Wahapedia : description coupée à 1024 caractères ; seule la fin de la formule standard manquait."
+    },
+    {
+      "faction": "Lumineth Realm-lords",
+      "name": "CYCLE MANIFESTATION",
+      "owner": "Sigil Convocation",
+      "condition": null,
+      "declare": null,
+      "effect": "If there is already a friendly MANIFESTATION from the list above on the battlefield, it is immediately banished and removed from play. Then, set up the MANIFESTATION you picked within 1\" of the caster and visible to them. However, if that MANIFESTATION is a Sanctum of Amyntok, it must be set up wholly within 12\" of the caster and more than 3\" from all enemy units, with its 3 parts set up touching each other to form a circle.",
+      "source": "Règles de renom Lumineth Realm-lords, « Cycle de Manifestations » (verbatim relevé dans data/json/faction_rules_fr.json, regiments_of_renown > Sigil Convocation > abilities > 2)",
+      "note": "Wahapedia : description coupée à 1024 caractères. Fin traduite du français ; 1re phrase conforme aux rules updates octobre 2026 p.56."
+    },
+    {
+      "faction": "Lumineth Realm-lords",
+      "name": "CYCLE MANIFESTATION",
+      "owner": "Aelementiri Conclave › Manifestation Lore",
+      "condition": null,
+      "declare": null,
+      "effect": "If there is already a friendly MANIFESTATION from the list above on the battlefield, it is immediatelyly banished and removed from play. Then, set up the MANIFESTATION you picked within 1\" of the caster and visible to them. However, if that MANIFESTATION is a Sanctum of Amyntok, it must be set up wholly within 12\" of the caster and more than 3\" from all enemy units, with its 3 parts set up touching each other to form a circle.",
+      "source": "BT Lumineth Realm-lords, « Cycle de Manifestations » (verbatim relevé dans data/json/faction_rules_fr.json, renown_armies > Aelementiri Conclave > manifestation_lores > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères. Fin traduite du français ; 1re phrase conforme aux rules updates octobre 2026 p.56."
+    },
+    {
+      "faction": "Lumineth Realm-lords",
+      "name": "SCHOLAR OF THE SIGILS",
+      "condition": null,
+      "declare": null,
+      "effect": "Pick 1 of the following runes and apply the corresponding effect for the rest of the battle. That rune cannot be depicted on your battle scripture for the rest of the battle.\nVarinor, Rune of Strength: Add 1 to run rolls and charge rolls for this unit.\nAlaithi, Rune of the Mountain: This unit has WARD (5+).\nYdriliqi, Rune of the River: This unit's melee weapons have Anti-charge (+1 Rend) and this unit's ranged weapons have Shoot in Combat.\nOreali, Rune of the Wind: Subtract 1 from hit rolls for combat attacks that target this unit.\nThalari, Rune of the Zenith: Add 1 to casting rolls for this unit.",
+      "source": "Fléau d'Aqshy Lumineth Realm-lords, « Érudit des Sceaux » (verbatim relevé dans data/json/faction_rules_fr.json, rules > heroic_traits_artefacts > 9)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Lumineth Realm-lords",
+      "name": "Shrine Guardian",
+      "condition": null,
+      "declare": null,
+      "effect": "While this terrain feature has a Shrine Guardian:\n- This terrain feature has a Move characteristic of 6\" and can use non-command non-CHARGE MOVE abilities as if it were a unit. It cannot end a MOVE ability within the combat range of an enemy unit.\n- The Shrine Guardian cannot use MOVE abilities and remains on this terrain feature each time it moves.\n- Instead of measuring range and visibility to the Shrine Guardian, measure to this terrain feature instead.\n- All attacks that would target the Shrine Guardian target this terrain feature instead.\nIf this terrain feature is destroyed, before removing it from the battlefield, inflict D3 mortal damage on the Shrine Guardian. Then, set up the Shrine Guardian on the battlefield wholly within 3\" of this terrain feature and not in combat. That unit is no longer a Shrine Guardian. If it is not possible to set up the Shrine Guardian, it is slain.",
+      "source": "BT Lumineth Realm-lords, « Gardien du Temple » (verbatim relevé dans data/json/faction_rules_fr.json, units > Shrine Luminor > abilities > 1)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Maggotkin of Nurgle",
+      "name": "BLESSED BY THE PLAGUEFATHER",
+      "condition": null,
+      "declare": null,
+      "effect": "Pick 1 of the following effects:\nInfect: Pick an enemy unit within 7\" of any friendly MAGGOTKIN OF NURGLE units to be the target. You cannot pick a MANIFESTATION or terrain feature.\n- If the target is in combat with any friendly MAGGOTKIN OF NURGLE units, it has the DISEASED keyword.\n- If the target is not in combat with any friendly MAGGOTKIN OF NURGLE units, roll a dice. On a 4+, the target has the DISEASED keyword.\nSpread: Pick a DISEASED enemy unit to be the target. Each other enemy unit within the target's combat range, excluding MANIFESTATIONS and terrain features, has the DISEASED keyword.\nMutation: If every enemy unit on the battlefield, excluding MANIFESTATIONS and terrain features, has the DISEASED keyword, inflict 1 mortal damage on each of them.",
+      "source": "BT Maggotkin of Nurgle, « Bénis par le Père de la Peste » (verbatim relevé dans data/json/faction_rules_fr.json, rules > battle_traits > 1)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Maggotkin of Nurgle",
+      "name": "BLOATED WITH SICKNESS",
+      "condition": null,
+      "declare": null,
+      "effect": "Until the start of your next turn, ignore the first damage point that would be allocated to the target in each phase. If the chanting roll was 10+, you can pick another eligible unit to be a second target.",
+      "source": "BT Maggotkin of Nurgle, « Bouffi d'Infections » (verbatim relevé dans data/json/faction_rules_fr.json, rules > prayer_lores > 5)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Maggotkin of Nurgle",
+      "name": "Discomfiting Stench",
+      "condition": null,
+      "declare": null,
+      "effect": "Roll a dice.\n- If the target is a WIZARD and the roll exceeds the target's power level, until the start of your next turn, each time a casting roll for the target includes 2 or more rolls of 1, 2 or more rolls of 2 or 2 or more rolls of 3, the spell is miscast.\n- If the target is a PRIEST and the roll exceeds the target's power level, until the start of your next turn, each time your opponent makes an unmodified chanting roll of 1 or 2 for the target, the prayer fails, its effect is not resolved and your opponent must remove D3 ritual points from the target. In addition, your opponent cannot give that PRIEST any ritual points for the rest of the phase.",
+      "source": "Rules updates octobre 2026 (eng_28-10_aos_core_rules_and_key_downloads_rules_updates) p.57 pour la dernière phrase ; BT Putrescents de Nurgle FR, « Puanteur Perturbante » (verbatim relevé dans data/json/faction_rules_fr.json)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Maggotkin of Nurgle",
+      "name": "GIFT OF DISEASE",
+      "condition": null,
+      "declare": null,
+      "effect": "Until the start of your next turn, subtract 1 from wound rolls for attacks made by enemy units while they are in combat with the chanter. In addition, if the chanting roll was 10+, each enemy unit in combat with the chanter, excluding MANIFESTATIONS and terrain features, has the DISEASED keyword.",
+      "source": "BT Maggotkin of Nurgle, « Don de la Maladie » (verbatim relevé dans data/json/faction_rules_fr.json, rules > prayer_lores > 3)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Maggotkin of Nurgle",
+      "name": "Jolly Gutpipes",
+      "condition": null,
+      "declare": null,
+      "effect": "If you picked a friendly unit to be the target, roll a dice. If the roll equals or exceeds the target's Control characteristic, add 2 to run rolls and charge rolls for the target until the start of your next turn.\nIf you picked an enemy unit to be the target, roll a dice. If the roll equals or exceeds the target's Control characteristic, until the start of your next turn, while this unit is on the battlefield, inflict D3 mortal damage on the target:\n- Each time the target ends a move further from this unit than it was at the start of that move, after the ability used by the target has been resolved.\n- Each time the target is removed from the battlefield and set up again further from this unit than it was before it was removed, after the ability used by the target has been resolved.",
+      "source": "BT Maggotkin of Nurgle, « Cornemuse Guillerette » (verbatim relevé dans data/json/faction_rules_fr.json, units > Sloppity Bilepiper, Herald of Nurgle > abilities > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Maggotkin of Nurgle",
+      "name": "PLAGUE PROGENITOR",
+      "condition": null,
+      "declare": null,
+      "effect": "Roll 2D3. On a 6, or if the roll equals or exceeds the plague progenitor's Health characteristic, it has the DISEASED keyword.\nIn the first battle round, if an ability would heal or return any slain models to a DISEASED plague progenitor, that ability does not heal any damage points or return any slain models to it.\nEach time the plague progenitor is picked to be the target of the 'Spread' effect of the 'Blessed by the Plaguefather' ability, inflict D3 mortal damage on each other enemy unit within the plague progenitor's combat range, excluding MANIFESTATIONS and terrain features, in addition to the effect of that ability.",
+      "source": "BT Maggotkin of Nurgle, « Progéniteur de la Peste » (verbatim relevé dans data/json/faction_rules_fr.json, rules > formations > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères. Fin traduite du français ; 2e paragraphe conforme aux rules updates octobre 2026 p.57."
+    },
+    {
+      "faction": "Maggotkin of Nurgle",
+      "name": "Vile Poisons and Debilitating Toxins",
+      "condition": null,
+      "declare": null,
+      "effect": "You and your opponent must roll off. Add this unit's Control characteristic to your roll and the target's Control characteristic to your opponent's roll. If your roll is higher, apply the corresponding \n- If the target is a HERO or MONSTER, inflict an amount of mortal damage on the target equal to the difference between your roll and your opponent's roll.\n- If the target is a non-HERO non-MONSTER unit, 1 model in the target unit is slain.",
+      "source": "BT Maggotkin of Nurgle, « Poisons Ignobles et Toxines Débilitantes » (verbatim relevé dans data/json/faction_rules_fr.json, units > Festus the Leechlord > abilities > 2)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Nighthaunt",
+      "name": "GATHER POWER",
+      "condition": null,
+      "declare": null,
+      "effect": "The following effects apply to the friendly Nagash during the first and second battle rounds, as shown:\nBattle Round 1:\n- His Move characteristic is '-' and he cannot make pile-in moves.\n- He has WARD (3+).\n- He has a Control characteristic of 1.\n- Alakanash and Zefet-nebtar each have an Attacks characteristic of 2 instead of 4.\nBattle Round 2:\n- His Move characteristic is 6\".\n- He cannot end a move more than 6\" from the ritual site.\n- He has WARD (4+).\n- He has a Control characteristic of 5.\n- Alakanash and Zefet-nebtar each have an Attacks characteristic of 2 instead of 4.",
+      "source": "BT Nighthaunt, « Accumulation de Puissance » (verbatim relevé dans data/json/faction_rules_fr.json, renown_armies > The Eternal Nightmare > battle_traits > 1)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Nighthaunt",
+      "name": "Invocation of Nagash",
+      "condition": null,
+      "declare": null,
+      "effect": "If the target is an enemy unit, inflict D3 mortal damage on it. If the target is a friendly DEATH unit, pick 1 of the following effects:\n- Return a number of slain models to the target unit with a combined Health characteristic of up to 3.\n- If the target was not set up this turn and is not in combat, it can move up to 3\". It cannot move into combat.",
+      "source": "BT Nighthaunt, « Invocation de Nagash » (verbatim relevé dans data/json/faction_rules_fr.json, units > Nagash, Supreme Lord of the Undead > abilities > 3)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Nighthaunt",
+      "name": "Spectral Alchemy",
+      "condition": null,
+      "declare": null,
+      "effect": "If this unit's shooting attacks inflicted damage on the target this turn, apply 1 of the following effects. Otherwise, roll a dice. On a 3+, apply 1 of the following effects:\nPhantasmal Solvent: If the target has a Move characteristic of '-', inflict 6 mortal damage on the target.\nAcidic Fug: Inflict D3 mortal damage on the target.\nCorrosive Mist: Inflict 1 mortal damage on each enemy unit within the target's combat range.\nChoking Vapours: If the target is a WIZARD, subtract 1 from its power level until the start of your next turn.\nFear-laced Hallucinogen: If the target is a PRIEST, remove D3 ritual points from it.\nUnholy Prescription: Ward rolls cannot be made for the target for the rest of the turn.",
+      "source": "Rules updates octobre 2026 (eng_28-10_aos_core_rules_and_key_downloads_rules_updates) p.59, « Change 'Spectral Alchemy' to » (texte anglais complet)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Nighthaunt",
+      "name": "Terrifying Spectres",
+      "condition": null,
+      "declare": null,
+      "effect": "You can spend 1 rage dice. If you do:\nApply the effect below.\n- If your opponent's fury level is lower than yours, they must increase their fury level by 1, to a maximum of 7.\n- Otherwise, roll a dice. On a 3+, apply the effect below.\nFor the rest of the turn:\n- Subtract 1 from hit rolls for attacks made by the enemy target that do not target this unit.\n- Ignore positive modifiers to hit rolls for attacks made by the enemy target.\n- If you picked a friendly target, add 1 to the Damage characteristic of its melee weapons for attacks that target the enemy target.",
+      "source": "Fléau d'Aqshy Nighthaunt, « Spectres Terrifiants » (verbatim relevé dans data/json/faction_rules_fr.json, units > Scourge of Aqshy Spirit Hosts > abilities > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Ogor Mawtribes",
+      "name": "ALONG THE ICEPATHS",
+      "condition": null,
+      "declare": null,
+      "effect": "Until the start of your next turn:\n- Add 3 to run rolls for each target.\n- Each target can use CHARGE abilities even if it used a RETREAT ability in the same turn.\n- Each time a target uses a RETREAT ability, no mortal damage is inflicted on it.",
+      "source": "Règles de renom Ogor Mawtribes, « Sur les Traces » (verbatim relevé dans data/json/faction_rules_fr.json, regiments_of_renown > Okar’s Torrbad > abilities > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Ogor Mawtribes",
+      "name": "BULL CHARGE",
+      "condition": null,
+      "declare": null,
+      "effect": "Your opponent must move the target up to 3\". It can move through the combat ranges of your units and can end that move in combat.\nAfter your opponent has done so, roll a dice for each model in the unit using this ability that is within 3\" of the target. Add 1 to the roll if the unit using this ability is a GUTBUSTERS unit. For each 3+, inflict 1 mortal damage on the target.\nYour unit can then make a pile-in move. If the target of this ability is still in combat with your unit, the target must be picked to be the target of that pile-in move.\nDesigner's Note: Your opponent may not be able to move the models in the target unit (or may choose to leave them where they are), but the target still counts as having moved for the purposes of rules.",
+      "source": "BT Ogor Mawtribes, « Charge Buffle » (verbatim relevé dans data/json/faction_rules_fr.json, rules > battle_traits > 1)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Ogor Mawtribes",
+      "name": "Feed the Maw",
+      "condition": null,
+      "declare": null,
+      "effect": "Place the target on this terrain feature. The target is now a Head Butcher (see 'Hungry Sinkhole').\nIf this terrain feature is demolished, before removing it from the battlefield, inflict D3 mortal damage on the Head Butcher. Then, set up the Head Butcher on the battlefield wholly within 3\" of this terrain feature and not in combat. That unit is no longer a Head Butcher. If it is not possible to set up the Head Butcher, it is slain.\nAll attacks that would target the Head Butcher target this terrain feature instead.",
+      "source": "Rules updates octobre 2026 (eng_28-10_aos_core_rules_and_key_downloads_rules_updates) p.61, « Add the following to the effect of 'Feed the Maw' » (texte anglais complet)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Ogor Mawtribes",
+      "name": "The Maw Opens",
+      "condition": null,
+      "declare": null,
+      "effect": "If the target is not in combat, it can move up to D3+3\" but must end that move no further from the nearest enemy unit that is visible to it. It cannot move into combat during any part of that move.\nIf the target is in combat, inflict D3 mortal damage on each enemy unit in combat with the target, then Heal (D3) the target. If the target is a MAWSEEKERS unit, inflict 3 mortal damage on each enemy unit in combat with the target instead of D3, then Heal (3) the target.",
+      "source": "BT Ogor Mawtribes, « La Gueule s'Ouvre » (verbatim relevé dans data/json/faction_rules_fr.json, units > Redd the Maw, High Slaughtermaster > abilities > 3)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Ogor Mawtribes",
+      "name": "The Right Motivation",
+      "condition": null,
+      "declare": null,
+      "effect": "For the rest of the turn, the following effects apply:\n- While the target has not had any damage points allocated to it this phase, each time the unmodified hit roll for a combat attack that targets it is 1, inflict 1 mortal damage on the attacking unit after the FIGHT ability has been resolved.\n- If the target has had any damage points allocated to it this phase, add 1 to the Attacks characteristic of its melee weapons.",
+      "source": "BT Ogor Mawtribes, « La Bonne Motivation » (verbatim relevé dans data/json/faction_rules_fr.json, units > Morga The Mighty, Overtyrant > abilities > 3)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Ossiarch Bonereapers",
+      "name": "Master of the Bone-Tithe",
+      "condition": null,
+      "declare": null,
+      "effect": "Your opponent must pick 1 of the following effects:\nPay the Tithe: Your opponent must pick a unit in their army on the battlefield to be the target. They cannot pick a MANIFESTATION or terrain feature. Then:\n- Inflict D6 mortal damage on the target.\n- Until the start of your next turn, the target cannot be healed, have slain models returned to it or be replaced.\nDeny the Ossiarchs their Rightful Due: Pick 1 of the following effects:\n- You gain 4 relentless discipline points.\n- Pick an objective you do not control. For the rest of the turn, add 5 to the control scores of friendly OSSIARCH BONEREAPERS units while they are contesting that objective.\n- For the rest of the turn, add 2 to the Attacks characteristic and 6\" to the Range characteristic of this unit's Gaze of Death.",
+      "source": "Fléau d'Aqshy Collecteurs Ossiarques FR (fre_02-07_warhammer_age_of_sigmar_scourge_of_aqshy_ossiarch_bonereapers) p.2, Vokmortian, « Maître de la Dîme d'Os »",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Seraphon",
+      "name": "Cosmic Engine",
+      "condition": null,
+      "declare": null,
+      "effect": "If it will reserve the power, place a cosmic power token next to this unit.\nIf it will harness the power, roll a dice and add the number of cosmic power tokens this unit has to the roll. Then, remove all cosmic power tokens this unit has and pick 1 of the following effects (if possible).\nHealing Light: On a 3+, you can Heal (D3) all friendly SERAPHON units wholly within 12\" of this unit.\nStarlight Summons: On a 5+, you can pick up to 3 friendly SERAPHON units wholly within 12\" of this unit. Return 1 slain model to each unit.\nTime Slows: On a 6+, you can pick up to 3 friendly SERAPHON units wholly within 12\" of this unit. Those units have STRIKE-FIRST until the end of the turn.",
+      "source": "Faction Pack Seraphon, « Machine Cosmique » (verbatim relevé dans data/json/faction_rules_fr.json, units > Engine of the Gods > abilities > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Seraphon",
+      "name": "Reptilian Instincts",
+      "condition": null,
+      "declare": null,
+      "effect": "This unit can use this ability even if it is in reserve. Pick each friendly unit that is stalking the prey to be the targets.\nAfter that SHOOT ability has been resolved, set up each target on the battlefield more than 9\" from all enemy units and within 18\" of the unit that used the SHOOT ability.\nThen, you can spend up to 3 rage dice. If you do:\n- If your opponent's fury level is lower than yours, they must increase their fury level by 1, to a maximum of 7.\n- Each target can move up to X\", where X is the number of rage dice spent. It must end that move no further from the unit that used the SHOOT ability than it was at the start of the move.\nThen, for the rest of the turn, each time a target uses a CHARGE ability, it must end that charge move in combat with the unit that used the SHOOT ability.",
+      "source": "Fléau d'Aqshy Seraphon, « Instinct Reptilien » (verbatim relevé dans data/json/faction_rules_fr.json, units > Scourge of Aqshy: Saurus Scar-Veteran on Aggradon > abilities > 2)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Skaven",
+      "name": "Lord of Great Plagues",
+      "condition": null,
+      "declare": null,
+      "effect": "If the unmodified chanting roll for a friendly PESTILENS PRIEST this phase was 6, pick 1 of the following effects to apply:\nCrimsonweal Curse: Pick an enemy unit within 13\" of this unit to be the target. For the rest of the battle, each time the target uses a MOVE ability, inflict D3 mortal damage on it after the MOVE ability has been resolved.\nThe Neverplague: For the rest of the battle, you can re-roll chanting rolls for friendly PESTILENS PRIESTS.\nUndulant Scourge: Pick a visible enemy unit within 13\" of this unit. Inflict 2D3 mortal damage on the target.",
+      "source": "BT Skaven, « Seigneur des Plaies » (verbatim relevé dans data/json/faction_rules_fr.json, units > Verminlord Corruptor > abilities > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Skaven",
+      "name": "Seething Blight",
+      "condition": null,
+      "declare": null,
+      "effect": "For the rest of the battle:\n- Add 1 to the Attacks characteristic of the target's melee weapons.\n- If an ability would heal or return any slain models to the target unit, that ability does not heal any damage points or return any slain models to it.\n- If the target is replaced and the replacement unit has 1 model, allocate damage points to the replacement unit equal to half of X (rounding up), where X is its Health characteristic minus the number of damage points allocated to it.\n- If the target is replaced and the replacement unit has more than 1 model, half of the models in the replacement unit (rounding up) are automatically slain.",
+      "source": "Fléau d'Aqshy Skaven, « Rouille Bouillonnante » (verbatim relevé dans data/json/faction_rules_fr.json, units > Scourge of Aqshy: Verminlord Corruptor > abilities > 1)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Skaven",
+      "name": "The Thirteen-headed One",
+      "condition": null,
+      "declare": null,
+      "effect": "Pick 1 of the following effects to apply until the start of your next turn. You cannot pick the same effect more than once per battle.\nMaster of Dire Sorcery: Add 1 to casting rolls for friendly MASTERCLAN WIZARDS while they are wholly within 13\" of this unit.\nCommander of Vermin: Add 1 to charge rolls for friendly VERMINUS units while they are wholly within 13\" of this unit.\nKnower of Warp-tech: Add 1 to hit rolls for shooting attacks made by friendly SKRYRE units while they are wholly within 13\" of this unit.\nMaster of Festering Blades: Add 1 to the Rend characteristic of melee weapons used by friendly ESHIN units while they are wholly within 13\" of this unit.\nPurveyor of Plagues: Add 1 to chanting rolls for friendly PESTILENS PRIESTS while they are wholly within 13\" of this unit.\nUltimate Fleshshaper: Heal (D3) each friendly MOULDER unit wholly within 13\" of this unit.",
+      "source": "BT Skaven, « Le Rat aux Treize Têtes » (verbatim relevé dans data/json/faction_rules_fr.json, units > Lord Skreech Verminking > abilities > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères. Fin traduite du français (noms des effets traduits librement)."
+    },
+    {
+      "faction": "Skaven",
+      "name": "Warp-ambush",
+      "condition": null,
+      "declare": null,
+      "effect": "Roll a dice and pick one of the following effects.\n- On a 4+, pick an enemy unit that is more than 6\" from all other enemy units. You can set up this unit on the battlefield in combat with that enemy unit and not in combat with any other enemy units. Then, if another friendly unit was set up in the tunnels below with the 'Tunnel Skulkers' ability, you can set up that unit wholly within 6\" of this unit, in combat with that enemy unit, and not in combat with any other enemy units.\n- You can set up this unit anywhere on the battlefield more than 9\" from all enemy units. Then, if another friendly unit was set up in the tunnels below with the 'Tunnel Skulkers' ability, you can set up that unit wholly within 6\" of this unit and more than 9\" from all enemy units.",
+      "source": "Rules updates octobre 2026 (eng_28-10_aos_core_rules_and_key_downloads_rules_updates) p.66, « Change the Warp-ambush ability to » (texte anglais complet)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Slaves to Darkness",
+      "name": "Aura of Mutation",
+      "condition": null,
+      "declare": null,
+      "effect": "Roll a dice and apply the corresponding effect below. If this unit is wholly within 12\" of a friendly PLEDGED TO TZEENTCH WIZARD, you can roll 2 dice instead, pick either result, then apply the corresponding effect below.\n1 - Untouched No effect.\n2 - Hideous Disfigurement Subtract 3 from the target's control score until the start of your next turn.\n3 - Troggbrains The target cannot use commands for the rest of the turn.\n4 - Gift of Mutations Subtract 1\" from the target's Move characteristic for the rest of the battle.\n5 - Horrible Absorption Inflict D6 mortal damage on the target. Then, Heal (D6) this unit.\n6 - Mutant Tide Pick any other effect.",
+      "source": "BT Slaves to Darkness, « Aura de Mutation » (verbatim relevé dans data/json/faction_rules_fr.json, units > Mutalith Vortex Beast > abilities > 2)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Slaves to Darkness",
+      "name": "BESTOW FAVOUR",
+      "condition": null,
+      "declare": null,
+      "effect": "Until the start of your next turn:\n- Add 5 to the target's control score.\n- If the target is a DAEMON unit, add 1 to save rolls for the target.\n- If the target is a non-DAEMON unit, it has WARD (6+).",
+      "source": "BT Slaves to Darkness, « Accorder une Faveur » (verbatim relevé dans data/json/faction_rules_fr.json, renown_armies > Legion of the First Prince > battle_traits > 3)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Slaves to Darkness",
+      "name": "DARK APOTHEOSIS",
+      "condition": null,
+      "declare": null,
+      "effect": "Pick 1 of the following:\nAura of Chaos: Heal (X) the target, where X is the number of damage points allocated to the target. In addition, the target has WARD (5+) for the rest of the battle.\nDaemonhood: Set up a Daemon Prince within 1\" of the target. Then, remove the target from the battlefield. If the target is your general, the Daemon Prince becomes your general instead and is added to your general's regiment. If the target has any enhancements, the Daemon Prince gains those enhancements. If the target has a Pledge to Chaos keyword, the Daemon Prince gains that keyword. Otherwise, pick 1 Pledge to Chaos keyword for that Daemon Prince to have for the rest of the battle. If any MANIFESTATIONS that were summoned by the target are on the battlefield, they are removed from play.",
+      "source": "BT Slaves to Darkness, « Sombre Apothéose » (verbatim relevé dans data/json/faction_rules_fr.json, rules > battle_traits > 1)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Slaves to Darkness",
+      "name": "EYE OF THE GODS",
+      "owner": "Battle Traits › Battle Traits",
+      "condition": null,
+      "declare": null,
+      "effect": "During the battle, the target gains Dark Apotheosis points as follows:\n- Each time the target uses a FIGHT ability, it gains D3 Dark Apotheosis points.\n- At the end of each of your turns, if the target is contesting an objective that is wholly outside friendly territory, it gains D3 Dark Apotheosis points.",
+      "source": "BT Slaves to Darkness, « L'Œil des Dieux » (verbatim relevé dans data/json/faction_rules_fr.json, rules > battle_traits > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Slaves to Darkness",
+      "name": "FEROCIOUS INFLUENCE",
+      "condition": null,
+      "declare": null,
+      "effect": "For the rest of the turn:\n- Add 1 to the Damage characteristic of this unit's Companion weapons for attacks that target that enemy unit.\n- Add 1 to hit rolls for attacks made with Companion weapons used by friendly SLAVES TO DARKNESS CAVALRY and WAR MACHINE units while they are wholly within 12\" of and visible to this unit.",
+      "source": "Fléau d'Aqshy Slaves to Darkness, « Influence Féroce » (verbatim relevé dans data/json/faction_rules_fr.json, units > Scourge of Aqshy Chaos Lord on Karkadrak > abilities > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Slaves to Darkness",
+      "name": "FIRST-DAMNED PRINCE",
+      "condition": null,
+      "declare": null,
+      "effect": "While a friendly Be'lakor is within the combat range of any friendly non-HERO LEGION OF THE FIRST PRINCE DAEMON units:\nThat friendly Be'lakor has WARD (4+).\nIn addition, each time you make a successful ward roll for that friendly Be'lakor, allocate 1 damage point to a friendly non-HERO LEGION OF THE FIRST PRINCE DAEMON unit within Be'lakor's combat range after the damage sequence for Be'lakor has been resolved (ward rolls cannot be made for those damage points).",
+      "source": "Rules updates octobre 2026 (eng_28-10_aos_core_rules_and_key_downloads_rules_updates) p.69, « Change the second bullet point of the effect of the 'First-damned Prince' ability to » (texte anglais complet)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Slaves to Darkness",
+      "name": "RALLY THE TRIBES",
+      "condition": null,
+      "declare": null,
+      "effect": "Set up a replacement unit with half the number of models from the target unit (rounding up) on the battlefield, wholly within 6\" of a battlefield edge and more than 3\" from all enemy units.",
+      "source": "Rules updates octobre 2026 (eng_28-10_aos_core_rules_and_key_downloads_rules_updates) p.68, « Change the effect of the Darkoath Horde's 'Rally the Tribes' ability to » (texte anglais complet)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Slaves to Darkness",
+      "name": "Three-headed Titan",
+      "condition": null,
+      "declare": null,
+      "effect": "Pick 1 of the following effects:\nFilth-spewer: Pick an enemy unit within 6\" of this unit and roll a number of dice equal to the number of models in that unit, to a maximum of 7. For each 3+, inflict 1 mortal damage on that unit.\nSkull-gorger: Pick an enemy unit in combat with this unit and roll a dice. If the roll exceeds that unit's Health characteristic, 1 model in that unit is slain and you can Heal (X) this unit, where X is that unit's Health characteristic.\nSpell-eater: Pick a MANIFESTATION within 12\" of this unit and roll a dice. On a 2+, it is banished and removed from play. In addition, inflict D3 mortal damage on the unit that summoned it.",
+      "source": "Rules updates octobre 2026 (eng_28-10_aos_core_rules_and_key_downloads_rules_updates) p.68, Archaon, « Spell-eater » de « Three-headed Titan » (texte anglais complet)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Slaves to Darkness",
+      "name": "UNITED IN DARKNESS",
+      "condition": null,
+      "declare": null,
+      "effect": "While there is at least 1 friendly WARRIORS OF CHAOS HERO and 1 other friendly DAEMON HERO or DARKOATH HERO on the battlefield, add 2 to the control scores of friendly SLAVES TO DARKNESS units while they are contesting an objective that is wholly outside friendly territory.",
+      "source": "BT Slaves to Darkness, « Unis dans les Ténèbres » (verbatim relevé dans data/json/faction_rules_fr.json, rules > formations > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Sons of Behemat",
+      "name": "DEAD CUNNING, FOR A GARGANT",
+      "condition": null,
+      "declare": null,
+      "effect": "For the rest of the turn, the unit in this Regiment of Renown has STRIKE-LAST and WARD (5+). Pick 1 of the following effects to apply for the rest of the turn:\nA Kunnin' Ruse: Other than the Companion ability, weapon abilities for attacks that target the unit in this Regiment of Renown have no effect.\nA Nasty Surprise: Add 1 to hit rolls for the unit in this Regiment of Renown's combat attacks and ignore negative modifiers to hit rolls and wound rolls for its combat attacks.\nTricked You!: Enemy units have a maximum control score of 1 while they are in combat with the unit in this Regiment of Renown.",
+      "source": "Régiment de renom Fils de Behemat FR (fre_09-09_warhammer_age_of_sigmar_rules_of_renown_regiment_of_renown_sons_of_behemat) p.2, Bundo Mord-baleine, « Fort Rusé, pour un Gargant »",
+      "note": "Wahapedia : description coupée à 1024 caractères. Fin traduite du français (« J'vous ai bien feintés ! » : nom traduit librement)."
+    },
+    {
+      "faction": "Sons of Behemat",
+      "name": "DON'T LET NUFFIN' HAPPEN TO HER!",
+      "condition": null,
+      "declare": null,
+      "effect": "While the friendly Ma Maegran is within the combat range of another friendly LITTLE unit:\n- She has WARD (5+).\n- Each time you make a successful ward roll for her, allocate 1 mortal damage to another friendly LITTLE unit within her combat range after the damage sequence for her has been resolved (ward rolls cannot be made for those damage points).",
+      "source": "complétion évidente : formule standard du garde du corps « … has been resolved (ward rolls cannot be made for those damage points) »",
+      "note": "Wahapedia : description coupée ; seule la fin de la formule standard manquait."
+    },
+    {
+      "faction": "Sons of Behemat",
+      "name": "THE WORLD TITAN'S PROPHET",
+      "condition": null,
+      "declare": null,
+      "effect": "While any other friendly BRODD'S STOMP units are within a friendly King Brodd's combat range:\n- That friendly King Brodd has WARD (5+).\n- Each time you make a successful ward roll for that friendly King Brodd, allocate 1 damage point to another friendly BRODD'S STOMP unit within its combat range after the damage sequence for that friendly King Brodd has been resolved (ward rolls cannot be made for those damage points).",
+      "source": "Règles de renom, armées de renom FR octobre 2026 (fre_28-10_aos_rules_of_renown_armies-of-renown) p.23, Piétine du Roi Brodd, « Le Prophète du Titan-monde »",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Sons of Behemat",
+      "name": "WATCH THIS!",
+      "condition": null,
+      "declare": null,
+      "effect": "If the target is a HERO, BEAST, MONSTER or WAR MACHINE, roll 6 dice. Otherwise, roll a dice for each model in the target unit. For each roll that is equal to or greater than the target's Save characteristic, inflict 1 mortal damage on the target.\nThe BIG unit using this DESTRUCTIVE IMPULSE ability has STRIKE-LAST for the rest of the turn.",
+      "source": "Règles de renom, armées de renom FR octobre 2026 (fre_28-10_aos_rules_of_renown_armies-of-renown) p.24, Piétine du Roi Brodd, « Matez ça ! »",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Soulblight Gravelords",
+      "name": "DEATHLY INVOCATION",
+      "condition": null,
+      "declare": null,
+      "effect": "For each target:\n- If the target is damaged, Heal (3) the target.\n- If the target is not damaged, return a number of slain models to it with a combined Health characteristic of up to 3.",
+      "source": "BT Soulblight Gravelords, « Invocation Cadavérique » (verbatim relevé dans data/json/faction_rules_fr.json, rules > battle_traits > 3)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Soulblight Gravelords",
+      "name": "ENDLESS LEGIONS",
+      "owner": "Battle Traits › Battle Traits",
+      "condition": null,
+      "declare": null,
+      "effect": "Set up a replacement unit with half the number of models from the target unit (rounding up) wholly within 12\" of a friendly SOULBLIGHT GRAVELORDS HERO or wholly within 6\" of a friendly Cursed Sepulchre. It must be set up more than 9\" from all enemy units.\nIf it is your movement phase, you can set up the replacement unit more than 3\" from all enemy units instead of 9\", but if you set it up within 9\" of any enemy units, it cannot use CHARGE abilities this turn.",
+      "source": "BT Soulblight Gravelords, « Légions Sans Fin » (verbatim relevé dans data/json/faction_rules_fr.json, rules > battle_traits > 4)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Soulblight Gravelords",
+      "name": "ENDLESS LEGIONS OF BONE",
+      "condition": null,
+      "declare": null,
+      "effect": "Set up a replacement unit with half the number of models from the target unit (rounding up) wholly within 12\" of a friendly BARROW LEGION HERO or wholly within 6\" of a friendly Cursed Sepulchre. It must be set up more than 9\" from all enemy units.\nIf it is your movement phase, you can set up the replacement unit more than 3\" from all enemy units instead of 9\", but if you set it up within 9\" of any enemy units, it cannot use CHARGE abilities this turn.",
+      "source": "par analogie avec « Endless Legions » (BT Seigneurs Ruinemânes FR, verbatim relevé dans data/json/faction_rules_fr.json) : même formule mot pour mot jusqu'à la coupure",
+      "note": "Wahapedia : description coupée à 1024 caractères. Pas de scan de l'armée de renom Barrow Legion : fin reprise de « Endless Legions », identique jusqu'à la coupure. À vérifier si un scan arrive."
+    },
+    {
+      "faction": "Soulblight Gravelords",
+      "name": "ETERNAL THRALL",
+      "condition": null,
+      "declare": null,
+      "effect": "For the rest of the battle, while the target is on the battlefield:\n- If this unit is a Necromancer, add 1 to this unit's power level.\n- If this unit is a VAMPIRE, add 1 to unbinding rolls for this unit.\n- If this unit is a DEATHRATTLE unit, ignore the first damage point that would be allocated to this unit in each phase.",
+      "source": "Fléau d'Aqshy Soulblight Gravelords, « Adulateur Éternel » (verbatim relevé dans data/json/faction_rules_fr.json, rules > heroic_traits_artefacts > 5)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Soulblight Gravelords",
+      "name": "Frenzied Surge",
+      "condition": null,
+      "declare": null,
+      "effect": "This unit can move up to X\", where X is your fury level. It must end that move in combat.\nThen, the target can move up to X\", where X is your fury level. It can move through enemy models and the combat ranges of enemy units during that move but must end that move in combat with an enemy unit that this unit is in combat with.",
+      "source": "Rules updates octobre 2026 (eng_28-10_aos_core_rules_and_key_downloads_rules_updates) p.33, « Change 'Frenzied Surge' to » (texte anglais complet)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Soulblight Gravelords",
+      "name": "Invocation of Nagash",
+      "condition": null,
+      "declare": null,
+      "effect": "If the target is an enemy unit, inflict D3 mortal damage on it. If the target is a friendly DEATH unit, pick 1 of the following effects:\n- Return a number of slain models to the target unit with a combined Health characteristic of up to 3.\n- The target has WARD (5+) until the start of your next turn.",
+      "source": "BT Soulblight Gravelords, « Invocation de Nagash » (verbatim relevé dans data/json/faction_rules_fr.json, units > Nagash, Supreme Lord of the Undead > abilities > 3)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Soulblight Gravelords",
+      "name": "Volatile Animus",
+      "condition": null,
+      "declare": null,
+      "effect": "Spend 1 rage dice. If your opponent's fury level is lower than yours, they must increase their fury level by 1, to a maximum of 7. Then, pick 1 of the following effects:\nRetaliatory Posture: For the rest of the turn:\n- Ignore positive modifiers to hit rolls and wound rolls for attacks made by enemy units while they are in combat with this unit.\n- Add 1 to save rolls for this unit.\n- Add 1 to hit rolls for this unit's attacks, including attacks made with Companion weapons, that target an enemy unit that used a FIGHT ability this phase.\nUnrelenting Ferocity: For the rest of the turn:\n- Ignore negative modifiers to hit rolls and wound rolls for this unit's attacks.\n- Add 1 to the Rend and Damage characteristics of this unit's Companion melee weapons for attacks that target an enemy unit that has not used a FIGHT ability this phase.",
+      "source": "Fléau d'Aqshy Soulblight Gravelords, « Animus Volatil » (verbatim relevé dans data/json/faction_rules_fr.json, units > Scourge of Aqshy Revenant Draconith > abilities > 2)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Stormcast Eternals",
+      "name": "Arcane Enhancement",
+      "condition": null,
+      "declare": null,
+      "effect": "While the unit that was picked to be the target of the 'Summon Dais Arcanum' ability is on the platform of this MANIFESTATION:\n- That unit has WARD (5+) and FLY.\n- If that unit is a WIZARD, add 1 to that unit's power level.\n- That unit cannot use MOVE abilities and remains on this MANIFESTATION each time it moves.\n- Instead of measuring range or visibility to or from that unit, measure to or from this MANIFESTATION instead.\n- This MANIFESTATION cannot be picked to be the target of abilities other than BANISHMENT abilities.\n- If that unit is picked to make a pile-in move, move this MANIFESTATION instead.\nIf this MANIFESTATION is banished, before removing it from play, the unit on its platform is set up on the battlefield within 3\" of it. That unit can be set up in combat only with units it was already in combat with when this MANIFESTATION was banished. If it is not possible to set up the unit, it is destroyed.\nIf the unit on the platform is removed from the battlefield, immediately remove this MANIFESTATION from play.",
+      "source": "BT Stormcast Eternals, « Amélioration Cabalistique » (verbatim relevé dans data/json/faction_rules_fr.json, units > Dais Arcanum > abilities > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères. Fin traduite du français ; puce d'engagement et dernière phrase conformes aux rules updates octobre 2026 p.73."
+    },
+    {
+      "faction": "Stormcast Eternals",
+      "name": "PENNANT OF AZYRITE MAJESTY",
+      "condition": null,
+      "declare": null,
+      "effect": "Spend 1 rage dice. If your opponent's fury level is lower than yours, they must increase their fury level by 1, to a maximum of 7.\nThen, for the rest of the turn, while it is visible to this unit:\n- Subtract 1 from casting rolls and chanting rolls for the enemy target.\n- Add 1 to casting rolls and chanting rolls for the friendly target.",
+      "source": "Fléau d'Aqshy Stormcast Eternals, « Pennon de Majesté Azyrite » (verbatim relevé dans data/json/faction_rules_fr.json, rules > heroic_traits_artefacts > 6)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Sylvaneth",
+      "name": "Awakening Slumbering Spirits",
+      "owner": "Treelord Ancient",
+      "condition": null,
+      "declare": null,
+      "effect": "Set up a replacement unit with 1 model from the target unit wholly within 6\" of that terrain feature and more than 9\" from all enemy units. Then, remove the friendly overgrown token from that terrain feature. If the target was a Treelord, allocate 10 damage points to the replacement unit (ward rolls cannot be made for those damage points).",
+      "source": "BT (traduction du scan anglais) Sylvaneth, « Éveiller les Esprits Endormis » (verbatim relevé dans data/json/faction_rules_fr.json, units > Treelord Ancient > abilities > 1)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Sylvaneth",
+      "name": "CALL FORTH THE FOREST",
+      "condition": null,
+      "declare": null,
+      "effect": "If there are fewer than 9 friendly Awakened Wyldwoods on the battlefield, you can set up an Awakened Wyldwood wholly within 24\" of the caster, more than 3\" from all objectives and more than 1\" from all enemy units and other terrain features. If there are 9 friendly Awakened Wyldwoods on the battlefield, Heal (3) each friendly Awakened Wyldwood instead.",
+      "source": "BT (traduction du scan anglais) Sylvaneth, « Appel de la Forêt » (verbatim relevé dans data/json/faction_rules_fr.json, renown_armies > Lords of the Clan > spell_lores > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Sylvaneth",
+      "name": "JADE WINDS",
+      "owner": "Lords of the Clan › Manifestation Lore",
+      "condition": null,
+      "declare": null,
+      "effect": "If you picked a Gladewyrm or Vengeful Skullroot, set it up wholly within 12\" of the caster, visible to them and more than 9\" from all enemy units. If you picked a Spiteswarm Hive, set it up wholly within 12\" of the caster and visible to them.",
+      "source": "BT (traduction du scan anglais) Sylvaneth, « Vents de Jade » (verbatim relevé dans data/json/faction_rules_fr.json, renown_armies > Lords of the Clan > manifestation_lores > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Sylvaneth",
+      "name": "JADE WINDS",
+      "owner": "Soulpod Guardians › Manifestation Lore",
+      "condition": null,
+      "declare": null,
+      "effect": "If you picked a Gladewyrm or Vengeful Skullroot, set it up wholly within 12\" of the caster, visible to them and more than 9\" from all enemy units. If you picked a Spiteswarm Hive, set it up wholly within 12\" of the caster and visible to them.",
+      "source": "BT (traduction du scan anglais) Sylvaneth, « Vents de Jade » (verbatim relevé dans data/json/faction_rules_fr.json, renown_armies > Lords of the Clan > manifestation_lores > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Sylvaneth",
+      "name": "SONG OF THE HUNT",
+      "owner": "The Evergreen Hunt › Battle Traits",
+      "condition": null,
+      "declare": null,
+      "effect": "The following cumulative effects apply to friendly EVERGREEN HUNT units depending on the number of chords you have:\n1 chord – Simple: Add 1 to run rolls and charge rolls for friendly units wholly within the same quarter of the battlefield as the quarry.\n2 chords – Tuneful: Add 1 to hit rolls and wound rolls for friendly units' combat attacks that target an enemy unit wholly within the same quarter of the battlefield as the quarry.\n3-5 chords – Melodic: Add 1 to the Attacks characteristic of melee weapons used by friendly units while they are in combat with the quarry.\n6+ chords – Mellifluous: While a friendly unit is in combat with the quarry, the quarry has STRIKE-LAST.",
+      "source": "BT Sylvaneth, « Chant de la Chasse » (verbatim relevé dans data/json/faction_rules_fr.json, renown_armies > The Evergreen Hunt > battle_traits > 0)",
+      "note": "Wahapedia : description coupée à 1024 caractères (limite de l'export). Fin traduite du français."
+    },
+    {
+      "faction": "Sylvaneth",
+      "name": "SONG OF THE LOST",
+      "condition": null,
+      "declare": null,
+      "effect": "Until the start of your next turn, subtract 1 from wound rolls for attacks that target that friendly unit. In addition, if the chanting roll was 8+, pick 1 of the following effects:\n- You can Heal (3) the target.\n- If the target is not a MONSTER, ignore modifiers to save rolls for the target (positive and negative) until the start of your next turn.",
+      "source": "Rules updates octobre 2026 (eng_28-10_aos_core_rules_and_key_downloads_rules_updates) p.75, « Change the effect of 'Song of the Lost' to » (texte anglais complet)",
+      "note": "Wahapedia : ancienne version coupée à 1024 caractères ; effet remplacé par la mise à jour d'octobre 2026."
+    },
+    {
+      "faction": "Sylvaneth",
+      "name": "Seasons of War",
+      "condition": null,
+      "declare": null,
+      "effect": "Pick 1 of the following effects to apply for the rest of the battle round. You cannot pick the effect that you picked in the previous battle round.\nThe Burgeoning: Each time a friendly Awakened Wyldwood uses the 'Ever Growing' ability, you can pick any terrain feature your opponent does not control to be the target rather than the closest.\nThe Reaping: Add 1 to casting rolls and chanting rolls for friendly SYLVANETH units while they are wholly within 12\" of this unit.\nThe Dwindling: Friendly SYLVANETH units can use CHARGE abilities even if they used a RETREAT ability in the same turn. In addition, no mortal damage is inflicted on those units when they use RETREAT abilities.\nDusk: Each time you use the 'Creeping Dread' ability this battle round, you can pick up to 3 targets instead of 1.",
+      "source": "BT (traduction du scan anglais) Sylvaneth, « Saisons de Guerre » (verbatim relevé dans data/json/faction_rules_fr.json, units > Alarielle the Everqueen > abilities > 1)",
+      "note": "Wahapedia : description coupée à 1024 caractères juste après une phrase (2 saisons manquantes). Fin traduite du français (noms des saisons traduits librement)."
     }
   ]
 }

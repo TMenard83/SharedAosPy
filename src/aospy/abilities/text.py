@@ -35,6 +35,7 @@ def clean(raw: str) -> str:
 _TYPOS = [
     (re.compile(r"\bbattleeld"), "battlefield"),
     (re.compile(r"\binict"), "inflict"),
+    (re.compile(r"\bInict"), "Inflict"),  # v34 : en tête de phrase (LAVA STORM)
     (re.compile(r"\bmodier"), "modifier"),
     (re.compile(r"\beect"), "effect"),
     (re.compile(r"\b([Aa]dd|[Ss]ubtract) I (to|from)\b"), r"\1 1 \2"),

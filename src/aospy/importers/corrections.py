@@ -19,6 +19,7 @@ Format :
             "weapons": {"Staff of the Horned Rat": {"damage": 2}},
             "source": "BT Skaven FR p.80", "note": "…"}],
  "abilities": [{"faction": "Lumineth Realm-lords", "name": "DEPICT RUNE",
+                "owner": "(facultatif) nom de la charte porteuse, si l'aptitude a des homonymes",
                 "condition": null, "declare": null, "effect": "…",
                 "source": "BT LRL FR", "note": "texte tronqué dans Wahapedia"}]}
 ```
@@ -77,12 +78,21 @@ def apply_unit_corrections(con, path: str | Path = DEFAULT_CORRECTIONS_PATH) -> 
     return missing
 
 
-def ability_correction(corrections: list[dict], faction_name: str, name: str) -> Optional[dict]:
-    """Correction d'aptitude pour (faction, nom), insensible à la casse ; None sinon."""
+def ability_correction(
+    corrections: list[dict], faction_name: str, name: str, owner_name: str = ""
+) -> Optional[dict]:
+    """Correction d'aptitude pour (faction, nom), insensible à la casse ; None sinon.
+
+    Une correction qui porte un champ `owner` (nom de la charte ou du groupe de règles porteur) ne
+    s'applique qu'à ce porteur : deux aptitudes homonymes d'une même faction (« Peal of Doom » du
+    Grey Seer on Screaming Bell et de sa variante Scourge of Aqshy) ont des textes différents."""
     key = (faction_name.lower(), name.strip().lower())
     for c in corrections:
-        if (c.get("faction", "").lower(), c.get("name", "").strip().lower()) == key:
-            return c
+        if (c.get("faction", "").lower(), c.get("name", "").strip().lower()) != key:
+            continue
+        if c.get("owner") and c["owner"].strip().lower() != owner_name.strip().lower():
+            continue
+        return c
     return None
 
 

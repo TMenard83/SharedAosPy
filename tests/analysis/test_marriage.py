@@ -63,6 +63,23 @@ def test_slow_bearer_charges_less_and_reaches_enemy_territory_later():
     assert t.p_off_timeline == pytest.approx(t.p * CHARGE_FIGHT_SHARE)
 
 
+def test_once_trigger_sets_a_start_round_not_a_per_fight_probability():
+    """v34 : Oath of Supremacy — charge en territoire ennemi réussie UNE fois, puis +1 touche toute la bataille."""
+    slow = _unit(5)
+    req = "déclencheur unique (charge, en territoire)"
+    t = trigger(slow, req, req, 1.0, True)
+    assert t.bearer_only and not t.charged and t.p == 1.0
+    assert t.start == territory_round(slow, with_charge=True)
+    t = trigger(slow, "déclencheur unique (sur objectif)", "déclencheur unique (sur objectif)", 1.0, False)
+    assert t.bearer_only and t.p == 1.0 and t.start == 2
+
+
+def test_either_charge_is_a_charge_turn_fight_without_charge_roll():
+    """v34 : Brutal Troof — « if it charged … or if it is in combat with an enemy unit that charged »."""
+    t = trigger(_unit(5), "a chargé ou charge ennemie", "a chargé ou charge ennemie", 1.0, True)
+    assert t.bearer_only and t.charged and t.p == 1.0
+
+
 def test_conditions_held_by_others_stay_good_case():
     t = trigger(_unit(6), "près d'une unité amie", "près d'une unité amie", 1.0, True)
     assert not t.bearer_only

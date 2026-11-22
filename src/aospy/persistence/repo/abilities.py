@@ -52,6 +52,7 @@ ABILITY_COLS = (
     "excludes_self",
     "family",
     "bearer_restriction",
+    "resource_usage",
 )
 ABILITY_OWNER_COLS = (
     "ability_uid",

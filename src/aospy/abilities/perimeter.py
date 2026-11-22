@@ -68,6 +68,13 @@ _TARGET_CONDITIONS: list[tuple[str, str]] = [
 _CHARGED = re.compile(r"\bcharged\b", re.I)
 _NEGATED = re.compile(r"\b(?:has|have|had|did)\s+not\s*$|\bnot\s*$", re.I)
 _TARGET_SUBJECT = re.compile(r"\b(?:the target|that unit|that enemy|each target|target's)\b|\btarget\b", re.I)
+#: v34 : neutraliser l'aptitude d'arme Charge (+1 Damage) des attaques ENNEMIES (Anticipated Strike,
+#: Protective Pike-Wall) ne sert que si l'ennemi a chargé : sans le mot « charged », c'est une charge ennemie.
+_ENEMY_CHARGE_WEAPON = re.compile(
+    r"ignore the effect of the Charge \(\+\d+ \w+\) (?:weapon )?ability for [^.]*\benemy\b|"
+    r"\benemy\b[^.]*cannot be affected by the Charge \(\+\d+ \w+\)",
+    re.I,
+)
 
 
 def charge_subjects(text: str, enemy_target: bool) -> set[str]:
@@ -79,7 +86,7 @@ def charge_subjects(text: str, enemy_target: bool) -> set[str]:
     une cible ennemie). « has not charged » est ignoré : c'est une contrainte d'action, pas
     une charge.
     """
-    out: set[str] = set()
+    out: set[str] = {"ennemi"} if _ENEMY_CHARGE_WEAPON.search(text) else set()
     for m in _CHARGED.finditer(text):
         pre = text[max(0, m.start() - 80) : m.start()]
         if _NEGATED.search(pre) or re.search(r"\bhaving\s*$", pre):
@@ -106,6 +113,36 @@ def charge_subjects(text: str, enemy_target: bool) -> set[str]:
         who = last[1] if last else "nous"
         out.add(("ennemi" if enemy_target else "nous") if who == "cible" else who)
     return out
+
+
+#: v34 : « if it charged in the same turn or if it is in combat with an enemy unit that charged in the
+#: same turn » (Brutal Troof) — deux charges en OU dans une même phrase.
+_CHARGE_OR = re.compile(r"\bcharged\b[^.]*?\bor\b[^.]*?\bcharged\b", re.I)
+#: Prérequis « l'une ou l'autre charge » (contient « a chargé » : la couche 3 le traite en bon cas de charge).
+CHARGE_EITHER = "a chargé ou charge ennemie"
+
+
+def charge_either(text: str, enemy_target: bool) -> bool:
+    """Vrai si notre charge et une charge ennemie sont deux alternatives (« … or … »), pas deux conditions
+    cumulées : la condition est alors remplie dès qu'un combat s'engage par une charge, d'un côté ou de l'autre."""
+    return any(charge_subjects(m.group(0), enemy_target) >= {"nous", "ennemi"} for m in _CHARGE_OR.finditer(text))
+
+
+#: v34 : « Once Per Battle » + « If <conditions>, … for the rest of the battle » (Oath of Supremacy, serments
+#: Darkoath, Rune of Restored Hearth) : les conditions du « If » se remplissent UNE fois pour déclencher un
+#: effet permanent ; ce ne sont pas des conditions à tenir à chaque combat. Prérequis de l'effet :
+#: « déclencheur unique (charge, en territoire) » — sans la sous-chaîne « a chargé », que la couche 3 lit
+#: comme une condition de chaque combat.
+ONCE_TRIGGER = "déclencheur unique"
+_ONCE_TRIGGER_EFFECT = re.compile(r"\s*(?:-\s*)?If\b[^.]*\bfor the rest of the battle\b", re.I)
+
+
+def once_trigger_clause(sentence: str, condition: str) -> str:
+    """Proposition « If … » (jusqu'à la 1re virgule) d'un déclencheur unique, sinon ""."""
+    if not re.search(r"\bonce per battle\b", condition or "", re.I) or not _ONCE_TRIGGER_EFFECT.match(sentence):
+        return ""
+    i = sentence.find(", ")
+    return sentence[:i] if i > 0 else ""
 
 
 #: Sujet d'une condition de position portant sur le porteur (« while/if this unit is … », « while each
@@ -243,6 +280,18 @@ _TRIGGER_ROLL = re.compile(
 _SETUP_CONDITION = re.compile(r"deployment phase|start of the first battle round", re.I)
 
 
+def _requires_of(sentence: str, text: str, enemy_target: bool) -> list[str]:
+    """Prérequis de jeu d'une phrase : qui a chargé, puis `_REQUIRES` (phrase + en-tête de liste)."""
+    who = charge_subjects(sentence, enemy_target)
+    if charge_either(sentence, enemy_target):
+        reqs = [CHARGE_EITHER]
+    else:
+        reqs = (["a chargé"] if "nous" in who else []) + (["charge ennemie"] if "ennemi" in who else [])
+    # prérequis lus aussi dans l'en-tête de liste (« While this unit is within … of a friendly X: - … »)
+    req_text = f"{_list_header(text, sentence)} {sentence}"
+    return reqs + [label for pat, label in _REQUIRES if re.search(pat, req_text, re.I)]
+
+
 def perimeter_of(
     sentence: str,
     text: str,
@@ -295,11 +344,16 @@ def perimeter_of(
     if conds:
         out["target_condition"] = " | ".join(conds)
 
-    who = charge_subjects(sentence, enemy_target)
-    reqs = (["a chargé"] if "nous" in who else []) + (["charge ennemie"] if "ennemi" in who else [])
-    # prérequis lus aussi dans l'en-tête de liste (« While this unit is within … of a friendly X: - … »)
+    clause = once_trigger_clause(sentence, condition)
+    if clause:
+        trig = _requires_of(clause, text, enemy_target)
+        reqs = [r for r in _requires_of(sentence[len(clause) :], text, enemy_target) if r not in trig]
+        if trig:
+            inner = ", ".join(trig).replace("a chargé", "charge")
+            reqs.append(f"{ONCE_TRIGGER} ({inner})")
+    else:
+        reqs = _requires_of(sentence, text, enemy_target)
     req_text = f"{_list_header(text, sentence)} {sentence}"
-    reqs += [label for pat, label in _REQUIRES if re.search(pat, req_text, re.I)]
     if _SPEND.search(text) and not re.search(r"blood tithe", text, re.I):
         # coût en ressource de faction (points de discipline, d'oath…) ; la Dîme de Sang a son propre
         # calcul de disponibilité (`pipeline.RESOURCE_RATES` → `available_round`).

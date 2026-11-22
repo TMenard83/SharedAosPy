@@ -11,18 +11,18 @@ from .extract import extract, p_2d6
 from .families import effect_family, main_family
 from .models import AbilityAnalysis, Extraction, RawAbility
 from .overrides import DEFAULT_OVERRIDES_PATH, apply_override, load_overrides
+from .references import RESOLUTION_PASSES, pending_references, resolve_references
+from .resources import RESOURCE_RATES  # noqa: F401  (réexport)
 from .scoring import score
 from .source import DEFAULT_DATA_DIR, load_raw_abilities
 from .tags import tags_for
 
 #: Incrémenter à chaque changement des règles d'extraction/notation : stocké en
 #: base (`ability.analyzer_version`) pour savoir quelle version a produit une ligne.
-ANALYZER_VERSION = 33
+ANALYZER_VERSION = 34
 
 
-#: Gain réaliste (validé par l'utilisateur) d'une ressource de faction qui s'accumule
-#: seule, en points par round. Clé = `RawAbility.cost_type` en minuscules.
-RESOURCE_RATES: dict[str, float] = {"blood tithe": 2.0}
+#: Rythmes des ressources de faction : `abilities.resources` (réexporté ici pour les appelants existants).
 
 
 def resolve_resource_costs(raws: list[RawAbility], extractions: list[Extraction]) -> None:
@@ -150,12 +150,17 @@ def analyze_all(
     extracted = [extract(raw) for raw in raws]
     resolve_resource_costs(raws, [ex for ex, _ in extracted])
     extracted = resolve_manifestations(raws, extracted)
-    out = []
-    for raw, (ex, penalty) in zip(raws, extracted):
-        a = _finish(raw, ex, penalty)
-        if raw.uid in overrides:
-            a = apply_override(a, overrides[raw.uid])
-        out.append(a)
+    out = [_finish(raw, ex, penalty) for raw, (ex, penalty) in zip(raws, extracted)]
+    # v34 (B) : effets qui renvoient à d'autres aptitudes (méta, statut, décor, enhancement) → renotés
+    pending = pending_references(out)
+    for _ in range(RESOLUTION_PASSES):
+        left = resolve_references(out, pending)
+        for i in pending:
+            out[i] = _finish(raws[i], out[i].extraction, extracted[i][1])
+        pending = left
+        if not pending:
+            break
+    out = [apply_override(a, overrides[a.raw.uid]) if a.raw.uid in overrides else a for a in out]
     known = {a.raw.uid for a in out}
     return out, sorted(set(overrides) - known)
 
@@ -212,6 +217,7 @@ def to_rows(
                 ex.excludes_self,
                 main_family(effect_family(e, ex.scope) for e in ex.effects),
                 r.bearer_restriction or None,
+                ex.resource_usage,
             )
         )
         seen = set()

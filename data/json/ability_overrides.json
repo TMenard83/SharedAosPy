@@ -138,9 +138,9 @@
    "name": "SCÁTHSCALE",
    "note": "texte Wahapedia tronqué ; le 2e −1 blessure (8+) est une protection, pas un malus (revue malus lot 2, 2026-11-20)"
   },
-  "fec756891f03": {
+  "35b203d7c303": {
    "name": "You First, I Insist...",
-   "note": "texte Wahapedia tronqué ; le +1 Dégâts lu « ennemi » est celui de cette unité si l'adversaire refuse le défi (revue malus lot 2, 2026-11-20)"
+   "note": "texte complété (source_corrections.json, v34) ; le +1 Dégâts est celui de cette unité si l'adversaire refuse le défi (revue malus lot 2, 2026-11-20). Reste : l'adversaire choisit l'option (lu en cumul, B)."
   },
   "e62060e2ce55": {
    "name": "Merciless Hunters",
@@ -160,7 +160,7 @@
    ],
    "note": "critique de l'arme → l'unité ennemie est maudite toute la bataille, −1 sauvegarde : débuff durable (revue malus lot 2, 2026-11-20)"
   },
-  "f1d5e25ba8b8": {
+  "ef06c9e510b0": {
    "name": "Seething Blight",
    "note": "cible amie OU ennemie au choix : +1 Attaques sur une amie, anti-soin/anti-retour sur une ennemie (revue malus lot 2, 2026-11-20)"
   },
@@ -506,6 +506,110 @@
     "fiable"
    ],
    "note": "jet de 6+ (+1 par unité du régiment au contact) non lu par l'analyseur ; revue v31 (2026-11-21)"
+  },
+  "af29fa99bb54": {
+   "name": "DOUBLE STOMP",
+   "verdict": "pari",
+   "power": 2.4,
+   "reliability": 2.0,
+   "add_tags": [
+    "aleatoire"
+   ],
+   "remove_tags": [
+    "fiable"
+   ],
+   "note": "sur 3+, ajoute le résultat (moy. 4,5) aux Attaques de l'Almighty Stomp pour le tour : « add the result » et le jet 3+ non lus ; revue B v34 (2026-11-22), cas isolé"
+  },
+  "82c20b28d5e6": {
+   "name": "BRUTE SPIRITUALITY",
+   "verdict": "plan",
+   "power": 2.0,
+   "reliability": 2.5,
+   "note": "jet de rampage ≥ Contrôle du sorcier/prêtre ennemi (souvent 2 : ~5/6) → niveau de puissance max 1 et ses manifestations bannies : anti-magie forte non lue ; revue B v34 (2026-11-22), cas isolé"
+  },
+  "de7eb9be6bdf": {
+   "name": "HEART OF THE FOREST",
+   "verdict": "correct",
+   "power": 1.5,
+   "note": "plafond de 10 dégâts par phase près du Bosquet : anti-Death-Star défensif, non lu ; revue B v34 (2026-11-22), cas isolé"
+  },
+  "484ebb1710bd": {
+   "name": "DEEP CONNECTION",
+   "verdict": "anecdotique",
+   "power": 1.0,
+   "note": "ignore Compagnon sur ses propres armes : la valeur dépend des profils du porteur (couche 3) ; revue B v34 (2026-11-22), cas isolé"
+  },
+  "d89880737866": {
+   "name": "FIRST OF THE MORTARCHS",
+   "verdict": "anecdotique",
+   "power": 0.5,
+   "note": "sort indissipable seulement sur un double réussi (~1/6 des lancements) ; revue B v34 (2026-11-22), cas isolé"
+  },
+  "24ed1df53a62": {
+   "name": "Utter Contempt",
+   "verdict": "anecdotique",
+   "power": 0.3,
+   "note": "ignore les Délires (FEC) : ne joue que contre les Mangechairs, dont les Délires sont surtout des buffs ; revue B v34 (2026-11-22), cas isolé"
+  },
+  "f6d74dccab6c": {
+   "name": "Master of the Bone-Tithe",
+   "verdict": "correct",
+   "power": 1.5,
+   "note": "l'adversaire choisit : « Pay the Tithe » inflige D6 BM à une unité qu'IL choisit (lue à tort comme une perte chez nous), l'autre option est un choix imbriqué ; option la plus faible ≈ 1,5 ; revue B v34 (2026-11-22), cas isolé"
+  },
+  "a18f5b050e5b": {
+   "name": "PLAGUE PROGENITOR",
+   "note": "relu : l'anti-soin vise bien l'unité ENNEMIE désignée (premier round seulement) ; le mot-clé DISEASED lui est donné à elle, pas à nous ; puissance portée par les BM de 'Spread', lecture conservée ; revue B v34 (2026-11-22), cas isolé"
+  },
+  "3e1941abaefc": {
+   "name": "'ERE WE COME!",
+   "verdict": "bonus",
+   "power": 1.6,
+   "note": "+1 Mouvement par unité ennemie détruite (max +4) : monte au fil de la partie, non lu ; revue B v34 (2026-11-22), cas isolé"
+  },
+  "5a6f7a3d704a": {
+   "name": "Death Incarnate",
+   "verdict": "pari",
+   "power": 1.5,
+   "reliability": 1.5,
+   "add_tags": [
+    "aleatoire"
+   ],
+   "remove_tags": [
+    "fiable"
+   ],
+   "note": "la manifestation revient sur 4+ (3+ si elle a tué) après sa destruction : retour non lu ; revue B v34 (2026-11-22), cas isolé"
+  },
+  "b29ac8f2cb89": {
+   "name": "KAVALOS LANCE",
+   "verdict": "anecdotique",
+   "power": 0.75,
+   "note": "élargit l'ordre de base 'Power Through' (absent de la base, non résolu) : la cible n'a plus à avoir moins de PV ; revue B v34 (2026-11-22), cas isolé"
+  },
+  "969deec826a8": {
+   "name": "THE ROD OF MISRULE",
+   "verdict": "anecdotique",
+   "power": 0.75,
+   "note": "élargit l'ordre de base 'Power Through' (absent de la base, non résolu) ; revue B v34 (2026-11-22), cas isolé"
+  },
+  "f59a71ca5f49": {
+   "name": "ARCANE FOCUS",
+   "verdict": "plan",
+   "power": 2.0,
+   "note": "sorts de deux domaines UNLIMITED pour les sorciers LRL (une même cible une fois par tour) : spam de sorts, non lu ; revue B v34 (2026-11-22), cas isolé"
+  },
+  "cf7b9789a711": {
+   "name": "BURSTING WITH LIFE",
+   "verdict": "pari",
+   "power": 1.5,
+   "reliability": 1.0,
+   "add_tags": [
+    "aleatoire"
+   ],
+   "remove_tags": [
+    "fiable"
+   ],
+   "note": "à la destruction d'une unité amie, sur 5+ (+1 par unité amie déjà détruite) une unité « festering » revient à 6\" : retour non lu ; revue B v34 (2026-11-22), cas isolé"
   }
  }
 }

@@ -36,6 +36,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Optional
 
+from ...abilities.perimeter import CHARGE_EITHER, ONCE_TRIGGER
 from ...domain.models import Unit
 
 #: Géométrie de la table PAR SAISON (remarque utilisateur, 2026-11-20 : « ça dépend des saisons » — plans de
@@ -73,12 +74,18 @@ BEARER_CONDITIONS = (
     "sans mouvement",
     "sans charge",
     "combat enchaîné",
+    # v34 (Brutal Troof) : notre charge OU une charge ennemie = le combat d'un tour de charge, quel que
+    # soit le camp ; ne dépend pas de la réussite d'une charge du porteur.
+    CHARGE_EITHER,
 )
 #: « The target can be picked to fight immediately after this unit… If it is picked to do so, add 1… »
 #: (Brawlerguts, Lead Da Brutes, Infantry Overseer…) : le bonus ne joue que si le héros et l'unité combattent
 #: l'un après l'autre. Part des combats où c'est le cas : choix utilisateur 2026-11-22 (option « ×0,5 »,
 #: hypothèse à calibrer) — ni plein (il faut être collés), ni nul (sinon tout l'archétype perd son soutien).
 CHAINED_FIGHT_SHARE = 0.5
+#: Déclencheur unique sans entrée en territoire (charge, kill, objectif) : round où l'effet est en général
+#: acquis — le round 1 est un pari (charge à 18", mémoire « charge à 9" = pari »). Hypothèse v34, à calibrer.
+ONCE_TRIGGER_START = 2
 #: Un bonus « a chargé » ne joue qu'au combat du tour de charge ; une unité au corps à corps combat aussi
 #: au tour adverse et en combat prolongé → environ la moitié de ses combats (choix utilisateur, 2026-11-20 :
 #: « il faut mitiger les dégâts »).
@@ -172,9 +179,18 @@ def trigger(
     conds = [c for c in conditions.split(" | ") if c]
     if kind == "charge_bonus" and "a chargé" not in conds and "charge ennemie" not in conds:
         conds.append("a chargé")
-    others = [c for c in conds if c not in BEARER_CONDITIONS]
+    others = [c for c in conds if c not in BEARER_CONDITIONS and not c.startswith(ONCE_TRIGGER)]
     p, start = 1.0, 1
-    charged = "a chargé" in conds
+    for c in conds:
+        if c.startswith(ONCE_TRIGGER):
+            # v34 (Oath of Supremacy) : conditions réussies une fois, puis effet jusqu'à la fin de la bataille →
+            # pas de probabilité par combat, seulement un round de départ (entrée en territoire ennemi, sinon
+            # première charge réaliste au round 2)
+            if "en territoire" in c:
+                start = max(start, territory_round(unit, with_charge="charge" in c))
+            else:
+                start = max(start, ONCE_TRIGGER_START)
+    charged = "a chargé" in conds or CHARGE_EITHER in conds
     melee_unit = share_melee >= 0.5
     if "en territoire" in conds:
         start = max(start, territory_round(unit, with_charge=charged))

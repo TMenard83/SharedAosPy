@@ -159,7 +159,9 @@ def load_raw_abilities(
                     restrictions[(key, row.get("id") or "")] = r
 
     def add(fields: dict, kind: SourceKind, group: str, owner: AbilityOwner) -> None:
-        fields = correct_ability_fields(fields, ability_correction(fixes, owner.faction_name, fields["name"]))
+        fields = correct_ability_fields(
+            fields, ability_correction(fixes, owner.faction_name, fields["name"], owner.owner_name)
+        )
         uid = _uid(fields["name"], fields["condition"], fields["declare"], fields["effect"])
         entry = merged.get(uid)
         if entry is None:

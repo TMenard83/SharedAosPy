@@ -4,13 +4,15 @@ from __future__ import annotations
 
 import re
 
-from ..perimeter import charge_subjects
+from ..perimeter import charge_either, charge_subjects
 
 #: (regex sur Annonce+Effet+condition, libellé FR, pénalité d'ease)
 #: La charge est lue à part (`perimeter.charge_subjects`) : qui a chargé, nous ou l'ennemi ?
 CHARGE_OURS = ("doit avoir chargé", 1.0)
 #: Réagit à une charge ennemie (Fateful Reverse, Anticipated Strike) : situationnel, pas un effort.
 CHARGE_ENEMY = ("dépend d'une charge ennemie", 0.5)
+#: Notre charge OU une charge ennemie (Brutal Troof, analyseur v34) : la plus facile des deux.
+CHARGE_EITHER = ("a chargé ou subi une charge", min(CHARGE_OURS[1], CHARGE_ENEMY[1]))
 CONDITION_RULES: list[tuple[str, str, float]] = [
     (r"\bin ambush\b|\bin reserve\b", "unité en réserve", 0.25),
     (
@@ -75,6 +77,11 @@ def conditions_of(text: str, enemy_target: bool = False) -> tuple[list[str], flo
     text = _RESERVE_TARGET_RE.sub(" ", text)
     labels, penalty = [], 0.0
     who = charge_subjects(text, enemy_target)
+    if charge_either(text, enemy_target):
+        # v34 : charges en OU (Brutal Troof) → une seule condition, la plus facile des deux
+        labels.append(CHARGE_EITHER[0])
+        penalty += CHARGE_EITHER[1]
+        who = set()
     for key, (label, pen) in (("nous", CHARGE_OURS), ("ennemi", CHARGE_ENEMY)):
         if key in who:
             labels.append(label)

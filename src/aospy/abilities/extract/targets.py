@@ -80,14 +80,50 @@ def _line_of(sentence: str, text: str) -> str:
 #: Annonce d'un choix exclusif entre les lignes qui suivent (analyseur v33).
 _EXCLUSIVE = re.compile(
     r"\b[Pp]ick (?:1|one)(?: of the following)?(?: effects?)?:|\b(?:1|one) of the following\b|"
-    r"\bthe effect below that corresponds\b|\b[Cc]hoose (?:1|one)\b"
+    r"\bthe effect below that corresponds\b|\b[Cc]hoose (?:1|one)\b|"
+    r"\b(?:1|one) of the effects below\b"  # v34 : Tentations HoS (« pick 1 of the effects below »)
 )
 _OPTION_LABEL = re.compile(r"^(?:([A-Z][^:\n.]{2,45}): |- )")
+#: v34 : défi « accept or decline » (You First, I Insist...) : chaque réponse est une option, puces comprises.
+_CHALLENGE = re.compile(r"\baccept or decline\b")
+_CHALLENGE_ANSWER = re.compile(r"^If they (accept|decline)\b", re.M)
+#: v34 : l'adversaire choisit l'option (« your opponent must pick 1 of the effects below », « Your opponent must
+#: decide whether … accept or decline ») : il prend la plus faible pour nous → `scoring.power_of` prend le minimum.
+OPPONENT_PICKS = re.compile(r"\b[Yy]our opponent must (?:pick (?:1|one) of the|decide whether)\b")
+
+
+#: v34 : ligne d'une table de résultats aléatoires (« - 2-4 - Unholy Wall of Sound: … », « 1: No effect. »).
+#: Les paliers cumulatifs « 4+ : … » n'en sont pas (pas de « + »).
+_DICE_ROW = re.compile(r"^\s*(?:-\s*)?(\d{1,2})(?:\s*[-–]\s*(\d{1,2}))?\s*(?:[-–—:]|\s(?=[A-Z]))")
+#: Préfixe d'une option de table aléatoire : `scoring.power_of` en prend l'espérance, pas le maximum.
+DICE_ROW_PREFIX = "dé "
+#: Ligne qui reprend l'effet d'une ligne précédente (« In addition to the effect of 'More Power!' »).
+DICE_ROW_CUMUL = " +préc"
+_ROLL_TABLE = re.compile(r"\b[Rr]oll (?:a dice|a D6|2D6|the dice|\d dice)\b|\bcorresponding\b")
+_ROW_CUMUL = re.compile(r"\bin addition to the effect of\b|\bthe effect of '[^']+' applies\b", re.I)
+
+
+def dice_row_of(line: str, text: str) -> str:
+    """Option « dé 2-4 » d'une ligne de table aléatoire (≥ 2 lignes de plages de dé dans le texte), sinon ""."""
+    m = _DICE_ROW.match(line)
+    # un jet doit annoncer la table : « 1 Launch Countermeasures! » des Cogforts est un coût en jetons de chaleur
+    if not m or not _ROLL_TABLE.search(text) or sum(1 for ln in text.split("\n") if _DICE_ROW.match(ln)) < 2:
+        return ""
+    lo, hi = m.group(1), m.group(2) or m.group(1)
+    return f"{DICE_ROW_PREFIX}{lo}-{hi}" + (DICE_ROW_CUMUL if _ROW_CUMUL.search(line) else "")
 
 
 def option_of(sentence: str, text: str) -> str:
     """Option exclusive qui porte la phrase (« Rune of Fury », « - Inflict … »), '' hors choix exclusif :
-    seules comptent les lignes d'option/puce situées APRÈS l'annonce du choix."""
+    seules comptent les lignes d'option/puce situées APRÈS l'annonce du choix. Une ligne de table de
+    résultats aléatoires est une option « dé N-M » (v34)."""
+    row = dice_row_of(_line_of(sentence, text), text)
+    if row:
+        return row
+    if _CHALLENGE.search(text):
+        i = text.find(_line_of(sentence, text))
+        answers = [m for m in _CHALLENGE_ANSWER.finditer(text) if m.start() <= i]
+        return answers[-1].group(1) if answers else ""
     ex = _EXCLUSIVE.search(text)
     if not ex:
         return ""

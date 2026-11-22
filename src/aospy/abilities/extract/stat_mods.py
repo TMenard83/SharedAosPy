@@ -30,7 +30,11 @@ _STAT_NAMES = [
 ]
 _MOD_RE = re.compile(
     r"\b(Add|Subtract|add|subtract) (\d{1,2}|X|D3|D6|the current battle round number|"
-    r"the number of the current battle round)\"? (?:to|from) ([^.;]*)"
+    # v34 : le reste s'arrête avant « and add/subtract » pour que le modificateur suivant soit lu à son tour
+    # (« add 1 to rampage rolls for the target and add 1 to hit rolls … », Creepy Cantrips)
+    # v34 (C) : niveau de fureur de la saison Fléau d'Aqshy (« Add half your fury level (rounding up) to … »)
+    r"the number of the current battle round|half your fury level(?: \(rounding up\))?|your fury level)\"? "
+    r"(?:to|from) ((?:(?! and (?:add|subtract)\b)[^.;])*)"
 )
 #: Valeur retenue pour un modificateur variable (v22) : « X » (nombre d'unités, de dés dépensés…) = 1
 #: par prudence, dés = leur moyenne.
@@ -41,6 +45,10 @@ _VAR_MOD = {
     # v29 : numéro du round en cours = 3 en moyenne sur la partie
     "the current battle round number": 3.0,
     "the number of the current battle round": 3.0,
+    # v34 (C, validé) : niveau de fureur moyen de la saison Fléau d'Aqshy = 2 (`resources.FURY_LEVEL`)
+    "your fury level": 2.0,
+    "half your fury level": 1.0,
+    "half your fury level (rounding up)": 1.0,
 }
 _ENEMY_ACTOR = re.compile(
     r"(?:made|used) by (?:enemy|that enemy|each enemy|an enemy|the enemy|those enemy)|"

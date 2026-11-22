@@ -149,6 +149,11 @@ class Extraction:
     unlock_prereqs: list[str] = field(default_factory=list)  # « unlocked 'X' or 'Y' » (l'un suffit)
     resource_cost: Optional[int] = None  # coût cumulé en ressource de faction (chaîne incluse)
     available_round: Optional[int] = None  # round estimé où elle devient disponible
+    #: v34 : part du temps où un moteur de faction rend l'aptitude active (Délire cru, Cycle mûr), × puissance
+    power_factor: float = 1.0
+    power_factor_note: str = ""
+    #: v34 (C) : facteur d'usage min(1, rythme/coût) d'une ressource dépensée à chaque usage, None si aucune
+    resource_usage: Optional[float] = None
 
 
 @dataclass
