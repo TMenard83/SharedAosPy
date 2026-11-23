@@ -2234,3 +2234,28 @@ def test_v38_coordinated_keywords_and_conditions_on_allies():
     ex = extract(_raw("In the third and subsequent battle rounds, while a friendly Cursed Sepulchre is on the "
                       "battlefield, subtract 1 from save rolls for enemy units."))[0]
     assert ex.scope != "army"
+
+
+# ----- v39 : lectures relevées en croisant les règles d'une liste (couche 4) ---------------------------------
+
+
+def test_v39_blood_drenched_options_and_drawback():
+    """Blood-drenched : « If the target is BLOODBOUND / a non-MONSTER DAEMON unit / a MONSTER, … » restreint chaque
+    option à ces unités ; « Ignore positive modifiers to save rolls for the target » est sa contrepartie (amie)."""
+    text = ("After that ability has been resolved, if you unlocked a BLOOD TITHE ability this turn, pick a friendly "
+            "BLADES OF KHORNE unit to be the target. The following effects apply to the target for the rest of the "
+            "battle:\nWild-eyed Brutality: Ignore positive modifiers to save rolls for the target.\nBlood Haze: If the "
+            "target is BLOODBOUND, its Blood-hungry weapons have Crit (Mortal).\nWeapons of Murder: If the target is "
+            "a non-MONSTER DAEMON unit, add 1 to the Rend characteristic of its Blood-hungry weapons.")
+    effs = _effs(_raw(text, condition="Once Per Turn, Reaction: You declared the 'Skulls for the Skull Throne' "
+                                      "ability"))
+    by = {e.kind: e for e in effs}
+    assert by["crit"].friendly_target == "BLOODBOUND" and by["stat_mod"].friendly_target == "non-MONSTER DAEMON"
+    assert by["no_buff"].side == "friendly" and by["no_buff"].detail == "contrepartie"
+
+
+def test_v39_another_visible_friendly_excludes_the_bearer():
+    ex = extract(_raw("Add 1 to the Attacks characteristic of each target's melee weapons for the rest of the turn.",
+                      declare="Pick another visible friendly non-UNIQUE BLADES OF KHORNE DAEMON unit to be the target.",
+                      condition="Once Per Turn (Army), Any Combat Phase"))[0]
+    assert ex.excludes_self

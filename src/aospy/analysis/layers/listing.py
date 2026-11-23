@@ -139,6 +139,8 @@ class ListReport:
     drawbacks: list = field(default_factory=list)
     #: empilement par unité (`stacking.Stack`) : tous les effets reçus ensemble, plafonds ±1 compris
     stacks: list = field(default_factory=list)
+    #: aptitudes à cible unique : meilleures cibles avec ce que chacune reçoit déjà (`stacking.TargetChoice`)
+    target_choices: list = field(default_factory=list)
     #: donneurs recalculés avec la liste (`givers.GiverRow`)
     givers: list = field(default_factory=list)
     #: enchaînements (`chains.RallyChain`, `chains.ChainNote`)
@@ -628,6 +630,31 @@ def _effects(con, uids: list[str]) -> dict[str, list[EffectSpec]]:
     return out
 
 
+def _key(s: str) -> str:
+    """Clé de comparaison d'un nom d'unité : casse, apostrophes droites/typographiques et ponctuation ignorées."""
+    return re.sub(r"[^a-z0-9]+", " ", s.lower().replace("’", "'")).strip()
+
+
+def find_unit(name: str, pool: dict[str, Unit], faction: str) -> Optional[Unit]:
+    """Charte d'une entrée de l'export de l'App, malgré ses écarts de nom avec la base (2026-11-23) : apostrophe
+    typographique (« Neave’s Companions »), préfixe de faction (« Kruleboyz Monsta-killaz »), mot répété
+    (« Kurnoth Hunters with Kurnoth Greatswords » = « … with Greatswords »)."""
+    if name.lower() in pool:
+        return pool[name.lower()]
+    by_key = {_key(k): u for k, u in pool.items()}
+    words = _key(name).split()
+    tries = [" ".join(words)]
+    fac = _key(faction).split()
+    if fac and words[: len(fac)] == fac:
+        tries.append(" ".join(words[len(fac) :]))
+    dedup = [w for i, w in enumerate(words) if w not in words[:i] or w in ("of", "the", "with", "and")]
+    tries.append(" ".join(dedup))
+    for t in tries:
+        if t in by_key:
+            return by_key[t]
+    return None
+
+
 def collect(con, parsed) -> tuple[list[tuple[str, int, Optional[Unit]]], list[ListAbility], frozenset[str]]:
     """Unités (nom, points, `Unit` en base ou None) et aptitudes de la liste."""
     from ...persistence import repository
@@ -644,7 +671,9 @@ def collect(con, parsed) -> tuple[list[tuple[str, int, Optional[Unit]]], list[Li
         for ue in reg.units:
             # « Scourge of Aqshy: Bloodletters » (export de l'App) = la charte « Scourge of Aqshy Bloodletters »
             name = re.sub(r"^Scourge of Aqshy:\s*", "Scourge of Aqshy ", ue.name)
-            unit = pool.get(name.lower())
+            unit = find_unit(name, pool, faction)
+            if unit is not None:
+                name = unit.name  # le nom de la charte : les aptitudes sont rangées sous ce nom
             opts = [_OPTION_COST_RE.sub("", o).strip() for o in ue.options]
             if unit is not None and any(o.lower() == "reinforced" for o in opts):
                 from dataclasses import replace
@@ -982,6 +1011,9 @@ def analyse_list(con, parsed) -> ListReport:
     from .stacking import stacks
 
     rep.stacks = stacks(abilities, units, vocab, frozenset(a.uid for a, _r in rep.dead))
+    from .stacking import target_choices
+
+    rep.target_choices = target_choices(abilities, rep.stacks)
 
     collect_grid(con, entries, rep)
     return rep

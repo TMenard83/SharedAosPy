@@ -153,7 +153,7 @@ def effect_family(e: Effect, scope: str) -> str:
             return "autre"  # v36 : figurines amies sacrifiées (Father of Necromancy) : un coût
         return "degats-directs" if side == "enemy" else "buff-perso-defensif"
     if k == "no_buff":  # v21 : ignorer les modificateurs positifs de la cible
-        return "debuff"
+        return "autre" if e.detail == "contrepartie" else "debuff"  # v39 : contrepartie sur sa propre unité
     if k in ("heal", "return_models", "rally"):
         return "soin"
     if k == "control":

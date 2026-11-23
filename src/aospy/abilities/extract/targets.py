@@ -21,7 +21,8 @@ _FRIENDLY_STOPS = {"unit", "units", "model", "models"}
 
 
 _OTHER_FRIENDLY = re.compile(
-    r"\b(?:another|other) friendly\b|friendly [^.]*?\bother than (?:this|that) (?:unit|model)", re.I
+    # v39 : « Pick another visible friendly … » (Commander of Tyrants et 12 autres) : l'adjectif ne lève pas l'exclusion
+    r"\b(?:another|other)(?: visible)? friendly\b|friendly [^.]*?\bother than (?:this|that) (?:unit|model)", re.I
 )
 
 
@@ -141,6 +142,10 @@ def effect_friendly_target(sentence: str, text: str) -> str:
     Marquée « option: » quand la phrase est une ligne d'option/puce, pour que `extract` sache si elle
     doit l'emporter sur la cible de l'aptitude."""
     kept = sentence
+    # v39 : « Blood Haze: If the target is BLOODBOUND, its … » — l'option ne vaut que pour ces unités-là
+    m = re.search(r"\bIf the target is (?:a |an )?((?:non-)?[A-Z][A-Z'’ -]*?[A-Z])(?: units?)?\s*,", kept)
+    if m and _OPTION_LINE.match(_line_of(sentence, text)):
+        return "option:" + m.group(1)
     for m in re.finditer(r"\b[Ff]riendly\b", kept):
         if _FRIENDLY_LANDMARK.search(kept[max(0, m.start() - 20) : m.start()]):
             continue

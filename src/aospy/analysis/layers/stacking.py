@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import dataclasses
 import json
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
@@ -63,6 +64,14 @@ class StackItem:
     capped: bool  # n'ajoute rien une fois les autres en place (plafond ±1, protection déjà meilleure)
     conditions: str = ""
     cp: int = 0
+    #: pourquoi il n'ajoute rien : « plafond ±1 / non cumulable » (vrai doublon) ou « sauvegarde 4+ déjà impossible »
+    #: (il ajoute contre une sauvegarde de 3+ : Perforation en plus quand la sauvegarde de référence ne peut plus
+    #: tomber — leçon Hibou_2/Haldahir du 2026-11-23)
+    capped_reason: str = ""
+    #: apport réel une fois les AUTRES effets en place (dégâts d'un round, durabilité %) : ce qui choisit la cible
+    #: d'une aptitude à cible unique (Trempés de Sang sur des Bloodletters déjà à +1 Attaque — leçon Haldahir)
+    off_marginal: float = 0.0
+    def_marginal_pct: float = 0.0
 
 
 @dataclass(frozen=True)
@@ -78,6 +87,8 @@ class Stack:
     def_prod_pct: float
     off_before: float = 0.0  # dégâts d'un round (plan de jeu, vs sauvegarde 4+), nus puis tout en place
     off_after: float = 0.0
+    off_before_3: float = 0.0  # idem contre une sauvegarde de 3+
+    off_after_3: float = 0.0
 
     @property
     def cp(self) -> int:
@@ -152,16 +163,32 @@ def stack_for(unit: Unit, offers: list[tuple[str, str, EffectSpec, str, str, int
     all_effs = [o[2] for group in by_ability.values() for o in group]
     joint = _apply_all(unit, all_effs, probe, mods)
     off_j, def_j = _gains(unit, joint, probe, mods, plan)
+    # même lecture contre une sauvegarde de 3+ : une Perforation en plus peut y servir quand le 4+ est déjà impossible
+    probe3 = dataclasses.replace(probe, save=3)
+    joint3 = _apply_all(unit, all_effs, probe3, mods)
+    off_j3 = _gains(unit, joint3, probe3, mods, plan)[0]
     items = []
     for (ab, src), group in by_ability.items():
         mine = [o[2] for o in group]
         off_a, def_a = _gains(unit, _apply_all(unit, mine, probe, mods), probe, mods, plan)
         rest = [e for e in all_effs if not any(e is m for m in mine)]
-        off_r, def_r = _gains(unit, _apply_all(unit, rest, probe, mods), probe, mods, plan)
+        rest_unit = _apply_all(unit, rest, probe, mods)
+        off_r, def_r = _gains(unit, rest_unit, probe, mods, plan)
+        off_marg = plan_offense(joint, probe, mods, plan) - plan_offense(rest_unit, probe, mods, plan)
         adds = abs(off_j - off_r) > 0.05 or abs(def_j - def_r) > 0.05
         alone = abs(off_a) > 0.05 or abs(def_a) > 0.05
         conds = " | ".join(dict.fromkeys(c for o in group for c in o[4].split(" | ") if c))
-        items.append(StackItem(ab, src, round(off_a, 1), round(def_a, 1), alone and not adds, conds, group[0][5]))
+        capped = alone and not adds
+        reason = ""
+        if capped:
+            off_r3 = _gains(unit, _apply_all(unit, rest, probe3, mods), probe3, mods, plan)[0]
+            reason = "sauvegarde 4+ déjà impossible" if abs(off_j3 - off_r3) > 0.05 else "plafond ±1 / non cumulable"
+        items.append(
+            StackItem(
+                ab, src, round(off_a, 1), round(def_a, 1), capped, conds, group[0][5], reason,
+                round(off_marg, 2), round(def_j - def_r, 1),
+            )
+        )
     items.sort(key=lambda i: -(i.off_alone_pct + i.def_alone_pct))
     return Stack(
         unit.name,
@@ -172,6 +199,8 @@ def stack_for(unit: Unit, offers: list[tuple[str, str, EffectSpec, str, str, int
         round(_product(i.def_alone_pct for i in items), 1),
         round(plan_offense(unit, probe, mods, plan), 2),
         round(plan_offense(joint, probe, mods, plan), 2),
+        round(plan_offense(unit, probe3, mods, plan), 2),
+        round(plan_offense(joint3, probe3, mods, plan), 2),
     )
 
 
@@ -210,3 +239,38 @@ def stacks(abilities, units: list[Unit], vocab: frozenset[str], dead: frozenset[
         if st is not None:
             out.append(st)
     return sorted(out, key=lambda s: -s.off_after)
+
+
+@dataclass(frozen=True)
+class TargetChoice:
+    """Une aptitude à cible unique de la liste et ses cibles possibles, classées par apport réel."""
+
+    ability: str
+    source: str
+    candidates: tuple[tuple[str, float, float, str], ...]  # (unité, +dégâts/round, +durabilité %, conditions)
+
+
+def target_choices(abilities, stacks_: list[Stack]) -> list[TargetChoice]:
+    """Pour chaque aptitude qui ne vise qu'UNE unité amie (`one_friendly`, une seule cible), l'apport sur chaque
+    receveur possible avec tout ce qu'il reçoit déjà (empilement) — croiser les règles plutôt que juger une cible
+    nue (2026-11-23 : Trempés de Sang sur les Bloodletters à +1 Attaque du Bloodthirster)."""
+    single = {
+        (a.name, a.source)
+        for a in abilities
+        if a.scope == "one_friendly"
+        and not re.search(r"\b(?:up to \d+|any number of|each)\b[^.]*\bto be the targets?\b", a.text or "", re.I)
+    }
+    by: dict[tuple[str, str], list] = {}
+    for st in stacks_:
+        for i in st.items:
+            if (i.ability, i.source) in single:
+                by.setdefault((i.ability, i.source), []).append(
+                    (st.receiver, i.off_marginal, i.def_marginal_pct, i.conditions)
+                )
+    out = []
+    for (ab, src), rows in by.items():
+        if len(rows) < 2:
+            continue  # un seul receveur possible : rien à choisir
+        rows.sort(key=lambda r: -(r[1] + r[2] / 10))
+        out.append(TargetChoice(ab, src, tuple(rows)))
+    return sorted(out, key=lambda t: t.ability)

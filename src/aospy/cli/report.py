@@ -250,6 +250,16 @@ def format_list_report(rep) -> str:
     """Fiche couche 4 chiffrée d'une liste (`analysis.layers.listing.ListReport`) en Markdown : la matière que
     l'analyse humaine (concept, plan round par round) reprend — jamais une analyse en soi."""
     out = [f"# {rep.title} — {rep.faction} — fiche couche 4 chiffrée", ""]
+    missing = [n for n, _p, u in rep.units if u is None]
+    if missing:
+        # leçon du 2026-11-23 (Haldahir) : des chiffres sur une liste incomplète sont faux
+        out += [
+            f"> **⚠ {len(missing)} unité(s) de la liste non reconnue(s) en base : "
+            f"{', '.join(dict.fromkeys(missing))}.** "
+            "Elles ne sont comptées nulle part dans cette fiche : corriger le nom (ou importer l'unité) avant de lire "
+            "les chiffres.",
+            "",
+        ]
     out += [
         "## Unités (couche 3)",
         "",
@@ -422,6 +432,22 @@ def format_list_report(rep) -> str:
             f"Pic au round {curve.peak}"
             + (" — liste de fin de partie : elle gagne à faire durer." if curve.grows else ".")
         )
+    choices = getattr(rep, "target_choices", [])
+    if choices:
+        out += [
+            "",
+            "## Aptitudes à une seule cible : sur qui les poser",
+            "",
+            "Apport réel de l'aptitude sur chaque receveur possible, **avec tout ce qu'il reçoit déjà** (empilement : "
+            "les règles croisées, ex. Trempés de Sang sur des Bloodletters à +1 Attaque) — dégâts d'un round vs 4+.",
+            "",
+        ]
+        for tc in choices:
+            parts = [
+                f"{u} {d:+.1f} dég." + (f" / {w:+.0f} % dur." if w else "") + (f" (si {c})" if c else "")
+                for u, d, w, c in tc.candidates[:4]
+            ]
+            out.append(f"- **{tc.ability}** ({tc.source}) : " + " ; ".join(parts))
     stacked = getattr(rep, "stacks", None)
     if stacked:
         out += [
@@ -432,23 +458,33 @@ def format_list_report(rep) -> str:
             "ENSEMBLE (plafond ±1 sur le total des modificateurs de toucher, blessure, sauvegarde ; une option par "
             "aptitude à choix ; protections non cumulées). Cas « tout en place », sans fiabilité. « Produit » = gains "
             "pris un par un multipliés (référence sans interaction) : ensemble < produit → plafonds, ensemble > "
-            "produit → effet de seuil. « Plafonné » = n'ajoute rien une fois les autres en place.",
+            "produit → effet de seuil. « Plafonné » = n'ajoute rien une fois les autres en place : « plafond ±1 / non "
+            "cumulable » est un vrai doublon ; « sauvegarde 4+ déjà impossible » sert contre une sauvegarde de 3+ "
+            "(Perforation en plus).",
             "",
-            "| unité | effets | dégâts/round nu → tout en place | dég. ensemble | dég. produit | dur. ensemble | "
-            "dur. produit | plafonnés | PC |",
-            "|---|---|---|---|---|---|---|---|---|",
+            "| unité | effets | dégâts/round nu → tout en place (vs 4+) | idem vs 3+ | dég. ensemble | dég. produit | "
+            "dur. ensemble | dur. produit | plafonnés | PC |",
+            "|---|---|---|---|---|---|---|---|---|---|",
         ]
         for st in stacked:
-            capped = ", ".join(i.ability for i in st.items if i.capped) or "—"
+            capped = (
+                ", ".join(
+                    f"{i.ability} (4+ impossible)" if i.capped_reason.startswith("sauvegarde") else i.ability
+                    for i in st.items
+                    if i.capped
+                )
+                or "—"
+            )
             out.append(
                 f"| {st.receiver} | {len(st.items)} | {st.off_before:.1f} → {st.off_after:.1f} | "
+                f"{st.off_before_3:.1f} → {st.off_after_3:.1f} | "
                 f"{st.off_joint_pct:+.0f} % | {st.off_prod_pct:+.0f} % | "
                 f"{st.def_joint_pct:+.0f} % | {st.def_prod_pct:+.0f} % | {capped} | {st.cp} |"
             )
         for st in stacked[:3]:
             out += ["", f"**{st.receiver}** (dég. {st.off_joint_pct:+.0f} %, dur. {st.def_joint_pct:+.0f} %) :", ""]
             for i in st.items:
-                tag = " — plafonné" if i.capped else ""
+                tag = f" — plafonné ({i.capped_reason})" if i.capped else ""
                 cond = f" ; si {i.conditions}" if i.conditions else ""
                 cp = f" ; {i.cp} PC" if i.cp else ""
                 out.append(

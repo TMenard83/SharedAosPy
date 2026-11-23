@@ -199,3 +199,26 @@ def test_condition_needs_a_provider_in_the_list():
     assert missing_providers([hags], [queen, _unit("Blood Hags")], frozenset({"MONSTER"})) == []
     (miss,) = missing_providers([hags], [_unit("Blood Hags")], frozenset({"MONSTER"}))
     assert "aucun dans la liste" in miss[1]
+
+
+def test_report_warns_about_units_missing_from_the_database():
+    """Une unité de la liste absente de la base est signalée en tête de fiche (leçon Haldahir du 2026-11-23)."""
+    from aospy.analysis.layers.listing import ListReport
+    from aospy.cli.report import format_list_report
+
+    rep = ListReport("T", "F", [("Known", 100, _unit("Known")), ("Scourge of Aqshy: Ghost", 200, None)], [])
+    text = format_list_report(rep)
+    assert "non reconnue" in text and "Scourge of Aqshy: Ghost" in text
+
+
+def test_find_unit_tolerates_app_name_variants():
+    """Écarts de nom App / base : apostrophe typographique, préfixe de faction, mot répété (2026-11-23)."""
+    from aospy.analysis.layers.listing import find_unit
+
+    pool = {n.lower(): _unit(n) for n in ("Neave’s Companions", "Monsta-killaz", "Kurnoth Hunters with Greatswords")}
+    assert find_unit("Neave's Companions", pool, "Stormcast Eternals").name == "Neave’s Companions"
+    assert find_unit("Kruleboyz Monsta-killaz", pool, "Kruleboyz").name == "Monsta-killaz"
+    assert find_unit("Kurnoth Hunters with Kurnoth Greatswords", pool, "Sylvaneth").name == (
+        "Kurnoth Hunters with Greatswords"
+    )
+    assert find_unit("Gargant", pool, "Sylvaneth") is None

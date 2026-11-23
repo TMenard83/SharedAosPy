@@ -117,7 +117,10 @@ def weapon_in_scope(w: Weapon, eff: EffectSpec) -> bool:
         return w.kind == "ranged"
     if scope == "named":
         a, b = _norm(w.name), _norm(eff.weapon_name)
-        return bool(a and b) and (a == b or a in b or b in a)
+        if bool(a and b) and (a == b or a in b or b in a):
+            return True
+        # « its Blood-hungry weapons » (Blood-drenched, 2026-11-23) : le « nom » est une capacité d'arme
+        return bool(b) and b in _norm(w.abilities or "")
     return True  # all / chosen (le choix d'arme est fait par `apply_effect`)
 
 
@@ -441,11 +444,15 @@ def matches_friendly_target(unit: Unit, phrase: str, vocab: frozenset[str]) -> b
             if t.startswith("non-"):
                 run = [t[4:]]
                 k += 1
+                # le « non- » ne s'étend qu'à un mot-clé en plusieurs mots (« non-WARRIOR CHAMBER ») : « non-MONSTER
+                # DAEMON » = DAEMON sauf MONSTER (2026-11-23 : la condition toujours vraie en fin de phrase excluait
+                # aussi DAEMON, si bien que Trempés de Sang ne touchait aucun démon)
                 while (
                     k < len(toks)
                     and toks[k].isupper()
                     and not toks[k].startswith("non-")
-                    and " ".join(run + [toks[k]]) in vocab | {" ".join(run + toks[k : k + 3])}
+                    and any(v == " ".join(run + [toks[k]]) or v.startswith(" ".join(run + [toks[k]]) + " ")
+                            for v in vocab)
                 ):
                     run.append(toks[k])
                     k += 1

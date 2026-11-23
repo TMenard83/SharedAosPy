@@ -45,3 +45,39 @@ def test_wards_do_not_stack_and_commands_are_offered():
     assert "All-out Attack" in names and names["All-out Defence"].cp == 1
     assert names["Shield"].capped or names["Rune"].capped
     assert st.cp == 2
+
+
+def test_extra_rend_is_flagged_useless_only_against_the_4_plus_save():
+    """Perforation 2 + 1 + 1 contre 4+ : la sauvegarde est impossible dès Perforation 3, le second +1 n'ajoute rien
+    — « sauvegarde 4+ déjà impossible », pas un doublon : il sert contre 3+ (leçon du 2026-11-23)."""
+    import dataclasses
+
+    from aospy.domain.models import Weapon
+
+    glaive = Weapon("Glaive", "melee", attacks=7, hit=3, wound=2, rend=2, damage=3)
+    u = dataclasses.replace(_unit("Skreech"), weapons=[glaive])
+    rend = lambda: EffectSpec("stat_mod", "rend", 1.0, weapon_scope="melee")  # noqa: E731 (deux effets distincts)
+    st = stack_for(u, [("Claw-picked", "formation", rend(), "", "", 0), ("Blades", "charte", rend(), "", "", 0)])
+    by = {i.ability: i for i in st.items}
+    assert by["Claw-picked"].capped and by["Claw-picked"].capped_reason == "sauvegarde 4+ déjà impossible"
+    assert st.off_after_3 > st.off_before_3
+    hit = lambda: EffectSpec("stat_mod", "hit", 1.0, weapon_scope="melee")  # noqa: E731
+    st2 = stack_for(u, [("A", "x", hit(), "", "", 0), ("B", "y", hit(), "", "", 0)])
+    assert {i.capped_reason for i in st2.items} == {"plafond ±1 / non cumulable"}
+
+
+def test_single_target_choice_counts_what_the_unit_already_receives():
+    """Une aptitude à cible unique se juge sur l'apport réel, les autres effets en place : +1 Perforation vaut plus
+    sur une unité qui a déjà +1 Attaque (leçon Haldahir : Trempés de Sang sur les Bloodletters)."""
+    from aospy.analysis.layers.stacking import stacks, target_choices
+    from aospy.domain.models import Weapon
+
+    blades = [Weapon("Blades", "melee", attacks=2, hit=3, wound=3, rend=0, damage=1)]
+    a = _unit("A", models=20, health=2, keywords=frozenset({"DAEMON"}), weapons=blades)
+    b = _unit("B", models=20, health=2, keywords=frozenset({"BLOODBOUND"}), weapons=blades)
+    more = _ab("Commander", scope="one_friendly", friendly_target="DAEMON",
+               effects=[EffectSpec("stat_mod", "attacks", 1.0, weapon_scope="melee")])
+    rend = _ab("Drenched", scope="one_friendly", effects=[EffectSpec("stat_mod", "rend", 1.0, weapon_scope="melee")])
+    (tc,) = [t for t in target_choices([more, rend], stacks([more, rend], [a, b], frozenset({"DAEMON", "BLOODBOUND"})))
+             if t.ability == "Drenched"]
+    assert tc.candidates[0][0] == "A" and tc.candidates[0][1] > tc.candidates[1][1]

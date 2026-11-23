@@ -351,6 +351,13 @@ def effects_of(
             side, detail_override = default_side, ""
             if kind in ("no_ward", "slay", "no_weapon_abilities", "no_crit", "no_buff"):
                 side = "enemy"
+                head = full[max(full.rfind(". ", 0, m.start()), full.rfind("\n", 0, m.start())) + 1 : m.start()]
+                if kind == "no_buff" and friendly_declared and not re.search(r"\benemy\b", head) and re.search(
+                    r"for the target\b", full[m.start() : m.end() + 40]
+                ):
+                    # v39 : « Wild-eyed Brutality: Ignore positive modifiers to save rolls for the target » sur une
+                    # cible amie (Blood-drenched) : la contrepartie du buff, pas un débuff ennemi
+                    side, detail_override = "friendly", "contrepartie"
                 if kind == "slay" and re.search(
                     r"\bwould be automatically destroyed, it is not\b", full[max(0, m.start() - 120) : m.end() + 20]
                 ):

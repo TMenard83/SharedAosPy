@@ -266,3 +266,26 @@ def test_friendly_target_coordinated_keywords_are_distributed():
     assert matches_friendly_target(mk({"SKAVEN", "INFANTRY"}), "SKAVEN INFANTRY and CAVALRY", vocab)
     assert matches_friendly_target(mk({"SKAVEN", "CAVALRY"}), "SKAVEN INFANTRY and CAVALRY", vocab)
     assert not matches_friendly_target(mk({"SKAVEN", "MONSTER"}), "SKAVEN INFANTRY and CAVALRY", vocab)
+
+
+def test_non_keyword_negation_does_not_swallow_the_next_keyword():
+    """« non-MONSTER DAEMON » = DAEMON sauf MONSTER ; « non-WARRIOR CHAMBER HERO » garde le mot-clé en deux mots."""
+    from aospy.analysis.layers.encounter import matches_friendly_target
+
+    vocab = frozenset({"DAEMON", "MONSTER", "WARRIOR CHAMBER", "HERO", "INFANTRY"})
+    mk = lambda kws: Unit(name="X", army_id=1, move=5, save=5, control=1, health=2, models=10, points=1,  # noqa: E731
+                          keywords=frozenset(kws))
+    assert matches_friendly_target(mk({"DAEMON", "INFANTRY"}), "non-MONSTER DAEMON", vocab)
+    assert not matches_friendly_target(mk({"DAEMON", "MONSTER"}), "non-MONSTER DAEMON", vocab)
+    assert matches_friendly_target(mk({"HERO"}), "non-WARRIOR CHAMBER HERO", vocab)
+    assert not matches_friendly_target(mk({"HERO", "WARRIOR CHAMBER"}), "non-WARRIOR CHAMBER HERO", vocab)
+
+
+def test_named_weapon_scope_also_matches_a_weapon_ability():
+    """« its Blood-hungry weapons » : aucune arme ne s'appelle ainsi, c'est une capacité d'arme."""
+    from aospy.analysis.layers.encounter import EffectSpec, weapon_in_scope
+
+    eff = EffectSpec("stat_mod", "rend", 1.0, weapon_scope="named", weapon_name="Blood-hungry")
+    blade = Weapon("Hellblade", "melee", attacks=2, hit=3, wound=3, damage=1, abilities="Blood-hungry, Crit (Mortal)")
+    assert weapon_in_scope(blade, eff)
+    assert not weapon_in_scope(Weapon("Claws", "melee", attacks=2, hit=3, wound=3, damage=1), eff)
