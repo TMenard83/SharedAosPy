@@ -142,7 +142,8 @@ def effect_family(e: Effect, scope: str) -> str:
         if st == "control":
             return "controle"
         if st in _MAGIC_STATS:
-            return "magie-ressource"
+            # v37 : « subtract 1 from its power level » (Battle Damaged) : une contrepartie, pas de la magie
+            return "magie-ressource" if e.value > 0 else "autre"
         return "autre"
     if k == "mortal_damage":
         return "degats-directs" if side == "enemy" else "autre"

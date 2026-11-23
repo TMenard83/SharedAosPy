@@ -394,7 +394,10 @@ BUFF_FAMILIES = ("buff-perso-offensif", "buff-perso-defensif", "buff-donne")
 #: Contrôle (v36, réponses utilisateur du 2026-11-23) : contrôle sur soi toujours au contact (un objectif tenu se fait
 #: frapper), A = P(l'emporter sur une unité ennemie au hasard) gagnée ÷ gain médian, R = 0,5 + moyenne(rang du score
 #: de contrôle, rang défensif) ; contrôle donné : R règle des buffs donnés, A neutre ; contrôle ennemi = débuff.
-GRID_FAMILIES = (*BUFF_FAMILIES, "debuff", "degats-directs", "mobilite", "soin", "controle")
+#: Magie et ressources (v37, réponses utilisateur du 2026-11-23) : bonus de lancement/psalmodie/dissipation/niveau
+#: sur soi → R = 0,5 + 0,25 × niveau de lanceur (WIZARD/PRIEST (N), plafonné par les bornes), A neutre ; bonus
+#: donné → règle des buffs donnés ; anti-magie, ressources, convocations → neutres.
+GRID_FAMILIES = (*BUFF_FAMILIES, "debuff", "degats-directs", "mobilite", "soin", "controle", "magie-ressource")
 #: Polarité de la frise (`timeline.relevance`) par famille notée.
 FAMILY_POLARITY = {"buff-perso-offensif": "off", "buff-perso-defensif": "def", "buff-donne": "autre"}
 #: Durées courtes dont la fenêtre peut manquer une partie de ce que fait le châssis ; la durée « idéale » de
@@ -752,6 +755,33 @@ def control_role_fit(unit: Unit, prof: ChassisProfile, ref: ControlReference) ->
     return _bound(0.5 + (rank + (prof.def_rank if prof.def_rank is not None else 0.5)) / 2)
 
 
+# ----- magie (v37) ---------------------------------------------------------------------------------------------
+
+_WIZARD_STATS = {"cast", "unbind", "banish", "power_level"}
+_PRIEST_STATS = {"chant"}
+_CASTER_KINDS = ("stat_mod", "dice_count", "reroll")
+
+
+def caster_level(unit: Unit, kind: str) -> int:
+    """Niveau « WIZARD (N) » / « PRIEST (N) » lu dans les mots-clés (0 sans)."""
+    lv = [int(m.group(1)) for k in unit.keywords if (m := re.fullmatch(rf"{kind} \((\d+)\)", k))]
+    return max(lv, default=0)
+
+
+def magic_role_fit(unit: Unit, e_list: list[tuple]) -> Optional[float]:
+    """R d'un bonus de lancement/psalmodie/dissipation/niveau sur soi (réponse utilisateur) : le niveau donne le nombre
+    de sorts ou de prières par tour, donc le nombre de fois où le bonus sert → 0,5 + 0,25 × niveau (sans niveau :
+    0,5). None si l'aptitude ne porte pas un tel bonus (anti-magie, ressource, convocation : neutres)."""
+    stats = {e[6] for e in e_list if e[0] in _CASTER_KINDS and e[6] in _WIZARD_STATS | _PRIEST_STATS and e[8] > 0}
+    if not stats:
+        return None
+    lv = max(
+        caster_level(unit, "WIZARD") if stats & _WIZARD_STATS else 0,
+        caster_level(unit, "PRIEST") if stats & _PRIEST_STATS else 0,
+    )
+    return _bound(0.5 + 0.25 * lv)
+
+
 def p_in_combat(share_melee: float) -> float:
     """P(le porteur est au combat) quand l'effet l'exige : mêmes constantes que les buffs « au combat »
     (réponse utilisateur 2026-11-22 pour les débuffs « une unité ennemie au combat avec cette unité »)."""
@@ -770,7 +800,7 @@ def effect_timing(family: str, e_list: list[tuple], bearer_share_melee: float) -
     (une protection sert surtout au tour adverse, un buff de tir à mon seul tour) ; les armes visées
     (`weapon_scope`) fixent la part de mêlée — tir → 0, mêlée → 1, sinon celle du porteur."""
     pol = FAMILY_POLARITY.get(family, "autre")
-    if family in ("degats-directs", "mobilite", "soin", "controle"):
+    if family in ("degats-directs", "mobilite", "soin", "controle", "magie-ressource"):
         return "", bearer_share_melee  # effet immédiat : pas de fenêtre à couvrir, F = 1
     if family == "debuff":
         dpol = debuff_polarity(e_list)
@@ -925,7 +955,7 @@ def role_fit(family: str, prof: ChassisProfile, receivers_reach: Optional[float]
         return _bound(0.5 + prof.off_rank)
     if family == "buff-perso-defensif" and prof.def_rank is not None:
         return _bound(0.5 + (prof.def_rank + min(max(prof.share_melee, 0.0), 1.0)) / 2)
-    if family in ("buff-donne", "mobilite", "soin", "controle") and prof.reach and receivers_reach:
+    if family in ("buff-donne", "mobilite", "soin", "controle", "magie-ressource") and prof.reach and receivers_reach:
         # mobilité donnée (v36, réponse utilisateur) : même règle ; la mobilité perso est jugée dans `marriage_of`
         return _bound(min(1.0, prof.reach / receivers_reach))
     return 1.0
@@ -1074,6 +1104,8 @@ def marriage_of(
         g = control_ref.gain(u, bonus) if bonus is not None else None
         a = _bound(g / control_ref.gain_median) if g is not None and control_ref.gain_median else 1.0
         r = control_role_fit(u, chassis_profile or ChassisProfile(), control_ref)
+    elif fam == "magie-ressource" and scope not in _GIVEN_SCOPES:
+        r = magic_role_fit(u, e_list) or 1.0
     elif fam == "debuff":
         r = debuff_role_fit(pol, expo, chassis_profile) if chassis_profile is not None else 1.0
     elif fam == "degats-directs":
@@ -1121,6 +1153,7 @@ def build_marriage_rows(con) -> list[tuple]:
     recv.update(mobility_receiver_reach(con))
     recv.update(mobility_receiver_reach(con, family="soin"))
     recv.update(mobility_receiver_reach(con, family="controle"))
+    recv.update(mobility_receiver_reach(con, family="magie-ressource"))
     ctl_ref = ControlReference([u.models * u.control for u in units.values()])
     mob_ref = MobilityReference(list(units.values()))
     mob_ref.charge_reference = bearer_charge_reference(con, units, effs)

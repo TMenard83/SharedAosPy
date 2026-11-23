@@ -2179,3 +2179,37 @@ def test_v36_ignore_positive_modifiers_listed_rolls():
         condition="Your Hero Phase",
     ))[0]
     assert any(e.kind == "no_buff" and e.side == "enemy" for e in ex.effects)
+
+
+# ----- v37 : lectures relevées par la grille magie-ressource (couche 3) ------------------------------------
+
+
+def test_v37_set_up_from_reserve_is_a_deep_strike_not_a_summon():
+    """« Set up this unit anywhere on the battlefield more than 9" » (Emergence, Chameleon Ambush…), « Set up this
+    unit within 6" of an enemy unit » (Sudden Ambush) et « set up the (other) units that were … with this unit » :
+    sortie de réserve (`deep_strike`, mobilité) ; une unité de remplacement reste une convocation."""
+    for eff in (
+        "Set up this unit anywhere on the battlefield more than 9\" from all enemy units. Then, set up the other units "
+        "that were set up underground with it (if any) wholly within 6\" of this unit and more than 9\" from all enemy "
+        "units.",
+        "Set up this unit within 6\" of an enemy unit and not in combat.",
+    ):
+        kinds = [e.kind for e in _effs(_raw(eff, condition="Your Movement Phase"))]
+        assert kinds == ["deep_strike"]
+    repl = _raw(
+        "Set up a replacement unit with half the number of models from the target unit (rounding up) wholly "
+        "within 12\" of this unit and more than 9\" from all enemy units.",
+        declare="Pick a friendly SERAPHON unit that has been destroyed to be the target.",
+        condition="Your Hero Phase",
+    )
+    assert [e.kind for e in _effs(repl)] == ["summon"]
+
+
+def test_v37_power_level_malus_is_a_drawback():
+    """« While this unit has 10 or more damage points, subtract 1 from its power level » : contrepartie, famille
+    `autre`, pas de la magie."""
+    from aospy.abilities.families import effect_family
+
+    ex = extract(_raw("While this unit has 10 or more damage points, subtract 1 from its power level."))[0]
+    mods = [e for e in ex.effects if e.kind == "stat_mod" and e.stat == "power_level"]
+    assert mods and effect_family(mods[0], ex.scope) == "autre"

@@ -69,8 +69,11 @@ QUALITATIVE_RULES: list[tuple[str, str, str]] = [
         r"[Ss]et up (?:that|the target|this|the) unit (?:on the battlefield )?(?:again )?wholly within|"
         r"[Ss]et up (?:each target|the targets?|the substitute) wholly within|"  # v29
         r"[Ss]et (?:them|it|the targets?) up in reserve|"
-        r"[Ss]et (?:up )?(?:the targets?|those units|that unit|this unit|it|them) (?:up )?on the battlefield|"
-        r"[Ss]et up [^.]*?\bin reserve\b|in reserve[^.]*?can be set up",
+        r"[Ss]et (?:up )?(?:the targets?|those units|that unit|this unit|it|them) (?:up )?(?:anywhere )?"
+        r"on the battlefield|"
+        r"[Ss]et up [^.]*?\bin reserve\b|in reserve[^.]*?can be set up|"
+        # v37 : sortie de réserve (Trespassers!, Sudden Ambush)
+        r"[Ss]et up this unit (?:more than|within) \d+\" (?:from|of)|[Ss]et up the (?:other )?units that were\b",
         "deep_strike",
         "",
     ),
@@ -310,7 +313,11 @@ QUALITATIVE_RULES: list[tuple[str, str, str]] = [
         "",
     ),
     (
-        r"[Ss]et up (?:a|an|one|\d+|up to \d+)? ?(?:new |replacement )?[^.]*?(?:unit|manifestation|ENDLESS SPELL)"
+        # v37 : « Set up this unit anywhere on the battlefield » (sortie de réserve) et « set up the (other) units that
+        # were … with this unit » : une frappe en profondeur (`deep_strike`), pas une convocation
+        r"[Ss]et up (?!this unit\b|the (?:other )?units that were\b|all other friendly units that are in\b)"
+        r"(?:a|an|one|\d+|up to \d+)? ?(?:new |replacement )?"
+        r"[^.]*?(?:unit|manifestation|ENDLESS SPELL)"
         r"[^.]*?(?:wholly within|within|on the battlefield)|[Ss]et up (?:a|an) [A-Z][^.]*?within \d+\" of the (?:caster|chanter)|"
         r"[Ss]et up a (?:single )?replacement [^.]*?more than \d+\" from (?:all )?enemy|"
         r"[Ss]et up (?:a|an|the|The) [A-Z][^.]*?within \d+\" of (?:and visible to )?the (?:caster|chanter)|"

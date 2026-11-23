@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import dataclasses
+
 import pytest
 
 from aospy.analysis.layers.marriage import (
@@ -514,3 +516,24 @@ def test_personal_control_marriage():
     flip = marriage_of(u, [("control", "", "", "", "", "", "", "controle", 0.0, "")], "controle", "battlefield",
                        None, "once_per_battle_army", 0.0, (1.0, 1.0), "any", control_ref=ref)
     assert flip.exposure == "longue"
+
+
+# ----- magie (v37, réponses utilisateur du 2026-11-23) --------------------------------------------------------
+
+
+def test_magic_role_fit_follows_caster_level():
+    """Bonus de lancement/psalmodie sur soi : R = 0,5 + 0,25 × niveau ; anti-magie/ressource : neutre (None)."""
+    from aospy.analysis.layers.marriage import caster_level, magic_role_fit
+
+    cast = ("stat_mod", "", "", "", "permanent", "", "cast", "magie-ressource", 2.0, "utilitaire")
+    chant = ("stat_mod", "", "", "", "permanent", "", "chant", "magie-ressource", 1.0, "utilitaire")
+    wiz = dataclasses.replace(_unit(5), keywords=frozenset({"HERO", "WIZARD", "WIZARD (2)"}))
+    pri = dataclasses.replace(_unit(5), keywords=frozenset({"HERO", "PRIEST", "PRIEST (1)"}))
+    assert caster_level(wiz, "WIZARD") == 2 and caster_level(pri, "WIZARD") == 0
+    assert magic_role_fit(wiz, [cast]) == pytest.approx(1.0)
+    assert magic_role_fit(pri, [chant]) == pytest.approx(0.75)
+    assert magic_role_fit(pri, [cast]) == pytest.approx(0.5)  # bonus de lancement sur un prêtre
+    anti = ("anti_magic", "", "", "", "action", "", "", "magie-ressource", 0.0, "")
+    assert magic_role_fit(wiz, [anti]) is None
+    m = marriage_of(wiz, [cast], "magie-ressource", "self", None, "passive", 0.0, (1.0, 1.0), "any")
+    assert m.role_fit == pytest.approx(1.0) and m.amplification == 1.0 and m.exposure == "longue"
