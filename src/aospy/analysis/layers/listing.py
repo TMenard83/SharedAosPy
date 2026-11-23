@@ -144,6 +144,8 @@ class ListReport:
     #: enchaînements (`chains.RallyChain`, `chains.ChainNote`)
     rallies: list = field(default_factory=list)
     chain_notes: list = field(default_factory=list)
+    #: montée en puissance (`buildup.Curve`)
+    curve: Optional[object] = None
 
 
 # ----- cœur pur ------------------------------------------------------------------
@@ -947,6 +949,10 @@ def analyse_list(con, parsed) -> ListReport:
     )
     rep.rallies = rally_chains(abilities, list_units, vocab, families, incoming, sm, cast_prob)
     rep.chain_notes = chain_notes(abilities, list_units, vocab, guardians(abilities, list_units, vocab))
+    # montée en puissance : la valeur de la liste round par round (runes, ressources qui s'accumulent)
+    from .buildup import power_curve
+
+    rep.curve = power_curve(abilities, list_units, vocab, frozenset(a.uid for a, _r in rep.dead))
     rep.sheets = unit_sheets(con, entries, abilities, sm)
     rep.picks = enhancement_picks(con, entries, abilities)
     from .assault import assault

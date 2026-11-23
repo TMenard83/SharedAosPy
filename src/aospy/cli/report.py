@@ -397,6 +397,31 @@ def format_list_report(rep) -> str:
             out.append("")
         for n in notes:
             out.append(f"- {n.kind} : {n.ability} ({n.source}) — {', '.join(n.units)}")
+    curve = getattr(rep, "curve", None)
+    if curve and curve.rounds and (curve.board_ability or any(r.unlocked for r in curve.rounds)):
+        base = curve.rounds[0]
+        out += [
+            "",
+            "## Montée en puissance : la liste round par round",
+            "",
+            "Empilement de la liste (sans les commandes) rejoué à chaque round avec ce qui y est disponible : "
+            "ressources qui s'accumulent (Dîme de Sang…), runes au tableau (plan glouton : chaque round, la rune qui "
+            "rapporte le plus vu le tableau déjà posé ; à corriger à la lecture). Les poids des rounds ne changent "
+            "pas (1/3, 1, 1, 1/3, 1/3).",
+            "",
+            "| round | dégâts/round de la liste | PV effectifs de la liste | rune posée | "
+            "disponible à partir de ce round |",
+            "|---|---|---|---|---|",
+        ]
+        for r in curve.rounds:
+            dd = f"{r.damage:.1f} ({(r.damage / base.damage - 1) if base.damage else 0:+.0%})"
+            ww = f"{r.durability:.0f} ({(r.durability / base.durability - 1) if base.durability else 0:+.0%})"
+            out.append(f"| R{r.round} | {dd} | {ww} | {r.rune} | {', '.join(r.unlocked)} |")
+        out.append("")
+        out.append(
+            f"Pic au round {curve.peak}"
+            + (" — liste de fin de partie : elle gagne à faire durer." if curve.grows else ".")
+        )
     stacked = getattr(rep, "stacks", None)
     if stacked:
         out += [

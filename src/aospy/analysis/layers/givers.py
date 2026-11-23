@@ -57,6 +57,19 @@ class CasterBonus:
     sources: list[str] = field(default_factory=list)
 
 
+def claimed_options(abilities) -> set[str]:
+    """Options prises par une amélioration qui les retire au reste de l'armée (Scholar of the Sigils : « That rune
+    cannot be depicted on your battle scripture ») : celle qui sert le lancement (remarque utilisateur : l'Enlightener
+    prend Thalari)."""
+    return {
+        e.option_group
+        for ab in abilities
+        if ab.source.startswith("amélioration") and re.search(r"cannot be depicted", ab.text or "")
+        for e in ab.effects
+        if e.option_group and e.stat == "cast"
+    }
+
+
 def caster_bonus(caster: Unit, abilities, vocab: frozenset[str]) -> CasterBonus:
     """Bonus de lancement et relances que `caster` reçoit des aptitudes de la liste (porteur compris)."""
     from .listing import effect_ability, list_receivers
@@ -64,13 +77,7 @@ def caster_bonus(caster: Unit, abilities, vocab: frozenset[str]) -> CasterBonus:
     out = CasterBonus()
     # une option fixée par une amélioration (Scholar of the Sigils : « That rune cannot be depicted on your battle
     # scripture for the rest of the battle ») n'est plus disponible pour les autres aptitudes, pour toute l'armée
-    claimed = {
-        e.option_group
-        for ab in abilities
-        if ab.source.startswith("amélioration") and re.search(r"cannot be depicted", ab.text or "")
-        for e in ab.effects
-        if e.option_group and e.stat == "cast"
-    }
+    claimed = claimed_options(abilities)
     for ab in abilities:
         best = 0.0
         rr = False
