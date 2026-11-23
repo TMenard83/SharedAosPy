@@ -92,6 +92,9 @@ class Marriage:
     weight: float
     conditions: str
     option: str = ""  # option retenue d'une aptitude à choix exclusif (analyseur v33)
+    #: fiabilité du donneur (déjà incluse dans `weight`) : D × S du porteur en couche 3 × suivi du receveur
+    #: (× P(invocation) pour une manifestation) ; 1 pour un effet sur soi ou une règle d'armée
+    giver: float = 1.0
 
     @property
     def score(self) -> float:
@@ -136,6 +139,8 @@ class ListReport:
     drawbacks: list = field(default_factory=list)
     #: empilement par unité (`stacking.Stack`) : tous les effets reçus ensemble, plafonds ±1 compris
     stacks: list = field(default_factory=list)
+    #: donneurs recalculés avec la liste (`givers.GiverRow`)
+    givers: list = field(default_factory=list)
 
 
 # ----- cœur pur ------------------------------------------------------------------
@@ -175,12 +180,44 @@ def effect_ability(ab: ListAbility, effect_target: str) -> ListAbility:
     return replace(ab, friendly_target=effect_target)
 
 
+def _activation(ab: ListAbility, cast_prob: dict[tuple[str, str], float]) -> float:
+    """P(déclenchement) : celle de la couche 1, ou P(lancement) du sort recalculée avec la liste (`givers`)."""
+    vals = [cast_prob[(c, ab.uid)] for c in ab.carriers + ("*",) if (c, ab.uid) in cast_prob]
+    return max(vals) if vals else ab.activation_prob
+
+
+def giver_reliability(
+    ab: ListAbility,
+    receiver: Unit,
+    relation: str,
+    bearing: dict[tuple[str, str], float],
+    reach: dict[str, float],
+) -> float:
+    """Fiabilité du donneur d'un buff (réponse utilisateur, 2026-11-23 : « D × S × suivi ») : le receveur n'en
+    profite que si le donneur déclenche et tient l'aptitude (D × S couche 3, `ability_marriage.bearing`) et le
+    suit (min(1, allonge du donneur ÷ allonge du receveur)) ; une manifestation n'existe que si son invocation
+    passe (`summon_prob`). Effet sur soi ou règle d'armée sans porteur : 1. Le meilleur porteur s'il y en a
+    plusieurs."""
+    if relation == "porteur" or not ab.carriers:
+        return 1.0
+    best = 0.0
+    for c in ab.carriers:
+        ds = bearing.get((c, ab.uid), 1.0)
+        r_c, r_u = reach.get(c), reach.get(receiver.name)
+        follow = min(1.0, r_c / r_u) if r_c and r_u else 1.0
+        best = max(best, ds * follow)
+    return best * ab.summon_prob
+
+
 def marriages(
     abilities: list[ListAbility],
     units: list[Unit],
     vocab: frozenset[str],
     share_melee: Optional[dict[str, float]] = None,
     dead: frozenset[str] = frozenset(),
+    bearing: Optional[dict[tuple[str, str], float]] = None,
+    reach: Optional[dict[str, float]] = None,
+    cast_prob: Optional[dict[tuple[str, str], float]] = None,
 ) -> list[Marriage]:
     """Effets traduisibles posés sur chaque receveur de la liste, pondérés sur la frise (`timeline`) : tour où
     l'aptitude se joue, durée, pertinence attaque/défense, × P(déclenchement) × D (conditions du porteur
@@ -227,9 +264,11 @@ def marriages(
                     share_melee=sm,
                     start_round=t.start,
                 )
-                * ab.activation_prob
+                * _activation(ab, cast_prob or {})
             )
             w *= t.p if t.bearer_only else 1.0
+            g = giver_reliability(ab, unit, rel, bearing or {}, reach or {})
+            w *= g
             out.append(
                 Marriage(
                     ab.name,
@@ -242,6 +281,7 @@ def marriages(
                     round(w, 3),
                     conds,
                     eff.option_group,
+                    round(g, 3),
                 )
             )
     return sorted(_best_options(out), key=lambda m: -m.score)
@@ -261,6 +301,50 @@ def _best_options(rows: list[Marriage]) -> list[Marriage]:
         if (a, src, r) not in best or sc > best[(a, src, r)][1]:
             best[(a, src, r)] = (opt, sc)
     return [m for m in rows if not m.option or best[(m.ability, m.source, m.receiver)][0] == m.option]
+
+
+#: Condition remplie par un allié écrite dans le texte : « within 6" of a friendly Gnawhole », « while this unit is
+#: within the combat range of a friendly non-HERO SKAVEN INFANTRY unit », « If a friendly X is on the battlefield ».
+_PROVIDER_RE = re.compile(
+    r"(?:wholly )?within (?:the combat ranges? of|\d+\" of) (?:a|an|any|another|any other)? ?(?:visible )?"
+    # énumération « X, Y or Z » gardée entière (Wicked Wardens) ; coupe avant la proposition principale
+    r"(?:damaged )?friendly ((?:non-)?[A-Z][^.:;]*?)"
+    r"(?=, (?:this|that|it|its|each|add|subtract|you|the|they|those|while|if)\b"
+    r"|,? (?:that|while|and|uses|is|has) |\.|:|;|$)"
+    r"|\b(?:[Ii]f|[Ww]hile) (?:there (?:is|are) (?:any|a|one or more) )?friendly ([A-Z][^.,:;]*?) (?:is|are) on the "
+    r"battlefield"
+)
+
+
+def provider_phrases(text: str) -> list[str]:
+    """Alliés qu'exige le texte d'une aptitude (désignation brute, sans « unit(s) » final)."""
+    out = []
+    for m in _PROVIDER_RE.finditer(text or ""):
+        ph = re.sub(r"\s+units?$", "", (m.group(1) or m.group(2) or "").strip())
+        if ph:
+            out.append(ph)
+    return out
+
+
+def missing_providers(
+    abilities: list[ListAbility], units: list[Unit], vocab: frozenset[str]
+) -> list[tuple[ListAbility, str]]:
+    """Aptitudes dont la condition écrite exige un allié (unité, décor de faction, manifestation) que la liste
+    n'a pas : un constat de composition (2026-11-23), comme `dead_rules`. Un porteur se fournit lui-même s'il
+    satisfait la désignation ; les décors et manifestations de la liste comptent (porteurs d'aptitudes)."""
+    present = {c.lower() for a in abilities for c in a.carriers}
+    out = []
+    manifs = any(a.source.startswith("manifestation") for a in abilities)
+    for ab in abilities:
+        for ph in provider_phrases(ab.text):
+            alts = [re.sub(r"^(?:a|an|any) (?:friendly )?", "", x.strip()) for x in re.split(r", | or ", ph)]
+            alts = [re.sub(r"\s+units?$", "", x) for x in alts if re.match(r"(?:non-)?[A-Z]", x)]
+            if any(x.lower() in present or x.upper() == "MANIFESTATION" and manifs for x in alts):
+                continue
+            if not any(matches_friendly_target(u, x, vocab) for u in units for x in alts):
+                out.append((ab, f"condition « à portée d'un allié {ph} » : aucun dans la liste"))
+                break
+    return out
 
 
 def dead_rules(abilities: list[ListAbility], units: list[Unit], vocab: frozenset[str]) -> list[tuple[ListAbility, str]]:
@@ -363,6 +447,9 @@ def analyse(
     abilities: list[ListAbility],
     vocab: frozenset[str],
     share_melee: Optional[dict[str, float]] = None,
+    bearing: Optional[dict[tuple[str, str], float]] = None,
+    reach: Optional[dict[str, float]] = None,
+    cast_prob: Optional[dict[tuple[str, str], float]] = None,
 ) -> ListReport:
     units = [u for _n, _p, u in entries if u is not None]
     distinct = list({u.name: u for u in units}.values())
@@ -371,8 +458,12 @@ def analyse(
         counts[u.name] = counts.get(u.name, 0) + 1
     rep = ListReport(title, faction, entries, abilities, vocab=vocab)
     rep.dead = dead_rules(abilities, distinct, vocab)
+    dead_now = {a.uid for a, _r in rep.dead}
+    rep.dead += [(a, r) for a, r in missing_providers(abilities, distinct, vocab) if a.uid not in dead_now]
     rep.dead += unprofitable_buffs(abilities, distinct, vocab, frozenset(a.uid for a, _r in rep.dead))
-    rep.marriages = marriages(abilities, distinct, vocab, share_melee, frozenset(a.uid for a, _r in rep.dead))
+    rep.marriages = marriages(
+        abilities, distinct, vocab, share_melee, frozenset(a.uid for a, _r in rep.dead), bearing, reach, cast_prob
+    )
     rep.conflicts = conflicts(abilities, counts)
     rep.magic = magic_budget(abilities, units)
     dead_uids = {a.uid for a, _r in rep.dead}
@@ -801,7 +892,48 @@ def analyse_list(con, parsed) -> ListReport:
         for _n, _p, u in entries
         if u is not None
     }
-    rep = analyse(parsed.title, parsed.base_faction, entries, abilities, vocab, sm)
+    ids = {u.name: u.id for _n, _p, u in entries if u is not None}
+    names = {v: k for k, v in ids.items()}
+    uids = [a.uid for a in abilities] or [""]
+    mrows = {
+        (names[uid], aid): (expo, pt, start, surv, b)
+        for uid, aid, expo, pt, start, surv, b in con.execute(
+            "SELECT unit_id, ability_uid, exposure, p_trigger, start_round, survival, bearing FROM ability_marriage "
+            "WHERE unit_id IN ? AND ability_uid IN ?",
+            [list(ids.values()) or [-1], uids],
+        ).fetchall()
+        if b is not None
+    }
+    # couche 4 : lancement et survie des donneurs recalculés avec ce que la liste leur donne (`givers`)
+    from .givers import giver_rows
+    from .marriage import incoming_damage
+
+    list_units = [u for _n, _p, u in entries if u is not None]
+    giver_list = giver_rows(abilities, list_units, vocab, mrows, incoming_damage(con))
+    by_uid = {a.name: a.uid for a in abilities}
+    bearing = {k: v[4] for k, v in mrows.items()}
+    cast_prob: dict[tuple[str, str], float] = {}
+    for g in giver_list:
+        uid = by_uid.get(g.ability)
+        if uid:
+            bearing[(g.giver, uid)] = g.bearing_list
+            if g.cast_list is not None:
+                cast_prob[(g.giver, uid)] = g.cast_list
+    from .givers import best_list_cast
+
+    for ab in abilities:  # sort de domaine : le meilleur sorcier de la liste, avec ce qu'il reçoit
+        if not ab.carriers and (ab.cost_type or "").lower() == "spell":
+            p_best = best_list_cast(ab, list_units, abilities, vocab)
+            if p_best is not None:
+                cast_prob[("*", ab.uid)] = p_best
+    reach = {
+        names[uid]: r
+        for uid, r in con.execute(
+            "SELECT unit_id, reach_in FROM unit_realized WHERE unit_id IN ?", [list(ids.values()) or [-1]]
+        ).fetchall()
+    }
+    rep = analyse(parsed.title, parsed.base_faction, entries, abilities, vocab, sm, bearing, reach, cast_prob)
+    rep.givers = giver_list
     rep.sheets = unit_sheets(con, entries, abilities, sm)
     rep.picks = enhancement_picks(con, entries, abilities)
     from .assault import assault

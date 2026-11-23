@@ -289,14 +289,20 @@ def format_list_report(rep) -> str:
             "",
             "## Mariages chiffrés (effet de la liste × receveur de la liste)",
             "",
-            "| aptitude | origine | receveur | dég % | dur % | poids | conditions |",
-            "|---|---|---|---|---|---|---|",
+            "Poids = frise × déclenchement × fiabilité du donneur (D × S du porteur en couche 3 × suivi du "
+            "receveur, × P(invocation) pour une manifestation).",
+            "",
+            "| aptitude | origine | receveur | dég % | dur % | donneur | poids | conditions |",
+            "|---|---|---|---|---|---|---|---|",
         ]
         for m in rep.marriages[:40]:
             og = "—" if m.off_gain_pct is None else f"{m.off_gain_pct:+.0f}"
             dg = "—" if m.def_gain_pct is None else f"{m.def_gain_pct:+.0f}"
             name = f"{m.ability} ({m.option})" if m.option else m.ability
-            out.append(f"| {name} | {m.source} | {m.receiver} | {og} | {dg} | {m.weight:.2f} | {m.conditions} |")
+            giver = "" if m.relation == "porteur" else f"{getattr(m, 'giver', 1.0):.2f}"
+            out.append(
+                f"| {name} | {m.source} | {m.receiver} | {og} | {dg} | {giver} | {m.weight:.2f} | {m.conditions} |"
+            )
     if rep.assault:
         a = rep.assault
         out += [
@@ -351,6 +357,25 @@ def format_list_report(rep) -> str:
             ]
             out += [f'| {t.unit} | {t.move:g}" | {t.dry:g}" | {t.bonus:g}" | {t.reroll:g}" |' for t in a.threats]
             out.append("")
+    givers = [g for g in getattr(rep, "givers", []) if g.cast_list != g.cast_bare or g.survival_list != g.survival_bare]
+    if givers:
+        out += [
+            "",
+            "## Donneurs : ce que la liste leur donne",
+            "",
+            "Lancement et survie du porteur d'une aptitude donnée (ou d'un sort), nus (couche 3) puis avec la liste : "
+            "bonus et relances de lancement reçus (sans plafond), protections reçues, décor de faction qui encaisse à "
+            "sa place. Ces valeurs remplacent celles de la couche 3 dans la fiabilité du donneur.",
+            "",
+            "| donneur | aptitude | lancement nu → liste | survie nu → liste | ce qui change |",
+            "|---|---|---|---|---|",
+        ]
+        for g in givers:
+            cast = f"{g.cast_bare:.0%} → {g.cast_list:.0%}" if g.cast_bare is not None else ""
+            out.append(
+                f"| {g.giver} | {g.ability} | {cast} | {g.survival_bare:.0%} → {g.survival_list:.0%} | "
+                f"{'; '.join(g.notes)} |"
+            )
     stacked = getattr(rep, "stacks", None)
     if stacked:
         out += [

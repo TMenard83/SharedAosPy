@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import pytest
+
 from aospy.analysis.layers.encounter import EffectSpec
 from aospy.analysis.layers.listing import ListAbility, conflicts, magic_budget, marriages, wizard_level
 from aospy.domain.models import Unit, Weapon
@@ -155,3 +157,45 @@ def test_exclusive_options_keep_the_best_one_per_receiver():
     ]
     kept = _best_options(rows)
     assert {m.option for m in kept} == {"Rune of Fiery Determination", ""}
+
+
+def test_given_buff_is_weighted_by_its_giver():
+    """Réponse utilisateur (« D × S × suivi ») : un buff donné vaut gain × D × S du donneur (couche 3) × min(1,
+    allonge du donneur ÷ allonge du receveur) ; sur soi, ou une règle d'armée sans porteur : rien à pondérer."""
+    from aospy.analysis.layers.listing import giver_reliability
+
+    hero = _unit("Hero", keywords=frozenset({"HERO", "ALARITH"}))
+    fast = _unit("Fast", move=12)
+    aura = _ab("Aura", scope="friendly_aura", carriers=["Hero"])
+    bearing = {("Hero", "Aura"): 0.5}
+    reach = {"Hero": 6.0, "Fast": 12.0}
+    assert giver_reliability(aura, fast, "allié", bearing, reach) == pytest.approx(0.25)
+    assert giver_reliability(aura, hero, "porteur", bearing, reach) == 1.0
+    army = _ab("Rule", scope="army")
+    assert giver_reliability(army, fast, "allié", bearing, reach) == 1.0
+    manif = _ab("Cogs", scope="friendly_aura", carriers=["Cogs"], summon_prob=0.72)
+    assert giver_reliability(manif, fast, "allié", {}, {}) == pytest.approx(0.72)
+    got = marriages([_ab("Shield", scope="friendly_aura", carriers=["Hero"],
+                         effects=[EffectSpec("ward", value=5.0)])], [hero, fast], frozenset({"MONSTER"}),
+                    bearing={("Hero", "Shield"): 0.5}, reach=reach)
+    by = {m.receiver: m for m in got}
+    assert by["Fast"].giver == pytest.approx(0.25) and by["Hero"].giver == 1.0
+
+
+def test_condition_needs_a_provider_in_the_list():
+    """« wholly within 12" of a friendly Hag Queen on Cauldron of Blood, Slaughter Queen on Cauldron of Blood or
+    Shrine of Dark Tribute » : une seule alternative présente suffit ; sinon, constat « aucun dans la liste »."""
+    from aospy.analysis.layers.listing import missing_providers, provider_phrases
+
+    text = ("While this unit is wholly within 12\" of a friendly Hag Queen on Cauldron of Blood, Slaughter Queen on "
+            "Cauldron of Blood or Shrine of Dark Tribute, this unit's melee weapons have Anti-charge (+1 Rend).")
+    assert provider_phrases(text) == [
+        "Hag Queen on Cauldron of Blood, Slaughter Queen on Cauldron of Blood or Shrine of Dark Tribute"
+    ]
+    assert provider_phrases("While this unit is within the combat range of a friendly non-HERO SKAVEN INFANTRY "
+                            "unit:\n- This unit has WARD (4+).") == ["non-HERO SKAVEN INFANTRY"]
+    hags = _ab("Wicked Wardens", carriers=["Blood Hags"], text=text)
+    queen = _unit("Slaughter Queen on Cauldron of Blood")
+    assert missing_providers([hags], [queen, _unit("Blood Hags")], frozenset({"MONSTER"})) == []
+    (miss,) = missing_providers([hags], [_unit("Blood Hags")], frozenset({"MONSTER"}))
+    assert "aucun dans la liste" in miss[1]
