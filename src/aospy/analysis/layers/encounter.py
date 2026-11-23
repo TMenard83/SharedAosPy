@@ -421,7 +421,16 @@ def matches_friendly_target(unit: Unit, phrase: str, vocab: frozenset[str]) -> b
         if kw.replace("’", "'") in phrase:
             phrase = phrase.replace(kw.replace("’", "'"), kw)
     name = unit.name.lower()
+    alts = []
     for alt in re.split(r"\s+or\s+", phrase):
+        # « SKAVEN INFANTRY and CAVALRY » = les SKAVEN INFANTRY et les SKAVEN CAVALRY (2026-11-23, TOO QUICK TO
+        # HIT-HIT) : le préfixe se distribue sur les mots-clés coordonnés — exiger les deux ne vise personne
+        m = re.match(r"^(.*?)\b([A-Z][A-Z'’-]+) and ([A-Z][A-Z'’-]+)\b(.*)$", alt)
+        if m:
+            alts += [f"{m[1]}{m[2]}{m[4]}", f"{m[1]}{m[3]}{m[4]}"]
+        else:
+            alts.append(alt)
+    for alt in alts:
         toks = [
             t for t in alt.split() if t.lower() not in ("unified", "anointed", "other", "damaged", "visible", "and")
         ]

@@ -2213,3 +2213,24 @@ def test_v37_power_level_malus_is_a_drawback():
     ex = extract(_raw("While this unit has 10 or more damage points, subtract 1 from its power level."))[0]
     mods = [e for e in ex.effects if e.kind == "stat_mod" and e.stat == "power_level"]
     assert mods and effect_family(mods[0], ex.scope) == "autre"
+
+
+# ----- v38 : lectures relevées par les enchaînements (couche 4) --------------------------------------------
+
+
+def test_v38_coordinated_keywords_and_conditions_on_allies():
+    """« friendly SKAVEN INFANTRY and CAVALRY units » : règle d'armée ; « within 12" of any friendly X units » :
+    une condition (le bénéficiaire reste l'unité) ; « While a friendly X is wholly within … : That non-HERO unit
+    can … » : les receveurs sont X, pas un porteur ; sauf si le texte vise des unités ennemies."""
+    ex = extract(_raw("No mortal damage is inflicted on friendly SKAVEN INFANTRY and CAVALRY units by RETREAT "
+                      "abilities."))[0]
+    assert ex.scope == "army"
+    ex = extract(_raw("Add 1 to the Damage characteristic of this unit's melee weapons while this unit is wholly "
+                      "within 12\" of any friendly SKINK INFANTRY or SKINK CAVALRY units in combat."))[0]
+    assert ex.scope != "army"
+    ex = extract(_raw("While a friendly non-HERO FLESH-EATER COURTS MONSTER or BEAST is wholly within 12\" of any "
+                      "friendly FLESH-EATER COURTS HEROES:\n- That non-HERO unit can use a RAMPAGE ability."))[0]
+    assert ex.scope == "army"
+    ex = extract(_raw("In the third and subsequent battle rounds, while a friendly Cursed Sepulchre is on the "
+                      "battlefield, subtract 1 from save rolls for enemy units."))[0]
+    assert ex.scope != "army"

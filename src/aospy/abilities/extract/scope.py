@@ -36,8 +36,12 @@ _ARMY_WIDE = re.compile(r"\bfriendly [A-Z][A-Z' -]+ units\b|\bfriendly units\b")
 #: unit », « Friendly FLESH-EATER COURTS HEROES », « friendly Freeguild Steelhelms units » : toute
 #: l'armée (restreinte par mot-clé, cf. `friendly_target`), sans rayon (analyseur v20).
 _ARMY_KW = re.compile(
-    r"(?<![Aa] )(?<![Tt]he )(?<!that )(?<!other )(?<!another )(?<!visible )\b(?:[Ee]ach |[Aa]ll )?[Ff]riendly "
-    r"(?:non-[A-Z]+ )?(?:[A-Z][\w'’-]* )*(?:units?'?|HEROES|WIZARDS|PRIESTS|MONSTERS|models)\b"
+    # v38 : « within 12" of any friendly SKINK INFANTRY or SKINK CAVALRY units » = condition, pas les receveurs
+    r"(?<![Aa] )(?<![Tt]he )(?<!that )(?<!other )(?<!another )(?<!visible )(?<!of any )"
+    r"\b(?:[Ee]ach |[Aa]ll )?[Ff]riendly "
+    # v38 : « friendly SKAVEN INFANTRY and CAVALRY units » (TOO QUICK TO HIT-HIT) : deux mots-clés coordonnés
+    r"(?:non-[A-Z]+ )?(?:[A-Z][\w'’-]* )*(?:(?:and|or) (?:[A-Z][\w'’-]* )+)?"
+    r"(?:units?'?|HEROES|WIZARDS|PRIESTS|MONSTERS|models)\b"
 )
 _REGIMENT = re.compile(r"\b(?:units|each unit|a unit) in this Regiment of Renown\b")
 _COMBAT_RANGE = re.compile(r"combat range|in combat with|within 1\" ", re.I)
@@ -136,6 +140,14 @@ def scope_of(declare: str, effect: str) -> tuple[Scope, Optional[int], bool]:
         if re.search(r"within (?:this unit's|this model's|its|their) combat range", tail):
             return "friendly_aura", 1, False
     if _ARMY_WIDE.search(full) or re.search(r"\b(?:your|friendly) units\b", full) or m or _REGIMENT.search(effect):
+        return "army", None, False
+    # v38 : « While a friendly non-HERO FLESH-EATER COURTS MONSTER or BEAST is wholly within 12" of any friendly … :
+    # - That non-HERO unit can … » (INDULGE, MY PRETTIES) : les receveurs sont ces unités-là, pas le porteur
+    first = re.split(r"(?<=[.:])\s", effect, maxsplit=1)[0]
+    subject = re.search(
+        r"\b(?:[Ww]hile|[Ii]f|[Ee]ach time) an? friendly (?:non-)?[A-Z][\w'’ -]*? (?:is|are|uses) ", first
+    )
+    if subject and not re.search(r"\bthis (?:unit|model)\b", first) and not re.search(r"\benemy units?\b", effect):
         return "army", None, False
     if re.match(r"\s*Used By:", effect):
         return "one_friendly", None, False  # réaction : l'unité qui a déclaré l'aptitude

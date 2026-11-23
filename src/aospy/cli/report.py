@@ -376,6 +376,27 @@ def format_list_report(rep) -> str:
                 f"| {g.giver} | {g.ability} | {cast} | {g.survival_bare:.0%} → {g.survival_list:.0%} | "
                 f"{'; '.join(g.notes)} |"
             )
+    rallies, notes = getattr(rep, "rallies", []), getattr(rep, "chain_notes", [])
+    if rallies or notes:
+        out += ["", "## Enchaînements", ""]
+        if rallies:
+            out += [
+                "**Sortir du combat → se Rallier**"
+                + " (Ralliement : 1 PC, hors combat ; un point par 4+ sur ses dés de ralliement). Survie gagnée par "
+                "un Ralliement par round, × P(dégagement).",
+                "",
+                "| unité | se dégage par | P(dégagement) | points de ralliement | survie gagnée | PC/round |",
+                "|---|---|---|---|---|---|",
+            ]
+            for r in rallies:
+                g = "—" if r.survival_gain is None else f"{r.survival_gain:+.0%}"
+                out.append(
+                    f"| {r.unit} | {', '.join(r.disengage)} | {r.p_disengage:.0%} | {r.rally_points:g} | {g} | "
+                    f"{r.cp_per_round} |"
+                )
+            out.append("")
+        for n in notes:
+            out.append(f"- {n.kind} : {n.ability} ({n.source}) — {', '.join(n.units)}")
     stacked = getattr(rep, "stacks", None)
     if stacked:
         out += [

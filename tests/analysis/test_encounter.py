@@ -253,3 +253,16 @@ def test_smooth_floor_interpolates_across_the_damage_step():
     # palier de 4 : x = 4 × (1 − c) / P(0) − 4 × (1 − c)
     assert lo == pytest.approx(4 * 0.25 / 0.30 - 1.0) and hi == pytest.approx(4 * 0.25 / 0.26 - 1.0)
     assert hi - lo > 0.4  # l'ancienne interpolation (un seul point) ne bougeait que de 0,13
+
+
+def test_friendly_target_coordinated_keywords_are_distributed():
+    """« SKAVEN INFANTRY and CAVALRY » = les SKAVEN INFANTRY et les SKAVEN CAVALRY (exiger les deux ne vise
+    personne)."""
+    from aospy.analysis.layers.encounter import matches_friendly_target
+
+    vocab = frozenset({"SKAVEN", "INFANTRY", "CAVALRY", "MONSTER"})
+    mk = lambda kws: Unit(name="X", army_id=1, move=6, save=4, control=1, health=1, models=1, points=1,  # noqa: E731
+                          keywords=frozenset(kws))
+    assert matches_friendly_target(mk({"SKAVEN", "INFANTRY"}), "SKAVEN INFANTRY and CAVALRY", vocab)
+    assert matches_friendly_target(mk({"SKAVEN", "CAVALRY"}), "SKAVEN INFANTRY and CAVALRY", vocab)
+    assert not matches_friendly_target(mk({"SKAVEN", "MONSTER"}), "SKAVEN INFANTRY and CAVALRY", vocab)

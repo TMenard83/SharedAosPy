@@ -141,6 +141,9 @@ class ListReport:
     stacks: list = field(default_factory=list)
     #: donneurs recalculés avec la liste (`givers.GiverRow`)
     givers: list = field(default_factory=list)
+    #: enchaînements (`chains.RallyChain`, `chains.ChainNote`)
+    rallies: list = field(default_factory=list)
+    chain_notes: list = field(default_factory=list)
 
 
 # ----- cœur pur ------------------------------------------------------------------
@@ -909,7 +912,8 @@ def analyse_list(con, parsed) -> ListReport:
     from .marriage import incoming_damage
 
     list_units = [u for _n, _p, u in entries if u is not None]
-    giver_list = giver_rows(abilities, list_units, vocab, mrows, incoming_damage(con))
+    incoming = incoming_damage(con)
+    giver_list = giver_rows(abilities, list_units, vocab, mrows, incoming)
     by_uid = {a.name: a.uid for a in abilities}
     bearing = {k: v[4] for k, v in mrows.items()}
     cast_prob: dict[tuple[str, str], float] = {}
@@ -934,6 +938,15 @@ def analyse_list(con, parsed) -> ListReport:
     }
     rep = analyse(parsed.title, parsed.base_faction, entries, abilities, vocab, sm, bearing, reach, cast_prob)
     rep.givers = giver_list
+    # enchaînements (sortir du combat → se Rallier ; tir mobile ; relais de portée)
+    from .chains import chain_notes, rally_chains
+    from .givers import guardians
+
+    families = dict(
+        con.execute("SELECT uid, coalesce(family, 'autre') FROM ability WHERE uid IN ?", [uids]).fetchall()
+    )
+    rep.rallies = rally_chains(abilities, list_units, vocab, families, incoming, sm, cast_prob)
+    rep.chain_notes = chain_notes(abilities, list_units, vocab, guardians(abilities, list_units, vocab))
     rep.sheets = unit_sheets(con, entries, abilities, sm)
     rep.picks = enhancement_picks(con, entries, abilities)
     from .assault import assault
