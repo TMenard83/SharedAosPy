@@ -130,6 +130,10 @@ class ListReport:
     sheets: list["UnitSheet"] = field(default_factory=list)
     picks: list["EnhancementPick"] = field(default_factory=list)
     assault: Optional[object] = None  # `assault.Assault` : charges groupées, redondance et secours
+    vocab: frozenset[str] = frozenset()
+    #: aptitudes « à lire » rejouées sur les receveurs de la liste (`listgrid.GridRow`), contreparties écartées
+    grid: list = field(default_factory=list)
+    drawbacks: list = field(default_factory=list)
 
 
 # ----- cœur pur ------------------------------------------------------------------
@@ -363,7 +367,7 @@ def analyse(
     counts: dict[str, int] = {}
     for u in units:
         counts[u.name] = counts.get(u.name, 0) + 1
-    rep = ListReport(title, faction, entries, abilities)
+    rep = ListReport(title, faction, entries, abilities, vocab=vocab)
     rep.dead = dead_rules(abilities, distinct, vocab)
     rep.dead += unprofitable_buffs(abilities, distinct, vocab, frozenset(a.uid for a, _r in rep.dead))
     rep.marriages = marriages(abilities, distinct, vocab, share_melee, frozenset(a.uid for a, _r in rep.dead))
@@ -811,4 +815,7 @@ def analyse_list(con, parsed) -> ListReport:
     rep.assault = assault(
         abilities, units, vocab, sm, teleporters(abilities, units), frozenset(a.uid for a, _r in rep.dead), dmg
     )
+    from .listgrid import collect_grid
+
+    collect_grid(con, entries, rep)
     return rep

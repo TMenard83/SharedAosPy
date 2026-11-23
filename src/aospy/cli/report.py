@@ -358,7 +358,28 @@ def format_list_report(rep) -> str:
         out += ["", f"## Magie : {rep.magic.casts_per_turn} lancers par tour", ""]
         out += [f"- {c} : {n}" for c, n in rep.magic.casters]
         out += [f"- sort {n} ({src}) : valeur {v}, P {p:.0%}" for n, src, v, p in rep.magic.spells]
-    if rep.unresolved:
+    grid = getattr(rep, "grid", None)
+    if grid:
+        out += [
+            "",
+            "## Aptitudes non traduites, rejouées sur la liste",
+            "",
+            "Mariage du porteur (couche 3) ; suivi = allonge du porteur ÷ allonge médiane de ses receveurs DANS la "
+            "liste (1 = il suit) ; ce que chaque receveur de la liste en tire, mesuré par la grille de sa famille.",
+            "",
+            "| aptitude | origine | famille | verdict | porteur (mariage) | suivi | receveurs de la liste |",
+            "|---|---|---|---|---|---|---|",
+        ]
+        for g in grid:
+            bearer = f"{g.bearer} ({g.bearer_marriage:.2f})" if g.bearer and g.bearer_marriage is not None else g.bearer
+            ku = f"{g.keep_up:.2f}" if g.keep_up is not None else ""
+            recv = "; ".join(f"{n} : {lab}" if lab else n for n, lab in g.receivers)
+            if g.note:
+                recv = f"{recv} — {g.note}" if recv else g.note
+            out.append(f"| {g.ability} | {g.source} | {g.family} | {g.verdict} | {bearer} | {ku} | {recv} |")
+        if rep.drawbacks:
+            out += ["", "Contreparties écartées : " + ", ".join(f"{a.name} ({a.source})" for a in rep.drawbacks)]
+    elif rep.unresolved:
         out += ["", "## À lire (non chiffré : tempo, mobilité, ressources, débuffs…)", ""]
         out += [f"- {a.name} ({a.source}) — {a.verdict}" for a in rep.unresolved]
     return "\n".join(out) + "\n"
