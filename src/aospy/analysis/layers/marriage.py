@@ -531,7 +531,10 @@ def mobility_kind(e_list: list[tuple], text: str = "") -> str:
     if _charge_aid(e_list) or "pile_in" in kinds:
         return MOBILITY_ENGAGE
     details = " ".join(e[9] for e in e_list if len(e) > 9 and e[9])
-    if kinds & _DISENGAGE_KINDS or "RETREAT" in details.upper() or _DISENGAGE_TEXT.search(text):
+    # « cannot end that move in combat » ne dégage que si le mouvement peut partir du combat : une cible « that is not
+    # in combat » (Frenzied Taskmaster) se repositionne (2026-11-23)
+    starts_free = re.search(r"\bthat is not in combat\b|\bnot in combat to be the target\b", text or "", re.I)
+    if kinds & _DISENGAGE_KINDS or "RETREAT" in details.upper() or (_DISENGAGE_TEXT.search(text) and not starts_free):
         return MOBILITY_DISENGAGE
     if _ENGAGE_TEXT.search(text) or any("au combat" in e[1] for e in e_list):
         return MOBILITY_ENGAGE

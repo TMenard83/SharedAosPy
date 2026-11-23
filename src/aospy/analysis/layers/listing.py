@@ -590,7 +590,9 @@ def _ability_from_row(row, source: str, carriers: tuple[str, ...], effects) -> L
 _ABILITY_SELECT = """SELECT DISTINCT a.uid, a.name, a.source_kind, a.scope, a.frequency, a.turn_side, a.phase,
        a.cost_type, a.cost_value, a.activation_prob, a.available_round, a.friendly_target, a.excludes_self,
        a.verdict, a.power, a.reliability, a.ease, a.interaction,
-       coalesce(a.conditions, '') LIKE '%doit avoir chargé%', a.effect_text
+       coalesce(a.conditions, '') LIKE '%doit avoir chargé%',
+       -- Annonce + Effet : la couche 4 relit des désignations écrites dans l'Annonce (« that is not in combat »)
+       trim(coalesce(a.declare_text, '') || ' ' || coalesce(a.effect_text, ''))
 FROM ability a JOIN ability_owner o ON o.ability_uid = a.uid"""
 
 
@@ -640,8 +642,16 @@ def collect(con, parsed) -> tuple[list[tuple[str, int, Optional[Unit]]], list[Li
     options: list[tuple[str, str]] = []
     for reg in parsed.regiments:
         for ue in reg.units:
-            entries.append((ue.name, ue.points, pool.get(ue.name.lower())))
-            options.extend((ue.name, _OPTION_COST_RE.sub("", o).strip()) for o in ue.options)
+            # « Scourge of Aqshy: Bloodletters » (export de l'App) = la charte « Scourge of Aqshy Bloodletters »
+            name = re.sub(r"^Scourge of Aqshy:\s*", "Scourge of Aqshy ", ue.name)
+            unit = pool.get(name.lower())
+            opts = [_OPTION_COST_RE.sub("", o).strip() for o in ue.options]
+            if unit is not None and any(o.lower() == "reinforced" for o in opts):
+                from dataclasses import replace
+
+                unit = replace(unit, models=unit.models * 2)  # unité renforcée : effectif doublé
+            entries.append((name, ue.points, unit))
+            options.extend((name, o) for o in opts)
 
     rows: list[tuple[tuple, str, tuple[str, ...]]] = []
     carriers = sorted({n for n, _p, _u in entries} | set(parsed.faction_terrain))

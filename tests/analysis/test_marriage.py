@@ -537,3 +537,15 @@ def test_magic_role_fit_follows_caster_level():
     assert magic_role_fit(wiz, [anti]) is None
     m = marriage_of(wiz, [cast], "magie-ressource", "self", None, "passive", 0.0, (1.0, 1.0), "any")
     assert m.role_fit == pytest.approx(1.0) and m.amplification == 1.0 and m.exposure == "longue"
+
+
+def test_move_of_a_unit_not_in_combat_is_not_a_disengagement():
+    """Frenzied Taskmaster : cible « that is not in combat », « cannot end that move in combat » → repositionnement,
+    pas dégagement (couche 4 : pas d'enchaînement dégagement → Ralliement)."""
+    from aospy.analysis.layers.marriage import mobility_kind
+
+    e = [_mob("move", value=3.5)]
+    text = ("Pick a friendly BLADES OF KHORNE INFANTRY or CAVALRY unit within this unit's combat range that is not in "
+            "combat to be the target. The target can move D6\" but cannot end that move in combat.")
+    assert mobility_kind(e, text) == "repositionnement"
+    assert mobility_kind(e, "This unit can move 6\" but cannot end that move in combat.") == "dégagement"
