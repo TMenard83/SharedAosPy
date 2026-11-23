@@ -70,3 +70,21 @@ def test_random_burst_floor_is_below_its_mean():
     many = mortal_pmf("Roll 10 dice. For each 4+, inflict 1 mortal damage on the target.")
     assert smooth_floor(burst, 0.75) < 0.5 * 5 / 3  # rafale aléatoire : fort rabais
     assert smooth_floor(many, 0.75) > 0.75 * 5.0  # beaucoup de dés : proche de la moyenne
+
+
+def test_enemy_branch_of_friend_or_foe_target():
+    """Cible amie ou ennemie au choix : seule la branche ennemie compte (Invocation of Nagash)."""
+    from aospy.analysis.layers.mortals import expected_mortals
+
+    text = (
+        "If the target is an enemy unit, inflict D3 mortal damage on it. If the target is a friendly DEATH unit, "
+        "pick 1 of the following effects: - Return a number of slain models to the target unit. - The target has "
+        "WARD (5+) until the start of your next turn."
+    )
+    assert expected_mortals(text) == pytest.approx(2.0)
+    gifts = (
+        "If the target is a friendly unit, add 2\" to its Move characteristic until the start of your next turn. "
+        "If the target is an enemy unit, inflict X mortal damage on it, then Heal (X) this unit. X is equal to the "
+        "number of models in this unit."
+    )
+    assert expected_mortals(gifts, own_models=3) == pytest.approx(3.0)

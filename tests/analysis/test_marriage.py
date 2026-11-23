@@ -188,7 +188,7 @@ def test_marriage_combines_grid_factors_and_keeps_bearing():
     assert m.marriage == pytest.approx(0.5 * FACTOR_BOUNDS[1] * 1.2)
     # famille hors grille : A et R ignorés
     d = marriage_of(
-        u, [_eff()], "soin", "one_friendly", 12, "unlimited", 1.0, (0.0, 0.0), "yours", amplification=3.0, role=1.4
+        u, [_eff()], "autre", "one_friendly", 12, "unlimited", 1.0, (0.0, 0.0), "yours", amplification=3.0, role=1.4
     )
     assert d.marriage == pytest.approx(d.bearing)
 
@@ -324,3 +324,193 @@ def test_direct_damage_at_contact_and_retaliation():
     assert w.exposure == "longue" and w.p_trigger == 1.0 and w.role_fit == pytest.approx(0.7)
     far = marriage_of(u, [_dd()], "degats-directs", "one_enemy", 18, "unlimited", 1.0, (0.0, 0.0), "yours")
     assert far.marriage == pytest.approx(far.bearing) and far.p_trigger == 1.0
+
+
+# ----- grille mobilité (réponses utilisateur du 2026-11-23, toutes = propositions) ------------------------------
+
+
+def _mob(kind="move", stat="", value=0.0, detail="", requires=""):
+    # (kind, requires, target_condition, target_keywords, duration, weapon_scope, stat, family, value, detail)
+    return (kind, requires, "", "", "immédiat", "", stat, "mobilite", value, detail)
+
+
+def test_in_combat_without_weapon_scope_is_weighted():
+    """« au combat » n'est gratuit que pour un effet sur des armes de mêlée ; sans portée d'arme (Share The Pain,
+    « If this unit is in combat, it can move 3" ») il se paie P(au combat) — all() vide valait vrai."""
+    from aospy.analysis.layers.marriage import P_IN_COMBAT_MELEE
+
+    u = _unit(5, health=1, models=10, hero=False)
+    m = marriage_of(u, [_mob(requires="au combat")], "mobilite", "self", None, "unlimited", 1.0, (0.0, 0.0), "any")
+    assert m.p_trigger == pytest.approx(P_IN_COMBAT_MELEE) and m.exposure == "contact"
+    buff = marriage_of(
+        u, [_eff()[:1] + ("au combat",) + _eff()[2:]], "buff-perso-offensif", "self", None, "unlimited", 1.0,
+        (0.0, 0.0), "any",
+    )
+    assert buff.p_trigger == 1.0  # buff de mêlée : il ne joue de toute façon qu'au combat
+
+
+def test_mobility_kind():
+    from aospy.analysis.layers.marriage import (
+        MOBILITY_DISENGAGE,
+        MOBILITY_ENGAGE,
+        MOBILITY_REPOSITION,
+        mobility_kind,
+    )
+
+    assert mobility_kind([_mob("dice_count", "charge", 1.0, "somme")]) == MOBILITY_ENGAGE  # Inescapable Wrath
+    assert mobility_kind([_mob("deep_strike")], "Set up this unit in reserve.") == MOBILITY_REPOSITION
+    assert mobility_kind([_mob("extra_move", requires="au combat")], "use the 'Retreat' ability") == MOBILITY_DISENGAGE
+    # Strike and Fade : se retirer après avoir chargé
+    assert mobility_kind([_mob("redeploy", requires="a chargé")], "set it up again more than 9\"") == MOBILITY_DISENGAGE
+    # « has not used a RUN or RETREAT ability » n'est pas un dégagement (Merciless Ambush)
+    text = "If this unit has not used a RUN or RETREAT ability this turn … set it up again within ½\" of an enemy unit"
+    assert mobility_kind([_mob("redeploy")], text) == MOBILITY_REPOSITION
+    assert mobility_kind([_mob()], "It must end that move in combat.") == MOBILITY_ENGAGE
+
+
+def test_charge_gain_favours_slow_chassis():
+    """Gain relatif A : +1 dé de charge rapporte beaucoup à Skarbrand (8"), presque rien aux Prosecutors (12" + vol)."""
+    from aospy.analysis.layers.marriage import MobilityReference, charge_gain, mobility_amplification
+
+    aid = (0.0, False, "3d6")
+    slow, fast = _unit(8), _unit(12, fly=True)
+    assert charge_gain(slow, aid) > 0.2 > 0.02 > charge_gain(fast, aid)
+    ref = MobilityReference([_unit(m) for m in (8, 10, 10, 12, 12)])  # médiane : 10"
+    e = [_mob("dice_count", "charge", 1.0, "somme")]
+    assert mobility_amplification(slow, e, "engagement", ref) > 1 > mobility_amplification(fast, e, "engagement", ref)
+    # réserve / téléportation : allonge médiane ÷ allonge du porteur
+    assert mobility_amplification(_unit(4), [_mob("deep_strike")], "repositionnement", ref) == pytest.approx(10 / 4)
+    assert mobility_amplification(slow, [_mob("free_retreat")], "dégagement", ref) is None
+
+
+def test_mobility_role_fit():
+    """R : engagement = 0,5 + rang off. ; dégagement = 0,5 + max(rang off., 1 − rang déf.)."""
+    from aospy.analysis.layers.marriage import mobility_role_fit
+
+    lo, hi = FACTOR_BOUNDS
+    assert mobility_role_fit("engagement", ChassisProfile(off_rank=1.0)) == hi  # Loonsmasha Fanatics
+    assert mobility_role_fit("repositionnement", ChassisProfile(off_rank=0.03)) == pytest.approx(0.53)
+    furies = ChassisProfile(off_rank=0.39, def_rank=0.04)
+    assert mobility_role_fit("dégagement", furies) == pytest.approx(1.46)
+    assert mobility_role_fit("dégagement", ChassisProfile(off_rank=0.08, def_rank=0.71)) == pytest.approx(0.79)
+
+
+def test_personal_mobility_marriage():
+    """Mobilité perso : exposition d'un buff perso, A et R de la grille, F neutre ; donnée : le porteur suit."""
+    from aospy.analysis.layers.marriage import MobilityReference
+
+    u = _unit(8, health=10, hero=False)
+    ref = MobilityReference([_unit(m) for m in (10, 10, 12, 12, 14)])
+    prof = ChassisProfile(off_rank=0.84, def_rank=0.45)
+    e = [_mob("dice_count", "charge", 1.0, "somme")]
+    m = marriage_of(u, e, "mobilite", "self", None, "passive", 1.0, (0.0, 0.0), "any", chassis_profile=prof,
+                    mobility_ref=ref)
+    assert m.exposure == "contact" and m.tempo == 1.0
+    assert m.role_fit == pytest.approx(1.34) and m.amplification > 1.0
+    assert marriage_of(u, e, "mobilite", "self", None, "passive", 0.0, (0.0, 0.0), "any").exposure == "longue"
+    # mobilité donnée (bulle de +1 à la charge) : règle des buffs donnés, A neutre
+    lo, _ = FACTOR_BOUNDS
+    assert role_fit("mobilite", ChassisProfile(reach=7.5), 18.5) == lo
+    g = marriage_of(u, e, "mobilite", "friendly_aura", 12, "passive", 1.0, (0.0, 0.0), "any", role=0.66,
+                    chassis_profile=prof, mobility_ref=ref)
+    assert g.amplification == 1.0 and g.role_fit == pytest.approx(0.66)
+
+
+# ----- soins (v36, réponses utilisateur du 2026-11-23) ---------------------------------------------------------
+
+
+def _heal(kind="heal", value=2.0, requires="", detail="", scope=""):
+    return (kind, requires, "", "", "immédiat", scope, "", "soin", value, detail)
+
+
+def test_heal_points_follow_the_healing_rules():
+    """Un soin ne retire que les dégâts de la figurine entamée : nul à 1 PV par figurine, plafonné à PV − 1 ;
+    un retour de figurines vaut N × PV, nul sur une figurine unique."""
+    from aospy.analysis.layers.marriage import heal_points
+
+    assert heal_points(_unit(5, health=14), [_heal(value=3.5)]) == 3.5
+    assert heal_points(_unit(5, health=1, models=20, hero=False), [_heal(value=3.5)]) == 0.0
+    assert heal_points(_unit(5, health=3, models=5, hero=False), [_heal(value=3.5)]) == 2.0
+    assert heal_points(_unit(5, health=2, models=10, hero=False), [_heal("return_models", 2.0)]) == 4.0
+    assert heal_points(_unit(5, health=14), [_heal("return_models", 1.0)]) == 0.0
+    assert heal_points(_unit(5, health=14), [_heal(value=0.0)]) is None  # « Heal (X) »
+
+
+def test_heal_uses_per_round():
+    from aospy.analysis.layers.marriage import heal_uses_per_round
+
+    assert heal_uses_per_round("unlimited", "any") == 2  # fin de chaque tour
+    assert heal_uses_per_round("unlimited", "yours") == 1  # sa phase des héros
+    assert heal_uses_per_round("once_per_battle", "any") is None
+
+
+def test_heal_survival_gain():
+    """A d'un soin sur soi : rounds de survie gagnés sous la pression de S ; rien sur des figurines à 1 PV."""
+    from aospy.analysis.layers.marriage import heal_survival_gain
+
+    big = _unit(5, health=15)
+    g_small = heal_survival_gain(big, [_heal(value=2.0)], "unlimited", "any", (7.0, 0.0), "contact")
+    g_big = heal_survival_gain(big, [_heal(value=3.5)], "unlimited", "any", (7.0, 0.0), "contact")
+    assert 0 < g_small < g_big
+    horde = _unit(5, health=1, models=20, hero=False)
+    assert heal_survival_gain(horde, [_heal(value=3.5)], "unlimited", "any", (4.0, 0.0), "contact") == 0.0
+
+
+def test_self_heal_marriage():
+    """Soin sur soi : exposition d'un buff perso, A = gain ÷ référence, R règle du buff défensif ; « au combat »
+    (soin après ses attaques de mêlée) se paie P(au combat), même avec une portée d'arme « melee »."""
+    from aospy.analysis.layers.marriage import P_IN_COMBAT_MELEE
+
+    u = _unit(5, health=15)
+    prof = ChassisProfile(off_rank=0.3, def_rank=0.9, share_melee=1.0)
+    m = marriage_of(u, [_heal(value=2.0)], "soin", "self", None, "unlimited", 1.0, (4.0, 0.0), "any",
+                    chassis_profile=prof, heal_ref=0.5)
+    assert m.exposure == "contact" and m.tempo == 1.0
+    assert m.role_fit == pytest.approx(1.45) and m.amplification == FACTOR_BOUNDS[1]
+    fight = marriage_of(u, [_heal(value=2.0, requires="au combat", scope="melee")], "soin", "self", None,
+                        "unlimited", 1.0, (4.0, 0.0), "any", chassis_profile=prof, heal_ref=0.5)
+    assert fight.p_trigger == pytest.approx(P_IN_COMBAT_MELEE)
+
+
+def test_given_heal_in_combat_range_of_an_ally_is_not_contact():
+    """Mobile Repairs : soigner un allié « within this unit's combat range » colle le porteur à son allié, pas à
+    l'ennemi ; soin donné : R = le porteur suit-il ses receveurs."""
+    u = _unit(4, health=5)
+    m = marriage_of(u, [_heal(value=3.0)], "soin", "one_friendly", 1, "unlimited", 1.0, (1.0, 1.0), "yours",
+                    role=role_fit("soin", ChassisProfile(reach=7.5), 15.0))
+    assert m.exposure == "courte" and m.role_fit == pytest.approx(0.5)
+
+
+# ----- contrôle (v36, réponses utilisateur du 2026-11-23) -----------------------------------------------------
+
+
+def _ctl(value=3.0, requires=""):
+    return ("stat_mod", requires, "", "", "permanent", "", "control", "controle", value, "utilitaire")
+
+
+def test_control_reference_measures_tipping_objectives():
+    """A : P(l'emporter sur une charte au hasard) gagnée — un bonus qui fait basculer un petit score vaut plus."""
+    from aospy.analysis.layers.marriage import ControlReference
+
+    ref = ControlReference([1, 2, 2, 5, 5, 5, 10, 10, 20])
+    assert ref.p_win(5) == pytest.approx((3 + 1.5) / 9)
+    small = _unit(5, health=1, models=3, hero=False)  # contrôle 3 × 1
+    big = _unit(5, health=1, models=25, hero=False)  # gagne déjà contre tout
+    assert ref.gain(small, 3) > ref.gain(big, 3) == 0.0
+
+
+def test_personal_control_marriage():
+    """Contrôle sur soi : toujours au contact ; A = gain ÷ médiane ; R = 0,5 + moyenne(rang de contrôle, rang déf.).
+    « You control the target objective » (scope battlefield) n'est pas tenu par une unité."""
+    from aospy.analysis.layers.marriage import ControlReference
+
+    ref = ControlReference([1, 2, 2, 5, 5, 5, 10, 10, 20], gain_median=0.2)
+    u = _unit(5, health=1, models=3, hero=False)
+    prof = ChassisProfile(def_rank=0.9, share_melee=0.0)
+    m = marriage_of(u, [_ctl(10.0)], "controle", "self", None, "passive", 0.0, (1.0, 1.0), "any",
+                    chassis_profile=prof, control_ref=ref)
+    assert m.exposure == "contact" and m.amplification == FACTOR_BOUNDS[1]
+    assert m.role_fit == pytest.approx(0.5 + (ref.p_win(3) + 0.9) / 2)
+    flip = marriage_of(u, [("control", "", "", "", "", "", "", "controle", 0.0, "")], "controle", "battlefield",
+                       None, "once_per_battle_army", 0.0, (1.0, 1.0), "any", control_ref=ref)
+    assert flip.exposure == "longue"

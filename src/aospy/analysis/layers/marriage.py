@@ -29,6 +29,9 @@ Débuffs (2026-11-22, réponses utilisateur) : D × P(au combat) au contact, F r
 polarité du débuff, R selon qui en profite (rang défensif / offensif au contact, neutre à distance), A neutre.
 Dégâts directs (2026-11-22, réponses utilisateur) : D × P(au combat) au contact, survol par l'allonge, riposte au
 contact avec R = 0,5 + rang défensif, BM sur ses attaques jugées comme un buff offensif perso ; F et A neutres.
+Mobilité (2026-11-23, réponses utilisateur) : mobilité perso exposée comme un buff perso, R = 0,5 + rang offensif
+(dégagement : max(rang off., fragilité)), A = gain relatif (P(charge) gagnée, sinon allonge) ; donnée : le porteur suit
+ses receveurs ; F neutre.
 Les autres familles restent neutres (A = R = F = 1) : critères proposés dans analysis/README.md.
 
 **Toutes les constantes ci-dessous sont des hypothèses de travail à challenger** (règle utilisateur :
@@ -37,6 +40,7 @@ signaler les classements contre-intuitifs et proposer de les réviser).
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from typing import Optional
 
@@ -384,7 +388,13 @@ BUFF_FAMILIES = ("buff-perso-offensif", "buff-perso-defensif", "buff-donne")
 #: Débuffs (2026-11-22, réponses utilisateur) :
 #: D × P(au combat) au contact, F règle des buffs selon la polarité, R selon qui en profite ; A neutre
 #: (débuffs non traduits par le moteur).
-GRID_FAMILIES = (*BUFF_FAMILIES, "debuff", "degats-directs")
+#: Soins (v36, réponses utilisateur du 2026-11-23) : soin sur soi exposé comme un buff perso, A = rounds de survie
+#: gagnés (`heal_survival_gain`) ÷ gain médian, R règle du buff défensif ; soin/Rally donné : R règle des buffs
+#: donnés, A neutre ; soin déclenché par le combat : D × P(au combat), cible à éliminer listée en « bon cas ».
+#: Contrôle (v36, réponses utilisateur du 2026-11-23) : contrôle sur soi toujours au contact (un objectif tenu se fait
+#: frapper), A = P(l'emporter sur une unité ennemie au hasard) gagnée ÷ gain médian, R = 0,5 + moyenne(rang du score
+#: de contrôle, rang défensif) ; contrôle donné : R règle des buffs donnés, A neutre ; contrôle ennemi = débuff.
+GRID_FAMILIES = (*BUFF_FAMILIES, "debuff", "degats-directs", "mobilite", "soin", "controle")
 #: Polarité de la frise (`timeline.relevance`) par famille notée.
 FAMILY_POLARITY = {"buff-perso-offensif": "off", "buff-perso-defensif": "def", "buff-donne": "autre"}
 #: Durées courtes dont la fenêtre peut manquer une partie de ce que fait le châssis ; la durée « idéale » de
@@ -464,6 +474,284 @@ def direct_damage_role_fit(requires: str, prof: ChassisProfile) -> float:
     return 1.0
 
 
+# ----- mobilité (2026-11-23, réponses utilisateur, toutes = propositions) ----------------------------------
+#
+# Mobilité du porteur lui-même : exposition d'un buff perso (il va là où il se bat), puis selon le sous-type —
+# * engagement / repositionnement (aide à la charge, réserve, téléportation, mouvement en plus) : R = 0,5 + rang
+#   offensif (« ce que fait le châssis en arrivant ») ; A = gain relatif — P(charge) gagnée sur ce châssis ÷ la
+#   médiane de la même aide sur tous les châssis, sinon allonge médiane ÷ allonge du porteur (un lent gagne plus) ;
+# * dégagement (retraite, bouger après avoir tiré, se retirer après avoir chargé) : R = 0,5 + max(rang offensif,
+#   1 − rang défensif) — il recharge (marteau) ou il survit (fragile) ; A neutre.
+# Mobilité donnée : règle des buffs donnés (le porteur suit ses receveurs), sauf au déploiement ; A neutre.
+# F neutre (un mouvement est instantané).
+
+MOBILITY_ENGAGE, MOBILITY_DISENGAGE, MOBILITY_REPOSITION = "engagement", "dégagement", "repositionnement"
+_DISENGAGE_KINDS = {"free_retreat", "run_and_shoot"}
+_DISENGAGE_TEXT = re.compile(
+    r"cannot (?:end (?:that|the) move in combat|move into combat)|"
+    r"\buse (?:a|the) (?:RETREAT|'Retreat') ability|'Retreat' ability as if",
+    re.I,
+)
+_ENGAGE_TEXT = re.compile(
+    r"must end (?:that|the) (?:charge )?move (?:in combat|within (?:½|1/2|1)\")|can (?:move|end that move) into combat|"
+    r"\bin combat with (?:the target|that enemy unit)\b|\bthis unit has charged\b|can be set up in combat|"
+    r"set (?:it|this unit) up again within 1\" of the target",
+    re.I,
+)
+_AFTER_KILL = re.compile(r"\bmodels? (?:were|was) slain (?:this turn )?by this unit", re.I)
+_MOVE_KINDS = {"move", "redeploy", "deep_strike", "extra_move", "fly", "pile_in"}
+
+
+def _charge_aid(e_list: list[tuple]) -> Optional[tuple[float, bool, str]]:
+    """(bonus, relance complète, mode de dés) d'une aide à la charge lue dans les effets, sinon None.
+
+    Index 0 kind, 6 stat, 8 value, 9 detail (`load_effects`). « Course + charge » = la course (`RUN_MEAN`) en bonus."""
+    bonus, reroll, dice = 0.0, False, "2d6"
+    for e in e_list:
+        kind, stat = e[0], e[6]
+        value = e[8] if len(e) > 8 else 0.0
+        detail = e[9] if len(e) > 9 else ""
+        if kind == "stat_mod" and stat == "charge" and value > 0:
+            bonus += value
+        elif kind == "dice_count" and stat == "charge" and value > 0:
+            dice = {"somme": "3d6", "garder": "3k2", "max": "max"}.get(detail, "3d6")
+        elif kind == "reroll" and stat == "charge" and value >= 1:
+            reroll = True
+        elif kind == "run_and_charge":
+            bonus += RUN_MEAN
+    return (bonus, reroll, dice) if bonus or reroll or dice != "2d6" else None
+
+
+def mobility_kind(e_list: list[tuple], text: str = "") -> str:
+    """Sous-type d'une mobilité : engagement, dégagement ou repositionnement (effets + texte de l'aptitude)."""
+    kinds = {e[0] for e in e_list}
+    if _charge_aid(e_list) or "pile_in" in kinds:
+        return MOBILITY_ENGAGE
+    details = " ".join(e[9] for e in e_list if len(e) > 9 and e[9])
+    if kinds & _DISENGAGE_KINDS or "RETREAT" in details.upper() or _DISENGAGE_TEXT.search(text):
+        return MOBILITY_DISENGAGE
+    if _ENGAGE_TEXT.search(text) or any("au combat" in e[1] for e in e_list):
+        return MOBILITY_ENGAGE
+    # bouger / se téléporter après avoir chargé ou tué (Strike and Fade, Sudden Translocation) : frapper et partir
+    if kinds & _MOVE_KINDS and (any("a chargé" in e[1] for e in e_list) or _AFTER_KILL.search(text)):
+        return MOBILITY_DISENGAGE
+    return MOBILITY_REPOSITION
+
+
+def charge_gain(unit: Unit, aid: tuple[float, bool, str]) -> float:
+    """Gain de P(charge) qu'apporte l'aide sur ce châssis, moyenne pondérée des rounds (écart 18" puis 14")."""
+    from .assault import p_roll
+
+    bonus, reroll, dice = aid
+    tot = 0.0
+    for r in range(1, 6):
+        need = (ENGAGE_GAP_ROUND1 if r == 1 else ENGAGE_GAP) - reach(unit)
+        tot += ROUND_WEIGHTS[r - 1] * (p_roll(need, bonus, reroll, dice) - p_roll(need))
+    return tot / sum(ROUND_WEIGHTS)
+
+
+@dataclass
+class MobilityReference:
+    """Références du gain relatif A : allonge médiane des châssis ; gain médian de P(charge) des porteurs d'une aide
+    à la charge (`charge_reference`, toutes aides confondues, +12 points en 2026-27 : règle présentée à l'utilisateur
+    et validée le 2026-11-23). Sans elle, repli sur la médiane de la même aide sur tous les châssis."""
+
+    units: list[Unit]
+    median_reach: float = 8.0
+    charge_reference: Optional[float] = None
+    _charge: dict = None  # type: ignore[assignment]
+
+    def __post_init__(self) -> None:
+        reaches = sorted(reach(u) for u in self.units)
+        if reaches:
+            self.median_reach = reaches[len(reaches) // 2]
+        self._charge = {}
+
+    def charge_median(self, aid: tuple[float, bool, str]) -> float:
+        if self.charge_reference:
+            return self.charge_reference
+        if aid not in self._charge:
+            gains = sorted(g for g in (charge_gain(u, aid) for u in self.units) if g > 0)
+            self._charge[aid] = gains[len(gains) // 2] if gains else 0.0
+        return self._charge[aid]
+
+
+def bearer_charge_reference(con, units: dict, effs: dict[str, list[tuple]]) -> Optional[float]:
+    """Gain médian (> 0) de P(charge) sur leurs porteurs des aptitudes de charte de mobilité qui aident la charge."""
+    gains = []
+    for fac, owner, uid in con.execute(
+        """SELECT DISTINCT o.faction_name, lower(o.owner_name), a.uid
+           FROM ability_owner o JOIN ability a ON a.uid = o.ability_uid
+           WHERE o.owner_kind = 'warscroll' AND a.family = 'mobilite'"""
+    ).fetchall():
+        u, aid = units.get((fac, owner)), _charge_aid(effs.get(uid, []))
+        if u is not None and aid:
+            g = charge_gain(u, aid)
+            if g > 0:
+                gains.append(g)
+    gains.sort()
+    return gains[len(gains) // 2] if gains else None
+
+
+def mobility_amplification(unit: Unit, e_list: list[tuple], kind: str, ref: MobilityReference) -> Optional[float]:
+    """A brut d'une mobilité perso (None = neutre : dégagement, référence absente)."""
+    if kind == MOBILITY_DISENGAGE:
+        return None
+    aid = _charge_aid(e_list)
+    if aid:
+        med = ref.charge_median(aid)
+        return charge_gain(unit, aid) / med if med > 0 else None
+    r = reach(unit)
+    return ref.median_reach / r if r > 0 else None
+
+
+def mobility_role_fit(kind: str, prof: ChassisProfile) -> float:
+    """R d'une mobilité perso : 0,5 + rang offensif ; dégagement : 0,5 + max(rang off., 1 − rang déf.)."""
+    if prof.off_rank is None:
+        return 1.0
+    if kind == MOBILITY_DISENGAGE and prof.def_rank is not None:
+        return _bound(0.5 + max(prof.off_rank, 1.0 - prof.def_rank))
+    return _bound(0.5 + prof.off_rank)
+
+
+#: Prérequis qui imposent déjà le contact (`exposure_of`).
+_CONTACT_REQS = ("au combat", "a chargé", RETALIATION)
+
+
+def _personal_mobility(scope: str, rng: Optional[int]) -> bool:
+    """Mobilité du porteur lui-même (pas donnée à une autre unité) ; une cible ennemie est sa destination
+    (Drawn By Blood, Terminate Their Command : se poser au contact d'un héros ennemi)."""
+    return scope in ("self", "one_enemy", "enemy_aura", "all_enemies") or (scope == "unknown" and rng is None)
+
+
+# ----- soins (v36) -------------------------------------------------------------------------------------------
+
+_HEAL_KINDS = ("heal", "return_models")
+
+
+def _self_heal(scope: str, rng: Optional[int]) -> bool:
+    """Soin du porteur lui-même (pas donné à une autre unité)."""
+    return scope == "self" or (scope == "unknown" and rng is None)
+
+
+def heal_points(unit: Unit, e_list: list[tuple]) -> Optional[float]:
+    """Points de vie rendus par usage sur CE châssis (meilleure option), None si non chiffré (« Heal (X) »).
+
+    Règle de jeu : un soin ne retire que les dégâts de la figurine entamée — nul sur des figurines à 1 PV,
+    plafonné à PV − 1 sur une unité de plusieurs figurines ; un retour de figurines vaut N × PV de la
+    figurine, nul sur une figurine unique (une unité détruite ne revient pas)."""
+    best: Optional[float] = None
+    for e in e_list:
+        if e[0] not in _HEAL_KINDS or not e[8] or e[9] == "bonus aux soins":
+            continue
+        if e[0] == "heal":
+            v = e[8] if unit.models == 1 else (0.0 if unit.health <= 1 else min(e[8], unit.health - 1))
+        else:
+            v = 0.0 if unit.models == 1 else e[8] * unit.health
+        best = v if best is None else max(best, v)
+    return best
+
+
+def heal_uses_per_round(frequency: str, turn_side: str) -> Optional[int]:
+    """Usages par round : 2 pour « chaque tour » (fin/début de chaque tour, chaque phase des héros), 1 pour son seul
+    tour ou un passif ; None pour une fois par bataille (jouée une fois, au round 2)."""
+    if (frequency or "").startswith("once_per_battle"):
+        return None
+    if (frequency or "") == "passive":
+        return 1
+    return 2 if (turn_side or "any") == "any" else 1
+
+
+def _rounds_alive_healed(hp: float, dmg: float, heal_per_round: float, once: bool = False) -> float:
+    """Rounds de survie (`alive_profile`) quand le porteur se soigne de `heal_per_round` après chaque round
+    survécu (une seule fois, au round 2, si `once`), sans jamais retirer plus que les dégâts subis."""
+    taken, total = 0.0, 0.0
+    for r in range(1, 6):
+        d = dmg * ATTACKERS_PER_ROUND[r - 1]
+        left = hp - taken
+        total += 1.0 if d <= 0 else max(0.0, min(1.0, left / d))
+        taken += d
+        if taken >= hp:
+            break
+        if not once or r == 2:
+            taken = max(0.0, taken - heal_per_round)
+    return total
+
+
+def heal_survival_gain(
+    unit: Unit, e_list: list[tuple], frequency: str, turn_side: str, incoming: tuple[float, float], exposure: str
+) -> Optional[float]:
+    """Gain relatif de rounds de survie qu'apporte le soin sur soi (0 = rien, 1 = deux fois plus de rounds),
+    sous la même pression que S (`damage_per_round`, `ATTACKERS_PER_ROUND`) ; None si non chiffré."""
+    pts = heal_points(unit, e_list)
+    if pts is None:
+        return None
+    uses = heal_uses_per_round(frequency, turn_side)
+    hp = unit.health * unit.models
+    dmg = damage_per_round(incoming[0], incoming[1], exposure)
+    base = _rounds_alive_healed(hp, dmg, 0.0)
+    if base <= 0:
+        return 0.0
+    return _rounds_alive_healed(hp, dmg, pts * (uses or 1), once=uses is None) / base - 1.0
+
+
+def positive_median(gains: list[float]) -> Optional[float]:
+    """Médiane des gains strictement positifs : la référence de A (soins sur soi, contrôle sur soi)."""
+    pos = sorted(g for g in gains if g and g > 0)
+    if not pos:
+        return None
+    n = len(pos)
+    return pos[n // 2] if n % 2 else (pos[n // 2 - 1] + pos[n // 2]) / 2
+
+
+# ----- contrôle (v36) -----------------------------------------------------------------------------------------
+
+_GIVEN_SCOPES = ("one_friendly", "friendly_aura", "army")
+
+
+def _personal_control(scope: str) -> bool:
+    """Contrôle du porteur lui-même (pas donné) ; « For each enemy unit … this unit gains » (Annelid Engorgement,
+    lu `all_enemies`) reste personnel."""
+    return scope not in (*_GIVEN_SCOPES, "battlefield")  # « You control the target objective » : aucune unité ne tient
+
+
+def control_bonus(e_list: list[tuple]) -> Optional[float]:
+    """Bonus de score de contrôle ami (meilleure option), None si non chiffré."""
+    vals = [e[8] for e in e_list if e[0] == "stat_mod" and e[6] == "control" and e[8] and e[8] > 0]
+    return max(vals) if vals else None
+
+
+@dataclass
+class ControlReference:
+    """Scores de contrôle (figurines × Contrôle) de toutes les chartes : l'unité ennemie « au hasard » sur un
+    objectif, et la référence de A (gain médian des contrôles sur soi)."""
+
+    scores: list[float]
+    gain_median: Optional[float] = None
+
+    def __post_init__(self) -> None:
+        self.scores = sorted(self.scores)
+
+    def p_win(self, score: float) -> float:
+        """P(score > celui d'une charte au hasard), égalité à moitié ; c'est aussi le rang centile du score."""
+        import bisect
+
+        if not self.scores:
+            return 0.5
+        lo, hi = bisect.bisect_left(self.scores, score), bisect.bisect_right(self.scores, score)
+        return (lo + 0.5 * (hi - lo)) / len(self.scores)
+
+    def gain(self, unit: Unit, bonus: float) -> float:
+        base = unit.models * unit.control
+        return self.p_win(base + bonus) - self.p_win(base)
+
+
+def control_role_fit(unit: Unit, prof: ChassisProfile, ref: ControlReference) -> float:
+    """R (réponse utilisateur) : tenir = nombre et durée → 0,5 + moyenne(rang du score de contrôle, rang défensif)."""
+    rank = ref.p_win(unit.models * unit.control)
+    return _bound(0.5 + (rank + (prof.def_rank if prof.def_rank is not None else 0.5)) / 2)
+
+
 def p_in_combat(share_melee: float) -> float:
     """P(le porteur est au combat) quand l'effet l'exige : mêmes constantes que les buffs « au combat »
     (réponse utilisateur 2026-11-22 pour les débuffs « une unité ennemie au combat avec cette unité »)."""
@@ -482,7 +770,7 @@ def effect_timing(family: str, e_list: list[tuple], bearer_share_melee: float) -
     (une protection sert surtout au tour adverse, un buff de tir à mon seul tour) ; les armes visées
     (`weapon_scope`) fixent la part de mêlée — tir → 0, mêlée → 1, sinon celle du porteur."""
     pol = FAMILY_POLARITY.get(family, "autre")
-    if family == "degats-directs":
+    if family in ("degats-directs", "mobilite", "soin", "controle"):
         return "", bearer_share_melee  # effet immédiat : pas de fenêtre à couvrir, F = 1
     if family == "debuff":
         dpol = debuff_polarity(e_list)
@@ -572,6 +860,37 @@ def receiver_reach(con) -> dict[str, float]:
     )
 
 
+def mobility_receiver_reach(con, family: str = "mobilite") -> dict[str, float]:
+    """ability_uid → allonge médiane (`unit_realized.reach_in`) des receveurs alliés d'une mobilité donnée.
+
+    Les mobilités (et les soins, `family="soin"`, v36) ne sont pas traduites par le moteur (pas de ligne
+    `ability_encounter`) : receveurs relus avec
+    `encounter.receivers` (restriction de cible amie de l'aptitude)."""
+    from ...persistence import repository
+    from .encounter import receivers
+
+    by_faction = {
+        army: [u for u in us if u.points > 0] for army, us in _units_by_army_name(con, repository).items()
+    }
+    vocab = frozenset(k for us in by_faction.values() for u in us for k in u.keywords)
+    reach_in = dict(con.execute("SELECT unit_id, reach_in FROM unit_realized WHERE reach_in IS NOT NULL").fetchall())
+    out: dict[str, float] = {}
+    for uid, source_kind, scope, ftarget, excl, owner, faction in con.execute(
+        """SELECT DISTINCT a.uid, a.source_kind, a.scope, coalesce(a.friendly_target, ''), a.excludes_self,
+                  o.owner_name, o.faction_name
+           FROM ability a JOIN ability_owner o ON o.ability_uid = a.uid
+           WHERE a.family = ? AND a.scope IN ('one_friendly', 'friendly_aura', 'army')
+             AND o.owner_kind = 'warscroll'""",
+        [family],
+    ).fetchall():
+        rc = receivers(source_kind, scope, "warscroll", owner, by_faction.get(faction, []), ftarget, vocab, bool(excl))
+        vals = sorted(reach_in[u.id] for u, rel in rc if rel == "allié" and u.id in reach_in)
+        if vals:
+            n = len(vals)
+            out[uid] = vals[n // 2] if n % 2 else (vals[n // 2 - 1] + vals[n // 2]) / 2
+    return out
+
+
 @dataclass(frozen=True)
 class ChassisProfile:
     """Ce que la grille lit du porteur : rangs centiles couche 3, part de mêlée, allonge."""
@@ -606,7 +925,8 @@ def role_fit(family: str, prof: ChassisProfile, receivers_reach: Optional[float]
         return _bound(0.5 + prof.off_rank)
     if family == "buff-perso-defensif" and prof.def_rank is not None:
         return _bound(0.5 + (prof.def_rank + min(max(prof.share_melee, 0.0), 1.0)) / 2)
-    if family == "buff-donne" and prof.reach and receivers_reach:
+    if family in ("buff-donne", "mobilite", "soin", "controle") and prof.reach and receivers_reach:
+        # mobilité donnée (v36, réponse utilisateur) : même règle ; la mobilité perso est jugée dans `marriage_of`
         return _bound(min(1.0, prof.reach / receivers_reach))
     return 1.0
 
@@ -628,14 +948,26 @@ class Marriage:
 
 
 def load_effects(con) -> dict[str, list[tuple]]:
-    """ability_uid → [(kind, requires, target_condition, target_keywords, duration, weapon_scope, stat, family)]."""
+    """ability_uid → [(kind, requires, target_condition, target_keywords, duration, weapon_scope, stat, family,
+    value, detail)] (value et detail : v36, aides à la charge de la grille mobilité)."""
     effs: dict[str, list[tuple]] = {}
-    for uid, kind, req, tcond, tkw, dur, wscope, stat, fam in con.execute(
-        "SELECT ability_uid, kind, requires, target_condition, target_keywords, duration, weapon_scope, stat, family "
-        "FROM ability_effect"
+    for uid, kind, req, tcond, tkw, dur, wscope, stat, fam, value, detail in con.execute(
+        "SELECT ability_uid, kind, requires, target_condition, target_keywords, duration, weapon_scope, stat, family, "
+        "value, detail FROM ability_effect"
     ).fetchall():
         effs.setdefault(uid, []).append(
-            (kind, req or "", tcond or "", tkw or "", dur or "", wscope or "", stat or "", fam or "")
+            (
+                kind,
+                req or "",
+                tcond or "",
+                tkw or "",
+                dur or "",
+                wscope or "",
+                stat or "",
+                fam or "",
+                value or 0.0,
+                detail or "",
+            )
         )
     return effs
 
@@ -653,6 +985,10 @@ def marriage_of(
     amplification: Optional[float] = None,
     role: float = 1.0,
     chassis_profile: Optional[ChassisProfile] = None,
+    text: str = "",
+    mobility_ref: Optional[MobilityReference] = None,
+    heal_ref: Optional[float] = None,
+    control_ref: Optional[ControlReference] = None,
 ) -> Marriage:
     """Mariage d'une aptitude (ses effets `load_effects`) portée par `u` : D × S × F × A × R.
 
@@ -666,7 +1002,11 @@ def marriage_of(
     conds += [f"vs {e[3]}" for e in e_list if e[3]]
     conds = list(dict.fromkeys(conds))
     kinds = {e[0] for e in e_list}
-    melee = bool(e_list) and all(e[5] == "melee" for e in e_list if e[5])
+    # « au combat » n'est gratuit que pour un effet sur les armes de mêlée ; sans aucune portée d'arme (Share The
+    # Pain, « If this unit is in combat, it can move 3" ») il se paie P(au combat) — all() vide valait vrai (v36)
+    scoped = [e for e in e_list if e[5]]
+    # v36 : un soin « après ses attaques de mêlée » ne vaut pas buff de mêlée : se battre se paie (P(au combat))
+    melee = bool(scoped) and all(e[5] == "melee" for e in scoped) and family != "soin"
     t = trigger(
         u,
         reqs,
@@ -676,8 +1016,27 @@ def marriage_of(
         kind="charge_bonus" if "charge_bonus" in kinds else "",
     )
     fam = family or "autre"
-    if fam in ("buff-perso-offensif", "buff-perso-defensif") or (fam == "degats-directs" and ON_OWN_ATTACKS in reqs):
+    if (
+        fam in ("buff-perso-offensif", "buff-perso-defensif")
+        or (fam == "degats-directs" and ON_OWN_ATTACKS in reqs)
+        or (fam == "mobilite" and _personal_mobility(scope, rng) and not any(c in reqs for c in _CONTACT_REQS))
+        or (fam == "soin" and _self_heal(scope, rng) and not any(c in reqs for c in _CONTACT_REQS))
+    ):
+        # mobilité du porteur lui-même (dés de charge, réserve, téléportation…) : il s'expose là où il va se battre,
+        # comme pour un buff perso — au contact pour une unité de mêlée, derrière un écran pour un tireur
         expo = "contact" if share_melee >= 0.5 else "longue"
+    elif (
+        fam == "soin"
+        and scope in ("one_friendly", "friendly_aura")
+        and rng is not None
+        and rng <= 3
+        and not any(c in reqs for c in _CONTACT_REQS)
+    ):
+        # v36 : soigner une unité AMIE au contact (Mobile Repairs : « within this unit's combat range ») colle le
+        # porteur à son allié, pas à l'ennemi
+        expo = "courte"
+    elif fam == "controle" and _personal_control(scope or ""):
+        expo = "contact"  # v36 (réponse utilisateur) : un objectif tenu se fait toujours frapper
     else:
         expo = exposure_of(scope or "", rng, reqs, fam, shoot_range(u))
     m_in, r_in = incoming
@@ -701,7 +1060,21 @@ def marriage_of(
     pol, sm_t = effect_timing(fam, e_list, share_melee)
     f = tempo(fam, freq or "", dur, turn_side or "any", sm_t, pol)
     a = _bound(amplification) if amplification is not None and fam in BUFF_FAMILIES else 1.0
-    if fam == "debuff":
+    if fam == "mobilite" and _personal_mobility(scope or "", rng):
+        mkind = mobility_kind(e_list, text)
+        raw = mobility_amplification(u, e_list, mkind, mobility_ref) if mobility_ref is not None else None
+        a = _bound(raw) if raw is not None else 1.0
+        r = mobility_role_fit(mkind, chassis_profile) if chassis_profile is not None else 1.0
+    elif fam == "soin" and _self_heal(scope or "", rng):
+        gain = heal_survival_gain(u, e_list, freq or "", turn_side or "any", incoming, expo)
+        a = _bound(gain / heal_ref) if gain is not None and heal_ref else 1.0
+        r = role_fit("buff-perso-defensif", chassis_profile) if chassis_profile is not None else 1.0
+    elif fam == "controle" and _personal_control(scope or "") and control_ref is not None:
+        bonus = control_bonus(e_list)
+        g = control_ref.gain(u, bonus) if bonus is not None else None
+        a = _bound(g / control_ref.gain_median) if g is not None and control_ref.gain_median else 1.0
+        r = control_role_fit(u, chassis_profile or ChassisProfile(), control_ref)
+    elif fam == "debuff":
         r = debuff_role_fit(pol, expo, chassis_profile) if chassis_profile is not None else 1.0
     elif fam == "degats-directs":
         r = direct_damage_role_fit(reqs, chassis_profile) if chassis_profile is not None else 1.0
@@ -745,22 +1118,30 @@ def build_marriage_rows(con) -> list[tuple]:
     amps = amplification_ratios(con)
     profiles = chassis_profiles(con)
     recv = receiver_reach(con)
+    recv.update(mobility_receiver_reach(con))
+    recv.update(mobility_receiver_reach(con, family="soin"))
+    recv.update(mobility_receiver_reach(con, family="controle"))
+    ctl_ref = ControlReference([u.models * u.control for u in units.values()])
+    mob_ref = MobilityReference(list(units.values()))
+    mob_ref.charge_reference = bearer_charge_reference(con, units, effs)
     abil = con.execute(
         """SELECT o.faction_name, lower(o.owner_name), a.uid, a.name, a.family, a.power, a.verdict, a.scope,
-                  a.range_inches, a.frequency, a.turn_side
+                  a.range_inches, a.frequency, a.turn_side,
+                  coalesce(a.declare_text, '') || ' ' || coalesce(a.effect_text, '')
            FROM ability_owner o JOIN ability a ON a.uid = o.ability_uid
            WHERE o.owner_kind = 'warscroll' AND a.source_kind NOT IN ('manifestation')"""
     ).fetchall()
     rows: list[tuple] = []
     seen: set[tuple[int, str]] = set()
-    for fac, owner, uid, name, family, power, verdict, scope, rng, freq, tside in abil:
+    calls = []
+    for fac, owner, uid, name, family, power, verdict, scope, rng, freq, tside, text in abil:
         u = units.get((fac, owner))
         if u is None or (u.id, uid) in seen:
             continue
         seen.add((u.id, uid))
         fam = family or "autre"
         prof = profiles.get(u.id, ChassisProfile(share_melee=chassis.get(u.id, 1.0)))
-        m = marriage_of(
+        args = (
             u,
             effs.get(uid, []),
             family or "autre",
@@ -770,10 +1151,32 @@ def build_marriage_rows(con) -> list[tuple]:
             chassis.get(u.id, 1.0),
             incoming.get(u.id, (0.0, 0.0)),
             tside or "any",
-            amplification=amps.get((u.id, uid)),
-            role=role_fit(fam, prof, recv.get(uid)),
-            chassis_profile=prof,
         )
+        kw = dict(
+            amplification=amps.get((u.id, uid)),
+            # mobilité donnée posée au déploiement (réserve, transport) : le porteur n'a pas à suivre (v36)
+            role=role_fit(fam, prof, None if fam == "mobilite" and tside == "deployment" else recv.get(uid)),
+            chassis_profile=prof,
+            text=text,
+            mobility_ref=mob_ref,
+        )
+        calls.append((uid, name, family, power, verdict, args, kw))
+    # v36 : référence de A des soins sur soi = gain de survie médian des soins sur leurs porteurs
+    heal_gains = []
+    for _uid, _n, family, _p, _v, args, kw in calls:
+        if family == "soin" and _self_heal(args[3], args[4]):
+            expo = marriage_of(*args, **kw).exposure
+            heal_gains.append(heal_survival_gain(args[0], args[1], args[5], args[8], args[7], expo))
+    heal_ref = positive_median([g for g in heal_gains if g is not None])
+    ctl_gains = [
+        ctl_ref.gain(args[0], b)
+        for _uid, _n, family, _p, _v, args, _kw in calls
+        if family == "controle" and _personal_control(args[3]) and (b := control_bonus(args[1])) is not None
+    ]
+    ctl_ref.gain_median = positive_median(ctl_gains)
+    for uid, name, family, power, verdict, args, kw in calls:
+        u = args[0]
+        m = marriage_of(*args, **kw, heal_ref=heal_ref, control_ref=ctl_ref)
         rows.append(
             (
                 u.id,

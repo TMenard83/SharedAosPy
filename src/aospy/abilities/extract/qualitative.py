@@ -11,9 +11,11 @@ _MORTAL_PER_ROLL = re.compile(
     r"[Ff]or each (?:\d\+|roll[^,]*|dice[^,]*),[^.]*?(?:inflict|allocate) (\d+) mortal damage"
 )
 _WARD_RE = re.compile(r"WARD \((\d)\+\)", re.I)
-_HEAL_RE = re.compile(r"\b[Hh]eal \(?(\d+|\d?D[36](?:\+\d)?|X)\)?")
+#: v36 : les dés avant les entiers (« Heal (2D6) » était lu 2) ; « would heal 1 or more » écarté dans effects.py
+_HEAL_RE = re.compile(r"\b[Hh]eal \(?(\d?D[36](?:\+\d)?|\d+|X)\)?")
 _RETURN_RE = re.compile(
-    r"\b[Rr]eturn (\d+|\d?D[36]|a number of|any number of|up to \d+)? ?(?:[^.]*?slain models?|slain\b)"
+    r"\b[Rr]eturn (\d?D[36]|\d+|a number of|any number of|up to \d?D[36]|up to \d+)? ?"
+    r"(?:[^.]*?slain models?|slain\b|(?<=D3 |D6 )models? to\b)"
 )
 _MOVE_RE = re.compile(
     r"can (?:immediately )?move (?:up to |a distance (?:in inches )?(?:up to |equal to )?(?:the value of )?)?(\d+|\d?D[36])?\"?"
@@ -88,7 +90,8 @@ QUALITATIVE_RULES: list[tuple[str, str, str]] = [
     # v21 : « ignore positive modifiers to save rolls for the target » (anti-buff ennemi)
     (
         r"(?:the target's|target's) (?:melee )?weapons have the Companion weapon ability|"  # v29
-        r"[Ii]gnore positive modifiers to (?:save|ward|hit|wound) rolls for (?:the target|that unit|those units|"
+        r"[Ii]gnore positive modifiers to (?:the target's control score and to )?(?:save|ward|hit|wound) rolls"
+        r"(?:,? (?:and )?(?:save|ward|hit|wound) rolls)* for (?:the target|that unit|those units|"
         r"enemy|each target)",
         "no_buff",
         "",
@@ -201,7 +204,7 @@ QUALITATIVE_RULES: list[tuple[str, str, str]] = [
     (r"[Ii]gnore (?:all )?negative (?:and positive )?modifiers", "ignore_debuff", ""),  # validé : 0,5
     (r"must target this unit", "taunt", ""),  # validé : 1,0
     # « that MOVE ability has no effect » : capacité ENNEMIE annulée (sur un jet, via le déclenchement)
-    (r"(?:FIGHT|MOVE|CHARGE|MOVE or CHARGE) ability has no effect", "restriction", ""),
+    (r"(?:FIGHT|MOVE|CHARGE|RETREAT|MOVE or CHARGE) ability has no effect", "restriction", ""),  # v36 : RETREAT
     (
         r"(?:command|RAMPAGE|command or RAMPAGE) ability has no effect|(?:that|the) command has no effect|"
         r"picked to use an ability, roll[^.]*\. On a \d\+, that ability has no effect",
@@ -232,7 +235,8 @@ QUALITATIVE_RULES: list[tuple[str, str, str]] = [
         # v34 : « If an ability would heal or return any slain models to the target unit, that ability does not
         # heal any damage points or return any slain models to it » (Seething Blight, Plague Progenitor, Rotigus)
         r"cannot be healed|cannot (?:have slain models|be) returned|[Mm]odels cannot be returned to enemy|"
-        r"does not heal(?: any damage points)? or return any slain models",
+        r"does not heal(?: any damage points)? or return any slain models|"
+        r"[Ss]ubtract \d+ from the number of damage points healed",
         "anti_heal",
         "",
     ),
@@ -273,7 +277,10 @@ QUALITATIVE_RULES: list[tuple[str, str, str]] = [
         "",
     ),
     (
-        r"cannot (?:use )?(?:CHARGE|charge|RUN|run|RETREAT|retreat|SHOOT|shoot|move|MOVE|be set up|contest)|"
+        # v36 : « cannot be removed from the battlefield by an ability that would allow it to be set up
+        # elsewhere » (Fetters of Blood, Snuggling Sickness, The Mirror's Depths) : interdiction de téléportation
+        r"cannot (?:use )?(?:CHARGE|charge|RUN|run|RETREAT|retreat|SHOOT|shoot|move|MOVE|be set up|contest|"
+        r"be removed from the battlefield)|"
         r"cannot (?:end|finish) a charge move",
         "restriction",
         "",
@@ -325,7 +332,8 @@ QUALITATIVE_RULES: list[tuple[str, str, str]] = [
     (r"(?<!effect of the )Charge \(\+1 (?:Damage|Rend|Attacks)\)(?! weapon ability has no effect)", "charge_bonus", ""),
     (r"pile-in move|pile in", "pile_in", ""),
     (
-        r"[Ss]ubtract \d+ from the number of (?:wounds|damage points)|damage points? (?:to|on) [^.]*?is reduced|"
+        r"[Ss]ubtract \d+ from the number of (?:wounds|damage points)(?! healed)|"
+        r"damage points? (?:to|on) [^.]*?is reduced|"
         r"allocate[^.]*? to (?:this|that|another) unit instead",
         "damage_redirect",
         "",

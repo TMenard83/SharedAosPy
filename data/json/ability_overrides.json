@@ -610,6 +610,16 @@
     "fiable"
    ],
    "note": "à la destruction d'une unité amie, sur 5+ (+1 par unité amie déjà détruite) une unité « festering » revient à 6\" : retour non lu ; revue B v34 (2026-11-22), cas isolé"
+  },
+  "c5fc1561235b": {
+   "name": "Awakening Slumbering Spirits",
+   "verdict": "correct",
+   "power": 1.5,
+   "add_tags": [
+    "buff-offensif"
+   ],
+   "remove_tags": [],
+   "note": "v36 : « Each time you make a casting roll for this unit, add D3 to the roll » non lu par l'analyseur (tournure unique) ; +D3 ≈ +2 au lancement pour le tour, contrepartie : ne peut ni bouger ni être téléporté (moi, 2026-11-23)"
   }
  }
 }

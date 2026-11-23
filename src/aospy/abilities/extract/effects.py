@@ -94,12 +94,24 @@ _SUBJ_SELF = re.compile(
     r"\b(?:[Tt]his (?:unit|model|terrain feature|MANIFESTATION)|[Yy]our general|"
     r"[Ff]riendly|[Tt]he Shrine Guardian|[Uu]nits in this Regiment)\b"
 )
-_SUBJ_PRONOUN = re.compile(r"\b(?:[Ii]t|[Tt]hey)\b")
+_SUBJ_PRONOUN = re.compile(r"\b(?:[Ii]t|[Tt]hey|[Tt]hat unit)\b")
+#: v36 : cible ami OU ennemi au choix, re-désignée ennemie dans le paragraphe (« If the target is an enemy unit,
+#: inflict X mortal damage on it », Gifts of Pain and Pleasure, Invocation of Nagash ; « If you picked an enemy
+#: unit to be the target, … inflict D3 mortal damage on the target », Jolly Gutpipes) : dégâts à l'ennemi.
+_ENEMY_REDESIGNATED = re.compile(r"\bIf (?:the target is an enemy\b|you picked an enemy\b)", re.I)
+#: v36 : « cannot move or be removed from the battlefield by an ability that would allow it to be set up
+#: again » (The Mirror's Depths, Awakening Slumbering Spirits), « Each time the target is removed from the
+#: battlefield and set up again » (Jolly Gutpipes, déclencheur) : ni téléportation ni réserve.
+_NOT_A_SETUP = re.compile(r"\bcannot\b[^.]*$|\b[Ee]ach time\b[^.]*\bis removed from the battlefield\b[^.]*$")
+#: v36 : « Your opponent must remove the target from the battlefield and set it up again in combat with this
+#: unit » (Shadow Lariat, DR AG 'EM OUT) : c'est l'ennemi qu'on déplace (débuff), pas une mobilité à nous.
+_ENEMY_MOVED = re.compile(r"\b[Yy]our opponent must remove (?:the target|that unit|it)\b[^.]*$")
 
 
 def _subject_side(full: str, pos: int, default_side: str) -> str:
     before = full[max(0, pos - 160) : pos]
-    clause = re.split(r"[.:;\n]|\bthen\b|, (?=[a-z])", before)[-1]
+    # v36 : « … and it cannot be removed » : un nouveau sujet pronom ouvre une proposition (The Mirror's Depths)
+    clause = re.split(r"[.:;\n]|\bthen\b|, (?=[a-z])| and (?=(?:it|they) )", before)[-1]
     if _SUBJ_ENEMY.search(clause):
         return "enemy"
     if _SUBJ_TARGET.search(clause):
@@ -112,8 +124,17 @@ def _subject_side(full: str, pos: int, default_side: str) -> str:
         sentence = re.split(r"[.:\n]", before)[-1]
         if _SUBJ_ENEMY.search(sentence):
             return "enemy"
+        if re.match(r"\s*(?:While|If) the target\b", sentence):
+            # v36 : « While the target is gazing into eternity, it must end … no further from this unit … and it
+            # cannot be removed » (The Mirror's Depths) : le pronom reprend la cible, pas « this unit »
+            return default_side
         if re.search(r"\b(?:[Tt]his (?:unit|model)|[Ff]riendly)\b", sentence):
             return "friendly"
+        # v36 : antécédent dans une phrase précédente de la même ligne d'option (« Mesmerise: Pick a visible
+        # enemy unit within 12" of this unit. Until …, that unit cannot use commands », Gobbapalooza)
+        line = full[full.rfind("\n", 0, pos) + 1 : pos]
+        if re.search(r"\b[Pp]ick (?:a|an|one|up to \d+)(?: visible)? enemy\b", line):
+            return "enemy"
         return default_side
     return ""
 
@@ -164,11 +185,14 @@ def effects_of(
         after = effect[m.start() : m.end() + 40]
         # v33 : « On a 1, inflict D3 mortal damage on the target » quand la cible déclarée est amie (Foul
         # Elixirs) : contrepartie, sauf re-désignation d'une cible ennemie entre-temps
-        target_us = bool(re.search(r"mortal damage on (?:this unit|it|that friendly)", after)) or (
-            friendly_declared
-            and bool(re.search(r"mortal damage on (?:the|each) target\b", after))
-            and not re.search(r"\b[Pp]ick\b[^.]*\benemy\b", effect[: m.start()])
-        )
+        target_us = (
+            bool(re.search(r"mortal damage on (?:this unit|it|that friendly)", after))
+            or (
+                friendly_declared
+                and bool(re.search(r"mortal damage on (?:the|each) target\b", after))
+                and not re.search(r"\b[Pp]ick\b[^.]*\benemy\b", effect[: m.start()])
+            )
+        ) and not _ENEMY_REDESIGNATED.search(effect[effect.rfind("\n", 0, m.start()) + 1 : m.start()])
         value = mean if mean is not None else rolled
         add(
             Effect(
@@ -248,8 +272,13 @@ def effects_of(
             m.start(),
         )
     for m in _HEAL_RE.finditer(effect):
+        if re.search(r"\bwould $", effect[max(0, m.start() - 6) : m.start()]):
+            continue  # v36 : « an ability that would heal 1 or more damage points » : déclencheur, pas un soin
         mean = dice_mean(m.group(1))
         add(Effect("heal", "", mean or 0.0, m.group(1) if "D" in m.group(1) else "", "friendly"), effect, m.start())
+    for m in re.finditer(r"\b[Aa]dd (\d+) to the number of damage points healed", effect):
+        # v36 : « add 1 to the number of damage points healed » (Polluting Aura) : +1 à chaque soin, côté ami
+        add(Effect("heal", "", float(m.group(1)), "", "friendly", "bonus aux soins"), effect, m.start())
     for m in _RETURN_RE.finditer(effect):
         # v34 : retour nié ou hypothétique (« would heal or return … does not heal … or return ») = anti-soin
         if re.search(
@@ -315,13 +344,28 @@ def effects_of(
                 and any(e.kind in ("move", "extra_move", "redeploy", "deep_strike") for e in out)
             ):
                 continue  # « It can move through the combat ranges » : modalité du mouvement, pas un effet en plus
-            side = default_side
+            if kind in ("redeploy", "deep_strike") and _NOT_A_SETUP.search(
+                full[max(0, full.rfind(". ", 0, m.start()), full.rfind("\n", 0, m.start())) : m.start()]
+            ):
+                continue  # v36 : interdiction ou déclencheur, pas une mise en place
+            side, detail_override = default_side, ""
             if kind in ("no_ward", "slay", "no_weapon_abilities", "no_crit", "no_buff"):
                 side = "enemy"
                 if kind == "slay" and re.search(
                     r"\bwould be automatically destroyed, it is not\b", full[max(0, m.start() - 120) : m.end() + 20]
                 ):
                     side = "friendly"  # v35 : protection contre l'élimination (Avatar of Destruction)
+                elif (
+                    kind == "slay"
+                    and friendly_declared
+                    and re.search(r"\bfriendly\b", declare)
+                    and not re.search(r"\benemy\b", declare)
+                    and re.search(
+                        r"\bmodels? in the (?:drained|target) unit\b", full[max(0, m.start() - 60) : m.start()]
+                    )
+                ):
+                    # v36 : figurines amies sacrifiées (Father of Necromancy) : un coût
+                    side, detail_override = "friendly", "auto-infligé"
                 if kind == "no_ward" and re.match(r"(?:it|this unit)\b", full[m.end() : m.end() + 12]) and re.search(
                     r"\bthis unit has [^.]*\bbut $", full[max(0, m.start() - 80) : m.start()]
                 ):
@@ -374,9 +418,24 @@ def effects_of(
                 "warscroll_rule",
             ):
                 side = "friendly"
+            if kind == "control" and m.group(0).startswith("control score"):
+                # v36 (grille contrôle) : « that enemy unit has a maximum control score of 1 », « Subtract … from the
+                # target's control score » sur une cible ennemie : débuff ; « This unit has a maximum control score
+                # of 1 » (Beast) : contrepartie sur sa propre unité
+                head = full[max(full.rfind(". ", 0, m.start()), full.rfind("\n", 0, m.start())) + 1 : m.start()]
+                # « Add … to this unit's control score » après une cible ennemie (Light A Pyre) : reste ami
+                ours = re.search(r"\b(?:this unit's|its) $", head)
+                if not ours and (default_side == "enemy" or re.search(r"\benemy\b", head)):
+                    side = "enemy"
+                elif re.search(r"\b(?:[Tt]his unit|[Ii]t) has a maximum $", head):
+                    detail_override = "contrepartie"
+            if kind == "redeploy" and _ENEMY_MOVED.search(full[max(0, m.start() - 40) : m.end()]):
+                side = "enemy"  # v36 : l'adversaire déplace SA cible (Shadow Lariat) : débuff
             if kind not in _WEAPON_KINDS and any(e.kind == kind and e.stat == stat and e.side == side for e in out):
                 break  # v28 : deux règles du même effet (ressource…) ne le doublent pas
-            add(Effect(kind, stat, 0.0, "", side, m.group(0)[:80]), full, m.start())
+            add(Effect(kind, stat, 0.0, "", side, detail_override or m.group(0)[:80]), full, m.start())
+            if detail_override == "contrepartie":
+                continue  # v36 : la contrepartie (« maximum control score of 1 ») ne cache pas l'option suivante
             break  # un même effet qualitatif compte une fois
 
     for kw in re.findall(r"\b(MONSTER|HERO|INFANTRY|CAVALRY|WIZARD|PRIEST|WAR MACHINE|MANIFESTATION)S?\b", declare):

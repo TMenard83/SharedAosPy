@@ -148,13 +148,19 @@ def effect_family(e: Effect, scope: str) -> str:
         return "degats-directs" if side == "enemy" else "autre"
     if k == "slay":
         # v35 : « If this unit would be automatically destroyed, it is not » : protection du porteur
+        if side == "friendly" and e.detail == "auto-infligé":
+            return "autre"  # v36 : figurines amies sacrifiées (Father of Necromancy) : un coût
         return "degats-directs" if side == "enemy" else "buff-perso-defensif"
     if k == "no_buff":  # v21 : ignorer les modificateurs positifs de la cible
         return "debuff"
     if k in ("heal", "return_models", "rally"):
         return "soin"
     if k == "control":
-        return "controle"
+        # v36 : « This unit has a maximum control score of 1 » : une contrepartie, pas une aptitude de contrôle
+        # v36 : contrôle ennemi réduit/plafonné (Omens of Decay, Scorched Remains) : un débuff (réponse utilisateur)
+        if e.detail == "contrepartie":
+            return "autre"
+        return "debuff" if side == "enemy" else "controle"
     if k in ("no_weapon_abilities", "no_crit") and scope == "one_friendly":
         # v35 : « weapon abilities for attacks that target that friendly unit have no effect » (Miasma of
         # Pestilence, Weapon Curse) : protection donnée à une unité amie

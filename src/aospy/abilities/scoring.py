@@ -278,6 +278,10 @@ def _effect_weight(e: Effect) -> tuple[float, str]:
             return 2.0, "inciblable"
         if e.side == "friendly" and e.kind != "untargetable":
             return 0.0, ""  # contrepartie sur sa propre unité
+    if e.kind == "control" and e.detail == "contrepartie":
+        return 0.0, ""  # v36 : contrôle plafonné à 1 sur sa propre unité (Beast)
+    if e.kind == "slay" and e.detail == "auto-infligé":
+        return 0.0, ""  # v36 : figurines amies sacrifiées, un coût
     if e.kind == "no_ward" and e.side == "friendly":
         return 0.0, ""  # v35 : contrepartie sur sa propre unité (Elite Guardians)
     w = EFFECT_WEIGHTS.get(e.kind, 0.5)

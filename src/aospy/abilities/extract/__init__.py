@@ -77,15 +77,44 @@ _OWN_ATTACKS_TEXT = re.compile(
     r"\bscores? a (?:hit|critical hit|wound)",
     re.I,
 )
+#: v36 : soin déclenché par le combat du porteur (« slain by this unit's combat attacks », « Each time this unit uses a
+#: FIGHT ability ») : il faut se battre — condition « au combat » (D = P(au combat) en couche 3).
+_HEAL_BY_FIGHT = re.compile(
+    r"\bby this unit's combat attacks\b|\b[Ee]ach time this unit uses a FIGHT ability\b|"
+    r"\bthis unit (?:used|uses) a FIGHT ability\b"
+)
+#: v36 : … et après la destruction d'un type d'unité ennemie précis (« that enemy HERO was destroyed ») : condition
+#: tenue par l'adversaire, listée en « bon cas » (réponse utilisateur) via `target_condition`.
+_HEAL_AFTER_KILL_OF = re.compile(
+    r"\benemy (?:non-)?((?:HERO|WIZARD|PRIEST|MONSTER)(?: or (?:HERO|WIZARD|PRIEST|MONSTER))?)\b[^.:]*?"
+    r"\b(?:destroyed|slain)\b"
+)
+_HEAL_KINDS = ("heal", "return_models")
 #: Condition en tête de l'effet, qui vaut pour toute la suite (« If this unit charged this turn, roll a dice.
 #: On a 3+, this unit can move 2D6"… Inflict D3 mortal damage », Destructive Bulk).
 _HEAD_CHARGED = re.compile(r"^\s*If this unit (?:has )?charged this (?:turn|phase)\b", re.I)
 _HEAD_IN_COMBAT = re.compile(r"^\s*If this unit is in combat\b", re.I)
+_IN_COMBAT_OR_CHARGED = re.compile(r"\bIf this unit is in combat or (?:has )?charged this (?:turn|phase)\b", re.I)
 
 
 def _add_requires(e, labels: list[str]):
     new = [lab for lab in labels if lab not in (e.requires or "").split(" | ")]
     return dataclasses.replace(e, requires=" | ".join(filter(None, [e.requires, *new]))) if new else e
+
+
+def _heal_kill_condition(e, effect: str):
+    """v36 : « élimine un HERO » sur un soin qui suit la destruction d'une unité ennemie d'un type précis, lu dans
+    la phrase (ou l'option « - … ») qui porte ce soin."""
+    for line in re.split(r"\n", effect):
+        if not re.search(r"\b[Hh]eal\b|\b[Rr]eturn\b", line):
+            continue
+        m = _HEAL_AFTER_KILL_OF.search(line)
+        if m and not m.group(0).startswith("enemy non-"):
+            label = f"élimine un {m.group(1).replace(' or ', '/')}"
+            if label not in (e.target_condition or ""):
+                return dataclasses.replace(e, target_condition=" | ".join(filter(None, [e.target_condition, label])))
+            return e
+    return e
 
 
 def declare_requires(declare: str, who: set[str]) -> list[str]:
@@ -99,7 +128,11 @@ def declare_requires(declare: str, who: set[str]) -> list[str]:
 def shot_by_bearer(condition: str, text: str) -> bool:
     """Effet déclenché par les tirs du porteur (v35) : formule « this unit's shooting attacks », ou phase de
     tir et « attacks made with / targeted by this unit's <arme> » (Star-venom, Starstone Bolas)."""
-    return bool(_SHOT_TEXT.search(text) or ("shooting phase" in condition.lower() and _SHOT_WEAPON.search(text)))
+    # v36 : aussi dans le déclencheur d'une réaction (« Reaction: You declared a SHOOT ability for this unit »)
+    return bool(
+        _SHOT_TEXT.search(f"{condition} {text}")
+        or ("shooting phase" in condition.lower() and _SHOT_WEAPON.search(text))
+    )
 
 
 def enemy_aura_range(text: str) -> Optional[int]:
@@ -168,14 +201,29 @@ def extract(raw: RawAbility) -> tuple[Extraction, float]:
         effects = [
             _add_requires(e, [mortal_label]) if e.kind == "mortal_damage" and e.side == "enemy" else e for e in effects
         ]
+    if _HEAL_BY_FIGHT.search(raw.effect):
+        effects = [_add_requires(e, ["au combat"]) if e.kind in _HEAL_KINDS else e for e in effects]
+    effects = [_heal_kill_condition(e, raw.effect) if e.kind in _HEAL_KINDS else e for e in effects]
     # v35 : condition en tête de l'effet (« If this unit charged this turn, … ») : elle vaut pour tous ses effets
     head = (
         ["a chargé"]
         if _HEAD_CHARGED.search(raw.effect)
         else ["au combat"]
-        if _HEAD_IN_COMBAT.search(raw.effect)
+        # v36 : aussi en tête de l'Annonce (« If this unit is in combat, pick a visible enemy HERO… », Terminate
+        # Their Command, Storm of Steel)
+        if _HEAD_IN_COMBAT.search(raw.effect) or _HEAD_IN_COMBAT.search(raw.declare)
         else []
     )
+    if _IN_COMBAT_OR_CHARGED.search(f"{raw.declare} {raw.effect}"):
+        # v36 : « If this unit is in combat or charged this turn » (Windrider, Smoke Bombs) : deux alternatives,
+        # et qui a chargé est au combat → « au combat » seul, pas « a chargé » ET « au combat »
+        effects = [
+            dataclasses.replace(
+                e, requires=" | ".join(r for r in (e.requires or "").split(" | ") if r and r != "a chargé")
+            )
+            for e in effects
+        ]
+        head = ["au combat"]
     if head:
         # (un déclencheur unique v34 — Oath of the Marauder — porte déjà sa charge : ne pas la recompter)
         effects = [e if "déclencheur unique" in (e.requires or "") else _add_requires(e, head) for e in effects]

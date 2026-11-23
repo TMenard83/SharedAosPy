@@ -24,6 +24,13 @@ _FRIENDLY_KW_AURA = re.compile(
     r"(?:^|\. )[Ff]riendly (?:[A-Z][A-Z'-]+ )*[A-Z][A-Z'-]+S (?:have|are|can|gain|count)\b[^.]*?"
     r"(?:(wholly )?within (\d+)\"|within (?:this unit's|this model's|its) combat range)"
 )
+#: v36 : « If a friendly BLOODBOUND unit wholly within 12" of this unit uses the 'Rally' command », « Each time a
+#: friendly X unit wholly within 12" of this unit … » : bulle au singulier (lue `self`, le porteur semblait être
+#: le seul bénéficiaire de ses bonus de Rally).
+_FRIENDLY_SINGLE_AURA = re.compile(
+    r"\b(?:[Ii]f|[Ee]ach time|[Ww]hile) an? (?:visible )?friendly (?:non-[A-Z]+ )?(?:[\w'’-]+ ){0,5}?unit "
+    r"(?:that is )?(wholly )?within (\d+)\" of this (?:unit|model|HERO)\b"
+)
 _ARMY_WIDE = re.compile(r"\bfriendly [A-Z][A-Z' -]+ units\b|\bfriendly units\b")
 #: « Friendly BONESPLITTERZ CAVALRY units have … », « each friendly DAUGHTERS OF KHAINE AELF INFANTRY
 #: unit », « Friendly FLESH-EATER COURTS HEROES », « friendly Freeguild Steelhelms units » : toute
@@ -108,6 +115,9 @@ def scope_of(declare: str, effect: str) -> tuple[Scope, Optional[int], bool]:
     m = _FRIENDLY_KW_AURA.search(effect)
     if m:
         return "friendly_aura", int(m.group(2)) if m.group(2) else 1, bool(m.group(1))
+    m = _FRIENDLY_SINGLE_AURA.search(effect)
+    if m:
+        return "friendly_aura", int(m.group(2)), bool(m.group(1))
     if _SELF_SUBJECT.match(effect):
         return "self", None, False
     m = _ENEMY_AURA.search(full)

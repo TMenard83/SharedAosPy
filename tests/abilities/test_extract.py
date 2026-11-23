@@ -1946,3 +1946,236 @@ def test_v35_damage_allocated_to_a_friendly_target_is_a_cost():
         )
     )
     assert all(e.side == "friendly" for e in ex.effects)
+
+
+# ----- v36 : lectures relevées par la grille mobilité (couche 3) ------------------------------------------
+
+
+def _effs(raw):
+    return extract(raw)[0].effects
+
+
+def test_v36_mortal_damage_on_a_target_redesignated_enemy():
+    """Cible amie OU ennemie : « If the target is an enemy unit, inflict D3 mortal damage on it » vise l'ennemi
+    (Invocation of Nagash, Gifts of Pain and Pleasure), pas une contrepartie auto-infligée."""
+    raw = _raw(
+        "If the target is an enemy unit, inflict D3 mortal damage on it. If the target is a friendly DEATH unit, "
+        "it can move up to 3\".",
+        declare="Pick a visible unit wholly within 18\" of this unit to be the target, then make a casting roll "
+        "of 2D6.",
+        condition="Your Hero Phase",
+    )
+    md = [e for e in _effs(raw) if e.kind == "mortal_damage"]
+    assert md and all(e.side == "enemy" and e.detail != "auto-infligé" for e in md)
+    jolly = _raw(
+        "If you picked an enemy unit to be the target, roll a dice. If the roll equals or exceeds the target's Control "
+        "characteristic, until the start of your next turn, inflict D3 mortal damage on the target:\n"
+        "- Each time the target is removed from the battlefield and set up again further from this unit.",
+        declare="Pick a visible friendly DAEMON unit wholly within 12\" of this unit or a visible enemy unit within "
+        "12\" of this unit to be the target.",
+        condition="Your Hero Phase",
+    )
+    effs = _effs(jolly)
+    assert [e.side for e in effs if e.kind == "mortal_damage"] == ["enemy"]
+    # « Each time the target is removed from the battlefield and set up again » : déclencheur, pas un mouvement
+    assert not any(e.kind == "redeploy" for e in effs)
+
+
+def test_v36_cannot_be_removed_is_a_restriction_not_a_teleport():
+    """« The targets cannot be removed from the battlefield by an ability that would allow them to be set up
+    elsewhere » (Fetters of Blood) : interdiction posée à l'ennemi ; sur « this unit », une contrepartie."""
+    raw = _raw(
+        "Until the start of your next turn:\n- The targets cannot use RETREAT or RUN abilities.\n"
+        "- The targets cannot be removed from the battlefield by an ability that would allow them to be set up "
+        "elsewhere on the battlefield or in reserve.",
+        declare="Pick a visible enemy unit within 18\" of them to be the target.",
+        condition="Your Hero Phase",
+    )
+    effs = _effs(raw)
+    assert not any(e.kind in ("redeploy", "deep_strike") for e in effs)
+    assert {e.side for e in effs if e.kind == "restriction"} == {"enemy"}
+    mirror = _raw(
+        "While the target is gazing into eternity, it must end all moves no further from this unit than it was at the "
+        "start of the move and it cannot be removed from the battlefield by an ability that would allow it to be set "
+        "up again on the battlefield.",
+        declare="Pick a visible enemy unit within 18\" of this unit to be the target.",
+        condition="Enemy Hero Phase",
+    )
+    effs = _effs(mirror)
+    assert not any(e.kind == "redeploy" for e in effs)
+    assert [e.side for e in effs if e.kind == "restriction"] == ["enemy"]
+    own = _raw(
+        "For the rest of the turn:\n- This unit cannot move or be removed from the battlefield by an ability that "
+        "would allow it to be set up elsewhere on the battlefield or in reserve.",
+        condition="Your Hero Phase",
+    )
+    assert not any(e.kind == "deep_strike" for e in _effs(own))
+
+
+def test_v36_opponent_moves_its_own_target_is_a_debuff():
+    """« Your opponent must remove the target from the battlefield and set it up again in combat with this unit »
+    (Shadow Lariat) : c'est l'ennemi qu'on déplace."""
+    raw = _raw(
+        "If the target is more than 3\" from all other enemy units, apply the effect below.\n"
+        "Your opponent must remove the target from the battlefield and set it up again in combat with this unit.",
+        declare="Pick a visible enemy INFANTRY HERO within 12\" of this unit to be the target.",
+        condition="End of Any Turn",
+    )
+    assert [e.side for e in _effs(raw) if e.kind == "redeploy"] == ["enemy"]
+
+
+def test_v36_enemy_picked_on_an_option_line():
+    """« Mesmerise: Pick a visible enemy unit within 12\" of this unit. Until …, that unit cannot use commands »."""
+    raw = _raw(
+        "Roll a dice. On a 3+, pick 1 of the following effects:\n"
+        "Glareface Dance: Pick a friendly GLOOMSPITE GITZ unit within this unit's combat range. Add 1 to run rolls "
+        "and charge rolls for that unit until the start of your next turn.\n"
+        "Mesmerise: Pick a visible enemy unit within 12\" of this unit. Until the start of your next turn, that unit "
+        "cannot use commands.",
+        condition="Your Hero Phase",
+    )
+    assert [e.side for e in _effs(raw) if e.kind == "lockout"] == ["enemy"]
+
+
+def test_v36_in_combat_or_charged_and_declare_in_combat():
+    """« If this unit is in combat or charged this turn » : deux alternatives → « au combat » seul ; « If this unit
+    is in combat, pick … » en tête de l'Annonce vaut pour tous les effets (Terminate Their Command)."""
+    raw = _raw(
+        "Resolve combat attacks against the target unit(s). Then, roll a dice. On a 3+, remove this unit from the "
+        "battlefield and set it up again on the battlefield more than 3\" from all enemy units.",
+        declare="If this unit is in combat or charged this turn, this unit can make a pile-in move. Then, if this unit "
+        "is in combat, you must pick 1 or more enemy units to be the target(s) of this unit's attacks.",
+        condition="Your Combat Phase",
+    )
+    for e in _effs(raw):
+        reqs = (e.requires or "").split(" | ")
+        assert "a chargé" not in reqs and "au combat" in reqs
+    tele = _raw(
+        "Remove this unit from the battlefield and set it up again within 1\" of the target.",
+        declare="If this unit is in combat, pick a visible enemy HERO within 12\" of this unit to be the target.",
+        condition="Once Per Turn (Army), Any Charge Phase",
+    )
+    assert all("au combat" in (e.requires or "") for e in _effs(tele))
+
+
+# ----- v36 : lectures relevées par la grille soin (couche 3) ----------------------------------------------
+
+
+def test_v36_heal_dice_are_read_before_integers():
+    """« Heal (2D6) » valait 2 (l'alternative entière passait avant les dés) ; 3D3 manquait à la table."""
+    heals = [e for e in _effs(_raw("Heal (2D6) this unit.", condition="Any Hero Phase")) if e.kind == "heal"]
+    assert [e.value for e in heals] == [7.0]
+    heals = [e for e in _effs(_raw("Heal (3D3) this unit.", condition="End of Any Turn")) if e.kind == "heal"]
+    assert [e.value for e in heals] == [6.0]
+    back = _effs(_raw("If the target is a Dryads unit, return up to D3 models to the target unit.",
+                      declare="Pick a friendly SYLVANETH unit wholly within 12\" of this unit to be the target.",
+                      condition="Your Hero Phase"))
+    assert [e.value for e in back if e.kind == "return_models"] == [2.0]
+
+
+def test_v36_heal_modifiers_are_not_heals():
+    """Polluting Aura : « an ability that would heal 1 or more damage points » est un déclencheur ; « add 1 to the
+    number of damage points healed » un bonus aux soins amis ; « subtract 1 … healed » un anti-soin ennemi."""
+    effs = _effs(_raw(
+        "While a friendly MAGGOTKIN OF NURGLE unit is wholly within 6\" of a POLLUTED terrain feature, each time that "
+        "unit uses or is the target of an ability that would heal 1 or more damage points, add 1 to the number of "
+        "damage points healed.\nWhile an enemy unit is within 6\" of a POLLUTED terrain feature, each time that unit "
+        "uses or is the target of an ability that would heal 1 or more damage points, subtract 1 from the number of "
+        "damage points healed, to a minimum of 0."
+    ))
+    heals = [e for e in effs if e.kind == "heal"]
+    assert len(heals) == 1 and heals[0].detail == "bonus aux soins"
+    assert any(e.kind == "anti_heal" and e.side == "enemy" for e in effs)
+    assert not any(e.kind == "damage_redirect" for e in effs)
+
+
+def test_v36_singular_friendly_aura_scope():
+    """« If a friendly BLOODBOUND unit wholly within 12" of this unit uses the 'Rally' command » : bulle à 12", pas
+    soi-même (17 bonus de Rally, quelques relais de magie)."""
+    ex = extract(_raw("If a friendly BLOODBOUND unit wholly within 12\" of this unit uses the 'Rally' command, you can "
+                      "make 3 additional rally rolls of D6."))[0]
+    assert (ex.scope, ex.range_inches) == ("friendly_aura", 12)
+    ex = extract(_raw("Each time a friendly NIGHTHAUNT unit wholly within 12\" of this unit uses the 'Rally' command, "
+                      "you can make 3 additional rally rolls of D6."))[0]
+    assert (ex.scope, ex.range_inches) == ("friendly_aura", 12)
+
+
+def test_v36_drained_friendly_models_are_a_cost():
+    """Father of Necromancy : « Up to 3 models in the drained unit are automatically slain » — l'unité drainée est
+    AMIE : un coût, pas une élimination ennemie ; l'aptitude est un soin."""
+    from aospy.abilities.families import effect_family, main_family
+
+    raw = _raw(
+        "Up to 3 models in the drained unit are automatically slain. Then, return a number of slain models to the "
+        "target unit with a combined Health characteristic of up to the combined Health characteristic of models "
+        "slain in the drained unit.",
+        declare="Pick 2 visible friendly LEGIONS OF NAGASH units that are wholly within 18\" of this unit. Pick 1 of "
+        "those units to be the target, then pick the other to be drained.",
+        condition="Your Hero Phase",
+    )
+    ex = extract(raw)[0]
+    slay = [e for e in ex.effects if e.kind == "slay"]
+    assert slay and all(e.side == "friendly" and e.detail == "auto-infligé" for e in slay)
+    assert main_family(effect_family(e, ex.scope) for e in ex.effects) == "soin"
+
+
+def test_v36_heal_after_fighting_requires_combat_and_lists_the_kill():
+    """Soin « slain by this unit's combat attacks » : « au combat » ; s'il faut détruire un HÉROS ennemi, la
+    condition est listée en bon cas (`target_condition`), pas chiffrée (réponse utilisateur)."""
+    raw = _raw(
+        "If an enemy HERO had any damage points allocated to it by this unit's combat attacks this turn and that HERO "
+        "was destroyed this turn, Heal (X) this unit, where X is the number of damage points this unit has.",
+        condition="End of Any Turn",
+    )
+    heal = [e for e in _effs(raw) if e.kind == "heal"]
+    assert heal and "au combat" in heal[0].requires and "élimine un HERO" in heal[0].target_condition
+    plain = _raw("Each time this unit uses a FIGHT ability, after that FIGHT ability has been resolved, Heal (X) this "
+                 "unit.")
+    heal = [e for e in _effs(plain) if e.kind == "heal"]
+    assert heal and "au combat" in heal[0].requires and not heal[0].target_condition
+
+
+# ----- v36 : lectures relevées par la grille contrôle (couche 3) ------------------------------------------
+
+
+def test_v36_enemy_control_is_a_debuff_and_own_cap_a_drawback():
+    """« that enemy unit has a maximum control score of 1 » / « subtract … from the target's control score » sur une
+    cible ennemie : débuff ; « This unit has a maximum control score of 1 » (Beast) : contrepartie à 0 ; « Add … to
+    this unit's control score » après une cible ennemie (Light A Pyre) reste ami."""
+    from aospy.abilities.families import effect_family
+
+    spasms = extract(_raw(
+        "After that SHOOT ability has been resolved, if all of this unit's attacks made as part of that SHOOT ability "
+        "targeted the same enemy unit and any enemy models were slain by those attacks, roll a dice. On a 3+, that "
+        "enemy unit has a maximum control score of 1 for the rest of the turn.",
+        condition="Reaction: You declared a SHOOT ability for this unit",
+    ))[0]
+    ctl = [e for e in spasms.effects if e.kind == "control"]
+    assert ctl and ctl[0].side == "enemy" and effect_family(ctl[0], spasms.scope) == "debuff"
+    assert "après tir du porteur" in ctl[0].requires  # déclencheur de réaction lu (v36)
+    from aospy.abilities.scoring import power_of
+
+    text = "This unit has a maximum control score of 1."
+    beast = extract(_raw(text))[0]
+    assert beast.effects[0].detail == "contrepartie" and effect_family(beast.effects[0], beast.scope) == "autre"
+    assert power_of(beast, text)[0] == 0
+    pyre = extract(_raw(
+        "Roll a D3. On a 2+:\n- Inflict an amount of mortal damage on the target equal to the roll.\n- Add a number "
+        "equal to the roll to this unit's control score for the rest of the turn.",
+        declare="If this unit is contesting an objective, pick a visible enemy unit within 6\" of this unit to be the "
+        "target.",
+        condition="Once Per Turn (Army)",
+    ))[0]
+    assert [e.side for e in pyre.effects if e.kind == "control"] == ["friendly"]
+
+
+def test_v36_ignore_positive_modifiers_listed_rolls():
+    """Grief-stricken : « Ignore positive modifiers to the target's control score and to hit rolls, wound rolls and
+    save rolls for the target » est un anti-buff ennemi."""
+    ex = extract(_raw(
+        "Ignore positive modifiers to the target's control score and to hit rolls, wound rolls and save rolls for the "
+        "target for the rest of the turn.",
+        declare="Pick a visible enemy unit within 18\" of this unit to be the target, then make a casting roll of 2D6.",
+        condition="Your Hero Phase",
+    ))[0]
+    assert any(e.kind == "no_buff" and e.side == "enemy" for e in ex.effects)

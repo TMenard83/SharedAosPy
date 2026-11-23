@@ -179,6 +179,15 @@ def mortal_pmf(text: str, own_models: int = 1) -> Optional[PMF]:
     si le texte n'est pas reconnu, relève d'un déclencheur par attaque ou d'un choix de l'adversaire. Condition
     de charge en tête (« If this unit charged… ») : voir `CHARGED_RE`, lue par l'appelant."""
     t = " ".join((text or "").split())
+    # cible au choix amie ou ennemie (« If the target is an enemy unit, … If the target is a friendly … ») :
+    # seule la branche ennemie inflige des dégâts
+    branches = re.split(r"(?=\bif (?:the target is|you picked) (?:an? )?(?:enemy|friendly)\b)", t, flags=re.I)
+    enemy = [b for b in branches if re.match(r"if (?:the target is|you picked) (?:an? )?enemy\b", b, re.I)]
+    if enemy and len(branches) > 1:
+        t = re.sub(r"^if [^,]*,\s*", "", enemy[0].strip())
+    # « inflict X mortal damage … X is equal to the number of models in this unit »
+    if re.search(r"\bX is equal to the number of models in this unit", t, re.I):
+        t = re.sub(r"inflict X mortal", f"inflict {own_models} mortal", t, flags=re.I)
     t = CHARGED_RE.sub("", t).lstrip(" ,")
     t = re.sub(r"^this turn, |^this phase, ", "", t, flags=re.I)
     low = t.lower()
