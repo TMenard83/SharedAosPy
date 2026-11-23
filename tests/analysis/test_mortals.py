@@ -68,7 +68,7 @@ def test_pick_one_option_takes_the_best():
 def test_random_burst_floor_is_below_its_mean():
     burst = mortal_pmf("Roll a D3. On a 2+, inflict an amount of mortal damage on the target equal to the roll.")
     many = mortal_pmf("Roll 10 dice. For each 4+, inflict 1 mortal damage on the target.")
-    assert smooth_floor(burst, 0.75) < 0.5 * 5 / 3  # rafale aléatoire : fort rabais
+    assert smooth_floor(burst, 0.75) <= 0.6 * 5 / 3  # rafale aléatoire : fort rabais (moyenne 5/3)
     assert smooth_floor(many, 0.75) > 0.75 * 5.0  # beaucoup de dés : proche de la moyenne
 
 

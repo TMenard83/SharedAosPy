@@ -351,6 +351,39 @@ def format_list_report(rep) -> str:
             ]
             out += [f'| {t.unit} | {t.move:g}" | {t.dry:g}" | {t.bonus:g}" | {t.reroll:g}" |' for t in a.threats]
             out.append("")
+    stacked = getattr(rep, "stacks", None)
+    if stacked:
+        out += [
+            "",
+            "## Empilement : tout ce que chaque unité reçoit en même temps",
+            "",
+            "Tous les effets traduisibles qu'elle peut recevoir, plus All-out Attack / All-out Defence, appliqués "
+            "ENSEMBLE (plafond ±1 sur le total des modificateurs de toucher, blessure, sauvegarde ; une option par "
+            "aptitude à choix ; protections non cumulées). Cas « tout en place », sans fiabilité. « Produit » = gains "
+            "pris un par un multipliés (référence sans interaction) : ensemble < produit → plafonds, ensemble > "
+            "produit → effet de seuil. « Plafonné » = n'ajoute rien une fois les autres en place.",
+            "",
+            "| unité | effets | dégâts/round nu → tout en place | dég. ensemble | dég. produit | dur. ensemble | "
+            "dur. produit | plafonnés | PC |",
+            "|---|---|---|---|---|---|---|---|---|",
+        ]
+        for st in stacked:
+            capped = ", ".join(i.ability for i in st.items if i.capped) or "—"
+            out.append(
+                f"| {st.receiver} | {len(st.items)} | {st.off_before:.1f} → {st.off_after:.1f} | "
+                f"{st.off_joint_pct:+.0f} % | {st.off_prod_pct:+.0f} % | "
+                f"{st.def_joint_pct:+.0f} % | {st.def_prod_pct:+.0f} % | {capped} | {st.cp} |"
+            )
+        for st in stacked[:3]:
+            out += ["", f"**{st.receiver}** (dég. {st.off_joint_pct:+.0f} %, dur. {st.def_joint_pct:+.0f} %) :", ""]
+            for i in st.items:
+                tag = " — plafonné" if i.capped else ""
+                cond = f" ; si {i.conditions}" if i.conditions else ""
+                cp = f" ; {i.cp} PC" if i.cp else ""
+                out.append(
+                    f"- {i.ability} ({i.source}) : dég. {i.off_alone_pct:+.0f} %, dur. {i.def_alone_pct:+.0f} %"
+                    f"{cond}{cp}{tag}"
+                )
     if rep.conflicts:
         out += ["", "## Limites d'armée (un seul usage pour plusieurs porteurs)", ""]
         out += [f"- {c.ability} ({c.frequency}) : {', '.join(c.carriers)}" for c in rep.conflicts]

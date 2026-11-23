@@ -218,9 +218,11 @@ def test_floor_penalises_swingy_profiles(monkeypatch):
     probe = Unit(name="p", army_id=0, move=0, save=7, health=1, control=0, models=1, points=0)
     steady = _unit([Weapon("Many", "melee", attacks=12, hit=4, wound=4, damage=1)], models=1)
     swingy = _unit([Weapon("Big", "melee", attacks=1, hit=4, wound=4, damage=12)], models=1)
-    # même moyenne (3), mais 75 % du temps la grosse attaque ne fait rien
-    assert plan_offense(swingy, probe, _NO_MODS, _contact()) < 0.2
-    assert 1.5 < plan_offense(steady, probe, _NO_MODS, _contact()) < 3.0
+    # même moyenne (3), mais 75 % du temps la grosse attaque ne fait rien : fort rabais (palier de 12 interpolé,
+    # 2026-11-23), bien plus que pour le profil régulier
+    sw = plan_offense(swingy, probe, _NO_MODS, _contact())
+    st = plan_offense(steady, probe, _NO_MODS, _contact())
+    assert sw <= 1.0 and 1.5 < st < 3.0 and sw < 0.5 * st
 
 
 def test_fractional_damage_keeps_the_mean(monkeypatch):
@@ -238,3 +240,16 @@ def test_fractional_damage_keeps_the_mean(monkeypatch):
         _unit([Weapon("A", "melee", attacks=2, hit=4, wound=4, damage=1.5)]), _PROBE_SAVE4, _NO_MODS, _contact()
     )
     assert d15 == pytest.approx((d1 + d2) / 2)
+
+
+def test_smooth_floor_interpolates_across_the_damage_step():
+    """Arme à 4 dégâts : la distribution avance par paliers de 4 ; l'interpolation porte sur tout le palier, sinon
+    un +1 pour toucher ne se voit presque pas au plancher (Avalenor : +10 % au lieu de ~+40 %)."""
+    from aospy.analysis.layers.encounter import smooth_floor
+
+    assert smooth_floor([0, 0, 0, 0, 1.0], 0.75) == pytest.approx(4.0)  # 4 certain
+    lo = smooth_floor([0.30, 0, 0, 0, 0.70], 0.75)  # 4 dégâts à 70 % : sous le plancher de 75 %
+    hi = smooth_floor([0.26, 0, 0, 0, 0.74], 0.75)  # 4 dégâts à 74 %
+    # palier de 4 : x = 4 × (1 − c) / P(0) − 4 × (1 − c)
+    assert lo == pytest.approx(4 * 0.25 / 0.30 - 1.0) and hi == pytest.approx(4 * 0.25 / 0.26 - 1.0)
+    assert hi - lo > 0.4  # l'ancienne interpolation (un seul point) ne bougeait que de 0,13

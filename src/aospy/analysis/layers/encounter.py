@@ -243,17 +243,23 @@ def offense_parts(unit: Unit, probe: Unit, mods: CombatModifiers) -> tuple[float
 
 def smooth_floor(pmf: list[float], coverage: float) -> float:
     """Plancher à `coverage` (dégât atteint au moins dans `coverage` des cas), **interpolé** entre deux
-    entiers : `combat.distribution_floor` renvoie un entier, si bien qu'un petit effet (+1 touche sur peu
-    d'attaques) vaudrait 0 ou 1 point selon le cas. Ici d + (S(d) − c) / (S(d) − S(d+1)), continu."""
+    valeurs atteignables (le palier de dégâts) : `combat.distribution_floor` renvoie un entier, si bien qu'un
+    petit effet (+1 touche sur peu d'attaques) vaudrait 0 ou 1 point selon le cas. Ici, avec w l'écart jusqu'à la
+    valeur atteignable suivante : d + w (S(d) − c) / (S(d) − S(d+1)) − w (1 − c), continu."""
     survival = [0.0] * (len(pmf) + 1)  # survival[d] = P(dégâts ≥ d)
     for d in range(len(pmf) - 1, -1, -1):
         survival[d] = survival[d + 1] + pmf[d]
     for d in range(len(pmf) - 1, -1, -1):
         if survival[d] >= coverage - 1e-12:
+            # 2026-11-23 (choix utilisateur) : interpolation sur la largeur du PALIER, jusqu'à la valeur de dégâts
+            # suivante atteignable (4 pour une arme à 4 dégâts), pas sur un seul point : sinon +1 pour toucher sur
+            # des Firestealer Hammers (6 attaques, 4 dégâts) valait +10 % au lieu de +43 % (moyenne +33 %).
+            nxt = next((k for k in range(d + 1, len(pmf)) if pmf[k] > 1e-12), None)
+            width = (nxt - d) if nxt is not None else 1
             drop = survival[d] - survival[d + 1]
-            x = d + ((survival[d] - coverage) / drop if drop > 0 else 0.0)
-            # décalage constant (1 − c) : un résultat certain retombe exactement sur sa valeur
-            return max(0.0, x - (1.0 - coverage))
+            x = d + (width * (survival[d] - coverage) / drop if drop > 0 else 0.0)
+            # décalage constant (1 − c) × palier : un résultat certain retombe exactement sur sa valeur
+            return max(0.0, x - width * (1.0 - coverage))
     return 0.0
 
 

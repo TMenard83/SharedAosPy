@@ -134,6 +134,8 @@ class ListReport:
     #: aptitudes « à lire » rejouées sur les receveurs de la liste (`listgrid.GridRow`), contreparties écartées
     grid: list = field(default_factory=list)
     drawbacks: list = field(default_factory=list)
+    #: empilement par unité (`stacking.Stack`) : tous les effets reçus ensemble, plafonds ±1 compris
+    stacks: list = field(default_factory=list)
 
 
 # ----- cœur pur ------------------------------------------------------------------
@@ -816,6 +818,9 @@ def analyse_list(con, parsed) -> ListReport:
         abilities, units, vocab, sm, teleporters(abilities, units), frozenset(a.uid for a, _r in rep.dead), dmg
     )
     from .listgrid import collect_grid
+    from .stacking import stacks
+
+    rep.stacks = stacks(abilities, units, vocab, frozenset(a.uid for a, _r in rep.dead))
 
     collect_grid(con, entries, rep)
     return rep
