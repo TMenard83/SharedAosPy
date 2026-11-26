@@ -1,4 +1,4 @@
-pages: 11
+pages: 10
 pages_scenario: None
 units_matched: ["Be'lakor, the Dark Master", 'Legion of the First Prince Bloodletters', 'Legion of the First Prince Screamers of Tzeentch', 'Eternus, Blade of the First Prince', 'Varanguard', 'Nexus Chaotica']
 units_unmatched: []
@@ -62,7 +62,7 @@ TACTIQUE
 MOT-CLÉ
 Autre mot-clé d'aptitude (Tactique : règle spéciale d'une carte de tactique) ; bordeaux : propre à la
 faction.
-1 / 11
+1 / 10
 
 ===== page 2 =====
 Be’lakor, the Dark Master
@@ -235,7 +235,7 @@ CHAOS · DAEMON · LEGION OF THE FIRST PRINCE · SLAVES TO
 DARKNESS · CHAMPION · INFANTRY · MUSICIAN · STANDARD
 BEARER · WARD
  Wahapedia (EN)
-2 / 11
+2 / 10
 
 ===== page 3 =====
 Varanguard
@@ -362,7 +362,7 @@ Effet : Cette unité a un score de contrôle maximum de 1.
 CHAOS · DAEMON · LEGION OF THE FIRST PRINCE · SLAVES TO
 DARKNESS · BEAST · FLY · WARD
  Wahapedia (EN)
-3 / 11
+3 / 10
 
 ===== page 4 =====
 Crâne Incandescent
@@ -493,7 +493,7 @@ MDG
 Effet : Soignez (3) cette Manifestation.
 MANIFESTATION · SORT PERSISTANT · VOL · PROTECTION (6+)
  Wahapedia (EN)
-4 / 11
+4 / 10
 
 ===== page 5 =====
 Aptitudes
@@ -534,7 +534,7 @@ Souffler sur les Braises
 SAISON
 MDG
 Effet : Si vous êtes l’attaquant, réglez votre niveau de fureur sur 1. Si vous êtes le défenseur, réglez votre niveau de fureur sur 2.
-5 / 11
+5 / 10
 
 ===== page 6 =====
 N'IMPORTE QUELLE PHASE
@@ -633,7 +633,7 @@ Effet : Jetez un dé. Sur 1, infligez D3 dégâts mortels à ce Héros. Sur 2+, 
 tour.
  Rage Étourdissante : Pour le restant du tour, si le Héros choisi n’est pas un Sorcier ou un Prêtre, il peut utiliser l’aptitude « Dissipation » ou « Bannir
 une Manifestation » comme s’il avait le mot-clé Sorcier (1).
-6 / 11
+6 / 10
 
 ===== page 7 =====
 PHASE DES HÉROS
@@ -690,24 +690,13 @@ Annonce : Choisissez un Sorcier ou un Prêtre ami pour qu’il utilise cette apt
 Effet : L’unité amie peut utiliser une aptitude de Sort, de Prière ou de Bannissement (selon le cas approprié) comme si c’était votre phase des héros.
 Dans ce cas, soustrayez 1 aux jets de lancement ou de récitation faits dans le cadre de cette aptitude.
 RÈGLES D'ARMÉE
-Dague de
-Sombre Rituel
-×1 / TOUR
-BT
-LEGION OF THE FIRST PRINCE
-Réaction : Vous avez annoncé une
-aptitude de Sort pour une unité amie
-entièrement à 12" de cette unité
-Effet : Allouez 1 dégât à cette unité.
-Ensuite, vous pouvez relancer le jet de
-lancement.
 Accorder une Faveur
 ×1 / TOUR (ARMÉE)
 MA PHASE
 BT
 LEGION OF THE FIRST PRINCE
-Annonce : Si un Be'lakor ami est sur le champ de bataille, choisissez comme cible une unité de la
-Légion du Premier Prince amie qui n'est pas un Héros.
+Annonce : Si un Be'lakor ami est sur le champ de bataille, choisissez comme cible une unité de la Légion du Premier Prince amie qui n'est pas un
+Héros.
 Effet : Jusqu'au début de votre prochain tour :
  Ajoutez 5 au score de contrôle de la cible.
  Si la cible est une unité de Démons, ajoutez 1 à ses jets de sauvegarde.
@@ -787,7 +776,7 @@ sort, puis faites un jet de lancement de 2D6.
 Effet : Placez un sort persistant des Mâchoires
 de Ravenak entièrement à 12" du lanceur, visible
 de lui et à plus de 9" des unités ennemies.
-7 / 11
+7 / 10
 
 ===== page 8 =====
 PHASE DE MOUVEMENT
@@ -900,9 +889,6 @@ MDG
 Effet : Si ce Héros est à portée de mêlée d’une unité amie qui n’est pas un Héros :
  Soustrayez 1 aux jets de touche pour les attaques de tir ciblant ce Héros.
  Si ce Héros a le mot-clé Infanterie, il ne peut pas être ciblé par des attaques de tir faites par des figurines situées à plus de 12" de lui.
-8 / 11
-
-===== page 9 =====
 PHASE DE CHARGE
 PHASE DE CHARGE
  RÈGLES DE BASE
@@ -933,13 +919,9 @@ PHASE ENNEMI
 MDG
 Annonce : Choisissez une unité amie qui n’est pas en mêlée pour qu’elle utilise cette aptitude.
 Effet : Cette unité peut utiliser une aptitude de Charge comme si c’était votre phase de charge.
-RÈGLES D'ARMÉE
-Maréchal Terrifiant
-LES 2 PHASES
-BT
-LEGION OF THE FIRST PRINCE
-Annonce : Choisissez comme cibles jusqu'à 3 autres unités amies entièrement à 12" de cette unité.
-Effet : Pour le restant du tour, ajoutez 1 aux jets de charge pour les cibles.
+8 / 10
+
+===== page 9 =====
 PHASE DE MÊLÉE
 PHASE DE MÊLÉE
  RÈGLES DE BASE
@@ -985,9 +967,6 @@ LEGION OF THE FIRST PRINCE
 Annonce : Choisissez un Éternus ami en mêlée et choisissez comme cibles jusqu'à 2 unités de la Légion du Premier Prince amies, qui ne sont pas
 des Démons ni des Héros, et qui sont entièrement à 12" de cet Éternus.
 Effet : Ajoutez 1 à la caractéristique d'Attaques des armes de mêlée des cibles pour le restant du tour.
-9 / 11
-
-===== page 10 =====
 FIN DE TOUR
 FIN DE TOUR
  RÈGLES DE BASE
@@ -1030,9 +1009,9 @@ Pour chaque jet de touche non modifié de 1 pour ces attaques, allouez D3 dégâ
 dégâts résolue (on ne peut tenter aucun jet de protection contre ces dégâts).
 Note des Concepteurs : Les dés de rage ne s’ajoutent pas à la caractéristique d’Attaques de l’arme que vous choisissez ; si vous dépensez 3 dés de
 rage pour utiliser cette aptitude, vous faites seulement 3 attaques de mêlée.
-10 / 11
+9 / 10
 
-===== page 11 =====
+===== page 10 =====
 Siège de Cendres
 CARTE DE TACTIQUE 2 · Siege of Ashes
 ÉCHAUFFOURÉE
@@ -1082,5 +1061,5 @@ y a au moins 1 HÉROS ami entièrement en territoire ennemi.
  5
  PTS DE
 VICTOIRE
-11 / 11
+10 / 10
 

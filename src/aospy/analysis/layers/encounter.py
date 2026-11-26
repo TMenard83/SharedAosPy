@@ -36,7 +36,7 @@ from ...engine.combat import (
     effective_counts,
     weapon_damage_distribution,
 )
-from ..cost.features import _PROBE_SAVE4, compute_effective_wounds
+from ..cost.features import _PROBE_SAVE4, _REPRESENTATIVE_REND, compute_effective_wounds
 from .approach import Plan, candidate_plans, shoots_in_combat
 from .chassis import is_companion, weapon_damages
 
@@ -72,6 +72,8 @@ class EffectSpec:
     friendly_target: str = ""
     #: option d'une aptitude à choix exclusif (`ability_effect.option_group`, analyseur v33) ; '' = hors option
     option_group: str = ""
+    #: famille de l'effet (`ability_effect.family`) : distingue une protection (« buff-… ») d'un débuff ennemi
+    family: str = ""
 
     @property
     def conditions(self) -> str:
@@ -111,6 +113,8 @@ def weapon_in_scope(w: Weapon, eff: EffectSpec) -> bool:
     if is_companion(w) and not eff.includes_companion:
         return False
     scope = eff.weapon_scope or "all"
+    if scope == "companion":  # v40 : seulement les armes Compagnon (Itzl, Menagerie, Enraged Roar)
+        return is_companion(w)
     if scope == "melee":
         return w.kind == "melee"
     if scope == "ranged":
@@ -213,7 +217,56 @@ def _defensive_transform(eff: EffectSpec) -> Optional[Callable[[Unit], Unit]]:
     return None
 
 
+#: Protections « contre les attaques qui ciblent l'unité » traduites en durabilité (2026-11-25) : stats d'un
+#: modificateur au jet ADVERSE (`side = enemy`, détail « defensif »), lues seulement sur une aptitude amie
+#: (famille buff-…, pas un débuff posé sur une unité ennemie, qui reste à lire).
+INCOMING_STATS = ("hit", "wound", "rend", "damage", "attacks")
+_INCOMING_SCOPES = {"": "all", "all": "all", "melee": "melee", "ranged": "ranged"}
+
+
+def _add_defence(u: Unit, stat: str, kind: str, value: float) -> Unit:
+    return dataclasses.replace(u, defence=u.defence + ((stat, kind, value),))
+
+
+def _incoming_transform(eff: EffectSpec) -> Optional[Callable[[Unit], Unit]]:
+    """Protection lue par `unit_durability` (champ `Unit.defence`), ou None.
+
+    * −N au jet de touche / blessure / à la Perforation / aux Dégâts / aux Attaques des attaques qui ciblent l'unité ;
+    * `negate_attack` (v41) : « jet non modifié de 1-N : l'attaque échoue » → toucher (ou blesser) sur N+1 au moins ;
+    * `damage_ignore` (v41) : premier point de dégâts ignoré à chaque phase, Perforation ignorée (« ignore negative
+      modifiers to save rolls », « ignore the Rend characteristic »).
+    Une condition sur l'attaquant (« vs MONSTER ») ou des armes Compagnon/nommées : non traduit (combo « contre »).
+    """
+    kind = _INCOMING_SCOPES.get(eff.weapon_scope)
+    if kind is None or eff.target_keywords:
+        return None
+    if eff.kind == "stat_mod" and eff.side == "enemy" and eff.detail == "defensif":
+        if eff.stat not in INCOMING_STATS or eff.value >= 0 or not eff.family.startswith("buff"):
+            return None
+        v = -eff.value
+        return lambda u: _add_defence(u, eff.stat, kind, v)
+    if eff.side != "friendly":
+        return None
+    if eff.kind == "negate_attack" and eff.value and eff.stat:
+        stats = [s for s in eff.stat.split(",") if s in ("hit", "wound")]
+        if not stats:
+            return None
+
+        def f(u: Unit) -> Unit:
+            for s in stats:
+                u = _add_defence(u, "fail_" + s, kind, eff.value)
+            return u
+
+        return f
+    if eff.kind == "damage_ignore" and eff.stat in ("first_damage", "save_neg", "save_all", "rend"):
+        stat = "first_damage" if eff.stat == "first_damage" else "no_rend"
+        return lambda u: _add_defence(u, stat, kind, 1.0)
+    return None
+
+
 def is_translatable(eff: EffectSpec) -> bool:
+    if _incoming_transform(eff) is not None:
+        return True
     return eff.side == "friendly" and (_weapon_transform(eff) is not None or _defensive_transform(eff) is not None)
 
 
@@ -331,8 +384,51 @@ def plan_offense(unit: Unit, probe: Unit, mods: CombatModifiers, plan: Optional[
     return max(_plan_offense(pmfs, p) for p in candidate_plans(unit))
 
 
+#: Attaquant de référence qui lit les protections (`Unit.defence`) : touche 3+, blesse 3+, 3 attaques par figurine,
+#: Dégâts moitié 1, moitié 2, Perforation `_REPRESENTATIVE_REND` ; moitié mêlée, moitié tir. Sans protection, la
+#: durabilité reste `compute_effective_wounds` (coups à porter), à l'identique.
+REF_HIT, REF_WOUND, REF_ATTACKS, REF_DAMAGE = 3, 3, 3.0, (1.0, 2.0)
+#: « ignore the first damage point … each phase » : phases d'attaque subies avant de tomber (tir + mêlée d'un round).
+FIRST_DAMAGE_PHASES = 2
+
+
+def _roll(target: float) -> float:
+    return max(0.0, min(5.0, 7.0 - max(float(_BEST_ROLL), target))) / 6.0
+
+
+def _damage_per_attack(unit: Unit, mods: dict[str, float]) -> float:
+    """Dégâts espérés d'UNE attaque de l'attaquant de référence contre `unit`, protections `mods` appliquées."""
+    hit = max(REF_HIT + min(1.0, mods.get("hit", 0.0)), mods.get("fail_hit", 0.0) + 1)
+    wound = max(REF_WOUND + min(1.0, mods.get("wound", 0.0)), mods.get("fail_wound", 0.0) + 1)
+    rend = 0.0 if mods.get("no_rend") else max(0.0, _REPRESENTATIVE_REND - mods.get("rend", 0.0))
+    unsaved = 1.0 - _roll(unit.save + rend)
+    unwarded = 1.0 - _roll(unit.ward or _NO_WARD)
+    attacks = max(1.0, REF_ATTACKS - mods.get("attacks", 0.0)) / REF_ATTACKS
+    dmg = sum(max(1.0, d - min(1.0, mods.get("damage", 0.0))) for d in REF_DAMAGE) / len(REF_DAMAGE)
+    return attacks * _roll(hit) * _roll(wound) * unsaved * unwarded * dmg
+
+
+def defence_factor(unit: Unit) -> tuple[float, float]:
+    """(multiplicateur des coups à porter, PV ajoutés) des protections `unit.defence`. Les modificateurs d'une même
+    stat ne se cumulent pas (plafond ±1 des jets, Perforation de référence 1) : on garde le plus fort."""
+    if not unit.defence:
+        return 1.0, 0.0
+    q0 = q = 0.0
+    extra = 0.0
+    for kind in ("melee", "ranged"):
+        mods: dict[str, float] = {}
+        for stat, k, v in unit.defence:
+            if k in (kind, "all"):
+                mods[stat] = max(mods.get(stat, 0.0), v)
+        q0 += _damage_per_attack(unit, {})
+        q += _damage_per_attack(unit, mods)
+        extra += FIRST_DAMAGE_PHASES / 2 if mods.get("first_damage") else 0.0
+    return (q0 / q if q else 6.0), extra
+
+
 def unit_durability(unit: Unit) -> float:
-    return compute_effective_wounds(unit.health * unit.models, unit.save, unit.ward or _NO_WARD)
+    factor, extra = defence_factor(unit)
+    return factor * compute_effective_wounds(unit.health * unit.models + extra, unit.save, unit.ward or _NO_WARD)
 
 
 def apply_effect(
@@ -342,6 +438,9 @@ def apply_effect(
 
     « that weapon » (`chosen`) : l'effet va sur l'arme du périmètre où il rapporte le plus.
     """
+    it = _incoming_transform(eff)
+    if it is not None:
+        return it(unit)
     if eff.side != "friendly":
         return None
     wt = _weapon_transform(eff)
@@ -474,8 +573,15 @@ def matches_friendly_target(unit: Unit, phrase: str, vocab: frozenset[str]) -> b
             continue
         if title:
             want = " ".join(title).lower()
-            if not (name == want or name.startswith(want) or want.startswith(name)):
-                continue
+            if want.upper() in vocab:
+                # « friendly Kruleboyz units » (Sinister Stare) : mot-clé de faction écrit en casse de nom (2026-11-23)
+                if want.upper() not in unit.keywords:
+                    continue
+            else:
+                # « Shadow Queen » désigne la charte « The Shadow Queen »
+                bare, want_bare = re.sub(r"^the ", "", name), re.sub(r"^the ", "", want)
+                if not (bare == want_bare or bare.startswith(want_bare) or want_bare.startswith(bare)):
+                    continue
         return True
     return False
 
@@ -539,9 +645,10 @@ def build_encounter_rows(con) -> tuple[list[tuple], dict[str, int]]:
     eff_rows = con.execute(
         """SELECT e.ability_uid, e.seq, e.kind, e.stat, e.value, e.detail, e.side, e.weapon_scope, e.weapon_name,
                   e.includes_companion, e.target_keywords, e.target_condition, e.requires, e.duration,
-                  a.source_kind, a.scope, coalesce(e.friendly_target, a.friendly_target), a.excludes_self
+                  a.source_kind, a.scope, coalesce(e.friendly_target, a.friendly_target), a.excludes_self,
+                  coalesce(e.family, '')
            FROM ability_effect e JOIN ability a ON a.uid = e.ability_uid
-           WHERE e.side = 'friendly'"""
+           WHERE (e.side = 'friendly' OR (e.side = 'enemy' AND e.detail = 'defensif' AND coalesce(e.family, '') LIKE 'buff%'))"""
     ).fetchall()
     # Spearhead / Path to Glory : hors jeu égal, écartés (analyseur v32, `abilities.source.origin_of`).
     owners: dict[str, list[tuple]] = {}
@@ -574,6 +681,7 @@ def build_encounter_rows(con) -> tuple[list[tuple], dict[str, int]]:
         scope,
         ftarget,
         excl,
+        efamily,
     ) in eff_rows:
         stats["effets"] += 1
         eff = EffectSpec(
@@ -589,6 +697,7 @@ def build_encounter_rows(con) -> tuple[list[tuple], dict[str, int]]:
             target_condition=tcond or "",
             requires=req or "",
             duration=dur or "",
+            family=efamily,
         )
         if not is_translatable(eff):
             continue

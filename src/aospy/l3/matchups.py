@@ -31,6 +31,7 @@ from pathlib import Path
 import duckdb
 from pypdf import PdfReader
 
+from aospy.analysis.layers.companions import COMPANIONS
 from aospy.domain.models import Unit
 from aospy.engine.combat import (
     CombatModifiers,
@@ -150,6 +151,10 @@ SCHEDULE = {
 }
 OUTPUT = {"Melusior": "Matchups/Matchups Melusior.md", "Vae Victis Vernou": "Matchups/Matchups Vae Victis.md"}
 
+#: Deux chartes sous le même nom dans l'export de l'orga, départagées par le coût (profils FR 28-10 p27 :
+#: « Tzaangors Éclairés » 200, « Tzaangors Éclairés à Pied » 110 ; liste Seraph, 2026-11-25).
+BY_POINTS = {("Tzaangor Enlightened", "110"): "Tzaangor Enlightened on Foot"}
+
 # Nom dans l'export de liste -> nom en base, quand ils diffèrent.
 ALIASES = {
     "Kruleboyz Monsta-killaz": "Monsta-killaz",
@@ -159,11 +164,7 @@ ALIASES = {
 }
 # Compagnons gratuits pris avec une unité payante : unités séparées en base, à 0 pt. Le coût du
 # parent est réparti sur le groupe au prorata des PV (sinon tout le prix pèse sur le seul parent).
-COMPANIONS = {
-    "Morathi-Khaine": ["The Shadow Queen"],
-    "Neave Blacktalon": ["Lorai, Child of the Abyss", "Neave’s Companions"],
-    "Gunnar Brand": ["Singri Brand", "The Oathsworn Kin"],
-}
+# Liste partagée avec la couche 3/4 : `analysis.layers.companions.COMPANIONS`.
 # Règles lues dans le battletome quand le texte Wahapedia est tronqué, avec le choix fait par
 # le joueur. « ward » : unités qui reçoivent cette Protection (nom en base -> valeur) ;
 # « aptitudes » : (famille, poids, description) ajoutées au profil d'aptitudes de la liste.
@@ -267,6 +268,7 @@ class ArmyList:
     header: list[str] = field(default_factory=list)  # en-tête de la liste (formation, domaines)
     options: list[str] = field(default_factory=list)  # améliorations (« • Nom »)
     prof: object = None  # l3_aptitudes.Profile
+    l4: object = None  # l3.layer4.L4Indices (None : liste texte absente, repli sur le compteur regex)
     mob: float = 0.0  # indice de mobilité (z-score sur les 54 listes)
     apt: float = 0.0  # indice d'aptitudes (z-score sur les 54 listes)
     plan: int = 2  # note de plan de jeu (0-3), combos/<équipe>.json
@@ -282,6 +284,16 @@ class ArmyList:
     @property
     def control(self) -> int:
         return sum(e.unit.control * e.models for e in self.entries)
+
+    @property
+    def control_eff(self) -> float:
+        """Contrôle des chartes + score de contrôle apporté par les aptitudes (couche 4, `L4Indices.control`)."""
+        return self.control + (self.l4.control if self.l4 is not None else 0.0)
+
+    @property
+    def control_txt(self) -> str:
+        bonus = self.l4.control if self.l4 is not None else 0.0
+        return f"{self.control} (+{bonus:.0f} aptitudes)" if bonus >= 0.5 else str(self.control)
 
     @property
     def hp(self) -> int:
@@ -346,7 +358,9 @@ def _apply_pack_hunters(al: "ArmyList") -> None:
 
 
 def _norm(s: str) -> str:
-    s = unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode()
+    # apostrophe typographique AVANT la translittération ASCII, qui la supprimait : « Be’lakor » (base) donnait
+    # « belakor » et « Be'lakor » (PDF des listes) « be lakor » — Be'lakor absent du diag (2026-11-25)
+    s = unicodedata.normalize("NFKD", s.replace("’", "'")).encode("ascii", "ignore").decode()
     return re.sub(r"[^a-z0-9]+", " ", s.lower()).strip()
 
 
@@ -401,6 +415,7 @@ def build_lists(con) -> dict[str, ArmyList]:
             if pts == 0 or raw in NOT_UNITS:
                 continue
             raw = ALIASES.get(raw, raw)
+            raw = BY_POINTS.get((raw, str(pts)), raw)
             unit = None
             if aqshy:
                 unit = index.get(_norm("Scourge of Aqshy " + raw))
@@ -441,13 +456,16 @@ def build_lists(con) -> dict[str, ArmyList]:
         for e in al.entries:
             e.ignore_first = bool(unit_ability_names(e.unit) & ignore_first_names())
         lists[player] = al
-    rate_lists(lists)
+    rate_lists(lists, con)
     return lists
 
 
 # --- Mobilité et aptitudes (textes Wahapedia, voir l3/aptitudes.py) ------------------------
 
 APT_FAMILIES = ("soins", "protection", "buff", "débuff", "objectifs")
+#: familles que la couche 4 ne chiffre pas (empilement = buffs et protections, soins, score de contrôle) : restent
+#: au compteur regex
+APT_RESIDUAL = ("débuff", "objectifs")
 
 
 def _z(values: dict[str, float]) -> dict[str, float]:
@@ -457,12 +475,27 @@ def _z(values: dict[str, float]) -> dict[str, float]:
     return {k: (v - mu) / sd for k, v in values.items()}
 
 
-def rate_lists(lists: dict[str, ArmyList]) -> None:
+def _residual(al: ArmyList) -> float:
+    """Compteur regex de ce que la couche 4 ne chiffre pas : Σ√(débuff, objectifs hors score de contrôle)."""
+    score = dict(al.prof.score)
+    score["objectifs"] = max(0.0, score.get("objectifs", 0.0) - al.prof.objectifs_controle)
+    return sum(score.get(f, 0.0) ** 0.5 for f in APT_RESIDUAL)
+
+
+def rate_lists(lists: dict[str, ArmyList], con=None) -> None:
     """Calcule pour chaque liste ses indices de mobilité et d'aptitudes, relatifs aux 54 listes.
 
-    Racine carrée par famille : la 5e aura de +1 pour toucher apporte moins que la 1re.
+    Indice d'aptitudes (2026-11-25, couche 4 branchée) : z(z(couche 4) + z(reste)), où couche 4 =
+    ln(dégâts × montée en puissance) + ln(durabilité × montée en puissance × (1 + soins)) de `l3.layer4`, et reste =
+    ce que la couche 4 ne chiffre pas, lu par le compteur regex : Σ√(débuff, objectifs hors score de contrôle) +
+    magie. Le score de contrôle des aptitudes (couche 4) va au pilier scénario (`ArmyList.control_eff`).
+    Sans liste texte (ou sans `con`), repli sur l'ancien compteur (Σ√ des 5 familles + magie). Racine carrée par famille : la
+    5e aura apporte moins que la 1re.
     """
+    from . import layer4
+
     lib = apt.Library()
+    txt_dir = FOLDER / "Listes texte"
     plans = {}
     for path in (FOLDER / "Données" / "combos").glob("*.json"):
         for player, data in json.loads(path.read_text(encoding="utf-8")).items():
@@ -474,6 +507,8 @@ def rate_lists(lists: dict[str, ArmyList]) -> None:
             al.prof.score[fam] += weight
             al.prof.detail[fam].append(desc)
         al.plan = plans.get(al.player, 2)
+        path = layer4.list_file(txt_dir, al.team, al.player) if con is not None else None
+        al.l4 = layer4.indices(con, path) if path else None
     move = _z({p: al.avg_move for p, al in lists.items()})
     fly = _z({p: al.prof.fly_share for p, al in lists.items()})
     mob = _z({p: al.prof.score["mobilité"] ** 0.5 for p, al in lists.items()})
@@ -483,7 +518,16 @@ def rate_lists(lists: dict[str, ArmyList]) -> None:
         p: (1.5 * al.prof.wizard_levels + al.prof.priest_levels + al.prof.score["magie"]) ** 0.5
         for p, al in lists.items()
     }
-    aptz = _z({p: sum(al.prof.score[f] ** 0.5 for f in APT_FAMILIES) + magic[p] for p, al in lists.items()})
+    if all(al.l4 is not None for al in lists.values()):
+        l4z = _z({p: al.l4.value for p, al in lists.items()})
+        # soins et score de contrôle : chiffrés par la couche 4 (durabilité, pilier scénario), retirés du compteur
+        restz = _z({p: _residual(al) + magic[p] for p, al in lists.items()})
+        aptz = _z({p: l4z[p] + restz[p] for p in lists})
+    else:
+        missing = sorted(p for p, al in lists.items() if al.l4 is None)
+        if con is not None:
+            print(f"couche 4 : listes texte absentes ({', '.join(missing[:5])}…), repli sur le compteur regex")
+        aptz = _z({p: sum(al.prof.score[f] ** 0.5 for f in APT_FAMILIES) + magic[p] for p, al in lists.items()})
     for p, al in lists.items():
         al.apt = aptz[p]
 
@@ -520,7 +564,10 @@ CHARGE_BOUNDS = (0.15, 0.85)
 
 def threat(e: "Entry", al: "ArmyList") -> float:
     """Allonge de charge : mouvement, vol, outils de la liste, et jet de charge amélioré (au-delà de 2D6)."""
-    charge = al.prof.charge_unit.get(e.unit.name, 0.0) + min(al.prof.charge_army, 3.0)
+    if al.l4 is not None:  # couche 4 : allonge de charge à 50 % apportée par la liste (`assault.Threat`)
+        charge = al.l4.charge.get(e.unit.name, 0.0)
+    else:
+        charge = al.prof.charge_unit.get(e.unit.name, 0.0) + min(al.prof.charge_army, 3.0)
     return e.unit.move + (1.0 if "FLY" in e.unit.keywords else 0.0) + 1.5 * al.mob + charge
 
 
@@ -967,7 +1014,7 @@ def evaluate(a: ArmyList, b: ArmyList, adjustments: dict, cache: dict) -> Matchu
     att_a, att_b = attrition(a, b, cache), attrition(b, a, cache)
     ratio = (att_a.index + 1e-6) / (att_b.index + 1e-6)
     combat = COMBAT_MAX * math.tanh(math.log(ratio) / 1.0)
-    ctrl_ratio = (a.control + 1) / (b.control + 1)
+    ctrl_ratio = (a.control_eff + 1) / (b.control_eff + 1)
     board = (
         2 * math.tanh(math.log(ctrl_ratio) / 0.9)
         + 1 * math.tanh((a.n_units - b.n_units) / 4)
@@ -1171,11 +1218,15 @@ def lecture(
         out.append("On a l'avantage du tir : ils doivent traverser la table sous le feu.")
     elif m.att_b.ranged_share >= 0.4 and m.att_a.ranged_share <= 0.15:
         out.append("Ils ont l'avantage du tir : il faut aller au contact vite ou se cacher.")
-    ratio = (a.control + 1) / (b.control + 1)
+    ratio = (a.control_eff + 1) / (b.control_eff + 1)
     if ratio >= 1.5:
-        out.append(f"On domine le contrôle ({a.control} contre {b.control}) : jouer le scénario plutôt que la tuerie.")
+        out.append(
+            f"On domine le contrôle ({a.control_txt} contre {b.control_txt}) : jouer le scénario plutôt que la tuerie."
+        )
     elif ratio <= 0.67:
-        out.append(f"Ils tiennent mieux les objectifs ({b.control} contre {a.control}) : il faut tuer pour scorer.")
+        out.append(
+            f"Ils tiennent mieux les objectifs ({b.control_txt} contre {a.control_txt}) : il faut tuer pour scorer."
+        )
     return out
 
 
@@ -1253,7 +1304,7 @@ def match_text(a: ArmyList, b: ArmyList, m: Matchup, cache: dict) -> str:
         f"et retirent le plus vite {easy_a[0]} (~{easy_a[1]:.1f} activation(s) de {easy_a[2]})."
     )
     lines.append(
-        f"- *Scénario ({m.board:+.1f})* : contrôle {a.control} contre {b.control}, "
+        f"- *Scénario ({m.board:+.1f})* : contrôle {a.control_txt} contre {b.control_txt}, "
         f'{a.n_units} unités contre {b.n_units}, mouvement moyen {a.avg_move:.0f}" contre {b.avg_move:.0f}", '
         f"vol {a.prof.fly_share:.0%} contre {b.prof.fly_share:.0%} ; indice de mobilité {a.mob:+.1f} contre {b.mob:+.1f}"
         + _mob_detail(a, b)

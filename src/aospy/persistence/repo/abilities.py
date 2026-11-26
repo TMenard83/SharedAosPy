@@ -187,6 +187,13 @@ def ability_stats(con: duckdb.DuckDBPyConnection) -> dict[str, list[tuple]]:
     return {k: con.execute(sql).fetchall() for k, sql in q.items()}
 
 
+def get_ability_text(con: duckdb.DuckDBPyConnection, ability_uid: str) -> Optional[dict]:
+    """Texte brut d'une aptitude (condition, annonce, effet, coût, mots-clés d'aptitude) ; `None` si absente."""
+    cols = ("condition_text", "declare_text", "effect_text", "cost_type", "cost_value", "ability_keywords")
+    r = con.execute(f"SELECT {','.join(cols)} FROM ability WHERE uid = ?", [ability_uid]).fetchone()
+    return dict(zip(cols, r)) if r else None
+
+
 def get_ability_effects(con: duckdb.DuckDBPyConnection, ability_uid: str) -> list[dict]:
     """Effets chiffrés d'une aptitude, avec leur périmètre, dans l'ordre d'extraction."""
     rows = con.execute(

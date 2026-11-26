@@ -137,6 +137,9 @@ RETALIATION = "riposte au contact"
 #: v35 : BM ajoutées aux attaques du porteur (« each time an attack made with its X scores a hit ») : un bonus
 #: d'arme, jugé comme un buff offensif perso (couche 3).
 ON_OWN_ATTACKS = "sur ses attaques"
+#: v42 : l'effet suit la destruction d'une unité amie au tour précédent (Memories of the Fallen) : pondéré par
+#: la couche 3 (`marriage.trigger`), pas un effet permanent.
+AFTER_FRIENDLY_LOSS = "après une perte amie"
 
 
 def charge_either(text: str, enemy_target: bool) -> bool:
@@ -340,6 +343,12 @@ def perimeter_of(
         else:
             out["weapon_scope"] = "all"
         out["includes_companion"] = bool(_COMPANION_IN.search(sentence))
+        # v40 : « Companion weapons used by friendly SERAPHON units » (Itzl), « Companion melee weapons » (Menagerie),
+        # « Attacks characteristic of Companion weapons » (Enraged Roar) : SEULES les armes Compagnon (portée
+        # « companion ») — lues jusqu'ici « toutes les armes, Compagnon exclues », soit l'inverse du texte
+        only_companion = re.search(r"\bCompanion (?:melee |ranged )?weapons?\b(?! abilit)", sentence)
+        if only_companion and not _COMPANION_IN.search(sentence):
+            out["weapon_scope"], out["includes_companion"] = "companion", True
 
     kws = [
         _SINGULAR.get(k.strip(), k.strip())

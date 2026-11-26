@@ -28,7 +28,14 @@ import duckdb
 
 from ..domain.models import Army, Unit, Weapon
 from ..persistence import repository
-from ..sources.wahapedia_csv import DEFAULT_DATA_DIR, canonical_ids, is_expired_variant, legends_warscroll_ids, read_csv
+from ..sources.wahapedia_csv import (
+    DEFAULT_DATA_DIR,
+    ROR_ROLE,
+    canonical_ids,
+    is_expired_variant,
+    legends_warscroll_ids,
+    read_csv,
+)
 from .bsdata import KNOWN_ARMIES, ImportSummary, parse_dice, parse_target
 
 #: Alliance de grande faction, dérivée du mapping déjà tenu par `bsdata.py`
@@ -144,6 +151,14 @@ def import_faction(
     else:
         army_id = existing.id
 
+    # Héros vendu seulement en Régiment de Renom (Gotrek Gurnisson) : sa charte jouable n'a pas de coût, son
+    # régiment homonyme (rôle RoR, même faction) le porte — on le lui reprend (2026-11-25).
+    ror_cost = {
+        (w.get("faction_id"), (w.get("name") or "").lower()): w["Cost"].strip()
+        for w in warscrolls
+        if (w.get("role") or "") == ROR_ROLE and (w.get("Cost") or "").strip()
+    }
+
     summary = ImportSummary(army=faction_name)
     for w in warscrolls:
         wid = w["id"]
@@ -157,8 +172,11 @@ def import_faction(
             summary.skipped_legends += 1
             continue
         if not (w.get("Cost") or "").strip():
-            summary.skipped_no_points += 1
-            continue
+            cost = ror_cost.get((faction_id, (w.get("name") or "").lower()))
+            if cost is None:
+                summary.skipped_no_points += 1
+                continue
+            w = {**w, "Cost": cost}
         try:
             unit = _parse_unit(w, army_id, weapons_by_id.get(wid, []), keywords_by_id.get(wid, set()))
         except (ValueError, KeyError):

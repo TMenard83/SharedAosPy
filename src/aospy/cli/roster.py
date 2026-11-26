@@ -63,6 +63,49 @@ def cmd_roster_analyze(args: argparse.Namespace) -> int:
     return 0
 
 
+def write_dossier(con, list_path, out) -> tuple[str, list[str]]:
+    """Dossier d'analyse d'une liste dans `out` : `<stem> - couche 4.md`, `<stem> - textes.md`, `liste.txt`.
+
+    Renvoie (stem, unités non reconnues). Utilisé par `aospy roster dossier` et `scratch/list_dossier.py`
+    (consignes d'agent `l3-matchups/*_agent.md`, `l3/draft_pack.py`).
+    """
+    from pathlib import Path
+
+    from ..analysis.layers.listing import analyse_list, collect
+    from ..persistence.repository import get_ability_text
+    from ..tournament_kit.list_parser import parse_list_file
+    from .report import format_list_report, format_list_texts
+
+    f, out = Path(list_path), Path(out)
+    out.mkdir(parents=True, exist_ok=True)
+    parsed = parse_list_file(f)
+    stem = f.name.split(" ")[0].strip()
+    raw = f.read_text(encoding="utf-8")
+    (out / f"{stem} - couche 4.md").write_text(format_list_report(analyse_list(con, parsed)), encoding="utf-8")
+    entries, abilities, _vocab = collect(con, parsed)
+    texts = {ab.uid: get_ability_text(con, ab.uid) for ab in abilities}
+    (out / f"{stem} - textes.md").write_text(format_list_texts(parsed.title, raw, entries, abilities, texts),
+                                             encoding="utf-8")
+    (out / "liste.txt").write_text(raw, encoding="utf-8")
+    return stem, [f"{n} ({p})" for n, p, u in entries if u is None]
+
+
+def cmd_roster_dossier(args: argparse.Namespace) -> int:
+    from pathlib import Path
+
+    out = args.out or str(Path("scratch/output/liste_analyse") / Path(args.list).stem)
+    con = _connect(args)
+    stem, missing = write_dossier(con, args.list, out)
+    con.close()
+    print(f"Dossier écrit : {out} ({stem} - couche 4.md, {stem} - textes.md, liste.txt)")
+    if missing:
+        print(f"ATTENTION : {len(missing)} unité(s) non reconnue(s) en base, chiffres faux tant qu'elles manquent :")
+        for m in missing:
+            print(f"  - {m}")
+        return 2
+    return 0
+
+
 def register(sub: argparse._SubParsersAction) -> None:
     """Sous-commande `roster` : compile une liste + ses profils d'unité en PDF
     (nécessite l'extra `[roster]`)."""
@@ -76,6 +119,14 @@ def register(sub: argparse._SubParsersAction) -> None:
     p.add_argument("--list", dest="list", required=True, help="Fichier de liste (export texte de l'App).")
     p.add_argument("--out", help="Fichier Markdown de sortie (défaut : affichage).")
     p.set_defaults(func=cmd_roster_analyze)
+    p = sr.add_parser(
+        "dossier",
+        help="Dossier d'analyse d'une liste (skill list-analysis) : fiche couche 4 + profils et textes complets.",
+    )
+    p.add_argument("--list", dest="list", required=True, help="Fichier de liste (export texte de l'App).")
+    p.add_argument("--out", help="Dossier de sortie (défaut : scratch/output/liste_analyse/<liste>/ ; "
+                   "rangement conseillé : liste_analyse/<équipe>/<joueur>-<faction>/<liste>/).")
+    p.set_defaults(func=cmd_roster_dossier)
     p = sr.add_parser("pdf", help="Compile une liste (export brut de l'App) en PDF.")
     p.add_argument(
         "--list",

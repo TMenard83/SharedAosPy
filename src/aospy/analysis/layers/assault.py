@@ -49,6 +49,14 @@ _ONCE_PER_BATTLE_OPTION_RE = re.compile(
     r"more than once per battle",
     re.I,
 )
+#: « You cannot pick the same HERO to be the target of this ability more than once per battle » (Ironjawz
+#: Waaagh!) : limite par cible, l'aptitude se rejoue à chaque tour sur un autre héros — pas 1×/bataille (Darkjawz).
+_SAME_TARGET_LIMIT_RE = re.compile(
+    r"[^.]*\bcannot pick the same [^.]*\bmore than once per battle[^.]*\.?", re.I
+)
+#: L'utilisateur doit avoir chargé pour activer l'aptitude (« Pick a friendly non-UNIQUE PARAGON that charged this
+#: turn … to use this ability ») : son bonus de charge ne sert pas sa propre charge.
+_USER_CHARGED_RE = re.compile(r"\bPick a friendly [^.]*?\bthat charged this turn\b[^.]*\bto use this ability\b")
 _PER_BATTLE_FREQ = ("once_per_battle", "once_per_battle_army")
 _BONUS_TARGET_RE = re.compile(
     r"add \d+ to (?:run and )?charge rolls for friendly ((?:[A-Z][A-Z'-]* )*[A-Z][A-Z'-]*)"
@@ -67,6 +75,11 @@ class ChargeSource:
     p_present: float  # P(la source existe ce tour) : invocation d'une manifestation, sinon 1
     per_battle: bool  # un seul round dans la partie
     dice: str = ""  # mode de jet pour « dés » (`DICE_MODES`)
+    #: groupe exclusif entre aptitudes (`listing.EXCLUSIVE_KEYWORDS`) : un seul Délire à la fois (Von glutten)
+    group: str = ""
+    #: ne sert qu'après une charge du porteur (« Pick a friendly PARAGON that charged this turn », Chief of
+    #: Revels) : pas un bonus permanent de la charge elle-même (Aeorl, 2026-11-25)
+    after_charge: bool = False
 
 
 @dataclass(frozen=True)
@@ -193,7 +206,10 @@ def charge_sources(
     for ab in abilities:
         if ab.uid in dead:
             continue
-        per_battle = ab.frequency in _PER_BATTLE_FREQ or bool(_ONCE_PER_BATTLE_OPTION_RE.search(ab.text))
+        per_battle = ab.frequency in _PER_BATTLE_FREQ or bool(
+            _ONCE_PER_BATTLE_OPTION_RE.search(_SAME_TARGET_LIMIT_RE.sub("", ab.text))
+        )
+        after = bool(_USER_CHARGED_RE.search(ab.text))
         p = ab.summon_prob * (ab.activation_prob if ab.summon_prob == 1.0 else 1.0)
         m = _BONUS_TARGET_RE.search(ab.text)
         bonus_text = (
@@ -205,7 +221,12 @@ def charge_sources(
             if e.kind == "stat_mod" and e.value > 0:
                 recv = recv_of(ab, e, bonus_text)
                 if recv:
-                    out.append(ChargeSource(ab.name, ab.source, "bonus", e.value, recv, p, per_battle))
+                    out.append(
+                        ChargeSource(
+                            ab.name, ab.source, "bonus", e.value, recv, p, per_battle,
+                            group=ab.exclusive_group, after_charge=after,
+                        )
+                    )
             elif e.kind == "dice_count" and e.value > 0:
                 recv = recv_of(ab, e, bonus_text)
                 if recv:
@@ -216,6 +237,40 @@ def charge_sources(
                 if recv:
                     out.append(ChargeSource(ab.name, ab.source, "relance", 0.0, recv, p, per_battle))
     return out
+
+
+def move_bonuses(
+    abilities, units: list[Unit], vocab: frozenset[str], dead: frozenset[str] = frozenset()
+) -> dict[str, float]:
+    """+N" de Mouvement permanents reçus par chaque unité de la liste (Kurnothi War-horn, Aspect of Harvestboon :
+    épées de Kurnoth à 10" au lieu de 6", Zoko 2026-11-25) — passifs sans jet, une valeur par aptitude (la plus
+    forte), les aptitudes s'additionnent ; leurs conditions de position (bulle, invasion) sont supposées tenues,
+    comme les bonus de charge."""
+    from .listing import effect_ability, list_receivers
+
+    out: dict[str, dict[tuple[str, str], float]] = {}
+    for ab in abilities:
+        if ab.uid in dead or ab.frequency != "passive" or ab.summon_prob < 1.0:
+            continue
+        for e in ab.effects:
+            if e.kind != "stat_mod" or e.stat != "move" or e.value <= 0 or e.side == "enemy":
+                continue
+            for u, _r in list_receivers(effect_ability(ab, e.friendly_target), units, vocab):
+                per = out.setdefault(u.name, {})
+                per[(ab.name, ab.source)] = max(e.value, per.get((ab.name, ab.source), 0.0))
+    return {n: sum(v.values()) for n, v in out.items()}
+
+
+#: « set it up again within ½" of an enemy unit and wholly within X" of a terrain feature …, where X is equal to the
+#: charge roll. If you do so, this unit has charged » (Merciless Ambush, Drycha) : la charge part du décor, pas d'un
+#: point à plus de 9" — `AMBUSH_GAP` = distance du décor à la cible (hypothèse : un décor à pion près de la cible).
+_AMBUSH_RE = re.compile(r"\bwhere X is equal to the charge roll\b[^.]*\.\s*If you do so, this unit has charged\b", re.I)
+AMBUSH_GAP = 6.0
+
+
+def ambushers(abilities) -> frozenset[str]:
+    """Porteurs d'une charge-embuscade (`_AMBUSH_RE`)."""
+    return frozenset(c for a in abilities if _AMBUSH_RE.search(a.text or "") for c in a.carriers)
 
 
 def chargers(units: list[Unit], share_melee: dict[str, float], melee_dmg: dict[str, float]) -> list[Unit]:
@@ -234,21 +289,34 @@ def chargers(units: list[Unit], share_melee: dict[str, float], melee_dmg: dict[s
     return [u for u in melee if melee_dmg.get(u.name, 0.0) >= CHARGER_DAMAGE_SHARE * best]
 
 
-def _bonus(u: Unit, sources: Sequence[ChargeSource], per_battle: bool) -> float:
-    return sum(
-        s.value
-        for s in sources
-        if s.kind == "bonus" and u.name in s.receivers and s.p_present >= 1.0 and (per_battle or not s.per_battle)
+def _usable(s: ChargeSource, u: Unit, per_battle: bool) -> bool:
+    return (
+        u.name in s.receivers
+        and s.p_present >= 1.0
+        and not s.after_charge
+        and (per_battle or not s.per_battle)
     )
+
+
+def _bonus(u: Unit, sources: Sequence[ChargeSource], per_battle: bool) -> float:
+    """Somme des bonus de charge de `u` : paliers d'une même aptitude non cumulés (« Add 2 … instead », Defenders
+    of the Kingdom : le plus fort), une seule aptitude par groupe exclusif (un Délire à la fois) — 2026-11-25."""
+    by_ab: dict[tuple[str, str], tuple[str, float]] = {}
+    for s in sources:
+        if s.kind == "bonus" and _usable(s, u, per_battle):
+            k = (s.name, s.origin)
+            by_ab[k] = (s.group, max(s.value, by_ab.get(k, ("", 0.0))[1]))
+    plain = sum(v for g, v in by_ab.values() if not g)
+    groups: dict[str, float] = {}
+    for g, v in by_ab.values():
+        if g:
+            groups[g] = max(groups.get(g, 0.0), v)
+    return plain + sum(groups.values())
 
 
 def _dice(u: Unit, sources: Sequence[ChargeSource], per_battle: bool) -> tuple[str, ...]:
     """Modes de jet disponibles en permanence (ou ce round-là, `per_battle`) pour `u`, 2D6 compris."""
-    modes = {
-        s.dice
-        for s in sources
-        if s.kind == "dés" and u.name in s.receivers and s.p_present >= 1.0 and (per_battle or not s.per_battle)
-    }
+    modes = {s.dice for s in sources if s.kind == "dés" and _usable(s, u, per_battle)}
     return tuple(m for m in DICE_MODES if m in modes | {"2d6"})
 
 
@@ -336,22 +404,31 @@ def assault(
             and any(e.kind in ("deep_strike", "redeploy") for e in a.effects)
         ]
         p_tp = max(tp_spells) if tp_spells else None
+        amb = ambushers(abilities)
+        label = f'après téléportation (posés à plus de {TELEPORT_GAP:g}")'
+        if any(u.name in amb for u in tp):
+            label += f' ; embuscade : {AMBUSH_GAP:g}" depuis le décor'
         scen.append(
             scenario(
-                f'après téléportation (posés à plus de {TELEPORT_GAP:g}")',
+                label,
                 tp,
-                lambda u: TELEPORT_GAP,
+                lambda u: AMBUSH_GAP if u.name in amb else TELEPORT_GAP,
                 srcs,
                 p_arrive=p_tp,
             )
         )
+    mv = move_bonuses(abilities, distinct, vocab, dead)
+
+    def move(u: Unit) -> float:
+        return reach(u) + mv.get(u.name, 0.0)
+
     threats = tuple(
         Threat(
             u.name,
-            reach(u),
-            reach(u) + longest_charge(0.0, False),
-            reach(u) + longest_charge(_bonus(u, srcs, False), False, dice=_dice(u, srcs, False)),
-            reach(u) + longest_charge(_bonus(u, srcs, False), True, dice=_dice(u, srcs, False)),
+            move(u),
+            move(u) + longest_charge(0.0, False),
+            move(u) + longest_charge(_bonus(u, srcs, False), False, dice=_dice(u, srcs, False)),
+            move(u) + longest_charge(_bonus(u, srcs, False), True, dice=_dice(u, srcs, False)),
         )
         for u in {x.name: x for x in ch}.values()
     )

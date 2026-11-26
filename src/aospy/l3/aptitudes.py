@@ -147,6 +147,9 @@ CHARGE_REROLL_FR = re.compile(r"relance[rz]? (?:les )?jets de (?:course et de )?
 AURA_EN = re.compile(r"friendly (?:[a-z\- ]+ )?units? (?:while they are )?(?:wholly )?within")
 AURA_FR = re.compile(r"unités? (?:[a-zéèê\- ]+ )?amies? (?:tant qu'elles sont )?entièrement à \d+")
 
+#: aptitudes de score de contrôle (anglais et français), chiffrées par la couche 4
+CONTROL_SCORE = re.compile(r"control (?:characteristic|score)|(?:caractéristique|score) de contrôle")
+
 FAMILIES = ["mobilité", "soins", "protection", "buff", "débuff", "objectifs", "magie", "anti-magie", "anti-soin"]
 
 
@@ -187,6 +190,9 @@ class Profile:
     wizard_levels: int = 0
     priest_levels: int = 0
     fly_share: float = 0.0
+    #: part de `score["objectifs"]` due aux aptitudes de score de contrôle : la couche 4 les chiffre
+    #: (`l3.layer4.L4Indices.control`), le reste du compteur « objectifs » les retire alors (double compte)
+    objectifs_controle: float = 0.0
 
 
 def _frequency(cond: str) -> float:
@@ -313,6 +319,14 @@ class Library:
                 ab.source = f"domaine {r['subtype_name']}"
             elif r["faction_id"] == fid and _norm(r["name"]) in opts:
                 ab.source = f"amélioration ({typ})"
+                # homonyme d'une armée Spearhead (type = nom de l'armée, sous-type « Enhancements ») : la Graine de
+                # Renaissance de Bitterbark Copse comptait en plus de l'artefact de base (Zoko, 2026-11-25)
+                if sub == "enhancements" and any(
+                    _norm(r2["name"]) == _norm(r["name"]) and r2["faction_id"] == fid
+                    and _norm(r2.get("subtype_name") or "") != "enhancements"
+                    for r2 in self.faction
+                ):
+                    continue
             else:
                 continue
             out.append(ab)
@@ -570,4 +584,6 @@ def profile(lib: Library, al, header: list[str], options: list[str]) -> Profile:
         for fam, w in classify(ab):
             pr.score[fam] += w * mult
             pr.detail[fam].append(f"{ab.name.title()} ({ab.source})")
+            if fam == "objectifs" and CONTROL_SCORE.search(ab.text):
+                pr.objectifs_controle += w * mult
     return pr

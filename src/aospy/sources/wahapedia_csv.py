@@ -11,6 +11,8 @@ puissent tous s'en servir.
 from __future__ import annotations
 
 import csv
+import re
+from datetime import date
 from pathlib import Path
 
 DEFAULT_DATA_DIR = Path("data") / "wahapedia"
@@ -32,10 +34,36 @@ EXPIRED_VARIANT_MARKERS: frozenset[str] = frozenset(
 )
 
 
+def _rejoin_broken_rows(lines: list[str]) -> list[str]:
+    """Recolle les lignes coupées par un saut de ligne brut dans un champ (non échappé par Wahapedia).
+
+    Une ligne complète porte autant de `|` que l'en-tête : tant qu'une ligne en a moins et que la suivante
+    ne la fait pas déborder, la suivante en est la suite (« Belga the Cystwitch », dont la description
+    contient un saut de ligne : sans recollage, la charte entière était illisible, 2026-11-25). Une ligne
+    courte suivie d'une ligne entière (pas de `|` final) reste seule."""
+    if not lines:
+        return lines
+    n = lines[0].count("|")
+    out: list[str] = [lines[0]]
+    i = 1
+    while i < len(lines):
+        buf = lines[i]
+        while buf.strip() and buf.count("|") < n and i + 1 < len(lines) and (
+            buf.count("|") + lines[i + 1].count("|") <= n
+        ) and lines[i + 1].strip():
+            i += 1
+            buf = f"{buf} {lines[i]}"
+        out.append(buf)
+        i += 1
+    return out
+
+
 def read_csv(path: Path) -> list[dict[str, str]]:
     """Lignes d'un CSV Wahapedia (séparateur `|`, BOM UTF-8), une `dict` par ligne."""
     with open(path, encoding="utf-8-sig", newline="") as fh:
-        return list(csv.DictReader(fh, delimiter="|"))
+        # pas `splitlines()` : il couperait aussi sur U+2028 & co., que le module csv garde dans le champ
+        lines = [ln.removesuffix("\r") for ln in fh.read().split("\n")]
+    return list(csv.DictReader(_rejoin_broken_rows(lines), delimiter="|"))
 
 
 def is_expired_variant(name: str) -> bool:
@@ -43,14 +71,37 @@ def is_expired_variant(name: str) -> bool:
     return any(marker in lname for marker in EXPIRED_VARIANT_MARKERS)
 
 
-def legends_warscrolls(data_dir: Path) -> list[dict[str, str]]:
-    """Lignes de `Warscrolls.csv` Legends : source de type Legends, ou note d'annonce de retrait."""
+_MONTHS = {m: i for i, m in enumerate(
+    ("january", "february", "march", "april", "may", "june", "july", "august", "september", "october",
+     "november", "december"), start=1)}
+#: « This unit will move to Warhammer Legends on 1 June 2027. » : retrait annoncé, daté.
+_LEGENDS_DATE_RE = re.compile(r"legends on (\d{1,2}) ([a-z]+) (\d{4})")
+
+
+def is_legends_note(notes: str, today: date | None = None) -> bool:
+    """Note Wahapedia d'une charte Legends : « Legends Warscroll », ou retrait annoncé **dont la date est passée**.
+
+    Une charte « will move to Warhammer Legends on 1 June 2027 » reste jouable jusque-là : la lire comme
+    Legends dès l'annonce écartait 52 chartes encore valides (Frost Sabres, 2026-11-25)."""
+    # espaces insécables dans la date (« 1\xa0June\xa02027 », Tzaangor Enlightened on Foot, 2026-11-26)
+    low = re.sub(r"\s+", " ", (notes or "").lower())
+    if "legend" not in low:
+        return False
+    m = _LEGENDS_DATE_RE.search(low)
+    if m and m.group(2) in _MONTHS:
+        when = date(int(m.group(3)), _MONTHS[m.group(2)], int(m.group(1)))
+        return when <= (today or date.today())
+    return True
+
+
+def legends_warscrolls(data_dir: Path, today: date | None = None) -> list[dict[str, str]]:
+    """Lignes de `Warscrolls.csv` Legends : source de type Legends, ou note de retrait (`is_legends_note`)."""
     sources = read_csv(data_dir / "Source.csv")
     legend_sources = {s["id"] for s in sources if "legends" in (s.get("name") or "").lower()}
     return [
         w
         for w in read_csv(data_dir / "Warscrolls.csv")
-        if w.get("source_id") in legend_sources or "legend" in (w.get("notes") or "").lower()
+        if w.get("source_id") in legend_sources or is_legends_note(w.get("notes") or "", today)
     ]
 
 

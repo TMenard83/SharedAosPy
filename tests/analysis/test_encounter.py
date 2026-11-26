@@ -289,3 +289,42 @@ def test_named_weapon_scope_also_matches_a_weapon_ability():
     blade = Weapon("Hellblade", "melee", attacks=2, hit=3, wound=3, damage=1, abilities="Blood-hungry, Crit (Mortal)")
     assert weapon_in_scope(blade, eff)
     assert not weapon_in_scope(Weapon("Claws", "melee", attacks=2, hit=3, wound=3, damage=1), eff)
+
+
+def test_companion_scope_and_title_keywords():
+    """Portée « companion » : seulement les armes Compagnon ; « Kruleboyz » écrit en casse de nom est le mot-clé de
+    faction ; « Shadow Queen » désigne « The Shadow Queen »."""
+    from aospy.analysis.layers.encounter import EffectSpec, matches_friendly_target, weapon_in_scope
+
+    eff = EffectSpec("stat_mod", "attacks", 1.0, weapon_scope="companion", includes_companion=True)
+    mount = Weapon("Jaws", "melee", attacks=3, hit=4, wound=3, damage=1, abilities="Companion")
+    assert weapon_in_scope(mount, eff)
+    assert not weapon_in_scope(Weapon("Sword", "melee", attacks=3, hit=3, wound=3, damage=1), eff)
+    vocab = frozenset({"KRULEBOYZ", "HERO"})
+    boy = Unit(name="Gutrippaz", army_id=1, move=5, save=4, control=1, health=1, models=10, points=1,
+               keywords=frozenset({"KRULEBOYZ"}))
+    assert matches_friendly_target(boy, "Kruleboyz", vocab)
+    queen = Unit(name="The Shadow Queen", army_id=1, move=12, save=4, control=1, health=10, models=1, points=0,
+                 keywords=frozenset({"HERO"}))
+    assert matches_friendly_target(queen, "Shadow Queen", vocab)
+
+
+def test_incoming_protections_raise_durability():
+    """Protections « attaques qui ciblent l'unité » (2026-11-25) : lues par la durabilité, un débuff ennemi non."""
+    from aospy.analysis.layers.encounter import apply_effect, unit_durability
+
+    u = _unit([])
+    base = unit_durability(u)
+    hit = EffectSpec("stat_mod", "hit", -1.0, "defensif", "enemy", family="buff-perso-defensif")
+    assert is_translatable(hit)
+    assert unit_durability(apply_effect(u, hit)) == pytest.approx(base * 4 / 3)  # touche 3+ → 4+
+    twice = apply_effect(apply_effect(u, hit), hit)
+    assert unit_durability(twice) == pytest.approx(base * 4 / 3)  # plafond −1
+    ranged = EffectSpec("stat_mod", "hit", -1.0, "defensif", "enemy", weapon_scope="ranged", family="buff-donne")
+    assert base < unit_durability(apply_effect(u, ranged)) < base * 4 / 3
+    fail = EffectSpec("negate_attack", "hit", 4.0, "the attack fails", "friendly")
+    assert unit_durability(apply_effect(u, fail)) == pytest.approx(base * 2)  # toucher sur 5+ au lieu de 3+
+    debuff = EffectSpec("stat_mod", "hit", -1.0, "defensif", "enemy", family="debuff")
+    assert not is_translatable(debuff)
+    monster = EffectSpec("stat_mod", "damage", -1.0, "defensif", "enemy", target_keywords="MONSTER", family="buff-donne")
+    assert not is_translatable(monster)

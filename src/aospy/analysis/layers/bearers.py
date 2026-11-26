@@ -159,9 +159,9 @@ def build_bearer_rows(con) -> list[tuple]:
     profiles = chassis_profiles(con)
     recv = receiver_reach(con)
     specs: dict[str, list[EffectSpec]] = {}
-    for uid, kind, stat, value, detail, side, wscope, wname, comp, tkw, tcond, req, dur in con.execute(
+    for uid, kind, stat, value, detail, side, wscope, wname, comp, tkw, tcond, req, dur, efam in con.execute(
         """SELECT ability_uid, kind, stat, value, detail, side, weapon_scope, weapon_name, includes_companion,
-                      target_keywords, target_condition, requires, duration FROM ability_effect"""
+                      target_keywords, target_condition, requires, duration, coalesce(family, '') FROM ability_effect"""
     ).fetchall():
         specs.setdefault(uid, []).append(
             EffectSpec(
@@ -177,6 +177,7 @@ def build_bearer_rows(con) -> list[tuple]:
                 target_condition=tcond or "",
                 requires=req or "",
                 duration=dur or "",
+                family=efam,
             )
         )
     comb = dict(

@@ -562,3 +562,55 @@ def test_compact_export_army_of_renown_becomes_full_form():
     # format complet : inchangé
     p = compact_renown(parsed("Sylvaneth | Lords of the Clan", "Lords of the Clan"), wh)
     assert p.allegiance == "Lords of the Clan"
+
+
+_ZAINTHAR_KAI_LIST = """Skarbrand - test
+
+Daughters of Khaine | Zainthar Kai
+General's Handbook 2026-27
+Drops: 2
+Spell Lore - Zainthar Kai
+Manifestation Lore - Zainthar Kai
+
+General's Regiment
+Morathi-Khaine (770)
+ • General
+Melusai Ironscale (Scourge of Aqshy) (150)
+ • Amulet of the Bladed Queen
+ • Khaine's Inheritor
+Blood Sisters (340)
+"""
+
+
+def test_build_roster_pdf_mode_fr_zainthar_kai_renown_army(tmp_path):
+    """DoK « Zainthar Kai » (traduction non officielle de `faction_rules_fr.json`) :
+    les 10 règles en français, une seule fois chacune (les 2 optimisations
+    choisies sur leur porteur, pas en double dans le bassin de l'armée de
+    renom), plus d'annexe anglaise, et les 3 manifestations du domaine de
+    l'armée de renom trouvées (un seul sort les liste, pas de « SUMMON <nom> »)."""
+    list_path = tmp_path / "Skarbrand.txt"
+    list_path.write_text(_ZAINTHAR_KAI_LIST, encoding="utf-8")
+    out_path = tmp_path / "out.pdf"
+    result = build_roster_pdf(list_path, out_path=out_path, mode="fr")
+
+    assert "Armée de Renom — Zainthar Kai" in result.rules_included
+    assert not any("Zainthar Kai" in u for u in result.wahapedia_used)
+    assert result.rules_unmatched == []
+    text = " ".join("".join(p.extract_text() for p in PdfReader(str(out_path)).pages).split())
+    for name in (
+        "Majesté Ténébreuse",
+        "Les Saintes de Sang",
+        "Matriarche des Zainthar Kai",
+        "Héritage Maudit",
+        "Héritière de Khaine",
+        "Amulette de la Reine des Lames",
+        "Grâce Éthérée",
+        "Sur des Ailes d'Ombre",
+        "Vitesse des Scáthborn",
+        "Manifestations du Meurtre",
+    ):
+        assert text.count(name) == 1, name
+    for absent in ("Rites de Sang", "Bénédictions de Khaine", "DARK MAJESTY", "AMULET OF THE BLADED QUEEN"):
+        assert absent not in text
+    for manifestation in ("Bloodwrack Viper", "Bladewind", "Heart of Fury"):
+        assert manifestation in text

@@ -94,9 +94,30 @@ def cmd_player(lists, stats, players):
         for f in sorted(pr.detail):
             names = sorted(set(pr.detail[f]))
             print(f"   - {f} : " + "; ".join(names[:8]) + (f" (+{len(names) - 8})" if len(names) > 8 else ""))
-        print(
-            "   charge : " + ("; ".join(pr.charge_detail) or "aucune amélioration") + f' (armée +{pr.charge_army:.1f}")'
-        )
+        if al.l4 is not None:
+            l4 = al.l4
+            print(
+                f"   couche 4 : dégâts ×{l4.off_stack:.2f} (montée ×{l4.off_time:.2f}), durabilité ×{l4.def_stack:.2f} "
+                f"(montée ×{l4.def_time:.2f}), indice {l4.value:.2f} ; assaut groupé P(≥2) {l4.assault_p2:.0%}"
+            )
+            print("   empilement : " + "; ".join(f"{n} ×{m:.2f}" for n, m in l4.top))
+            print(
+                f"   soins (couche 4) : durabilité +{l4.heal:.0%}"
+                + (" — " + "; ".join(f"{n} +{v:.0%}" for n, v in l4.heal_top) if l4.heal_top else "")
+            )
+            print(
+                f"   contrôle (couche 4) : +{l4.control:.1f}"
+                + (" — " + "; ".join(f"{n} +{v:.1f}" for n, v in l4.control_top) if l4.control_top else "")
+            )
+            ch = {n: v for n, v in l4.charge.items() if v}
+            print("   charge (couche 4) : " + ("; ".join(f'{n} +{v:.1f}"' for n, v in ch.items()) or "aucun bonus"))
+            if l4.missing:
+                print("   ! unités absentes de la base : " + ", ".join(l4.missing))
+        else:
+            print(
+                "   charge : " + ("; ".join(pr.charge_detail) or "aucune amélioration")
+                + f' (armée +{pr.charge_army:.1f}")'
+            )
         print(
             "   PC — coûts : "
             + ("; ".join(pr.cp_costs) or "aucune aptitude propre")

@@ -112,6 +112,7 @@ from .sources.faction_rules_fr import (
     apply_fr_overrides,
     get_faction_category_overrides,
     get_regiment_of_renown_overrides,
+    get_renown_army_overrides,
     get_unit_ability_overrides,
     get_unit_display_overrides,
     load_faction_rules_fr,
@@ -494,6 +495,7 @@ def _build_roster_pdf(
     # Renown à une seule unité membre (`single_unit_ror_extras` ci-dessus).
     unit_enhancements: dict[str, list[AbilityEntry]] = {}
     enhancements_included: list[str] = []
+    attached_renown_enhancements: set[str] = set()
     if wh.available:
         # Correctifs vérbatim français pour cette catégorie (pas de `scope` —
         # toutes les optimisations de la faction, comme côté Wahapedia) :
@@ -505,6 +507,20 @@ def _build_roster_pdf(
             if mode_spec(mode).curated_patch
             else []
         )
+        # Optimisations propres à l'Armée de Renom (ex. DoK « Zainthar Kai »,
+        # « Khaine's Inheritor ») : même correctif français que celles de la
+        # faction de base, cherché sous `renown_armies.<nom>`, prioritaire
+        # sur un homonyme de la faction de base (cf. plus bas). Une fois
+        # rattachée à son porteur, elle est retirée du bassin de règles de
+        # l'armée de renom (`attached_renown_enhancements`), sans quoi elle
+        # y figurerait une 2e fois.
+        renown_heroic_overrides = (
+            get_renown_army_overrides(frf, parsed.base_faction, renown_prefix, "heroic_traits_artefacts")
+            if renown_prefix and mode_spec(mode).curated_patch
+            else []
+        )
+        heroic_overrides = heroic_overrides + renown_heroic_overrides
+        renown_heroic_keys = {ability_join_key(o.get("wahapedia_name")) for o in renown_heroic_overrides}
         # Cf. `find_pledge_battle_trait` : unités StD qui commencent la
         # bataille déjà marquées (Prince Démon, porteur de Bannière
         # Ensorcelée) — la Trait de Bataille "Voué à <Dieu>" correspondante
@@ -526,7 +542,13 @@ def _build_roster_pdf(
                                 if ability_join_key(o.get("wahapedia_name")) == ability_join_key(entry_name)
                             ]
                             if matching:
-                                entry = apply_fr_overrides([entry], matching)[0]
+                                if ability_join_key(entry_name) in renown_heroic_keys:
+                                    # l'armée de renom l'emporte sur un homonyme de la faction de base
+                                    matching = [o for o in matching if o in renown_heroic_overrides]
+                                    entry = apply_fr_overrides([entry], matching)[0]
+                                    attached_renown_enhancements.add(entry.name)
+                                else:
+                                    entry = apply_fr_overrides([entry], matching)[0]
                         unit_enhancements.setdefault(unit.name, []).extend(tag_ability_origin([entry], label))
                         enhancements_included.append(f"{label} : {entry.name} → {unit.name}")
                         god = _BANNER_PLEDGED_GOD.get(entry_name)
@@ -545,6 +567,8 @@ def _build_roster_pdf(
                     tag_ability_origin([pledge_entry], "Trait de Bataille")
                 )
                 enhancements_included.append(f"Trait de Bataille : {pledge_entry.name} → {unit_name}")
+    if attached_renown_enhancements:
+        rule_ability_pool = [ab for ab in rule_ability_pool if ab.name not in attached_renown_enhancements]
 
     # options payantes (« Brand of Unbreakable Bonds - (10) Points ») :
     # la carte affiche « base+N pts » (demande de l'utilisateur), le prix

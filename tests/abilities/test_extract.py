@@ -2259,3 +2259,29 @@ def test_v39_another_visible_friendly_excludes_the_bearer():
                       declare="Pick another visible friendly non-UNIQUE BLADES OF KHORNE DAEMON unit to be the target.",
                       condition="Once Per Turn (Army), Any Combat Phase"))[0]
     assert ex.excludes_self
+
+
+def test_v40_companion_weapons_only():
+    """« Companion weapons used by friendly SERAPHON units » (Itzl), « Attacks characteristic of Companion weapons »
+    (Enraged Roar) : SEULES les armes Compagnon ; « the Companion weapon ability » n'est pas une portée d'arme."""
+    for text in ("Companion weapons used by friendly SERAPHON units have Crit (2 Hits).",
+                 "Add 1 to the Attacks characteristic of Companion weapons used by other friendly OGOR MAWTRIBES units "
+                 "while they are within this unit's combat range."):
+        (e,) = [x for x in _effs(_raw(text)) if x.kind in ("crit", "stat_mod")]
+        assert e.weapon_scope == "companion" and e.includes_companion
+    e = [x for x in _effs(_raw("Add 1 to hit rolls for this unit's melee weapons, including Companion weapons."))
+         if x.kind == "stat_mod"][0]
+    assert e.weapon_scope == "melee"
+
+
+def test_v41_protection_readings():
+    """`negate_attack` porte le seuil « 1-N » et le(s) jet(s) ; `damage_ignore` son sous-type (le moteur les traduit)."""
+    (e,) = [x for x in _effs(_raw("If the unmodified hit roll or unmodified wound roll for an attack that targets this "
+                                  "unit is 1-4, the attack fails and the attack sequence ends.")) if x.kind == "negate_attack"]
+    assert (e.stat, e.value) == ("hit,wound", 4.0)
+    (e,) = [x for x in _effs(_raw("Ignore the first damage point that would be allocated to this unit in each phase."))
+            if x.kind == "damage_ignore"]
+    assert (e.stat, e.value) == ("first_damage", 1.0)
+    (e,) = [x for x in _effs(_raw("Ignore negative modifiers to save rolls for friendly NIGHTHAUNT units."))
+            if x.kind == "damage_ignore"]
+    assert e.stat == "save_neg"

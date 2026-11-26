@@ -1331,6 +1331,16 @@
       "effect": "Pick 1 of the following effects to apply for the rest of the battle round. You cannot pick the effect that you picked in the previous battle round.\nThe Burgeoning: Each time a friendly Awakened Wyldwood uses the 'Ever Growing' ability, you can pick any terrain feature your opponent does not control to be the target rather than the closest.\nThe Reaping: Add 1 to casting rolls and chanting rolls for friendly SYLVANETH units while they are wholly within 12\" of this unit.\nThe Dwindling: Friendly SYLVANETH units can use CHARGE abilities even if they used a RETREAT ability in the same turn. In addition, no mortal damage is inflicted on those units when they use RETREAT abilities.\nDusk: Each time you use the 'Creeping Dread' ability this battle round, you can pick up to 3 targets instead of 1.",
       "source": "BT (traduction du scan anglais) Sylvaneth, « Saisons de Guerre » (verbatim relevé dans data/json/faction_rules_fr.json, units > Alarielle the Everqueen > abilities > 1)",
       "note": "Wahapedia : description coupée à 1024 caractères juste après une phrase (2 saisons manquantes). Fin traduite du français (noms des saisons traduits librement)."
+    },
+    {
+      "faction": "Daughters of Khaine",
+      "name": "SUMMON HEART OF FURY",
+      "owner": "Manifestation Lore › Manifestations of Khaine",
+      "condition": null,
+      "declare": "If there is not a friendly Heart of Fury on the battlefield, pick a friendly DAUGHTERS OF KHAINE WIZARD to cast this spell, then make a casting roll of 2D6.",
+      "effect": "Set up a Heart of Fury wholly within 18\" of the caster and visible to them.",
+      "source": "BT Daughters of Khaine (scan photos partielles, index PDF p6) : « choisissez un Sorcier des Filles de Khaine ami pour lancer ce sort, puis faites un jet de lancement de 2D6 » ; mots-clés Sort, Convocation ; valeur 6",
+      "note": "Wahapedia : texte de prière (Priest, chanting roll D6) contradictoire avec ses propres métadonnées Spell/Summon 6."
     }
   ]
 }

@@ -273,7 +273,46 @@ def format_list_report(rep) -> str:
             f"{s.off_rank:.2f} | {s.def_rank:.2f} | {s.fit_per_100:.1f} | {s.good_per_100:.1f} | "
             f"{s.share_melee:.0%} | {s.move}{' vol' if s.fly else ''} | R{s.engage_round} | {s.role} |"
         )
-    weak = [(s.name, w) for s in rep.sheets for w in s.weak_marriages]
+    if rep.sheets and rep.units:
+        from ..analysis.layers.roles import ROLES, components, pattern, unit_roles
+
+        roles = unit_roles(rep)
+        comps = components(rep, roles)
+        out += [
+            "",
+            "## Rôles dans la liste (profil + ce que l'unité reçoit) et composantes",
+            "",
+            "Suggestion à confirmer à la lecture : scores 0-1 par rôle, principal = le meilleur (mobilité seulement si "
+            "elle domine nettement), secondaires ≥ 0,6.",
+            "",
+            "| unité | pts | rôle | secondaires | rapide | " + " | ".join(ROLES) + " | pourquoi |",
+            "|---|---|---|---|---|" + "---|" * len(ROLES) + "---|",
+        ]
+        for r in roles:
+            sc = dict(r.scores)
+            out.append(
+                f"| {r.name} | {r.points} | **{r.role}** | {', '.join(r.secondary) or '—'} | "
+                f"{'oui' if r.fast else ''} | " + " | ".join(f"{sc[k]:.2f}" for k in ROLES)
+                + f" | {'; '.join(r.reasons)} |"
+            )
+        out += ["", f"**Composantes** : {pattern(comps) or 'aucune nette'}", ""]
+        for c in comps:
+            out.append(f"- {c.kind} ({c.points} pts, {c.share:.0%}) : {', '.join(c.units)} — {c.note}")
+        from ..analysis.layers.strengths import synthesis
+
+        traits = synthesis(rep, roles, comps)
+        out += [
+            "",
+            "## Forces et faiblesses (synthèse automatique)",
+            "",
+            "Suggestion à confirmer : seuils calés sur les 54 listes L3 (repère = médiane ligue). Ni plan, ni décors, "
+            "ni scénario.",
+        ]
+        for kind, head, verb in (("force", "Forces", "neutralisée par"), ("faiblesse", "Faiblesses", "punie par")):
+            rows = [t for t in traits if t.kind == kind]
+            out += ["", f"**{head}**", ""]
+            out += [f"- *{t.axis}* — {t.text} → {verb} : {t.counter}" for t in rows] or ["- aucune nette"]
+    weak =[(s.name, w) for s in rep.sheets for w in s.weak_marriages]
     if weak:
         out += ["", "### Aptitudes mal mariées à leur porteur (mariage < 0,4)", ""]
         out += [f"- **{n}** — {a} : {m:.2f} ({e})" for n, (a, m, e) in weak]
@@ -338,6 +377,10 @@ def format_list_report(rep) -> str:
                 extra = [f"existe à {s.p_present:.0%}"] if s.p_present < 1 else []
                 if s.per_battle:
                     extra.append("1×/bataille")
+                if s.after_charge:
+                    extra.append("après une charge du porteur : hors bonus permanents")
+                if s.group:
+                    extra.append(f"un seul {s.group} à la fois")
                 out.append(
                     f"- **{s.name}** ({s.origin}) : {what} → {', '.join(s.receivers)}"
                     + (f" ({', '.join(extra)})" if extra else "")
@@ -462,6 +505,8 @@ def format_list_report(rep) -> str:
             "cumulable » est un vrai doublon ; « sauvegarde 4+ déjà impossible » sert contre une sauvegarde de 3+ "
             "(Perforation en plus).",
             "",
+            "Dégâts d'un round au **plancher de 75 %** (ce qui tombe 3 fois sur 4, plan de jeu compris), en charge.",
+            "",
             "| unité | effets | dégâts/round nu → tout en place (vs 4+) | idem vs 3+ | dég. ensemble | dég. produit | "
             "dur. ensemble | dur. produit | plafonnés | PC |",
             "|---|---|---|---|---|---|---|---|---|---|",
@@ -523,3 +568,37 @@ def format_list_report(rep) -> str:
         out += ["", "## À lire (non chiffré : tempo, mobilité, ressources, débuffs…)", ""]
         out += [f"- {a.name} ({a.source}) — {a.verdict}" for a in rep.unresolved]
     return "\n".join(out) + "\n"
+
+
+def format_list_texts(title: str, raw_list: str, entries, abilities, texts: dict) -> str:
+    """Dossier « textes et profils » d'une liste : export de l'App, profils des unités, texte de chaque aptitude.
+
+    `entries` = (nom, points, unité ou None) de `listing.collect` ; `texts` = uid → `repository.get_ability_text`.
+    """
+    lines = [f"# {title} — textes et profils", "", "## Liste (export de l'App)", "", "```", raw_list, "```", "",
+             "## Unités", ""]
+    for n, p, u in entries:
+        if u is None:
+            lines.append(f"- {n} ({p}) : NON RECONNUE EN BASE")
+            continue
+        lines.append(f"### {u.name} ({p} pts) — M{u.move} Sv{u.save}+ Ward {u.ward or '-'} PV {u.health}×{u.models} "
+                     f"Ctl {u.control}")
+        lines.append("mots-clés : " + ", ".join(sorted(u.keywords)))
+        for w in u.weapons:
+            rng = (" " + str(w.range_in) + '"') if w.kind == "ranged" else ""
+            lines.append(f"- {w.name} [{w.kind}{rng}] A{w.attacks} {w.hit}+/{w.wound}+ P{w.rend} D{w.damage} "
+                         f"{w.abilities or ''}")
+        lines.append("")
+    lines += ["## Aptitudes (texte Wahapedia en base)", ""]
+    for ab in sorted(abilities, key=lambda a: (a.source, a.name)):
+        r = texts.get(ab.uid) or {}
+        cost = f" — coût {r['cost_type']} {r['cost_value']}" if r.get("cost_type") else ""
+        # Unlimited, Summon… (deux agents s'y sont trompés sans eux)
+        kw = f" — mots-clés : {r['ability_keywords']}" if r.get("ability_keywords") else ""
+        lines.append(f"### {ab.name} — {ab.source}{cost}{kw}")
+        lines.append(f"[{r.get('condition_text') or ''}]")
+        if r.get("declare_text"):
+            lines.append(f"Annonce : {r['declare_text']}")
+        lines.append(f"Effet : {(r.get('effect_text') or '').strip()}")
+        lines.append("")
+    return "\n".join(lines)

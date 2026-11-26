@@ -560,23 +560,12 @@ supérieur au jet de lancement pour le sort, il est dissipé et son
 effet n’est pas résolu. Cette réaction ne peut pas être utilisée
 plus d’une fois pour chaque jet de lancement.
 RÈGLES D'ARMÉE
-Dague de
-Sombre Rituel
-×1 / TOUR
-BT
-LEGION OF THE FIRST PRINCE
-Réaction : Vous avez annoncé une
-aptitude de Sort pour une unité amie
-entièrement à 12" de cette unité
-Effet : Allouez 1 dégât à cette unité.
-Ensuite, vous pouvez relancer le jet de
-lancement.
 Accorder une Faveur
 ×1 / TOUR (ARMÉE)
 BT
 LEGION OF THE FIRST PRINCE
-Annonce : Si un Be'lakor ami est sur le champ de bataille, choisissez comme cible une unité de la
-Légion du Premier Prince amie qui n'est pas un Héros.
+Annonce : Si un Be'lakor ami est sur le champ de bataille, choisissez comme cible une unité de la Légion du Premier Prince amie qui n'est pas un
+Héros.
 Effet : Jusqu'au début de votre prochain tour :
  Ajoutez 5 au score de contrôle de la cible.
  Si la cible est une unité de Démons, ajoutez 1 à ses jets de sauvegarde.
@@ -830,12 +819,6 @@ Réaction : Vous avez annoncé une aptitude de
 Charge
 Utilisé par : L’unité qui utilise l’aptitude de Charge.
 Effet : Vous pouvez relancer le jet de charge.
-RÈGLES D'ARMÉE
-Maréchal Terrifiant
-BT
-LEGION OF THE FIRST PRINCE
-Annonce : Choisissez comme cibles jusqu'à 3 autres unités amies entièrement à 12" de cette unité.
-Effet : Pour le restant du tour, ajoutez 1 aux jets de charge pour les cibles.
 MÂCHOIRES DE RAVENAK
 Faim Dévorante
 MDG
@@ -850,29 +833,29 @@ BASE
 ATTAQUE
 CORPS À CORPS
 MDG
-Annonce : Choisissez une unité amie qui est en
-mêlée ou qui a chargé à ce tour pour qu’elle utilise
-cette aptitude. Elle peut faire un mouvement
-d’engagement (voir 15.3). Puis, si elle est en
-mêlée, vous devez choisir une ou plusieurs unités
-ennemies comme cible(s) de ses attaques (voir
-16.0).
-Effet : Résolvez les attaques de mêlée contre la/les
-unité(s) cible(s).
+Annonce : Choisissez une unité amie qui est
+en mêlée ou qui a chargé à ce tour pour qu’elle
+utilise cette aptitude. Elle peut faire un
+mouvement d’engagement (voir 15.3). Puis, si
+elle est en mêlée, vous devez choisir une ou
+plusieurs unités ennemies comme cible(s) de
+ses attaques (voir 16.0).
+Effet : Résolvez les attaques de mêlée contre
+la/les unité(s) cible(s).
 Frappe en Premier et Frappe en
 Dernier
 PASSIF
 MDG
-Frappe en Premier : une fois utilisées les aptitudes de la phase de mêlée autres que de Corps
-à Corps, si des unités ayant Frappe en Premier sont en mêlée, les autres unités ne peuvent
-pas être choisies pour utiliser une aptitude de Corps à Corps avant elles. Une fois que toutes
-les unités ayant Frappe en Premier ont combattu, le joueur actif choisit la prochaine unité qui
+Frappe en Premier : une fois utilisées les aptitudes de la phase de mêlée autres que de Corps à
+Corps, si des unités ayant Frappe en Premier sont en mêlée, les autres unités ne peuvent pas
+être choisies pour utiliser une aptitude de Corps à Corps avant elles. Une fois que toutes les
+unités ayant Frappe en Premier ont combattu, le joueur actif choisit la prochaine unité qui
 combat.
-Frappe en Dernier : une unité en mêlée ayant Frappe en Dernier ne peut pas être choisie
-pour utiliser une aptitude de Corps à Corps tant que d’autres unités en mêlée sans Frappe en
-Dernier peuvent encore en utiliser une et ne l’ont pas encore fait.
-Les deux : une unité ayant à la fois Frappe en Premier et Frappe en Dernier est traitée
-comme si elle n’avait ni l’un ni l’autre.
+Frappe en Dernier : une unité en mêlée ayant Frappe en Dernier ne peut pas être choisie pour
+utiliser une aptitude de Corps à Corps tant que d’autres unités en mêlée sans Frappe en Dernier
+peuvent encore en utiliser une et ne l’ont pas encore fait.
+Les deux : une unité ayant à la fois Frappe en Premier et Frappe en Dernier est traitée comme
+si elle n’avait ni l’un ni l’autre.
 Champion
 PASSIF
 MDG
@@ -889,8 +872,8 @@ VARANGUARD
 Tueurs Implacables
 ×1 / BATAILLE
 BT
-Effet : Cette unité peut utiliser 2 aptitudes de Corps à Corps à cette phase. Toutefois, après que la première a été utilisée, elle a Frappe en Dernier pour
-le restant du tour.
+Effet : Cette unité peut utiliser 2 aptitudes de Corps à Corps à cette phase. Toutefois, après que la première a été utilisée, elle a Frappe en Dernier
+pour le restant du tour.
 9 / 17
 
 ===== page 10 =====
@@ -1379,13 +1362,6 @@ Effet : L’unité amie peut utiliser une aptitude de Sort, de Prière ou de
 Bannissement (selon le cas approprié) comme si c’était votre phase
 des héros. Dans ce cas, soustrayez 1 aux jets de lancement ou de
 récitation faits dans le cadre de cette aptitude.
-RÈGLES D'ARMÉE
-Dague de Sombre Rituel
-×1 / TOUR
-BT
-LEGION OF THE FIRST PRINCE
-Réaction : Vous avez annoncé une aptitude de Sort pour une unité amie entièrement à 12" de cette unité
-Effet : Allouez 1 dégât à cette unité. Ensuite, vous pouvez relancer le jet de lancement.
 BE’LAKOR, THE DARK MASTER
 Le Maître des Ténèbres
 ×1 / BATAILLE
@@ -1464,12 +1440,6 @@ Contre-Charge
 MDG
 Annonce : Choisissez une unité amie qui n’est pas en mêlée pour qu’elle utilise cette aptitude.
 Effet : Cette unité peut utiliser une aptitude de Charge comme si c’était votre phase de charge.
-RÈGLES D'ARMÉE
-Maréchal Terrifiant
-BT
-LEGION OF THE FIRST PRINCE
-Annonce : Choisissez comme cibles jusqu'à 3 autres unités amies entièrement à 12" de cette unité.
-Effet : Pour le restant du tour, ajoutez 1 aux jets de charge pour les cibles.
 MÂCHOIRES DE RAVENAK
 Faim Dévorante
 MDG

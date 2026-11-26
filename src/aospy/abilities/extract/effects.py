@@ -108,6 +108,41 @@ _NOT_A_SETUP = re.compile(r"\bcannot\b[^.]*$|\b[Ee]ach time\b[^.]*\bis removed f
 _ENEMY_MOVED = re.compile(r"\b[Yy]our opponent must remove (?:the target|that unit|it)\b[^.]*$")
 
 
+#: v41 : « if the unmodified hit roll [or unmodified wound roll] for an attack that targets this unit is 1-N, the
+#: attack fails » : le seuil N et le(s) jet(s) concernés, pour que le moteur traduise la protection.
+_NEGATE_THRESHOLD = re.compile(
+    r"\bunmodified (hit|wound) roll(?: or (?:the )?unmodified (wound) roll)?[^.]*?\bthat targets?\b[^.]*?"
+    r"\bis (?:a )?1-([2-5])\b"
+)
+#: v41 : sous-types de « damage_ignore » (le moteur les traduit en durabilité).
+_IGNORE_KINDS = (
+    (re.compile(r"first damage point", re.I), "first_damage"),
+    (re.compile(r"negative modifiers to save", re.I), "save_neg"),
+    (re.compile(r"modifiers to save", re.I), "save_all"),
+    (re.compile(r"Rend characteristic", re.I), "rend"),
+)
+
+
+def protection_reading(kind: str, full: str, m: re.Match) -> tuple[str, float]:
+    """(stat, valeur) d'un effet qualitatif de protection (v41).
+
+    * `negate_attack` : stat « hit », « wound » ou « hit,wound », valeur N de « 1-N » ; ('', 0) sans seuil lisible
+      (« that ability has no effect », Warp Lightning Blast) ;
+    * `damage_ignore` : stat `first_damage` / `save_neg` / `save_all` / `rend`, valeur 1.
+    """
+    if kind == "negate_attack":
+        start = max(full.rfind(". ", 0, m.start()), full.rfind("\n", 0, m.start())) + 1
+        t = _NEGATE_THRESHOLD.search(full[start : m.end()])
+        if not t:
+            return "", 0.0
+        rolls = [t.group(1)] + ([t.group(2)] if t.group(2) else [])
+        return ",".join(dict.fromkeys(rolls)), float(t.group(3))
+    for pat, sub in _IGNORE_KINDS:
+        if pat.search(m.group(0)):
+            return sub, 1.0
+    return "", 0.0
+
+
 def _subject_side(full: str, pos: int, default_side: str) -> str:
     before = full[max(0, pos - 160) : pos]
     # v36 : « … and it cannot be removed » : un nouveau sujet pronom ouvre une proposition (The Mirror's Depths)
@@ -438,9 +473,12 @@ def effects_of(
                     detail_override = "contrepartie"
             if kind == "redeploy" and _ENEMY_MOVED.search(full[max(0, m.start() - 40) : m.end()]):
                 side = "enemy"  # v36 : l'adversaire déplace SA cible (Shadow Lariat) : débuff
-            if kind not in _WEAPON_KINDS and any(e.kind == kind and e.stat == stat and e.side == side for e in out):
+            qstat, qvalue = (stat, 0.0)
+            if kind in ("negate_attack", "damage_ignore"):
+                qstat, qvalue = protection_reading(kind, full, m)
+            if kind not in _WEAPON_KINDS and any(e.kind == kind and e.stat == qstat and e.side == side for e in out):
                 break  # v28 : deux règles du même effet (ressource…) ne le doublent pas
-            add(Effect(kind, stat, 0.0, "", side, detail_override or m.group(0)[:80]), full, m.start())
+            add(Effect(kind, qstat, qvalue, "", side, detail_override or m.group(0)[:80]), full, m.start())
             if detail_override == "contrepartie":
                 continue  # v36 : la contrepartie (« maximum control score of 1 ») ne cache pas l'option suivante
             break  # un même effet qualitatif compte une fois

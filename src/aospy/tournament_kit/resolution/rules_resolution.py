@@ -31,7 +31,13 @@ from ..sources.faction_rules_fr import (
 )
 from ..sources.roster_simplifications import compress_tactic_conditions_enabled
 from ..sources.tactic_cards import TacticCard, compress_tactic_conditions, find_tactic_card
-from ..sources.wahapedia_lookup import AbilityEntry, WahapediaLookup, WarscrollData, tag_ability_origin
+from ..sources.wahapedia_lookup import (
+    AbilityEntry,
+    WahapediaLookup,
+    WarscrollData,
+    normalize_name,
+    tag_ability_origin,
+)
 from ..sources.warscroll_index import FactionIndex, WarscrollIndex, find_generic_manifestation_lore, find_lore_pages
 
 #: Variantes du roster : cf. `tournament_kit/modes.py` (`RosterMode`,
@@ -355,6 +361,55 @@ def _fr_patch(
     return apply_fr_overrides(entries or [], overrides)
 
 
+def _fr_renown_lore(
+    mode: RosterMode,
+    frf: FactionRulesFr,
+    faction: str,
+    renown_name: str,
+    entries: list[AbilityEntry],
+) -> list[AbilityEntry]:
+    """Sorts de convocation du domaine de manifestations d'une Armée de Renom,
+    patchés en français (`renown_armies.<nom>.manifestation_lores`) en
+    `fr`/`fr-extended` — même ordre que `entries`, un correctif ne réordonnant
+    pas."""
+    if not mode_spec(mode).curated_patch:
+        return entries
+    overrides = get_renown_army_overrides(frf, faction, renown_name, "manifestation_lores")
+    return apply_fr_overrides(entries, overrides)[: len(entries)]
+
+
+_LI_NAME_RE = re.compile(r"<li>\s*(?:<a [^>]*>)?([^<]+)")
+
+
+def _renown_lore_manifestations(
+    wh: WahapediaLookup, entries: list[AbilityEntry], patched: list[AbilityEntry]
+) -> list[WarscrollData]:
+    """Chartes des manifestations qu'invoque le domaine d'une Armée de Renom.
+    Contrairement à un domaine de faction (un « SUMMON <nom> » par
+    manifestation), un tel domaine a souvent un seul sort qui liste les
+    manifestations au choix (`<li>` du texte Wahapedia, ex. DoK « Zainthar
+    Kai », « MANIFESTATIONS OF MURDER »). Le sort (patché, `patched`) n'est
+    rattaché comme `summon` (badge de lancement, note de pose) qu'aux
+    manifestations nommées dans la 1re phrase de son effet, celle que lit
+    `summon_placement_note` : pour les autres, la règle de pose diffère et
+    la note serait fausse."""
+    found: list[WarscrollData] = []
+    seen: set[str] = set()
+    for ab, fr_ab in zip(entries, patched):
+        text = (ab.description or "").replace("’", "'")
+        effect = re.split(r"Effect:", re.sub(r"<[^>]+>", " ", text), maxsplit=1)[-1]
+        first_sentence = re.sub(r"\s+", " ", effect).split(". ", 1)[0]
+        for name in _LI_NAME_RE.findall(text):
+            name = name.strip()
+            ws = wh.find_warscroll(name) or wh.find_warscroll(f"The {name}")
+            if ws is None or ws.name in seen:
+                continue
+            seen.add(ws.name)
+            summon = fr_ab if re.search(rf"\b{re.escape(name)}\b", first_sentence, re.I) else None
+            found.append(_dc_replace(ws, summon=summon))
+    return found
+
+
 def _renown_army_pool(
     mode: RosterMode,
     frf: FactionRulesFr,
@@ -399,6 +454,11 @@ def _renown_army_pool(
             # que de mélanger français patché et anglais non patché sur la
             # même carte sans le signaler.
             return None
+        if category == "heroic_traits_artefacts":
+            # optimisations : seule celle choisie par la liste est montrée, sur la carte de son
+            # porteur (`pdf_builder`, `find_unit_enhancement`) — jamais le tableau entier
+            # (demande de l'utilisateur, 2026-11-26), comme pour la faction de base.
+            continue
         pool.extend(apply_fr_overrides(entries, overrides))
     return tag_ability_origin(pool, renown_name)
 
@@ -655,7 +715,22 @@ def resolve_rules(
     # ailleurs, qui romprait la règle "le domaine donne accès à *toutes* ses
     # manifestations".
     manifestation_warscrolls: list[WarscrollData] = []
-    if parsed.manifestation_lore:
+    renown_lore = (
+        renown_army[1].get("Manifestation Lore")
+        if renown_army is not None
+        and parsed.manifestation_lore
+        and normalize_name(parsed.manifestation_lore.split("(", 1)[0]) == normalize_name(renown_army[0])
+        else None
+    )
+    if renown_lore and wh.available:
+        # Domaine de manifestations de l'Armée de Renom (ex. DoK « Zainthar
+        # Kai ») : ses règles sont déjà rendues avec celles de l'armée de
+        # renom (bassin de règles ou annexe), seules les chartes des
+        # manifestations invocables restent à trouver.
+        manifestation_warscrolls = _renown_lore_manifestations(
+            wh, renown_lore, _fr_renown_lore(mode, frf, parsed.base_faction, renown_army[0], renown_lore)
+        )
+    elif parsed.manifestation_lore:
         lore_name = parsed.manifestation_lore
         entries = (
             wh.find_faction_category(parsed.base_faction, "Manifestation Lore", lore_name) if wh.available else None

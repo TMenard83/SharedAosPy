@@ -138,10 +138,13 @@ def _gains(unit: Unit, after: Unit, probe: Unit, mods: CombatModifiers, plan) ->
     )
 
 
-def stack_for(unit: Unit, offers: list[tuple[str, str, EffectSpec, str, str, int]]) -> Optional[Stack]:
-    """`offers` = (aptitude, origine, effet, option exclusive, conditions, PC). None sans effet applicable."""
+def stack_for(unit: Unit, offers: list[tuple]) -> Optional[Stack]:
+    """`offers` = (aptitude, origine, effet, option exclusive, conditions, PC[, groupe exclusif entre aptitudes]).
+    None sans effet applicable."""
     probe = probe_for_effect(EffectSpec("stat_mod", "hit", 1.0))
-    mods = CombatModifiers()
+    # « tout en place » : l'unité a chargé — sinon « Charge (+1 Damage) », Mindrazor, Serpent Staff valaient 0 ici
+    # (revue des 12 listes, 2026-11-23) ; le cas nu est mesuré en charge lui aussi, pour un écart honnête
+    mods = CombatModifiers(attacker_charged=True)
     plan = play_plan(unit, probe, mods)
     # une option par aptitude à choix exclusif : la meilleure seule sur ce châssis
     by_opt: dict[tuple[str, str, str], list] = {}
@@ -154,6 +157,23 @@ def stack_for(unit: Unit, offers: list[tuple[str, str, EffectSpec, str, str, int
         if (ab, src) not in best_opt or sc > best_opt[(ab, src)][0]:
             best_opt[(ab, src)] = (sc, group)
     chosen = plain + [o for _sc, g in best_opt.values() for o in g]
+    # groupe exclusif ENTRE aptitudes (7e champ, `listing.EXCLUSIVE_KEYWORDS` : un seul Délire cru, un seul
+    # Astérisme — 2026-11-25) : la meilleure aptitude du groupe seule sur ce châssis
+    in_group: dict[str, dict[tuple[str, str], list]] = {}
+    for o in chosen:
+        if len(o) > 6 and o[6]:
+            in_group.setdefault(o[6], {}).setdefault((o[0], o[1]), []).append(o)
+    dropped: set[tuple[str, str]] = set()
+    for members in in_group.values():
+        if len(members) < 2:
+            continue
+        scored = {
+            k: sum(_gains(unit, _apply_all(unit, [g[2] for g in grp], probe, mods), probe, mods, plan))
+            for k, grp in members.items()
+        }
+        keep = max(scored, key=scored.get)
+        dropped |= {k for k in members if k != keep}
+    chosen = [o for o in chosen if (o[0], o[1]) not in dropped]
     by_ability: dict[tuple[str, str], list] = {}
     for o in chosen:
         if apply_effect(unit, o[2], probe, mods) is not None:
@@ -212,26 +232,30 @@ def _product(pcts) -> float:
 
 
 def stacks(abilities, units: list[Unit], vocab: frozenset[str], dead: frozenset[str] = frozenset(),
-           core_costs: Optional[dict[str, int]] = None) -> list[Stack]:
+           core_costs: Optional[dict[str, int]] = None,
+           only_on: Optional[dict[tuple[str, str], str]] = None) -> list[Stack]:
     """Empilement par unité distincte de la liste, trié par dégâts « tout en place » (absolus : un +200 % sur une
-    unité qui ne frappe pas reste petit)."""
+    unité qui ne frappe pas reste petit). `only_on` : (aptitude, origine) → seule unité qui la reçoit."""
     from .listing import effect_ability, list_receivers
 
     core_costs = core_command_costs() if core_costs is None else core_costs
+    only_on = only_on or {}
     out = []
     for unit in {u.name: u for u in units}.values():
         offers = []
         for ab in abilities:
             if ab.uid in dead:
                 continue
+            if only_on.get((ab.name, ab.source), unit.name) != unit.name:
+                continue
             for eff in ab.translatable:
                 recv = list_receivers(effect_ability(ab, eff.friendly_target), [unit], vocab)
                 if not recv:
                     continue
                 conds = eff.conditions
-                if ab.charge_required and "a chargé" not in conds:
+                if ab.charge_everywhere and "a chargé" not in conds:
                     conds = " | ".join(c for c in (conds, "a chargé") if c)
-                offers.append((ab.name, ab.source, eff, eff.option_group, conds, 0))
+                offers.append((ab.name, ab.source, eff, eff.option_group, conds, 0, ab.exclusive_group))
         for _fr, en, effs in CORE_COMMANDS:
             if en in core_costs:
                 offers += [(en, "commande de base", e, "", "", core_costs[en]) for e in effs]
@@ -239,6 +263,18 @@ def stacks(abilities, units: list[Unit], vocab: frozenset[str], dead: frozenset[
         if st is not None:
             out.append(st)
     return sorted(out, key=lambda s: -s.off_after)
+
+
+def single_target_stacks(abilities, units: list[Unit], vocab: frozenset[str], dead: frozenset[str] = frozenset(),
+                         core_costs: Optional[dict[str, int]] = None) -> tuple[list["Stack"], list["TargetChoice"]]:
+    """Empilement où chaque aptitude à cible unique (`target_choices`) n'est posée que sur sa meilleure cible :
+    second passage de `stacks`. Retirer l'apport marginal de chaque cible secondaire ne suffisait pas quand deux
+    aptitudes se substituent (deux protections 5+ : sans l'une, l'autre reste → apport marginal nul, rien n'était
+    retiré — Pledged to Nurgle et Dark Apotheosis sur toute l'armée, GabrielSab 2026-11-25)."""
+    first = stacks(abilities, units, vocab, dead, core_costs)
+    tcs = target_choices(abilities, first)
+    only = {(tc.ability, tc.source): tc.candidates[0][0] for tc in tcs}
+    return (stacks(abilities, units, vocab, dead, core_costs, only) if only else first), tcs
 
 
 @dataclass(frozen=True)
@@ -259,6 +295,13 @@ def target_choices(abilities, stacks_: list[Stack]) -> list[TargetChoice]:
         for a in abilities
         if a.scope == "one_friendly"
         and not re.search(r"\b(?:up to \d+|any number of|each)\b[^.]*\bto be the targets?\b", a.text or "", re.I)
+        # la cible n'est que le centre d'une bulle (« the following effects apply to friendly IRONJAWZ units while
+        # they are wholly within 18" of the target », Waaagh!, analyseur v42)
+        and not re.search(r"\bthe following effects apply to (?:all )?friendly\b", a.text or "")
+        # mot-clé gagné en jeu par UNE unité par tour (« Pledge to Chaos » : Once Per Turn (Army), pick a friendly …
+        # unit) : l'effet « Friendly PLEDGED TO NURGLE units have WARD (6+) » ne vaut que pour l'unité vouée, pas
+        # pour toute l'armée (GabrielSab, 2026-11-25 ; une unité de plus par tour, non compté)
+        or re.match(r"PLEDGED TO\b", a.friendly_target or "")
     }
     by: dict[tuple[str, str], list] = {}
     for st in stacks_:

@@ -222,3 +222,121 @@ def test_find_unit_tolerates_app_name_variants():
         "Kurnoth Hunters with Greatswords"
     )
     assert find_unit("Gargant", pool, "Sylvaneth") is None
+
+
+def test_same_unit_twice_with_and_without_reinforcement_stays_two_units():
+    """Blood Hags renforcées (×20) et Blood Hags (×10) : deux unités distinctes dans l'analyse, la renforcée sous un
+    nom à part mais avec les aptitudes de la charte (2026-11-23, liste de Razemme)."""
+    import types
+
+    import duckdb
+
+    from aospy.analysis.layers.listing import collect
+
+    con = duckdb.connect("data/aospy.duckdb", read_only=True)
+    if not con.execute("SELECT 1 FROM unit WHERE name = 'Blood Hags'").fetchone():
+        pytest.skip("base sans Daughters of Khaine")
+    ue = lambda n, p, o: types.SimpleNamespace(name=n, points=p, options=o)  # noqa: E731
+    parsed = types.SimpleNamespace(
+        base_faction="Daughters of Khaine", regiments=[types.SimpleNamespace(
+            units=[ue("Blood Hags", 310, ["Reinforced"]), ue("Blood Hags", 150, [])])],
+        faction_terrain=[], army_of_renown=None, allegiance=None, battle_formation=None, spell_lore=None,
+        prayer_lore=None, manifestation_lore=None,
+    )
+    try:
+        entries, abilities, _v = collect(con, parsed)
+    except AttributeError:
+        pytest.skip("structure ParsedList différente")
+    names = [n for n, _p, u in entries if u is not None]
+    assert names == ["Blood Hags (renforcé)", "Blood Hags"]
+    big = next(u for n, _p, u in entries if n == "Blood Hags (renforcé)")
+    small = next(u for n, _p, u in entries if n == "Blood Hags")
+    assert big.models == 2 * small.models
+    assert any("Blood Hags (renforcé)" in a.carriers for a in abilities)
+
+
+def test_dead_rules_fixes_from_the_twelve_list_review():
+    """Revue des 12 listes : « pick this unit and up to 2 X » n'est pas morte ; un décor cible ; un lanceur gagné par
+    aptitude (« it has WIZARD (1) ») ; un sort qui exige un sorcier d'un mot-clé absent est mort ; une condition
+    « doit avoir chargé » déjà localisée n'est pas recopiée sur les autres options."""
+    from aospy.analysis.layers.listing import dead_rules
+
+    kin = _unit("Kin", keywords=frozenset({"HERO"}))
+    chariot = _ab("Charioteer", scope="one_friendly", carriers=["Kin"], friendly_target="Kavalos War Chariots",
+                  text="Pick this unit and up to 2 Kavalos War Chariots to be the targets.")
+    seasons = _ab("Seasons", scope="one_friendly", carriers=["Kin"], friendly_target="Awakened Wyldwood")
+    wood = _ab("Wood rule", carriers=["Awakened Wyldwood"])
+    nadja = _ab("Nadja", carriers=["Kin"], text="it has WIZARD (1).",
+                effects=[EffectSpec("keyword_gain", "caster")])
+    spell = _ab("Bolt", source="domaine de sorts : X", cost_type="Spell",
+                text="Pick a friendly STORMCAST ETERNALS WIZARD to cast this spell.")
+    lore = _ab("Daemonic Speed", source="domaine de sorts : Y", cost_type="Spell",
+               text="Pick a friendly WIZARD to cast this spell.")
+    dead = {a.name for a, _r in dead_rules([chariot, seasons, wood, nadja, spell, lore], [kin],
+                                           frozenset({"HERO", "WIZARD", "STORMCAST ETERNALS"}))}
+    assert dead == {"Bolt"}
+    blessings = _ab("Blessings", scope="army", charge_required=True,
+                    effects=[EffectSpec("stat_mod", "wound", 1.0), EffectSpec("ward", value=5.0, requires="a chargé")])
+    assert not blessings.charge_everywhere
+
+
+def test_find_entry_unit_maps_expired_ghyran_variant_to_aqshy():
+    """« Scourge of Ghyran: Iridan the Witness » (pack 2025-26, absent de la base) = la variante Aqshy, même profil
+    (Thiradil, 2026-11-25) ; à défaut la charte de base."""
+    from aospy.analysis.layers.listing import find_entry_unit
+
+    pool = {n.lower(): _unit(n) for n in ("Iridan the Witness", "Scourge of Aqshy Iridan the Witness", "Liberators")}
+    assert find_entry_unit("Scourge of Ghyran: Iridan the Witness", pool, "Stormcast Eternals").name == (
+        "Scourge of Aqshy Iridan the Witness"
+    )
+    assert find_entry_unit("Scourge of Ghyran: Liberators", pool, "Stormcast Eternals").name == "Liberators"
+    assert find_entry_unit("Scourge of Aqshy: Liberators", pool, "Stormcast Eternals") is None
+    assert find_entry_unit("Iridan the Witness", pool, "Stormcast Eternals").name == "Iridan the Witness"
+
+
+def test_collect_reads_renown_terrain_and_companions():
+    """Gotrek (Régiment de Renom, Fyreslayers), décor coté « (10 Points) » ou recopié en option « (20 pts) »,
+    compagnon omis de l'export (The Shadow Queen) : tous dans la couche 4 (contrôles L3 du 2026-11-25)."""
+    import types
+
+    import duckdb
+
+    from aospy.analysis.layers.listing import collect
+
+    con = duckdb.connect("data/aospy.duckdb", read_only=True)
+    if not con.execute("SELECT 1 FROM unit WHERE name = 'Gotrek Gurnisson'").fetchone():
+        pytest.skip("base sans Gotrek (réimport Wahapedia nécessaire)")
+    ue = lambda n, p, o=(): types.SimpleNamespace(name=n, points=p, options=list(o))  # noqa: E731
+    base = dict(army_of_renown=None, allegiance=None, battle_formation=None, spell_lore=None, prayer_lore=None,
+                manifestation_lore=None)
+    sylv = types.SimpleNamespace(
+        base_faction="Sylvaneth", regiments=[types.SimpleNamespace(units=[ue("Dryads", 100)])],
+        regiments_of_renown=[types.SimpleNamespace(name="Gotrek Gurnisson", points=320,
+                                                   units=["Gotrek Gurnisson", "•"])],
+        faction_terrain=[], **base,
+    )
+    entries, abilities, _v = collect(con, sylv)
+    assert ("Gotrek Gurnisson", 320) in [(n, p) for n, p, u in entries if u is not None]
+    assert any("Gotrek Gurnisson" in a.carriers for a in abilities)
+
+    sce = types.SimpleNamespace(
+        base_faction="Stormcast Eternals",
+        regiments=[types.SimpleNamespace(units=[ue("Vanquishers", 90, ["Stormreach Portal - (20) Points"])])],
+        regiments_of_renown=[], faction_terrain=[], **base,
+    )
+    _e, abilities, _v = collect(con, sce)
+    assert any("Stormreach Portal" in a.carriers for a in abilities)
+
+    fec = types.SimpleNamespace(
+        base_faction="Flesh-eater Courts", regiments=[], regiments_of_renown=[],
+        faction_terrain=["Charnel Throne (10 Points)"], **base,
+    )
+    _e, abilities, _v = collect(con, fec)
+    assert any("Charnel Throne" in a.carriers for a in abilities)
+
+    dok = types.SimpleNamespace(
+        base_faction="Daughters of Khaine", regiments=[types.SimpleNamespace(units=[ue("Morathi-Khaine", 770)])],
+        regiments_of_renown=[], faction_terrain=[], **base,
+    )
+    entries, _a, _v = collect(con, dok)
+    assert "The Shadow Queen" in [n for n, _p, u in entries if u is not None]

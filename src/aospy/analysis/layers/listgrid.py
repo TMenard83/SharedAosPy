@@ -53,6 +53,12 @@ class GridRow:
     keep_up: Optional[float]  # suivi des receveurs de la liste (aptitude donnée par une charte)
     receivers: tuple[tuple[str, str], ...]  # (receveur, ce qu'il en tire)
     note: str = ""
+    #: chiffres des lectures (indices L3, `l3.layer4`) : (receveur, valeur) — soin : survie gagnée (fraction),
+    #: contrôle : bonus de score de contrôle ; vide pour les autres familles
+    gains: tuple[tuple[str, float], ...] = ()
+    scope: str = ""
+    #: P(l'aptitude sert) : déclenchement de la couche 1 (ou lancement recalculé) × P(invocation) × suivi
+    weight: float = 1.0
 
 
 #: Restrictions posées sur sa propre unité (scorées 0 en couche 1) : des contreparties.
@@ -104,16 +110,23 @@ def _exposure(share_melee: float) -> str:
     return "contact" if share_melee >= 0.5 else "longue"
 
 
-def heal_label(u: Unit, e_list, frequency: str, turn_side: str, incoming, share_melee: float) -> str:
+def heal_reading(
+    u: Unit, e_list, frequency: str, turn_side: str, incoming, share_melee: float
+) -> tuple[str, Optional[float]]:
+    """(libellé, survie gagnée en fraction ou None)."""
     from .marriage import heal_points, heal_survival_gain
 
     pts = heal_points(u, e_list)
     if pts is None:
-        return "non chiffré"
+        return "non chiffré", None
     if pts == 0:
-        return "rien (1 PV par figurine ou figurine unique)"
+        return "rien (1 PV par figurine ou figurine unique)", 0.0
     g = heal_survival_gain(u, e_list, frequency, turn_side, incoming, _exposure(share_melee))
-    return f"survie {g:+.0%}" if g is not None else "non chiffré"
+    return (f"survie {g:+.0%}", g) if g is not None else ("non chiffré", None)
+
+
+def heal_label(u: Unit, e_list, frequency: str, turn_side: str, incoming, share_melee: float) -> str:
+    return heal_reading(u, e_list, frequency, turn_side, incoming, share_melee)[0]
 
 
 def control_label(u: Unit, bonus: Optional[float], ref) -> str:
@@ -145,6 +158,7 @@ def grid_rows(
     incoming: dict[int, tuple[float, float]],
     control_ref,
     damage: dict[str, float],
+    activation: Optional[dict[str, float]] = None,
 ) -> tuple[list[GridRow], list]:
     """(lignes de la grille, contreparties écartées) pour les aptitudes `abilities` (déjà filtrées : à lire)."""
     from .listing import effect_ability, list_receivers
@@ -171,16 +185,20 @@ def grid_rows(
         others = [u for u, rel in recv if rel != "porteur"] if given else []
         ku = keep_up(reach_in.get(bearer), [reach_in.get(u.name) for u in others]) if bearer and others else None
         labels: list[tuple[str, str]] = []
+        gains: list[tuple[str, float]] = []
         note = ""
         if fam == "soin" and any(e[0] in ("heal", "return_models") for e in e_list):
             for u, _rel in recv:
-                labels.append(
-                    (u.name, heal_label(u, e_list, ab.frequency, ab.turn_side, incoming.get(u.id, (0.0, 0.0)),
-                                        share_melee.get(u.name, 1.0)))
-                )
+                lab, g = heal_reading(u, e_list, ab.frequency, ab.turn_side, incoming.get(u.id, (0.0, 0.0)),
+                                      share_melee.get(u.name, 1.0))
+                labels.append((u.name, lab))
+                if g is not None:
+                    gains.append((u.name, g))
         elif fam == "controle":
             bonus = control_bonus(e_list)
             labels = [(u.name, control_label(u, bonus, control_ref)) for u, _rel in recv]
+            if bonus is not None:
+                gains = [(u.name, bonus) for u, _rel in recv]
         elif fam == "magie-ressource":
             stats = {e[6] for e in e_list if e[0] in ("stat_mod", "dice_count", "reroll") and e[8] > 0}
             stats &= {"cast", "chant", "unbind", "banish", "power_level"}
@@ -206,13 +224,17 @@ def grid_rows(
                 note = MOBILITY_NOTES.get(mobility_kind(e_list, ab.text), "")
             if any(e[0] == "reroll" and e[6] == "charge" for e in e_list):
                 note = "relance des charges : chiffrée dans « Assaut »"
+        weight = (activation.get(ab.uid, ab.activation_prob) if activation else ab.activation_prob) * ab.summon_prob
+        if fam == "controle" and ab.frequency.startswith("once_per_battle"):
+            weight *= 0.5  # une fois par bataille = 1/2 (règle de pondération, la survie du soin le lit déjà)
         rows.append(
-            GridRow(ab.name, ab.source, fam, ab.verdict, bearer, bm, ku, tuple(labels), note)
+            GridRow(ab.name, ab.source, fam, ab.verdict, bearer, bm, ku, tuple(labels), note, tuple(gains), ab.scope,
+                    weight * (ku if ku is not None else 1.0))
         )
     return rows, drawbacks
 
 
-def collect_grid(con, entries, rep) -> None:
+def collect_grid(con, entries, rep, activation: Optional[dict[str, float]] = None) -> None:
     """Remplit `rep.grid` / `rep.drawbacks` depuis la base (lecture seule) pour `rep.unresolved`."""
     from .marriage import ControlReference, incoming_damage
 
@@ -260,4 +282,5 @@ def collect_grid(con, entries, rep) -> None:
         incoming_damage(con),
         ControlReference(scores),
         dmg,
+        activation,
     )

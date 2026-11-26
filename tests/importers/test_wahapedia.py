@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from datetime import date
 from pathlib import Path
 
 import pytest
@@ -13,7 +14,7 @@ from aospy.importers.wahapedia import (
     import_faction,
 )
 from aospy.persistence import db, repository
-from aospy.sources.wahapedia_csv import canonical_ids, legends_warscroll_ids
+from aospy.sources.wahapedia_csv import canonical_ids, is_legends_note, legends_warscroll_ids, read_csv
 
 WARSCROLLS_HEADER = (
     "id|name|faction_id|source_id|legend|regiment_options|notes|description|role|"
@@ -282,3 +283,47 @@ def test_ingestible_roles_excludes_non_combat_roles():
     assert "Faction Terrain" not in INGESTIBLE_ROLES
     assert "Monster" in INGESTIBLE_ROLES
     assert "Hero" in INGESTIBLE_ROLES
+
+
+def test_read_csv_rejoins_row_broken_by_raw_newline(tmp_path: Path):
+    """Belga the Cystwitch : un saut de ligne brut dans la description coupait la ligne en deux."""
+    _write(
+        tmp_path,
+        "Warscrolls.csv",
+        WARSCROLLS_HEADER,
+        [
+            "W1|Belga|MoN|S1|Once a servant",
+            'of a holy order.||||Infantry Hero|false|true||4"|5+|3|7|6+|1|130|',
+            'W2|Gors|BoC|S1|||||Infantry|false|false||6"|5+|1|1||10|100|',
+        ],
+    )
+    rows = read_csv(tmp_path / "Warscrolls.csv")
+    assert [r["name"] for r in rows] == ["Belga", "Gors"]
+    assert rows[0]["legend"] == "Once a servant of a holy order."
+    assert rows[0]["Cost"] == "130" and rows[0]["role"] == "Infantry Hero"
+
+
+def test_legends_note_waits_for_announced_date():
+    note = "<i>This unit will move to Warhammer Legends on 1 June 2027.</i>"
+    assert not is_legends_note(note, today=date(2026, 11, 25))  # Frost Sabres : encore jouable
+    assert is_legends_note(note, today=date(2027, 6, 1))
+    assert is_legends_note("This unit will move to Warhammer Legends on 1 June 2025.", today=date(2026, 11, 25))
+    # espaces insécables dans la date (Tzaangor Enlightened on Foot)
+    nbsp = "Previously Tzaangor Enlightened.<br>This unit will move to Warhammer Legends on 1\xa0June\xa02027"
+    assert not is_legends_note(nbsp, today=date(2026, 11, 26))
+    assert is_legends_note("<i>Legends Warscroll</i>", today=date(2026, 11, 25))
+    assert not is_legends_note("This unit cannot be reinforced.")
+
+
+def test_import_takes_cost_of_regiment_of_renown_sibling(con, data_dir: Path):
+    """Gotrek Gurnisson : charte jouable sans coût, son Régiment de Renom homonyme porte les 320 pts."""
+    rows = (data_dir / "Warscrolls.csv").read_text(encoding="utf-8-sig").splitlines()
+    rows += [
+        'W7|Gotrek|BoC||||||Infantry Hero|true|false||4"|4+|2|8||1||',
+        "W8|Gotrek|BoC|S1|||||Regiment of Renown|true|false|||||||1|320|",
+    ]
+    (data_dir / "Warscrolls.csv").write_text("\n".join(rows) + "\n", encoding="utf-8-sig")
+    import_faction(con, "Beasts of Chaos", data_dir=data_dir)
+    army = repository.get_army_by_name(con, "Beasts of Chaos")
+    gotrek = next(u for u in repository.list_units_for_army(con, army.id) if u.name == "Gotrek")
+    assert gotrek.points == 320

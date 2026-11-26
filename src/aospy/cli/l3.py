@@ -17,6 +17,12 @@ _COMMANDS = {
     "diag": ("diag", "Diagnostic compact (corrélations, --rank, --player, --match, --team)."),
     "compare": ("compare", "Instantanés et comparatifs des grilles (snapshot, list, diff)."),
     "scenarios": ("scenarios", "Analyses scénario par équipe (Scénarios/<équipe>.md)."),
+    "scenario-model": ("scenario_model", "Modèle de scénario par carte et par tactique (notes ++ … −−)."),
+    "tactiques": ("tactics", "pts de tactique attendus par liste et correction de paire (--ronde, --player)."),
+    "pairing": ("pairing", "Solveur d'appariement AOSFF (minimax sur la séquence, le défenseur choisit)."),
+    "robustesse": ("pairing_robust", "Cases pivot de l'appariement : chaque paire bougée de ±δ, défenseur et valeur."),
+    "plan-note": ("plan_note", "note_plan calculée : régression sur les indices couche 4, validation croisée."),
+    "qui-tue-qui": ("kills", "Matrice « qui tue qui » d'un match ou des paires de chaque ronde (buffs de liste)."),
     "export-lists": ("export_lists", "Exporte les 54 listes au format texte de l'App (--pdf : + aides de jeu)."),
 }
 

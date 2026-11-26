@@ -25,7 +25,14 @@ import re
 from typing import Optional
 
 from ..models import BEARER_TARGET, Extraction, RawAbility
-from ..perimeter import ON_OWN_ATTACKS, RETALIATION, SHOT_BY_BEARER, charge_subjects, once_trigger_clause
+from ..perimeter import (
+    AFTER_FRIENDLY_LOSS,
+    ON_OWN_ATTACKS,
+    RETALIATION,
+    SHOT_BY_BEARER,
+    charge_subjects,
+    once_trigger_clause,
+)
 from ..resources import resource_usage
 from .activation import OPPOSED_TEST_PROB, OPPOSED_TEST_PROBS, activation_of, p_prayer_banked  # noqa: F401
 from .conditions import CHARGE_ENEMY, CHARGE_OURS, CONDITION_RULES, conditions_of, split_main_secondary  # noqa: F401
@@ -95,6 +102,15 @@ _HEAL_KINDS = ("heal", "return_models")
 _HEAD_CHARGED = re.compile(r"^\s*If this unit (?:has )?charged this (?:turn|phase)\b", re.I)
 _HEAD_IN_COMBAT = re.compile(r"^\s*If this unit is in combat\b", re.I)
 _IN_COMBAT_OR_CHARGED = re.compile(r"\bIf this unit is in combat or (?:has )?charged this (?:turn|phase)\b", re.I)
+
+
+#: v42 : receveurs écrits dans l'en-tête d'une liste d'effets centrée sur la cible (Waaagh!).
+_HEADER_RECEIVERS = re.compile(
+    r"\bthe following effects apply to (?:all )?friendly ((?:non-)?[A-Z][A-Z'’ -]*?[A-Z])(?: units?)? "
+    r"(?:while|that|wholly|within)\b"
+)
+#: v42 : l'effet suit la destruction d'une unité amie au tour précédent.
+_AFTER_LOSS = re.compile(r"\b(?:was|were|has been|have been) destroyed (?:in|during) the previous turn\b")
 
 
 def _add_requires(e, labels: list[str]):
@@ -247,6 +263,19 @@ def extract(raw: RawAbility) -> tuple[Extraction, float]:
         for e in effects
     ]
     effects = [e if e.friendly_target != ability_ft else dataclasses.replace(e, friendly_target="") for e in effects]
+    # v42 : « Pick a friendly IRONJAWZ HERO to be the target … the following effects apply to friendly IRONJAWZ units
+    # while they are wholly within 18" of the target: - … » : la cible est le centre de la bulle, les receveurs sont
+    # ceux de l'en-tête (Waaagh! Ironjawz et Grunta : le moteur ne buffait que les héros, Darkjawz 2026-11-25)
+    hdr = _HEADER_RECEIVERS.search(raw.effect)
+    if hdr and ability_ft and hdr.group(1) != ability_ft:
+        effects = [
+            dataclasses.replace(e, friendly_target=hdr.group(1)) if e.side != "enemy" and not e.friendly_target else e
+            for e in effects
+        ]
+    # v42 : « For each friendly SYLVANETH unit … that was destroyed in the previous turn, you can pick … » : l'effet
+    # suit une perte amie, il n'est pas permanent (Memories of the Fallen, Zoko 2026-11-25)
+    if _AFTER_LOSS.search(raw.declare):
+        effects = [_add_requires(e, [AFTER_FRIENDLY_LOSS]) if e.side != "enemy" else e for e in effects]
     # v33 : effet réservé au porteur → nom(s) de sa charte, que la couche 3 résout comme un nom de charte ;
     # porté par une règle de faction (pas de nom de charte), on retombe sur la cible de l'aptitude
     bearer_names = " or ".join(dict.fromkeys(o.owner_name for o in raw.owners if o.owner_kind == "warscroll"))

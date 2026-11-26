@@ -108,7 +108,8 @@ def _totals(abilities, units: list[Unit], vocab: frozenset[str], dead: frozenset
             from .encounter import CombatModifiers, EffectSpec, plan_offense, play_plan, probe_for_effect
 
             probe = probe_for_effect(EffectSpec("stat_mod", "hit", 1.0))
-            dmg += plan_offense(u, probe, CombatModifiers(), play_plan(u, probe, CombatModifiers()))
+            mods = CombatModifiers(attacker_charged=True)  # même hypothèse que l'empilement
+            dmg += plan_offense(u, probe, mods, play_plan(u, probe, mods))
             dur += base_ew
         else:
             dmg += st.off_after

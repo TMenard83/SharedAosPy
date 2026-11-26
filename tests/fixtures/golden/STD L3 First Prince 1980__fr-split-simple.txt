@@ -493,23 +493,12 @@ MON TOUR
 PHASE DES HÉROS
 PHASE DES HÉROS
  RÈGLES D'ARMÉE
-Dague de
-Sombre Rituel
-×1 / TOUR
-BT
-LEGION OF THE FIRST PRINCE
-Réaction : Vous avez annoncé une
-aptitude de Sort pour une unité amie
-entièrement à 12" de cette unité
-Effet : Allouez 1 dégât à cette unité.
-Ensuite, vous pouvez relancer le jet de
-lancement.
 Accorder une Faveur
 ×1 / TOUR (ARMÉE)
 BT
 LEGION OF THE FIRST PRINCE
-Annonce : Si un Be'lakor ami est sur le champ de bataille, choisissez comme cible une unité de la
-Légion du Premier Prince amie qui n'est pas un Héros.
+Annonce : Si un Be'lakor ami est sur le champ de bataille, choisissez comme cible une unité de la Légion du Premier Prince amie qui n'est pas un
+Héros.
 Effet : Jusqu'au début de votre prochain tour :
  Ajoutez 5 au score de contrôle de la cible.
  Si la cible est une unité de Démons, ajoutez 1 à ses jets de sauvegarde.
@@ -737,13 +726,7 @@ figurines à plus de 12".
 MON TOUR
 PHASE DE CHARGE
 PHASE DE CHARGE
- RÈGLES D'ARMÉE
-Maréchal Terrifiant
-LEGION OF THE FIRST PRINCE
-SIMPLE
-Cibles : jusqu'à 3 autres unités amies entièrement à 12" de cette unité.
-Effet : Pour le restant du tour, ajoutez 1 aux jets de charge pour les cibles.
-MÂCHOIRES DE RAVENAK
+ MÂCHOIRES DE RAVENAK
 Faim Dévorante
 MDG
 MANIFESTATION
@@ -1247,14 +1230,7 @@ Effet : Jetez un dé. Sur 1, infligez D3 dégâts mortels à ce Héros. Sur 2+, 
  Rage Étourdissante : peut Dissiper ou Bannir comme un Sorcier (1) ce tour (pas de Bannir via Intervention Magique).
 PHASE DES HÉROS
 PHASE DES HÉROS
- RÈGLES D'ARMÉE
-Dague de Sombre Rituel
-×1 / TOUR
-BT
-LEGION OF THE FIRST PRINCE
-Réaction : Vous avez annoncé une aptitude de Sort pour une unité amie entièrement à 12" de cette unité
-Effet : Allouez 1 dégât à cette unité. Ensuite, vous pouvez relancer le jet de lancement.
-BE’LAKOR, THE DARK MASTER
+ BE’LAKOR, THE DARK MASTER
 Le Maître des Ténèbres
 ×1 / BATAILLE
 SIMPLE
@@ -1357,13 +1333,7 @@ amie non-Héros :
 de figurines à plus de 12".
 PHASE DE CHARGE
 PHASE DE CHARGE
- RÈGLES D'ARMÉE
-Maréchal Terrifiant
-LEGION OF THE FIRST PRINCE
-SIMPLE
-Cibles : jusqu'à 3 autres unités amies entièrement à 12" de cette unité.
-Effet : Pour le restant du tour, ajoutez 1 aux jets de charge pour les cibles.
-MÂCHOIRES DE RAVENAK
+ MÂCHOIRES DE RAVENAK
 Faim Dévorante
 MDG
 MANIFESTATION

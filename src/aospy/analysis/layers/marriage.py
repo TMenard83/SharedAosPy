@@ -32,7 +32,7 @@ contact avec R = 0,5 + rang défensif, BM sur ses attaques jugées comme un buff
 Mobilité (2026-11-23, réponses utilisateur) : mobilité perso exposée comme un buff perso, R = 0,5 + rang offensif
 (dégagement : max(rang off., fragilité)), A = gain relatif (P(charge) gagnée, sinon allonge) ; donnée : le porteur suit
 ses receveurs ; F neutre.
-Les autres familles restent neutres (A = R = F = 1) : critères proposés dans analysis/README.md.
+Les autres familles restent neutres (A = R = F = 1) : critères proposés dans analysis/docs/marriage.md.
 
 **Toutes les constantes ci-dessous sont des hypothèses de travail à challenger** (règle utilisateur :
 signaler les classements contre-intuitifs et proposer de les réviser).
@@ -44,7 +44,14 @@ import re
 from dataclasses import dataclass
 from typing import Optional
 
-from ...abilities.perimeter import CHARGE_EITHER, ON_OWN_ATTACKS, ONCE_TRIGGER, RETALIATION, SHOT_BY_BEARER
+from ...abilities.perimeter import (
+    AFTER_FRIENDLY_LOSS,
+    CHARGE_EITHER,
+    ON_OWN_ATTACKS,
+    ONCE_TRIGGER,
+    RETALIATION,
+    SHOT_BY_BEARER,
+)
 from ...domain.models import Unit
 
 #: Géométrie de la table PAR SAISON (remarque utilisateur, 2026-11-20 : « ça dépend des saisons » — plans de
@@ -93,6 +100,8 @@ BEARER_CONDITIONS = (
     OVERFLY,
     RETALIATION,
     ON_OWN_ATTACKS,
+    # v42 : perte amie au tour précédent (pas une condition du porteur, mais pondérée comme elles)
+    AFTER_FRIENDLY_LOSS,
 )
 #: Épaisseur de cible à dépasser pour la survoler (« an enemy unit that this unit passed across »).
 OVERFLY_DEPTH = 3.0
@@ -117,6 +126,9 @@ P_OBJECTIVE_TROOP, P_OBJECTIVE_HERO = 0.75, 0.4
 P_IN_COMBAT_MELEE, P_IN_COMBAT_SHOOTER = 0.8, 0.3
 #: Sans mouvement : un tireur reste volontiers immobile, une unité de mêlée rarement.
 P_STILL_SHOOTER, P_STILL_MELEE = 0.6, 0.2
+#: v42 : effet qui suit la perte d'une unité amie au tour précédent (Memories of the Fallen) : pas avant le round
+#: 2, puis un tour sur deux (hypothèse, à calibrer — Zoko 2026-11-25 : « compté permanent »).
+P_AFTER_FRIENDLY_LOSS = 0.5
 
 #: Exposition (part des dégâts de mêlée / de tir d'une unité ennemie moyenne subis par round).
 EXPOSURE = {
@@ -237,6 +249,9 @@ def trigger(
             p *= CHAINED_FIGHT_SHARE
         elif c == OVERFLY:
             p *= p_overfly(unit)
+        elif c == AFTER_FRIENDLY_LOSS:
+            p *= P_AFTER_FRIENDLY_LOSS
+            start = max(start, 2)
     return Trigger(p=p, start=start, bearer_only=not others, charged=charged)
 
 

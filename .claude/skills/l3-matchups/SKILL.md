@@ -43,6 +43,10 @@ Ne jamais éditer les `.md` générés : modifier les données ou le code, puis 
 - `src/aospy/l3/aptitudes.py` : module (pas de CLI), lecture des aptitudes par regex (anglais Wahapedia ; français pour les contenus de l'aide de jeu absents de Wahapedia, `RULES_FR`).
 - `aospy l3 export-lists` : les 54 listes au format App (`Listes texte/<équipe>/<joueur>.txt` ; nos 12 = exports App de `Proposition de listes/`, les 42 adverses reconstruites depuis le PDF de l'orga) ; `--pdf` génère l'aide de jeu fr-split-simple (`Aides de jeu/<équipe>/<joueur> (fr-split-simple).pdf`) **et** son JSON d'aptitudes par carte (`deploy`/`any`/`mine`/`enemy`/`warscrolls`/`battle_traits`, via `RosterPdfResult.ability_cards`). **L'aide de jeu fait foi** : `l3/aptitudes.py::profile` ne garde que les aptitudes qui y figurent (formation, domaines, améliorations, armée de renom, versions récentes des warscrolls), ajoute celles qu'elle seule contient (règles d'armée de renom, manifestations), et ignore les règles génériques (≥ 75 % des aides + MdG + saison). À relancer si une liste ou `faction_rules_fr.json` change.
 - `aospy l3 scenarios` (`tm-aospy-l3-scenarios`) : régénère `Scénarios/` depuis les deux JSON scénario + les grilles. `--team <équipe>`. À relancer après `aospy l3 matchups` (les défenseurs conseillés dépendent des grilles).
+- `aospy l3 pairing` (`tm-aospy-l3-pairing`) : solveur d'appariement AOSFF (§7.3, équipes de 6) — récurrence sur toute la séquence, chaque révélation simultanée résolue en jeu à somme nulle (`--mode mixte` = valeur exacte + probabilités, scipy ; `prudent` = plancher si l'adversaire voyait notre choix). Entrée : `pairing_scores.build_input` seul. Pendant l'appariement : `--joue NOUS:EUX` (parties fixées), `--def NOUS:EUX`, `--att A,B:C,D` → coup suivant. `--sans-notes` / `--sans-tactiques` retirent chacune leur correction.
+- `aospy l3 tactiques` (`l3/tactics.py`) : pts de tactique attendus (une tentative par famille et par tour, 5 tours × 5 pts × Σ p), correction de paire = 0,5 × écart, branchée dans `pairing_scores` (contrat inchangé). Niveaux : `tactiques.niveaux` des combos (nos 12, faits le 2026-11-25 depuis les bilans) ou `Données/auto/<équipe>/<joueur>.json` ; sinon modèle `scenario_model` comprimé (×0,4) et recentré (+0,27) sur nos 12 lectures, car il ne les reproduit pas (corrélation ≈ 0). Carte jouée : `par_scenario`, liste adverse : `contre` (`modele_scenarios.json`). Cache des indicateurs : `Données/indicateurs_listes.json` (`--rafraichir` après un changement de liste ou de base). `--ronde N` = grilles de correction, `--player P` = détail.
+
+- `aospy l3 robustesse` (`tm-aospy-l3-robustesse`) : cases pivot de l'appariement (chaque paire ±δ, regret du plan de défenseurs actuel). Méthode : skill `pairing-analysis` §3.
 
 ## Méthode v2 (depuis le 2026-11-18) — `evaluate()` dans l3/matchups.py
 
@@ -51,20 +55,12 @@ Score = écart de PV attendu pour la liste A, borné à ±20 (±3 équilibré, �
 - **Set-up** (frappe en profondeur, TP, arrivée par un bord) pèse 1 dans la mobilité (au lieu de 2) : voir « Principes stratégiques ».
 - **Scénario ±7** : contrôle ±2, nombre d'unités ±1, **mobilité ±4** (`al.mob` = moyenne des z-scores de mouvement pondéré, part de VOL, √score des aptitudes « mobilité »).
 - **Aptitudes et plan ±7,6** : `4·tanh(Δapt/1,5)` + `1,2·Δnote_plan`. `al.apt` = z-score de Σ√(famille) sur soins, protection, buff, débuff, objectifs + √(1,5·niv. sorcier + niv. prêtre + bonus de lancement). Aptitude d'unité pondérée par la part de l'armée (aura 0,6), trait de bataille ×2.
+- **Couche 4 branchée (2026-11-25, `l3/layer4.py`, à valider par l'utilisateur)** : `al.apt` = z(z(couche 4) + z(reste)) ; couche 4 = ln(dégâts × montée) + ln(durabilité × montée), empilement sans commandes (cible unique sur sa meilleure cible seulement) et courbe de `buildup` pondérée 1/3, 1, 1, 1/3, 1/3 ; reste = compteur regex sur ce que la couche 4 ne chiffre pas (soins, débuff, objectifs, magie). Buff/protection regex abandonnés (double compte). Allonge de charge de `threat()` = `assault.Threat` (bonus − sec, plafonné 3,5", relance de l'ordre exclue). Mobilité (`al.mob`) toujours au regex. Repli sur l'ancien compteur si une liste texte manque (`aospy l3 export-lists`). Instantané avant : `2026-11-25-avant-couche4`. `diag --player` affiche les indices couche 4.
+- **Soins, contrôle et protections chiffrés par la couche 4 (2026-11-25, à valider)** : soins = survie gagnée des receveurs (grille `listgrid`, pondérée par leur durabilité, copies, P(sert) ; cible unique = meilleure cible) → durabilité × (1 + soins) dans l'indice couche 4 ; score de contrôle des aptitudes (2 meilleurs receveurs pour une aura/règle d'armée, 1/bataille = 1/2) → ajouté au contrôle du pilier scénario (`ArmyList.control_eff`, affiché « 24 (+6 aptitudes) »). Retirés du compteur regex (soins, part « score de contrôle » des objectifs : `Profile.objectifs_controle`). Le moteur lit aussi les protections contre les attaques reçues (−1 touche/blessure/perforation/dégâts/attaques, échec sur 1-N, 1er point ignoré — analyseur v41, `analysis/docs/encounter.md`). Instantané contrefactuel : `2026-11-25-protections-sans-soins-controle`. Gros mouvements : Hibou_2 +1,6 (Foulhide : survie +136 % du Verminlord Warbringer), Shadow +1,4 (Radiance of Dark Glory). `diag --player` affiche soins et contrôle couche 4.
 - **Ajustements** : seulement par matchup désormais (anti-monstre, anti-magie, anti-soin…). Les anti-magie/anti-soin ne sont **pas** automatisés exprès : ils sont déjà dans ces ajustements nommés (double comptage sinon).
 - Les z-scores sont relatifs aux 54 listes : changer une liste fait bouger quelques cases d'autres joueurs de ±1.
 
 Diagnostic de référence (v2) : corrélation score ligue ~ PV +0,40 (v1 : +0,71), ~ mouvement −0,10 (v1 : −0,37), ~ sorciers +0,33 (v1 : +0,06).
-
-## Leviers, du plus au moins direct
-
-1. `note_plan` dans `Données/combos/<équipe>.json` (toutes notées par Claude, **à valider** ; Shadow 1 et Totosai 3 sont les plus discutables).
-2. `ajustements_matchups.json` → `matchups` : correction ciblée avec `raison` (suffixe « proposé par Claude … à valider » si c'est moi).
-3. `BT_RULES` dans l3/matchups.py : règle lue dans le battletome quand Wahapedia est tronqué, avec le choix du joueur (`ward` par nom d'unité, `aptitudes` = (famille, poids, description)). Ex. Totosai : que des Alaithi (Rune de la Montagne) → Protection 5+ sur Avalenor + 3 Spirits. Totosai a aussi +4 A aux marteaux (Force of a Landslide, moyenne sur 5 rounds). `damage_cap` (libellé → Damage max des armes qui le ciblent, ex. Darkflame Pendant du Daemon Prince de Shadow, Ward 5+ par Pledged to Nurgle). Aussi `melee_attacks` (libellé d'entrée → +N Attaques en mêlée), ex. Shadow : Varanguard R marqués de Khorne au round 1, Chaos Knights par la Bannière de Rage. Limite : l'attrition plafonne les dégâts à la cible tuée (pas de report de surplus), donc un bonus offensif sur une unité qui tue déjà ses cibles bouge peu le score.
-3b. Mortelles directes (`parse_direct_ability`) : `needs_charge` (« charged this turn/phase » → seulement dans le cas « a chargé », fréquence ≤ 1) ; `DIRECT_OVERRIDES` (lecture corrigée à la main, ex. Rampaging Destruction 10,7 vs MONSTRE) ; `army_direct_abilities` (traits de bataille portés par les entrées : Ogor Eat 'Em Alive, Bull Charge). `Entry.ignore_first` = « Ignore the first damage point … each phase » (Stone Skeleton), −1 par phase où l'attaquant blesse. Les soins ne sont **pas** dans l'attrition (seulement famille « soins » de l'indice d'aptitudes).
-4. `RULES` dans l3/aptitudes.py (regex des familles) et poids dans `evaluate()` : changer la méthode → snapshot + diff + vérifier `aospy l3 diag` (corrélations).
-
-Texte français des battletomes : `data/json/faction_rules_fr.json` (`factions.<faction>.rules.<catégorie>`, clé de jointure `wahapedia_name`).
 
 ## Tactiques de bataille (étape d'analyse, depuis le 2026-11-19)
 
@@ -114,14 +110,14 @@ Quand l'utilisateur donne son analyse d'une liste :
 - **Double activation en mêlée** (`DOUBLE_FIGHT_SELF`/`DOUBLE_FIGHT_GRANT`, validée) : l'unité a chargé, son 2e combat vise une 2e cible à ~6" qui ne riposte pas → report de surplus, compté en dégâts « chargé » (les bonus de charge, ex. Charge (+1 Damage) des Varanguard, valent pour les 2 activations).
 - Toujours vérifier le texte (Wahapedia **et** `faction_rules_fr.json`) et signaler un écart de sources plutôt que trancher seul.
 
-## Pièges connus
-
-- Wahapedia tronque certains textes : **Depict Rune** (runes Lumineth — Totosai traité via `BT_RULES`, TyraNounours et Darkane pas encore : demander leurs runes). Unités absentes de la base (Gotrek, Be'lakor, Belga, Frost Sabres) : comptées au prorata des points.
-- Le cache de dégâts est indexé par `(attaquant, figurines, défenseur, ward du défenseur)` : toute modif de profil défensif doit passer dans la clé.
-- Le scratchpad est vidé entre sessions : sauvegarder les états à comparer avec `aospy l3 compare snapshot`, pas dans `/tmp`.
-- Le hook rtk réécrit les commandes Bash ; si le classifieur refuse, relancer exactement l'entrée réécrite.
-- Appariement AOSFF : le défenseur choisit son adversaire (voir la mémoire `aosff-pairing-defender-chooses`).
-
 ## État (2026-11-18)
 
 Méthode v2 + fiabilité + set-up = pari, dernier instantané `2026-11-18-setup-pari`. Analyses stratégiques faites : Cromba (Limoges), Hibou_2 (Melusior, en cours). En attente : validation des notes de plan et des 56 ajustements par les joueurs ; runes de TyraNounours/Darkane ; scénario de chaque ronde pas encore pris en compte.
+
+## Annexe
+
+Chaîne de méthode générique (pas seulement L3) : skills `list-analysis` → `match-analysis` → `pairing-analysis`.
+
+[leviers.md](leviers.md) : leviers de correction de la grille (du plus au moins direct) et pièges connus. À lire avant de corriger une case de la grille ou un script.
+
+[plan_agent.md](plan_agent.md) : consigne de l'agent qui rédige le texte de plan d'une liste (entrées, règles, schéma JSON de `combos`), et pourquoi `note_plan` reste à la main (`aospy l3 plan-note`).

@@ -53,6 +53,9 @@ class Unit:
     description: Optional[str] = None  # texte libre de restriction d'armement (cf. loadout.py)
     weapons: list[Weapon] = field(default_factory=list)
     id: Optional[int] = None
+    #: protections reçues en jeu, jamais lues en base : (stat, armes adverses « all »/« melee »/« ranged », valeur),
+    #: posées et lues par `analysis.layers.encounter` (−1 pour toucher aux attaques qui ciblent l'unité…)
+    defence: tuple[tuple[str, str, float], ...] = ()
 
 
 @dataclass(frozen=True)

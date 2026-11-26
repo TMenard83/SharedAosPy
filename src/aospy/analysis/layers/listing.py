@@ -32,7 +32,30 @@ from .realized import coverage
 #: Fréquences dont la limite porte sur l'armée entière (un seul usage, quel que soit le porteur).
 ARMY_LIMITED = {"once_per_turn_army", "once_per_round_army", "once_per_battle_army", "once_per_phase_army"}
 
-_OPTION_COST_RE = re.compile(r"\s*-\s*\(\d+\)\s*Points?\s*$", re.I)
+#: Mots-clés d'aptitude dont UNE seule aptitude s'applique à la fois, toutes chartes et règles confondues
+#: (2026-11-25, contrôles des analyses adverses) : un seul Délire cru par tour (« A Kingdom Deluded », Von glutten,
+#: SoDarkSnow), un seul Astérisme prophétisé au déploiement — les suivants arrivent un par round à partir du
+#: round 2 (« Further the Great Plan », Cromba), non comptés ici. La meilleure du groupe sur chaque unité.
+EXCLUSIVE_KEYWORDS = {"delusion": "Délire", "asterism": "Astérisme"}
+_BELIEVE_DELUSION_RE = re.compile(r"\bWhile you believe this\b[^.]{0,40}\bDELUSION\b")
+
+
+def exclusive_group_of(keywords: str, text: str = "") -> str:
+    """Groupe exclusif d'une aptitude d'après ses mots-clés Wahapedia (repli : « While you believe this DELUSION »)."""
+    for k in re.split(r"\s*,\s*", (keywords or "").lower()):
+        if k in EXCLUSIVE_KEYWORDS:
+            return EXCLUSIVE_KEYWORDS[k]
+    if _BELIEVE_DELUSION_RE.search(text or ""):
+        return EXCLUSIVE_KEYWORDS["delusion"]
+    return ""
+
+
+#: coût d'une option : « - (10) Points » (App) ou « (10 pts) » (export compact recopié, Zieg 2026-11-25)
+_OPTION_COST_RE = re.compile(r"\s*(?:-\s*\(\d+\)\s*Points?|\(\d+\s*(?:pts?|points?)\))\s*$", re.I)
+#: coût d'un décor de faction dans l'export : « Charnel Throne (10 Points) »
+_TERRAIN_COST_RE = re.compile(r"\s*\(\d+\s*(?:pts?|points?)\)\s*$", re.I)
+#: Unités déployées par un décor de faction, sans coût ni ligne dans l'export : leurs aptitudes suivent le décor.
+TERRAIN_DEPLOYS: dict[str, tuple[str, ...]] = {"Zontari Endrin Dock": ("Auto-Endrin",)}
 _WIZARD_LEVEL_RE = re.compile(r"WIZARD\s*\((\d+)\)")
 
 
@@ -72,6 +95,20 @@ class ListAbility:
     text: str = ""
     #: P que la source existe : aptitude d'une manifestation = P(son sort SUMMON) ; 1 sinon
     summon_prob: float = 1.0
+    #: mots-clés d'aptitude Wahapedia (« Delusion », « Asterism »…) : groupes exclusifs entre aptitudes
+    keywords: str = ""
+
+    @property
+    def exclusive_group(self) -> str:
+        """Groupe d'aptitudes dont une seule s'applique à la fois (`EXCLUSIVE_KEYWORDS`), '' sinon."""
+        return exclusive_group_of(self.keywords, self.text)
+
+    @property
+    def charge_everywhere(self) -> bool:
+        """« doit avoir chargé » vaut pour TOUS les effets — sauf si la couche 1 l'a déjà posé sur un effet précis
+        (Blessings of Khaine : seule Zeal exige la charge ; Hatred et Ruthlessness étaient comptées « a chargé »,
+        revue des 12 listes 2026-11-23)."""
+        return self.charge_required and not any("a chargé" in (e.requires or "") for e in self.effects)
 
     @property
     def translatable(self) -> tuple[EffectSpec, ...]:
@@ -95,6 +132,8 @@ class Marriage:
     #: fiabilité du donneur (déjà incluse dans `weight`) : D × S du porteur en couche 3 × suivi du receveur
     #: (× P(invocation) pour une manifestation) ; 1 pour un effet sur soi ou une règle d'armée
     giver: float = 1.0
+    #: groupe exclusif entre aptitudes (`EXCLUSIVE_KEYWORDS` : Délire, Astérisme) — une seule par receveur
+    group: str = ""
 
     @property
     def score(self) -> float:
@@ -173,9 +212,26 @@ def list_receivers(ab: ListAbility, units: list[Unit], vocab: frozenset[str]) ->
                 if matches_friendly_target(u, ab.friendly_target, vocab) and not (ab.excludes_self and u in carriers)
             ]
         return []
+    if ab.scope in ("self", "unknown"):
+        # règle d'armée « sur soi » qui nomme sa charte (« attacks that target the friendly Morathi-Khaine », Dark
+        # Majesty) : elle ne vaut que pour elle, pas pour toute l'armée (Skarbrand, 2026-11-25)
+        named = [
+            u
+            for m in _NAMED_FRIENDLY_RE.finditer(ab.text or "")
+            for u in units
+            if matches_friendly_target(u, m.group(1), vocab)
+        ]
+        if named:
+            return [(u, "allié") for u in {u.name: u for u in named}.values()]
     return receivers(
         ab.source_kind, ab.scope, "faction_rule", ab.source, units, ab.friendly_target, vocab, ab.excludes_self
     )
+
+
+#: « the friendly Morathi-Khaine », « the friendly Shadow Queen » : une charte nommée (casse de nom).
+_NAMED_FRIENDLY_RE = re.compile(
+    r"\bthe friendly ((?:The )?[A-Z][a-z][\w'’-]*(?:[ -]+(?:the |of |on )?[A-Z][a-z][\w'’-]*)*)"
+)
 
 
 def effect_ability(ab: ListAbility, effect_target: str) -> ListAbility:
@@ -190,7 +246,26 @@ def effect_ability(ab: ListAbility, effect_target: str) -> ListAbility:
 def _activation(ab: ListAbility, cast_prob: dict[tuple[str, str], float]) -> float:
     """P(déclenchement) : celle de la couche 1, ou P(lancement) du sort recalculée avec la liste (`givers`)."""
     vals = [cast_prob[(c, ab.uid)] for c in ab.carriers + ("*",) if (c, ab.uid) in cast_prob]
-    return max(vals) if vals else ab.activation_prob
+    if vals:
+        return max(vals)
+    return ab.activation_prob * prayer_turn_factor(ab)
+
+
+def prayer_turn_factor(ab: ListAbility) -> float:
+    """Prière rejouée chaque tour : la couche 1 la lit « au round clé » (points rituels stockés au tour d'avant,
+    règle utilisateur), mais un tour de stockage est un tour sans effet. Par tour, le prêtre prie directement
+    (P(D6 ≥ N)) ou stocke un tour sur deux (P stockée ÷ 2) : Bless Weapons (6) 64 % → 32 %, Fortifying Hoarfrost (4)
+    78 % → 50 % (Joe Rampage, Dunkhan, 2026-11-25). Une prière 1×/bataille garde le round clé."""
+    from ...abilities.extract.activation import p_d6, p_prayer_banked
+
+    if (ab.cost_type or "").lower() != "prayer" or ab.frequency in ("once_per_battle", "once_per_battle_army"):
+        return 1.0
+    try:
+        n = int(float(ab.cost_value))
+    except (TypeError, ValueError):
+        return 1.0
+    banked = p_prayer_banked(n)
+    return max(p_d6(n), banked / 2) / banked if banked else 1.0
 
 
 def giver_reliability(
@@ -257,7 +332,7 @@ def marriages(
             if enc is None:
                 continue
             conds = eff.conditions
-            if ab.charge_required and "a chargé" not in conds:
+            if ab.charge_everywhere and "a chargé" not in conds:
                 conds = " | ".join(c for c in (conds, "a chargé") if c)  # condition lue dans l'Annonce
             t = trigger(unit, eff.requires, conds, sm, melee_effect=eff.weapon_scope == "melee", kind=eff.kind)
             pol = "off" if (enc.off_gain_pct or 0) >= (enc.def_gain_pct or 0) else "def"
@@ -289,9 +364,10 @@ def marriages(
                     conds,
                     eff.option_group,
                     round(g, 3),
+                    ab.exclusive_group,
                 )
             )
-    return sorted(_best_options(out), key=lambda m: -m.score)
+    return sorted(_best_in_group(_best_options(out)), key=lambda m: -m.score)
 
 
 def _best_options(rows: list[Marriage]) -> list[Marriage]:
@@ -310,6 +386,18 @@ def _best_options(rows: list[Marriage]) -> list[Marriage]:
     return [m for m in rows if not m.option or best[(m.ability, m.source, m.receiver)][0] == m.option]
 
 
+def _best_in_group(rows: list[Marriage]) -> list[Marriage]:
+    """Groupe exclusif ENTRE aptitudes (un seul Délire cru, un seul Astérisme, 2026-11-25) : par receveur, seule
+    l'aptitude du groupe qui lui rapporte le plus reste."""
+    totals: dict[tuple[str, str], dict[tuple[str, str], float]] = {}
+    for m in rows:
+        if m.group:
+            per = totals.setdefault((m.group, m.receiver), {})
+            per[(m.ability, m.source)] = per.get((m.ability, m.source), 0.0) + m.score
+    best = {k: max(v, key=v.get) for k, v in totals.items()}
+    return [m for m in rows if not m.group or best[(m.group, m.receiver)] == (m.ability, m.source)]
+
+
 #: Condition remplie par un allié écrite dans le texte : « within 6" of a friendly Gnawhole », « while this unit is
 #: within the combat range of a friendly non-HERO SKAVEN INFANTRY unit », « If a friendly X is on the battlefield ».
 _PROVIDER_RE = re.compile(
@@ -317,7 +405,9 @@ _PROVIDER_RE = re.compile(
     # énumération « X, Y or Z » gardée entière (Wicked Wardens) ; coupe avant la proposition principale
     r"(?:damaged )?friendly ((?:non-)?[A-Z][^.:;]*?)"
     r"(?=, (?:this|that|it|its|each|add|subtract|you|the|they|those|while|if)\b"
-    r"|,? (?:that|while|and|uses|is|has) |\.|:|;|$)"
+    # « … of a friendly SERAPHON WIZARD to use this ability » / « … Awakened Wyldwood to be the target » : la
+    # proposition finale n'est pas la désignation (Celestial Translocation, Roused to Fury : mortes à tort, 2026-11-25)
+    r"|,? (?:that|while|and|uses|is|has) | to (?:use|cast|chant|be|summon)\b|\.|:|;|$)"
     r"|\b(?:[Ii]f|[Ww]hile) (?:there (?:is|are) (?:any|a|one or more) )?friendly ([A-Z][^.,:;]*?) (?:is|are) on the "
     r"battlefield"
 )
@@ -345,7 +435,7 @@ def missing_providers(
     for ab in abilities:
         for ph in provider_phrases(ab.text):
             alts = [re.sub(r"^(?:a|an|any) (?:friendly )?", "", x.strip()) for x in re.split(r", | or ", ph)]
-            alts = [re.sub(r"\s+units?$", "", x) for x in alts if re.match(r"(?:non-)?[A-Z]", x)]
+            alts = [re.sub(r"\s+units?\b.*$", "", x) for x in alts if re.match(r"(?:non-)?[A-Z]", x)]
             if any(x.lower() in present or x.upper() == "MANIFESTATION" and manifs for x in alts):
                 continue
             if not any(matches_friendly_target(u, x, vocab) for u in units for x in alts):
@@ -357,11 +447,47 @@ def missing_providers(
 def dead_rules(abilities: list[ListAbility], units: list[Unit], vocab: frozenset[str]) -> list[tuple[ListAbility, str]]:
     """Règles de la liste qui ne s'appliquent pas : à éliminer de la lecture (méthode utilisateur,
     mémoire `list-building-concept`) — jamais un jugement de valeur, un constat de composition."""
-    priests = [u for u in units if any(k.startswith("PRIEST") for k in u.keywords)]
-    wizards = [u for u in units if wizard_level(u) > 0]
+    # un niveau de lanceur peut venir d'une aptitude de la charte (« While this unit's Broken Nadja is on the
+    # battlefield, it has WIZARD (1) », The Oathsworn Kin) : revue des 12 listes, 2026-11-23
+    gained = {
+        c
+        for a in abilities
+        for e in a.effects
+        if e.kind == "keyword_gain" and e.stat == "caster"
+        for c in a.carriers
+    }
+    gain_text: dict[str, str] = {}
+    for a in abilities:
+        if any(e.kind == "keyword_gain" and e.stat == "caster" for e in a.effects):
+            for c in a.carriers:
+                gain_text[c] = gain_text.get(c, "") + " " + (a.text or "")
+    def _gains(u: Unit, kind: str) -> bool:
+        return u.name in gained and kind in gain_text.get(u.name, "")
+
+    priests = [u for u in units if any(k.startswith("PRIEST") for k in u.keywords) or _gains(u, "PRIEST")]
+    wizards = [u for u in units if wizard_level(u) > 0 or _gains(u, "WIZARD")]
+    present = {c.lower() for a in abilities for c in a.carriers}  # unités, décors et manifestations de la liste
     out: list[tuple[ListAbility, str]] = []
     for ab in abilities:
         ct = (ab.cost_type or "").lower()
+        # « Pick a friendly STORMCAST ETERNALS WIZARD to cast this spell », « a friendly ABHORRANT to use this … » :
+        # il faut un lanceur/utilisateur de CE mot-clé dans la liste (2026-11-23 : Lore of the Storm sans sorcier
+        # STORMCAST, Summon Loyal Subjects)
+        user = re.search(r"\b[Pp]ick a friendly (.+?) to (?:cast|chant|use) this\b", ab.text or "")
+        # « Pick a friendly SKYVESSEL in the clouds to use this ability » : l'état (en réserve) n'est pas un mot-clé
+        # (Descend from the Clouds morte à tort chez Otter, 2026-11-25)
+        who = re.sub(r"\s+in (?:the )?(?:clouds|reserve)\b.*$", "", user.group(1)) if user else ""
+        if user and re.search(r"\s(?:units?|that|which|with|within|wholly)\b", who):
+            # « a friendly NIGHTHAUNT unit that is not in combat to use this ability » : une unité quelconque de la
+            # faction, pas un lanceur précis (couvert par les autres contrôles)
+            user = None
+        if user and not ab.carriers and not any(
+            matches_friendly_target(u, who, vocab) for u in units
+        ) and not (gained and re.search(r"\b(?:WIZARD|PRIEST)\b", who)
+                   and any(matches_friendly_target(u, re.sub(r"\s*\b(?:WIZARD|PRIEST)\b", "", who).strip()
+                                                   or "*", vocab) for u in units if u.name in gained)):
+            out.append((ab, f"aucun « {who} » dans la liste pour l'utiliser"))
+            continue
         if ct == "prayer" and not ab.carriers and not priests:
             out.append((ab, "aucun PRÊTRE dans la liste"))
         elif ct == "spell" and not ab.carriers and not wizards:
@@ -369,8 +495,35 @@ def dead_rules(abilities: list[ListAbility], units: list[Unit], vocab: frozenset
         elif (
             ab.scope in ("one_friendly", "friendly_aura")
             and ab.friendly_target
-            and ab.carriers
+            and (ab.carriers or ab.friendly_target.replace(" or ", " ").isupper())  # règle d'armée : mots-clés écrits
             and not list_receivers(ab, units, vocab)
+            # sort d'invocation d'un domaine de manifestations (« pick a friendly STORMCAST ETERNALS INFANTRY HERO …
+            # to be the target », Summon Dais Arcanum) : `receivers` ignore les manifestations, la cible est pourtant
+            # une unité de la liste (le Knight-Arcanum se cible lui-même, Thiradil 2026-11-25)
+            and not (
+                ab.source_kind == "manifestation"
+                and not ab.carriers
+                and any(matches_friendly_target(u, ab.friendly_target, vocab) for u in units)
+            )
+            # « You can pick a friendly Knight-Questor … to be the target » : cible facultative, le porteur agit seul
+            # (Relictor Soulguide, Zieg 2026-11-25) — seulement si l'effet porte aussi sur le porteur
+            and not (
+                ab.carriers
+                and re.search(r"\bYou can pick (?:a|an|up to \d+) (?:visible )?friendly\b[^.]*\bto be the targets?\b",
+                              ab.text or "")
+                and re.search(r"\b[Rr]emove this unit\b|\bthis unit can\b", ab.text or "")
+            )
+            # « Pick this unit and up to 2 Kavalos War Chariots » : le porteur est lui-même une cible
+            and not re.search(r"\bpick this unit and\b", ab.text or "", re.I)
+            # cible = un décor ou une manifestation de la liste (« Awakened Wyldwood »)
+            and not any(t.strip().lower() in present for t in re.split(r"\s+or\s+", ab.friendly_target))
+            # mot-clé gagné en jeu (vocation « PLEDGED TO TZEENTCH ») que donne une autre aptitude de la liste
+            and not any(
+                # « Pick 1 of the following Pledge to Chaos keywords: - PLEDGED TO TZEENTCH … has that keyword »
+                (ab.friendly_target in (a2.text or "") and re.search(r"\bkeywords?\b", a2.text or ""))
+                for a2 in abilities
+                if a2 is not ab
+            )
         ):
             out.append((ab, f"aucune cible « {ab.friendly_target} » dans la liste"))
     return out
@@ -561,6 +714,7 @@ def _ability_from_row(row, source: str, carriers: tuple[str, ...], effects) -> L
         inter,
         charge,
         text,
+        keywords,
     ) = row
     return ListAbility(
         uid,
@@ -586,6 +740,7 @@ def _ability_from_row(row, source: str, carriers: tuple[str, ...], effects) -> L
         tuple(effects.get(uid, ())),
         bool(charge),
         text or "",
+        keywords=keywords or "",
     )
 
 
@@ -594,7 +749,8 @@ _ABILITY_SELECT = """SELECT DISTINCT a.uid, a.name, a.source_kind, a.scope, a.fr
        a.verdict, a.power, a.reliability, a.ease, a.interaction,
        coalesce(a.conditions, '') LIKE '%doit avoir chargé%',
        -- Annonce + Effet : la couche 4 relit des désignations écrites dans l'Annonce (« that is not in combat »)
-       trim(coalesce(a.declare_text, '') || ' ' || coalesce(a.effect_text, ''))
+       trim(coalesce(a.declare_text, '') || ' ' || coalesce(a.effect_text, '')),
+       coalesce(a.ability_keywords, '')
 FROM ability a JOIN ability_owner o ON o.ability_uid = a.uid"""
 
 
@@ -602,10 +758,10 @@ def _effects(con, uids: list[str]) -> dict[str, list[EffectSpec]]:
     if not uids:
         return {}
     out: dict[str, list[EffectSpec]] = {}
-    for uid, kind, stat, value, detail, side, wscope, wname, comp, tkw, tcond, req, dur, ft, opt in con.execute(
+    for uid, kind, stat, value, detail, side, wscope, wname, comp, tkw, tcond, req, dur, ft, opt, fam in con.execute(
         """SELECT ability_uid, kind, stat, value, detail, side, weapon_scope, weapon_name, includes_companion,
                       target_keywords, target_condition, requires, duration, friendly_target,
-                      coalesce(option_group, '')
+                      coalesce(option_group, ''), coalesce(family, '')
                FROM ability_effect WHERE ability_uid IN ? ORDER BY ability_uid, seq""",
         [uids],
     ).fetchall():
@@ -625,6 +781,7 @@ def _effects(con, uids: list[str]) -> dict[str, list[EffectSpec]]:
                 duration=dur or "",
                 friendly_target=ft or "",
                 option_group=opt,
+                family=fam,
             )
         )
     return out
@@ -655,40 +812,121 @@ def find_unit(name: str, pool: dict[str, Unit], faction: str) -> Optional[Unit]:
     return None
 
 
+#: variante saisonnière d'un export : « Scourge of Aqshy: X » (App) ; « Scourge of Ghyran: X » = pack 2025-26 expiré,
+#: absent de la base (filtré à l'import) : sa charte 2026-27 est la variante Aqshy, même profil et mêmes aptitudes
+#: (Iridan the Witness, Thiradil 2026-11-25), à défaut la charte de base.
+_SEASON_PREFIX_RE = re.compile(r"^Scourge of (Aqshy|Ghyran):\s*")
+
+
+def find_entry_unit(name: str, pool: dict[str, Unit], faction: str) -> Optional[Unit]:
+    """Charte d'une entrée de régiment de l'export, préfixe de variante saisonnière compris (`find_unit`)."""
+    m = _SEASON_PREFIX_RE.match(name)
+    if not m:
+        return find_unit(name, pool, faction)
+    bare = name[m.end() :]
+    if m.group(1) == "Aqshy":
+        return find_unit(f"Scourge of Aqshy {bare}", pool, faction)
+    return find_unit(f"Scourge of Aqshy {bare}", pool, faction) or find_unit(bare, pool, faction)
+
+
 def collect(con, parsed) -> tuple[list[tuple[str, int, Optional[Unit]]], list[ListAbility], frozenset[str]]:
     """Unités (nom, points, `Unit` en base ou None) et aptitudes de la liste."""
     from ...persistence import repository
+    from .companions import COMPANIONS
 
     faction = parsed.base_faction
     units_by_army = repository.load_all_units_with_weapons(con)
     army_names = dict(con.execute("SELECT id, name FROM army").fetchall())
     pool = {u.name.lower(): u for aid, us in units_by_army.items() if army_names.get(aid) == faction for u in us}
+    # Régiment de Renom : ses unités viennent d'une autre faction (Gotrek Gurnisson = Fyreslayers)
+    pool_all = {u.name.lower(): u for us in units_by_army.values() for u in us}
+    faction_of_id = {u.id: army_names.get(aid) for aid, us in units_by_army.items() for u in us}
     vocab = frozenset(k for us in units_by_army.values() for u in us for k in u.keywords)
+    # chartes sans profil en base (décors de faction, manifestations…) : une option de ce nom est un décor
+    terrain_names = {
+        n
+        for (n,) in con.execute(
+            "SELECT DISTINCT lower(owner_name) FROM ability_owner WHERE owner_kind = 'warscroll' AND faction_name = ?",
+            [faction],
+        ).fetchall()
+    } - set(pool)
 
     entries: list[tuple[str, int, Optional[Unit]]] = []
     options: list[tuple[str, str]] = []
+    faction_terrain = [_TERRAIN_COST_RE.sub("", t).strip() for t in parsed.faction_terrain]
+    carrier_faction: dict[str, str] = {}
     for reg in parsed.regiments:
         for ue in reg.units:
-            # « Scourge of Aqshy: Bloodletters » (export de l'App) = la charte « Scourge of Aqshy Bloodletters »
-            name = re.sub(r"^Scourge of Aqshy:\s*", "Scourge of Aqshy ", ue.name)
-            unit = find_unit(name, pool, faction)
-            if unit is not None:
-                name = unit.name  # le nom de la charte : les aptitudes sont rangées sous ce nom
+            unit = find_entry_unit(ue.name, pool, faction)
+            # le nom de la charte : les aptitudes sont rangées sous ce nom
+            name = unit.name if unit is not None else re.sub(r"^Scourge of Aqshy:\s*", "Scourge of Aqshy ", ue.name)
             opts = [_OPTION_COST_RE.sub("", o).strip() for o in ue.options]
+            # décor de faction recopié en option d'une unité (« • Stormreach Portal (20 pts) », Zieg 2026-11-25)
+            faction_terrain += [o for o in opts if o.lower() in terrain_names and o not in faction_terrain]
+            opts = [o for o in opts if o.lower() not in terrain_names]
             if unit is not None and any(o.lower() == "reinforced" for o in opts):
                 from dataclasses import replace
 
                 unit = replace(unit, models=unit.models * 2)  # unité renforcée : effectif doublé
             entries.append((name, ue.points, unit))
             options.extend((name, o) for o in opts)
+    # Régiments de Renom : leurs unités membres (sans points propres) comptent, au prorata de leur coût en base
+    for ror in getattr(parsed, "regiments_of_renown", []):
+        members = [
+            (m, find_unit(m, pool, faction) or find_unit(m, pool_all, ""))
+            for m in ror.units
+            if not m.startswith("•")  # puce d'option (souvent vide) sous un membre
+        ]
+        if not members:
+            continue
+        known = sum(u.points for _m, u in members if u is not None) or 1
+        for m, u in members:
+            share = round(ror.points * u.points / known) if u is not None else round(ror.points / len(members))
+            entries.append((u.name if u is not None else m, share, u))
+            if u is not None and faction_of_id.get(u.id) != faction:
+                carrier_faction[u.name] = faction_of_id[u.id]
+    # compagnons gratuits omis de l'export (Morathi-Khaine sans The Shadow Queen, Skarbrand 2026-11-25)
+    present = {n for n, _p, _u in entries}
+    for parent in [u for _n, _p, u in entries if u is not None and u.name in COMPANIONS]:
+        for c in COMPANIONS[parent.name]:
+            cu = pool.get(c.lower())
+            if cu is not None and c not in present:
+                entries.append((c, 0, cu))
+                present.add(c)
+    for t in list(faction_terrain):
+        faction_terrain += [d for d in TERRAIN_DEPLOYS.get(t, ()) if d not in faction_terrain]
+    # deux unités du même nom mais d'effectif différent (Blood Hags renforcées ×20 et Blood Hags ×10) : l'analyse les
+    # regroupe par nom, si bien qu'il n'en restait qu'une, la petite (2026-11-23). Le pack renforcé prend un nom
+    # distinct ; ses aptitudes sont cherchées sous le nom de la charte (`base_of`).
+    base_of: dict[str, str] = {}
+    sizes: dict[str, set[int]] = {}
+    for n, _p, u in entries:
+        if u is not None:
+            sizes.setdefault(n, set()).add(u.models)
+    for i, (n, pts, u) in enumerate(entries):
+        if u is not None and len(sizes.get(n, ())) > 1 and u.models == max(sizes[n]):
+            from dataclasses import replace
+
+            label = f"{n} (renforcé)"
+            entries[i] = (label, pts, replace(u, name=label))
+            base_of[label] = n
+            options = [(label if (on == n and o.lower() == "reinforced") else on, o) for on, o in options]
+    # une amélioration portée par le pack renforcé (« Blood Hags … • Reinforced • Ulguan Reactions ») suit son nom
+    for ue in (x for reg in parsed.regiments for x in reg.units):
+        opts = [_OPTION_COST_RE.sub("", o).strip() for o in ue.options]
+        if any(o.lower() == "reinforced" for o in opts):
+            eu = find_entry_unit(ue.name, pool, faction)
+            label = next((lab for lab, b in base_of.items() if eu is not None and b == eu.name), None)
+            if label:
+                options = [(label if (o in opts and on == base_of[label]) else on, o) for on, o in options]
 
     rows: list[tuple[tuple, str, tuple[str, ...]]] = []
-    carriers = sorted({n for n, _p, _u in entries} | set(parsed.faction_terrain))
+    carriers = sorted({n for n, _p, _u in entries} | set(faction_terrain))
     for name in carriers:
         for row in con.execute(
             _ABILITY_SELECT + " WHERE o.owner_kind = 'warscroll' AND o.faction_name = ? "
             "AND lower(o.owner_name) = lower(?)",
-            [faction, name],
+            [carrier_faction.get(name, faction), base_of.get(name, name)],
         ).fetchall():
             rows.append((row, f"charte : {name}", (name,)))
     # export complet : « Faction | AoR » ; export compact : l'AoR occupe la place de la formation, mais une
@@ -840,16 +1078,27 @@ def suggest_role(
     return "polyvalent / ajustement"
 
 
-def teleporters(abilities: list[ListAbility], units: list[Unit]) -> frozenset[str]:
-    """Unités qui peuvent se téléporter : leur propre aptitude, ou un sort/une règle d'armée qui vise un ami
-    (approximation : un domaine de téléportation profite aux HÉROS)."""
-    tp = [a for a in abilities if any(e.kind in ("deep_strike", "redeploy") for e in a.effects)]
-    own = {c for a in tp for c in a.carriers}
-    army = any(a.scope in ("one_friendly", "army") and not a.carriers or a.source.startswith("domaine") for a in tp)
-    return frozenset(u.name for u in units if u.name in own or (army and u.is_hero))
+def teleporters(abilities: list[ListAbility], units: list[Unit], vocab: frozenset[str] = frozenset()) -> frozenset[str]:
+    """Unités que la liste peut téléporter : les receveurs RÉELS des aptitudes de réserve / téléportation (leur propre
+    aptitude, ou la cible amie écrite d'un sort, d'une règle d'armée, d'un décor : « a friendly SKAVEN HERO »).
+    2026-11-23 (revue des 12 listes) : l'approximation « un domaine de téléportation profite à tout HÉROS » comptait
+    Kragnos, Abraxia ou Drycha comme téléportés et oubliait les vraies arrivées (Gnawhole, Jaws of the Beast…)."""
+    out: set[str] = set()
+    for a in abilities:
+        if not any(e.kind in ("deep_strike", "redeploy") for e in a.effects):
+            continue
+        if a.scope in ("self", "unknown") and a.carriers:
+            out |= {u.name for u in units if u.name in a.carriers}
+            continue
+        for e in a.effects:
+            if e.kind in ("deep_strike", "redeploy"):
+                out |= {u.name for u, _rel in list_receivers(effect_ability(a, e.friendly_target), units, vocab)}
+    return frozenset(out)
 
 
-def unit_sheets(con, entries, abilities: list[ListAbility], share_melee: dict[str, float]) -> list[UnitSheet]:
+def unit_sheets(
+    con, entries, abilities: list[ListAbility], share_melee: dict[str, float], vocab: frozenset[str] = frozenset()
+) -> list[UnitSheet]:
     from .marriage import territory_round
 
     units = [u for _n, _p, u in entries if u is not None]
@@ -857,7 +1106,9 @@ def unit_sheets(con, entries, abilities: list[ListAbility], share_melee: dict[st
     for u in units:
         counts[u.name] = counts.get(u.name, 0) + 1
     givers = {c for a in abilities if a.scope in ("friendly_aura", "one_friendly", "army") for c in a.carriers}
-    tele = teleporters(abilities, units)
+    tele = teleporters(abilities, units, vocab)
+    # prix de la LISTE (renfort compris : 400 pour une unité renforcée de 200), pas celui de la charte
+    list_points = {u.name: p for _n, p, u in entries if u is not None and p}
     out: list[UnitSheet] = []
     for u in {x.name: x for x in units}.values():
         r = con.execute(
@@ -883,7 +1134,7 @@ def unit_sheets(con, entries, abilities: list[ListAbility], share_melee: dict[st
         out.append(
             UnitSheet(
                 u.name,
-                u.points,
+                list_points.get(u.name, u.points),
                 counts[u.name],
                 r[0] or 0,
                 r[1] or 0,
@@ -992,7 +1243,7 @@ def analyse_list(con, parsed) -> ListReport:
     from .buildup import power_curve
 
     rep.curve = power_curve(abilities, list_units, vocab, frozenset(a.uid for a, _r in rep.dead))
-    rep.sheets = unit_sheets(con, entries, abilities, sm)
+    rep.sheets = unit_sheets(con, entries, abilities, sm, vocab)
     rep.picks = enhancement_picks(con, entries, abilities)
     from .assault import assault
 
@@ -1005,7 +1256,7 @@ def analyse_list(con, parsed) -> ListReport:
         for u in units
     }
     rep.assault = assault(
-        abilities, units, vocab, sm, teleporters(abilities, units), frozenset(a.uid for a, _r in rep.dead), dmg
+        abilities, units, vocab, sm, teleporters(abilities, units, vocab), frozenset(a.uid for a, _r in rep.dead), dmg
     )
     from .listgrid import collect_grid
     from .stacking import stacks
@@ -1015,5 +1266,5 @@ def analyse_list(con, parsed) -> ListReport:
 
     rep.target_choices = target_choices(abilities, rep.stacks)
 
-    collect_grid(con, entries, rep)
+    collect_grid(con, entries, rep, {ab.uid: _activation(ab, cast_prob) for ab in rep.unresolved})
     return rep

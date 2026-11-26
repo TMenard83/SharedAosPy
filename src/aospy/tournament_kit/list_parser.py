@@ -49,7 +49,8 @@ _REGIMENT_HEADER_RE = re.compile(r"^(General's Regiment|Regiment \d+)$")
 #: coût d'option nu (« Aqshian Sea Nettles (10) », réécrit en
 #: « ... - (10) Points ») et en-têtes numériques en plus (« Wounds: 117 »).
 _VARIANT_SUFFIX_RE = re.compile(r"^(?P<name>.+?) \((?P<variant>Scourge of \w+)\)$")
-_BARE_OPTION_COST_RE = re.compile(r"\s*\((?P<points>\d+)\)$")
+#: … ou « (10 pts) » (export App retouché à la main, Zieg L3 2026-11-25)
+_BARE_OPTION_COST_RE = re.compile(r"\s*\((?P<points>\d+)(?:\s*pts?)?\)$", re.IGNORECASE)
 _NUMERIC_HEADER_RE = re.compile(r"^[A-Za-z][\w ]*:\s*\d+$")
 
 #: Second format d'export, « compact » (observé sur une liste partagée par un

@@ -542,24 +542,13 @@ Effet : Gagnez autant de dés de rage que votre niveau de fureur. À la fin du r
 PHASE DES HÉROS
 PHASE DES HÉROS
  RÈGLES D'ARMÉE
-Dague de
-Sombre Rituel
-×1 / TOUR
-BT
-LEGION OF THE FIRST PRINCE
-Réaction : Vous avez annoncé une
-aptitude de Sort pour une unité amie
-entièrement à 12" de cette unité
-Effet : Allouez 1 dégât à cette unité.
-Ensuite, vous pouvez relancer le jet de
-lancement.
 Accorder une Faveur
 ×1 / TOUR (ARMÉE)
 MA PHASE
 BT
 LEGION OF THE FIRST PRINCE
-Annonce : Si un Be'lakor ami est sur le champ de bataille, choisissez comme cible une unité de la
-Légion du Premier Prince amie qui n'est pas un Héros.
+Annonce : Si un Be'lakor ami est sur le champ de bataille, choisissez comme cible une unité de la Légion du Premier Prince amie qui n'est pas un
+Héros.
 Effet : Jusqu'au début de votre prochain tour :
  Ajoutez 5 au score de contrôle de la cible.
  Si la cible est une unité de Démons, ajoutez 1 à ses jets de sauvegarde.
@@ -652,15 +641,6 @@ Annonce : Choisissez comme cible une unité de Démons de la Légion du Premier 
 Héros, et qui a été détruite.
 Effet : Placez une unité de remplacement ayant la moitié du nombre de figurines de l'unité cible (arrondi au supérieur) entièrement à 12" d'un Be'lakor
 ami et à plus de 9" des unités ennemies.
-PHASE DE CHARGE
-PHASE DE CHARGE
- RÈGLES D'ARMÉE
-Maréchal Terrifiant
-LES 2 PHASES
-BT
-LEGION OF THE FIRST PRINCE
-Annonce : Choisissez comme cibles jusqu'à 3 autres unités amies entièrement à 12" de cette unité.
-Effet : Pour le restant du tour, ajoutez 1 aux jets de charge pour les cibles.
 PHASE DE MÊLÉE
 PHASE DE MÊLÉE
  RÈGLES D'ARMÉE

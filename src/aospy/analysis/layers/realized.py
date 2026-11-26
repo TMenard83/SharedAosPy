@@ -245,10 +245,11 @@ def own_effects(con) -> dict[tuple[str, str], list[tuple[str, str, bool, str, Ow
                   a.frequency, a.activation_prob, a.available_round,
                   FALSE, a.turn_side, a.resource_usage,
                   e.kind, e.stat, e.value, e.detail, e.side, e.weapon_scope, e.weapon_name, e.includes_companion,
-                  e.target_keywords, e.target_condition, e.requires, e.duration, coalesce(e.option_group, '')
+                  e.target_keywords, e.target_condition, e.requires, e.duration, coalesce(e.option_group, ''),
+                  coalesce(e.family, '')
            FROM ability_owner o JOIN ability a ON a.uid = o.ability_uid
            JOIN ability_effect e ON e.ability_uid = a.uid
-           WHERE o.owner_kind = 'warscroll' AND e.side = 'friendly'
+           WHERE o.owner_kind = 'warscroll' AND (e.side = 'friendly' OR (e.side = 'enemy' AND e.detail = 'defensif' AND coalesce(e.family, '') LIKE 'buff%'))
              AND a.source_kind NOT IN ('manifestation')"""
     ).fetchall()
     out: dict[tuple[str, str], list] = {}
@@ -278,6 +279,7 @@ def own_effects(con) -> dict[tuple[str, str], list[tuple[str, str, bool, str, Ow
         req,
         dur,
         option,
+        efamily,
     ) in rows:
         spec = EffectSpec(
             kind=kind,
@@ -292,6 +294,7 @@ def own_effects(con) -> dict[tuple[str, str], list[tuple[str, str, bool, str, Ow
             target_condition=tcond or "",
             requires=req or "",
             duration=dur or "",
+            family=efamily,
         )
         if not is_translatable(spec):
             continue
@@ -706,13 +709,19 @@ def combined(off_per_100: float, def_per_100: float) -> float:
 
 
 def build_realized_rows(con) -> list[tuple]:
-    """Tuples `persistence.analysis_tables.REALIZED_COLS` pour toutes les unités payantes."""
+    """Tuples `persistence.analysis_tables.REALIZED_COLS` pour toutes les unités payantes, plus les compagnons
+    gratuits (`companions.COMPANIONS`) chiffrés sur leur part du coût du parent et rangés sans entrer dans les pools."""
     from ...persistence import repository
     from .chassis import pct_rank
+    from .companions import effective_points
 
     units_by_army = repository.load_all_units_with_weapons(con)
     army_names = dict(con.execute("SELECT id, name FROM army").fetchall())
-    units = [(army_names[aid], u) for aid, us in units_by_army.items() for u in us if u.points > 0]
+    # compagnons à 0 pt (The Shadow Queen) : chiffrés sur leur part du coût du parent, hors des pools de rang
+    eff = effective_points(u for us in units_by_army.values() for u in us)
+    units = [
+        (army_names[aid], u) for aid, us in units_by_army.items() for u in us if u.points > 0 or u.id in eff
+    ]
     vocab = frozenset(k for _f, u in units for k in u.keywords)
     effects = own_effects(con)
     share_melee = dict(con.execute("SELECT unit_id, coalesce(share_melee, 1.0) FROM unit_chassis").fetchall())
@@ -741,7 +750,8 @@ def build_realized_rows(con) -> list[tuple]:
         dir_fit.append(dfit)
     # Le facteur du score lit la **portée d'action** (`reach_in` reste la portée de déplacement, lue par le mariage) :
     # troupes, variante A (le plus long canal significatif) ; héros, variante B (canaux pondérés par leur apport).
-    med = median_reach([a for a, _c in actions]) if actions else 0.0
+    paid_actions = [a for (a, _c), (_f, u) in zip(actions, units) if u.points > 0]
+    med = median_reach(paid_actions) if paid_actions else 0.0
     mob = []
     for i, (a, _c) in enumerate(actions):
         u, r, _n = results[i]
@@ -758,34 +768,37 @@ def build_realized_rows(con) -> list[tuple]:
     sup_off = [sum(s.off for s in ss) + direct[i] for i, ss in enumerate(sups)]
     sup_def = [sum(s.def_ for s in ss) for ss in sups]
 
+    def pts(u: Unit) -> float:
+        return u.points if u.points > 0 else eff[u.id]
+
+    def metrics(i: int) -> tuple[float, float, float, float, float]:
+        u, r, _n = results[i]
+        o, d = r.off_realized * 100 / pts(u), r.def_realized * 100 / pts(u)
+        return (
+            o,
+            d,
+            combined(o, d),
+            combined(r.off_fit * 100 / pts(u), r.def_fit * 100 / pts(u)),
+            combined(o + sup_off[i] * 100 / pts(u), d + sup_def[i] * 100 / pts(u)) * mob[i],
+        )
+
     rows: list[tuple] = []
-    ranks: dict[int, tuple[float, float, float, float, float]] = {}
+    ranks: dict[int, tuple[float, ...]] = {}
     for hero in (True, False):
-        idx = [i for i, (u, _r, _a) in enumerate(results) if u.is_hero == hero]
-        offs = [results[i][1].off_realized * 100 / results[i][0].points for i in idx]
-        defs = [results[i][1].def_realized * 100 / results[i][0].points for i in idx]
-        orank, drank = pct_rank(offs), pct_rank(defs)
-        crank = pct_rank([combined(o, d) for o, d in zip(offs, defs)])
-        frank = pct_rank(
-            [
-                combined(
-                    results[i][1].off_fit * 100 / results[i][0].points,
-                    results[i][1].def_fit * 100 / results[i][0].points,
-                )
-                for i in idx
-            ]
-        )
-        srank = pct_rank(
-            [
-                combined(o + sup_off[i] * 100 / results[i][0].points, d + sup_def[i] * 100 / results[i][0].points)
-                * mob[i]
-                for i, o, d in zip(idx, offs, defs)
-            ]
-        )
+        idx = [i for i, (u, _r, _a) in enumerate(results) if u.is_hero == hero and u.points > 0]
+        cols = list(zip(*(metrics(i) for i in idx))) if idx else [()] * 5
+        col_ranks = [pct_rank(list(c)) for c in cols]
         for k, i in enumerate(idx):
-            ranks[i] = (orank[k], drank[k], crank[k], frank[k], srank[k])
+            ranks[i] = tuple(cr[k] for cr in col_ranks)
+        # compagnon : rang lu dans le pool des unités payantes, sans le déplacer
+        for i, (u, _r, _a) in enumerate(results):
+            if u.is_hero == hero and u.points <= 0:
+                ranks[i] = tuple(
+                    round(min(1.0, sum(x < v for x in c) / max(len(c) - 1, 1)), 4) if c else 0.5
+                    for c, v in zip(cols, metrics(i))
+                )
     for i, (u, r, names) in enumerate(results):
-        per = 100.0 / u.points
+        per = 100.0 / pts(u)
         rows.append(
             (
                 u.id,

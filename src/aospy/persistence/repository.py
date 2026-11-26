@@ -18,6 +18,7 @@ from .repo.abilities import (
     ability_review_queue,
     ability_stats,
     get_ability_effects,
+    get_ability_text,
     replace_ability_analyses,
     search_abilities,
 )

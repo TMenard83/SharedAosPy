@@ -74,6 +74,9 @@ STANDARD_TYPES = {
 }
 
 
+BY_POINTS = mx.BY_POINTS  # homonymes départagés par le coût (Tzaangor Enlightened à pied)
+
+
 def convert(player: str, lines: list[str], rows: list[dict], fids: dict[str, str]) -> tuple[str, list[str]]:
     """Texte au format App + notes (ce qui a été deviné)."""
     team, faction = mx.PLAYERS[player]
@@ -162,12 +165,14 @@ def convert(player: str, lines: list[str], rows: list[dict], fids: dict[str, str
                 terrain.append(TERRAIN_ALIASES.get(ln, re.sub(r"\s*\((\d+)\)$", r" (\1 Points)", ln)))
             continue
         if ln.startswith(("•", "~", "-")):
-            body.append(" • " + ln.lstrip("•~- ").strip())
+            if ln.lstrip("•~- ").strip():  # puce vide recopiée du PDF de l'orga (Kazerole) : ignorée
+                body.append(" • " + ln.lstrip("•~- ").strip())
             continue
         m = _UNIT.match(ln)
         if m:
             name = re.sub(r"^SoA\s+", "Scourge of Aqshy: ", m["name"].strip())
             name = mx.ALIASES.get(name, name)
+            name = BY_POINTS.get((name, m["pts"]), name)
             body.append(f"{name} ({m['pts']})")
             for opt in (o.strip(" ,") for o in m["rest"].split("•")):
                 if opt:

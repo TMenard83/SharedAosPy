@@ -5201,12 +5201,13 @@
             "scope": "Blood Blessings of Khorne",
             "wahapedia_name": "UNCONTROLLABLE RAGE",
             "name": "Rage Incontrôlable",
-            "description": "<i>S'ouvrant les veines en chantant des prières haineuses, le prêtre transfère sa colère abyssale à ses alliés.</i><br/><br/><b>Annonce :</b> Choisissez un <b>Prêtre Lame de Khorne</b> ami pour réciter cette prière, choisissez comme cible une unité amie visible et entièrement à 18\" de lui, puis faites un jet de récitation d'un D6.<br/><br/><b>Effet :</b> Jusqu'au début de votre prochain tour, les effets de l'aptitude « Trempés de Sang » (voir « Traits de Bataille ») s'appliquent à la cible. De plus, si le jet de récitation était de 8+, ignorez les effets de « Brutalité Aveugle » pour la cible.",
+            "description": "<i>S'ouvrant les veines en chantant des prières haineuses, le prêtre transfère sa colère abyssale à ses alliés.</i><br/><br/><b>Annonce :</b> Choisissez un <b>Prêtre Lame de Khorne</b> ami pour réciter cette prière, choisissez comme cible une unité amie visible et entièrement à 12\" de lui, puis faites un jet de récitation d'un D6.<br/><br/><b>Effet :</b> Jusqu'au début de votre prochain tour, les effets de l'aptitude « Trempés de Sang » (voir « Traits de Bataille ») s'appliquent à la cible. De plus, si le jet de récitation était de 8+, ignorez les effets de « Brutalité Aveugle » pour la cible.",
             "origin": "BT",
             "provenance": {
               "bt_text": "Identique à la description (aucune mise à jour de règles ne touche cette aptitude).",
               "errata_patch": null,
-              "errata_source": null
+              "errata_source": null,
+              "note": "18\"→12\" corrigé sur scan BT p.62 le 2026-11-25"
             }
           },
           {
@@ -6281,12 +6282,12 @@
             {
               "wahapedia_name": "DRAWN BY BLOOD",
               "name": "Attirés par le Sang",
-              "description": "<i>Pour les Seigneurs Maléfiques, rien ne presse plus que de commettre une nouvelle atrocité.</i><br/><br/><b>Annonce :</b> Choisissez une unité des <b>Seigneurs Maléfiques</b> amie qui n'a pas utilisé d'aptitude de <b>Saccage</b> à ce tour pour qu'elle utilise cette aptitude.<br/><br/><b>Effet :</b> L'unité peut se déplacer d'un 6\". Elle peut finir ce mouvement en mêlée mais seulement avec les unités avec lesquelles elle était en mêlée au début de la phase.<br/><br/>Si l'unité a détruit une ou plusieurs unités ennemies à ce tour, alors à la place : l'unité peut se déplacer de 2D6\". Elle peut finir ce mouvement en mêlée avec une ou plusieurs unités qui ont un ou plusieurs dégâts qui leur ont été alloués à ce tour.",
+              "description": "<i>Pour les Seigneurs Maléfiques, rien ne presse plus que de commettre une nouvelle atrocité.</i><br/><br/><b>Annonce :</b> Choisissez une unité des <b>Seigneurs Maléfiques</b> amie qui n'a pas utilisé d'aptitude de <b>Saccage</b> à ce tour pour qu'elle utilise cette aptitude.<br/><br/><b>Effet :</b> L'unité peut se déplacer d'un D6\". Elle peut finir ce mouvement en mêlée mais seulement avec les unités avec lesquelles elle était en mêlée au début de la phase.<br/><br/>Si l'unité a détruit une ou plusieurs unités ennemies à ce tour, alors à la place : l'unité peut se déplacer de 2D6\". Elle peut finir ce mouvement en mêlée avec une ou plusieurs unités qui ont un ou plusieurs dégâts qui leur ont été alloués à ce tour.",
               "origin": "BT",
               "provenance": {
                 "bt_text": "Identique à la description (aucune mise à jour de règles ne touche cette aptitude).",
-                "errata_patch": null,
-                "errata_source": null
+                "errata_patch": "Timing : Une Fois par Tour (Armée), Fin de Votre Tour",
+                "errata_source": "MAJ de règles oct. 2026 FR p35"
               }
             },
             {
@@ -14367,6 +14368,21 @@
               }
             }
           ]
+        },
+        "Tzaangor Enlightened on Foot": {
+          "abilities": [
+            {
+              "wahapedia_name": "Vicious Protectors",
+              "name": "Cruels Protecteurs",
+              "description": "<i>Les Tzaangors Éclairés sont les spécimens les plus féroces de leur espèce, et sont souvent chargés de protéger les meneurs des Cultes Arcanites. Non seulement ils excellent à abattre ceux qui menacent leurs protégés, mais les railleries curieusement bien senties qu'ils croassent constamment emplissent leur ennemi de doute, et ses frappes perdent en conviction.</i><br/><br/><b>Effet :</b> Tant qu'il y a un <b>Héros Arcanite</b> ami visible à portée de mêlée de cette unité :<br/>• Soustrayez 1 aux jets de touche pour les attaques de mêlée qui ciblent le <b>Héros Arcanite</b> ami.<br/>• Ajoutez 1 aux jets de touche pour les attaques de mêlée de ces <b>Tzaangors Éclairés</b>.",
+              "origin": "Supplément DoT",
+              "provenance": {
+                "bt_text": "fre_aos4_disciples-of-tzeentch_supplement p1",
+                "errata_patch": null,
+                "errata_source": null
+              }
+            }
+          ]
         }
       },
       "renown_armies": {
@@ -15609,6 +15625,143 @@
                 "bt_text": "<i>Le Fouet Pourpre se produit dans son arène de choix avec une grâce naturelle, esquivant les attaques adverses par des passes meurtrières élaborées.</i><br/><br/><b>Effet :</b> Tant que chaque figurine d’une unité de ce Régiment de Renom conteste l’<b>amphithéâtre</b> :<br/>• Les armes de mêlée de l’unité ont <b>Crit (Mortel)</b>.<br/>• Si vous contrôlez l’<b>amphithéâtre</b>, et si le jet de touche ou de blessure non modifié pour une attaque qui cible l’unité est 1-4, l’attaque échoue et la séquence d’attaque s’arrête.",
                 "errata_patch": null,
                 "errata_source": "Régiments de Renom : Daughters of Khaine (FR, Warhammer Community) — aucun errata (MàJ de règles oct. 2026), p.1."
+              }
+            }
+          ]
+        }
+      },
+      "renown_armies": {
+        "Zainthar Kai": {
+          "battle_traits": [
+            {
+              "wahapedia_name": "DARK MAJESTY",
+              "name": "Majesté Ténébreuse (Dark Majesty)",
+              "description": "<i>Le charme, l'attrait et l'autorité absolue de Morathi-Khaine sont presque impossibles à contrer ; rien que lever une lame contre une créature aussi exaltée exige un effort de volonté dont la plupart des mortels sont incapables.</i><br/><br/><b>Effet :</b> Si le jet de touche non modifié d'une attaque faite par une unité autre qu'un <b>Héros</b> qui cible <b>Morathi-Khaine</b> amie est de 1-4, l'attaque échoue et la séquence d'attaque s'arrête.",
+              "origin": "BT (trad.)",
+              "provenance": {
+                "bt_text": "Traduction non officielle (Claude, 2026-11-25) de la VO Wahapedia — pas de VF disponible",
+                "errata_patch": null,
+                "errata_source": null,
+                "source": "Wahapedia, Faction_abilities.csv, type « Zainthar Kai » (000000989)",
+                "note": "Texte VO vérifié sur l'App (captures utilisateur, 2026-11-26)."
+              }
+            },
+            {
+              "wahapedia_name": "THE BLOOD SAINTS",
+              "name": "Les Saintes de Sang (The Blood Saints)",
+              "description": "<i>Premières et plus vénérées des Scáthborn, ces créatures vouent à Morathi-Khaine une loyauté à toute épreuve.</i><br/><br/><b>Effet :</b> Tant que la <b>Reine de l'Ombre</b> amie est entièrement à 6\" d'une unité <b>Zainthar Kai</b> amie autre qu'un <b>Héros</b>, cette <b>Reine de l'Ombre</b> et cette unité ont toutes deux <b>Protection (5+)</b>.",
+              "origin": "BT (trad.)",
+              "provenance": {
+                "bt_text": "Traduction non officielle (Claude, 2026-11-25) de la VO Wahapedia — pas de VF disponible",
+                "errata_patch": null,
+                "errata_source": null,
+                "source": "Wahapedia, Faction_abilities.csv, type « Zainthar Kai » (000000989)",
+                "note": "Texte VO vérifié sur l'App (captures utilisateur, 2026-11-26)."
+              }
+            },
+            {
+              "wahapedia_name": "MATRIARCH OF THE ZAINTHAR KAI",
+              "name": "Matriarche des Zainthar Kai (Matriarch of the Zainthar Kai)",
+              "description": "<i>Entourée d'êtres façonnés jusque dans leur âme pour être ses gardes du corps parfaits, Morathi-Khaine peut libérer son véritable pouvoir, sachant qu'aucune rivale jalouse ni prétendue alliée ne cherchera à lui nuire.</i><br/><br/><b>Annonce :</b> Choisissez <b>Morathi-Khaine</b> amie pour utiliser cette aptitude.<br/><br/><b>Effet :</b> Choisissez 1 des effets suivants :<ul><li>Jusqu'au début de votre prochain tour, cette unité a une caractéristique de Mouvement de 12\" et a <b>Vol</b>.</li><li>Cette unité peut utiliser l'aptitude « Le Cœur de Fer de Khaine » comme si vous aviez accompli un rite de sang.</li><li>Choisissez comme cible une unité ennemie visible à 18\" de cette unité. Pour le restant du tour, les attaques de la cible ne peuvent pas causer de touches critiques (traitez-les comme des touches normales).</li><li>Choisissez comme cible un <b>Héros</b> <b>Zainthar Kai</b> ami non-<b>Unique</b> qui a été détruit. Placez une unité de remplacement identique entièrement à 3\" de cette unité.</li></ul>",
+              "origin": "BT (trad.)",
+              "provenance": {
+                "bt_text": "Traduction non officielle (Claude, 2026-11-25) de la VO Wahapedia — pas de VF disponible",
+                "errata_patch": null,
+                "errata_source": null,
+                "source": "Wahapedia, Faction_abilities.csv, type « Zainthar Kai » (000000989)",
+                "note": "Fin du texte (4e option) complétée le 2026-11-26 d'après la page Wahapedia en ligne (wahapedia.ru/aos4/factions/daughters-of-khaine) ; traduction non officielle. Texte VO vérifié sur l'App (captures utilisateur, 2026-11-26)."
+              }
+            },
+            {
+              "wahapedia_name": "CURSED HERITAGE",
+              "name": "Héritage Maudit (Cursed Heritage)",
+              "description": "<i>Chaque guerrière Zainthar Kai porte au moins trois gouttes du puissant ichor de Khaine dans ses veines, et peut faire appel à son pouvoir bouillonnant pour faire jaillir des yeux de ses ennemis un torrent atroce de sang bouillant.</i><br/><br/><b>Annonce :</b> Choisissez comme cibles toutes les unités ennemies en mêlée avec une ou plusieurs unités <b>Zainthar Kai</b> non-<b>Uniques</b>.<br/><br/><b>Effet :</b> Infligez D3 dégâts mortels à chaque cible.",
+              "origin": "BT (trad.)",
+              "provenance": {
+                "bt_text": "Traduction non officielle (Claude, 2026-11-25) de la VO Wahapedia — pas de VF disponible",
+                "errata_patch": null,
+                "errata_source": null,
+                "source": "Wahapedia, Faction_abilities.csv, type « Zainthar Kai » (000000989)",
+                "note": "Texte VO vérifié sur l'App (captures utilisateur, 2026-11-26)."
+              }
+            }
+          ],
+          "heroic_traits_artefacts": [
+            {
+              "wahapedia_name": "KHAINE'S INHERITOR",
+              "name": "Héritière de Khaine (Khaine's Inheritor)",
+              "description": "<i>Celles qui, imprégnées du puissant sang de Khaine, survivent à l'épreuve apprennent vite à manier ce pouvoir comme une arme, infligeant à leurs ennemis des vagues d'insoutenable agonie.</i><br/><br/><b>Annonce :</b> Choisissez comme cible une unité ennemie visible à 12\" de cette unité.<br/><br/><b>Effet :</b> Jetez un D3. Sur 2+ :<ul><li>Infligez à la cible autant de dégâts mortels que le résultat du jet.</li><li>Divisez par deux la caractéristique de Mouvement de la cible jusqu'au début de votre prochain tour.</li></ul>",
+              "origin": "BT (trad.)",
+              "provenance": {
+                "bt_text": "Traduction non officielle (Claude, 2026-11-25) de la VO Wahapedia — pas de VF disponible",
+                "errata_patch": null,
+                "errata_source": null,
+                "source": "Wahapedia, Faction_abilities.csv, type « Zainthar Kai » (000000989)"
+              }
+            },
+            {
+              "wahapedia_name": "AMULET OF THE BLADED QUEEN",
+              "name": "Amulette de la Reine des Lames (Amulet of the Bladed Queen)",
+              "description": "<i>Cette prodige a gagné la bénédiction de Morathi-Khaine : une magnifique amulette serpentine grâce à laquelle la déesse peut à la fois protéger sa subordonnée et garder sur elle un œil vigilant.</i><br/><br/><b>Effet :</b> Cette unité a <b>Protection (5+)</b>. Ajoutez 1 aux jets de sauvegarde de cette unité.",
+              "origin": "BT (trad.)",
+              "provenance": {
+                "bt_text": "Traduction non officielle (Claude, 2026-11-25) de la VO Wahapedia — pas de VF disponible",
+                "errata_patch": null,
+                "errata_source": null,
+                "source": "Wahapedia, Faction_abilities.csv, type « Zainthar Kai » (000000989)"
+              }
+            }
+          ],
+          "spell_lores": [
+            {
+              "wahapedia_name": "ETHEREAL GRACE",
+              "name": "Grâce Éthérée (Ethereal Grace)",
+              "description": "<i>La sorcière accorde à ses sœurs Scáthborn la vélocité d'une ombre fugace.</i><br/><br/><b>Annonce :</b> Choisissez un <b>Sorcier</b> <b>Zainthar Kai</b> ami pour lancer ce sort, choisissez comme cible une unité <b>Zainthar Kai</b> amie visible et entièrement à 12\" de lui, puis faites un jet de lancement de 2D6.<br/><br/><b>Effet :</b> Ajoutez 2\" à la caractéristique de Mouvement de la cible pour le restant du tour.",
+              "origin": "BT (trad.)",
+              "provenance": {
+                "bt_text": "Traduction non officielle (Claude, 2026-11-25) de la VO Wahapedia — pas de VF disponible",
+                "errata_patch": null,
+                "errata_source": null,
+                "source": "Wahapedia, Faction_abilities.csv, type « Zainthar Kai » (000000989)"
+              }
+            },
+            {
+              "wahapedia_name": "ON WINGS OF SHADOW",
+              "name": "Sur des Ailes d'Ombre (On Wings of Shadow)",
+              "description": "<i>D'un mouvement du poignet, la lanceuse invoque des vrilles d'ombre qui emportent ses alliées le long de chemins invisibles.</i><br/><br/><b>Annonce :</b> Choisissez un <b>Sorcier</b> <b>Zainthar Kai</b> ami pour lancer ce sort, choisissez comme cible une unité <b>Zainthar Kai</b> amie visible et entièrement à 12\" de lui, puis faites un jet de lancement de 2D6.<br/><br/><b>Effet :</b> Retirez la cible du champ de bataille et placez-la à nouveau sur le champ de bataille à plus de 9\" des unités ennemies.",
+              "origin": "BT (trad.)",
+              "provenance": {
+                "bt_text": "Traduction non officielle (Claude, 2026-11-25) de la VO Wahapedia — pas de VF disponible",
+                "errata_patch": null,
+                "errata_source": null,
+                "source": "Wahapedia, Faction_abilities.csv, type « Zainthar Kai » (000000989)"
+              }
+            },
+            {
+              "wahapedia_name": "SPEED OF THE SCÁTHBORN",
+              "name": "Vitesse des Scáthborn (Speed of the Scáthborn)",
+              "description": "<i>Le potentiel tapi dans le sang des Zainthar Kai peut être libéré d'un mot ensorcelé.</i><br/><br/><b>Annonce :</b> Choisissez un <b>Sorcier</b> <b>Zainthar Kai</b> ami pour lancer ce sort, choisissez comme cible une unité <b>Zainthar Kai</b> amie visible et entièrement à 12\" de lui, puis faites un jet de lancement de 2D6.<br/><br/><b>Effet :</b> La cible a <b>Frappe en Premier</b> pour le restant du tour.",
+              "origin": "BT (trad.)",
+              "provenance": {
+                "bt_text": "Traduction non officielle (Claude, 2026-11-25) de la VO Wahapedia — pas de VF disponible",
+                "errata_patch": null,
+                "errata_source": null,
+                "source": "Wahapedia, Faction_abilities.csv, type « Zainthar Kai » (000000989)"
+              }
+            }
+          ],
+          "manifestation_lores": [
+            {
+              "wahapedia_name": "MANIFESTATIONS OF MURDER",
+              "name": "Manifestations du Meurtre (Manifestations of Murder)",
+              "description": "<i>La sorcière canalise son pouvoir et appelle sur le champ de bataille l'une des manifestations sacrées de Khaine.</i><br/><br/><b>Annonce :</b> Choisissez un <b>Sorcier</b> <b>Zainthar Kai</b> ami pour lancer ce sort, choisissez 1 des <b>Manifestations</b> amies ci-dessous qui n'est pas sur le champ de bataille, puis faites un jet de lancement de 2D6.<br/><ul><li>Vipère Incarnate</li><li>Vent de Lames</li><li>Cœur de Fureur</li></ul><br/><b>Effet :</b> Si vous avez choisi une <b>Vipère Incarnate</b> ou un <b>Vent de Lames</b>, placez cette manifestation entièrement à 12\" du lanceur, visible de lui et à plus de 9\" de toutes les unités ennemies. Si vous avez choisi un <b>Cœur de Fureur</b>, placez-le entièrement à 18\" du lanceur et visible de lui.",
+              "origin": "BT (trad.)",
+              "provenance": {
+                "bt_text": "Traduction non officielle (Claude, 2026-11-25) de la VO Wahapedia — pas de VF disponible",
+                "errata_patch": null,
+                "errata_source": null,
+                "source": "Wahapedia, Faction_abilities.csv, type « Zainthar Kai » (000000989)",
+                "note": "Fin du texte complétée le 2026-11-26 d'après la page Wahapedia en ligne (valeur de lancement 7) ; traduction non officielle."
               }
             }
           ]

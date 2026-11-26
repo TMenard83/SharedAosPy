@@ -19,7 +19,7 @@ from .tags import tags_for
 
 #: Incrémenter à chaque changement des règles d'extraction/notation : stocké en
 #: base (`ability.analyzer_version`) pour savoir quelle version a produit une ligne.
-ANALYZER_VERSION = 39
+ANALYZER_VERSION = 42
 
 
 #: Rythmes des ressources de faction : `abilities.resources` (réexporté ici pour les appelants existants).

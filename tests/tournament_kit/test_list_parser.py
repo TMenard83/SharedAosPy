@@ -167,3 +167,15 @@ def test_compact_export_format_with_leading_title():
     assert pl.battle_tactic_cards == ["Blazing Onslaught", "Flanking Firestorm"]
     assert pl.regiments[0].units[0].name == "Alarielle the Everqueen"
     assert pl.regiments[0].units[0].options == ["General"]
+
+
+def test_option_cost_in_pts_is_normalised():
+    """« • Veterans of Amberstone Watch (10 pts) » (export retouché, Zieg L3) = « … - (10) Points »."""
+    from aospy.tournament_kit.list_parser import parse_list
+
+    text = (
+        "T\n\nStormcast Eternals\nDrops: 1\n\nGeneral's Regiment\nAnnihilators (180)\n"
+        " • Veterans of Amberstone Watch (10 pts)\n"
+    )
+    parsed = parse_list(text)
+    assert parsed.regiments[0].units[0].options == ["Veterans of Amberstone Watch - (10) Points"]
