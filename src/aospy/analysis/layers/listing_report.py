@@ -1,0 +1,361 @@
+"""Mise en forme Markdown de la fiche couche 4 d'une liste et de son dossier de textes (aucune analyse ici)."""
+
+from __future__ import annotations
+
+
+def format_list_report(rep) -> str:
+    """Fiche couche 4 chiffrée d'une liste (`analysis.layers.listing.ListReport`) en Markdown : la matière que
+    l'analyse humaine (concept, plan round par round) reprend — jamais une analyse en soi."""
+    out = [f"# {rep.title} — {rep.faction} — fiche couche 4 chiffrée", ""]
+    missing = [n for n, _p, u in rep.units if u is None]
+    if missing:
+        # leçon du 2026-11-23 (Haldahir) : des chiffres sur une liste incomplète sont faux
+        out += [
+            f"> **⚠ {len(missing)} unité(s) de la liste non reconnue(s) en base : "
+            f"{', '.join(dict.fromkeys(missing))}.** "
+            "Elles ne sont comptées nulle part dans cette fiche : corriger le nom (ou importer l'unité) avant de lire "
+            "les chiffres.",
+            "",
+        ]
+    out += [
+        "## Unités (couche 3)",
+        "",
+        "| unité | pts | × | dég/100 | dur/100 | rang dég | rang dur | ch.comb | bon cas | mêlée | mv | "
+        "engagement | rôle suggéré |",
+        "|---|---|---|---|---|---|---|---|---|---|---|---|---|",
+    ]
+    for s in rep.sheets:
+        out.append(
+            f"| {s.name} | {s.points} | {s.copies} | {s.off_per_100:.1f} | {s.def_per_100:.1f} | "
+            f"{s.off_rank:.2f} | {s.def_rank:.2f} | {s.fit_per_100:.1f} | {s.good_per_100:.1f} | "
+            f"{s.share_melee:.0%} | {s.move}{' vol' if s.fly else ''} | R{s.engage_round} | {s.role} |"
+        )
+    if rep.sheets and rep.units:
+        from .roles import ROLES, components, pattern, unit_roles
+
+        roles = unit_roles(rep)
+        comps = components(rep, roles)
+        out += [
+            "",
+            "## Rôles dans la liste (profil + ce que l'unité reçoit) et composantes",
+            "",
+            "Suggestion à confirmer à la lecture : scores 0-1 par rôle, principal = le meilleur (mobilité seulement si "
+            "elle domine nettement), secondaires ≥ 0,6.",
+            "",
+            "| unité | pts | rôle | secondaires | rapide | " + " | ".join(ROLES) + " | pourquoi |",
+            "|---|---|---|---|---|" + "---|" * len(ROLES) + "---|",
+        ]
+        for r in roles:
+            sc = dict(r.scores)
+            out.append(
+                f"| {r.name} | {r.points} | **{r.role}** | {', '.join(r.secondary) or '—'} | "
+                f"{'oui' if r.fast else ''} | " + " | ".join(f"{sc[k]:.2f}" for k in ROLES)
+                + f" | {'; '.join(r.reasons)} |"
+            )
+        out += ["", f"**Composantes** : {pattern(comps) or 'aucune nette'}", ""]
+        for c in comps:
+            out.append(f"- {c.kind} ({c.points} pts, {c.share:.0%}) : {', '.join(c.units)} — {c.note}")
+        from .strengths import synthesis
+
+        traits = synthesis(rep, roles, comps)
+        out += [
+            "",
+            "## Forces et faiblesses (synthèse automatique)",
+            "",
+            "Suggestion à confirmer : seuils calés sur les 54 listes L3 (repère = médiane ligue). Ni plan, ni décors, "
+            "ni scénario.",
+        ]
+        for kind, head, verb in (("force", "Forces", "neutralisée par"), ("faiblesse", "Faiblesses", "punie par")):
+            rows = [t for t in traits if t.kind == kind]
+            out += ["", f"**{head}**", ""]
+            out += [f"- *{t.axis}* — {t.text} → {verb} : {t.counter}" for t in rows] or ["- aucune nette"]
+    weak =[(s.name, w) for s in rep.sheets for w in s.weak_marriages]
+    if weak:
+        out += ["", "### Aptitudes mal mariées à leur porteur (mariage < 0,4)", ""]
+        out += [f"- **{n}** — {a} : {m:.2f} ({e})" for n, (a, m, e) in weak]
+    if rep.picks:
+        out += [
+            "",
+            "## Optimisations prises vs meilleurs porteurs de la liste",
+            "",
+            "| optimisation | porteur | valeur | mariage | meilleur dans la liste | valeur | mariage | éligibles |",
+            "|---|---|---|---|---|---|---|---|",
+        ]
+        f = lambda v: "—" if v is None else f"{v:.2f}"
+        for p in rep.picks:
+            out.append(
+                f"| {p.enhancement} | {p.bearer} | {f(p.bearer_value)} | {p.bearer_marriage:.2f} | "
+                f"{p.best_in_list} | {f(p.best_value)} | {p.best_marriage:.2f} | {p.n_eligible} |"
+            )
+    if rep.dead:
+        out += ["", "## Règles mortes (composition)", ""]
+        out += [f"- {a.name} ({a.source}) — {r}" for a, r in rep.dead]
+    if rep.marriages:
+        out += [
+            "",
+            "## Mariages chiffrés (effet de la liste × receveur de la liste)",
+            "",
+            "Poids = frise × déclenchement × fiabilité du donneur (D × S du porteur en couche 3 × suivi du "
+            "receveur, × P(invocation) pour une manifestation).",
+            "",
+            "| aptitude | origine | receveur | dég % | dur % | donneur | poids | conditions |",
+            "|---|---|---|---|---|---|---|---|",
+        ]
+        for m in rep.marriages[:40]:
+            og = "—" if m.off_gain_pct is None else f"{m.off_gain_pct:+.0f}"
+            dg = "—" if m.def_gain_pct is None else f"{m.def_gain_pct:+.0f}"
+            name = f"{m.ability} ({m.option})" if m.option else m.ability
+            giver = "" if m.relation == "porteur" else f"{getattr(m, 'giver', 1.0):.2f}"
+            out.append(
+                f"| {name} | {m.source} | {m.receiver} | {og} | {dg} | {giver} | {m.weight:.2f} | {m.conditions} |"
+            )
+    if rep.assault:
+        a = rep.assault
+        out += [
+            "",
+            "## Assaut : charges groupées (redondance et secours)",
+            "",
+            "Hypothèse : tous les chargeurs dans les bulles des sources (point de chute groupé) ; "
+            "dissipation adverse non comptée.",
+            "",
+        ]
+        if a.sources:
+            out += ["Sources de la liste :", ""]
+            for s in a.sources:
+                what = {
+                    "bonus": f"+{s.value:g} au jet",
+                    "relance": "relance des jets de charge",
+                    "dés": {
+                        "3d6": "charge sur 3D6",
+                        "3k2": "3 dés, on garde les 2 meilleurs",
+                        "max": "le plus bas des 2D6 aligné sur le plus haut",
+                    }.get(s.dice, s.dice),
+                }[s.kind]
+                extra = [f"existe à {s.p_present:.0%}"] if s.p_present < 1 else []
+                if s.per_battle:
+                    extra.append("1×/bataille")
+                if s.after_charge:
+                    extra.append("après une charge du porteur : hors bonus permanents")
+                if s.group:
+                    extra.append(f"un seul {s.group} à la fois")
+                out.append(
+                    f"- **{s.name}** ({s.origin}) : {what} → {', '.join(s.receivers)}"
+                    + (f" ({', '.join(extra)})" if extra else "")
+                )
+            out.append("")
+        for sc in a.scenarios:
+            n = len(sc.cases[0].at_least)
+            out += [
+                f"### {sc.label} — {len(sc.chargers)} chargeurs",
+                "",
+                "Par chargeur (sec → bonus permanents) : "
+                + " ; ".join(f"{c} {p:.0%} → {b:.0%}" for c, p, b in sc.chargers),
+                "",
+                "| cas | " + " | ".join(f"≥ {k}" for k in range(1, n + 1)) + " |",
+                "|---|" + "---|" * n,
+            ]
+            out += [f"| {c.label} | " + " | ".join(f"{p:.0%}" for p in c.at_least) + " |" for c in sc.cases]
+            out.append("")
+        if a.threats:
+            out += [
+                "### À pied : portée de menace (punition des erreurs adverses)",
+                "",
+                "Mouvement + plus long jet de charge réussi à 50 % : un adversaire plus près se fait charger.",
+                "",
+                "| chargeur | mouvement | sec | bonus permanents | + relance |",
+                "|---|---|---|---|---|",
+            ]
+            out += [f'| {t.unit} | {t.move:g}" | {t.dry:g}" | {t.bonus:g}" | {t.reroll:g}" |' for t in a.threats]
+            out.append("")
+    givers = [g for g in getattr(rep, "givers", []) if g.cast_list != g.cast_bare or g.survival_list != g.survival_bare]
+    if givers:
+        out += [
+            "",
+            "## Donneurs : ce que la liste leur donne",
+            "",
+            "Lancement et survie du porteur d'une aptitude donnée (ou d'un sort), nus (couche 3) puis avec la liste : "
+            "bonus et relances de lancement reçus (sans plafond), protections reçues, décor de faction qui encaisse à "
+            "sa place. Ces valeurs remplacent celles de la couche 3 dans la fiabilité du donneur.",
+            "",
+            "| donneur | aptitude | lancement nu → liste | survie nu → liste | ce qui change |",
+            "|---|---|---|---|---|",
+        ]
+        for g in givers:
+            cast = f"{g.cast_bare:.0%} → {g.cast_list:.0%}" if g.cast_bare is not None else ""
+            out.append(
+                f"| {g.giver} | {g.ability} | {cast} | {g.survival_bare:.0%} → {g.survival_list:.0%} | "
+                f"{'; '.join(g.notes)} |"
+            )
+    rallies, notes = getattr(rep, "rallies", []), getattr(rep, "chain_notes", [])
+    if rallies or notes:
+        out += ["", "## Enchaînements", ""]
+        if rallies:
+            out += [
+                "**Sortir du combat → se Rallier**"
+                + " (Ralliement : 1 PC, hors combat ; un point par 4+ sur ses dés de ralliement). Survie gagnée par "
+                "un Ralliement par round, × P(dégagement).",
+                "",
+                "| unité | se dégage par | P(dégagement) | points de ralliement | survie gagnée | PC/round |",
+                "|---|---|---|---|---|---|",
+            ]
+            for r in rallies:
+                g = "—" if r.survival_gain is None else f"{r.survival_gain:+.0%}"
+                out.append(
+                    f"| {r.unit} | {', '.join(r.disengage)} | {r.p_disengage:.0%} | {r.rally_points:g} | {g} | "
+                    f"{r.cp_per_round} |"
+                )
+            out.append("")
+        for n in notes:
+            out.append(f"- {n.kind} : {n.ability} ({n.source}) — {', '.join(n.units)}")
+    curve = getattr(rep, "curve", None)
+    if curve and curve.rounds and (curve.board_ability or any(r.unlocked for r in curve.rounds)):
+        base = curve.rounds[0]
+        out += [
+            "",
+            "## Montée en puissance : la liste round par round",
+            "",
+            "Empilement de la liste (sans les commandes) rejoué à chaque round avec ce qui y est disponible : "
+            "ressources qui s'accumulent (Dîme de Sang…), runes au tableau (plan glouton : chaque round, la rune qui "
+            "rapporte le plus vu le tableau déjà posé ; à corriger à la lecture). Les poids des rounds ne changent "
+            "pas (1/3, 1, 1, 1/3, 1/3).",
+            "",
+            "| round | dégâts/round de la liste | PV effectifs de la liste | rune posée | "
+            "disponible à partir de ce round |",
+            "|---|---|---|---|---|",
+        ]
+        for r in curve.rounds:
+            dd = f"{r.damage:.1f} ({(r.damage / base.damage - 1) if base.damage else 0:+.0%})"
+            ww = f"{r.durability:.0f} ({(r.durability / base.durability - 1) if base.durability else 0:+.0%})"
+            out.append(f"| R{r.round} | {dd} | {ww} | {r.rune} | {', '.join(r.unlocked)} |")
+        out.append("")
+        out.append(
+            f"Pic au round {curve.peak}"
+            + (" — liste de fin de partie : elle gagne à faire durer." if curve.grows else ".")
+        )
+    choices = getattr(rep, "target_choices", [])
+    if choices:
+        out += [
+            "",
+            "## Aptitudes à une seule cible : sur qui les poser",
+            "",
+            "Apport réel de l'aptitude sur chaque receveur possible, **avec tout ce qu'il reçoit déjà** (empilement : "
+            "les règles croisées, ex. Trempés de Sang sur des Bloodletters à +1 Attaque) — dégâts d'un round vs 4+.",
+            "",
+        ]
+        for tc in choices:
+            parts = [
+                f"{u} {d:+.1f} dég." + (f" / {w:+.0f} % dur." if w else "") + (f" (si {c})" if c else "")
+                for u, d, w, c in tc.candidates[:4]
+            ]
+            out.append(f"- **{tc.ability}** ({tc.source}) : " + " ; ".join(parts))
+    stacked = getattr(rep, "stacks", None)
+    if stacked:
+        out += [
+            "",
+            "## Empilement : tout ce que chaque unité reçoit en même temps",
+            "",
+            "Tous les effets traduisibles qu'elle peut recevoir, plus All-out Attack / All-out Defence, appliqués "
+            "ENSEMBLE (plafond ±1 sur le total des modificateurs de toucher, blessure, sauvegarde ; une option par "
+            "aptitude à choix ; protections non cumulées). Cas « tout en place », sans fiabilité. « Produit » = gains "
+            "pris un par un multipliés (référence sans interaction) : ensemble < produit → plafonds, ensemble > "
+            "produit → effet de seuil. « Plafonné » = n'ajoute rien une fois les autres en place : « plafond ±1 / non "
+            "cumulable » est un vrai doublon ; « sauvegarde 4+ déjà impossible » sert contre une sauvegarde de 3+ "
+            "(Perforation en plus).",
+            "",
+            "Dégâts d'un round au **plancher de 75 %** (ce qui tombe 3 fois sur 4, plan de jeu compris), en charge.",
+            "",
+            "| unité | effets | dégâts/round nu → tout en place (vs 4+) | idem vs 3+ | dég. ensemble | dég. produit | "
+            "dur. ensemble | dur. produit | plafonnés | PC |",
+            "|---|---|---|---|---|---|---|---|---|---|",
+        ]
+        for st in stacked:
+            capped = (
+                ", ".join(
+                    f"{i.ability} (4+ impossible)" if i.capped_reason.startswith("sauvegarde") else i.ability
+                    for i in st.items
+                    if i.capped
+                )
+                or "—"
+            )
+            out.append(
+                f"| {st.receiver} | {len(st.items)} | {st.off_before:.1f} → {st.off_after:.1f} | "
+                f"{st.off_before_3:.1f} → {st.off_after_3:.1f} | "
+                f"{st.off_joint_pct:+.0f} % | {st.off_prod_pct:+.0f} % | "
+                f"{st.def_joint_pct:+.0f} % | {st.def_prod_pct:+.0f} % | {capped} | {st.cp} |"
+            )
+        for st in stacked[:3]:
+            out += ["", f"**{st.receiver}** (dég. {st.off_joint_pct:+.0f} %, dur. {st.def_joint_pct:+.0f} %) :", ""]
+            for i in st.items:
+                tag = f" — plafonné ({i.capped_reason})" if i.capped else ""
+                cond = f" ; si {i.conditions}" if i.conditions else ""
+                cp = f" ; {i.cp} PC" if i.cp else ""
+                out.append(
+                    f"- {i.ability} ({i.source}) : dég. {i.off_alone_pct:+.0f} %, dur. {i.def_alone_pct:+.0f} %"
+                    f"{cond}{cp}{tag}"
+                )
+    if rep.conflicts:
+        out += ["", "## Limites d'armée (un seul usage pour plusieurs porteurs)", ""]
+        out += [f"- {c.ability} ({c.frequency}) : {', '.join(c.carriers)}" for c in rep.conflicts]
+    if rep.magic:
+        out += ["", f"## Magie : {rep.magic.casts_per_turn} lancers par tour", ""]
+        out += [f"- {c} : {n}" for c, n in rep.magic.casters]
+        out += [f"- sort {n} ({src}) : valeur {v}, P {p:.0%}" for n, src, v, p in rep.magic.spells]
+    grid = getattr(rep, "grid", None)
+    if grid:
+        out += [
+            "",
+            "## Aptitudes non traduites, rejouées sur la liste",
+            "",
+            "Mariage du porteur (couche 3) ; suivi = allonge du porteur ÷ allonge médiane de ses receveurs DANS la "
+            "liste (1 = il suit) ; ce que chaque receveur de la liste en tire, mesuré par la grille de sa famille.",
+            "",
+            "| aptitude | origine | famille | verdict | porteur (mariage) | suivi | receveurs de la liste |",
+            "|---|---|---|---|---|---|---|",
+        ]
+        for g in grid:
+            bearer = f"{g.bearer} ({g.bearer_marriage:.2f})" if g.bearer and g.bearer_marriage is not None else g.bearer
+            ku = f"{g.keep_up:.2f}" if g.keep_up is not None else ""
+            recv = "; ".join(f"{n} : {lab}" if lab else n for n, lab in g.receivers)
+            if g.note:
+                recv = f"{recv} — {g.note}" if recv else g.note
+            out.append(f"| {g.ability} | {g.source} | {g.family} | {g.verdict} | {bearer} | {ku} | {recv} |")
+        if rep.drawbacks:
+            out += ["", "Contreparties écartées : " + ", ".join(f"{a.name} ({a.source})" for a in rep.drawbacks)]
+    elif rep.unresolved:
+        out += ["", "## À lire (non chiffré : tempo, mobilité, ressources, débuffs…)", ""]
+        out += [f"- {a.name} ({a.source}) — {a.verdict}" for a in rep.unresolved]
+    return "\n".join(out) + "\n"
+
+
+def format_list_texts(title: str, raw_list: str, entries, abilities, texts: dict) -> str:
+    """Dossier « textes et profils » d'une liste : export de l'App, profils des unités, texte de chaque aptitude.
+
+    `entries` = (nom, points, unité ou None) de `listing.collect` ; `texts` = uid → `repository.get_ability_text`.
+    """
+    lines = [f"# {title} — textes et profils", "", "## Liste (export de l'App)", "", "```", raw_list, "```", "",
+             "## Unités", ""]
+    for n, p, u in entries:
+        if u is None:
+            lines.append(f"- {n} ({p}) : NON RECONNUE EN BASE")
+            continue
+        lines.append(f"### {u.name} ({p} pts) — M{u.move} Sv{u.save}+ Ward {u.ward or '-'} PV {u.health}×{u.models} "
+                     f"Ctl {u.control}")
+        lines.append("mots-clés : " + ", ".join(sorted(u.keywords)))
+        for w in u.weapons:
+            rng = (" " + str(w.range_in) + '"') if w.kind == "ranged" else ""
+            lines.append(f"- {w.name} [{w.kind}{rng}] A{w.attacks} {w.hit}+/{w.wound}+ P{w.rend} D{w.damage} "
+                         f"{w.abilities or ''}")
+        lines.append("")
+    lines += ["## Aptitudes (texte Wahapedia en base)", ""]
+    for ab in sorted(abilities, key=lambda a: (a.source, a.name)):
+        r = texts.get(ab.uid) or {}
+        cost = f" — coût {r['cost_type']} {r['cost_value']}" if r.get("cost_type") else ""
+        # Unlimited, Summon… (deux agents s'y sont trompés sans eux)
+        kw = f" — mots-clés : {r['ability_keywords']}" if r.get("ability_keywords") else ""
+        lines.append(f"### {ab.name} — {ab.source}{cost}{kw}")
+        lines.append(f"[{r.get('condition_text') or ''}]")
+        if r.get("declare_text"):
+            lines.append(f"Annonce : {r['declare_text']}")
+        lines.append(f"Effet : {(r.get('effect_text') or '').strip()}")
+        lines.append("")
+    return "\n".join(lines)

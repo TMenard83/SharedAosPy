@@ -164,7 +164,7 @@ def _table(title, labels_row, M, solver, col_labels):
     return out
 
 
-def main(argv: list[str] | None = None) -> int:
+def _parser() -> argparse.ArgumentParser:
     ap = argparse.ArgumentParser(prog="aospy l3 pairing", description=__doc__.split("\n")[0])
     ap.add_argument("--team", required=True, help="Melusior ou « Vae Victis Vernou »")
     ap.add_argument("--ronde", type=int, required=True, choices=range(1, 6))
@@ -176,8 +176,12 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--joue",action="append", default=[], metavar="NOUS:EUX", help="partie déjà fixée")
     ap.add_argument("--def", dest="defs", metavar="NOUS:EUX", help="défenseurs révélés à l'étape en cours")
     ap.add_argument("--att", metavar="A,B:C,D", help="attaquants révélés : nos 2 : leurs 2")
-    a = ap.parse_args(argv)
+    return ap
 
+
+
+def render(a: argparse.Namespace) -> str:
+    """Texte Markdown du solveur pour les options `a` (celles de `_parser`)."""
     team = _find(a.team, list(FILE_NAME))
     if a.mode == "mixte":
         try:
@@ -242,7 +246,11 @@ def main(argv: list[str] | None = None) -> int:
         "(jouer le choix tiré au sort selon ces probabilités rend notre coup imprévisible) ; "
         "en mode prudent, 100 % sur le meilleur plancher.*"
     )
-    print("\n".join(out))
+    return "\n".join(out)
+
+
+def main(argv: list[str] | None = None) -> int:
+    print(render(_parser().parse_args(argv)))
     return 0
 
 

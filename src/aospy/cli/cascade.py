@@ -29,7 +29,7 @@ def cmd_cascade(args: argparse.Namespace) -> int:
         _print_status(con, args.data_dir)
         require_fresh(con, 4, args.data_dir)
         for path in args.list or []:
-            from .roster import write_dossier
+            from ..l3.dossier import write_dossier
 
             out = args.out_root and f"{args.out_root}/{path.rsplit('/', 1)[-1].rsplit('.', 1)[0]}"
             if out:

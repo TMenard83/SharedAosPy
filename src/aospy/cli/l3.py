@@ -24,6 +24,11 @@ _COMMANDS = {
     "robustesse": ("pairing_robust", "Cases pivot de l'appariement : chaque paire bougée de ±δ, défenseur et valeur."),
     "plan-note": ("plan_note", "note_plan calculée : régression sur les indices couche 4, validation croisée."),
     "qui-tue-qui": ("kills", "Matrice « qui tue qui » d'un match ou des paires de chaque ronde (buffs de liste)."),
+    "notes-fusion": ("notes_fusion", "Fusionne des lots de notes scénario (notes_scenarios.json + section 10)."),
+    "analyses": ("analysis_files", "Réécrit les sections 0 (--section0) ou 10 (--section10) des analyse.md."),
+    "verif-amont": ("upstream_check", "Contrôle des données en amont du modèle de scénario."),
+    "pdf": ("pdf_pack", "PDF par équipe : plan d'appariement, fiche, matchups (extra [roster])."),
+    "dossiers": ("dossier","Régénère le dossier couche 4 de chaque analyse.md (--root, --team, --dry-run)."),
     "export-lists": ("export_lists", "Exporte les 54 listes au format texte de l'App (--pdf : + aides de jeu)."),
 }
 

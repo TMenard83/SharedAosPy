@@ -69,42 +69,10 @@ def cmd_roster_analyze(args: argparse.Namespace) -> int:
     return 0
 
 
-def write_dossier(con, list_path, out) -> tuple[str, list[str]]:
-    """Dossier d'analyse d'une liste dans `out` : `couche 4.md`, `textes.md`, `liste.txt` (noms fixes).
-
-    Noms fixes pour qu'un dossier n'ait qu'une version de chaque fichier : les anciennes variantes
-    (`<stem> - couche 4.md`, `<stem> - textes.md`, `couche 4 (ancienne).md`) sont supprimées à chaque écriture.
-
-    Renvoie (stem, unités non reconnues). Utilisé par `aospy roster dossier` et `scratch/list_dossier.py`
-    (consignes d'agent `l3-matchups/*_agent.md`, `l3/draft_pack.py`).
-    """
-    from pathlib import Path
-
-    from ..analysis.layers.cascade import require_fresh
-    from ..analysis.layers.listing import analyse_list, collect
-    from ..persistence.repository import get_ability_text
-    from ..tournament_kit.list_parser import parse_list_file
-    from .report import format_list_report, format_list_texts
-
-    require_fresh(con, 4)
-    f, out = Path(list_path), Path(out)
-    out.mkdir(parents=True, exist_ok=True)
-    parsed = parse_list_file(f)
-    stem = f.name.split(" ")[0].strip()
-    raw = f.read_text(encoding="utf-8")
-    for old in [*out.glob("* - couche 4.md"), *out.glob("* - textes.md"), *out.glob("couche 4 (*).md")]:
-        old.unlink()
-    (out / "couche 4.md").write_text(format_list_report(analyse_list(con, parsed)), encoding="utf-8")
-    entries, abilities, _vocab = collect(con, parsed)
-    texts = {ab.uid: get_ability_text(con, ab.uid) for ab in abilities}
-    (out / "textes.md").write_text(format_list_texts(parsed.title, raw, entries, abilities, texts),
-                                             encoding="utf-8")
-    (out / "liste.txt").write_text(raw, encoding="utf-8")
-    return stem, [f"{n} ({p})" for n, p, u in entries if u is None]
-
-
 def cmd_roster_dossier(args: argparse.Namespace) -> int:
     from pathlib import Path
+
+    from ..l3.dossier import write_dossier
 
     out = args.out or str(Path("scratch/output/liste_analyse") / Path(args.list).stem)
     con = _connect(args)
@@ -118,6 +86,20 @@ def cmd_roster_dossier(args: argparse.Namespace) -> int:
         for m in missing:
             print(f"  - {m}")
         return 2
+    return 0
+
+
+def cmd_roster_md_pdf(args: argparse.Namespace) -> int:
+    try:
+        from ..reports import markdown_pdf
+    except ImportError:
+        print("La conversion Markdown → PDF nécessite l'extra [roster] : pip install -e '.[roster]'")
+        return 1
+    from pathlib import Path
+
+    out = Path(args.sortie)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    print(f"PDF généré : {markdown_pdf.build(out, [Path(f) for f in args.entrees], args.paysage, args.titre)}")
     return 0
 
 
@@ -169,3 +151,9 @@ def register(sub: argparse._SubParsersAction) -> None:
         "simplifications de la section « en »).",
     )
     p.set_defaults(func=cmd_roster_pdf)
+    p = sr.add_parser("md-pdf", help="Convertit un ou plusieurs fichiers Markdown en un PDF (extra [roster]).")
+    p.add_argument("sortie", help="PDF de sortie.")
+    p.add_argument("entrees", nargs="+", help="Fichiers Markdown (un saut de page entre chaque).")
+    p.add_argument("--paysage", action="store_true", help="Page A4 en paysage.")
+    p.add_argument("--titre", help="Titre du PDF et du pied de page (défaut : nom du fichier de sortie).")
+    p.set_defaults(func=cmd_roster_md_pdf)

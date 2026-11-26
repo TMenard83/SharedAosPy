@@ -6,7 +6,7 @@ lire est assemblé d'avance, le modèle ne fait que rédiger.
 * **Méthode** (identique pour toutes les listes, en invite système → réutilisable en cache) : consigne
   `strategie_agent.md`, skill `list-analysis`, sections « Principes stratégiques » et « Règles de jeu » du skill
   `l3-matchups`, mémoires de méthode, scénarios de la ligue, exemple de profondeur (stratégie de Cromba).
-* **Paquet** (par liste) : export de l'App, fiche couche 4 et textes (`scratch/list_dossier.py`), aide de jeu FR
+* **Paquet** (par liste) : export de l'App, fiche couche 4 et textes (`l3/dossier.py`), aide de jeu FR
   compactée, les 2 cartes de tactique de l'export (verbatim FR), `aospy l3 diag --player`, contrôles automatiques
   (unités non reconnues, cartes inconnues), puis l'entrée combos existante (pour `desaccords_combos` seulement).
 * **Sortie** : JSON validé (clés, noms exacts des sous-tactiques, niveaux) → `Données/auto/<équipe>/<joueur>.json`,
@@ -28,7 +28,10 @@ import tempfile
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
+import duckdb
+
 from . import drafts
+from .dossier import write_dossier
 
 ROOT = Path(__file__).resolve().parents[3]
 FOLDER = ROOT / "data" / "2026-27 L3 Aller"
@@ -149,8 +152,11 @@ def _cards(export: str) -> tuple[str, list[str], list[str]]:
 def build_pack(entry: dict, work: Path) -> tuple[str, list[str]]:
     """Message utilisateur de la liste, et noms exacts des sous-tactiques attendus dans `niveaux`."""
     work.mkdir(parents=True, exist_ok=True)
-    subprocess.run([PY, str(ROOT / "scratch" / "list_dossier.py"), str(entry["txt"]), str(work)], cwd=ROOT,
-                   check=True, capture_output=True)
+    con = duckdb.connect(str(ROOT / "data" / "aospy.duckdb"), read_only=True)
+    try:
+        write_dossier(con, entry["txt"], work)
+    finally:
+        con.close()
     c4 = (work / "couche 4.md").read_text(encoding="utf-8")
     textes = (work / "textes.md").read_text(encoding="utf-8")
     diag = subprocess.run([PY, "-m", "aospy", "l3", "diag", "--player", entry["player"]], cwd=ROOT,

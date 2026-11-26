@@ -18,7 +18,7 @@ relire avant chaque analyse).
 2. Dossier : `aospy roster dossier --list "<liste.txt>" --out <dossier>` (`tm-aospy-roster-dossier`) → `couche 4.md`
    + `textes.md` + `liste.txt` (noms fixes, une seule version par dossier ; L3 : `--out` = le dossier de l'analyse,
    jamais un sous-dossier `liste/`). Code de sortie 2 et liste en clair si des unités ne sont pas
-   reconnues : vérifier **chaque unité** (renforts, `Scourge of Aqshy:`). `scratch/list_dossier.py` = même chose.
+   reconnues : vérifier **chaque unité** (renforts, `Scourge of Aqshy:`). L3, les 54 dossiers d'un coup : `aospy l3 dossiers [--team T] [--dry-run]`.
    Une unité manquante fausse tout : la signaler avant tout chiffre.
 3. Textes FR : aide de jeu `fr-split-simple` (skill `roster-pdf` ; L3 : `aospy l3 export-lists --pdf`, JSON
    `Aides de jeu/<équipe>/<joueur> (fr-split-simple).json`, cartes `deploy`/`any`/`mine`/`enemy`). L'aide de jeu fait foi.
@@ -84,12 +84,12 @@ schéma `l3-matchups/plan_agent.md`) ou `Données/auto/<équipe>/<joueur>.json` 
 refaire à chaque modification de l'analyse (niveaux de tactique, note de plan, questions). Un dossier par liste
 (`<joueur>-<faction>/<liste>/`), jamais de sous-dossier `liste/` ni de copie `* - couche 4.md` (le dossier écrit des
 noms fixes) ; les anciennes versions vont dans `scratch/output/archives/`. Scénarios : une seule lecture, la section
-« 10. Scénarios », générée depuis `Données/notes_scenarios.json` par `scratch/fusion_notes_scenarios.py` (ne pas
+« 10. Scénarios », générée depuis `Données/notes_scenarios.json` par `aospy l3 notes-fusion` (lots de notes) ou `aospy l3 analyses --section10` (resynchro seule) (ne pas
 l'éditer à la main ; la section 6 n'y renvoie que).
 
 Sections de `analyse.md` (le document est un tout : pas de comparaison à une analyse précédente, pas de défauts
 du moteur dedans) :
-0. La liste (réécrite depuis l'export : `scratch/analyse_header_liste.py` l'ajoute ou la met à jour) ·
+0. La liste (réécrite depuis l'export : `aospy l3 analyses --section0` l'ajoute ou la met à jour) ·
 1. Concept et règles constructrices · 2. Rôles et composantes · 3. Plan R1-R5 · 4. PC et ressources ·
 5. Tactiques (niveaux, ordre) · 6. Scénarios (notes et raisons) · 7. Forces · 8. Faiblesses / comment la battre ·
 9. Questions fermées au joueur (2-4) · `note_plan` proposée (0-3, **à valider**, non calculable : `plan_agent.md`).

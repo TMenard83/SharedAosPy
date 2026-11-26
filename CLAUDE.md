@@ -61,6 +61,8 @@ aospy ability analyze | search | show | review    # layer 1 (ability* tables)
 aospy chassis build|list ; aospy encounter build|list|best|marriage|bearers   # layers 2-3
 aospy cascade [--status|--all|--start N] [--list <file> --out-root dir]   # rebuild stale layers 1 → 2 → 3, then layer 4
 aospy l3 matchups|listes|diag|compare|scenarios|scenario-match|export-lists|plan-note|qui-tue-qui   # L3 league tools
+aospy l3 dossiers|analyses --section0|--section10|notes-fusion|verif-amont|pdf   # L3 list-analysis upkeep, team PDFs
+aospy roster md-pdf OUT.pdf A.md [B.md …] [--paysage]   # Markdown → PDF (`[roster]`)
 ```
 
 `cost_model.fit_cost_model_factorial` is a library call, not wired to the CLI (see `analysis/README.md`).
@@ -114,7 +116,7 @@ Hand-authored / hand-curated (source, versioned):
 
 Sources read, not generated: `data/Battle tome/*.pdf` and `data/Manuel du général/*.pdf` (copyrighted, no text layer, not versioned — `MdG26-27 Tactiques.pdf` stays the source of truth for `battle_tactic_cards.json`; `sorts persistants - manifestations.pdf` is a user-supplied French scan), `data/Proposition de listes/*.txt` (App list exports), `data/wahapedia/*.csv` (same files as the StatHammer project; re-download to refresh — no network in the shell, ask the user), `data/bsdata/*.cat` (local BSData libraries for `import verify`, to be dropped there by hand when needed).
 
-Generated / exploratory: `data/aospy.duckdb` (default DB path) and everything under `scratch/` (ad hoc scripts; their PDF/JSON outputs land in `scratch/output/`, roster PDFs in `scratch/output/roster/<équipe>/<liste>/`).
+Generated / exploratory: `data/aospy.duckdb` (default DB path) and everything under `scratch/` (provisional ad hoc scripts only — a script that gets re-run becomes a module in `src/` with an `aospy` command, and `src/` never depends on `scratch/`; their PDF/JSON outputs land in `scratch/output/`, roster PDFs in `scratch/output/roster/<équipe>/<liste>/`).
 
 ## Agents
 
