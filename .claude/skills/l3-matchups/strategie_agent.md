@@ -11,8 +11,8 @@ Il ne touche ni à `combos/*.json`, ni à `notes_scenarios.json`, ni au code.
 ## Entrées (chemins depuis la racine du dépôt `/home/tmenard/Dev/Python/aospy`)
 
 1. Dossier : `.venv/bin/python -m aospy roster dossier --list "data/2026-27 L3 Aller/Listes texte/<équipe>/<joueur>.txt" --out <scratch>`
-   → `<stem> - couche 4.md` (rôles suggérés, empilement, sur qui poser, assaut, montée en puissance, enchaînements,
-   règles mortes) et `<stem> - textes.md` (profils et textes Wahapedia complets). Lire les deux en entier.
+   → `couche 4.md` (rôles suggérés, empilement, sur qui poser, assaut, montée en puissance, enchaînements,
+   règles mortes) et `textes.md` (profils et textes Wahapedia complets). Lire les deux en entier.
 2. Aide de jeu FR : `data/2026-27 L3 Aller/Aides de jeu/<équipe>/<joueur> (fr-split-simple).json` (règles d'armée,
    cartes `deploy`/`any`/`mine`/`enemy`) — à interroger avec `jq`/`python -c`, pas en entier si gros.
 3. Cartes de tactique : ligne `Battle Tactic Cards:` de l'export ; textes verbatim FR

@@ -151,9 +151,8 @@ def build_pack(entry: dict, work: Path) -> tuple[str, list[str]]:
     work.mkdir(parents=True, exist_ok=True)
     subprocess.run([PY, str(ROOT / "scratch" / "list_dossier.py"), str(entry["txt"]), str(work)], cwd=ROOT,
                    check=True, capture_output=True)
-    stem = entry["txt"].name.split(" ")[0].strip()
-    c4 = (work / f"{stem} - couche 4.md").read_text(encoding="utf-8")
-    textes = (work / f"{stem} - textes.md").read_text(encoding="utf-8")
+    c4 = (work / "couche 4.md").read_text(encoding="utf-8")
+    textes = (work / "textes.md").read_text(encoding="utf-8")
     diag = subprocess.run([PY, "-m", "aospy", "l3", "diag", "--player", entry["player"]], cwd=ROOT,
                           capture_output=True, text=True).stdout
     export = entry["txt"].read_text(encoding="utf-8")

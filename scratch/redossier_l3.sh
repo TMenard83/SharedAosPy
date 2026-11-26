@@ -10,7 +10,8 @@ for f in "$L"/*/*.txt; do
   [ -z "$d" ] && d=$(ls -d "scratch/output/liste_analyse/$team/"*/*/ 2>/dev/null | grep -i "/${p:0:6}" | head -1)
   [ -z "$d" ] && { echo "$team|$p|SANS DOSSIER"; continue; }
   if [ -n "$REF" ] && [ -n "$(find "$d" -maxdepth 1 -name '*couche 4.md' -newer "$REF" | head -1)" ]; then echo "$team|$p|déjà fait"; continue; fi
-  .venv/bin/python -m aospy roster dossier --list "$f" --out "$d" > "$d/dossier.log" 2>&1; rc=$?
+  # base en lecture seule : marche même si une autre session tient le verrou d'écriture
+  .venv/bin/python scratch/list_dossier.py "$f" "$d" > "$d/dossier.log" 2>&1; rc=$?
   .venv/bin/python -m aospy l3 diag --player "$p" > "$d/diag.txt" 2>&1
   .venv/bin/python -m aospy l3 scenario-model --player "$p" --tactiques > "$d/scenario_model.txt" 2>&1
   echo "$team|$p|rc=$rc|$d"

@@ -64,7 +64,10 @@ def cmd_roster_analyze(args: argparse.Namespace) -> int:
 
 
 def write_dossier(con, list_path, out) -> tuple[str, list[str]]:
-    """Dossier d'analyse d'une liste dans `out` : `<stem> - couche 4.md`, `<stem> - textes.md`, `liste.txt`.
+    """Dossier d'analyse d'une liste dans `out` : `couche 4.md`, `textes.md`, `liste.txt` (noms fixes).
+
+    Noms fixes pour qu'un dossier n'ait qu'une version de chaque fichier : les anciennes variantes
+    (`<stem> - couche 4.md`, `<stem> - textes.md`, `couche 4 (ancienne).md`) sont supprimées à chaque écriture.
 
     Renvoie (stem, unités non reconnues). Utilisé par `aospy roster dossier` et `scratch/list_dossier.py`
     (consignes d'agent `l3-matchups/*_agent.md`, `l3/draft_pack.py`).
@@ -81,10 +84,12 @@ def write_dossier(con, list_path, out) -> tuple[str, list[str]]:
     parsed = parse_list_file(f)
     stem = f.name.split(" ")[0].strip()
     raw = f.read_text(encoding="utf-8")
-    (out / f"{stem} - couche 4.md").write_text(format_list_report(analyse_list(con, parsed)), encoding="utf-8")
+    for old in [*out.glob("* - couche 4.md"), *out.glob("* - textes.md"), *out.glob("couche 4 (*).md")]:
+        old.unlink()
+    (out / "couche 4.md").write_text(format_list_report(analyse_list(con, parsed)), encoding="utf-8")
     entries, abilities, _vocab = collect(con, parsed)
     texts = {ab.uid: get_ability_text(con, ab.uid) for ab in abilities}
-    (out / f"{stem} - textes.md").write_text(format_list_texts(parsed.title, raw, entries, abilities, texts),
+    (out / "textes.md").write_text(format_list_texts(parsed.title, raw, entries, abilities, texts),
                                              encoding="utf-8")
     (out / "liste.txt").write_text(raw, encoding="utf-8")
     return stem, [f"{n} ({p})" for n, p, u in entries if u is None]
@@ -97,7 +102,7 @@ def cmd_roster_dossier(args: argparse.Namespace) -> int:
     con = _connect(args)
     stem, missing = write_dossier(con, args.list, out)
     con.close()
-    print(f"Dossier écrit : {out} ({stem} - couche 4.md, {stem} - textes.md, liste.txt)")
+    print(f"Dossier écrit : {out} (couche 4.md, textes.md, liste.txt)")
     if missing:
         print(f"ATTENTION : {len(missing)} unité(s) non reconnue(s) en base, chiffres faux tant qu'elles manquent :")
         for m in missing:

@@ -12,8 +12,9 @@ relire avant chaque analyse).
 ## 0. Données d'abord (bloquant)
 
 1. Export App (`.txt`, ligne `Battle Tactic Cards:` comprise). L3 : `data/2026-27 L3 Aller/Listes texte/<équipe>/<joueur>.txt`.
-2. Dossier : `aospy roster dossier --list "<liste.txt>" --out <dossier>` (`tm-aospy-roster-dossier`) → `<stem> -
-   couche 4.md` + `<stem> - textes.md` + `liste.txt`. Code de sortie 2 et liste en clair si des unités ne sont pas
+2. Dossier : `aospy roster dossier --list "<liste.txt>" --out <dossier>` (`tm-aospy-roster-dossier`) → `couche 4.md`
+   + `textes.md` + `liste.txt` (noms fixes, une seule version par dossier ; L3 : `--out` = le dossier de l'analyse,
+   jamais un sous-dossier `liste/`). Code de sortie 2 et liste en clair si des unités ne sont pas
    reconnues : vérifier **chaque unité** (renforts, `Scourge of Aqshy:`). `scratch/list_dossier.py` = même chose.
    Une unité manquante fausse tout : la signaler avant tout chiffre.
 3. Textes FR : aide de jeu `fr-split-simple` (skill `roster-pdf` ; L3 : `aospy l3 export-lists --pdf`, JSON
@@ -67,6 +68,13 @@ combats** (une liste qui tue reprend) ; écrire « pts de victoire », jamais «
 Rangement (leçon 13) : `scratch/output/liste_analyse/<équipe>/<joueur>-<faction>/<liste>/` (`analyse.md`,
 `fiche joueur.md`, `couche 4.md`, `textes.md`, `liste.txt`). L3 : JSON `Données/combos/<équipe>.json` (nos listes,
 schéma `l3-matchups/plan_agent.md`) ou `Données/auto/<équipe>/<joueur>.json` (adverses, `strategie_agent.md`).
+
+**Une seule version** (2026-11-26) : `analyse.md` est la source ; le JSON `auto/` n'en est qu'une transcription, à
+refaire à chaque modification de l'analyse (niveaux de tactique, note de plan, questions). Un dossier par liste
+(`<joueur>-<faction>/<liste>/`), jamais de sous-dossier `liste/` ni de copie `* - couche 4.md` (le dossier écrit des
+noms fixes) ; les anciennes versions vont dans `scratch/output/archives/`. Scénarios : une seule lecture, la section
+« 10. Scénarios », générée depuis `Données/notes_scenarios.json` par `scratch/fusion_notes_scenarios.py` (ne pas
+l'éditer à la main ; la section 6 n'y renvoie que).
 
 Sections de `analyse.md` (le document est un tout : pas de comparaison à une analyse précédente, pas de défauts
 du moteur dedans) :
