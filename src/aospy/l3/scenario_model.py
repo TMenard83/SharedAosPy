@@ -5,15 +5,22 @@ Entrées : le scénario (ou la tactique) et l'analyse de liste.
 * **Analyse de liste** (`Indicators`) : indicateurs tirés de `matchups.ArmyList`, en z-scores sur les
   54 listes de la ligue, rangés en trois axes (plus un axe de soutien pour les tactiques) :
   - *objectifs* : contrôle total, nombre d'unités, aptitudes d'objectif ;
-  - *mobilité* : indice de mobilité, set-up / téléportations, part qui VOLE ;
-  - *contrôle après les combats* : dégâts d'un round, PV effectifs, tir — le contrôle se compte après les
-    combats, une liste qui tue ce qui conteste reprend l'objectif, une liste qui encaisse le garde ;
+  - *mobilité* : indice de mobilité, set-up / téléportations, part qui VOLE, unités rapides (9" et plus) et
+    leur part des points ;
+  - *contrôle après les combats* : dégâts d'un round, PV effectifs, tir, contesteurs retirés en un round — le
+    contrôle se compte après les combats, une liste qui tue ce qui conteste reprend l'objectif, une liste qui
+    encaisse le garde ;
   - *soutien* : HÉROS, magie (tactiques surtout).
-* **Modèle** (`Model`) : poids sur ces indicateurs, curés à la main dans `Données/modele_scenarios.json`,
-  un par carte et un par tactique (mêmes indicateurs, plus une base de difficulté et un décalage par scénario).
+* **Modèle** (`Model`) : poids sur ces indicateurs dans `Données/modele_scenarios.json`, un par carte et un par
+  tactique (mêmes indicateurs, plus une base de difficulté et un décalage par scénario). Cartes : poids lus dans
+  les lectures validées des cartes (`scenarios.json`, « gagne »), cinq composantes de −2 à +2, **jamais ajustés sur
+  les notes à la main** (ce serait circulaire) ; tactiques : curés à la main.
 
-Note = z-score (sur les 54 listes) de Σ poids × z + base + décalage. Indicatif : comme `notes_scenarios.json`,
-elle ne lit ni le déploiement ni les décors. `--compare` la confronte aux notes rédigées à la main.
+Note = z-score (sur les 54 listes) de Σ poids × z (× `_echelle` pour les cartes) + base + décalage : elle est
+**relative à la ligue**, comme les notes à la main de `notes_scenarios.json` depuis le 2026-11-26 (même convention,
+même centrage par carte). Indicatif : elle ne lit ni le déploiement ni les décors, ni les aptitudes de réception
+qu'une note à la main décrit ; la note à la main prime, le modèle couvre les couples sans note. `--compare` les
+confronte (corrélation brute et intra-liste, celle que lit `scenario_matchup` en mode centré).
 
 Usage : aospy l3 scenario-model [--team T] [--player P] [--tactiques] [--compare]
 """
@@ -32,10 +39,13 @@ MODEL_FILE = DATA / "modele_scenarios.json"
 
 AXES = {
     "objectifs": ("controle", "activations", "apt_objectifs"),
-    "mobilité": ("mobilite", "frappe", "vol"),
-    "après combats": ("degats", "durabilite", "tir"),
+    "mobilité": ("mobilite", "frappe", "vol", "rapides", "part_rapide"),
+    "après combats": ("degats", "durabilite", "tir", "nettoyage"),
     "soutien": ("heros", "magie"),
 }
+FAST = 9  # pouces : une unité « rapide » prend un objectif à 9" et plus (VOL : +2")
+# Contesteur type (5 × 2 PV, Sv4+) : l'unité qu'il faut retirer d'un objectif pour le reprendre après les combats.
+CONTESTER_HP = 10
 INDICATORS = tuple(k for keys in AXES.values() for k in keys)
 DIFFICULTY = {"facile": 0.6, "moyen": 0.0, "difficile": -0.6}
 NOTES = ((0.9, "++"), (0.3, "+"), (-0.3 + 1e-9, "="), (-0.9 + 1e-9, "−"))
@@ -57,15 +67,26 @@ class Indicators:
 
 
 def raw_indicators(al) -> dict[str, float]:
-    """Indicateurs bruts d'une `matchups.ArmyList` (déjà passée par `rate_lists`)."""
+    """Indicateurs bruts d'une `matchups.ArmyList` (déjà passée par `rate_lists`).
+
+    Mobilité (2026-11-26) : `rapides` (nombre d'unités à 9" et plus, VOL +2") et `part_rapide` (part des points)
+    lisent mieux les notes à la main que l'indice `mobilite` (mouvement moyen pondéré par les points) : ce sont
+    les unités rapides qui prennent les objectifs éloignés, une seule grosse unité rapide n'en prend qu'un.
+    `nettoyage` : contesteurs types (10 PV, Sv4+) retirés en un round, une unité ne pouvant en retirer qu'un.
+    """
+    from aospy.domain.models import Unit
+
     from .matchups import _REF, _ward_fail, unit_damage
 
-    dmg = rng = ehp = 0.0
+    contester = Unit(name="contesteur", army_id=0, move=5, save=4, health=2, control=1, models=5, points=120)
+    dmg = rng = ehp = clear = 0.0
     for e in al.entries:
         total, ranged, _direct = unit_damage(e.unit, e.models, _REF)
         dmg, rng = dmg + total, rng + ranged
         fail = min(1.0, e.unit.save / 6) * _ward_fail(e.unit)  # sauvegarde contre perforation 1
         ehp += e.hp / max(fail, 1e-3)
+        clear += min(1.0, unit_damage(e.unit, e.models, contester)[0] / CONTESTER_HP)
+    fast = [e for e in al.entries if e.unit.move + (2 if "FLY" in e.unit.keywords else 0) >= FAST]
     prof = al.prof
     return {
         "controle": math.log(al.control + 1),
@@ -74,9 +95,12 @@ def raw_indicators(al) -> dict[str, float]:
         "mobilite": al.mob,
         "frappe": prof.score["mobilité"] ** 0.5,
         "vol": prof.fly_share,
+        "rapides": float(len(fast)),
+        "part_rapide": sum(e.points for e in fast) / (al.points or 1),
         "degats": math.log(dmg + 1),
         "durabilite": math.log(ehp + 1),
         "tir": math.log(rng + 1),
+        "nettoyage": clear,
         "heros": float(sum(1 for e in al.entries if e.unit.is_hero)),
         "magie": (1.5 * prof.wizard_levels + prof.priest_levels) ** 0.5,
     }
@@ -107,6 +131,7 @@ class Model:
     card: str = ""
     reason: str = ""
     against: Mapping[str, float] = field(default_factory=dict)  # tactiques : poids sur les z-scores adverses
+    scale: float = 1.0  # cartes : écart type de la note (`_echelle`), 0,7 = distribution des notes à la main
 
 
 def centered_weights(scenarios: Mapping[str, Mapping], alpha: float) -> dict[str, dict[str, float]]:
@@ -132,8 +157,9 @@ def load_models(path: Path = MODEL_FILE) -> tuple[dict[str, Model], dict[str, Mo
             unknown = (set(m["poids"]) | set(m.get("contre", {}))) - set(INDICATORS)
             if unknown:
                 raise ValueError(f"{name} : indicateurs inconnus {sorted(unknown)}")
+    scale = d.get("_echelle", 1.0)
     scen = {
-        k: Model(k, "scénario", w, reason=d["scenarios"][k].get("raison", ""))
+        k: Model(k, "scénario", w, reason=d["scenarios"][k].get("raison", ""), scale=scale)
         for k, w in centered_weights(d["scenarios"], d.get("_centrage", 0.0)).items()
     }
     tact = {
@@ -184,6 +210,7 @@ def evaluate(
     scores = [_raw_score(model, i) for i in pool.values()]
     mu = sum(scores) / len(scores)
     sd = (sum((s - mu) ** 2 for s in scores) / len(scores)) ** 0.5 or 1.0
+    sd /= model.scale
     contrib = {k: w * analyse.z[k] / sd for k, w in model.weights.items()}
     value = (
         (_raw_score(model, analyse) - mu) / sd
@@ -254,27 +281,37 @@ def main(argv: list[str] | None = None) -> int:
     if a.compare:
         notes = json.loads((DATA / "notes_scenarios.json").read_text(encoding="utf-8"))
         hand = {p: j["notes"] for t in notes["equipes"].values() for p, j in t["joueurs"].items()}
-        pairs = [
-            (NUM[hand[p][k][0]], NUM[evaluate(scen[k], pool[p], pool).note])
+        by_player = {
+            p: [(NUM[hand[p][k][0]], NUM[evaluate(scen[k], pool[p], pool).note]) for k in scen if k in hand[p]]
             for p in players
             if p in hand
-            for k in scen
-            if k in hand[p]
-        ]
+        }
+        pairs = [hm for v in by_player.values() for hm in v]
         if pairs:
             same = sum(h == m for h, m in pairs) / len(pairs)
             near = sum(abs(h - m) <= 1 for h, m in pairs) / len(pairs)
             mh = sum(h for h, _ in pairs) / len(pairs)
             mm = sum(m for _, m in pairs) / len(pairs)
-            cov = sum((h - mh) * (m - mm) for h, m in pairs)
-            sh = sum((h - mh) ** 2 for h, _ in pairs) ** 0.5
-            sm = sum((m - mm) ** 2 for _, m in pairs) ** 0.5
-            r = cov / (sh * sm) if sh and sm else 0.0
+            # intra-liste : notes moins la moyenne de la liste (usage centré de `scenario_matchup`)
+            within = []
+            for v in by_player.values():
+                ah, am = sum(h for h, _ in v) / len(v), sum(m for _, m in v) / len(v)
+                within += [(h - ah, m - am) for h, m in v]
             print(
                 f"\nNotes à la main : {len(pairs)} couples, identiques {same:.0%}, à un cran {near:.0%}, "
-                f"corrélation {r:+.2f} (moyenne main {mh:+.2f}, modèle {mm:+.2f})."
+                f"corrélation {_corr(pairs):+.2f}, intra-liste {_corr(within):+.2f} "
+                f"(moyenne main {mh:+.2f}, modèle {mm:+.2f})."
             )
     return 0
+
+
+def _corr(pairs: list[tuple[float, float]]) -> float:
+    mh = sum(h for h, _ in pairs) / len(pairs)
+    mm = sum(m for _, m in pairs) / len(pairs)
+    cov = sum((h - mh) * (m - mm) for h, m in pairs)
+    sh = sum((h - mh) ** 2 for h, _ in pairs) ** 0.5
+    sm = sum((m - mm) ** 2 for _, m in pairs) ** 0.5
+    return cov / (sh * sm) if sh and sm else 0.0
 
 
 if __name__ == "__main__":

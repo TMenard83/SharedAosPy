@@ -101,7 +101,14 @@ def hand_levels(data: Path = DATA) -> dict[str, dict[str, str]]:
 
 
 def load_pool(refresh: bool = False, cache: Path = CACHE) -> dict[str, sm.Indicators]:
-    """Indicateurs (z-scores) des 54 listes, depuis le cache ou `scenario_model.build_pool`."""
+    """Indicateurs (z-scores) des 54 listes, depuis le cache ou `scenario_model.build_pool`.
+
+    Le cache est recalculé tout seul s'il est plus vieux que la base ou qu'une liste texte (`l3.freshness`).
+    """
+    from .freshness import list_sources, newer_sources
+
+    if not refresh and cache == CACHE and newer_sources(cache, list_sources()):
+        refresh = True
     if refresh or not cache.exists():
         pool, _lists = sm.build_pool()
         cache.write_text(
@@ -117,6 +124,8 @@ def load_pool(refresh: bool = False, cache: Path = CACHE) -> dict[str, sm.Indica
         )
         return pool
     raws = json.loads(cache.read_text(encoding="utf-8"))["listes"]
+    if any(set(sm.INDICATORS) - set(r) for r in raws.values()):  # indicateur ajouté depuis le cache
+        return load_pool(refresh=True, cache=cache)
     return sm.standardize(raws)
 
 
