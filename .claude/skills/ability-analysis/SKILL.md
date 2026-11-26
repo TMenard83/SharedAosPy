@@ -15,6 +15,10 @@ en l'appliquant à une « unité médiane » : c'est de la couche 3, pas de la 1
 Fondation commune des analyses « meilleures unités », « combos de liste », « scoring » et « matchups ».
 Interroger la base, **ne pas relire les textes Wahapedia** (c'est tout l'intérêt : peu de tokens).
 
+**Cascade imposée** : après tout changement d'analyseur, d'override, de correction ou d'import, `aospy cascade`
+(reconstruit 1 → 2 → 3 dans l'ordre) ; `aospy cascade --status` dit ce qui est périmé. Chaque couche refuse de
+tourner sur une couche du dessous périmée.
+
 ## Châssis (couche 2)
 
 ```bash

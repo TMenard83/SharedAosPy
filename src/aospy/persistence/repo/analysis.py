@@ -319,3 +319,34 @@ def list_realized(
     )
     cols = [d[0] for d in cur.description]
     return [dict(zip(cols, r)) for r in cur.fetchall()]
+
+
+# ----- cascade des couches (analysis/layers/cascade.py) -------------------------------------------
+
+
+def mark_layer_built(con: duckdb.DuckDBPyConnection, layer: int, fingerprint: str) -> None:
+    """Enregistre le build de la couche `layer` avec l'empreinte de ses entrées."""
+    con.execute(
+        "INSERT OR REPLACE INTO layer_build VALUES (?, CURRENT_TIMESTAMP, ?)", [layer, fingerprint]
+    )
+
+
+def layer_builds(con: duckdb.DuckDBPyConnection) -> dict[int, tuple[str, str]]:
+    """{couche: (built_at, empreinte)} ; vide si la table manque (base ouverte en lecture seule, ancienne)."""
+    try:
+        rows = con.execute("SELECT layer, CAST(built_at AS VARCHAR), fingerprint FROM layer_build").fetchall()
+    except duckdb.CatalogException:
+        return {}
+    return {int(layer): (built, fp) for layer, built, fp in rows}
+
+
+def unit_data_stamp(con: duckdb.DuckDBPyConnection) -> str:
+    """Empreinte des données d'unités lues par la couche 2 : imports (unit, weapon) et duels (unit_benchmark)."""
+    row = con.execute(
+        """
+        SELECT (SELECT COUNT(*) FROM unit), (SELECT CAST(MAX(imported_at) AS VARCHAR) FROM unit),
+               (SELECT COUNT(*) FROM weapon),
+               (SELECT COUNT(*) FROM unit_benchmark), (SELECT CAST(MAX(computed_at) AS VARCHAR) FROM unit_benchmark)
+        """
+    ).fetchone()
+    return "|".join(str(v) for v in row)

@@ -132,7 +132,7 @@ def cmd_player(lists, stats, players):
             print("   règles BT (BT_RULES) : " + "; ".join(d for _, _, d in mx.BT_RULES[p].get("aptitudes", [])))
 
 
-def cmd_match(lists, adj, cache, a, b):
+def cmd_match(lists, adj, cache, a, b, ronde=None):
     m = mx.evaluate(lists[a], lists[b], adj, cache)
     A, B = lists[a], lists[b]
     print(f"{a} – {b} : {mx.fmt(m.score)} ({mx.verdict(m.score)})")
@@ -147,6 +147,19 @@ def cmd_match(lists, adj, cache, a, b):
     print(f"  aptitudes {m.apt:+.1f}  (indice {A.apt:+.2f}/{B.apt:+.2f}, plan {A.plan}/{B.plan})")
     for v, r in m.adj:
         print(f"  ajust.    {v:+g}  {r[:110]}")
+    if ronde:
+        import json
+
+        from . import scenario_matchup as smx
+
+        cartes = json.loads((smx.DATA / "scenarios.json").read_text(encoding="utf-8"))["rondes"][str(ronde)]
+        model = smx.default()
+        print(f"  par carte (ronde {ronde}, composante scénario centrée : aisance − moyenne de la liste) :")
+        for c, aa, ab, corr in smx.rows(model, a, b, cartes):
+            src = lambda x: "" if x.source == "main" else "*"  # noqa: E731
+            print(f"    {c:20s} {smx.NOTE[aa.cran]:>2s}{src(aa):1s} / {smx.NOTE[ab.cran]:>2s}{src(ab):1s}  "
+                  f"{corr:+.1f}  → {m.score + corr:+.1f}")
+        print("    (* = note du modèle, sinon à la main ; tactiques de bataille non comprises : aospy l3 tactiques)")
 
 
 def cmd_team(lists, adj, cache, team):
@@ -169,10 +182,11 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--player", nargs="+")
     ap.add_argument("--match", nargs=2, metavar=("A", "B"))
     ap.add_argument("--team", choices=list(mx.SCHEDULE))
+    ap.add_argument("--ronde", type=int, choices=range(1, 6), help="avec --match : composante scénario des 3 cartes")
     args = ap.parse_args(argv)
     lists, adj, cache = load()
     if args.match:
-        cmd_match(lists, adj, cache, *args.match)
+        cmd_match(lists, adj, cache, *args.match, ronde=args.ronde)
     if args.team:
         cmd_team(lists, adj, cache, args.team)
     if args.player or args.rank or not (args.match or args.team):

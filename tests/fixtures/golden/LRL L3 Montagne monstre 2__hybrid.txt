@@ -494,7 +494,10 @@ measure to this terrain feature instead.
  All attacks that would target the Shrine Guardian target this terrain
 feature instead.
 If this terrain feature is destroyed, before removing it from the
-battlefield,
+battlefield, inflict D3 mortal damage on the Shrine Guardian. Then,
+set up the Shrine Guardian on the battlefield wholly within 3" of this
+terrain feature and not in combat. That unit is no longer a Shrine
+Guardian. If it is not possible to set up the Shrine Guardian, it is slain.
 LUMINETH REALM-LORDS · ORDER · FACTION TERRAIN · FLY
  Wahapedia (EN)
 4 / 8

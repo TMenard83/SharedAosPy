@@ -182,6 +182,42 @@ def _wound_rend_damage(row: dict[str, str]) -> dict[str, str]:
     return {"wound": wnd, "rend": row.get("Rnd", ""), "damage": row.get("Dmg", "")}
 
 
+def _corrected_fields(row: dict[str, str], fix: dict) -> dict[str, str]:
+    """Champs d'une ligne d'aptitude remplacés par une correction de source (texte anglais brut,
+    re-balisé comme Wahapedia : `<b>Declare:</b> …<br><br><b>Effect:</b> …`)."""
+    out: dict[str, str] = {}
+    if fix.get("condition") is not None:
+        out["condition"] = fix["condition"]
+    if fix.get("declare") is None and fix.get("effect") is None:
+        return out
+    desc = row.get("description") or ""
+    m = re.search(r"<b>\s*Effect:\s*</b>", desc)
+    head, tail = (desc[: m.start()], desc[m.start() :]) if m else ("", desc)
+    if fix.get("declare") is not None:
+        head = f"<b>Declare:</b> {_html(fix['declare'])}<br><br>" if fix["declare"] else ""
+    if fix.get("effect") is not None:
+        tail = f"<b>Effect:</b> {_html(fix['effect'])}"
+    out["description"] = head + tail
+    return out
+
+
+def _html(text: str) -> str:
+    """Texte brut d'une correction → balisage Wahapedia : lignes « • X »/« - X » en `<ul><li>` (lu par
+    `rules_resolution`, ex. les manifestations au choix), autres sauts de ligne en `<br>`."""
+    out, items = [], []
+    for line in text.split("\n"):
+        if line.startswith(("• ", "- ")):
+            items.append(f"<li>{line[2:].strip()}</li>")
+            continue
+        if items:
+            out.append("<ul>" + "".join(items) + "</ul>")
+            items = []
+        out.append(line)
+    if items:
+        out.append("<ul>" + "".join(items) + "</ul>")
+    return re.sub(r"\n(?=<ul>)|(?<=</ul>)\n", "", "\n".join(out)).replace("\n", "<br>")
+
+
 def _ability_entry(row: dict[str, str]) -> "AbilityEntry":
     """Construit une `AbilityEntry` à partir d'une ligne `Warscrolls_abilities.csv`
     ou `Faction_abilities.csv` — les deux partagent le même schéma d'aptitude
@@ -334,9 +370,29 @@ class WahapediaLookup:
             setattr(self, attr, cached)
         return cached
 
+    def _corrected(self, attr: str, filename: str, owner_of) -> list[dict[str, str]]:
+        """Lignes d'aptitude avec les textes de `source_corrections.json` (textes Wahapedia tronqués ou
+        faux), appliqués une fois au chargement. `owner_of(row)` = (faction, porteur) comme dans
+        `abilities.source` (charte, ou « type › sous-type » d'une règle de faction)."""
+        if getattr(self, attr) is None:
+            from ...importers.corrections import ability_correction, load_corrections
+
+            fixes = load_corrections()["abilities"]
+            rows = self._load(attr, filename)
+            for i, row in enumerate(rows):
+                faction, owner = owner_of(row)
+                fix = ability_correction(fixes, faction, (row.get("name") or "").strip(), owner)
+                if fix:
+                    rows[i] = {**row, **_corrected_fields(row, fix)}
+        return getattr(self, attr)
+
     @property
     def faction_abilities(self) -> list[dict[str, str]]:
-        return self._load("_faction_abilities", "Faction_abilities.csv")
+        def owner_of(row):
+            t, s = (row.get("type_name") or "").strip(), (row.get("subtype_name") or "").strip()
+            return self.faction_name(row.get("faction_id", "")) or "", f"{t} › {s}" if s and s != "_1" else t
+
+        return self._corrected("_faction_abilities", "Faction_abilities.csv", owner_of)
 
     @property
     def factions(self) -> list[dict[str, str]]:
@@ -368,7 +424,15 @@ class WahapediaLookup:
 
     @property
     def abilities(self) -> list[dict[str, str]]:
-        return self._load("_abilities", "Warscrolls_abilities.csv")
+        if self._abilities is None:
+            ws = {w["id"]: w for w in self.warscrolls}
+
+            def owner_of(row):
+                w = ws.get(row.get("warscroll_id", ""), {})
+                return self.faction_name(w.get("faction_id", "")) or "", w.get("name", "")
+
+            return self._corrected("_abilities", "Warscrolls_abilities.csv", owner_of)
+        return self._abilities
 
     def faction_specific_keywords(self) -> frozenset[str]:
         """Valeurs d'`AbilityEntry.keywords` (ex. `Delusion`, propre aux Flesh-

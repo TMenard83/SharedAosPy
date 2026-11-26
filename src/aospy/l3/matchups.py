@@ -218,6 +218,11 @@ BT_RULES = {
 # Lignes qui ressemblent à une unité mais n'en sont pas (décor de faction, formation).
 NOT_UNITS = {"Charnel Throne", "Akhelian Beastmasters", "Aspect of Heartwood"}
 
+#: Options d'équipement qui changent le profil de mouvement (« If this unit has <b>X</b>, it has a Move
+#: characteristic of N and has FLY », Warscrolls_abilities.csv) : (unité, option) -> (Move, VOL).
+#: Relevé du 2026-11-26 sur les 54 listes : seul le Daemon Prince ailé (Airborne Horror) est concerné.
+WARGEAR_MOVE = {("Daemon Prince", "Wings"): (10, True)}
+
 _UNIT_RE = re.compile(
     r"^(?:(?P<aqshy>Scourge of Aqshy:\s*|SoA\s+))?(?:\d+x\s+)?(?P<name>.+?)\s*\((?P<pts>\d+)(?:\s*pts)?\)"
 )
@@ -404,6 +409,11 @@ def build_lists(con) -> dict[str, ArmyList]:
                 last.reinforced, last.models = True, last.unit.models * 2
                 last.label += " R"
                 continue
+            if last and ln.startswith("•"):
+                wg = WARGEAR_MOVE.get((last.unit.name, re.sub(r"^\d+x\s*", "", ln.lstrip("•~ ").strip())))
+                if wg:
+                    kw = last.unit.keywords | {"FLY"} if wg[1] else last.unit.keywords
+                    last.unit = dataclasses.replace(last.unit, move=wg[0], keywords=kw)
             if ln.startswith(_SKIP_PREFIXES) and not ln.startswith("Scourge"):
                 continue
             m = _UNIT_RE.match(ln)

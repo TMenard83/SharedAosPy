@@ -16,10 +16,11 @@ Règles du contrat :
 * **Le modèle de scénario renvoie une correction**, pas un score complet : `MapModel(nous, eux, map)` → pts de
   victoire à ajouter à la grille du moteur (qui, elle, ne voit pas la carte). Correction indépendante de la carte
   = 0. Un futur modèle calculé remplace `notes_model` sans changer cette signature.
-* **Modèle actuel** (`notes_model`) : `K` pts de victoire par cran d'écart entre la note scénario de notre liste et
-  celle de la liste adverse sur la carte (`Données/notes_scenarios.json`, ++ … −−, note absente = « = »).
-  Écart des deux notes, et non notre note seule comme `scenarios.best_defenders` : un score de paire doit voir les
-  deux listes.
+* **Modèle actuel** (`l3.scenario_matchup`, 2026-11-26) : `K` pts de victoire par cran d'écart entre l'aisance de
+  notre liste et celle de la liste adverse sur la carte ; aisance = note à la main (`notes_scenarios.json`) sinon
+  note du modèle `scenario_model` ; par défaut **centrée** (aisance moins la moyenne de la liste sur les 12 cartes :
+  la facilité générale est déjà dans la grille). `scenario="brut"` = écart brut ; `scenario="notes"` = ancien
+  `notes_model` (notes à la main seules, note absente = « = »).
 * **Tactiques de bataille** (`l3.tactics`, 2026-11-25, à valider) : correction ajoutée à la précédente
   (`combine`) : `WEIGHT` × écart des pts de tactique attendus des deux listes, selon leurs 2 cartes, la carte jouée
   et la liste adverse.
@@ -111,10 +112,12 @@ def build_input(
     map_model: Optional[MapModel] = None,
     notes: bool = True,
     tactics: bool = True,
+    scenario: str = "centre",
 ) -> Optional[PairingInput]:
     """`PairingInput` d'une ronde à partir des fichiers de la L3 ; `None` si l'équipe est au BYE.
 
-    Sans `map_model`, la correction = notes scénario (`notes_model`) + tactiques de bataille
+    Sans `map_model`, la correction = composante scénario (`scenario` : `centre` | `brut` →
+    `scenario_matchup.ScenarioMatchup`, `notes` → `notes_model`) + tactiques de bataille
     (`l3.tactics.TacticsModel`, pts de tactique attendus des deux listes sur la carte), chacune désactivable.
     """
     if team not in FILE_NAME:
@@ -126,7 +129,13 @@ def build_input(
         return None
     ours, theirs = N["equipes"][team]["joueurs"], N["equipes"][opponent]["joueurs"]
     if map_model is None:
-        parts: list[MapModel] = [notes_model(ours, theirs)] if notes else []
+        parts: list[MapModel] = []
+        if notes and scenario == "notes":
+            parts.append(notes_model(ours, theirs))
+        elif notes:
+            from .scenario_matchup import default as scenario_default
+
+            parts.append(scenario_default(centre=scenario == "centre"))
         if tactics:
             from .tactics import default_model
 

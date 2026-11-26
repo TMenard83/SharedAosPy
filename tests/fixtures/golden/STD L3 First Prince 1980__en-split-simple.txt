@@ -1432,10 +1432,12 @@ Battle Traits
 FIRST-DAMNED PRINCE
 Be’lakor courts the favour of all of the Chaos Gods to crush his foes. In battle, he surrounds himself with their lesser daemons to do his
 bidding.
-Effect: While a friendly Be’lakor is within the combat range of any friendly non-HERO LEGION OF THE FIRST PRINCE
+Effect: While a friendly Be'lakor is within the combat range of any friendly non-HERO LEGION OF THE FIRST PRINCE
 DAEMON units:
-That friendly Be’lakor has WARD (4+).
-In addition, each time you make a successful ward roll for that friendly Be’lakor, allocate 1 damage point to a friendly non-
+That friendly Be'lakor has WARD (4+).
+In addition, each time you make a successful ward roll for that friendly Be'lakor, allocate 1 damage point to a friendly
+non-HERO LEGION OF THE FIRST PRINCE DAEMON unit within Be'lakor's combat range after the damage sequence for
+Be'lakor has been resolved (ward rolls cannot be made for those damage points).
 STORM OF BLACKENED BLADES
 Eternus commands the mortal legions sworn to Be’lakor to bring ruin to all who dare oppose the First Prince.
 Declare: Pick a friendly Eternus that is in combat and up to 2 friendly non-HERO non-DAEMON LEGION OF THE FIRST
@@ -1453,9 +1455,9 @@ rewards are granted.
 Declare: If a friendly Be’lakor is on the battlefield, pick a non-HERO LEGION OF THE FIRST PRINCE unit to be the
 target.
 Effect: Until the start of your next turn:
- Add 5 to the target’s control score.
+ Add 5 to the target's control score.
  If the target is a DAEMON unit, add 1 to save rolls for the target.
- If the target is a non-DAEMON unit, it ha
+ If the target is a non-DAEMON unit, it has WARD (6+).
 Heroic Traits
 DREAD MARSHAL
 This mighty warrior has proved their devotion to Be’lakor above all, and their loyalty has been rewarded with a host of warriors to

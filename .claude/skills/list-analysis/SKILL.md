@@ -11,6 +11,9 @@ relire avant chaque analyse).
 
 ## 0. Données d'abord (bloquant)
 
+0. **Cascade des couches** (`analysis/layers/cascade.py`) : `aospy cascade --status` ; si une couche est
+   périmée, `aospy cascade` (reconstruit 1 → 2 → 3 dans l'ordre, ~25 s). `roster analyze`/`dossier` et les outils
+   L3 couche 4 refusent de tourner (code 2) tant qu'une couche du dessous est périmée — ne jamais contourner.
 1. Export App (`.txt`, ligne `Battle Tactic Cards:` comprise). L3 : `data/2026-27 L3 Aller/Listes texte/<équipe>/<joueur>.txt`.
 2. Dossier : `aospy roster dossier --list "<liste.txt>" --out <dossier>` (`tm-aospy-roster-dossier`) → `couche 4.md`
    + `textes.md` + `liste.txt` (noms fixes, une seule version par dossier ; L3 : `--out` = le dossier de l'analyse,
@@ -22,6 +25,14 @@ relire avant chaque analyse).
 4. Écart Wahapedia / `faction_rules_fr.json` / scan : le signaler, ne pas trancher seul (mémoire `source-precedence`).
 
 ## 1. Concept, rôles, plan
+
+**Lecture en cascade, dans l'ordre, avant toute conclusion** (une couche ne se lit qu'après celle du dessous) :
+1. couche 1 — aptitudes hors contexte : verdict/axes de chaque aptitude de la liste (`textes.md`,
+   `aospy ability show <nom>`) ; une aptitude `a-revoir` se juge sur son texte avant d'aller plus loin ;
+2. couche 2 — châssis nus : `aospy chassis show <unité>` (dégâts/100 pts, PV effectifs, centiles) ;
+3. couche 3 — rencontre aptitude × châssis : `aospy encounter marriage` / `bearers` (mariages, bons porteurs des
+   optimisations) — un buff fort (couche 1) sur un châssis qui ne le porte pas (couche 3) ne compte pas ;
+4. couche 4 — la liste : `couche 4.md` (empilement, chaînes, règles mortes), puis le concept ci-dessous.
 
 - **Règles constructrices** : l'aptitude ou la tactique qui explique la liste ; éliminer les règles mortes
   (mais un doublon partiel est un complément). Lire les **règles d'armée**, pas seulement les chartes.

@@ -9,15 +9,15 @@ from .common import _connect
 
 
 def cmd_chassis_build(args: argparse.Namespace) -> int:
-    from ..analysis.layers.chassis import build_chassis_rows
+    from ..analysis.layers.cascade import build_layer2
 
     con = _connect(args)
-    rows, notes = build_chassis_rows(con)
-    repository.replace_chassis(con, rows)
-    con.close()
-    print(f"{len(rows)} châssis construits.")
-    for n in notes:
-        print(f"⚠ {n}")
+    try:
+        lines = build_layer2(con)
+    finally:
+        con.close()
+    print("\n".join(lines))
+    print("Couche 3 désormais périmée : `aospy encounter build` (ou `aospy cascade`).")
     return 0
 
 

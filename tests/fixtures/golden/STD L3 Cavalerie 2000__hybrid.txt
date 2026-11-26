@@ -1,4 +1,4 @@
-pages: 7
+pages: 8
 pages_scenario: None
 units_matched: ['Abraxia, Spear of the Everchosen', 'Varanguard', 'Daemon Prince', 'Chaos Furies', 'Gunnar Brand', 'Singri Brand', 'The Oathsworn Kin']
 units_unmatched: []
@@ -61,7 +61,7 @@ TACTIQUE
 MOT-CLÉ
 Autre mot-clé d'aptitude (Tactique : règle spéciale d'une carte de tactique) ; bordeaux : propre à la
 faction.
-1 / 7
+1 / 8
 
 ===== page 2 =====
 Abraxia, Spear of the Everchosen
@@ -207,7 +207,7 @@ unit already has WARD (6+), it has WARD (5+) instead.
 CHAOS · DAEMON · SLAVES TO DARKNESS · HERO · INFANTRY ·
 WARD
  Wahapedia (EN)
-2 / 7
+2 / 8
 
 ===== page 3 =====
 Gunnar Brand
@@ -439,7 +439,7 @@ is used, however, this unit has STRIKE-LAST for the rest of the turn.
 CHAOS · SLAVES TO DARKNESS · WARRIORS OF CHAOS ·
 CAVALRY
  Wahapedia (EN)
-3 / 7
+3 / 8
 
 ===== page 4 =====
 Géminides d’Uhl-Gysh
@@ -555,7 +555,7 @@ MANIFESTATION is destroyed and both its parts are removed from
 play.
 MANIFESTATION · SORT PERSISTANT · PROTECTION (6+)
  Wahapedia (EN)
-4 / 7
+4 / 8
 
 ===== page 5 =====
 Aptitudes
@@ -605,6 +605,9 @@ SAISON
 MDG
 Annonce : Vous devez utiliser cette aptitude.
 Effet : Gagnez autant de dés de rage que votre niveau de fureur. À la fin du round de bataille, tous les dés de rage non dépensés sont perdus.
+5 / 8
+
+===== page 6 =====
 PHASE DES HÉROS
 PHASE DES HÉROS
  RÈGLES D'ARMÉE
@@ -613,8 +616,13 @@ PLEDGE TO CHAOS
 MA PHASE
 TRAITS DE BATAILLE
 WAHAPEDIA
-Declare: Pick a friendly non- UNIQUE SLAVES TO DARKNESS unit that does not already have one of the keywords below to be the target. Effect: Pick 1
-of the following Pledge to Chaos keywords:  PLEDGED TO KHORNE  PLEDGED TO TZEENTCH  PLEDGED TO NURGLE /l
+Declare: Pick a friendly non-UNIQUE SLAVES TO DARKNESS unit that does not already have one of the keywords below to be the target.
+Effect: Pick 1 of the following Pledge to Chaos keywords:
+ PLEDGED TO KHORNE
+ PLEDGED TO TZEENTCH
+ PLEDGED TO NURGLE
+ PLEDGED TO SLAANESH
+The target has that keyword for the rest of the battle.
 SORTS
 SPITE-TONGUE
 CURSE
@@ -624,10 +632,10 @@ ILLIMITÉ
 WAHAPEDIA
 Declare: Pick a friendly SLAVES TO DARKNESS
 WIZARD to cast this spell, pick a visible enemy unit
-within 12" of them to be the target, then make a casting
-roll of 2D6. If the casting attempt is unsuccessful or if
-the spell is unbound, inflict D3 mortal damage on the
-caster.
+within 12" of them to be the target, then make a
+casting roll of 2D6. If the casting attempt is
+unsuccessful or if the spell is unbound, inflict D3
+mortal damage on the caster.
 Effect: Inflict 3 mortal damage on the target.
 BINDING
 DAMNATION
@@ -635,13 +643,14 @@ DAMNATION
 MA PHASE
 WAHAPEDIA
 Declare: Pick a friendly SLAVES TO
-DARKNESS WIZARD to cast this spell,
-pick a visible enemy unit within 12" of
-them to be the target, then make a
-casting roll of 2D6.
+DARKNESS WIZARD to cast this
+spell, pick a visible enemy unit within
+12" of them to be the target, then make
+a casting roll of 2D6.
 Effect: The target has STRIKE-LAST
 until the start of your next turn.
-DAEMONIC SPEED
+DAEMONIC
+SPEED
 7+
 MA PHASE
 WAHAPEDIA
@@ -660,14 +669,15 @@ OF UHL-GYSH
 MA PHASE
 MANIFESTATION
 WAHAPEDIA
-Declare: If there is not a friendly Geminids of Uhl-Gysh
-endless spell on the battlefield, pick a friendly WIZARD
-to cast this spell, then make a casting roll of 2D6.
+Declare: If there is not a friendly Geminids of
+Uhl-Gysh endless spell on the battlefield, pick a
+friendly WIZARD to cast this spell, then make a casting
+roll of 2D6.
 Effect: Set up a Geminids of Uhl-Gysh endless spell
-wholly within 12" of the caster, visible to them and more
-than 9" from all enemy units. A Geminids of Uhl-Gysh
-endless spell has 2 parts that must be set up within 9" of
-each other.
+wholly within 12" of the caster, visible to them and
+more than 9" from all enemy units. A Geminids of
+Uhl-Gysh endless spell has 2 parts that must be set up
+within 9" of each other.
 SUMMON
 PRISMATIC
 PALISADE
@@ -697,9 +707,6 @@ Effect: Set up an Umbral Spellportal wholly
 within 18" of the caster and visible to them. An
 Umbral Spellportal has 2 parts that must be set
 up within 9" of each other.
-5 / 7
-
-===== page 6 =====
 PHASE DE MOUVEMENT
 PHASE DE MOUVEMENT
  RÈGLES D'ARMÉE
@@ -728,6 +735,9 @@ PASSIF
 TRAITS DE BATAILLE
 WAHAPEDIA
 Effect: Add 1 to the Attacks characteristic of melee weapons used by friendly PLEDGED TO KHORNE units.
+6 / 8
+
+===== page 7 =====
 FIN DE TOUR
 FIN DE TOUR
  RÈGLES DE BASE
@@ -759,9 +769,9 @@ WAHAPEDIA
 Declare: Pick a friendly Daemon Prince to use this ability. Then, pick a visible friendly non-DAEMON non-UNIQUE SLAVES TO DARKNESS unit that
 does not have an Ensorcelled Banner wholly within 12" of this unit to be the target.
 Effect: Remove any Pledge to Chaos keywords the target has. Then, the target gains any Pledge to Chaos keywords this unit has.
-6 / 7
+7 / 8
 
-===== page 7 =====
+===== page 8 =====
 Assaut Flamboyant
 CARTE DE TACTIQUE 1 · Blazing Onslaught
 RÈGLE SPÉCIALE
@@ -817,5 +827,5 @@ territoire ami.
  5
  PTS DE
 VICTOIRE
-7 / 7
+8 / 8
 

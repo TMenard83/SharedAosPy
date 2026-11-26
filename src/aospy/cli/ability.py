@@ -19,18 +19,15 @@ _VERDICT_FR = {
 
 
 def cmd_ability_analyze(args: argparse.Namespace) -> int:
-    from ..abilities.pipeline import ANALYZER_VERSION, analyze_all, to_rows
-    from ..abilities.source import DEFAULT_DATA_DIR
+    from ..analysis.layers.cascade import build_layer1, status
 
-    analyses, orphans = analyze_all(args.data_dir or DEFAULT_DATA_DIR)
     con = _connect(args)
-    repository.replace_ability_analyses(con, *to_rows(analyses))
-    stats = repository.ability_stats(con)
+    for line in build_layer1(con, args.data_dir, verdict_label=lambda v: _VERDICT_FR.get(v, v)):
+        print(line)
+    stale = [s.layer for s in status(con, args.data_dir) if not s.fresh]
     con.close()
-    print(f"{len(analyses)} aptitudes analysées (analyseur v{ANALYZER_VERSION}).")
-    print("  " + ", ".join(f"{_VERDICT_FR.get(v, v)} {n}" for v, n in stats["verdict"]))
-    if orphans:
-        print(f"⚠ {len(orphans)} correction(s) manuelle(s) orpheline(s) (texte modifié ?) : {', '.join(orphans)}")
+    if stale:
+        print(f"Couches {', '.join(map(str, stale))} désormais périmées : `aospy cascade` pour les reconstruire.")
     return 0
 
 

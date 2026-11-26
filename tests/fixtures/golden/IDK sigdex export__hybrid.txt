@@ -521,15 +521,17 @@ ETHERSEA COMPANIONS
 WAHAPEDIA
 Declare: Pick an enemy unit in combat with this unit and that
 charged this turn to be the target.
-Effect: Spend 1 rage dice. If your opponent’s fury level is lower
-than yours, they must increase their fury level by 1, to a maximum of
-7.
+Effect: Spend 1 rage dice. If your opponent's fury level is lower than
+yours, they must increase their fury level by 1, to a maximum of 7.
 Then, for the rest of the turn:
  Other enemy units cannot use FIGHT abilities if the target is eligible
 to be picked.
  If possible, this unit must be picked to be the target of pile-in moves
 made by the target.
- All attacks made by models in the target unit within this unit’s
+ All attacks made by models in the target unit within this unit's
+combat range must target this unit.
+Designer's Note: This ability does not override the restrictions of
+STRIKE-FIRST or STRIKE-LAST.
 N'IMPORTE QUELLE PHASE
 Void Drum
 PASSIF
@@ -781,9 +783,13 @@ TRAITS DE BATAILLE
 WAHAPEDIA
 Réaction : You declared an Attack ability for a friendly Akhelian unit
 Used By: The friendly AKHELIAN unit using that ATTACK ability.
-Effect: Pick a visible friendly NAMARTI unit that has not used an ATTACK ability this phase to be the target.  If this unit used a SHOOT ability,
-immediately after the Shoot ability used by this unit has been resolved, the target can be picked to use a SHOOT ability as if it were your shooting
-phase.  If this unit used a FIGHT ability, immediately after the
+Effect: Used By: The friendly AKHELIAN unit using that ATTACK ability. Pick a visible friendly NAMARTI unit that has not used an ATTACK ability this
+phase to be the target.
+ If this unit used a SHOOT ability, immediately after the Shoot ability used by this unit has been resolved, the target can be picked to use a SHOOT
+ability as if it were your shooting phase.
+ If this unit used a FIGHT ability, immediately after the FIGHT ability used by this unit has been resolved, the target can be picked to use a FIGHT
+ability. If the target does so, for the rest of the phase, add 1 to the Attacks characteristic of its weapons but all of its attacks must target enemy units that
+had any damage points allocated to it this phase by this unit's attacks.
 SORTS
 STEED OF TIDES
 6+
@@ -831,6 +837,9 @@ WAHAPEDIA
 Declare: If there is not a friendly Incarnate of the Deep on the battlefield, pick a friendly IDONETH DEEPKIN WIZARD to cast this spell, then make a
 casting roll of 2D6.
 Effect: Set up an Incarnate of the Deep wholly within 12" of the caster, visible to them and more than 9" from all enemy units.
+6 / 8
+
+===== page 7 =====
 PHASE DE MÊLÉE
 PHASE DE MÊLÉE
  RÈGLES D'ARMÉE
@@ -839,9 +848,6 @@ PASSIF
 FORMATION : AKHELIAN BEASTMASTERS
 WAHAPEDIA
 Effect: Add 1 to hit rolls for combat attacks made with Companion weapons by friendly AKHELIAN units.
-6 / 8
-
-===== page 7 =====
 FIN DE TOUR
 FIN DE TOUR
  RÈGLES DE BASE

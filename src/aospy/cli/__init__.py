@@ -1,7 +1,7 @@
 """CLI AoSPy — gestion des armées, unités et compositions.
 
 Un module par groupe de sous-commandes (`db`, `unit`, `comp`, `battle`, `import_`, `cost`, `roster`,
-`ability`, `chassis`, `encounter`, `l3`), chacun avec sa fonction `register(sub)` et ses `cmd_*` ;
+`ability`, `chassis`, `encounter`, `cascade`, `l3`), chacun avec sa fonction `register(sub)` et ses `cmd_*` ;
 ce module ne fait que les assembler. Outils partagés (connexion DB, options de duel) : `common.py`.
 """
 
@@ -12,10 +12,10 @@ import sys
 from pathlib import Path
 
 from ..persistence.db import DEFAULT_DB_PATH
-from . import ability, battle, chassis, comp, cost, db, encounter, import_, l3, roster, unit
+from . import ability, battle, cascade, chassis, comp, cost, db, encounter, import_, l3, roster, unit
 
 #: Ordre d'enregistrement = ordre d'affichage dans `aospy --help`.
-_GROUPS = (db, unit, comp, battle, import_, cost, roster, ability, chassis, encounter, l3)
+_GROUPS = (db, unit, comp, battle, import_, cost, roster, ability, chassis, encounter, cascade, l3)
 
 
 def _build_parser() -> argparse.ArgumentParser:

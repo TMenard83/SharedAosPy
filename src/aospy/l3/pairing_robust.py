@@ -69,6 +69,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--seuil", type=float, default=0.5,
                     help="regret (pts de victoire) qui rend une case pivot (défaut 0,5)")
     ap.add_argument("--sans-notes", action="store_true")
+    ap.add_argument("--scenario", choices=["centre", "brut", "notes"], default="centre",
+                    help="composante scénario : centre (aisance − moyenne de la liste, défaut), brut, notes (ancien)")
     ap.add_argument("--sans-tactiques", action="store_true")
     ap.add_argument("--tirages", type=int, default=0,
                     help="+ fourchette : N tirages de toute la grille bruitée selon la confiance (pairing_noise)")
@@ -81,7 +83,7 @@ def main(argv: list[str] | None = None) -> int:
             import scipy  # noqa: F401
         except ImportError:
             raise SystemExit("Mode mixte : installer l'extra `[analysis]` (scipy), ou --mode prudent.") from None
-    inp = build_input(team, a.ronde, notes=not a.sans_notes, tactics=not a.sans_tactiques)
+    inp = build_input(team, a.ronde, notes=not a.sans_notes, tactics=not a.sans_tactiques, scenario=a.scenario)
     if inp is None:
         raise SystemExit(f"{team} ne joue pas la ronde {a.ronde} (BYE).")
 

@@ -9,31 +9,14 @@ from .common import _connect
 
 
 def cmd_encounter_build(args: argparse.Namespace) -> int:
-    from ..analysis.layers.encounter import build_encounter_rows
+    from ..analysis.layers.cascade import build_layer3
 
     con = _connect(args)
-    from ..analysis.layers.realized import build_realized_rows
-
-    rows, stats = build_encounter_rows(con)
-    repository.replace_encounters(con, rows)
-    realized = build_realized_rows(con)
-    repository.replace_realized(con, realized)
-    from ..analysis.layers.marriage import build_marriage_rows
-
-    marriage = build_marriage_rows(con)
-    repository.replace_ability_marriage(con, marriage)
-    from ..analysis.layers.bearers import build_bearer_rows
-
-    bearers = build_bearer_rows(con)
-    repository.replace_enhancement_bearers(con, bearers)
-    con.close()
-    print(f"{len(bearers)} couples optimisation × porteur éligible.")
-    print(f"{len(realized)} valeurs réalisées (châssis + aptitudes propres pondérées).")
-    print(f"{len(marriage)} mariages aptitude × porteur (déclenchement × survie × tempo × amplification × rôle).")
-    print(
-        f"{stats['rencontres']} rencontres aptitude × châssis ({stats['traduits']} effets amis traduits "
-        f"sur {stats['effets']} ; {stats['sans_arme']} paires sans arme concernée)."
-    )
+    try:
+        lines = build_layer3(con)
+    finally:
+        con.close()
+    print("\n".join(lines))
     return 0
 
 

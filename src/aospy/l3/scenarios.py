@@ -28,6 +28,14 @@ def sgn(v):
 def grid(team, n):
     d = BASE / "Matchups" / f"Matchups {FILE_NAME[team]}"
     f = next(d.glob(f"Ronde {n} — */00 Grille et profils.md"))
+    from .freshness import describe, grid_sources, newer_sources
+
+    stale = newer_sources(f, grid_sources())
+    if stale:
+        raise SystemExit(
+            f"Grille périmée : {f.relative_to(BASE)} est plus vieille que {describe(stale)}. "
+            "Relancer `aospy l3 matchups` (puis `aospy l3 scenarios`) avant de l'utiliser."
+        )
     text = f.read_text().split("## Grille", 1)[1]
     lines = [l for l in text.splitlines() if l.startswith("|") and not l.startswith("|---")]
     cols = [c.strip() for c in lines[0].strip().strip("|").split("|")][1:]

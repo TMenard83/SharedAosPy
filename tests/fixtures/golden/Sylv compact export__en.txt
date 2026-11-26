@@ -115,9 +115,12 @@ Seasons of War
 WAHAPEDIA
 Declare: You must use this ability.
 Effect: Pick 1 of the following effects to apply for the rest of the battle round. You cannot pick the effect that you picked in the previous battle round.
-The Burgeoning: Each time a friendly Awakened Wyldwood uses the ‘Ever Growing’ ability, you can pick any terrain feature your opponent does not
+The Burgeoning: Each time a friendly Awakened Wyldwood uses the 'Ever Growing' ability, you can pick any terrain feature your opponent does not
 control to be the target rather than the closest.
 The Reaping: Add 1 to casting rolls and chanting rolls for friendly SYLVANETH units while they are wholly within 12" of this unit.
+The Dwindling: Friendly SYLVANETH units can use CHARGE abilities even if they used a RETREAT ability in the same turn. In addition, no mortal
+damage is inflicted on those units when they use RETREAT abilities.
+Dusk: Each time you use the 'Creeping Dread' ability this battle round, you can pick up to 3 targets instead of 1.
 PHASE DES HÉROS
 APTITUDES
 Lifebloom
@@ -846,9 +849,12 @@ SONG OF THE LOST
 MA PHASE
 ILLIMITÉ
 WAHAPEDIA
-Declare: Pick a friendly SYLVANETH PRIEST to chant this prayer, pick a friendly SYLVANETH unit that is wholly within the creeping overgrowth or that
-is visible to them and wholly within 12" of them to be the target, then make a chanting roll of D6. Effect: Until the start of your next turn, subtract 1 from
-wound rolls for attacks that target that friendly unit. In addition, if the chanting roll was 8+:  If the target is a MONSTER ,
+Declare: Pick a friendly SYLVANETH PRIEST to chant this prayer, pick a friendly SYLVANETH unit that is wholly within the creeping overgrowth or
+that is visible to them and wholly within 12" of them to be the target, then make a chanting roll of D6.
+Effect: Until the start of your next turn, subtract 1 from wound rolls for attacks that target that friendly unit. In addition, if the chanting roll was 8+, pick 1
+of the following effects:
+ You can Heal (3) the target.
+ If the target is not a MONSTER, ignore modifiers to save rolls for the target (positive and negative) until the start of your next turn.
 SONG OF WAR
 5+
 MA PHASE

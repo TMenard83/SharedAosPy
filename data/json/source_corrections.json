@@ -1341,6 +1341,60 @@
       "effect": "Set up a Heart of Fury wholly within 18\" of the caster and visible to them.",
       "source": "BT Daughters of Khaine (scan photos partielles, index PDF p6) : « choisissez un Sorcier des Filles de Khaine ami pour lancer ce sort, puis faites un jet de lancement de 2D6 » ; mots-clés Sort, Convocation ; valeur 6",
       "note": "Wahapedia : texte de prière (Priest, chanting roll D6) contradictoire avec ses propres métadonnées Spell/Summon 6."
+    },
+    {
+      "faction": "Sons of Behemat",
+      "name": "TAKE A RUN AT IT",
+      "condition": null,
+      "declare": "Pick any number of friendly BIG or LITTLE units to be the targets.",
+      "effect": "Roll a dice. If the roll is lower than the number of targets picked, this ability has no effect. Otherwise, pick an effect for each target. The effects must be different unless specified otherwise.\n• Pick an enemy unit in combat with the target and roll a D3. On a 2+, inflict an amount of mortal damage on that enemy unit equal to the roll. You can pick this effect for multiple targets.\n• The target is building momentum for the rest of the turn.\n• If the target is within 3\" of a battlefield edge, remove it from the battlefield and set it up in reserve beyond the horizon.\n• For the rest of the phase, the target can pass through enemy models and terrain features when using MOVE abilities as if it had FLY.",
+      "source": "Warhammer Age of Sigmar: Realmgate (app GW), Battle Traits Sons of Behemat, captures d'écran de l'utilisateur 2026-11-26",
+      "note": "texte tronqué vers 1000 caractères dans Wahapedia (Faction_abilities.csv)"
+    },
+    {
+      "faction": "Sons of Behemat",
+      "name": "ARGY BARGY",
+      "condition": null,
+      "declare": "Pick any number of friendly BIG or LITTLE units to be the targets.",
+      "effect": "Roll a dice. If the roll is lower than the number of targets picked, this ability has no effect. Otherwise, pick an effect for each target. The effects must be different unless specified otherwise.\n• Pick an enemy unit in combat with the target and roll a D3. On a 2+, inflict an amount of mortal damage on that enemy unit equal to the roll. You can pick this effect for multiple targets.\n• If the target is building momentum, it is no longer building momentum and is getting ready for the rest of the turn instead.\n• For the rest of the turn, each time the target makes a pile-in move, add 3\" to the distance it can move.",
+      "source": "Warhammer Age of Sigmar: Realmgate (app GW), Battle Traits Sons of Behemat, captures d'écran de l'utilisateur 2026-11-26",
+      "note": "texte tronqué vers 1000 caractères dans Wahapedia (Faction_abilities.csv)"
+    },
+    {
+      "faction": "Sons of Behemat",
+      "name": "WRATHFUL RAMPAGE",
+      "condition": null,
+      "declare": "Pick any number of friendly SONS OF BEHEMAT units to be the targets.",
+      "effect": "Roll a dice. If the roll is lower than the number of targets picked, this ability has no effect. Otherwise, pick an effect for each target. The effects must be different unless specified otherwise.\n• Pick an enemy unit in combat with the target and roll a D3. On a 2+, inflict an amount of mortal damage on that enemy unit equal to the roll. You can pick this effect for multiple targets.\n• If the target is LITTLE and is getting ready, it is no longer getting ready and has STRIKE-FIRST for the rest of the turn instead.\n• If the target is BIG and is getting ready, it is no longer getting ready. Instead, either it has STRIKE-FIRST for the rest of the turn or it is prepping the big one for the rest of the turn.",
+      "source": "Warhammer Age of Sigmar: Realmgate (app GW), Battle Traits Sons of Behemat, captures d'écran de l'utilisateur 2026-11-26",
+      "note": "texte tronqué vers 1000 caractères dans Wahapedia (Faction_abilities.csv)"
+    },
+    {
+      "faction": "Sons of Behemat",
+      "name": "THE BIG ONE",
+      "condition": null,
+      "declare": "Pick any number of friendly BIG or LITTLE units to be the targets.",
+      "effect": "Roll a dice. If the roll is lower than the number of targets picked, this ability has no effect. Otherwise, pick an effect for each target. The effects must be different unless specified otherwise.\n• Pick an enemy unit in combat with the target and roll a D3. On a 2+, inflict an amount of mortal damage on that enemy unit equal to the roll. You can pick this effect for multiple targets.\n• If the target is prepping the big one, pick an enemy unit in combat with it and roll any number of dice. If any of the rolls are a 1, the target is no longer prepping the big one. Otherwise, add the results together, then inflict an amount of mortal damage on that enemy unit equal to the total.",
+      "source": "Warhammer Age of Sigmar: Realmgate (app GW), Battle Traits Sons of Behemat, captures d'écran de l'utilisateur 2026-11-26",
+      "note": "texte tronqué vers 1000 caractères dans Wahapedia (Faction_abilities.csv)"
+    },
+    {
+      "faction": "Daughters of Khaine",
+      "name": "MATRIARCH OF THE ZAINTHAR KAI",
+      "condition": null,
+      "declare": "Pick the friendly Morathi-Khaine to use this ability.",
+      "effect": "Pick 1 of the following effects:\n• Until the start of your next turn, this unit has a Move characteristic of 12\" and has FLY.\n• This unit can use the 'Iron Heart of Khaine' ability as if you had performed a blood rite.\n• Pick a visible enemy unit within 18\" of this unit to be the target. For the rest of the turn, the target's attacks cannot score critical hits (treat them as regular hits instead).\n• Pick a friendly non-UNIQUE ZAINTHAR KAI HERO that has been destroyed to be the target. Set up a replacement unit identical to the target within 3\" of this unit.",
+      "source": "Warhammer Age of Sigmar: Realmgate (app GW), Battle Traits Zainthar Kai, capture d'écran de l'utilisateur 2026-11-26",
+      "note": "texte tronqué vers 1000 caractères dans Wahapedia (Faction_abilities.csv), 4e option coupée"
+    },
+    {
+      "faction": "Daughters of Khaine",
+      "name": "MANIFESTATIONS OF MURDER",
+      "condition": null,
+      "declare": "Pick a friendly ZAINTHAR KAI WIZARD to cast this spell, pick 1 of the friendly MANIFESTATIONS below that is not on the battlefield, then make a casting roll of 2D6.\n• Bloodwrack Viper\n• Bladewind\n• Heart of Fury",
+      "effect": "If you picked a Bloodwrack Viper or Bladewind, set it up wholly within 12\" of the caster, visible to them and more than 9\" from all enemy units. If you picked a Heart of Fury, set it up wholly within 18\" of the caster and visible to them.",
+      "source": "Warhammer Age of Sigmar: Realmgate (app GW), Zainthar Kai Manifestation Lore, capture d'écran de l'utilisateur 2026-11-26",
+      "note": "texte tronqué dans Wahapedia (Faction_abilities.csv), effet coupé après « wholly within 12\" of the caster, »"
     }
   ]
 }

@@ -25,6 +25,7 @@ _GROUP_COMMANDS = [
     "ability",
     "chassis",
     "encounter",
+    "cascade",
     "l3",
 ]
 

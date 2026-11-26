@@ -6,7 +6,8 @@ description: Méthode et outils pour analyser UN match entre deux listes AoS4 (s
 # Analyse de match (maillon 2/3)
 
 Entrée = **deux fiches liste** (`list-analysis`). Sans elles, les faire d'abord (au minimum §0-§1 et §4 de
-`list-analysis` pour l'adversaire). Sortie = la **fiche match**, dont le score alimente `pairing-analysis`.
+`list-analysis` pour l'adversaire), donc la cascade couche 1 → 2 → 3 → 4 à jour (`aospy cascade --status`,
+sinon `aospy cascade`) et lue dans l'ordre pour les deux listes. Sortie = la **fiche match**, dont le score alimente `pairing-analysis`.
 Répondre en français.
 
 ## 1. Le score attendu (point de départ, pas la conclusion)
@@ -42,8 +43,9 @@ Répondre en français.
 
 ## 4. Scénario × matchup
 
-- Par carte jouable (ronde L3 : maps dans `Données/scenarios.json`) : écart des notes des deux listes
-  (`notes_scenarios.json`, `aospy l3 scenario-model`), puis lecture concrète : qui prend quoi au R1, qui peut
+- Par carte jouable (ronde L3 : maps dans `Données/scenarios.json`) : composante scénario de la paire,
+  `aospy l3 scenario-match A B --ronde N` (aisance des deux listes, note à la main ou du modèle, correction
+  centrée) ou `aospy l3 diag --match A B --ronde N` (score complet par carte), puis lecture concrète : qui prend quoi au R1, qui peut
   reprendre (mobilité, vol), qui tue ce qui conteste (contrôle après les combats).
 - Tactiques des deux camps (fiches liste §2) : lesquelles l'adversaire peut-il **refuser** (écran, cordon,
   Avalanche/Rogne contre l'empilement…) ; lesquelles de ses tactiques on peut lui refuser.
@@ -67,7 +69,8 @@ Dissipation/bannissement contre sa magie, et l'inverse.
 ## Manques (2026-11-25)
 
 - Score de match hors des 54 listes L3 : `evaluate()` exige des `ArmyList` L3 et des z-scores sur la ligue.
-  **À faire pour un autre tournoi, pas urgent** (décision de l'utilisateur, 2026-11-25).
+  **Élargissement hors L3 prévu à partir du 2026-11-30** (décision de l'utilisateur relayée par la session
+  aospy-54) : il faudra une population de référence pour les z-scores.
 - Matrice unité × unité d'un match (qui tue qui, en combien d'activations) : calculée dans `attrition()` mais
   pas exposée ; `unit duel` se fait une paire à la fois, sans les buffs de la liste. **En cours dans une
   autre session** (2026-11-25) : s'y coordonner avant de toucher à `attrition()`.

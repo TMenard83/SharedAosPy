@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import functools
 import json
 import re
 import sys
@@ -51,6 +52,17 @@ def _faction_rows() -> list[dict]:
 def _faction_ids() -> dict[str, str]:
     with open(mx.WAHAPEDIA / "Factions.csv", encoding="utf-8-sig") as fh:
         return {r["name"]: r["id"] for r in csv.DictReader(fh, delimiter="|")}
+
+
+@functools.lru_cache(maxsize=1)
+def _terrain_names() -> dict[str, set[str]]:
+    """Décors de faction (rôle « Faction Terrain » dans Wahapedia), par id de faction."""
+    out: dict[str, set[str]] = {}
+    with open(mx.WAHAPEDIA / "Warscrolls.csv", encoding="utf-8-sig") as fh:
+        for r in csv.DictReader(fh, delimiter="|"):
+            if r["role"] == "Faction Terrain":
+                out.setdefault(r["faction_id"], set()).add(r["name"])
+    return out
 
 
 TACTIC_CARDS = [
@@ -133,6 +145,7 @@ def convert(player: str, lines: list[str], rows: list[dict], fids: dict[str, str
         head.append("Battle Tactic Cards: " + ", ".join(cards))
     body: list[str] = []
     terrain: list[str] = []
+    terrain_names = _terrain_names().get(fid, set())
     started = False
     section = None
     for raw in lines:
@@ -165,8 +178,13 @@ def convert(player: str, lines: list[str], rows: list[dict], fids: dict[str, str
                 terrain.append(TERRAIN_ALIASES.get(ln, re.sub(r"\s*\((\d+)\)$", r" (\1 Points)", ln)))
             continue
         if ln.startswith(("•", "~", "-")):
-            if ln.lstrip("•~- ").strip():  # puce vide recopiée du PDF de l'orga (Kazerole) : ignorée
-                body.append(" • " + ln.lstrip("•~- ").strip())
+            opt = ln.lstrip("•~- ").strip()
+            bare = re.sub(r"\s*\(\d+(?:\s*(?:pts|points))?\)$", "", opt, flags=re.I)
+            if bare in terrain_names:  # décor de faction collé sous une unité (Zieg : Stormreach Portal)
+                if bare not in terrain and len(terrain) < 2:
+                    terrain.append(bare)
+            elif opt:  # puce vide recopiée du PDF de l'orga (Kazerole) : ignorée
+                body.append(" • " + opt)
             continue
         m = _UNIT.match(ln)
         if m:
@@ -257,7 +275,10 @@ def main(argv: list[str] | None = None) -> int:
             + (f" | ERREUR {r['erreur']}" if r.get("erreur") else ""),
             flush=True,
         )
-    (TXT_DIR / "rapport.json").write_text(json.dumps(report, ensure_ascii=False, indent=1), encoding="utf-8")
+    rapport = TXT_DIR / "rapport.json"
+    if args.player and rapport.exists():  # run partiel : garder les autres joueurs
+        report = {**json.loads(rapport.read_text(encoding="utf-8")), **report}
+    rapport.write_text(json.dumps(report, ensure_ascii=False, indent=1), encoding="utf-8")
     return 0
 
 

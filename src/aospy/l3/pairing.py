@@ -170,6 +170,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--ronde", type=int, required=True, choices=range(1, 6))
     ap.add_argument("--mode", choices=["mixte", "prudent"], default="mixte")
     ap.add_argument("--sans-notes", action="store_true", help="grille seule, sans les notes scénario")
+    ap.add_argument("--scenario", choices=["centre", "brut", "notes"], default="centre",
+                    help="composante scénario : centre (aisance − moyenne de la liste, défaut), brut, notes (ancien)")
     ap.add_argument("--sans-tactiques", action="store_true", help="sans la correction tactiques de bataille")
     ap.add_argument("--joue",action="append", default=[], metavar="NOUS:EUX", help="partie déjà fixée")
     ap.add_argument("--def", dest="defs", metavar="NOUS:EUX", help="défenseurs révélés à l'étape en cours")
@@ -182,7 +184,7 @@ def main(argv: list[str] | None = None) -> int:
             import scipy  # noqa: F401
         except ImportError:
             raise SystemExit("Mode mixte : installer l'extra `[analysis]` (scipy), ou --mode prudent.") from None
-    inp = build_input(team, a.ronde, notes=not a.sans_notes, tactics=not a.sans_tactiques)
+    inp = build_input(team, a.ronde, notes=not a.sans_notes, tactics=not a.sans_tactiques, scenario=a.scenario)
     if inp is None:
         raise SystemExit(f"{team} ne joue pas la ronde {a.ronde} (BYE).")
     opp, maps, ours, theirs = inp.opponent, inp.maps, inp.ours, inp.theirs
@@ -204,7 +206,7 @@ def main(argv: list[str] | None = None) -> int:
         f"# Appariement {team} contre {opp} — ronde {a.ronde} ({a.mode})",
         "",
         f"Maps : {' · '.join(maps)} · score = grille"
-        + ("" if a.sans_notes else " + notes scénario")
+        + ("" if a.sans_notes else f" + scénario ({a.scenario})")
         + ("" if a.sans_tactiques else " + tactiques de bataille (l3/tactics.py)"),
         "",
     ]

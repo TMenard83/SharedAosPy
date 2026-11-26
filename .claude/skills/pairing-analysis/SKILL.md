@@ -6,7 +6,8 @@ description: Méthode et outils pour l'appariement en tournoi par équipes AoS4 
 # Appariement (maillon 3/3)
 
 Entrée = une **grille de scores** nous × eux × map (une case = une fiche match, `match-analysis`). Le solveur
-ne vaut que ce que vaut la grille : relire d'abord les cases qui décident (§3). Répondre en français.
+ne vaut que ce que vaut la grille, elle-même bâtie sur la cascade couche 1 → 2 → 3 → 4 (`aospy cascade --status`
+à jour avant tout calcul ; les outils L3 couche 4 refusent sinon). Relire d'abord les cases qui décident (§3). Répondre en français.
 
 ## Règles (AOSFF §7.3, équipes de 6) — mémoire `aosff-pairing-defender-chooses`
 
@@ -22,7 +23,7 @@ pts de victoire des 6 parties. Révélations simultanées → jeu à somme nulle
 | Terme | Valeur | Lire | Données (à corriger ici) | Régénérer |
 |---|---|---|---|---|
 | Grille du moteur (indép. de la carte, ±20) | combat ±6, scénario ±7, aptitudes/plan ±7,6 | `aospy l3 diag --match A B` (décomposition), `Matchups/Matchups <équipe>/Ronde N — contre X/00 Grille et profils.md`, `aospy l3 qui-tue-qui` | `Données/ajustements_matchups.json` (par paire, avec `raison`), `note_plan` dans `Données/combos/<équipe>.json`, `BT_RULES` (`l3/matchups.py`) — voir `l3-matchups/leviers.md` | `aospy l3 matchups` |
-| Notes scénario | 2 pts × (notre note − la leur) sur la carte | `Scénarios/Scénarios <équipe>.md`, `aospy l3 scenario-model --player P` (note calculée) | `Données/notes_scenarios.json` (`equipes.<é>.joueurs.<j>.notes.<carte>`) | `aospy l3 scenarios` |
+| Composante scénario (`l3/scenario_matchup.py`, 2026-11-26) | 2 pts × (écart d'aisance de notre liste − celui de la leur) sur la carte ; aisance = note à la main sinon note du modèle ; **centrée** par défaut (aisance − moyenne de la liste sur les 12 cartes : le général est déjà dans la grille) ; `--scenario brut` = écart brut, `--scenario notes` = ancien terme (notes à la main seules, absente = « = ») | `aospy l3 scenario-match A B --ronde N` (aisances, source main/modèle, correction par carte), `aospy l3 diag --match A B --ronde N` (score complet par carte), `aospy l3 scenario-model --player P` | `Données/notes_scenarios.json` (`equipes.<é>.joueurs.<j>.notes.<carte>`) ; modèle : `Données/modele_scenarios.json` | rien (lu à chaque appel) ; `aospy l3 scenarios` pour les `.md` ; `aospy l3 tactiques --rafraichir` après un changement de liste (cache des indicateurs) |
 | Tactiques de bataille | 0,5 × (nos pts de tactique attendus − les leurs), selon les 2 cartes, la carte jouée et l'adversaire | `aospy l3 tactiques --ronde N` (correction par paire et par carte), `--player P` (niveau et p/tour de chaque tactique, source main/modèle), sans option = nos listes, écart main − modèle | niveaux à la main : `tactiques.niveaux` des combos (nos 12) ou `Données/auto/<équipe>/<joueur>.json` (adversaires) ; sinon modèle : `Données/modele_scenarios.json` (`tactiques` : `poids`, `difficulte`, `par_scenario`, `contre`) ; lecture qualitative : `Données/tactiques.json` ; cartes de chaque liste : ligne `Battle Tactic Cards:` de `Listes texte/<équipe>/<joueur>.txt` | rien (lu à chaque appel) ; `aospy l3 tactiques --rafraichir` après un changement de liste ou de base (cache `Données/indicateurs_listes.json`) |
 
 Rondes, cartes jouées et adversaire : `Données/scenarios.json` (`rondes`, `calendrier`). Profils qualitatifs des
@@ -60,8 +61,9 @@ choix du défenseur repose sur une case pivot, le signaler au capitaine. Expliqu
 1. Grille à jour : `aospy l3 matchups` puis `aospy l3 scenarios` (défenseurs conseillés par map).
 2. Solveur : `aospy l3 pairing --team <équipe> --ronde N` (`--mode mixte` = valeur exacte + probabilités ;
    `--mode prudent` = plancher si l'adversaire voyait notre choix ; `--sans-notes` sans les notes scénario,
-   `--sans-tactiques` sans les tactiques de bataille, les deux = grille seule). Score = grille + 2 pts par cran
-   de note scénario + 0,5 × écart des pts de tactique attendus (`aospy l3 tactiques --ronde N` pour la
+   `--sans-tactiques` sans les tactiques de bataille, les deux = grille seule ; `--scenario centre|brut|notes`,
+   aussi sur `robustesse`). Score = grille + composante scénario des **3 cartes de la ronde seulement** (§0) +
+   0,5 × écart des pts de tactique attendus (`aospy l3 tactiques --ronde N` pour la
    correction tactiques seule, `--player P` pour le détail d'une liste).
 3. Lire : valeur de la ronde, notre défenseur (plancher et proba), leur défenseur attendu, les étapes où le
    choix est serré (écart < 1 pt de victoire entre deux options = indifférent, décider sur le confort des joueurs).

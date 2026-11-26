@@ -59,7 +59,8 @@ aospy roster analyze --list <file> [--out x.md]   # layer 4 numbers
 aospy roster dossier --list <file> [--out dir]    # layer 4 + full texts/profiles (skill list-analysis)
 aospy ability analyze | search | show | review    # layer 1 (ability* tables)
 aospy chassis build|list ; aospy encounter build|list|best|marriage|bearers   # layers 2-3
-aospy l3 matchups|listes|diag|compare|scenarios|export-lists|plan-note|qui-tue-qui   # L3 league tools
+aospy cascade [--status|--all|--start N] [--list <file> --out-root dir]   # rebuild stale layers 1 → 2 → 3, then layer 4
+aospy l3 matchups|listes|diag|compare|scenarios|scenario-match|export-lists|plan-note|qui-tue-qui   # L3 league tools
 ```
 
 `cost_model.fit_cost_model_factorial` is a library call, not wired to the CLI (see `analysis/README.md`).
@@ -83,10 +84,11 @@ aospy l3 matchups|listes|diag|compare|scenarios|export-lists|plan-note|qui-tue-q
 | `bonus_simulator/` | Streamlit "what-if" bonus simulator (`[gui]`), no DB writes | [README](src/aospy/bonus_simulator/README.md) |
 | `tournament_kit/` | tournament roster PDF (`[roster]`), no DB; roster modes | [README](src/aospy/tournament_kit/README.md) (+ `render/`, `sources/`, `MODES.md`) |
 | `l3/` | L3 Centre 2026-27 league tools (matchup grids, diagnostics, list analysis, scenarios, list export), run by `aospy l3 …`; reads `data/aospy.duckdb` read-only | module docstring, skill `l3-matchups` |
-| `cli/` | one module per command group (`db`, `unit`, `comp`, `battle`, `import_`, `cost`, `roster`, `ability`, `chassis`, `encounter`, `l3`), each with `register(sub)` and its `cmd_*` (each opens/closes its own DB connection via `common._connect(args)`); `__init__.py` only assembles them and exposes `main`; pure text formatting (`report.py`) | — |
+| `cli/` | one module per command group (`db`, `unit`, `comp`, `battle`, `import_`, `cost`, `roster`, `ability`, `chassis`, `encounter`, `cascade`, `l3`), each with `register(sub)` and its `cmd_*` (each opens/closes its own DB connection via `common._connect(args)`); `__init__.py` only assembles them and exposes `main`; pure text formatting (`report.py`) | — |
 
 ## Cross-cutting rules
 
+- **Layer cascade** (`analysis/layers/cascade.py`, table `layer_build`): each build of layers 1-3 stores a fingerprint of its inputs; a layer refuses to build/run (layer 4: `roster analyze|dossier`, `l3/layer4.indices`, `l3 plan-note`) while a layer below is stale. Fix with `aospy cascade`, never by bypassing the guard.
 - Schema changes go in `persistence/schema.sql`, not in Python. Never re-run `ALTER TABLE ... ADD COLUMN IF NOT EXISTS` on a column holding real data (DuckDB resets it to its `DEFAULT` — see `persistence/README.md`).
 - SQL lives only in `persistence/` (`repo/*.py`, imported through `repository.py`); nothing above that layer writes raw SQL.
 - `engine/combat.py` ships in the base install (`duckdb` only): no numpy/pandas there; those stay behind `[analysis]`.

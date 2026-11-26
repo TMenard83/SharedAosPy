@@ -19,6 +19,7 @@ _COMMANDS = {
     "scenarios": ("scenarios", "Analyses scénario par équipe (Scénarios/<équipe>.md)."),
     "scenario-model": ("scenario_model", "Modèle de scénario par carte et par tactique (notes ++ … −−)."),
     "tactiques": ("tactics", "pts de tactique attendus par liste et correction de paire (--ronde, --player)."),
+    "scenario-match": ("scenario_matchup", "Composante scénario d'une paire, carte par carte (aisance des 2 listes)."),
     "pairing": ("pairing", "Solveur d'appariement AOSFF (minimax sur la séquence, le défenseur choisit)."),
     "robustesse": ("pairing_robust", "Cases pivot de l'appariement : chaque paire bougée de ±δ, défenseur et valeur."),
     "plan-note": ("plan_note", "note_plan calculée : régression sur les indices couche 4, validation croisée."),

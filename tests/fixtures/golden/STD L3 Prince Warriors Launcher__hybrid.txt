@@ -675,8 +675,13 @@ PLEDGE TO CHAOS
 MA PHASE
 TRAITS DE BATAILLE
 WAHAPEDIA
-Declare: Pick a friendly non- UNIQUE SLAVES TO DARKNESS unit that does not already have one of the keywords below to be the target. Effect: Pick
-1 of the following Pledge to Chaos keywords:  PLEDGED TO KHORNE  PLEDGED TO TZEENTCH  PLEDGED TO NURGLE /l
+Declare: Pick a friendly non-UNIQUE SLAVES TO DARKNESS unit that does not already have one of the keywords below to be the target.
+Effect: Pick 1 of the following Pledge to Chaos keywords:
+ PLEDGED TO KHORNE
+ PLEDGED TO TZEENTCH
+ PLEDGED TO NURGLE
+ PLEDGED TO SLAANESH
+The target has that keyword for the rest of the battle.
 SORTS
 SPITE-TONGUE
 CURSE
@@ -734,8 +739,8 @@ PLEDGED TO SLAANESH
 MA PHASE
 TRAITS DE BATAILLE
 WAHAPEDIA
-Effect: For the rest of the turn, when making charge rolls for friendly PLEDGED TO SLAANESH units, you can roll 1 additional dice (to a maximum of
-3), but if you do, you must discard 1 dice of your choice.
+Effect: For the rest of the turn, when making charge rolls for friendly PLEDGED TO SLAANESH units, you can roll 1 additional dice (to a maximum of 3),
+but if you do, you must discard 1 dice of your choice.
 5 / 6
 
 ===== page 6 =====

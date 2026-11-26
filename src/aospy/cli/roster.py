@@ -45,11 +45,17 @@ def cmd_roster_pdf(args: argparse.Namespace) -> int:
 
 
 def cmd_roster_analyze(args: argparse.Namespace) -> int:
+    from ..analysis.layers.cascade import require_fresh
     from ..analysis.layers.listing import analyse_list
     from ..tournament_kit.list_parser import parse_list_file
     from .report import format_list_report
 
     con = _connect(args)
+    try:
+        require_fresh(con, 4)
+    except ValueError:
+        con.close()
+        raise
     rep = analyse_list(con, parse_list_file(args.list))
     con.close()
     text = format_list_report(rep)
@@ -74,11 +80,13 @@ def write_dossier(con, list_path, out) -> tuple[str, list[str]]:
     """
     from pathlib import Path
 
+    from ..analysis.layers.cascade import require_fresh
     from ..analysis.layers.listing import analyse_list, collect
     from ..persistence.repository import get_ability_text
     from ..tournament_kit.list_parser import parse_list_file
     from .report import format_list_report, format_list_texts
 
+    require_fresh(con, 4)
     f, out = Path(list_path), Path(out)
     out.mkdir(parents=True, exist_ok=True)
     parsed = parse_list_file(f)
@@ -100,8 +108,10 @@ def cmd_roster_dossier(args: argparse.Namespace) -> int:
 
     out = args.out or str(Path("scratch/output/liste_analyse") / Path(args.list).stem)
     con = _connect(args)
-    stem, missing = write_dossier(con, args.list, out)
-    con.close()
+    try:
+        stem, missing = write_dossier(con, args.list, out)
+    finally:
+        con.close()
     print(f"Dossier écrit : {out} (couche 4.md, textes.md, liste.txt)")
     if missing:
         print(f"ATTENTION : {len(missing)} unité(s) non reconnue(s) en base, chiffres faux tant qu'elles manquent :")

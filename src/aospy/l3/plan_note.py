@@ -159,6 +159,9 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--json", type=Path, help="écrit indices, notes et prédictions dans ce fichier")
     args = ap.parse_args(argv)
     con = duckdb.connect(args.db, read_only=True)
+    from ..analysis.layers.cascade import require_fresh
+
+    require_fresh(con, 4)
     players, xs, ys = [], [], []
     for player, note in notes().items():
         path = list_path(player)

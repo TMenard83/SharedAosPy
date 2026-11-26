@@ -436,3 +436,13 @@ CREATE TABLE IF NOT EXISTS enhancement_bearer (
     bearer_combined      DOUBLE,      -- indicateur combiné réalisé du porteur (départage)
     good_case_conditions VARCHAR
 );
+
+-- Cascade des couches (analysis/layers/cascade.py, `aospy cascade`) : une ligne par couche 1-3 construite.
+-- `fingerprint` = empreinte des entrées au moment du build (version d'analyseur + fichiers sources pour la
+-- couche 1 ; build de la couche du dessous + imports/benchmarks pour les couches 2-3). Une couche dont
+-- l'empreinte courante diffère est périmée : les couches au-dessus refusent de tourner.
+CREATE TABLE IF NOT EXISTS layer_build (
+    layer       INTEGER PRIMARY KEY,
+    built_at    TIMESTAMP NOT NULL,
+    fingerprint VARCHAR NOT NULL
+);

@@ -194,4 +194,7 @@ def list_file(folder: Path, team: str, player: str) -> Optional[Path]:
 
 
 def indices(con, path: Path) -> L4Indices:
+    from ..analysis.layers.cascade import require_fresh
+
+    require_fresh(con, 4)
     return indices_from_report(analyse_list(con, parse_list_file(path)))
