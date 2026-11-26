@@ -70,6 +70,7 @@ schéma `l3-matchups/plan_agent.md`) ou `Données/auto/<équipe>/<joueur>.json` 
 
 Sections de `analyse.md` (le document est un tout : pas de comparaison à une analyse précédente, pas de défauts
 du moteur dedans) :
+0. La liste (réécrite depuis l'export : `scratch/analyse_header_liste.py` l'ajoute ou la met à jour) ·
 1. Concept et règles constructrices · 2. Rôles et composantes · 3. Plan R1-R5 · 4. PC et ressources ·
 5. Tactiques (niveaux, ordre) · 6. Scénarios (notes et raisons) · 7. Forces · 8. Faiblesses / comment la battre ·
 9. Questions fermées au joueur (2-4) · `note_plan` proposée (0-3, **à valider**, non calculable : `plan_agent.md`).
